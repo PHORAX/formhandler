@@ -1,0 +1,40 @@
+plugin.Tx_Formhandler.settings.predef.default {
+
+	# GENERAL CONFIGURATION
+	name = Default
+	addErrorAnchors = 1
+	formValuesPrefix = formhandler
+
+	# ERRORS LAYOUT
+	singleErrorTemplate {
+		totalWrap = <div>|</div>
+		singleWrap = <span class="error">|</span><br />
+	}
+
+	errorListTemplate {
+		totalWrap = <ul>|</ul>
+		singleWrap = <li class="error">|</li>
+	}
+
+	validators {
+		1.class = Tx_Formhandler_Validator_Default
+		1.config {
+			fieldConf {
+			}
+		}
+	}
+
+	finishers {
+		1.class = Tx_Formhandler_Finisher_Mail
+		1.config {
+			limitMailsToUser = 5
+			admin {
+			}
+			user {
+			}
+		}
+		2.class = Tx_Formhandler_Finisher_Redirect
+		2.config {
+		}
+	}
+}

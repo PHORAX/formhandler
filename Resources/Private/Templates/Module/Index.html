@@ -1,0 +1,176 @@
+{namespace fh = Typoheads\Formhandler\ViewHelpers}
+<f:layout name="Default" />
+<div class="row">
+	<div class="col-xs-12">
+		<f:section name="headline">
+			<h1><f:translate key="headline.index" /></h1>
+		</f:section>
+
+		<f:section name="content">
+			<div class"row">
+				<div class="col-xs-3 last">
+					<f:form method="post" action="index" name="demand" object="{demand}" class="filterForm form-horizontal">
+						<div class="form-group">
+							<label for="tx_formhandler_logdata_pid"><f:translate key="label.pid" /></label>
+							<f:form.textfield id="tx_formhandler_logdata_pid" property="pid" readonly="readonly" title="{f:translate(key: 'label.select-page-from-tree')}" class="form-control input-sm"/>
+						</div>
+						<div class="form-group">
+							<label for="tx_formhandler_logdata_ip"><f:translate key="label.ip" /></label>
+							<f:form.textfield id="tx_formhandler_logdata_ip" property="ip" class="form-control input-sm"/>
+						</div>
+						<div class="form-group">
+							<label for="tx_formhandler_logdata_start"><f:translate key="label.start" /></label>
+							<div class="input-group input-group-sm">
+								<f:form.textfield
+										name="start"
+										value="{f:if(condition: demand.startTimestamp, then: \"{f:format.date(format:'{settings.timeFormat} {settings.dateFormat}', date: '@{demand.startTimestamp}')}\")}"
+										id="tx_formhandler_logdata_start"
+										class="form-control input-sm t3js-datetimepicker t3js-clearable"
+										data="{date-type: 'datetime', date-offset: 0}"
+										/>
+								<f:form.hidden property="startTimestamp" value="{demand.startTimestamp}" />
+								<span class="input-group-btn">
+									<label class="btn btn-default" for="tx_formhandler_logdata_start">
+										<span class="fa fa-calendar"></span>
+									</label>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="tx_formhandler_logdata_end"><f:translate key="label.end" /></label>
+							<div class="input-group input-group-sm">
+								<f:form.textfield
+										name="start"
+										value="{f:if(condition: demand.endTimestamp, then: \"{f:format.date(format:'{settings.timeFormat} {settings.dateFormat}', date: '@{demand.endTimestamp}')}\")}"
+										id="tx_formhandler_logdata_end"
+										class="form-control input-sm t3js-datetimepicker t3js-clearable"
+										data="{date-type: 'datetime', date-offset: 0}"
+										/>
+								<f:form.hidden property="endTimestamp" value="{demand.endTimestamp}" />
+								<span class="input-group-btn">
+									<label class="btn btn-default" for="tx_formhandler_logdata_end">
+										<span class="fa fa-calendar"></span>
+									</label>
+								</span>
+							</div>
+						</div>
+				
+						<div class="form-group">
+							<f:form.submit value="{f:translate(key: 'label.submit')}" class="btn btn-default btn-sm" />
+						</div>
+					</f:form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<f:if condition="{logDataRows -> f:count()} > 0">
+						<f:then>
+							<f:be.widget.paginate objects="{logDataRows}" as="paginatedLogDataRows" configuration="{itemsPerPage: 5, insertBelow: 1}">
+								<div class="table-fit">
+									<table class="table table-striped table-hover">
+										<thead>
+											<tr>
+												<th><f:translate key="label.pid" /></td>
+												<th><f:translate key="label.submissionDate" /></th>
+												<th><f:translate key="label.ip" /></th>
+												<th>
+													
+												</th>
+												<th>
+													<div class="btn-group process-selected-actions" role="group">
+														<f:form method="post" action="selectFields" id="process-selected-form-export">
+															<f:form.hidden name="filetype" class="filetype"/>
+															<f:form.hidden name="logDataUids" class="logDataUids"/>
+														</f:form>
+														<f:form method="post" action="deleteLogRows" id="process-selected-form-delete">
+															<f:form.hidden name="logDataUids" class="logDataUids"/>
+														</f:form>
+														<a class="btn btn-default select-all" rel="" href="#" title="{f:translate(key: 'label.select-all-rows')}">
+															<span class="t3-icon fa fa-check-square-o"> </span>
+														</a>
+														<a href="#" class="btn btn-default pdf">PDF</a>
+														<a href="#" class="btn btn-default csv">CSV</a>
+
+														<f:if condition="{permissions.delete}">
+															<f:then>
+																<a href="#" class="btn btn-default delete" title="{f:translate(key: 'label.delete-all-selected-logs')}">
+																	<span 
+																		class="fa fa-trash delete-info" 
+																		data-title="{f:translate(key: 'label.delete-all-selected-logs')}"
+																		data-message="{f:translate(key: 'message.delete-log-row')}"> 
+																	</span>
+																</a>
+															</f:then>
+														</f:if>
+													</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<f:for each="{paginatedLogDataRows}" as="logDataRow">
+												<tr>
+													<td>{logDataRow.pid}</td>
+													<td><f:format.date format="{settings.dateFormat} {settings.timeFormat}">{logDataRow.crdate}</f:format.date></td>
+													<td>{logDataRow.ip}</td>
+													<td>
+														<f:link.action action="view" class="btn btn-default" arguments="{logDataRow: logDataRow}"><span class="t3-icon fa fa-info-circle"> </span></f:link.action>
+														<f:link.action action="selectFields" class="btn btn-default" arguments="{logDataUids: logDataRow.uid, filetype: 'pdf'}"> PDF </f:link.action>
+														<f:link.action action="selectFields" class="btn btn-default" arguments="{logDataUids: logDataRow.uid, filetype: 'csv'}"> CSV </f:link.action>
+														<f:if condition="{permissions.delete}">
+															<f:then>
+																<f:link.action 
+																	action="deleteLogRows"
+																	class="btn btn-default delete"
+																	arguments="{logDataUids: logDataRow.uid}"
+																	title="{f:translate(key: 'label.delete-log-row')}">
+	
+																	<span 
+																		class="fa fa-trash delete-info" 
+																		data-title="{f:translate(key: 'label.delete-log-row')}"
+																		data-message="{f:translate(key: 'message.delete-log-row')}"
+																		data-uid="{logDataRow.uid}"> 
+																	</span>
+																</f:link.action>
+															</f:then>
+														</f:if>
+													</td>
+													<td>
+														<label class="btn btn-default btn-checkbox">
+															<input type="checkbox" name="marked[]" value="{logDataRow.uid}" class="mark-row">
+															<span class="t3-icon fa"></span>
+														</label>
+													</td>
+												</tr>
+											</f:for>
+										</tbody>
+									</table>
+								</div>
+							</f:be.widget.paginate>
+							<f:if condition="{permissions.delete}">
+								<f:then>
+									<f:link.action 
+										action="deleteLogRows"
+										class="btn btn-default delete"
+										arguments="{logDataUids: logDataRow.uid}"
+										title="{f:translate(key: 'label.delete-all-logs')}">
+
+										<span 
+											class="delete-info" 
+											data-title="{f:translate(key: 'label.delete-all-logs')}"
+											data-message="{f:translate(key: 'message.delete-all-logs')}"
+											data-uid="all">
+											{f:translate(key: 'label.delete-all-logs')} 
+										</span>
+									</f:link.action>
+								</f:then>
+							</f:if>
+						</f:then>
+						<f:else>
+							<p><f:translate key="message.noRecordsFound" /></p>
+						</f:else>
+					</f:if>
+				</div>
+			</div>
+		</f:section>
+	</div>
+</div>

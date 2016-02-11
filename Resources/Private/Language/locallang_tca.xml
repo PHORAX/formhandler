@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>Language labels for formhandler BE forms</description>
+		<type>database</type>
+		<csh_table></csh_table>
+		<fileId>formhandler/Resources/Language/locallang_tca.xml</fileId>
+		<labelContext type="array">
+			<label index="formhandler.pi_flexform.sheet_general"></label>
+			<label index="formhandler.pi_flexform.sheet_emailAdminSettings"></label>
+			<label index="formhandler.pi_flexform.sheet_emailUserSettings"></label>
+			<label index="formhandler.pi_flexform.sheet_miscSettings"></label>
+			<label index="formhandler.pi_flexform.template_file"></label>
+		</labelContext>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="formhandler.pi_flexform.sheet_general">General Settings</label>
+			<label index="formhandler.pi_flexform.sheet_emailAdminSettings">Admin E-Mail Settings</label>
+			<label index="formhandler.pi_flexform.sheet_emailUserSettings">User E-Mail Settings</label>
+			<label index="formhandler.pi_flexform.sheet_miscSettings">Other Settings</label>
+			<label index="formhandler.pi_flexform.template_file">Template File</label>
+			<label index="formhandler.pi_flexform.emailRecipient">Recipient</label>
+			<label index="formhandler.pi_flexform.emailSubject">Subject</label>
+			<label index="formhandler.pi_flexform.emailFrom">Mail From E-mail</label>
+			<label index="formhandler.pi_flexform.emailFromName">Mail From Name</label>
+			<label index="formhandler.pi_flexform.redirectPage">Redirect Page</label>
+			<label index="formhandler.pi_flexform.store_gp">Store data in session when submitting the form</label>
+			<label index="formhandler.pi_flexform.mandatoryFields">Mandatory fields (enter names of formular fields seperated by ",")</label>
+			<label index="formhandler.pi_flexform.replyTo">Reply-To E-mail (optional, name of input field)</label>
+			<label index="formhandler.pi_flexform.replyToName">Reply-To Name (optional, name of input field)</label>			
+			<label index="formhandler.pi_flexform.cc">Send CC E-mail to (optional, name of input field)</label>
+			<label index="formhandler.pi_flexform.ccName">CC Name</label>
+			<label index="formhandler.pi_flexform.bcc">Send BCC E-mail to (optional, name of input field)</label>
+			<label index="formhandler.pi_flexform.bccName">BCC Name</label>
+
+			<label index="formhandler.pi_flexform.emailConfirm">Send E-mail to address entered in form (enter name of form field here)</label>
+			<label index="formhandler.pi_flexform.emailConfirmSubject">Subject of the mail to the user:</label>
+			<label index="formhandler.pi_flexform.template_predefined">Predefined forms:</label>
+			<label index="formhandler.pi_flexform.template_controller">Controller:</label>
+			<label index="formhandler.pi_flexform.template_file">Template File</label>
+			<label index="formhandler.pi_flexform.lang_file">Translation File</label>
+		</languageKey>
+		<languageKey index="dk" type="array">
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="formhandler.pi_flexform.sheet_general">Allgemeine Einstellungen</label>
+			<label index="formhandler.pi_flexform.sheet_emailAdminSettings">Admin E-Mail Einstellungen</label>
+			<label index="formhandler.pi_flexform.sheet_emailUserSettings">User E-Mail Einstellungen</label>
+			<label index="formhandler.pi_flexform.sheet_miscSettings">Andere Einstellungen</label>
+			<label index="formhandler.pi_flexform.template_file">Template-Datei</label>
+			<label index="formhandler.pi_flexform.emailRecipient">Empfänger</label>
+			<label index="formhandler.pi_flexform.emailSubject">Betreff</label>
+			<label index="formhandler.pi_flexform.emailFrom">Absender E-mail</label>
+			<label index="formhandler.pi_flexform.emailFromName">Absendername</label>
+			<label index="formhandler.pi_flexform.redirectPage">Redirect Seite</label>
+			<label index="formhandler.pi_flexform.store_gp">Store data in session when submitting the form</label>
+			<label index="formhandler.pi_flexform.mandatoryFields">Pflichtfelder (Kommaseparierte Liste mit Formularfeldnamen)</label>
+			<label index="formhandler.pi_flexform.replyTo">Reply-To E-mail</label>
+			<label index="formhandler.pi_flexform.replyToName">Reply-To Name</label>			
+			<label index="formhandler.pi_flexform.cc">Sende CC E-mail an</label>
+			<label index="formhandler.pi_flexform.ccName">CC Name</label>
+			<label index="formhandler.pi_flexform.bcc">Sende BCC E-mail an</label>
+			<label index="formhandler.pi_flexform.bccName">BCC Name</label>
+			<label index="formhandler.pi_flexform.emailConfirm">Sende E-mail an eine Adresse, die im Formular eingegeben wurde (Name des Formularfelds eingeben)</label>
+			<label index="formhandler.pi_flexform.emailConfirmSubject">Betreff dieser E-Mail</label>
+			<label index="formhandler.pi_flexform.template_predefined">Vordefinierte Formulare</label>
+			<label index="formhandler.pi_flexform.template_controller">Controller</label>
+			<label index="formhandler.pi_flexform.template_file">Template-Datei</label>
+			<label index="formhandler.pi_flexform.lang_file">Übersetzungsdatei</label>
+		</languageKey>
+		<languageKey index="en" type="array">
+			<label index="formhandler.pi_flexform.sheet_general">General Settings</label>
+			<label index="formhandler.pi_flexform.sheet_emailAdminSettings">Admin E-Mail Settings</label>
+			<label index="formhandler.pi_flexform.sheet_emailUserSettings">User E-Mail Settings</label>
+			<label index="formhandler.pi_flexform.sheet_miscSettings">Other Settings</label>
+			<label index="formhandler.pi_flexform.template_file">Template File</label>
+			<label index="formhandler.pi_flexform.emailRecipient">Recipient</label>
+			<label index="formhandler.pi_flexform.emailSubject">Subject</label>
+			<label index="formhandler.pi_flexform.emailFrom">Mail From E-mail</label>
+			<label index="formhandler.pi_flexform.emailFromName">Mail From Name</label>
+			<label index="formhandler.pi_flexform.redirectPage">Redirect Page</label>
+			<label index="formhandler.pi_flexform.store_gp">Store data in session when submitting the form</label>
+			<label index="formhandler.pi_flexform.mandatoryFields">Mandatory fields (enter names of formular fields seperated by ",")</label>
+			<label index="formhandler.pi_flexform.replyTo">Reply-To E-mail (optional, name of input field)</label>
+			<label index="formhandler.pi_flexform.replyToName">Reply-To Name (optional, name of input field)</label>			
+			<label index="formhandler.pi_flexform.cc">Send CC E-mail to (optional, name of input field)</label>
+			<label index="formhandler.pi_flexform.emailConfirm">Send E-mail to address entered in form (enter name of form field here)</label>
+			<label index="formhandler.pi_flexform.emailConfirmSubject">Subject of the mail to the user:</label>
+			<label index="formhandler.pi_flexform.template_predefined">Predefined forms:</label>
+			<label index="formhandler.pi_flexform.template_controller">Controller:</label>
+			<label index="formhandler.pi_flexform.template_file">Template File</label>
+			<label index="formhandler.pi_flexform.lang_file">Translation File</label>
+		</languageKey>
+		<languageKey index="no" type="array">
+		</languageKey>
+		<languageKey index="it" type="array">
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="formhandler.pi_flexform.sheet_general">Configuration générale</label>
+			<label index="formhandler.pi_flexform.sheet_emailAdminSettings">Configuration email admin</label>
+			<label index="formhandler.pi_flexform.sheet_emailUserSettings">Configuration email utilisateur</label>
+			<label index="formhandler.pi_flexform.sheet_miscSettings">Autres configurations</label>
+			<label index="formhandler.pi_flexform.template_file">Fichier de template</label>
+			<label index="formhandler.pi_flexform.emailRecipient">Destinataire</label>
+			<label index="formhandler.pi_flexform.emailSubject">Sujet</label>
+			<label index="formhandler.pi_flexform.emailFrom">Email expéditeur</label>
+			<label index="formhandler.pi_flexform.emailFromName">Nom expéditeur</label>
+			<label index="formhandler.pi_flexform.redirectPage">Page redirigé</label>
+			<label index="formhandler.pi_flexform.store_gp">Sauvegarder les données lorsque le formulaire est envoyé</label>
+			<label index="formhandler.pi_flexform.mandatoryFields">Champs obligatoires (saisir le nom des champs du formulaire séparé par des ",")</label>
+			<label index="formhandler.pi_flexform.replyTo">Email de réponse (optionel)</label>
+			<label index="formhandler.pi_flexform.replyToName">Nom de réponse (optionel)</label>			
+
+			<label index="formhandler.pi_flexform.emailConfirm">Envoyer un email à l'adresse inscrite dans le formulaire (saisir le nom des champs ici)</label>
+			<label index="formhandler.pi_flexform.emailConfirmSubject">Sujet de l'email pour l'utilisateur:</label>
+			<label index="formhandler.pi_flexform.template_predefined">Formulaire prédéfini:</label>
+			<label index="formhandler.pi_flexform.template_controller">Contrôleur:</label>
+			<label index="formhandler.pi_flexform.template_file">Fichier de template</label>
+			<label index="formhandler.pi_flexform.lang_file">Fichier de traduction</label>
+		</languageKey>
+		<languageKey index="es" type="array">
+		</languageKey>
+		<languageKey index="nl" type="array">
+		</languageKey>
+		<languageKey index="cz" type="array">
+		</languageKey>
+		<languageKey index="pl" type="array">
+		</languageKey>
+		<languageKey index="si" type="array">
+		</languageKey>
+		<languageKey index="fi" type="array">
+		</languageKey>
+		<languageKey index="tr" type="array">
+		</languageKey>
+		<languageKey index="se" type="array">
+		</languageKey>
+		<languageKey index="pt" type="array">
+		</languageKey>
+		<languageKey index="ru" type="array">
+		</languageKey>
+		<languageKey index="ro" type="array">
+		</languageKey>
+		<languageKey index="ch" type="array">
+		</languageKey>
+		<languageKey index="sk" type="array">
+		</languageKey>
+		<languageKey index="lt" type="array">
+		</languageKey>
+		<languageKey index="is" type="array">
+		</languageKey>
+		<languageKey index="hr" type="array">
+		</languageKey>
+		<languageKey index="hu" type="array">
+		</languageKey>
+		<languageKey index="gl" type="array">
+		</languageKey>
+		<languageKey index="th" type="array">
+		</languageKey>
+		<languageKey index="gr" type="array">
+		</languageKey>
+		<languageKey index="hk" type="array">
+		</languageKey>
+		<languageKey index="eu" type="array">
+		</languageKey>
+		<languageKey index="bg" type="array">
+		</languageKey>
+		<languageKey index="br" type="array">
+		</languageKey>
+		<languageKey index="et" type="array">
+		</languageKey>
+		<languageKey index="ar" type="array">
+		</languageKey>
+		<languageKey index="he" type="array">
+		</languageKey>
+		<languageKey index="ua" type="array">
+		</languageKey>
+		<languageKey index="lv" type="array">
+		</languageKey>
+		<languageKey index="jp" type="array">
+		</languageKey>
+		<languageKey index="vn" type="array">
+		</languageKey>
+		<languageKey index="ca" type="array">
+		</languageKey>
+		<languageKey index="ba" type="array">
+		</languageKey>
+		<languageKey index="kr" type="array">
+		</languageKey>
+		<languageKey index="eo" type="array">
+		</languageKey>
+		<languageKey index="my" type="array">
+		</languageKey>
+		<languageKey index="hi" type="array">
+		</languageKey>
+	</data>
+</T3locallang>

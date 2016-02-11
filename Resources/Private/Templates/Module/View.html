@@ -1,0 +1,54 @@
+{namespace fh = Typoheads\Formhandler\ViewHelpers}
+<f:layout name="Default" />
+<div class="row">
+	<div class="col-xs-12">
+		<f:section name="headline">
+			<h1><f:translate key="headline.index" /></h1>
+		</f:section>
+
+		<f:section name="content">
+			<h2><f:translate key="label.data" /></h2>
+			<table class="table table-striped table-hover">
+				<tbody>
+					<tr>
+						<td class="col-xs-3"><f:translate key="label.pid" /></td>
+						<td class="col-xs-9">{data.pid}</td>
+					</tr>
+					<tr>
+						<td class="col-xs-3"><f:translate key="label.submissionDate" /></td>
+						<td class="col-xs-9"><f:format.date format="{settings.dateFormat} {settings.timeFormat}">{data.crdate}</f:format.date></td>
+					</tr>
+					<tr>
+						<td class="col-xs-3"><f:translate key="label.ip" /></td>
+						<td class="col-xs-9">{data.ip}</td>
+					</tr>
+				</tbody>
+			</table>
+			<h2><f:translate key="label.params" /></h2>
+			<table class="table table-striped table-hover">
+				<tbody>
+					<f:for each="{data.params}" key="field" as="value">
+						<tr>
+							<td class="col-xs-3">{field}</td>
+							<td class="col-xs-9">
+								<fh:isArray condition="{value}">
+									<f:then>
+										<ul>
+											<f:for each="{value}" as="val">
+												<li>{val}</li>
+											</f:for>
+										</ul>
+									</f:then>
+									<f:else>
+										{value}
+									</f:else>
+								</fh:isArray>
+							</td>
+						</tr>
+					</f:for>
+				</tbody>
+			</table>
+			<f:link.action action="index"><f:translate key="label.back" /></f:link.action>
+		</f:section>
+	</div>
+</div>

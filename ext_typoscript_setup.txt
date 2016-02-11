@@ -1,0 +1,49 @@
+config.tx_extbase.persistence.classes {
+	Typoheads\Formhandler\Domain\Model\LogData {
+		mapping {
+			tableName = tx_formhandler_log
+			columns {
+				crdate.mapOnProperty = crdate
+				is_spam.mapOnProperty = isSpam
+				params.mapOnProperty = params
+				ip.mapOnProperty = ip
+			}
+		}
+	}
+	Typoheads\Formhandler\Domain\Model\Demand {
+		mapping {
+			tableName = tx_formhandler_log
+			columns {
+				crdate.mapOnProperty = crdate
+				is_spam.mapOnProperty = isSpam
+				params.mapOnProperty = params
+				ip.mapOnProperty = ip
+			}
+		}
+	}
+}
+
+module.tx_formhandler {
+	view.widget.TYPO3\CMS\Fluid\ViewHelpers\Be\Widget\PaginateViewHelper.templateRootPath = EXT:formhandler/Resources/Private/Templates/
+	settings {
+		pdf {
+			class = Generator\TCPDF
+			config {
+				font = FreeSans
+				fontSize = 12
+				fontSizeHeader = 8
+				fontSizeFooter = 8
+				fileName = formhandler.pdf
+			}
+		}
+		csv {
+			class = Generator\CSV
+			config {
+				encoding = utf-8
+				delimiter = ,
+				enclosure = "
+				fileName = formhandler.csv
+			}
+		}
+	}
+}

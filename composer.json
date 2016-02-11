@@ -1,0 +1,11 @@
+{
+	"name": "typoheads/formhandler",
+	"description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
+	"type": "typo3-cms-extension",
+	"autoload": {
+		"psr-4": {
+			"Typoheads\\Formhandler\\": "Classes/"
+		},
+		"classmap": ["Resources/PHP/tcpdf/tcpdf.php"]
+	}
+}

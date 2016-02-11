@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'formhandler'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="wizard_pi1.title">Formhandler</label>
+			<label index="tt_content.list_type_pi1">Formhandler</label>
+			<label index="tx_formhandler_main">Formhandler</label>
+			<label index="tx_formhandler_main.email_to">send formular field to this email</label>
+			<label index="tx_formhandler_main.email_subject">subject of email</label>
+			<label index="tx_formhandler_main.email_sender">email sender (email from)</label>
+			<label index="tx_formhandler_main.email_redirect">redirect to this page (only if all &quot;have-to&quot; fields are filled out)</label>
+			<label index="tx_formhandler_main.email_requiredfields">these fields have to be filled out (enter name of formular field seperated by &quot;,&quot;)</label>
+			<label index="tx_formhandler_main.email_htmltemplate">HTML-Template with formular fields in it</label>
+			<label index="tx_formhandler_main.email_html_as_attachment">send out html version of the output (if any) as an attachment instead of alternative to text</label>
+			<label index="tx_formhandler_main.email_sendtouser">optional: Send a confirmation email to user. Specify the input-field name where the user fills out his/her emailadress:</label>
+			<label index="tx_formhandler_main.email_subject_user">Subject of the mail to the user:</label>
+			<label index="tx_formhandler_main.email_replyto">use the value of this submitted form-field as reply-to (optional, name of input field)</label>
+			<label index="tx_formhandler_main.tx_formhandler_maxrows">Maximum number of rows (records) per page (zero = unlimited) in LIST-view</label>
+			<label index="tx_formhandler_main.tx_formhandler_singlepid">Id of the related page for the single data display</label>
+			<label index="tt_content.tx_formhandler_contenttype.I.0">list</label>
+			<label index="tt_content.tx_formhandler_contenttype.I.1">single</label>
+			<label index="tt_content.tx_formhandler_contenttype">Type of data display</label>
+			<label index="be_missing_config">No forms predefined</label>
+			<label index="be_please_select">Choose a predefined form</label>
+			<label index="tt_content.pi1_plus_wiz_description">Advanced form system with many typoscript options which bring a lot of flexibiliy.</label>
+			<label index="be_defined_by_TS">Defined by TypoScript</label>
+
+			<label index="tx_formhandler_log">Formhandler log entry</label>
+			<label index="tx_formhandler_log.submission_date">Submission date</label>
+			<label index="tx_formhandler_log.ip">IP address</label>
+			<label index="tx_formhandler_log.params">Submitted values</label>
+			<label index="tx_formhandler_log.is_spam">Considered as SPAM</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="wizard_pi1.title">Formhandler</label>
+			<label index="tt_content.list_type_pi1">Formhandler</label>
+			<label index="tx_formhandler_main">Formhandler</label>
+			<label index="tx_formhandler_main.email_to">sende die Formularfelder an folgende Email</label>
+			<label index="tx_formhandler_main.email_subject">Betreff der Email</label>
+			<label index="tx_formhandler_main.email_sender">Absende-Emailadresse</label>
+			<label index="tx_formhandler_main.email_redirect">nach dem Abschicken zu dieser Seite weiterleten (nur wenn Mussfelder ausgefüllt wurden)</label>
+			<label index="tx_formhandler_main.email_requiredfields">diese Felder müssen ausgefüllt sein (Name der Eingabefelder durch "," getrennt)</label>
+			<label index="tx_formhandler_main.email_htmltemplate">HTML-Template mit dem Formularfeldern</label>
+			<label index="tx_formhandler_main.email_html_as_attachment">HTML Version der E-Mail as Attachment zur Plaintext-Version versenden</label>
+			<label index="tx_formhandler_main.email_sendtouser">optional: Bestätigungs-Email an den User senden? Geben Sie hier den namen des Formularfeldes an, in dem der User seine Emailadresse angibt:</label>
+			<label index="tx_formhandler_main.email_subject_user">Betreff der Mail, die an den User geht:</label>
+			<label index="tx_formhandler_main.email_replyto">den Wert dieses ausgefüllten Eingabefeldes als reply-to verwenden (optional, Name des Formularfeldes)</label>
+			<label index="tx_formhandler_main.tx_formhandler_maxrows">max. Anzahl Zeilen pro Seite (0 = unendlich) in der LIST-Anzeige</label>
+			<label index="tx_formhandler_main.tx_formhandler_singlepid">Id der Seite, die den kompletten Inhalt zeigt</label>
+			<label index="tt_content.tx_formhandler_contenttype.I.0">Liste</label>
+			<label index="tt_content.tx_formhandler_contenttype.I.1">Einzelansicht</label>
+			<label index="tt_content.tx_formhandler_contenttype">Art der Darstellung</label>
+			<label index="be_missing_config">keine Vorlagen vorhanden</label>
+			<label index="be_please_select">wählen Sie eine Vorlage</label>
+			<label index="tt_content.pi1_plus_wiz_description">Advanced form system with many typoscript options which bring a lot of flexibiliy.</label>
+			<label index="be_defined_by_TS">Definiert durch TypoScript</label>
+
+			<label index="tx_formhandler_log">Formhandler Logeintrag</label>
+			<label index="tx_formhandler_log.submission_date">Absendedatum</label>
+			<label index="tx_formhandler_log.ip">IP-Addresse</label>
+			<label index="tx_formhandler_log.params">Abgeschickte Werte</label>
+			<label index="tx_formhandler_log.is_spam">Als SPAM erkannt</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="wizard_pi1.title">Formhandler</label>
+			<label index="tt_content.list_type_pi1">Formhandler</label>
+			<label index="tx_formhandler_main">Formhandler</label>
+			<label index="tx_formhandler_main.email_to">Envoyer le champs du formulaire à cette adresse</label>
+			<label index="tx_formhandler_main.email_subject">sujet de l'email</label>
+			<label index="tx_formhandler_main.email_sender">email expéditeur (email source)</label>
+			<label index="tx_formhandler_main.email_redirect">redirige vers cette page (seulement si tous les champs &quot;obligatoires&quot; sont remplis)</label>
+			<label index="tx_formhandler_main.email_requiredfields">Ces champs doivent être remplis (saisir les champs du formulaire, séparés par des &quot;,&quot;)</label>
+			<label index="tx_formhandler_main.email_htmltemplate">Template HTML avec les champs du formulaire inclus</label>
+			<label index="tx_formhandler_main.email_html_as_attachment">Envoyer une version HTML en pièce jointe (si présente)  au lieu d'envoyer dans le corps de l'email.</label>
+			<label index="tx_formhandler_main.email_sendtouser">optionel: envoyer une confirmation à l'utilisateur. Spécifier le nom du champ qui contient l'adresse email de l'utilisateur:</label>
+			<label index="tx_formhandler_main.email_subject_user">Sujet de l'email de l'utilisateur:</label>
+			<label index="tx_formhandler_main.email_replyto">Utiliser la valeur du champ formulaire envoyé comme valeur reply-to (optionel, nom du champ utilisé)</label>
+			<label index="tx_formhandler_main.tx_formhandler_maxrows">Nombre maximum de lignes (enregistrements) par page en mode liste (zéro = illimité)</label>
+			<label index="tx_formhandler_main.tx_formhandler_singlepid">Id des pages liés à l'affichage des données en mode unique</label>
+			<label index="tt_content.tx_formhandler_contenttype.I.0">Liste</label>
+			<label index="tt_content.tx_formhandler_contenttype.I.1">Unique</label>
+			<label index="tt_content.tx_formhandler_contenttype">Type d'affichage des données</label>
+			<label index="be_missing_config">Pas de formulaire prédéfini</label>
+			<label index="be_please_select">Choisir un formulaire prédéfini</label>
+			<label index="tt_content.pi1_plus_wiz_description">Formulaires avancés avec de nombreuses possibilité de configuration TypoScript. Très flexible.</label>
+			<label index="be_defined_by_TS">Défini par TypoScript</label>
+		</languageKey>
+	</data>
+</T3locallang>

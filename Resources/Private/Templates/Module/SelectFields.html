@@ -1,0 +1,46 @@
+{namespace fh = Typoheads\Formhandler\ViewHelpers}
+
+<f:layout name="Default" />
+
+<f:section name="headline">
+	<h1><f:translate key="headline.selectFields" /></h1>
+</f:section>
+
+<f:section name="content">
+	<f:form class="selectFieldsForm" method="post" action="export">
+		<f:form.hidden name="filetype" value="{filetype}" />
+		<f:form.hidden name="logDataUids" value="{logDataUids}" />
+		<h3>Global</h3>
+		<f:for each="{fields.global}" as="field">
+			<div class="form-group fields-global">
+				<label for="tx_formhandler_logdata_{field}">
+					<f:form.checkbox id="tx_formhandler_logdata_{field}" name="fields[]" value="{field}" />
+					{field}
+				</label>
+			</div>
+		</f:for>
+		<h3>Custom</h3>
+		<f:for each="{fields.custom}" as="field">
+			<div class="form-group fields-custom">
+				<label for="tx_formhandler_logdata_{field}">
+					<f:form.checkbox id="tx_formhandler_logdata_{field}" name="fields[]" value="{field}" />
+					{field}
+				</label>
+			</div>
+		</f:for>
+		<h3>System</h3>
+		<f:for each="{fields.system}" as="field">
+			<div class="form-group fields-system">
+				<label for="tx_formhandler_logdata_{field}">
+					<f:form.checkbox id="tx_formhandler_logdata_{field}" name="fields[]" value="{field}" />
+					{field}
+				</label>
+			</div>
+		</f:for>
+		<div class="form-group">
+			<f:form.submit value="{f:translate(key: 'button.export')}" class="btn btn-default btn-sm" />
+		</div>
+		
+	</f:form>
+	<f:link.action action="index"><f:translate key="label.back" /></f:link.action>
+</f:section>
