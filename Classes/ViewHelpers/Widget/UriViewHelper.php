@@ -19,31 +19,33 @@ namespace Typoheads\Formhandler\ViewHelpers\Widget;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper {
+class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper
+{
 
-	protected function getWidgetUri() {
-		$uriBuilder = $this->controllerContext->getUriBuilder();
-		$argumentPrefix = $this->controllerContext->getRequest()->getArgumentPrefix();
+    protected function getWidgetUri()
+    {
+        $uriBuilder = $this->controllerContext->getUriBuilder();
+        $argumentPrefix = $this->controllerContext->getRequest()->getArgumentPrefix();
 
-		$arguments = $this->hasArgument('arguments') ? $this->arguments['arguments'] : array();
-		if ($this->hasArgument('action')) {
-			$arguments['action'] = $this->arguments['action'];
-		}
-		if ($this->hasArgument('format') && $this->arguments['format'] !== '') {
-			$arguments['format'] = $this->arguments['format'];
-		}
-		if ($this->hasArgument('addQueryStringMethod') && $this->arguments['addQueryStringMethod'] !== '') {
-			$arguments['addQueryStringMethod'] = $this->arguments['addQueryStringMethod'];
-		}
+        $arguments = $this->hasArgument('arguments') ? $this->arguments['arguments'] : array();
+        if ($this->hasArgument('action')) {
+            $arguments['action'] = $this->arguments['action'];
+        }
+        if ($this->hasArgument('format') && $this->arguments['format'] !== '') {
+            $arguments['format'] = $this->arguments['format'];
+        }
+        if ($this->hasArgument('addQueryStringMethod') && $this->arguments['addQueryStringMethod'] !== '') {
+            $arguments['addQueryStringMethod'] = $this->arguments['addQueryStringMethod'];
+        }
 
-		$queryParameters = array($argumentPrefix => $arguments);
-		//@TODO: HOW TO DO THIS BETTER?
-		$additionalParams = array(
-			'tx_formhandler_web_formhandlertxformhandler' => array(
-				'demand' => $_POST['tx_formhandler_web_formhandlertxformhandler']['demand']
-			)
-		);
-		$queryParameters = array_merge($queryParameters, $additionalParams);
-		return $uriBuilder->reset()->setArguments($queryParameters)->setSection($this->arguments['section'])->setAddQueryString(TRUE)->setAddQueryStringMethod($this->arguments['addQueryStringMethod'])->setArgumentsToBeExcludedFromQueryString(array($argumentPrefix, 'cHash'))->setFormat($this->arguments['format'])->build();
-	}
+        $queryParameters = array($argumentPrefix => $arguments);
+        //@TODO: HOW TO DO THIS BETTER?
+        $additionalParams = array(
+            'tx_formhandler_web_formhandlertxformhandler' => array(
+                'demand' => $_POST['tx_formhandler_web_formhandlertxformhandler']['demand']
+            )
+        );
+        $queryParameters = array_merge($queryParameters, $additionalParams);
+        return $uriBuilder->reset()->setArguments($queryParameters)->setSection($this->arguments['section'])->setAddQueryString(TRUE)->setAddQueryStringMethod($this->arguments['addQueryStringMethod'])->setArgumentsToBeExcludedFromQueryString(array($argumentPrefix, 'cHash'))->setFormat($this->arguments['format'])->build();
+    }
 }

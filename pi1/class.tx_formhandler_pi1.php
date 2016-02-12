@@ -21,32 +21,35 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 /**
  * Plugin 'Formhandler' for the 'formhandler' extension.
  *
  * @author Reinhard Führicht <rf@typoheads.at>
  */
-class tx_formhandler_pi1 extends TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
-	var $prefixId = 'tx_formhandler_pi1';
-	var $scriptRelPath = 'pi1/class.tx_formhandler_pi1.php';
-	var $extKey = 'formhandler';
+class tx_formhandler_pi1 extends TYPO3\CMS\Frontend\Plugin\AbstractPlugin
+{
+    var $prefixId = 'tx_formhandler_pi1';
+    var $scriptRelPath = 'pi1/class.tx_formhandler_pi1.php';
+    var $extKey = 'formhandler';
 
-	/**
-	 * The main method of the PlugIn
-	 *
-	 * @param	string		$content: The PlugIn content
-	 * @param	array		$conf: The PlugIn configuration
-	 * @return	The content that is displayed on the website
-	 */
-	public function main($content, $conf) {
-		$dispatcher = new \Typoheads\Formhandler\Controller\Dispatcher();
-		$dispatcher->cObj = &$this->cObj;
-		return $dispatcher->main($content, $conf);
-	}
+    /**
+     * The main method of the PlugIn
+     *
+     * @param    string $content : The PlugIn content
+     * @param    array $conf : The PlugIn configuration
+     * @return    The content that is displayed on the website
+     */
+    public function main($content, $conf)
+    {
+        $dispatcher = new \Typoheads\Formhandler\Controller\Dispatcher();
+        $dispatcher->cObj = &$this->cObj;
+        return $dispatcher->main($content, $conf);
+    }
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/formhandler/pi1/class.tx_formhandler_pi1.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/formhandler/pi1/class.tx_formhandler_pi1.php']);
+    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/formhandler/pi1/class.tx_formhandler_pi1.php']);
 }
 
 ?>

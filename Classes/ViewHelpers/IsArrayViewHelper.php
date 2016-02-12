@@ -13,20 +13,22 @@ namespace Typoheads\Formhandler\ViewHelpers;
  *
  * The TYPO3 project - inspiring people to share!
  */
-class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper {
+class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+{
 
-	/**
-	 * renders <f:then> child if $condition is an array, otherwise renders <f:else> child.
-	 *
-	 * @param mixed $condition
-	 * @return boolean
-	 */
-	public function render($condition) {
-		if (is_array($condition)) {
-			return $this->renderThenChild();
-		} else {
-			return $this->renderElseChild();
-		}
-	}
+    /**
+     * renders <f:then> child if $condition is an array, otherwise renders <f:else> child.
+     *
+     * @param mixed $condition
+     * @return boolean
+     */
+    public function render($condition)
+    {
+        if (is_array($condition)) {
+            return $this->renderThenChild();
+        } else {
+            return $this->renderElseChild();
+        }
+    }
 
 }

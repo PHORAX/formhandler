@@ -1,18 +1,17 @@
 <?php
 namespace Typoheads\Formhandler\Interceptor;
-/*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *
- *                                                                        */
+    /*                                                                        *
+     * This script is part of the TYPO3 project - inspiring people to share!  *
+     *                                                                        *
+     * TYPO3 is free software; you can redistribute it and/or modify it under *
+     * the terms of the GNU General Public License version 2 as published by  *
+     * the Free Software Foundation.                                          *
+     *                                                                        *
+     * This script is distributed in the hope that it will be useful, but     *
+     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+     * Public License for more details.                                       *
+     *                                                                        */
 
 /**
  * An interceptor running given fields through StdWrap or a cObject
@@ -40,44 +39,46 @@ namespace Typoheads\Formhandler\Interceptor;
  *
  * @author Mathias Bolt Lesniak <mathias@lilio.com>
  */
-class StdWrap extends AbstractInterceptor {
+class StdWrap extends AbstractInterceptor
+{
 
-	/**
-	 * Process fields.
-	 *
-	 * @return array Modified GET/POST parameters, possibly with new fields added
-	 */
-	public function process() {
+    /**
+     * Process fields.
+     *
+     * @return array Modified GET/POST parameters, possibly with new fields added
+     */
+    public function process()
+    {
 
-		if(is_array($this->settings['fieldConf.'])) {
-			$fieldConf = $this->settings['fieldConf.'];
+        if (is_array($this->settings['fieldConf.'])) {
+            $fieldConf = $this->settings['fieldConf.'];
 
-			foreach($fieldConf as $key => $value) {
-				if(substr($key, -1) === '.') {
-					$key = substr($key, 0, -1);
+            foreach ($fieldConf as $key => $value) {
+                if (substr($key, -1) === '.') {
+                    $key = substr($key, 0, -1);
 
-					$oldCurrentVal = $this->globals->getCObj()->getCurrentVal();
-					$fieldValue = $this->gp[$key];
-					$this->globals->getCObj()->setCurrentVal($fieldValue);
+                    $oldCurrentVal = $this->globals->getCObj()->getCurrentVal();
+                    $fieldValue = $this->gp[$key];
+                    $this->globals->getCObj()->setCurrentVal($fieldValue);
 
-					if(!isset($fieldConf[$key]) && is_array($fieldConf[$key.'.'])) {
-						if (!isset($value['sanitize'])) {
-							$value['sanitize'] = 1;
-						}
-						$this->gp[$key] = $this->globals->getCObj()->stdWrap($fieldValue, $value);
-					} else {
-						if(!isset($fieldConf[$key . '.']['value'])) {
-							$fieldConf[$key . '.']['value'] = $fieldValue;
-						}
-						$this->gp[$key] = $this->utilityFuncs->getSingle($fieldConf, $key);
-					}
+                    if (!isset($fieldConf[$key]) && is_array($fieldConf[$key . '.'])) {
+                        if (!isset($value['sanitize'])) {
+                            $value['sanitize'] = 1;
+                        }
+                        $this->gp[$key] = $this->globals->getCObj()->stdWrap($fieldValue, $value);
+                    } else {
+                        if (!isset($fieldConf[$key . '.']['value'])) {
+                            $fieldConf[$key . '.']['value'] = $fieldValue;
+                        }
+                        $this->gp[$key] = $this->utilityFuncs->getSingle($fieldConf, $key);
+                    }
 
-					$this->globals->getCObj()->setCurrentVal($oldCurrentVal);
-				}
-			}
-		}
+                    $this->globals->getCObj()->setCurrentVal($oldCurrentVal);
+                }
+            }
+        }
 
-		return $this->gp;
-	}
+        return $this->gp;
+    }
 
 }

@@ -1,78 +1,87 @@
 <?php
 namespace Typoheads\Formhandler\Domain\Model;
 
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
- */
+    /*
+     * This file is part of the TYPO3 CMS project.
+     *
+     * It is free software; you can redistribute it and/or modify it under
+     * the terms of the GNU General Public License, either version 2
+     * of the License, or any later version.
+     *
+     * For the full copyright and license information, please read the
+     * LICENSE.txt file that was distributed with this source code.
+     *
+     * The TYPO3 project - inspiring people to share!
+     */
 
 /**
  * Model for log data
  *
  * @author Reinhard Führicht <rf@typoheads.at>
  */
-class LogData extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class LogData extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
-	/**
-	 * @var int
-	 * @validate notEmpty
-	 */
-	protected $crdate = 0;
+    /**
+     * @var int
+     * @validate notEmpty
+     */
+    protected $crdate = 0;
 
-	/**
-	 * @var string
-	 */
-	protected $ip = '';
+    /**
+     * @var string
+     */
+    protected $ip = '';
 
-	/**
-	 * @var string
-	 * @validate notEmpty
-	 */
-	protected $params = '';
-	
-	/**
-	 * @var bool
-	 */
-	protected $isSpam = 0;
+    /**
+     * @var string
+     * @validate notEmpty
+     */
+    protected $params = '';
 
-	public function getCrdate() {
-		return $this->crdate;
-	}
+    /**
+     * @var bool
+     */
+    protected $isSpam = 0;
 
-	public function setCrdate($crdate) {
-		$this->crdate = intval($crdate);
-	}
+    public function getCrdate()
+    {
+        return $this->crdate;
+    }
 
-	public function getIp() {
-		return $this->ip;
-	}
+    public function setCrdate($crdate)
+    {
+        $this->crdate = intval($crdate);
+    }
 
-	public function setIp($ip) {
-		$this->ip = $ip;
-	}
+    public function getIp()
+    {
+        return $this->ip;
+    }
 
-	public function getParams() {
-		return $this->params;
-	}
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+    }
 
-	public function setParams($params) {
-		$this->params = $params;
-	}
+    public function getParams()
+    {
+        return $this->params;
+    }
 
-	public function getIsSpam() {
-		return $this->isSpam;
-	}
+    public function setParams($params)
+    {
+        $this->params = $params;
+    }
 
-	public function setIsSpam($isSpam) {
-		$this->isSpam = $isSpam;
-	}
+    public function getIsSpam()
+    {
+        return $this->isSpam;
+    }
+
+    public function setIsSpam($isSpam)
+    {
+        $this->isSpam = $isSpam;
+    }
 }
 	

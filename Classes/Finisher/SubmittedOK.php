@@ -1,19 +1,17 @@
 <?php
 namespace Typoheads\Formhandler\Finisher;
-/*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *
- * $Id: Tx_Formhandler_Finisher_SubmittedOK.php 27790 2009-12-17 09:28:42Z reinhardfuehricht $
- *                                                                        */
+    /*                                                                        *
+     * This script is part of the TYPO3 project - inspiring people to share!  *
+     *                                                                        *
+     * TYPO3 is free software; you can redistribute it and/or modify it under *
+     * the terms of the GNU General Public License version 2 as published by  *
+     * the Free Software Foundation.                                          *
+     *                                                                        *
+     * This script is distributed in the hope that it will be useful, but     *
+     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+     * Public License for more details.                                       *
+     *                                                                        */
 
 /**
  * A finisher showing the content of ###TEMPLATE_SUBMITTEDOK### replacing all common Formhandler markers
@@ -32,43 +30,45 @@ namespace Typoheads\Formhandler\Finisher;
  * finishers.3.config.csv.exportFields = firstname,lastname,interests
  * </code>
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author    Reinhard Führicht <rf@typoheads.at>
  */
-class SubmittedOK extends AbstractFinisher {
+class SubmittedOK extends AbstractFinisher
+{
 
-	/**
-	 * The main method called by the controller
-	 *
-	 * @return array The probably modified GET/POST parameters
-	 */
-	public function process() {
+    /**
+     * The main method called by the controller
+     *
+     * @return array The probably modified GET/POST parameters
+     */
+    public function process()
+    {
 
-		//read template file
-		$this->templateFile = $this->globals->getTemplateCode();
-		if($this->settings['templateFile']) {
-			$this->templateFile = $this->utilityFuncs->readTemplateFile(FALSE, $this->settings);
-		}
+        //read template file
+        $this->templateFile = $this->globals->getTemplateCode();
+        if ($this->settings['templateFile']) {
+            $this->templateFile = $this->utilityFuncs->readTemplateFile(FALSE, $this->settings);
+        }
 
-		//set view
-		$viewClass = '\Typoheads\Formhandler\View\SubmittedOK';
-		if($this->settings['view']) {
-			$viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
-		}
-		$viewClass = $this->utilityFuncs->prepareClassName($viewClass);
-		$view = $this->componentManager->getComponent($viewClass);
+        //set view
+        $viewClass = '\Typoheads\Formhandler\View\SubmittedOK';
+        if ($this->settings['view']) {
+            $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
+        }
+        $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
+        $view = $this->componentManager->getComponent($viewClass);
 
-		//show TEMPLATE_SUBMITTEDOK
-		$view->setTemplate($this->templateFile, ('SUBMITTEDOK' . $this->globals->getTemplateSuffix()));
-		if (!$view->hasTemplate()) {
-			$view->setTemplate($this->templateFile, 'SUBMITTEDOK');
-			if (!$view->hasTemplate()) {
-				$this->utilityFuncs->debugMessage('no_submittedok_template', array(), 3);
-			}
-		}
+        //show TEMPLATE_SUBMITTEDOK
+        $view->setTemplate($this->templateFile, ('SUBMITTEDOK' . $this->globals->getTemplateSuffix()));
+        if (!$view->hasTemplate()) {
+            $view->setTemplate($this->templateFile, 'SUBMITTEDOK');
+            if (!$view->hasTemplate()) {
+                $this->utilityFuncs->debugMessage('no_submittedok_template', array(), 3);
+            }
+        }
 
-		$view->setSettings($this->globals->getSession()->get('settings'));
-		$view->setComponentSettings($this->settings);
-		return $view->render($this->gp, array());
-	}
+        $view->setSettings($this->globals->getSession()->get('settings'));
+        $view->setComponentSettings($this->settings);
+        return $view->render($this->gp, array());
+    }
 
 }

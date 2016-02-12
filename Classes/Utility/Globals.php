@@ -1,5 +1,6 @@
 <?php
 namespace Typoheads\Formhandler\Utility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -17,182 +18,216 @@ use TYPO3\CMS\Core\SingletonInterface;
 /**
  * A helper class for Formhandler to store global values
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author    Reinhard Führicht <rf@typoheads.at>
  */
-class Globals implements SingletonInterface {
+class Globals implements SingletonInterface
+{
 
-	/**
-	 * Holds the instance of the class
-	 *
-	 * @access private
-	 * @var \Typoheads\Formhandler\Utility\Globals
-	 */
-	static private $instance = NULL;
+    /**
+     * Holds the instance of the class
+     *
+     * @access private
+     * @var \Typoheads\Formhandler\Utility\Globals
+     */
+    static private $instance = NULL;
 
-	protected $ajaxHandler;
-	protected $ajaxMode;
-	protected $cObj;
-	protected $debuggers;
-	protected $formID;
-	protected $formValuesPrefix;
-	protected $gp;
-	protected $langFiles;
-	protected $overrideSettings;
-	protected $predef;
-	protected $randomID;
-	protected $session;
-	protected $settings;
-	protected $submitted;
-	protected $templateCode;
-	protected $templateSuffix;
+    protected $ajaxHandler;
+    protected $ajaxMode;
+    protected $cObj;
+    protected $debuggers;
+    protected $formID;
+    protected $formValuesPrefix;
+    protected $gp;
+    protected $langFiles;
+    protected $overrideSettings;
+    protected $predef;
+    protected $randomID;
+    protected $session;
+    protected $settings;
+    protected $submitted;
+    protected $templateCode;
+    protected $templateSuffix;
 
-	public function setAjaxMode($mode) {
-		$this->ajaxMode = $mode;
-	}
-	
-	public function isAjaxMode() {
-		return $this->ajaxMode;
-	}
-	
-	public function setAjaxHandler($ajaxHandler) {
-		$this->ajaxHandler = $ajaxHandler;
-	}
+    public function setAjaxMode($mode)
+    {
+        $this->ajaxMode = $mode;
+    }
 
-	public function setCObj($cObj) {
-		$this->cObj = $cObj;
-	}
+    public function isAjaxMode()
+    {
+        return $this->ajaxMode;
+    }
 
-	public function setDebuggers($debuggers) {
-		$this->debuggers = $debuggers;
-	}
+    public function setAjaxHandler($ajaxHandler)
+    {
+        $this->ajaxHandler = $ajaxHandler;
+    }
 
-	public function addDebugger($debugger) {
-		if(!is_array($this->debuggers)) {
-			$this->debuggers = array();
-		}
-		$this->debuggers[] = $debugger;
-	}
-	
-	public function setFormID($formID) {
-		$this->formID = $formID;
-	}
-	
-	public function setFormValuesPrefix($formValuesPrefix) {
-		$this->formValuesPrefix = $formValuesPrefix;
-	}
+    public function setCObj($cObj)
+    {
+        $this->cObj = $cObj;
+    }
 
-	public function setGP($gp) {
-		$this->gp = $gp;
-	}
+    public function setDebuggers($debuggers)
+    {
+        $this->debuggers = $debuggers;
+    }
 
-	public function setLangFiles($langFiles) {
-		$this->langFiles = $langFiles;
-	}
+    public function addDebugger($debugger)
+    {
+        if (!is_array($this->debuggers)) {
+            $this->debuggers = array();
+        }
+        $this->debuggers[] = $debugger;
+    }
 
-	public function setOverrideSettings($overrideSettings) {
-		$this->overrideSettings = $overrideSettings;
-	}
+    public function setFormID($formID)
+    {
+        $this->formID = $formID;
+    }
 
-	public function setPredef($predef) {
-		$this->predef = $predef;
-	}
+    public function setFormValuesPrefix($formValuesPrefix)
+    {
+        $this->formValuesPrefix = $formValuesPrefix;
+    }
 
-	public function setRandomID($randomID) {
-		$this->randomID = $randomID;
-	}
+    public function setGP($gp)
+    {
+        $this->gp = $gp;
+    }
 
-	public function setSession($session) {
-		$this->session = $session;
-	}
+    public function setLangFiles($langFiles)
+    {
+        $this->langFiles = $langFiles;
+    }
 
-	public function setSettings($settings) {
-		$this->settings = $settings;
-	}
+    public function setOverrideSettings($overrideSettings)
+    {
+        $this->overrideSettings = $overrideSettings;
+    }
 
-	public function setSubmitted($submitted) {
-		$this->submitted = $submitted;
-	}
+    public function setPredef($predef)
+    {
+        $this->predef = $predef;
+    }
 
-	public function setTemplateCode($templateCode) {
-		$this->templateCode = $templateCode;
-	}
+    public function setRandomID($randomID)
+    {
+        $this->randomID = $randomID;
+    }
 
-	public function setTemplateSuffix($templateSuffix) {
-		$this->templateSuffix = $templateSuffix;
-	}
+    public function setSession($session)
+    {
+        $this->session = $session;
+    }
 
-	public function getAjaxHandler() {
-		return $this->ajaxHandler;
-	}
+    public function setSettings($settings)
+    {
+        $this->settings = $settings;
+    }
 
-	public function getCObj() {
-		return $this->cObj;
-	}
+    public function setSubmitted($submitted)
+    {
+        $this->submitted = $submitted;
+    }
 
-	public function getDebuggers() {
-		if(!is_array($this->debuggers)) {
-			$this->debuggers = array();
-		}
-		return $this->debuggers;
-	}
+    public function setTemplateCode($templateCode)
+    {
+        $this->templateCode = $templateCode;
+    }
 
-	public function getFormID() {
-		return $this->formID;
-	}
+    public function setTemplateSuffix($templateSuffix)
+    {
+        $this->templateSuffix = $templateSuffix;
+    }
 
-	public function getFormValuesPrefix() {
-		return $this->formValuesPrefix;
-	}
+    public function getAjaxHandler()
+    {
+        return $this->ajaxHandler;
+    }
 
-	public function getGP() {
-		if(!is_array($this->gp)) {
-			$this->gp = array();
-		}
-		return $this->gp;
-	}
+    public function getCObj()
+    {
+        return $this->cObj;
+    }
 
-	public function getLangFiles() {
-		if(!is_array($this->langFiles)) {
-			$this->langFiles = array();
-		}
-		return $this->langFiles;
-	}
+    public function getDebuggers()
+    {
+        if (!is_array($this->debuggers)) {
+            $this->debuggers = array();
+        }
+        return $this->debuggers;
+    }
 
-	public function getOverrideSettings() {
-		if(!is_array($this->overrideSettings)) {
-			$this->overrideSettings = array();
-		}
-		return $this->overrideSettings;
-	}
+    public function getFormID()
+    {
+        return $this->formID;
+    }
 
-	public function getPredef() {
-		return $this->predef;
-	}
+    public function getFormValuesPrefix()
+    {
+        return $this->formValuesPrefix;
+    }
 
-	public function getRandomID() {
-		return $this->randomID;
-	}
+    public function getGP()
+    {
+        if (!is_array($this->gp)) {
+            $this->gp = array();
+        }
+        return $this->gp;
+    }
 
-	public function getSession() {
-		return $this->session;
-	}
+    public function getLangFiles()
+    {
+        if (!is_array($this->langFiles)) {
+            $this->langFiles = array();
+        }
+        return $this->langFiles;
+    }
 
-	public function getSettings() {
-		if(!is_array($this->settings)) {
-			$this->settings = array();
-		}
-		return $this->settings;
-	}
+    public function getOverrideSettings()
+    {
+        if (!is_array($this->overrideSettings)) {
+            $this->overrideSettings = array();
+        }
+        return $this->overrideSettings;
+    }
 
-	public function isSubmitted() {
-		return $this->submitted;
-	}
+    public function getPredef()
+    {
+        return $this->predef;
+    }
 
-	public function getTemplateCode() {
-		return $this->templateCode;
-	}
+    public function getRandomID()
+    {
+        return $this->randomID;
+    }
 
-	public function getTemplateSuffix() {
-		return $this->templateSuffix;
-	}
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    public function getSettings()
+    {
+        if (!is_array($this->settings)) {
+            $this->settings = array();
+        }
+        return $this->settings;
+    }
+
+    public function isSubmitted()
+    {
+        return $this->submitted;
+    }
+
+    public function getTemplateCode()
+    {
+        return $this->templateCode;
+    }
+
+    public function getTemplateSuffix()
+    {
+        return $this->templateSuffix;
+    }
 }
