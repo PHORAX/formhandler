@@ -1007,10 +1007,10 @@ class Form extends AbstractController
     public function validateConfig()
     {
         $options = array(
-            array('to_email', 'sEMAILADMIN', 'finishers', '\Typoheads\Formhandler\Finisher\Mail'),
-            array('to_email', 'sEMAILUSER', 'finishers', '\Typoheads\Formhandler\Finisher\Mail'),
-            array('redirect_page', 'sMISC', 'finishers', '\Typoheads\Formhandler\Finisher\Redirect'),
-            array('required_fields', 'sMISC', 'validators', '\Typoheads\Formhandler\Validator\DefaultValidator'),
+            array('to_email', 'sEMAILADMIN', 'finishers', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\Mail')),
+            array('to_email', 'sEMAILUSER', 'finishers', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\Mail')),
+            array('redirect_page', 'sMISC', 'finishers', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\Redirect')),
+            array('required_fields', 'sMISC', 'validators', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Validator\DefaultValidator')),
         );
         foreach ($options as $idx => $option) {
             $fieldName = $option[0];
@@ -1025,7 +1025,6 @@ class Form extends AbstractController
                 foreach ($this->settings[$component . '.'] as $idx => $finisher) {
                     $className = $this->utilityFuncs->getPreparedClassName($finisher);
                     if ($className == $componentName || @is_subclass_of($className, $componentName)) {
-
                         $isConfigOk = TRUE;
                         break;
                     }
