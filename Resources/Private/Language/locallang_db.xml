@@ -65,29 +65,5 @@
 			<label index="tx_formhandler_log.params">Abgeschickte Werte</label>
 			<label index="tx_formhandler_log.is_spam">Als SPAM erkannt</label>
 		</languageKey>
-		<languageKey index="fr" type="array">
-			<label index="wizard_pi1.title">Formhandler</label>
-			<label index="tt_content.list_type_pi1">Formhandler</label>
-			<label index="tx_formhandler_main">Formhandler</label>
-			<label index="tx_formhandler_main.email_to">Envoyer le champs du formulaire à cette adresse</label>
-			<label index="tx_formhandler_main.email_subject">sujet de l'email</label>
-			<label index="tx_formhandler_main.email_sender">email expéditeur (email source)</label>
-			<label index="tx_formhandler_main.email_redirect">redirige vers cette page (seulement si tous les champs &quot;obligatoires&quot; sont remplis)</label>
-			<label index="tx_formhandler_main.email_requiredfields">Ces champs doivent être remplis (saisir les champs du formulaire, séparés par des &quot;,&quot;)</label>
-			<label index="tx_formhandler_main.email_htmltemplate">Template HTML avec les champs du formulaire inclus</label>
-			<label index="tx_formhandler_main.email_html_as_attachment">Envoyer une version HTML en pièce jointe (si présente)  au lieu d'envoyer dans le corps de l'email.</label>
-			<label index="tx_formhandler_main.email_sendtouser">optionel: envoyer une confirmation à l'utilisateur. Spécifier le nom du champ qui contient l'adresse email de l'utilisateur:</label>
-			<label index="tx_formhandler_main.email_subject_user">Sujet de l'email de l'utilisateur:</label>
-			<label index="tx_formhandler_main.email_replyto">Utiliser la valeur du champ formulaire envoyé comme valeur reply-to (optionel, nom du champ utilisé)</label>
-			<label index="tx_formhandler_main.tx_formhandler_maxrows">Nombre maximum de lignes (enregistrements) par page en mode liste (zéro = illimité)</label>
-			<label index="tx_formhandler_main.tx_formhandler_singlepid">Id des pages liés à l'affichage des données en mode unique</label>
-			<label index="tt_content.tx_formhandler_contenttype.I.0">Liste</label>
-			<label index="tt_content.tx_formhandler_contenttype.I.1">Unique</label>
-			<label index="tt_content.tx_formhandler_contenttype">Type d'affichage des données</label>
-			<label index="be_missing_config">Pas de formulaire prédéfini</label>
-			<label index="be_please_select">Choisir un formulaire prédéfini</label>
-			<label index="tt_content.pi1_plus_wiz_description">Formulaires avancés avec de nombreuses possibilité de configuration TypoScript. Très flexible.</label>
-			<label index="be_defined_by_TS">Défini par TypoScript</label>
-		</languageKey>
 	</data>
 </T3locallang>
