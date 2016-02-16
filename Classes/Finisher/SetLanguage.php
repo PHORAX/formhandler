@@ -56,7 +56,7 @@ class SetLanguage extends AbstractFinisher
             $found = FALSE;
             foreach ($settings['finishers.'] as $finisherConfig) {
                 $currentFinisherClass = $this->utilityFuncs->getPreparedClassName($finisherConfig);
-                if ($currentFinisherClass === '\Typoheads\Formhandler\Finisher\RestoreLanguage') {
+                if ($currentFinisherClass === $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\RestoreLanguage')) {
                     $found = TRUE;
                 }
             }
