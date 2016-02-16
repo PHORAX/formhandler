@@ -83,7 +83,7 @@ class GeneralUtility implements SingletonInterface
     {
         $className = ltrim($className, '\\');
         $className = str_replace('Tx_Formhandler_', 'Typoheads\\Formhandler\\', $className);
-        if (strstr($className, '_') !== FALSE) {
+        if(strstr($className, '_') !== FALSE && (strstr($className, 'Typoheads\\Formhandler\\') !== FALSE || substr_count($className, '_') === 1)) {
             $className = str_replace('_', '\\', $className);
         }
         if (substr_count($className, '\\') === 1 && substr($className, 0, 11) !== '\\Typoheads\\') {
