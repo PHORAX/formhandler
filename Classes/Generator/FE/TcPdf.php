@@ -69,7 +69,7 @@ class TcPdf extends AbstractGenerator
         }
 
         $view->setComponentSettings($this->settings);
-        $content = $view->render($this->gp, array());
+        $content = $view->render($this->gp, []);
 
         $this->pdf->writeHTML($content);
         $returns = $this->settings['returnFileName'];
@@ -100,10 +100,10 @@ class TcPdf extends AbstractGenerator
     protected function getComponentLinkParams($linkGP)
     {
         $prefix = $this->globals->getFormValuesPrefix();
-        $tempParams = array(
+        $tempParams = [
             'action' => 'pdf'
-        );
-        $params = array();
+        ];
+        $params = [];
         if ($prefix) {
             $params[$prefix] = $tempParams;
         } else {

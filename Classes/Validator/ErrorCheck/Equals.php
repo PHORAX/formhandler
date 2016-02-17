@@ -26,7 +26,7 @@ class Equals extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('word');
+        $this->mandatoryParameters = ['word'];
     }
 
     public function check()

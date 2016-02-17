@@ -80,8 +80,8 @@ class TCPDF extends \Typoheads\Formhandler\Component\AbstractComponent
         $this->pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
         $this->pdf->SetFont($this->settings['font'], '', $this->settings['fontSize']);
-        $this->pdf->SetHeaderFont(array($this->settings['font'], '', $this->settings['fontSizeHeader']));
-        $this->pdf->SetFooterFont(array($this->settings['font'], '', $this->settings['fontSizeFooter']));
+        $this->pdf->SetHeaderFont([$this->settings['font'], '', $this->settings['fontSizeHeader']]);
+        $this->pdf->SetFooterFont([$this->settings['font'], '', $this->settings['fontSizeFooter']]);
 
         $addedOneRecord = FALSE;
 

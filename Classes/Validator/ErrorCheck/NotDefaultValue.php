@@ -27,7 +27,7 @@ class NotDefaultValue extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('defaultValue');
+        $this->mandatoryParameters = ['defaultValue'];
     }
 
     public function check()

@@ -37,9 +37,9 @@ class SetLanguage extends AbstractFinisher
             $lang = strtolower($languageCode);
             $GLOBALS['TSFE']->config['config']['language'] = $lang;
             $GLOBALS['TSFE']->initLLvars();
-            $this->utilityFuncs->debugMessage('Language set to "' . $lang . '"!', array(), 1);
+            $this->utilityFuncs->debugMessage('Language set to "' . $lang . '"!', [], 1);
         } else {
-            $this->utilityFuncs->debugMessage('Unable to set language! Language code set in TypoScript is empty!', array(), 2);
+            $this->utilityFuncs->debugMessage('Unable to set language! Language code set in TypoScript is empty!', [], 2);
         }
         return $this->gp;
     }

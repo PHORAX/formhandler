@@ -26,7 +26,7 @@ class Time extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('pattern');
+        $this->mandatoryParameters = ['pattern'];
     }
 
     public function check()

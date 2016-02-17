@@ -26,7 +26,7 @@ class Date extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('pattern');
+        $this->mandatoryParameters = ['pattern'];
     }
 
     public function check()
@@ -42,7 +42,7 @@ class Date extends AbstractErrorCheck
                     (isset($status['error_count']) && intval($status['error_count']) > 0)) {
 
                     $checkFailed = $this->getCheckFailed();
-                    $this->utilityFuncs->debugMessage('Result:', array(), 2, $status);
+                    $this->utilityFuncs->debugMessage('Result:', [], 2, $status);
                 }
             } catch(\Exception $e) {
                 $checkFailed = $this->getCheckFailed();

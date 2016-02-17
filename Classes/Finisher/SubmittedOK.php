@@ -62,13 +62,13 @@ class SubmittedOK extends AbstractFinisher
         if (!$view->hasTemplate()) {
             $view->setTemplate($this->templateFile, 'SUBMITTEDOK');
             if (!$view->hasTemplate()) {
-                $this->utilityFuncs->debugMessage('no_submittedok_template', array(), 3);
+                $this->utilityFuncs->debugMessage('no_submittedok_template', [], 3);
             }
         }
 
         $view->setSettings($this->globals->getSession()->get('settings'));
         $view->setComponentSettings($this->settings);
-        return $view->render($this->gp, array());
+        return $view->render($this->gp, []);
     }
 
 }

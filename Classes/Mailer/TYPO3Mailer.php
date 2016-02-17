@@ -244,7 +244,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     public function getCc()
     {
         $ccArray = $this->emailObj->getCc();
-        $ccConcat = array();
+        $ccConcat = [];
         if (is_array($ccArray)) {
             foreach ($ccArray as $email => $name) {
                 $ccConcat[] = $name . ' <' . $email . '>';
@@ -259,7 +259,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     public function getBcc()
     {
         $bccArray = $this->emailObj->getBcc();
-        $bccConcat = array();
+        $bccConcat = [];
         if (is_array($bccArray)) {
             foreach ($bccArray as $email => $name) {
                 $bccConcat[] = $name . ' <' . $email . '>';

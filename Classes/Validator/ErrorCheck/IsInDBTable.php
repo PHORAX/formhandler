@@ -26,7 +26,7 @@ class IsInDBTable extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('table', 'field');
+        $this->mandatoryParameters = ['table', 'field'];
     }
 
     public function check()
@@ -46,7 +46,7 @@ class IsInDBTable extends AbstractErrorCheck
                 if ($res && !$GLOBALS['TYPO3_DB']->sql_num_rows($res)) {
                     $checkFailed = $this->getCheckFailed();
                 } elseif (!$res) {
-                    $this->utilityFuncs->debugMessage('error', array($GLOBALS['TYPO3_DB']->sql_error()), 3);
+                    $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
                 }
                 $GLOBALS['TYPO3_DB']->sql_free_result($res);
             }

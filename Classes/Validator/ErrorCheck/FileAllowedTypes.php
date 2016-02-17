@@ -26,7 +26,7 @@ class FileAllowedTypes extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('allowedTypes');
+        $this->mandatoryParameters = ['allowedTypes'];
     }
 
     public function check()
@@ -35,7 +35,7 @@ class FileAllowedTypes extends AbstractErrorCheck
         $allowed = $this->utilityFuncs->getSingle($this->settings['params'], 'allowedTypes');
         foreach ($_FILES as $sthg => &$files) {
             if (!is_array($files['name'][$this->formFieldName])) {
-                $files['name'][$this->formFieldName] = array($files['name'][$this->formFieldName]);
+                $files['name'][$this->formFieldName] = [$files['name'][$this->formFieldName]];
             }
             foreach ($files['name'][$this->formFieldName] as $fileName) {
                 if (strlen($fileName) > 0) {

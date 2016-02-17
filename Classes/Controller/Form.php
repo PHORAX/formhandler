@@ -182,7 +182,7 @@ class Form extends AbstractController
             $gp = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP($this->globals->getFormValuesPrefix());
         }
         if (is_array($this->settings['finishers.'])) {
-            $finisherConf = array();
+            $finisherConf = [];
             foreach ($this->settings['finishers.'] as $key => $config) {
                 if (strpos($key, '.') !== FALSE) {
                     $className = $this->utilityFuncs->getPreparedClassName($config);
@@ -191,7 +191,7 @@ class Form extends AbstractController
                     }
                 }
             }
-            $params = array();
+            $params = [];
             $tstamp = intval($gp['tstamp']);
             $hash = $GLOBALS['TYPO3_DB']->fullQuoteStr($gp['hash'], 'tx_formhandler_log');
             if ($tstamp && strpos($hash, ' ') === FALSE) {
@@ -301,8 +301,8 @@ class Form extends AbstractController
         $this->globals->setRandomID($this->gp['randomID']);
 
         //run validation
-        $this->errors = array();
-        $valid = array(TRUE);
+        $this->errors = [];
+        $valid = [TRUE];
         if ($this->currentStep >= $this->lastStep) {
             $this->validateErrorCheckConfig();
         }
@@ -320,7 +320,7 @@ class Form extends AbstractController
                             $validator = $this->componentManager->getComponent($className);
                             if ($this->currentStep === $this->lastStep) {
                                 $userSetting = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($tsConfig['config.'], 'restrictErrorChecks'));
-                                $autoSetting = array(
+                                $autoSetting = [
                                     'fileAllowedTypes',
                                     'fileRequired',
                                     'fileMaxCount',
@@ -328,7 +328,7 @@ class Form extends AbstractController
                                     'fileMaxSize',
                                     'fileMinSize',
                                     'fileMaxTotalSize'
-                                );
+                                ];
                                 $merged = array_merge($userSetting, $autoSetting);
                                 $tsConfig['config.']['restrictErrorChecks'] = implode(',', $merged);
                                 unset($tsConfig['config.']['restrictErrorChecks.']);
@@ -373,7 +373,7 @@ class Form extends AbstractController
             //mark step as finished
             $finishedSteps = $this->globals->getSession()->get('finishedSteps');
             if (!is_array($finishedSteps)) {
-                $finishedSteps = array();
+                $finishedSteps = [];
             }
 
             if ($this->currentStep > $this->lastStep && !in_array($this->currentStep - 1, $finishedSteps)) {
@@ -422,7 +422,7 @@ class Form extends AbstractController
 
                         //if a file was uploaded through this field
                         if (!is_array($files['tmp_name'][$field])) {
-                            $files['tmp_name'][$field] = array($files['tmp_name'][$field]);
+                            $files['tmp_name'][$field] = [$files['tmp_name'][$field]];
                         }
                         if (count($files['tmp_name'][$field]) > 0) {
                             $valid = FALSE;
@@ -445,7 +445,7 @@ class Form extends AbstractController
                             if ($hasAllowedTypesCheck) {
                                 $valid = TRUE;
                             } else {
-                                $missingChecks = array();
+                                $missingChecks = [];
                                 if (!$hasAllowedTypesCheck) {
                                     $missingChecks[] = 'fileAllowedTypes';
                                 }
@@ -620,10 +620,10 @@ class Form extends AbstractController
         //put file names into $this->gp
         $sessionFiles = $this->globals->getSession()->get('files');
         if (!is_array($sessionFiles)) {
-            $sessionFiles = array();
+            $sessionFiles = [];
         }
         foreach ($sessionFiles as $fieldname => $files) {
-            $fileNames = array();
+            $fileNames = [];
             if (is_array($files)) {
                 foreach ($files as $idx => $fileInfo) {
                     $fileName = $fileInfo['uploaded_name'];
@@ -664,7 +664,7 @@ class Form extends AbstractController
         if (!isset($classesArray) && !is_array($classesArray)) {
 
             //add class to the end of the array
-            $classesArray[] = array('class' => $className);
+            $classesArray[] = ['class' => $className];
         } else {
             $found = FALSE;
             $className = $this->utilityFuncs->prepareClassName($className);
@@ -677,7 +677,7 @@ class Form extends AbstractController
             if (!$found) {
 
                 //add class to the end of the array
-                $classesArray[] = array('class' => $className);
+                $classesArray[] = ['class' => $className];
             }
         }
     }
@@ -762,7 +762,7 @@ class Form extends AbstractController
 
                         //If only a single file is uploaded
                         if (!is_array($uploadedFiles)) {
-                            $uploadedFiles = array($uploadedFiles);
+                            $uploadedFiles = [$uploadedFiles];
                         }
 
                         if (!isset($this->errors[$field])) {
@@ -774,7 +774,7 @@ class Form extends AbstractController
                             $uploadPath = $this->utilityFuncs->getTYPO3Root() . $uploadFolder;
 
                             if (!file_exists($uploadPath)) {
-                                $this->utilityFuncs->debugMessage('folder_doesnt_exist', array($uploadPath), 3);
+                                $this->utilityFuncs->debugMessage('folder_doesnt_exist', [$uploadPath], 3);
                                 return;
                             }
 
@@ -809,7 +809,7 @@ class Form extends AbstractController
 
                                         //move from temp folder to temp upload folder
                                         if (!is_array($files['tmp_name'][$field])) {
-                                            $files['tmp_name'][$field] = array($files['tmp_name'][$field]);
+                                            $files['tmp_name'][$field] = [$files['tmp_name'][$field]];
                                         }
                                         move_uploaded_file($files['tmp_name'][$field][$idx], $uploadPath . $uploadedFileName);
                                         \TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($uploadPath . $uploadedFileName);
@@ -830,13 +830,13 @@ class Form extends AbstractController
                                             $tmp['type'] = $files['type'][$field];
                                         }
                                         if (!is_array($tempFiles[$field]) && strlen($field) > 0) {
-                                            $tempFiles[$field] = array();
+                                            $tempFiles[$field] = [];
                                         }
                                         if (!$exists || $uploadedFilesWithSameNameAction !== 'replace') {
                                             array_push($tempFiles[$field], $tmp);
                                         }
                                         if (!is_array($this->gp[$field])) {
-                                            $this->gp[$field] = array();
+                                            $this->gp[$field] = [];
                                         }
                                         if (!$exists || $uploadedFilesWithSameNameAction !== 'replace') {
                                             array_push($this->gp[$field], $uploadedFileName);
@@ -850,7 +850,7 @@ class Form extends AbstractController
             }
         }
         $this->globals->getSession()->set('files', $tempFiles);
-        $this->utilityFuncs->debugMessage('Files:', array(), 1, (array)$tempFiles);
+        $this->utilityFuncs->debugMessage('Files:', [], 1, (array)$tempFiles);
     }
 
     /**
@@ -899,9 +899,9 @@ class Form extends AbstractController
      *
      * @return void
      */
-    protected function reset($gp = array())
+    protected function reset($gp = [])
     {
-        $values = array(
+        $values = [
             'creationTstamp' => time(),
             'values' => NULL,
             'files' => NULL,
@@ -913,8 +913,8 @@ class Form extends AbstractController
             'inserted_tstamp' => NULL,
             'key_hash' => NULL,
             'finished' => NULL,
-            'finishedSteps' => array()
-        );
+            'finishedSteps' => []
+        ];
         $this->globals->getSession()->setMultiple($values);
         $this->gp = $gp;
         $this->currentStep = 1;
@@ -991,7 +991,7 @@ class Form extends AbstractController
                 }
             }
         }
-        $this->utilityFuncs->debugMessage('current_step', array($this->currentStep));
+        $this->utilityFuncs->debugMessage('current_step', [$this->currentStep]);
 
         if (!$isValidStep) {
             $this->utilityFuncs->throwException('You are not allowed to go to this step!');
@@ -1006,12 +1006,12 @@ class Form extends AbstractController
      */
     public function validateConfig()
     {
-        $options = array(
-            array('to_email', 'sEMAILADMIN', 'finishers', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\Mail')),
-            array('to_email', 'sEMAILUSER', 'finishers', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\Mail')),
-            array('redirect_page', 'sMISC', 'finishers', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\Redirect')),
-            array('required_fields', 'sMISC', 'validators', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Validator\DefaultValidator')),
-        );
+        $options = [
+            ['to_email', 'sEMAILADMIN', 'finishers', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\Mail')],
+            ['to_email', 'sEMAILUSER', 'finishers', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\Mail')],
+            ['redirect_page', 'sMISC', 'finishers', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\Redirect')],
+            ['required_fields', 'sMISC', 'validators', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Validator\DefaultValidator')],
+        ];
         foreach ($options as $idx => $option) {
             $fieldName = $option[0];
             $flexformSection = $option[1];
@@ -1049,9 +1049,9 @@ class Form extends AbstractController
         foreach ($settings['if.'] as $idx => $conditionSettings) {
             $conditions = $conditionSettings['conditions.'];
             $condition = '';
-            $orConditions = array();
+            $orConditions = [];
             foreach ($conditions as $subIdx => $andConditions) {
-                $results = array();
+                $results = [];
                 foreach ($andConditions as $subSubIdx => $andCondition) {
                     $result = $this->utilityFuncs->getConditionResult($andCondition, $this->gp);
                     $results[] = ($result ? 'TRUE' : 'FALSE');
@@ -1178,15 +1178,15 @@ class Form extends AbstractController
         $this->debugMode = (intval($isDebugMode) === 1);
         $this->globals->getSession()->set('debug', $this->debugMode);
 
-        $this->utilityFuncs->debugMessage('using_prefix', array($this->formValuesPrefix));
+        $this->utilityFuncs->debugMessage('using_prefix', [$this->formValuesPrefix]);
 
         $this->globals->getSession()->set('predef', $this->globals->getPredef());
 
         //init view
         $viewClass = $this->utilityFuncs->getPreparedClassName($this->settings['view.'], 'View\Form');
-        $this->utilityFuncs->debugMessage('using_view', array($viewClass));
+        $this->utilityFuncs->debugMessage('using_view', [$viewClass]);
 
-        $this->utilityFuncs->debugMessage('current_gp', array(), 1, $this->gp);
+        $this->utilityFuncs->debugMessage('current_gp', [], 1, $this->gp);
 
         $this->storeSettingsInSession();
 
@@ -1209,7 +1209,7 @@ class Form extends AbstractController
         $this->addJS();
         $this->addJSFooter();
 
-        $this->utilityFuncs->debugMessage('current_session_params', array(), 1, (array)$this->globals->getSession()->get('values'));
+        $this->utilityFuncs->debugMessage('current_session_params', [], 1, (array)$this->globals->getSession()->get('values'));
         $this->view = $this->componentManager->getComponent($viewClass);
         $this->view->setLangFiles($this->langFiles);
         $this->view->setSettings($this->settings);
@@ -1219,7 +1219,7 @@ class Form extends AbstractController
         //init ajax
         if ($this->settings['ajax.']) {
             $class = $this->utilityFuncs->getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\JQuery');
-            $this->utilityFuncs->debugMessage('using_ajax', array($class));
+            $this->utilityFuncs->debugMessage('using_ajax', [$class]);
             $ajaxHandler = $this->componentManager->getComponent($class);
             $this->globals->setAjaxHandler($ajaxHandler);
 
@@ -1267,12 +1267,12 @@ class Form extends AbstractController
         } elseif (strstr($this->templateFile, ('###TEMPLATE_FORM' . $step . $this->settings['templateSuffix'] . '###'))) {
 
             // search for ###TEMPLATE_FORM[step][suffix]###
-            $this->utilityFuncs->debugMessage('using_subpart', array('###TEMPLATE_FORM' . $step . $this->settings['templateSuffix'] . '###'));
+            $this->utilityFuncs->debugMessage('using_subpart', ['###TEMPLATE_FORM' . $step . $this->settings['templateSuffix'] . '###']);
             $this->view->setTemplate($this->templateFile, ('FORM' . $step . $this->settings['templateSuffix']));
         } elseif (!isset($this->settings['templateSuffix']) && strstr($this->templateFile, ('###TEMPLATE_FORM' . $step . '###'))) {
 
             //search for ###TEMPLATE_FORM[step]###
-            $this->utilityFuncs->debugMessage('using_subpart', array('###TEMPLATE_FORM' . $step . '###'));
+            $this->utilityFuncs->debugMessage('using_subpart', ['###TEMPLATE_FORM' . $step . '###']);
             $this->view->setTemplate($this->templateFile, ('FORM' . $step));
 
         } elseif (intval($step) === intval($this->globals->getSession()->get('lastStep')) + 1) {
@@ -1287,7 +1287,7 @@ class Form extends AbstractController
      */
     protected function storeSettingsInSession()
     {
-        $values = array(
+        $values = [
             'formValuesPrefix' => $this->formValuesPrefix,
             'settings' => $this->settings,
             'debug' => $this->debugMode,
@@ -1295,7 +1295,7 @@ class Form extends AbstractController
             'totalSteps' => $this->totalSteps,
             'lastStep' => $this->lastStep,
             'templateSuffix' => $this->settings['templateSuffix']
-        );
+        ];
         $this->globals->getSession()->setMultiple($values);
         $this->globals->setFormValuesPrefix($this->formValuesPrefix);
         $this->globals->setTemplateSuffix($this->settings['templateSuffix']);
@@ -1335,7 +1335,7 @@ class Form extends AbstractController
         $this->templateFile = $this->utilityFuncs->readTemplateFile($this->templateFile, $this->settings);
 
         //Parse all template files and search for step subparts to calculate total step count
-        $allTemplateCodes = array();
+        $allTemplateCodes = [];
         if (isset($this->settings['templateFile'])) {
             $allTemplateCodes[] = $this->utilityFuncs->readTemplateFile($this->templateFile, $this->settings);
         }
@@ -1345,7 +1345,7 @@ class Form extends AbstractController
             $step++;
         }
 
-        $subparts = array();
+        $subparts = [];
         foreach ($allTemplateCodes as $templateCode) {
             preg_match_all('/(###TEMPLATE_FORM)([0-9]+)(_.*)?(###)/', $templateCode, $matches);
 
@@ -1355,9 +1355,9 @@ class Form extends AbstractController
         $countSubparts = count($subparts);
         $this->totalSteps = $subparts[$countSubparts - 1];
         if ($this->totalSteps > $countSubparts) {
-            $this->utilityFuncs->debugMessage('subparts_missing', array(implode(', ', $subparts)), 2);
+            $this->utilityFuncs->debugMessage('subparts_missing', [implode(', ', $subparts)], 2);
         } else {
-            $this->utilityFuncs->debugMessage('total_steps', array($this->totalSteps));
+            $this->utilityFuncs->debugMessage('total_steps', [$this->totalSteps]);
         }
     }
 
@@ -1369,11 +1369,11 @@ class Form extends AbstractController
     protected function mergeGPWithSession()
     {
         if (!is_array($this->gp)) {
-            $this->gp = array();
+            $this->gp = [];
         }
         $values = $this->globals->getSession()->get('values');
         if (!is_array($values)) {
-            $values = array();
+            $values = [];
         }
 
         $maxStep = $this->currentStep;
@@ -1411,7 +1411,7 @@ class Form extends AbstractController
                     if (is_array($tsConfig) && strlen($className) > 0) {
                         if (intval($this->utilityFuncs->getSingle($tsConfig, 'disable')) !== 1) {
 
-                            $this->utilityFuncs->debugMessage('calling_class', array($className));
+                            $this->utilityFuncs->debugMessage('calling_class', [$className]);
                             $obj = $this->componentManager->getComponent($className);
                             $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.']);
                             $obj->init($this->gp, $tsConfig['config.']);
@@ -1548,7 +1548,7 @@ class Form extends AbstractController
             $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $checkBoxFields);
             foreach ($fields as $idx => $field) {
                 if (!isset($newGP[$field]) && isset($this->gp[$field]) && $this->lastStep < $this->currentStep) {
-                    $this->gp[$field] = $newGP[$field] = array();
+                    $this->gp[$field] = $newGP[$field] = [];
 
                     //Insert default checkbox values
                 } elseif (!isset($newGP[$field]) && $this->lastStep < $this->currentStep) {

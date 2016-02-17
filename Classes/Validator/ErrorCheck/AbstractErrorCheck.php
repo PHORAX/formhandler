@@ -24,7 +24,7 @@ abstract class AbstractErrorCheck extends \Typoheads\Formhandler\Component\Abstr
 {
 
     protected $formFieldName;
-    protected $mandatoryParameters = array();
+    protected $mandatoryParameters = [];
 
     public function process()
     {

@@ -34,9 +34,9 @@ class RestoreLanguage extends AbstractFinisher
             $GLOBALS['TSFE']->config['config']['language'] = $lang;
             $GLOBALS['TSFE']->initLLvars();
             $this->globals->getSession()->set('originalLanguage', NULL);
-            $this->utilityFuncs->debugMessage('Language restored to "' . $lang . '"!', array(), 1);
+            $this->utilityFuncs->debugMessage('Language restored to "' . $lang . '"!', [], 1);
         } else {
-            $this->utilityFuncs->debugMessage('Unable to restore language! No original language found!', array(), 2);
+            $this->utilityFuncs->debugMessage('Unable to restore language! No original language found!', [], 2);
         }
 
         return $this->gp;

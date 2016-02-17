@@ -70,7 +70,7 @@ class AntiSpamFormTime extends AbstractInterceptor
                     $this->utilityFuncs->throwException('spam_detected');
                     return 'Lousy spammer!';
                 }
-                $content = $view->render($this->gp, array());
+                $content = $view->render($this->gp, []);
                 $this->globals->getSession()->reset();
                 return $content;
             }

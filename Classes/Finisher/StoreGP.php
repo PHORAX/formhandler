@@ -66,7 +66,7 @@ class StoreGP extends AbstractFinisher
     protected function updateSession()
     {
 
-        $newValues = array();
+        $newValues = [];
 
         //set the variables in session
         //no need to seperate steps in finishers, so simply store to step 1

@@ -38,7 +38,7 @@ class Mail extends Form
         $content = '';
         if ($this->subparts['template']) {
             $this->settings = $this->globals->getSettings();
-            $content = parent::render($gp, array());
+            $content = parent::render($gp, []);
         }
         return $content;
     }
@@ -53,7 +53,7 @@ class Mail extends Form
         $componentSettings = $this->getComponentSettings();
         $mailSettings = $componentSettings[$this->currentMailSettings['mode']];
         if (isset($mailSettings['embedFiles']) && is_array($mailSettings['embedFiles'])) {
-            $markers = array();
+            $markers = [];
             foreach ($mailSettings['embedFiles'] as $key => $cid) {
                 $markers['###embed_' . $key . '###'] = $cid;
             }
@@ -68,7 +68,7 @@ class Mail extends Form
             $this->settings['arrayValueSeparator'] = $componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'] . '.']['arrayValueSeparator'];
             $this->settings['arrayValueSeparator.'] = $componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'] . '.']['arrayValueSeparator.'];
         }
-        $this->disableEncodingFields = array();
+        $this->disableEncodingFields = [];
         if ($this->settings['disableEncodingFields']) {
             $this->disableEncodingFields = explode(',', $this->utilityFuncs->getSingle($this->settings, 'disableEncodingFields'));
         }
@@ -108,7 +108,7 @@ class Mail extends Form
             $paramsToCheck = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $checkBinaryCrLf);
             foreach ($markers as $markerName => &$value) {
 
-                $fieldName = str_replace(array('value_', 'VALUE_', '###'), '', $markerName);
+                $fieldName = str_replace(['value_', 'VALUE_', '###'], '', $markerName);
                 if (in_array($fieldName, $paramsToCheck)) {
                     $value = str_replace(chr(13), '', $value);
                     $value = str_replace('\\', '', $value);

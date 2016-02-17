@@ -35,7 +35,7 @@ class SubmittedOK extends Form
     protected function fillDefaultMarkers()
     {
         parent::fillDefaultMarkers();
-        $params = array();
+        $params = [];
         if ($this->globals->getFormValuesPrefix()) {
             $params[$this->globals->getFormValuesPrefix()] = $this->gp;
         } else {

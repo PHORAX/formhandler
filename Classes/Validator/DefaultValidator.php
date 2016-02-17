@@ -43,8 +43,8 @@ namespace Typoheads\Formhandler\Validator;
 class DefaultValidator extends AbstractValidator
 {
 
-    protected $restrictErrorChecks = array();
-    protected $disableErrorCheckFields = array();
+    protected $restrictErrorChecks = [];
+    protected $disableErrorCheckFields = [];
 
     /**
      * Method to set GET/POST for this class and load the configuration
@@ -62,7 +62,7 @@ class DefaultValidator extends AbstractValidator
             $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $flexformValue);
             foreach ($fields as $field) {
                 if (!is_array($this->settings['fieldConf.'][$field . '.']['errorCheck.'])) {
-                    $this->settings['fieldConf.'][$field . '.']['errorCheck.'] = array();
+                    $this->settings['fieldConf.'][$field . '.']['errorCheck.'] = [];
                 }
                 if (!array_search('required', $this->settings['fieldConf.'][$field . '.']['errorCheck.'])) {
                     array_push($this->settings['fieldConf.'][$field . '.']['errorCheck.'], 'required');
@@ -88,7 +88,7 @@ class DefaultValidator extends AbstractValidator
         }
 
         if (isset($this->settings['disableErrorCheckFields.'])) {
-            $this->disableErrorCheckFields = array();
+            $this->disableErrorCheckFields = [];
             foreach ($this->settings['disableErrorCheckFields.'] as $disableCheckField => $checks) {
                 if (!strstr($disableCheckField, '.')) {
                     $checkString = $this->utilityFuncs->getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
@@ -98,14 +98,14 @@ class DefaultValidator extends AbstractValidator
                             $checkString
                         );
                     } else {
-                        $this->disableErrorCheckFields[$disableCheckField] = array();
+                        $this->disableErrorCheckFields[$disableCheckField] = [];
                     }
                 }
             }
         } elseif (isset($this->settings['disableErrorCheckFields'])) {
             $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
             foreach ($fields as $disableCheckField) {
-                $this->disableErrorCheckFields[$disableCheckField] = array();
+                $this->disableErrorCheckFields[$disableCheckField] = [];
             }
         }
 
@@ -178,7 +178,7 @@ class DefaultValidator extends AbstractValidator
         foreach ($fieldConf as $key => $fieldSettings) {
             $fieldName = trim($key, '.');
             if (!array_key_exists($fieldName, $gp)) {
-                $this->utilityFuncs->debugMessage('missing_field_for_error_check', array($fieldName), 2);
+                $this->utilityFuncs->debugMessage('missing_field_for_error_check', [$fieldName], 2);
             }
 
             $errorFieldName = ($rootField === null) ? $fieldName : $rootField;
@@ -195,7 +195,7 @@ class DefaultValidator extends AbstractValidator
             }
 
             $counter = 0;
-            $errorChecks = array();
+            $errorChecks = [];
 
             //set required to first position if set
             foreach ($fieldSettings['errorCheck.'] as $key => $check) {
@@ -245,17 +245,17 @@ class DefaultValidator extends AbstractValidator
                     $fullClassName = $check['check'];
                 }
                 if (!$errorCheckObject) {
-                    $this->utilityFuncs->debugMessage('check_not_found', array($fullClassName), 2);
+                    $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
                 }
                 if (empty($this->restrictErrorChecks) || in_array($check['check'], $this->restrictErrorChecks)) {
-                    $this->utilityFuncs->debugMessage('calling_class', array($fullClassName));
+                    $this->utilityFuncs->debugMessage('calling_class', [$fullClassName]);
                     $errorCheckObject->init($gp, $check);
                     $errorCheckObject->setFormFieldName($fieldName);
                     if ($errorCheckObject->validateConfig()) {
                         $checkFailed = $errorCheckObject->check();
                         if (strlen($checkFailed) > 0) {
                             if (!is_array($errors[$errorFieldName])) {
-                                $errors[$errorFieldName] = array();
+                                $errors[$errorFieldName] = [];
                             }
                             $errors[$errorFieldName][] = $checkFailed;
                         }
@@ -263,7 +263,7 @@ class DefaultValidator extends AbstractValidator
                         $this->utilityFuncs->throwException('Configuration is not valid for class "' . $fullClassName . '"!');
                     }
                 } else {
-                    $this->utilityFuncs->debugMessage('check_skipped', array($check['check']));
+                    $this->utilityFuncs->debugMessage('check_skipped', [$check['check']]);
                 }
             }
         }

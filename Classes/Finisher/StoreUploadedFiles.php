@@ -75,7 +75,7 @@ class StoreUploadedFiles extends AbstractFinisher
         if (is_array($sessionFiles) && !empty($sessionFiles)) {
             $disablePathCheck = intval($this->utilityFuncs->getSingle($this->settings, 'disablePathCheck'));
             foreach ($sessionFiles as $field => $files) {
-                $this->gp[$field] = array();
+                $this->gp[$field] = [];
                 $uploadPath = $this->getNewFolderPath($field);
                 if (strlen($uploadPath) > 0) {
                     foreach ($files as $key => $file) {
@@ -94,10 +94,10 @@ class StoreUploadedFiles extends AbstractFinisher
 
                             $this->utilityFuncs->debugMessage(
                                 'copy_file',
-                                array(
+                                [
                                     ($file['uploaded_path'] . $file['uploaded_name']),
                                     ($uploadPath . $newFilename)
-                                )
+                                ]
                             );
                             copy(($file['uploaded_path'] . $file['uploaded_name']), ($uploadPath . $newFilename));
                             \TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($uploadPath . $newFilename);
@@ -108,7 +108,7 @@ class StoreUploadedFiles extends AbstractFinisher
                             $sessionFiles[$field][$key]['uploaded_folder'] = $newFolder;
                             $sessionFiles[$field][$key]['uploaded_url'] = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $newFolder . $newFilename;
                             if (!is_array($this->gp[$field])) {
-                                $this->gp[$field] = array();
+                                $this->gp[$field] = [];
                             }
                             array_push($this->gp[$field], $newFilename);
                         } else {

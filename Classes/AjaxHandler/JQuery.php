@@ -89,11 +89,11 @@ class Jquery extends AbstractAjaxHandler
         }
         $this->submitButtonSelector = str_replace('"', '\"', $this->submitButtonSelector);
 
-        $this->validationStatusClasses = array(
+        $this->validationStatusClasses = [
             'base' => 'formhandler-validation-status',
             'valid' => 'form-valid',
             'invalid' => 'form-invalid'
-        );
+        ];
         if (is_array($settings['ajax.']['config.']['validationStatusClasses.'])) {
             if ($settings['ajax.']['config.']['validationStatusClasses.']['base']) {
                 $this->validationStatusClasses['base'] = $this->utilityFuncs->getSingle($settings['ajax.']['config.']['validationStatusClasses.'], 'base');
@@ -129,10 +129,10 @@ class Jquery extends AbstractAjaxHandler
 				el.attr("disabled", "disabled");
 			';
 
-            $params = array(
+            $params = [
                 'eID' => 'formhandler-ajaxsubmit',
                 'uid' => intval($this->globals->getCObj()->data['uid'])
-            );
+            ];
             $url = $this->utilityFuncs->getAjaxUrl($params);
             $js .= '
 				var requestURL = "' . $url . '";
@@ -242,11 +242,11 @@ class Jquery extends AbstractAjaxHandler
                         if ($this->globals->getFormValuesPrefix()) {
                             $fieldname = $this->globals->getFormValuesPrefix() . '[' . $fieldname . ']';
                         }
-                        $params = array(
+                        $params = [
                             'eID' => 'formhandler',
                             'field' => $replacedFieldname,
                             'value' => ''
-                        );
+                        ];
                         $url = $this->utilityFuncs->getAjaxUrl($params);
 
                         $markers['###validate_' . $replacedFieldname . '###'] = '
@@ -355,11 +355,11 @@ class Jquery extends AbstractAjaxHandler
      */
     public function getFileRemovalLink($text, $field, $uploadedFileName)
     {
-        $params = array(
+        $params = [
             'eID' => 'formhandler-removefile',
             'field' => $field,
             'uploadedFileName' => $uploadedFileName
-        );
+        ];
         $url = $this->utilityFuncs->getAjaxUrl($params);
         $js = '
 			<script type="text/javascript">

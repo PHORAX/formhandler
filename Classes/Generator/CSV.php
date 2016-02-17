@@ -74,13 +74,13 @@ class CSV extends \Typoheads\Formhandler\Component\AbstractComponent
         $records = $this->settings['records'];
         $exportParams = $this->settings['exportFields'];
 
-        $data = array();
-        $dataSorted = array();
+        $data = [];
+        $dataSorted = [];
 
         //build data array
         foreach ($records as $idx => $record) {
             if (!is_array($record['params'])) {
-                $record['params'] = array();
+                $record['params'] = [];
             }
             foreach ($record['params'] as $subIdx => &$param) {
                 if (is_array($param)) {
@@ -118,7 +118,7 @@ class CSV extends \Typoheads\Formhandler\Component\AbstractComponent
         }
 
         // sort data
-        $dataSorted = array();
+        $dataSorted = [];
         foreach ($data as $idx => $array) {
             $dataSorted[] = $this->sortArrayByArray($array, $exportParams);
         }
@@ -145,7 +145,7 @@ class CSV extends \Typoheads\Formhandler\Component\AbstractComponent
      */
     private function sortArrayByArray($array, $orderArray)
     {
-        $ordered = array();
+        $ordered = [];
         foreach ($orderArray as $idx => $key) {
             if (array_key_exists($key, $array)) {
                 $ordered[$key] = $array[$key];

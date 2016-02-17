@@ -26,7 +26,7 @@ class FileMaxSize extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('maxSize');
+        $this->mandatoryParameters = ['maxSize'];
     }
 
     public function check()
@@ -39,12 +39,12 @@ class FileMaxSize extends AbstractErrorCheck
         }
         foreach ($_FILES as $sthg => &$files) {
             if (!is_array($files['name'][$this->formFieldName])) {
-                $files['name'][$this->formFieldName] = array($files['name'][$this->formFieldName]);
+                $files['name'][$this->formFieldName] = [$files['name'][$this->formFieldName]];
             }
             if (strlen($files['name'][$this->formFieldName][0]) > 0 && $maxSize) {
 
                 if (!is_array($files['size'][$this->formFieldName])) {
-                    $files['size'][$this->formFieldName] = array($files['size'][$this->formFieldName]);
+                    $files['size'][$this->formFieldName] = [$files['size'][$this->formFieldName]];
                 }
                 foreach ($files['size'][$this->formFieldName] as $size) {
                     if ($size > $maxSize) {

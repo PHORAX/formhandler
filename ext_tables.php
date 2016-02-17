@@ -32,10 +32,10 @@ if (TYPO3_MODE === 'BE') {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('*', $file, $_EXTKEY . '_pi1');
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
-        array(
+        [
             'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tt_content.list_type_pi1',
             $_EXTKEY . '_pi1'
-        ),
+        ],
         'CType'
     );
 
@@ -44,14 +44,14 @@ if (TYPO3_MODE === 'BE') {
         'web',
         'log',
         'bottom',
-        array(
+        [
             'Module' => 'index, view, selectFields, export, deleteLogRows'
-        ),
-        array(
+        ],
+        [
             'access' => 'user,group',
             'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/moduleicon.gif',
             'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xml'
-        )
+        ]
     );
 }
 
@@ -59,9 +59,9 @@ if (TYPO3_MODE === 'BE') {
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_formhandler_log');
 
-$TCA['pages']['columns']['module']['config']['items'][] = array(
+$TCA['pages']['columns']['module']['config']['items'][] = [
     'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:title',
     'formlogs',
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'ext_icon.gif'
-);
+];
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addTcaTypeIcon('pages', 'contains-formlogs', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Images/pagetreeicon.png');

@@ -34,7 +34,7 @@ class TranslateFields extends AbstractInterceptor
                 $newField = str_replace('.', '', $newField);
                 if (isset($options['langKey'])) {
                     $this->gp[$newField] = $this->translateFields($options);
-                    $this->utilityFuncs->debugMessage('translated', array($newField, $this->gp[$newField]));
+                    $this->utilityFuncs->debugMessage('translated', [$newField, $this->gp[$newField]]);
                 }
             }
         }

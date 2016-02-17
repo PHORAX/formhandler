@@ -97,7 +97,7 @@ class DB extends AbstractFinisher
         $isSuccess = $this->save($queryFields);
 
         if (!is_array($this->gp['saveDB'])) {
-            $this->gp['saveDB'] = array();
+            $this->gp['saveDB'] = [];
         }
 
         //Store info in GP only if the query was successful
@@ -107,19 +107,19 @@ class DB extends AbstractFinisher
             if (!$this->doUpdate) {
                 $this->gp['inserted_uid'] = $GLOBALS['TYPO3_DB']->sql_insert_id();
                 $this->gp[$this->table . '_inserted_uid'] = $this->gp['inserted_uid'];
-                $info = array(
+                $info = [
                     'table' => $this->table,
                     'uid' => $this->gp['inserted_uid'],
                     'uidField' => $this->key
-                );
+                ];
                 array_push($this->gp['saveDB'], $info);
             } else {
                 $uid = $this->getUpdateUid();
-                $info = array(
+                $info = [
                     'table' => $this->table,
                     'uid' => $uid,
                     'uidField' => $this->key
-                );
+                ];
                 array_push($this->gp['saveDB'], $info);
             }
 
@@ -182,11 +182,11 @@ class DB extends AbstractFinisher
     {
         $isSuccess = TRUE;
         $query = $GLOBALS['TYPO3_DB']->INSERTquery($this->table, $queryFields);
-        $this->utilityFuncs->debugMessage('sql_request', array($query));
+        $this->utilityFuncs->debugMessage('sql_request', [$query]);
         $res = $GLOBALS['TYPO3_DB']->sql_query($query);
         if ($GLOBALS['TYPO3_DB']->sql_error()) {
             $isSuccess = FALSE;
-            $this->utilityFuncs->debugMessage('error', array($GLOBALS['TYPO3_DB']->sql_error()), 3);
+            $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
         }
         return $isSuccess;
     }
@@ -197,11 +197,11 @@ class DB extends AbstractFinisher
         $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
         $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
         $query = $GLOBALS['TYPO3_DB']->UPDATEquery($this->table, $this->key . '=' . $uid . $andWhere, $queryFields);
-        $this->utilityFuncs->debugMessage('sql_request', array($query));
+        $this->utilityFuncs->debugMessage('sql_request', [$query]);
         $res = $GLOBALS['TYPO3_DB']->sql_query($query);
         if ($GLOBALS['TYPO3_DB']->sql_error()) {
             $isSuccess = FALSE;
-            $this->utilityFuncs->debugMessage('error', array($GLOBALS['TYPO3_DB']->sql_error()), 3);
+            $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
         }
         return $isSuccess;
     }
@@ -245,7 +245,7 @@ class DB extends AbstractFinisher
             if ($recordExists) {
                 $this->doUpdate = TRUE;
             } elseif (intval($this->utilityFuncs->getSingle($this->settings, 'insertIfNoUpdatePossible')) !== 1) {
-                $this->utilityFuncs->debugMessage('no_update_possible', array(), 2);
+                $this->utilityFuncs->debugMessage('no_update_possible', [], 2);
             }
         }
     }
@@ -257,7 +257,7 @@ class DB extends AbstractFinisher
      */
     protected function parseFields()
     {
-        $queryFields = array();
+        $queryFields = [];
 
         //parse mapping
         foreach ($this->settings['fields.'] as $fieldname => $options) {
@@ -330,7 +330,7 @@ class DB extends AbstractFinisher
                                 $separator = ',';
                             }
                             $files = $this->globals->getSession()->get('files');
-                            $filesArray = array();
+                            $filesArray = [];
                             if (isset($options['special.']['info'])) {
                                 $info = $this->utilityFuncs->getSingle($options['special.'], 'info');
                             } else {
@@ -435,7 +435,7 @@ class DB extends AbstractFinisher
      */
     protected function getFileList($files, $fieldname)
     {
-        $filenames = array();
+        $filenames = [];
         foreach ($files[$fieldname] as $idx => $file) {
             array_push($filenames, $file['uploaded_name']);
         }

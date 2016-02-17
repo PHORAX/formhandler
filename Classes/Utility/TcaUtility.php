@@ -110,14 +110,14 @@ class TcaUtility
         }
         $ts = $this->loadTS($pid);
 
-        $predef = array();
+        $predef = [];
 
         # no config available
         if (!is_array($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.']) || count($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.']) === 0) {
-            $optionList[] = array(
+            $optionList[] = [
                 0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:be_missing_config'),
                 1 => ''
-            );
+            ];
             return $config['items'] = array_merge($config['items'], $optionList);
         }
 
@@ -140,17 +140,17 @@ class TcaUtility
             }
         }
 
-        $optionList = array(
-            array(
+        $optionList = [
+            [
                 0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:be_please_select'),
                 1 => ''
-            )
-        );
+            ]
+        ];
         foreach ($predef as $k => $v) {
-            $optionList[] = array(
+            $optionList[] = [
                 0 => $v,
                 1 => $k
-            );
+            ];
         }
         $config['items'] = array_merge($config['items'], $optionList);
         return $config;

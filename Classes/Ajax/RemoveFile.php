@@ -76,7 +76,7 @@ class RemoveFile
 
             // Add the content to or Result Box: #formResult
             if (is_array($sessionFiles) && !empty($sessionFiles[$field])) {
-                $markers = array();
+                $markers = [];
                 $view = $this->componentManager->getComponent('View\\Form');
                 $view->setSettings($this->settings);
                 $view->fillFileMarkers($markers);
@@ -118,7 +118,7 @@ class RemoveFile
         }
 
         $this->settings = $this->globals->getSession()->get('settings');
-        $this->langFiles = $this->utilityFuncs->readLanguageFiles(array(), $this->settings);
+        $this->langFiles = $this->utilityFuncs->readLanguageFiles([], $this->settings);
 
         //init ajax
         if ($this->settings['ajax.']) {

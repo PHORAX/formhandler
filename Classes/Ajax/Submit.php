@@ -78,7 +78,7 @@ class Submit
         }
 
         $this->settings = $this->globals->getSession()->get('settings');
-        $this->langFiles = $this->utilityFuncs->readLanguageFiles(array(), $this->settings);
+        $this->langFiles = $this->utilityFuncs->readLanguageFiles([], $this->settings);
 
         //init ajax
         if ($this->settings['ajax.']) {

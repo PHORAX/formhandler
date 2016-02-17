@@ -133,15 +133,15 @@ class GeneralUtility implements SingletonInterface
         $start += strlen($marker);
         $stop = strpos($content, $marker, $start);
         $content = substr($content, $start, ($stop - $start));
-        $matches = array();
+        $matches = [];
         if (preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches) === 1) {
             return $matches[2];
         }
-        $matches = array();
+        $matches = [];
         if (preg_match('/(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches) === 1) {
             return $matches[1];
         }
-        $matches = array();
+        $matches = [];
         if (preg_match('/^([^\<]*\-\-\>)(.*)$/s', $content, $matches) === 1) {
             return $matches[2];
         }
@@ -218,7 +218,7 @@ class GeneralUtility implements SingletonInterface
 
         //language file was not set in flexform, search TypoScript for setting
         if (!$langFiles) {
-            $langFiles = array();
+            $langFiles = [];
             if (isset($settings['langFile']) && !isset($settings['langFile.'])) {
                 array_push($langFiles, $this->resolveRelPathFromSiteRoot($settings['langFile']));
             } elseif (isset($settings['langFile']) && isset($settings['langFile.'])) {
@@ -303,11 +303,11 @@ class GeneralUtility implements SingletonInterface
      * @param boolean $correctRedirectUrl replace &amp; with & in URL
      * @return void
      */
-    public function doRedirect($redirect, $correctRedirectUrl, $additionalParams = array(), $headerStatusCode = '')
+    public function doRedirect($redirect, $correctRedirectUrl, $additionalParams = [], $headerStatusCode = '')
     {
 
         // these parameters have to be added to the redirect url
-        $addParams = array();
+        $addParams = [];
         if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L')) {
             $addParams['L'] = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L');
         }
@@ -370,7 +370,7 @@ class GeneralUtility implements SingletonInterface
             if (isset($settings['additionalParams']) && isset($settings['additionalParams.'])) {
                 $additionalParamsString = $this->getSingle($settings, 'additionalParams');
                 $additionalParamsKeysAndValues = explode('&', $additionalParamsString);
-                $additionalParams = array();
+                $additionalParams = [];
                 foreach ($additionalParamsKeysAndValues as $keyAndValue) {
                     list($key, $value) = explode('=', $keyAndValue, 2);
                     $additionalParams[$key] = $value;
@@ -470,7 +470,7 @@ class GeneralUtility implements SingletonInterface
                 if ($dateObj) {
                     $timestamp = $dateObj->getTimestamp();
                 } else {
-                    $this->debugMessage('Error parsing the date. Supported formats: http://www.php.net/manual/en/datetime.createfromformat.php', array(), 3, array('format' => $format, 'date' => $date));
+                    $this->debugMessage('Error parsing the date. Supported formats: http://www.php.net/manual/en/datetime.createfromformat.php', [], 3, ['format' => $format, 'date' => $date]);
                     $timestamp = 0;
                 }
             }
@@ -547,9 +547,9 @@ class GeneralUtility implements SingletonInterface
      */
     public function getFilledLangMarkers(&$template, $langFiles)
     {
-        $langMarkers = array();
+        $langMarkers = [];
         if (is_array($langFiles)) {
-            $aLLMarkerList = array();
+            $aLLMarkerList = [];
             preg_match_all('/###LLL:.+?###/Ssm', $template, $aLLMarkerList);
 
             foreach ($aLLMarkerList[0] as $idx => $LLMarker) {
@@ -575,7 +575,7 @@ class GeneralUtility implements SingletonInterface
      * @param array $data Additional debug data (e.g. the array of GET/POST values)
      * @return void
      */
-    public function debugMessage($key, array $printfArgs = array(), $severity = 1, array $data = array())
+    public function debugMessage($key, array $printfArgs = [], $severity = 1, array $data = [])
     {
         $severity = intval($severity);
         $message = $this->getDebugMessage($key);
@@ -592,25 +592,25 @@ class GeneralUtility implements SingletonInterface
 
     public function debugMailContent($emailObj)
     {
-        $this->debugMessage('mail_subject', array($emailObj->getSubject()));
+        $this->debugMessage('mail_subject', [$emailObj->getSubject()]);
 
         $sender = $emailObj->getSender();
         if (!is_array($sender)) {
-            $sender = array($sender);
+            $sender = [$sender];
         }
-        $this->debugMessage('mail_sender', array(), 1, $sender);
+        $this->debugMessage('mail_sender', [], 1, $sender);
 
         $replyTo = $emailObj->getReplyTo();
         if (!is_array($replyTo)) {
-            $replyTo = array($replyTo);
+            $replyTo = [$replyTo];
         }
-        $this->debugMessage('mail_replyto', array(), 1, $replyTo);
+        $this->debugMessage('mail_replyto', [], 1, $replyTo);
 
-        $this->debugMessage('mail_cc', array(), 1, (array)$emailObj->getCc());
-        $this->debugMessage('mail_bcc', array(), 1, (array)$emailObj->getBcc());
-        $this->debugMessage('mail_returnpath', array(), 1, array($emailObj->returnPath));
-        $this->debugMessage('mail_plain', array(), 1, array($emailObj->getPlain()));
-        $this->debugMessage('mail_html', array(), 1, array($emailObj->getHTML()));
+        $this->debugMessage('mail_cc', [], 1, (array)$emailObj->getCc());
+        $this->debugMessage('mail_bcc', [], 1, (array)$emailObj->getBcc());
+        $this->debugMessage('mail_returnpath', [], 1, [$emailObj->returnPath]);
+        $this->debugMessage('mail_plain', [], 1, [$emailObj->getPlain()]);
+        $this->debugMessage('mail_html', [], 1, [$emailObj->getHTML()]);
     }
 
     /**
@@ -736,7 +736,7 @@ class GeneralUtility implements SingletonInterface
 
         //if the set directory doesn't exist, print a message and try to create
         if (!is_dir($this->getTYPO3Root() . $uploadFolder)) {
-            $this->debugMessage('folder_doesnt_exist', array($this->getTYPO3Root() . '/' . $uploadFolder), 2);
+            $this->debugMessage('folder_doesnt_exist', [$this->getTYPO3Root() . '/' . $uploadFolder], 2);
             \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir_deep($this->getTYPO3Root() . '/', $uploadFolder);
         }
         return $uploadFolder;
@@ -751,7 +751,7 @@ class GeneralUtility implements SingletonInterface
     public function getAllTempUploadFolders()
     {
 
-        $uploadFolders = array();
+        $uploadFolders = [];
 
         //set default upload folder
         $defaultUploadFolder = '/uploads/formhandler/tmp/';
@@ -904,13 +904,13 @@ class GeneralUtility implements SingletonInterface
         $settings = $this->globals->getSettings();
 
         //Default: Replace spaces with underscores
-        $search = array(' ', '%20');
-        $replace = array('_');
+        $search = [' ', '%20'];
+        $replace = ['_'];
         $separator = ',';
 
         $usePregReplace = $this->getSingle($settings['files.'], 'usePregReplace');
         if (intval($usePregReplace) === 1) {
-            $search = array('/ /', '/%20/');
+            $search = ['/ /', '/%20/'];
         }
 
         //The settings "search" and "replace" are comma separated lists
@@ -1007,8 +1007,8 @@ class GeneralUtility implements SingletonInterface
     {
         $pattern = strtoupper($pattern);
         $pattern = str_replace(
-            array($sep, 'DD', 'D', 'MM', 'M', 'YYYY', 'YY', 'Y'),
-            array('', 'd', 'd', 'm', 'm', 'y', 'y', 'y'),
+            [$sep, 'DD', 'D', 'MM', 'M', 'YYYY', 'YY', 'Y'],
+            ['', 'd', 'd', 'm', 'm', 'y', 'y', 'y'],
             $pattern
         );
         return $pattern;
@@ -1062,13 +1062,13 @@ class GeneralUtility implements SingletonInterface
 
     public function getAjaxUrl($specialParams)
     {
-        $params = array(
+        $params = [
             'id' => $GLOBALS['TSFE']->id,
             'L' => $GLOBALS['TSFE']->sys_language_uid,
             'randomID' => $this->globals->getRandomID(),
             'field' => $field,
             'uploadedFileName' => $uploadedFileName
-        );
+        ];
         $params = array_merge($params, $specialParams);
         return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'index.php?' . \TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);
     }
@@ -1124,7 +1124,7 @@ class GeneralUtility implements SingletonInterface
     public function parseResourceFiles($settings, $key)
     {
         $resourceFile = $settings[$key];
-        $resourceFiles = array();
+        $resourceFiles = [];
         if (!$this->isValidCObject($resourceFile) && $settings[$key . '.']) {
             foreach ($settings[$key . '.'] as $idx => $file) {
                 if (strpos($idx, '.') === FALSE) {
@@ -1135,7 +1135,7 @@ class GeneralUtility implements SingletonInterface
                 }
             }
         } else {
-            $fileOptions = array('file' => $resourceFile);
+            $fileOptions = ['file' => $resourceFile];
             $resourceFiles[] = $fileOptions;
         }
         return $resourceFiles;

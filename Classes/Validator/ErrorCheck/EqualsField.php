@@ -26,7 +26,7 @@ class EqualsField extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('field');
+        $this->mandatoryParameters = ['field'];
     }
 
     public function check()

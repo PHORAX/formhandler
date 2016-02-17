@@ -37,10 +37,10 @@ class PdfGenerator extends AbstractGenerator
     protected function getComponentLinkParams($linkGP)
     {
         $prefix = $this->globals->getFormValuesPrefix();
-        $tempParams = array(
+        $tempParams = [
             'action' => 'show'
-        );
-        $params = array();
+        ];
+        $params = [];
         if ($prefix) {
             $params[$prefix] = $tempParams;
         } else {

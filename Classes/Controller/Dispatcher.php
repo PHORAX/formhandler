@@ -97,7 +97,7 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
                 $controller->setTemplateFile($templateFile);
             }
             if (strlen($langFile) > 0) {
-                $controller->setLangFiles(array($langFile));
+                $controller->setLangFiles([$langFile]);
             }
             if (strlen($predef) > 0) {
                 $controller->setPredefined($predef);

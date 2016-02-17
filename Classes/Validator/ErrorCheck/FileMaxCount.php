@@ -26,7 +26,7 @@ class FileMaxCount extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('maxCount');
+        $this->mandatoryParameters = ['maxCount'];
     }
 
     public function check()
@@ -52,7 +52,7 @@ class FileMaxCount extends AbstractErrorCheck
             foreach ($_FILES as $idx => $info) {
                 if (isset($info['name'][$this->formFieldName])) {
                     if (!is_array($info['name'][$this->formFieldName])) {
-                        $info['name'][$this->formFieldName] = array($info['name'][$this->formFieldName]);
+                        $info['name'][$this->formFieldName] = [$info['name'][$this->formFieldName]];
                     }
                     if (strlen($info['name'][$this->formFieldName][0]) > 0) {
                         $found = TRUE;
@@ -77,11 +77,11 @@ class FileMaxCount extends AbstractErrorCheck
             }
         } else {
             if (!is_array($files[$this->formFieldName])) {
-                $files[$this->formFieldName] = array();
+                $files[$this->formFieldName] = [];
             }
             foreach ($_FILES as $idx => $info) {
                 if (!is_array($info['name'][$this->formFieldName])) {
-                    $info['name'][$this->formFieldName] = array($info['name'][$this->formFieldName]);
+                    $info['name'][$this->formFieldName] = [$info['name'][$this->formFieldName]];
                 }
                 if (strlen($info['name'][$this->formFieldName][0]) > 0 && count($info['name'][$this->formFieldName]) + count($files[$this->formFieldName]) > $maxCount) {
                     $checkFailed = $this->getCheckFailed();

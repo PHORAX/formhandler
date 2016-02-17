@@ -51,7 +51,7 @@ class Csv extends AbstractGenerator
         $csv = new \parseCSV();
 
         //parseCSV expects data to be a two dimensional array
-        $data = array($params);
+        $data = [$params];
 
         $fields = FALSE;
         if (intval($this->utilityFuncs->getSingle($this->settings, 'addFieldNames')) === 1) {
@@ -94,7 +94,7 @@ class Csv extends AbstractGenerator
                 return $filename;
             } else {
                 if (!is_array($this->gp['generator-csv-generated-files'])) {
-                    $this->gp['generator-csv-generated-files'] = array();
+                    $this->gp['generator-csv-generated-files'] = [];
                 }
                 $this->gp['generator-csv-generated-files'][] = $filename;
                 return $this->gp;
@@ -115,10 +115,10 @@ class Csv extends AbstractGenerator
     protected function getComponentLinkParams($linkGP)
     {
         $prefix = $this->globals->getFormValuesPrefix();
-        $tempParams = array(
+        $tempParams = [
             'action' => 'csv'
-        );
-        $params = array();
+        ];
+        $params = [];
         if ($prefix) {
             $params[$prefix] = $tempParams;
         } else {

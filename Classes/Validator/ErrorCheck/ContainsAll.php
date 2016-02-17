@@ -26,7 +26,7 @@ class ContainsAll extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('words');
+        $this->mandatoryParameters = ['words'];
     }
 
     public function check()

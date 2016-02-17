@@ -90,34 +90,34 @@ class DB extends AbstractLogger
         //query the database
         $GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $fields);
         $insertedUID = $GLOBALS['TYPO3_DB']->sql_insert_id();
-        $sessionValues = array(
+        $sessionValues = [
             'inserted_uid' => $insertedUID,
             'inserted_tstamp' => $fields['tstamp'],
             'key_hash' => $hash,
             'unique_hash' => $uniqueHash
-        );
+        ];
         $this->globals->getSession()->setMultiple($sessionValues);
         $this->gp['inserted_uid'] = $insertedUID;
         $this->gp[$table . '_inserted_uid'] = $this->gp['inserted_uid'];
 
         if (intval($this->utilityFuncs->getSingle($this->settings, 'nodebug')) !== 1) {
-            $this->utilityFuncs->debugMessage('logging', array($table, implode(',', $fields)));
+            $this->utilityFuncs->debugMessage('logging', [$table, implode(',', $fields)]);
             if (strlen($GLOBALS['TYPO3_DB']->sql_error()) > 0) {
-                $this->utilityFuncs->debugMessage('error', array($GLOBALS['TYPO3_DB']->sql_error()), 3);
+                $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
             }
         }
 
         return $this->gp;
     }
 
-    protected function parseFieldOrder($order, $orderedFields = array())
+    protected function parseFieldOrder($order, $orderedFields = [])
     {
         foreach ($order as $fieldName) {
             if (strpos($fieldName, '|') !== FALSE) {
                 $parts = explode('|', $fieldName);
                 $orderedFields = $this->createDeep($orderedFields, $parts);
             } else {
-                $orderedFields[$fieldName] = array();
+                $orderedFields[$fieldName] = [];
             }
         }
         return $orderedFields;
@@ -128,21 +128,21 @@ class DB extends AbstractLogger
         if (count($items) > 0) {
             $item = array_shift($items);
             if (!is_array($array[$item])) {
-                $array[$item] = array();
+                $array[$item] = [];
             }
             $array[$item] = $this->createDeep($array[$item], $items);
         }
         return $array;
     }
 
-    protected function sortFields($params, $order, $sortedParams = array())
+    protected function sortFields($params, $order, $sortedParams = [])
     {
         foreach ($order as $fieldName => $subItems) {
             if (isset($params[$fieldName])) {
                 if (count($subItems) === 0) {
                     $sortedParams[$fieldName] = $params[$fieldName];
                 } elseif (!is_array($sortedParams[$fieldName])) {
-                    $sortedParams[$fieldName] = array();
+                    $sortedParams[$fieldName] = [];
                     $sortedParams[$fieldName] = $this->sortFields($params[$fieldName], $order[$fieldName], $sortedParams[$fieldName]);
                 }
             }
