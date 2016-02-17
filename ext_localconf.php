@@ -22,5 +22,3 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['T
         'expirePeriod' => 180
     );
 }
-
-?>
