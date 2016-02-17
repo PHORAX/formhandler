@@ -351,7 +351,7 @@ class Jquery extends AbstractAjaxHandler
      * @param string $text The link text to be used
      * @param string $field The field name of the form field
      * @param string $uploadedFileName The name of the file to be deleted
-     * @return void
+     * @return string
      */
     public function getFileRemovalLink($text, $field, $uploadedFileName)
     {

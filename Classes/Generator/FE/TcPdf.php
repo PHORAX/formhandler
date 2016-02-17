@@ -22,7 +22,7 @@ class TcPdf extends AbstractGenerator
 {
 
     /**
-     * @return void
+     * @return mixed
      */
     public function process()
     {

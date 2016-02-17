@@ -95,7 +95,7 @@ class IPBlocking extends AbstractInterceptor
     private function check($value, $unit, $maxValue, $addIPToWhere = TRUE)
     {
         $timestamp = $this->utilityFuncs->getTimestamp($value, $unit);
-        $where = 'crdate >= ' . $timestamp;
+        $where = 'crdate >= ' . intval($timestamp);
         if ($addIPToWhere) {
             $where = 'ip=\'' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR') . '\' AND ' . $where;
         }
@@ -116,7 +116,7 @@ class IPBlocking extends AbstractInterceptor
                 $send = FALSE;
                 if ($intervalUnit && $intervalValue) {
                     $intervalTstamp = $this->utilityFuncs->getTimestamp($intervalValue, $intervalUnit);
-                    $where = 'pid=' . $GLOBALS['TSFE']->id . ' AND crdate>' . $intervalTstamp;
+                    $where = 'pid=' . $GLOBALS['TSFE']->id . ' AND crdate>' . intval($intervalTstamp);
                     if ($addIPToWhere) {
                         $where .= ' AND ip=\'' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR') . '\'';
                     }
@@ -160,7 +160,7 @@ class IPBlocking extends AbstractInterceptor
         $email = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $email);
         $sender = $this->utilityFuncs->getSingle($this->settings['report.'], 'sender');
         $subject = $this->utilityFuncs->getSingle($this->settings['report.'], 'subject');
-        $message = '';
+
         if ($type == 'ip') {
             $message = 'IP address "' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR') . '" has submitted a form too many times!';
         } else {

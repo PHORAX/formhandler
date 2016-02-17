@@ -213,8 +213,8 @@ class Form extends AbstractView
                                     '###fieldname###' => $fieldName,
                                     '###formValuesPrefix###' => $this->globals->getFormValuesPrefix()
                                 ];
-                                foreach ($params as $key => $paramValue) {
-                                    $markers['###param' . (++$key) . '###'] = $paramValue;
+                                foreach ($params as $paramKey => $paramValue) {
+                                    $markers['###param' . (++$paramKey) . '###'] = $paramValue;
                                 }
                                 $replacedCode = $this->cObj->substituteMarkerArray($code, $markers);
                             } else {
@@ -258,7 +258,6 @@ class Form extends AbstractView
     protected function substituteConditionalSubparts($type)
     {
         $type = strtolower($type);
-        $write = TRUE;
 
         $pattern = '/(\<\!\-\-\s*)?(###' . $type . '_+([^#]*)_*###)([^\-]*\-\-\>)?/i';
         preg_match_all($pattern, $this->template, $matches);
@@ -266,10 +265,8 @@ class Form extends AbstractView
             $resultCount = count($matches[0]);
             for ($i = 0; $i < $resultCount; $i = $i + 2) {
                 $conditionString = $matches[3][$i];
-                $endMarkerConditionString = $matches[3][$i + 1];
                 $fullMarkerName = $matches[0][$i];
                 $fullEndMarker = $matches[0][$i + 1];
-                $markerName = $matches[2][$i];
                 $conditions = preg_split('/\s*(\|\||&&)\s*/i', $conditionString, -1, PREG_SPLIT_DELIM_CAPTURE);
                 $operator = NULL;
                 $finalConditionResult = FALSE;
@@ -634,8 +631,6 @@ class Form extends AbstractView
      */
     protected function fillCaptchaMarkers(&$markers)
     {
-        global $LANG;
-
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('captcha')) {
             $captchaPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('captcha') . 'captcha/captcha.php?rand=' . rand();
             if (substr($captchaPath, 0, 1) !== '/') {
@@ -862,10 +857,6 @@ class Form extends AbstractView
 								>' . $text . '</a>';
                     }
                     $stdWrappedFilename = $this->utilityFuncs->wrap($filename, $this->settings['singleFileMarkerTemplate.'], 'filenameWrap');
-                    $singleWrap = $settings['singleFileMarkerTemplate.']['singleWrap'];
-                    $totalMarkerSingleWrap = $settings['totalFilesMarkerTemplate.']['singleWrap'];
-                    $totalWrap = $settings['singleFileMarkerTemplate.']['totalWrap'];
-                    $totalMarkersTotalWrap = $settings['totalFilesMarkerTemplate.']['totalWrap'];
 
                     $wrappedFilename = $this->utilityFuncs->wrap($stdWrappedFilename . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
                     $wrappedThumb = $this->utilityFuncs->wrap($thumb . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
@@ -876,10 +867,6 @@ class Form extends AbstractView
                         $markers['###' . $field . '_uploadedFiles###'] .= $wrappedThumbFilename;
                     } else {
                         $markers['###' . $field . '_uploadedFiles###'] .= $wrappedFilename;
-                    }
-                    $uploadedFileName = $fileInfo['name'];
-                    if (!$uploadedFileName) {
-                        $uploadedFileName = $fileInfo['uploaded_name'];
                     }
                     if (intval($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 1 || intval($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 2) {
                         $imgConf['image.'] = $settings['totalFilesMarkerTemplate.']['image.'];
@@ -985,7 +972,6 @@ class Form extends AbstractView
         $markers = [];
         foreach ($errors as $field => $types) {
             $errorMessages = [];
-            $clearErrorMessages = [];
             $temp = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'error_' . $field);
             if (strlen($temp) > 0) {
                 $errorMessage = $this->utilityFuncs->wrap($temp, $this->settings['singleErrorTemplate.'], 'singleWrap');
@@ -1089,7 +1075,6 @@ class Form extends AbstractView
      */
     protected function fillValueMarkers()
     {
-        $values = $this->gp;
         $this->disableEncodingFields = [];
         if ($this->settings['disableEncodingFields']) {
             $this->disableEncodingFields = explode(',', $this->utilityFuncs->getSingle($this->settings, 'disableEncodingFields'));
@@ -1264,21 +1249,17 @@ class Form extends AbstractView
         //if not the first step, show back button
         if ($currentStep > 1) {
             //check if label for specific step
-            $buttonvalue = '';
             $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'prev_' . $currentStep);
             if (strlen($message) === 0) {
                 $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'prev');
             }
-            $buttonvalue = $message;
-            $buttons .= '<input type="submit" name="' . $buttonNameBack . '" value="' . trim($buttonvalue) . '" class="button_prev" style="margin-right:10px;" />';
+            $buttons .= '<input type="submit" name="' . $buttonNameBack . '" value="' . trim($message) . '" class="button_prev" style="margin-right:10px;" />';
         }
-        $buttonvalue = '';
         $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'next_' . $currentStep);
         if (strlen($message) === 0) {
             $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'next');
         }
-        $buttonvalue = $message;
-        $buttons .= '<input type="submit" name="' . $buttonNameFwd . '" value="' . trim($buttonvalue) . '" class="button_next" />';
+        $buttons .= '<input type="submit" name="' . $buttonNameFwd . '" value="' . trim($message) . '" class="button_next" />';
 
         $content .= '<span id="stepsFormButtons">' . $buttons . '</span>';
 

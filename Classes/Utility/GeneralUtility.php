@@ -152,12 +152,12 @@ class GeneralUtility implements SingletonInterface
      * Read template file set in flexform or TypoScript, read the file's contents to $this->templateFile
      *
      * @param $settings The formhandler settings
-     * @return void
+     * @return string
      * @author    Reinhard Führicht <rf@typoheads.at>
      */
     public function readTemplateFile($templateFile, &$settings)
     {
-        $templateCode = FALSE;
+
         //template file was not set in flexform, search TypoScript for setting
         if (!$templateFile) {
             if (!$settings['templateFile'] && !$settings['templateFile.']) {
@@ -210,7 +210,7 @@ class GeneralUtility implements SingletonInterface
      * Read language file set in flexform or TypoScript, read the file's path to $this->langFile
      *
      * @param $settings The formhandler settings
-     * @return void
+     * @return array
      * @author    Reinhard Führicht <rf@typoheads.at>
      */
     public function readLanguageFiles($langFiles, &$settings)
@@ -397,7 +397,7 @@ class GeneralUtility implements SingletonInterface
      */
     public function pi_getFFvalue($T3FlexForm_array, $fieldName, $sheet = 'sDEF', $lang = 'lDEF', $value = 'vDEF')
     {
-        $sheetArray = '';
+
         if (is_array($T3FlexForm_array)) {
             $sheetArray = $T3FlexForm_array['data'][$sheet][$lang];
         } else {
@@ -406,6 +406,7 @@ class GeneralUtility implements SingletonInterface
         if (is_array($sheetArray)) {
             return $this->pi_getFFvalueFromSheetArray($sheetArray, \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('/', $fieldName), $value);
         }
+        return '';
     }
 
     /**
@@ -556,7 +557,7 @@ class GeneralUtility implements SingletonInterface
                 $llKey = substr($LLMarker, 7, strlen($LLMarker) - 10);
                 $marker = $llKey;
                 $message = '';
-                foreach ($langFiles as $idx => $langFile) {
+                foreach ($langFiles as $langFile) {
                     $message = trim($GLOBALS['TSFE']->sL('LLL:' . $langFile . ':' . $llKey));
                 }
                 $langMarkers['###LLL:' . $marker . '###'] = $message;
@@ -784,7 +785,6 @@ class GeneralUtility implements SingletonInterface
     public function getTimestamp($value, $unit)
     {
         $now = time();
-        $convertedValue = 0;
         switch ($unit) {
             case 'days':
                 $convertedValue = $value * 24 * 60 * 60;
@@ -1095,7 +1095,6 @@ class GeneralUtility implements SingletonInterface
      */
     public function parseOperand($operand, $values)
     {
-        $returnValue = '';
         if ($operand[0] == '{') {
             $data = trim($operand, '{}');
             $returnValue = $this->globals->getcObj()->getData($data, $values);

@@ -307,7 +307,6 @@ class Mail extends AbstractFinisher
         }
 
         //parse max count of mails to send
-        $count = 0;
         $max = $this->utilityFuncs->getSingle($this->settings, 'limitMailsToUser');
         if (!$max) {
             $max = 2;
@@ -588,7 +587,6 @@ class Mail extends AbstractFinisher
      */
     protected function parseEmailSettingsByType($currentSettings, $type, $optionsToParse = [])
     {
-        $typeLower = strtolower($type);
         $typeUpper = strtoupper($type);
         $section = 'sEMAIL' . $typeUpper;
         $emailSettings = $currentSettings;
@@ -625,13 +623,13 @@ class Mail extends AbstractFinisher
                         break;
 
                     case 'embedFiles':
-                        $emailSettings[$option] = $this->parseEmbedFilesList($currentSettings, $type, $option);
+                        $emailSettings[$option] = $this->parseEmbedFilesList($currentSettings);
                         break;
 
                     case 'attachPDF':
                     case 'attachGeneratedFiles':
                         if (isset($currentSettings['attachGeneratedFiles.']) && is_array($currentSettings['attachGeneratedFiles.'])) {
-                            foreach ($currentSettings['attachGeneratedFiles.'] as $idx => $options) {
+                            foreach ($currentSettings['attachGeneratedFiles.'] as $options) {
                                 $generatorClass = $this->utilityFuncs->getPreparedClassName($options);
                                 if ($generatorClass) {
                                     $generator = $this->componentManager->getComponent($generatorClass);

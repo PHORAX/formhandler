@@ -26,7 +26,7 @@ class Csv extends AbstractGenerator
     /**
      * Renders the CSV.
      *
-     * @return void
+     * @return mixed
      */
     public function process()
     {

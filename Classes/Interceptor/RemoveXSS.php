@@ -133,9 +133,6 @@ class RemoveXSS extends AbstractInterceptor
      */
     protected function isUTF8($str)
     {
-        $c = 0;
-        $b = 0;
-        $bits = 0;
         $len = strlen($str);
         for ($i = 0; $i < $len; $i++) {
             $c = ord($str[$i]);

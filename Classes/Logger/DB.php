@@ -26,7 +26,7 @@ class DB extends AbstractLogger
     /**
      * Logs the given values.
      *
-     * @return void
+     * @return array
      */
     public function process()
     {

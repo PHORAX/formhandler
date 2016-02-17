@@ -23,14 +23,6 @@ use TYPO3\CMS\Core\SingletonInterface;
 class Globals implements SingletonInterface
 {
 
-    /**
-     * Holds the instance of the class
-     *
-     * @access private
-     * @var \Typoheads\Formhandler\Utility\Globals
-     */
-    static private $instance = NULL;
-
     protected $ajaxHandler;
     protected $ajaxMode;
     protected $cObj;

@@ -75,7 +75,6 @@ class CSV extends \Typoheads\Formhandler\Component\AbstractComponent
         $exportParams = $this->settings['exportFields'];
 
         $data = [];
-        $dataSorted = [];
 
         //build data array
         foreach ($records as $idx => $record) {

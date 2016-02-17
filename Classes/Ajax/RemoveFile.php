@@ -60,7 +60,6 @@ class RemoveFile
                         if (!$found) {
                             foreach ($files as $key => &$fileInfo) {
                                 if (!strcmp($fileInfo['name'], $this->uploadedFileName)) {
-                                    $found = TRUE;
                                     unset($sessionFiles[$field][$key]);
                                     if (file_exists($uploadPath . $fileInfo['name'])) {
                                         unlink($uploadPath . $fileInfo['name']);

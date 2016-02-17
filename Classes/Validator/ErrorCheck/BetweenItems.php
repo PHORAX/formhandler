@@ -44,7 +44,7 @@ class BetweenItems extends AbstractErrorCheck
                     }
                 }
             }
-            if (count($valuesArray) < $min || count($valuesArray) > $min) {
+            if (count($valuesArray) < $min || count($valuesArray) > $max) {
                 $checkFailed = $this->getCheckFailed();
             }
         } elseif ($min > 0) {

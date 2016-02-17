@@ -45,9 +45,6 @@ class Ajax extends AbstractValidator
      */
     public function validateAjax($field, $value, &$errors)
     {
-
-        $found = FALSE;
-
         $this->loadConfig();
         if ($this->validators) {
             foreach ($this->validators as $idx => $settings) {
@@ -113,8 +110,6 @@ class Ajax extends AbstractValidator
                     }
                 }
 
-                $checkFailed = '';
-
                 //foreach error checks
                 foreach ($errorChecks as $idx => $check) {
 
@@ -157,7 +152,7 @@ class Ajax extends AbstractValidator
                         if ($errorCheckObject->validateConfig()) {
                             $checkFailed = $errorCheckObject->check();
                             if (strlen($checkFailed) > 0) {
-                                if (!is_array($errors[$errorFieldName])) {
+                                if (!is_array($errors[$field])) {
                                     $errors[$field] = [];
                                 }
                                 $errors[$field][] = $checkFailed;

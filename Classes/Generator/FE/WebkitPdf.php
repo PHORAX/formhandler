@@ -24,7 +24,7 @@ class WebkitPdf extends AbstractGenerator
     /**
      * Renders the PDF.
      *
-     * @return void
+     * @return mixed
      */
     public function process()
     {

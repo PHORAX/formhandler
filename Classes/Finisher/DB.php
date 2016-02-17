@@ -145,8 +145,6 @@ class DB extends AbstractFinisher
     protected function save(&$queryFields)
     {
 
-        $isSuccess = FALSE;
-
         //insert query
         if (!$this->doUpdate) {
             $isSuccess = $this->doInsert($queryFields);
@@ -183,7 +181,7 @@ class DB extends AbstractFinisher
         $isSuccess = TRUE;
         $query = $GLOBALS['TYPO3_DB']->INSERTquery($this->table, $queryFields);
         $this->utilityFuncs->debugMessage('sql_request', [$query]);
-        $res = $GLOBALS['TYPO3_DB']->sql_query($query);
+        $GLOBALS['TYPO3_DB']->sql_query($query);
         if ($GLOBALS['TYPO3_DB']->sql_error()) {
             $isSuccess = FALSE;
             $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
@@ -198,7 +196,7 @@ class DB extends AbstractFinisher
         $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
         $query = $GLOBALS['TYPO3_DB']->UPDATEquery($this->table, $this->key . '=' . $uid . $andWhere, $queryFields);
         $this->utilityFuncs->debugMessage('sql_request', [$query]);
-        $res = $GLOBALS['TYPO3_DB']->sql_query($query);
+        $GLOBALS['TYPO3_DB']->sql_query($query);
         if ($GLOBALS['TYPO3_DB']->sql_error()) {
             $isSuccess = FALSE;
             $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
@@ -329,7 +327,7 @@ class DB extends AbstractFinisher
                             } else {
                                 $separator = ',';
                             }
-                            $files = $this->globals->getSession()->get('files');
+
                             $filesArray = [];
                             if (isset($options['special.']['info'])) {
                                 $info = $this->utilityFuncs->getSingle($options['special.'], 'info');

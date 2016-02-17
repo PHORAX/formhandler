@@ -425,7 +425,6 @@ class Form extends AbstractController
                             $files['tmp_name'][$field] = [$files['tmp_name'][$field]];
                         }
                         if (count($files['tmp_name'][$field]) > 0) {
-                            $valid = FALSE;
                             $hasAllowedTypesCheck = FALSE;
                             if (isset($this->settings['validators.']) &&
                                 is_array($this->settings['validators.']) &&
@@ -442,9 +441,7 @@ class Form extends AbstractController
                                     }
                                 }
                             }
-                            if ($hasAllowedTypesCheck) {
-                                $valid = TRUE;
-                            } else {
+                            if (!$hasAllowedTypesCheck) {
                                 $missingChecks = [];
                                 if (!$hasAllowedTypesCheck) {
                                     $missingChecks[] = 'fileAllowedTypes';
@@ -501,7 +498,7 @@ class Form extends AbstractController
     /**
      * Process a form containing no more steps (a form which is finished)
      *
-     * @return Output of a Finisher
+     * @return mixed Output of a Finisher
      */
     protected function processFinished()
     {
@@ -1022,7 +1019,7 @@ class Form extends AbstractController
             // Check if a Mail Finisher can be found in the config
             $isConfigOk = FALSE;
             if (is_array($this->settings[$component . '.'])) {
-                foreach ($this->settings[$component . '.'] as $idx => $finisher) {
+                foreach ($this->settings[$component . '.'] as $finisher) {
                     $className = $this->utilityFuncs->getPreparedClassName($finisher);
                     if ($className == $componentName || @is_subclass_of($className, $componentName)) {
                         $isConfigOk = TRUE;
@@ -1045,10 +1042,8 @@ class Form extends AbstractController
      */
     protected function parseConditionsBlock($settings)
     {
-        $finalResult = FALSE;
         foreach ($settings['if.'] as $idx => $conditionSettings) {
             $conditions = $conditionSettings['conditions.'];
-            $condition = '';
             $orConditions = [];
             foreach ($conditions as $subIdx => $andConditions) {
                 $results = [];
@@ -1393,11 +1388,10 @@ class Form extends AbstractController
      * Runs the class by calling process() method.
      *
      * @param array $classesArray : the configuration array
-     * @return void
+     * @return mixed
      */
     protected function runClasses($classesArray)
     {
-        $return = '';
         if (isset($classesArray) && is_array($classesArray) && intval($this->utilityFuncs->getSingle($classesArray, 'disable')) !== 1) {
 
             ksort($classesArray);
@@ -1536,7 +1530,7 @@ class Form extends AbstractController
      * Checks if there are checkbox fields configured for this step.
      * If found, Formhandler sets the correct value of the field(s)
      *
-     * @return void
+     * @return array
      */
     protected function handleCheckBoxFields()
     {

@@ -74,7 +74,6 @@ class GenerateAuthCode extends AbstractFinisher
 
                 // looking for the page, which should be used for the authCode Link
                 // first look for TS-setting 'authCodePage', second look for redirect_page-setting, third use actual page
-                $authCodePage = '';
                 if (isset($this->settings['authCodePage'])) {
                     $authCodePage = $this->utilityFuncs->getSingle($this->settings, 'authCodePage');
                 } else {
