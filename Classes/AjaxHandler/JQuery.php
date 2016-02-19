@@ -85,7 +85,7 @@ class Jquery extends AbstractAjaxHandler
 
         $this->submitButtonSelector = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'submitButtonSelector');
         if (strlen(trim($this->submitButtonSelector)) === 0) {
-            $this->submitButtonSelector = '.Tx-Formhandler INPUT[type=\'submit\']';
+            $this->submitButtonSelector = 'INPUT[type=\'submit\']';
         }
         $this->submitButtonSelector = str_replace('"', '\"', $this->submitButtonSelector);
 
