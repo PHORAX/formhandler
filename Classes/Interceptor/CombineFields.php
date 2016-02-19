@@ -35,7 +35,7 @@ class CombineFields extends AbstractInterceptor
                 $newField = str_replace('.', '', $newField);
                 if (is_array($options['fields.'])) {
                     $this->gp[$newField] = $this->combineFields($options);
-                    $this->utilityFuncs->debugMessage('combined', array($newField, $this->gp[$newField]));
+                    $this->utilityFuncs->debugMessage('combined', [$newField, $this->gp[$newField]]);
                 }
             }
         }
@@ -56,7 +56,7 @@ class CombineFields extends AbstractInterceptor
         }
         $fieldsArr = $options['fields.'];
         $combinedString = '';
-        $stringsToCombine = array();
+        $stringsToCombine = [];
         $hideEmptyValues = intval($this->utilityFuncs->getSingle($options, 'hideEmptyValues'));
         foreach ($fieldsArr as $idx => $field) {
             $value = $this->utilityFuncs->getGlobal($field, $this->gp);

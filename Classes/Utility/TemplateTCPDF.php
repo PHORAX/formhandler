@@ -65,14 +65,14 @@ class TemplateTCPDF extends \TCPDF
             $this->SetY(5);
 
             $text = str_ireplace(
-                array(
+                [
                     '###PDF_PAGE_NUMBER###',
                     '###PDF_TOTAL_PAGES###'
-                ),
-                array(
+                ],
+                [
                     $this->PageNo(),
                     $this->numpages
-                ),
+                ],
                 $headerText
             );
             $this->Cell(0, 10, $text, 'B', 0, 'C');
@@ -94,14 +94,14 @@ class TemplateTCPDF extends \TCPDF
 
         if (strlen($footerText) > 0) {
             $footerText = str_ireplace(
-                array(
+                [
                     '###PDF_PAGE_NUMBER###',
                     '###PDF_TOTAL_PAGES###'
-                ),
-                array(
+                ],
+                [
                     $this->getAliasNumPage(),
                     $this->getAliasNbPages()
-                ),
+                ],
                 $footerText
             );
             $this->Cell(0, 10, $footerText, 'T', 0, 'C');

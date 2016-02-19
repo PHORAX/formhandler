@@ -24,12 +24,12 @@ class WebkitPdf extends AbstractGenerator
     /**
      * Renders the PDF.
      *
-     * @return void
+     * @return mixed
      */
     public function process()
     {
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('webkitpdf')) {
-            $linkGP = array();
+            $linkGP = [];
             if (strlen($this->globals->getFormValuesPrefix()) > 0) {
                 $linkGP[$this->globals->getFormValuesPrefix()] = $this->gp;
             } else {
@@ -73,7 +73,7 @@ class WebkitPdf extends AbstractGenerator
         $TSObj->runThroughTemplates($rootLine);
         $TSObj->generateConfig();
 
-        $conf = array();
+        $conf = [];
         if (isset($TSObj->setup['plugin.']['tx_webkitpdf_pi1.'])) {
             $conf = $TSObj->setup['plugin.']['tx_webkitpdf_pi1.'];
         }
@@ -92,14 +92,14 @@ class WebkitPdf extends AbstractGenerator
         }
         $text = $this->getLinkText();
         $this->url = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $this->cObj->getTypolink_URL($GLOBALS['TSFE']->id, $params);
-        $params = array(
-            'tx_webkitpdf_pi1' => array(
-                'urls' => array(
+        $params = [
+            'tx_webkitpdf_pi1' => [
+                'urls' => [
                     $this->url
-                )
-            ),
+                ]
+            ],
             'no_cache' => 1
-        );
+        ];
         return $this->cObj->getTypolink($text, $this->settings['pid'], $params);
     }
 
@@ -109,10 +109,10 @@ class WebkitPdf extends AbstractGenerator
     protected function getComponentLinkParams($linkGP)
     {
         $prefix = $this->globals->getFormValuesPrefix();
-        $tempParams = array(
+        $tempParams = [
             'action' => 'show'
-        );
-        $params = array();
+        ];
+        $params = [];
         if ($prefix) {
             $params[$prefix] = $tempParams;
         } else {

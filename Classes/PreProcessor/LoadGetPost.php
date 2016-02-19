@@ -46,7 +46,7 @@ class LoadGetPost extends AbstractPreProcessor
             $gp = $gp[$formValuesPrefix];
         }
         if (!is_array($gp)) {
-            $gp = array();
+            $gp = [];
         }
         return $gp;
     }

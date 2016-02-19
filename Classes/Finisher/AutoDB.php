@@ -55,7 +55,7 @@ class AutoDB extends DB
     public function init($gp, $settings)
     {
         if (!is_array($settings['fields.'])) {
-            $settings['fields.'] = array();
+            $settings['fields.'] = [];
         }
         $this->settings = $settings;
         parent::init($gp, $settings);
@@ -81,12 +81,12 @@ class AutoDB extends DB
 
         foreach ($dbFields as $field => $properties) {
             if ($field != $this->key && !isset($this->settings['fields.'][$field])) {
-                $this->settings['fields.'][$field . '.'] = array('mapping' => $field);
+                $this->settings['fields.'][$field . '.'] = ['mapping' => $field];
             }
         }
 
         $fields = parent::parseFields();
-        $escapedFields = array();
+        $escapedFields = [];
         foreach ($fields as $field => $value) {
             $escapedFields['`' . $field . '`'] = $value;
         }
@@ -118,7 +118,7 @@ class AutoDB extends DB
     {
         $invokePrefix = strlen($this->globals->getFormValuesPrefix()) > 0;
         $prefix = $this->globals->getFormValuesPrefix();
-        $fields = array();
+        $fields = [];
 
         foreach ($this->getFormFieldNames() as $fieldName) {
             $keys = explode('[', str_replace(']', '', $fieldName));
@@ -161,8 +161,8 @@ class AutoDB extends DB
 				`" . $this->key . "` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
 			)";
             $this->db->sql_query($query);
-            $this->utilityFuncs->debugMessage('sql_request', array($query));
-            $dbFields = array($this->key);
+            $this->utilityFuncs->debugMessage('sql_request', [$query]);
+            $dbFields = [$this->key];
         } else {
             $dbFields = array_keys($this->db->admin_get_fields($this->table));
         }
@@ -176,9 +176,9 @@ class AutoDB extends DB
             $sql .= '` ' . $this->newFieldsSqlAttribs;
 
             $this->db->sql_query($sql);
-            $this->utilityFuncs->debugMessage('sql_request', array($sql));
+            $this->utilityFuncs->debugMessage('sql_request', [$sql]);
             if ($this->db->sql_error()) {
-                $this->utilityFuncs->debugMessage('error', array($this->db->sql_error()), 3);
+                $this->utilityFuncs->debugMessage('error', [$this->db->sql_error()], 3);
             }
         }
     }

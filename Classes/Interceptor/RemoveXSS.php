@@ -28,7 +28,7 @@ class RemoveXSS extends AbstractInterceptor
      */
     public function process()
     {
-        $this->removeChars = array();
+        $this->removeChars = [];
 
         //search for a global setting for character removal
         $globalSetting = $this->settings['fieldConf.']['global.'];
@@ -53,7 +53,7 @@ class RemoveXSS extends AbstractInterceptor
         } elseif (intval($this->utilityFuncs->getSingle($globalSetting['removeChars.'], 'disable')) === 1) {
 
             //user disabled removal globally
-            $this->removeChars = array();
+            $this->removeChars = [];
         }
         $this->gp = $this->sanitizeValues($this->gp);
         return $this->gp;
@@ -69,7 +69,7 @@ class RemoveXSS extends AbstractInterceptor
     {
 
         if (!is_array($values)) {
-            return array();
+            return [];
         }
 
         foreach ($values as $key => $value) {
@@ -101,7 +101,7 @@ class RemoveXSS extends AbstractInterceptor
                 } elseif (intval($this->utilityFuncs->getSingle($fieldSetting['removeChars.'], 'disable')) === 1) {
 
                     //user disabled removal for this field
-                    $removeChars = array();
+                    $removeChars = [];
                 }
 
                 $value = str_replace("\t", '', $value);
@@ -133,9 +133,6 @@ class RemoveXSS extends AbstractInterceptor
      */
     protected function isUTF8($str)
     {
-        $c = 0;
-        $b = 0;
-        $bits = 0;
         $len = strlen($str);
         for ($i = 0; $i < $len; $i++) {
             $c = ord($str[$i]);
@@ -177,7 +174,7 @@ class RemoveXSS extends AbstractInterceptor
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->doNotSanitizeFields = array();
+        $this->doNotSanitizeFields = [];
         if ($this->settings['doNotSanitizeFields']) {
             $this->doNotSanitizeFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'doNotSanitizeFields'));
         }

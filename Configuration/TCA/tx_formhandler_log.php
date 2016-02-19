@@ -1,6 +1,6 @@
 <?php
-return array(
-    'ctrl' => array(
+return [
+    'ctrl' => [
         'title' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tx_formhandler_log',
         'label' => 'uid',
         'default_sortby' => 'ORDER BY crdate DESC',
@@ -8,80 +8,78 @@ return array(
         'tstamp' => 'tstamp',
         'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formhandler') . 'ext_icon.gif',
         'adminOnly' => 1
-    ),
-    'interface' => array(
+    ],
+    'interface' => [
         'showRecordFieldList' => 'crdate,ip,params,is_spam,key_hash'
-    ),
-    'columns' => array(
-        'crdate' => array(
+    ],
+    'columns' => [
+        'crdate' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tx_formhandler_log.submission_date',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => '10',
                 'max' => '20',
                 'eval' => 'datetime',
                 'checkbox' => '0',
                 'default' => '0'
-            )
-        ),
-        'ip' => array(
+            ]
+        ],
+        'ip' => [
             'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tx_formhandler_log.ip',
-            'config' => array(
+            'config' => [
                 'type' => 'input'
-            )
-        ),
-        'params' => array(
+            ]
+        ],
+        'params' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tx_formhandler_log.params',
-            'config' => array(
+            'config' => [
                 'type' => 'user',
                 'userFunc' => 'Typoheads\Formhandler\Utility\TcaUtility->getParams'
-            )
-        ),
-        'is_spam' => array(
+            ]
+        ],
+        'is_spam' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tx_formhandler_log.is_spam',
-            'config' => array(
+            'config' => [
                 'type' => 'check'
-            )
-        ),
-        'uid' => array(
+            ]
+        ],
+        'uid' => [
             'label' => '',
-            'config' => array(
+            'config' => [
                 'type' => 'none'
-            )
-        ),
-        'pid' => array(
+            ]
+        ],
+        'pid' => [
             'label' => '',
-            'config' => array(
+            'config' => [
                 'type' => 'none'
-            )
-        ),
-        'tstamp' => array(
+            ]
+        ],
+        'tstamp' => [
             'label' => '',
-            'config' => array(
+            'config' => [
                 'type' => 'none'
-            )
-        ),
-        'key_hash' => array(
+            ]
+        ],
+        'key_hash' => [
             'label' => '',
-            'config' => array(
+            'config' => [
                 'type' => 'none'
-            )
-        ),
-        'unique_hash' => array(
+            ]
+        ],
+        'unique_hash' => [
             'label' => '',
-            'config' => array(
+            'config' => [
                 'type' => 'none'
-            )
-        )
-    ),
-    'types' => array(
-        '0' => array(
+            ]
+        ]
+    ],
+    'types' => [
+        '0' => [
             'showitem' => 'crdate,ip,params,is_spam'
-        )
-    )
-);
-
-?>
+        ]
+    ]
+];

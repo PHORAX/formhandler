@@ -85,10 +85,10 @@ class ValidateAuthCode extends AbstractPreProcessor
                     $enableFieldsWhere = $this->cObj->enableFields($table, 1);
                 }
                 $query = $GLOBALS['TYPO3_DB']->SELECTquery($selectFields, $table, $uidField . '=' . $uid . ' AND ' . $hiddenField . '=' . $hiddenStatusValue . $enableFieldsWhere);
-                $this->utilityFuncs->debugMessage('sql_request', array($query));
+                $this->utilityFuncs->debugMessage('sql_request', [$query]);
                 $res = $GLOBALS['TYPO3_DB']->sql_query($query);
                 if ($GLOBALS['TYPO3_DB']->sql_error()) {
-                    $this->utilityFuncs->debugMessage('error', array($GLOBALS['TYPO3_DB']->sql_error()), 3);
+                    $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
                 }
                 if (!$res || $GLOBALS['TYPO3_DB']->sql_num_rows($res) === 0) {
                     $this->utilityFuncs->throwException('validateauthcode_no_record_found');
@@ -96,11 +96,11 @@ class ValidateAuthCode extends AbstractPreProcessor
 
                 $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
                 $GLOBALS['TYPO3_DB']->sql_free_result($res);
-                $this->utilityFuncs->debugMessage('Selected row: ', array(), 1, $row);
+                $this->utilityFuncs->debugMessage('Selected row: ', [], 1, $row);
 
                 $localAuthCode = \TYPO3\CMS\Core\Utility\GeneralUtility::hmac(serialize($row), 'formhandler');
 
-                $this->utilityFuncs->debugMessage('Comparing auth codes: ', array(), 1, array('Calculated:' => $localAuthCode, 'Given:' => $authCode));
+                $this->utilityFuncs->debugMessage('Comparing auth codes: ', [], 1, ['Calculated:' => $localAuthCode, 'Given:' => $authCode]);
                 if ($localAuthCode !== $authCode) {
                     $this->utilityFuncs->throwException('validateauthcode_invalid_auth_code');
                 }
@@ -108,7 +108,7 @@ class ValidateAuthCode extends AbstractPreProcessor
                 if (isset($this->settings['activeStatusValue'])) {
                     $activeStatusValue = $this->utilityFuncs->getSingle($this->settings, 'activeStatusValue');
                 }
-                $res = $GLOBALS['TYPO3_DB']->exec_UPDATEquery($table, $uidField . '=' . $uid, array($hiddenField => $activeStatusValue));
+                $res = $GLOBALS['TYPO3_DB']->exec_UPDATEquery($table, $uidField . '=' . $uid, [$hiddenField => $activeStatusValue]);
                 if (!$res) {
                     $this->utilityFuncs->throwException('validateauthcode_update_failed');
                 }

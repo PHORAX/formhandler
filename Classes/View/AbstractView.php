@@ -180,7 +180,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     public function getComponentSettings()
     {
         if (!is_array($this->componentSettings)) {
-            $this->componentSettings = array();
+            $this->componentSettings = [];
         }
         return $this->componentSettings;
     }

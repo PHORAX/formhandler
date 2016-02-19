@@ -26,7 +26,7 @@ class DateRange extends Date
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('min', 'max', 'pattern');
+        $this->mandatoryParameters = ['min', 'max', 'pattern'];
     }
 
     public function check()

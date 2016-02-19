@@ -42,18 +42,18 @@ class Validate
                 $this->globals->setSession($this->componentManager->getComponent($sessionClass));
             }
             $validator = $this->componentManager->getComponent('\Typoheads\Formhandler\Validator\Ajax');
-            $errors = array();
+            $errors = [];
             $valid = $validator->validateAjax($this->fieldname, $this->value, $errors);
             $this->settings = $this->globals->getSession()->get('settings');
-            $content = '';
+
             if ($valid) {
                 $content = $this->utilityFuncs->getSingle($this->settings['ajax.']['config.'], 'ok');
                 if (strlen($content) === 0) {
                     $content = '<img src="' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/ok.png' . '" />';
                 } else {
-                    $gp = array(
+                    $gp = [
                         $_GET['field'] => $_GET['value']
-                    );
+                    ];
                     $view = $this->initView($content);
                     $content = $view->render($gp, $errors);
                 }
@@ -64,9 +64,9 @@ class Validate
                     $content = '<img src="' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/notok.png' . '" />';
                 } else {
                     $view = $this->initView($content);
-                    $gp = array(
+                    $gp = [
                         $_GET['field'] => $_GET['value']
-                    );
+                    ];
                     $content = $view->render($gp, $errors);
                 }
                 $content = '<span class="error">' . $content . '</span>';
@@ -106,7 +106,7 @@ class Validate
     {
         $viewClass = '\Typoheads\Formhandler\View\AjaxValidation';
         $view = $this->componentManager->getComponent($viewClass);
-        $view->setLangFiles($this->utilityFuncs->readLanguageFiles(array(), $this->settings));
+        $view->setLangFiles($this->utilityFuncs->readLanguageFiles([], $this->settings));
         $view->setSettings($this->settings);
         $templateName = 'AJAX';
         $template = str_replace('###fieldname###', htmlspecialchars($_GET['field']), $content);

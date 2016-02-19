@@ -60,7 +60,7 @@ class LogDataRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
 
         $query = $this->createQuery();
-        $constraints = array();
+        $constraints = [];
 
         if ($demand !== NULL) {
             if ($demand->getPid() > 0) {

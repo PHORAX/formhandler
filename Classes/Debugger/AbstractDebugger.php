@@ -22,7 +22,7 @@ namespace Typoheads\Formhandler\Debugger;
 abstract class AbstractDebugger extends \Typoheads\Formhandler\Component\AbstractComponent
 {
 
-    protected $debugLog = array();
+    protected $debugLog = [];
 
     /**
      * The main method called by the controller
@@ -42,7 +42,7 @@ abstract class AbstractDebugger extends \Typoheads\Formhandler\Component\Abstrac
      * @param array $data Additional data to log
      * @return void
      */
-    public function addToDebugLog($message = '', $severity = 1, array $data = array())
+    public function addToDebugLog($message = '', $severity = 1, array $data = [])
     {
         $trace = debug_backtrace();
         $section = '';
@@ -53,10 +53,10 @@ abstract class AbstractDebugger extends \Typoheads\Formhandler\Component\Abstrac
             }
         }
         if (!$message && !isset($this->debugLog[$section])) {
-            $this->debugLog[$section] = array();
+            $this->debugLog[$section] = [];
         }
         if ($message) {
-            $this->debugLog[$section][] = array('message' => $message, 'severity' => $severity, 'data' => $data);
+            $this->debugLog[$section][] = ['message' => $message, 'severity' => $severity, 'data' => $data];
         }
     }
 

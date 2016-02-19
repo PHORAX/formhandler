@@ -23,14 +23,6 @@ use TYPO3\CMS\Core\SingletonInterface;
 class Globals implements SingletonInterface
 {
 
-    /**
-     * Holds the instance of the class
-     *
-     * @access private
-     * @var \Typoheads\Formhandler\Utility\Globals
-     */
-    static private $instance = NULL;
-
     protected $ajaxHandler;
     protected $ajaxMode;
     protected $cObj;
@@ -76,7 +68,7 @@ class Globals implements SingletonInterface
     public function addDebugger($debugger)
     {
         if (!is_array($this->debuggers)) {
-            $this->debuggers = array();
+            $this->debuggers = [];
         }
         $this->debuggers[] = $debugger;
     }
@@ -154,7 +146,7 @@ class Globals implements SingletonInterface
     public function getDebuggers()
     {
         if (!is_array($this->debuggers)) {
-            $this->debuggers = array();
+            $this->debuggers = [];
         }
         return $this->debuggers;
     }
@@ -172,7 +164,7 @@ class Globals implements SingletonInterface
     public function getGP()
     {
         if (!is_array($this->gp)) {
-            $this->gp = array();
+            $this->gp = [];
         }
         return $this->gp;
     }
@@ -180,7 +172,7 @@ class Globals implements SingletonInterface
     public function getLangFiles()
     {
         if (!is_array($this->langFiles)) {
-            $this->langFiles = array();
+            $this->langFiles = [];
         }
         return $this->langFiles;
     }
@@ -188,7 +180,7 @@ class Globals implements SingletonInterface
     public function getOverrideSettings()
     {
         if (!is_array($this->overrideSettings)) {
-            $this->overrideSettings = array();
+            $this->overrideSettings = [];
         }
         return $this->overrideSettings;
     }
@@ -211,7 +203,7 @@ class Globals implements SingletonInterface
     public function getSettings()
     {
         if (!is_array($this->settings)) {
-            $this->settings = array();
+            $this->settings = [];
         }
         return $this->settings;
     }

@@ -27,7 +27,7 @@ class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper
         $uriBuilder = $this->controllerContext->getUriBuilder();
         $argumentPrefix = $this->controllerContext->getRequest()->getArgumentPrefix();
 
-        $arguments = $this->hasArgument('arguments') ? $this->arguments['arguments'] : array();
+        $arguments = $this->hasArgument('arguments') ? $this->arguments['arguments'] : [];
         if ($this->hasArgument('action')) {
             $arguments['action'] = $this->arguments['action'];
         }
@@ -38,14 +38,14 @@ class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper
             $arguments['addQueryStringMethod'] = $this->arguments['addQueryStringMethod'];
         }
 
-        $queryParameters = array($argumentPrefix => $arguments);
+        $queryParameters = [$argumentPrefix => $arguments];
         //@TODO: HOW TO DO THIS BETTER?
-        $additionalParams = array(
-            'tx_formhandler_web_formhandlertxformhandler' => array(
+        $additionalParams = [
+            'tx_formhandler_web_formhandlertxformhandler' => [
                 'demand' => $_POST['tx_formhandler_web_formhandlertxformhandler']['demand']
-            )
-        );
+            ]
+        ];
         $queryParameters = array_merge($queryParameters, $additionalParams);
-        return $uriBuilder->reset()->setArguments($queryParameters)->setSection($this->arguments['section'])->setAddQueryString(TRUE)->setAddQueryStringMethod($this->arguments['addQueryStringMethod'])->setArgumentsToBeExcludedFromQueryString(array($argumentPrefix, 'cHash'))->setFormat($this->arguments['format'])->build();
+        return $uriBuilder->reset()->setArguments($queryParameters)->setSection($this->arguments['section'])->setAddQueryString(TRUE)->setAddQueryStringMethod($this->arguments['addQueryStringMethod'])->setArgumentsToBeExcludedFromQueryString([$argumentPrefix, 'cHash'])->setFormat($this->arguments['format'])->build();
     }
 }

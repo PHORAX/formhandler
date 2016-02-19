@@ -26,7 +26,7 @@ class BetweenLength extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('minValue', 'maxValue');
+        $this->mandatoryParameters = ['minValue', 'maxValue'];
     }
 
     public function check()

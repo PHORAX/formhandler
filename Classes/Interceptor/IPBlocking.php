@@ -95,7 +95,7 @@ class IPBlocking extends AbstractInterceptor
     private function check($value, $unit, $maxValue, $addIPToWhere = TRUE)
     {
         $timestamp = $this->utilityFuncs->getTimestamp($value, $unit);
-        $where = 'crdate >= ' . $timestamp;
+        $where = 'crdate >= ' . intval($timestamp);
         if ($addIPToWhere) {
             $where = 'ip=\'' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR') . '\' AND ' . $where;
         }
@@ -116,7 +116,7 @@ class IPBlocking extends AbstractInterceptor
                 $send = FALSE;
                 if ($intervalUnit && $intervalValue) {
                     $intervalTstamp = $this->utilityFuncs->getTimestamp($intervalValue, $intervalUnit);
-                    $where = 'pid=' . $GLOBALS['TSFE']->id . ' AND crdate>' . $intervalTstamp;
+                    $where = 'pid=' . $GLOBALS['TSFE']->id . ' AND crdate>' . intval($intervalTstamp);
                     if ($addIPToWhere) {
                         $where .= ' AND ip=\'' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR') . '\'';
                     }
@@ -135,7 +135,7 @@ class IPBlocking extends AbstractInterceptor
                         $this->sendReport('global', $rows);
                     }
                 } else {
-                    $this->utilityFuncs->debugMessage('alert_mail_not_sent', array(), 2);
+                    $this->utilityFuncs->debugMessage('alert_mail_not_sent', [], 2);
                 }
             }
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
@@ -160,7 +160,7 @@ class IPBlocking extends AbstractInterceptor
         $email = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $email);
         $sender = $this->utilityFuncs->getSingle($this->settings['report.'], 'sender');
         $subject = $this->utilityFuncs->getSingle($this->settings['report.'], 'subject');
-        $message = '';
+
         if ($type == 'ip') {
             $message = 'IP address "' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR') . '" has submitted a form too many times!';
         } else {
@@ -188,7 +188,7 @@ class IPBlocking extends AbstractInterceptor
         //init mailer object
         $emailClass = $this->utilityFuncs->getPreparedClassName($this->settings['mailer.'], 'Mailer\HtmlMail');
         $emailObj = $this->componentManager->getComponent($emailClass);
-        $emailObj->init($this->gp, array());
+        $emailObj->init($this->gp, []);
 
         //set e-mail options
         $emailObj->setSubject($subject);
@@ -198,15 +198,15 @@ class IPBlocking extends AbstractInterceptor
         //send e-mails
         $sent = $emailObj->send($email);
         if ($sent) {
-            $this->utilityFuncs->debugMessage('mail_sent', array($mailto));
-            $this->utilityFuncs->debugMessage('mail_sender', array($emailObj->from_email));
-            $this->utilityFuncs->debugMessage('mail_subject', array($emailObj->subject));
-            $this->utilityFuncs->debugMessage('mail_message', array(), 1, array($message));
+            $this->utilityFuncs->debugMessage('mail_sent', [$mailto]);
+            $this->utilityFuncs->debugMessage('mail_sender', [$emailObj->from_email]);
+            $this->utilityFuncs->debugMessage('mail_subject', [$emailObj->subject]);
+            $this->utilityFuncs->debugMessage('mail_message', [], 1, [$message]);
         } else {
-            $this->utilityFuncs->debugMessage('mail_not_sent', array($mailto), 2);
-            $this->utilityFuncs->debugMessage('mail_sender', array($emailObj->from_email));
-            $this->utilityFuncs->debugMessage('mail_subject', array($emailObj->subject));
-            $this->utilityFuncs->debugMessage('mail_message', array(), 1, array($message));
+            $this->utilityFuncs->debugMessage('mail_not_sent', [$mailto], 2);
+            $this->utilityFuncs->debugMessage('mail_sender', [$emailObj->from_email]);
+            $this->utilityFuncs->debugMessage('mail_subject', [$emailObj->subject]);
+            $this->utilityFuncs->debugMessage('mail_message', [], 1, [$message]);
         }
     }
 

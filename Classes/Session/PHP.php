@@ -29,7 +29,7 @@ class PHP extends AbstractSession
         $this->start();
         $data = $_SESSION['formhandler'];
         if (!is_array($data[$this->globals->getRandomID()])) {
-            $data[$this->globals->getRandomID()] = array();
+            $data[$this->globals->getRandomID()] = [];
         }
         $data[$this->globals->getRandomID()][$key] = $value;
         $_SESSION['formhandler'] = $data;
@@ -44,7 +44,7 @@ class PHP extends AbstractSession
             $this->start();
             $data = $_SESSION['formhandler'];
             if (!is_array($data[$this->globals->getRandomID()])) {
-                $data[$this->globals->getRandomID()] = array();
+                $data[$this->globals->getRandomID()] = [];
             }
             foreach ($values as $key => $value) {
                 $data[$this->globals->getRandomID()][$key] = $value;
@@ -61,7 +61,7 @@ class PHP extends AbstractSession
         $this->start();
         $data = $_SESSION['formhandler'];
         if (!is_array($data[$this->globals->getRandomID()])) {
-            $data[$this->globals->getRandomID()] = array();
+            $data[$this->globals->getRandomID()] = [];
         }
         return $data[$this->globals->getRandomID()][$key];
     }
@@ -97,7 +97,7 @@ class PHP extends AbstractSession
                 }
             }
         } else {
-            $_SESSION['formhandler'] = array();
+            $_SESSION['formhandler'] = [];
         }
     }
 }

@@ -48,7 +48,7 @@ class ClearCache extends AbstractFinisher
             $pidList = $GLOBALS['TSFE']->id;
         }
 
-        $this->utilityFuncs->debugMessage('Clearing Cache', array($pidList));
+        $this->utilityFuncs->debugMessage('Clearing Cache', [$pidList]);
 
         $GLOBALS['TSFE']->clearPageCacheContent_pidList($pidList);
         return $this->gp;

@@ -26,7 +26,7 @@ class FileMinSize extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('minSize');
+        $this->mandatoryParameters = ['minSize'];
     }
 
     public function check()
@@ -35,15 +35,15 @@ class FileMinSize extends AbstractErrorCheck
         $minSize = $this->utilityFuncs->getSingle($this->settings['params'], 'minSize');
         foreach ($_FILES as $sthg => &$files) {
             if (!is_array($files['name'][$this->formFieldName])) {
-                $files['name'][$this->formFieldName] = array($files['name'][$this->formFieldName]);
+                $files['name'][$this->formFieldName] = [$files['name'][$this->formFieldName]];
             }
             if (empty($files['name'][$this->formFieldName][0])) {
-                $files['name'][$this->formFieldName] = array();
+                $files['name'][$this->formFieldName] = [];
             }
 
             if (count($files['name'][$this->formFieldName]) > 0 && $minSize) {
                 if (!is_array($files['size'][$this->formFieldName])) {
-                    $files['size'][$this->formFieldName] = array($files['size'][$this->formFieldName]);
+                    $files['size'][$this->formFieldName] = [$files['size'][$this->formFieldName]];
                 }
                 foreach ($files['size'][$this->formFieldName] as $size) {
                     if ($size < $minSize) {

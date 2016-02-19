@@ -104,7 +104,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->view->assign('demand', $demand);
         $this->view->assign('logDataRows', $logDataRows);
         $this->view->assign('settings', $this->settings);
-        $permissions = array();
+        $permissions = [];
         if ($GLOBALS['BE_USER']->user['admin'] || intval($this->settings['enableClearLogs']) === 1) {
             $permissions['delete'] = TRUE;
         }
@@ -130,21 +130,21 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         if ($logDataUids !== NULL) {
             $logDataRows = $this->logDataRepository->findByUids($logDataUids);
-            $fields = array(
-                'global' => array(
+            $fields = [
+                'global' => [
                     'pid',
                     'ip',
                     'submission_date'
-                ),
-                'system' => array(
+                ],
+                'system' => [
                     'randomID',
                     'removeFile',
                     'removeFileField',
                     'submitField',
                     'submitted'
-                ),
-                'custom' => array()
-            );
+                ],
+                'custom' => []
+            ];
             foreach ($logDataRows as $logDataRow) {
                 $rowFields = array_keys(unserialize($logDataRow->getParams()));
                 foreach ($rowFields as $idx => $rowField) {
@@ -178,14 +178,14 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         if ($logDataUids !== NULL && !empty($fields)) {
             $logDataRows = $this->logDataRepository->findByUids($logDataUids);
-            $convertedLogDataRows = array();
+            $convertedLogDataRows = [];
             foreach ($logDataRows as $idx => $logDataRow) {
-                $convertedLogDataRows[] = array(
+                $convertedLogDataRows[] = [
                     'pid' => $logDataRow->getPid(),
                     'ip' => $logDataRow->getIp(),
                     'crdate' => $logDataRow->getCrdate(),
                     'params' => unserialize($logDataRow->getParams())
-                );
+                ];
             }
             if ($filetype === 'pdf') {
                 $className = $this->utilityFuncs->getPreparedClassName(
@@ -196,7 +196,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 $generator = $this->componentManager->getComponent($className);
                 $this->settings['pdf']['config']['records'] = $convertedLogDataRows;
                 $this->settings['pdf']['config']['exportFields'] = $fields;
-                $generator->init(array(), $this->settings['pdf']['config']);
+                $generator->init([], $this->settings['pdf']['config']);
                 $generator->process();
 
             } elseif ($filetype === 'csv') {
@@ -208,12 +208,11 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 $generator = $this->componentManager->getComponent($className);
                 $this->settings['csv']['config']['records'] = $convertedLogDataRows;
                 $this->settings['csv']['config']['exportFields'] = $fields;
-                $generator->init(array(), $this->settings['csv']['config']);
+                $generator->init([], $this->settings['csv']['config']);
                 $generator->process();
 
             }
         }
-        return '';
     }
 
     /**

@@ -43,7 +43,6 @@
                                 <minitems>0</minitems>
                                 <maxitems>1</maxitems>
                                 <size>1</size>
-                                <selectedListStyle>Width:180px</selectedListStyle>
                             </config>
                         </TCEforms>
                     </lang_file>
@@ -54,13 +53,10 @@
                             </label>
                             <config>
                                 <type>select</type>
-                                <itemsProcFunc>Typoheads\Formhandler\Utility\TcaUtility->addFields_predefined
-                                </itemsProcFunc>
+                                <itemsProcFunc>Typoheads\Formhandler\Utility\TcaUtility->addFields_predefined</itemsProcFunc>
                                 <maxitems>1</maxitems>
                                 <size>1</size>
                                 <multiple>0</multiple>
-                                <selectedListStyle>width:150px</selectedListStyle>
-                                <itemListStyle>width:150px</itemListStyle>
                             </config>
                         </TCEforms>
                     </predefined>
@@ -96,8 +92,6 @@
                             </config>
                         </TCEforms>
                     </to_email>
-
-
                     <subject>
                         <TCEforms>
                             <label>

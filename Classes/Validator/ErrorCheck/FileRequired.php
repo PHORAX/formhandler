@@ -30,7 +30,7 @@ class FileRequired extends AbstractErrorCheck
         $found = FALSE;
         foreach ($_FILES as $sthg => &$files) {
             if (!is_array($files['name'][$this->formFieldName])) {
-                $files['name'][$this->formFieldName] = array($files['name'][$this->formFieldName]);
+                $files['name'][$this->formFieldName] = [$files['name'][$this->formFieldName]];
             }
             if (is_array($files['name'][$this->formFieldName]) && !empty($files['name'][$this->formFieldName][0])) {
                 $found = TRUE;

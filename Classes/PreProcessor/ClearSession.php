@@ -36,9 +36,9 @@ class ClearSession extends AbstractPreProcessor
      */
     public function process()
     {
-        $sessionKeysToRemove = array(
+        $sessionKeysToRemove = [
             'finisher-storegp'
-        );
+        ];
         if ($this->settings['sessionKeysToRemove']) {
             $sessionKeysToRemove = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'sessionKeysToRemove'));
         }

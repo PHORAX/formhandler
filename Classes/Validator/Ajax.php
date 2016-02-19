@@ -45,9 +45,6 @@ class Ajax extends AbstractValidator
      */
     public function validateAjax($field, $value, &$errors)
     {
-
-        $found = FALSE;
-
         $this->loadConfig();
         if ($this->validators) {
             foreach ($this->validators as $idx => $settings) {
@@ -57,7 +54,7 @@ class Ajax extends AbstractValidator
             }
         }
         if (is_array($this->settings['fieldConf.'])) {
-            $disableErrorCheckFields = array();
+            $disableErrorCheckFields = [];
             if (isset($this->settings['disableErrorCheckFields.'])) {
                 foreach ($this->settings['disableErrorCheckFields.'] as $disableCheckField => $checks) {
                     if (!strstr($disableCheckField, '.')) {
@@ -68,18 +65,18 @@ class Ajax extends AbstractValidator
                                 $checkString
                             );
                         } else {
-                            $disableErrorCheckFields[$disableCheckField] = array();
+                            $disableErrorCheckFields[$disableCheckField] = [];
                         }
                     }
                 }
             } elseif (isset($this->settings['disableErrorCheckFields'])) {
                 $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
                 foreach ($fields as $disableCheckField) {
-                    $disableErrorCheckFields[$disableCheckField] = array();
+                    $disableErrorCheckFields[$disableCheckField] = [];
                 }
             }
 
-            $restrictErrorChecks = array();
+            $restrictErrorChecks = [];
             if (isset($this->settings['restrictErrorChecks'])) {
                 $restrictErrorChecks = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
             }
@@ -89,7 +86,7 @@ class Ajax extends AbstractValidator
             //parse error checks
             if (is_array($fieldSettings['errorCheck.'])) {
                 $counter = 0;
-                $errorChecks = array();
+                $errorChecks = [];
 
                 //set required to first position if set
                 foreach ($fieldSettings['errorCheck.'] as $key => $check) {
@@ -112,8 +109,6 @@ class Ajax extends AbstractValidator
                         $counter++;
                     }
                 }
-
-                $checkFailed = '';
 
                 //foreach error checks
                 foreach ($errorChecks as $idx => $check) {
@@ -143,10 +138,10 @@ class Ajax extends AbstractValidator
                         $fullClassName = $check['check'];
                     }
                     if (!$errorCheckObject) {
-                        $this->utilityFuncs->debugMessage('check_not_found', array($fullClassName), 2);
+                        $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
                     }
                     if (empty($restrictErrorChecks) || in_array($check['check'], $restrictErrorChecks)) {
-                        $gp = array($field => $value);
+                        $gp = [$field => $value];
 
                         if (strlen(trim($_GET['equalsFieldName'])) > 0) {
                             $gp[htmlspecialchars($_GET['equalsFieldName'])] = htmlspecialchars($_GET['equalsFieldValue']);
@@ -157,8 +152,8 @@ class Ajax extends AbstractValidator
                         if ($errorCheckObject->validateConfig()) {
                             $checkFailed = $errorCheckObject->check();
                             if (strlen($checkFailed) > 0) {
-                                if (!is_array($errors[$errorFieldName])) {
-                                    $errors[$field] = array();
+                                if (!is_array($errors[$field])) {
+                                    $errors[$field] = [];
                                 }
                                 $errors[$field][] = $checkFailed;
                             }
@@ -176,7 +171,7 @@ class Ajax extends AbstractValidator
     public function loadConfig()
     {
         $tsConfig = $this->globals->getSession()->get('settings');
-        $this->settings = array();
+        $this->settings = [];
         $this->validators = $tsConfig['validators.'];
         if ($tsConfig['ajax.']) {
             $this->settings['ajax.'] = $tsConfig['ajax.'];

@@ -156,9 +156,9 @@ class LoadDB extends AbstractPreProcessor
 
         if (isset($settings[$fieldname . '.']['type']) && $this->utilityFuncs->getSingle($settings[$fieldname . '.'], 'type') === 'upload') {
             if (!$this->files) {
-                $this->files = array();
+                $this->files = [];
             }
-            $this->files[$fieldname] = array();
+            $this->files[$fieldname] = [];
             if (!empty($value)) {
                 $uploadPath = $this->utilityFuncs->getTempUploadFolder($fieldname);
                 $filesArray = $value;
@@ -176,14 +176,14 @@ class LoadDB extends AbstractPreProcessor
                     }
 
                     $uploadedUrl = str_replace('//', '/', $uploadedUrl);
-                    $this->files[$fieldname][] = array(
+                    $this->files[$fieldname][] = [
                         'name' => $uploadFile,
                         'uploaded_name' => $uploadFile,
                         'uploaded_path' => PATH_site . $uploadPath,
                         'uploaded_folder' => $uploadPath,
                         'uploaded_url' => $uploadedUrl,
                         'size' => filesize($file)
-                    );
+                    ];
                 }
                 $this->globals->getSession()->set('files', $this->files);
             }
@@ -214,9 +214,9 @@ class LoadDB extends AbstractPreProcessor
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
             return $row;
         } elseif ($rowCount > 0) {
-            $this->utilityFuncs->debugMessage('sql_too_many_rows', array($rowCount), 3);
+            $this->utilityFuncs->debugMessage('sql_too_many_rows', [$rowCount], 3);
         }
-        return array();
+        return [];
     }
 
     /* (non-PHPdoc)

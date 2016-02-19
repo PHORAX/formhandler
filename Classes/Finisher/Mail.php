@@ -103,10 +103,10 @@ class Mail extends AbstractFinisher
         $this->settings = $this->parseEmailSettings($this->settings, $type);
 
         // Defines default values
-        $defaultOptions = array(
+        $defaultOptions = [
             'templateFile' => 'template_file',
             'langFile' => 'lang_file',
-        );
+        ];
         foreach ($defaultOptions as $key => $option) {
             $fileName = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], $option);
             if ($fileName) {
@@ -151,11 +151,11 @@ class Mail extends AbstractFinisher
         if (!$view->hasTemplate()) {
             $view->setTemplate($templateCode, ('EMAIL_' . strtoupper($mode) . '_' . strtoupper($suffix)));
             if (!$view->hasTemplate()) {
-                $this->utilityFuncs->debugMessage('no_mail_template', array($mode, $suffix), 2);
+                $this->utilityFuncs->debugMessage('no_mail_template', [$mode, $suffix], 2);
             }
         }
 
-        return $view->render($this->gp, array('mode' => $mode, 'suffix' => $suffix));
+        return $view->render($this->gp, ['mode' => $mode, 'suffix' => $suffix]);
     }
 
     /**
@@ -168,7 +168,7 @@ class Mail extends AbstractFinisher
     {
         $doSend = TRUE;
         if (intval($this->utilityFuncs->getSingle($this->settings[$type], 'disable')) === 1) {
-            $this->utilityFuncs->debugMessage('mail_disabled', array($type));
+            $this->utilityFuncs->debugMessage('mail_disabled', [$type]);
             $doSend = FALSE;
         }
 
@@ -280,7 +280,7 @@ class Mail extends AbstractFinisher
                 if ($tmphandle) {
                     fwrite($tmphandle, $template['html']);
                     fclose($tmphandle);
-                    $this->utilityFuncs->debugMessage('adding_html', array(), 1, array($template['html']));
+                    $this->utilityFuncs->debugMessage('adding_html', [], 1, [$template['html']]);
                     $this->emailObj->addAttachment($tmphtml);
                 }
             } else {
@@ -295,19 +295,18 @@ class Mail extends AbstractFinisher
             if (strlen($attachment) > 0 && @file_exists($attachment)) {
                 $this->emailObj->addAttachment($attachment);
             } else {
-                $this->utilityFuncs->debugMessage('attachment_not_found', array($attachment), 2);
+                $this->utilityFuncs->debugMessage('attachment_not_found', [$attachment], 2);
             }
         }
         if ($mailSettings['attachGeneratedFiles']) {
             $files = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $mailSettings['attachGeneratedFiles']);
-            $this->utilityFuncs->debugMessage('adding_generated_files', array(), 1, $files);
+            $this->utilityFuncs->debugMessage('adding_generated_files', [], 1, $files);
             foreach ($files as $file) {
                 $this->emailObj->addAttachment($file);
             }
         }
 
         //parse max count of mails to send
-        $count = 0;
         $max = $this->utilityFuncs->getSingle($this->settings, 'limitMailsToUser');
         if (!$max) {
             $max = 2;
@@ -332,9 +331,9 @@ class Mail extends AbstractFinisher
             $sent = $this->emailObj->send($recipients);
         }
         if ($sent) {
-            $this->utilityFuncs->debugMessage('mail_sent', array(implode(',', $recipients)));
+            $this->utilityFuncs->debugMessage('mail_sent', [implode(',', $recipients)]);
         } else {
-            $this->utilityFuncs->debugMessage('mail_not_sent', array(implode(',', $recipients)), 2);
+            $this->utilityFuncs->debugMessage('mail_not_sent', [implode(',', $recipients)], 2);
         }
         $this->utilityFuncs->debugMailContent($this->emailObj);
         if ($tmphtml) {
@@ -361,7 +360,7 @@ class Mail extends AbstractFinisher
     {
         if (!is_array($list)) {
             $items = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $list);
-            $splitArray = array();
+            $splitArray = [];
             foreach ($items as $idx => $item) {
                 if (isset($this->gp[$item])) {
                     array_push($splitArray, $this->gp[$item]);
@@ -444,14 +443,14 @@ class Mail extends AbstractFinisher
      */
     protected function parseFilesList($settings, $type, $key)
     {
-        $files = array();
+        $files = [];
         if (isset($settings[$key . '.']) && is_array($settings[$key . '.'])) {
             $files = $this->utilityFuncs->getSingle($settings, $key);
             $files = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $files);
         } elseif ($settings[$key]) {
             $files = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $settings[$key]);
         }
-        $parsed = array();
+        $parsed = [];
         $sessionFiles = $this->globals->getSession()->get('files');
         foreach ($files as $idx => $file) {
             if (isset($sessionFiles[$file])) {
@@ -463,7 +462,7 @@ class Mail extends AbstractFinisher
             } elseif (file_exists(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $file)) {
                 array_push($parsed, \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $file);
             } elseif (strlen($file) > 0) {
-                $this->utilityFuncs->debugMessage('attachment_not_found', array($file), 2);
+                $this->utilityFuncs->debugMessage('attachment_not_found', [$file], 2);
             }
         }
         return $parsed;
@@ -477,7 +476,7 @@ class Mail extends AbstractFinisher
      */
     protected function parseEmbedFilesList($settings)
     {
-        $cids = array();
+        $cids = [];
         if (isset($settings['embedFiles.']) && is_array($settings['embedFiles.'])) {
             foreach ($settings['embedFiles.'] as $key => $embedFileSettings) {
                 if (strpos($key, '.') === FALSE) {
@@ -489,7 +488,7 @@ class Mail extends AbstractFinisher
                         $embedFile = $this->utilityFuncs->sanitizePath($embedFile);
                         $cids[$key] = $this->emailObj->embed($embedFile);
                     } else {
-                        $this->utilityFuncs->debugMessage('attachment_not_found', array($embedFile), 2);
+                        $this->utilityFuncs->debugMessage('attachment_not_found', [$embedFile], 2);
                     }
                 }
             }
@@ -550,7 +549,7 @@ class Mail extends AbstractFinisher
     protected function parseEmailSettings($tsConfig, $type)
     {
         $emailSettings = $tsConfig;
-        $options = array(
+        $options = [
             'filePrefix',
             'to_email',
             'subject',
@@ -571,7 +570,7 @@ class Mail extends AbstractFinisher
             'htmlEmailAsAttachment',
             'plain.',
             'html.'
-        );
+        ];
 
         $emailSettings[$type] = $this->parseEmailSettingsByType($emailSettings[$type . '.'], $type, $options);
 
@@ -586,9 +585,8 @@ class Mail extends AbstractFinisher
      * @param array $optionsToParse Array containing all option names to parse.
      * @return array The parsed email settings
      */
-    protected function parseEmailSettingsByType($currentSettings, $type, $optionsToParse = array())
+    protected function parseEmailSettingsByType($currentSettings, $type, $optionsToParse = [])
     {
-        $typeLower = strtolower($type);
         $typeUpper = strtoupper($type);
         $section = 'sEMAIL' . $typeUpper;
         $emailSettings = $currentSettings;
@@ -625,18 +623,18 @@ class Mail extends AbstractFinisher
                         break;
 
                     case 'embedFiles':
-                        $emailSettings[$option] = $this->parseEmbedFilesList($currentSettings, $type, $option);
+                        $emailSettings[$option] = $this->parseEmbedFilesList($currentSettings);
                         break;
 
                     case 'attachPDF':
                     case 'attachGeneratedFiles':
                         if (isset($currentSettings['attachGeneratedFiles.']) && is_array($currentSettings['attachGeneratedFiles.'])) {
-                            foreach ($currentSettings['attachGeneratedFiles.'] as $idx => $options) {
+                            foreach ($currentSettings['attachGeneratedFiles.'] as $options) {
                                 $generatorClass = $this->utilityFuncs->getPreparedClassName($options);
                                 if ($generatorClass) {
                                     $generator = $this->componentManager->getComponent($generatorClass);
                                     $generator->init($this->gp, $options['config.']);
-                                    $generator->getLink(array());
+                                    $generator->getLink([]);
                                     $file = $generator->process();
                                     $emailSettings['attachGeneratedFiles'] .= $file . ',';
                                 }

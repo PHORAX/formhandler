@@ -26,7 +26,7 @@ class FileMinCount extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('minCount');
+        $this->mandatoryParameters = ['minCount'];
     }
 
     public function check()
@@ -34,7 +34,6 @@ class FileMinCount extends AbstractErrorCheck
         $checkFailed = '';
 
         $files = $this->globals->getSession()->get('files');
-        $settings = $this->globals->getSession()->get('settings');
         $currentStep = $this->globals->getSession()->get('currentStep');
         $lastStep = $this->globals->getSession()->get('lastStep');
         $minCount = $this->utilityFuncs->getSingle($this->settings['params'], 'minCount');
@@ -44,10 +43,10 @@ class FileMinCount extends AbstractErrorCheck
 
             foreach ($_FILES as $idx => $info) {
                 if (!is_array($info['name'][$this->formFieldName])) {
-                    $info['name'][$this->formFieldName] = array($info['name'][$this->formFieldName]);
+                    $info['name'][$this->formFieldName] = [$info['name'][$this->formFieldName]];
                 }
                 if (empty($info['name'][$this->formFieldName][0])) {
-                    $info['name'][$this->formFieldName] = array();
+                    $info['name'][$this->formFieldName] = [];
                 }
                 if ((count($info['name'][$this->formFieldName]) + count($files[$this->formFieldName])) < $minCount) {
                     $checkFailed = $this->getCheckFailed();

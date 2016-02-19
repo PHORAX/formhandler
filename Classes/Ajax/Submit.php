@@ -31,7 +31,6 @@ class Submit
     public function main()
     {
         $this->init();
-        $content = '';
 
         $settings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_formhandler_pi1.'];
         $settings['usePredef'] = $this->globals->getSession()->get('predef');
@@ -78,7 +77,7 @@ class Submit
         }
 
         $this->settings = $this->globals->getSession()->get('settings');
-        $this->langFiles = $this->utilityFuncs->readLanguageFiles(array(), $this->settings);
+        $this->langFiles = $this->utilityFuncs->readLanguageFiles([], $this->settings);
 
         //init ajax
         if ($this->settings['ajax.']) {

@@ -26,7 +26,7 @@ class MinLength extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('value');
+        $this->mandatoryParameters = ['value'];
     }
 
     public function check()

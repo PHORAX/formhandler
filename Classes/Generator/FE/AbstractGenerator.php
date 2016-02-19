@@ -27,7 +27,7 @@ abstract class AbstractGenerator extends \Typoheads\Formhandler\Component\Abstra
      * @param array $linkGP The GET parameters to set
      * @return string The link
      */
-    public function getLink($linkGP = array())
+    public function getLink($linkGP = [])
     {
         $text = $this->getLinkText();
 
@@ -47,11 +47,11 @@ abstract class AbstractGenerator extends \Typoheads\Formhandler\Component\Abstra
     protected function getDefaultLinkParams()
     {
         $prefix = $this->globals->getFormValuesPrefix();
-        $tempParams = array(
+        $tempParams = [
             'tstamp' => $this->globals->getSession()->get('inserted_tstamp'),
             'hash' => $this->globals->getSession()->get('unique_hash')
-        );
-        $params = array();
+        ];
+        $params = [];
         if ($prefix) {
             $params[$prefix] = $tempParams;
         } else {

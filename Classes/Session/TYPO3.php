@@ -28,7 +28,7 @@ class TYPO3 extends AbstractSession
     {
         $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
         if (!is_array($data[$this->globals->getRandomID()])) {
-            $data[$this->globals->getRandomID()] = array();
+            $data[$this->globals->getRandomID()] = [];
         }
         $data[$this->globals->getRandomID()][$key] = $value;
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'formhandler', $data);
@@ -43,7 +43,7 @@ class TYPO3 extends AbstractSession
         if (is_array($values) && !empty($values)) {
             $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
             if (!is_array($data[$this->globals->getRandomID()])) {
-                $data[$this->globals->getRandomID()] = array();
+                $data[$this->globals->getRandomID()] = [];
             }
 
             foreach ($values as $key => $value) {
@@ -62,7 +62,7 @@ class TYPO3 extends AbstractSession
     {
         $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
         if (!is_array($data[$this->globals->getRandomID()])) {
-            $data[$this->globals->getRandomID()] = array();
+            $data[$this->globals->getRandomID()] = [];
         }
         return $data[$this->globals->getRandomID()][$key];
     }
@@ -100,7 +100,7 @@ class TYPO3 extends AbstractSession
                 }
             }
         } else {
-            $data = array();
+            $data = [];
         }
 
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'formhandler', $data);

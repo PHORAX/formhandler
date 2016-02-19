@@ -26,7 +26,7 @@ class IsOlderThan extends AbstractErrorCheck
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $this->mandatoryParameters = array('dateFormat', 'years');
+        $this->mandatoryParameters = ['dateFormat', 'years'];
     }
 
     public function check()

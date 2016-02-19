@@ -76,7 +76,7 @@ class Form extends AbstractView
         }
 
         if ($this->globals->getAjaxHandler()) {
-            $markers = array();
+            $markers = [];
             $this->globals->getAjaxHandler()->fillAjaxMarkers($markers);
             $this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
         }
@@ -153,7 +153,7 @@ class Form extends AbstractView
      */
     protected function readMasterTemplates()
     {
-        $this->masterTemplates = array();
+        $this->masterTemplates = [];
         if (isset($this->settings['masterTemplateFile']) && !isset($this->settings['masterTemplateFile.'])) {
             array_push($this->masterTemplates, $this->utilityFuncs->resolveRelPathFromSiteRoot($this->settings['masterTemplateFile']));
         } elseif (isset($this->settings['masterTemplateFile']) && isset($this->settings['masterTemplateFile.'])) {
@@ -179,14 +179,14 @@ class Form extends AbstractView
 
     protected function replaceMarkersFromMaster()
     {
-        $fieldMarkers = array();
+        $fieldMarkers = [];
         foreach ($this->masterTemplates as $idx => $masterTemplate) {
             $masterTemplateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($this->utilityFuncs->resolvePath($masterTemplate));
-            $matches = array();
+            $matches = [];
             preg_match_all('/###(field|master)_([^#]*)###/', $masterTemplateCode, $matches);
             if (!empty($matches[0])) {
                 $subparts = array_unique($matches[0]);
-                $subpartsCodes = array();
+                $subpartsCodes = [];
                 if (is_array($subparts)) {
                     foreach ($subparts as $index => $subpart) {
                         $subpartKey = str_replace('#', '', $subpart);
@@ -197,24 +197,24 @@ class Form extends AbstractView
                     }
                 }
                 foreach ($subpartsCodes as $subpart => $code) {
-                    $matchesSlave = array();
+                    $matchesSlave = [];
                     preg_match_all('/###' . $subpart . '(###|_([^#]*)###)/', $this->template, $matchesSlave);
                     if (!empty($matchesSlave[0])) {
                         foreach ($matchesSlave[0] as $key => $markerName) {
                             $fieldName = $matchesSlave[2][$key];
-                            $params = array();
+                            $params = [];
                             if (strpos($fieldName, ';')) {
                                 $parts = explode(';', $fieldName);
                                 $fieldName = array_shift($parts);
                                 $params = explode(',', array_shift($parts));
                             }
                             if ($fieldName) {
-                                $markers = array(
+                                $markers = [
                                     '###fieldname###' => $fieldName,
                                     '###formValuesPrefix###' => $this->globals->getFormValuesPrefix()
-                                );
-                                foreach ($params as $key => $paramValue) {
-                                    $markers['###param' . (++$key) . '###'] = $paramValue;
+                                ];
+                                foreach ($params as $paramKey => $paramValue) {
+                                    $markers['###param' . (++$paramKey) . '###'] = $paramValue;
                                 }
                                 $replacedCode = $this->cObj->substituteMarkerArray($code, $markers);
                             } else {
@@ -245,7 +245,7 @@ class Form extends AbstractView
         if (empty($endblock)) {
             $endblock = $this->cObj->getSubpart($this->template, '###FORM_ENDBLOCK###');
         }
-        $this->globals->getSession()->setMultiple(array('startblock' => $startblock, 'endblock' => $endblock));
+        $this->globals->getSession()->setMultiple(['startblock' => $startblock, 'endblock' => $endblock]);
     }
 
     /**
@@ -258,7 +258,6 @@ class Form extends AbstractView
     protected function substituteConditionalSubparts($type)
     {
         $type = strtolower($type);
-        $write = TRUE;
 
         $pattern = '/(\<\!\-\-\s*)?(###' . $type . '_+([^#]*)_*###)([^\-]*\-\-\>)?/i';
         preg_match_all($pattern, $this->template, $matches);
@@ -266,10 +265,8 @@ class Form extends AbstractView
             $resultCount = count($matches[0]);
             for ($i = 0; $i < $resultCount; $i = $i + 2) {
                 $conditionString = $matches[3][$i];
-                $endMarkerConditionString = $matches[3][$i + 1];
                 $fullMarkerName = $matches[0][$i];
                 $fullEndMarker = $matches[0][$i + 1];
-                $markerName = $matches[2][$i];
                 $conditions = preg_split('/\s*(\|\||&&)\s*/i', $conditionString, -1, PREG_SPLIT_DELIM_CAPTURE);
                 $operator = NULL;
                 $finalConditionResult = FALSE;
@@ -356,10 +353,10 @@ class Form extends AbstractView
      */
     protected function fillStartEndBlock()
     {
-        $markers = array(
+        $markers = [
             '###FORM_STARTBLOCK###' => $this->globals->getSession()->get('startblock'),
             '###FORM_ENDBLOCK###' => $this->globals->getSession()->get('endblock')
-        );
+        ];
         $this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
     }
 
@@ -418,7 +415,7 @@ class Form extends AbstractView
         $path = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $parameters);
         $path = preg_replace('/ADMCMD_[^=]+=[^&]+(&)?/', '', $path);
         $path = htmlspecialchars($path);
-        $markers = array();
+        $markers = [];
         $markers['###REL_URL###'] = $path;
         $markers['###TIMESTAMP###'] = time();
 
@@ -634,8 +631,6 @@ class Form extends AbstractView
      */
     protected function fillCaptchaMarkers(&$markers)
     {
-        global $LANG;
-
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('captcha')) {
             $captchaPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('captcha') . 'captcha/captcha.php?rand=' . rand();
             if (substr($captchaPath, 0, 1) !== '/') {
@@ -729,7 +724,7 @@ class Form extends AbstractView
 
             // Adds the value.
             foreach ($fields as $idx => $field) {
-                $settings['validators.'][$index . '.']['config.']['fieldConf.'][$field . '.']['errorCheck.'] = array();
+                $settings['validators.'][$index . '.']['config.']['fieldConf.'][$field . '.']['errorCheck.'] = [];
                 $settings['validators.'][$index . '.']['config.']['fieldConf.'][$field . '.']['errorCheck.']['1'] = 'required';
             }
         }
@@ -747,7 +742,7 @@ class Form extends AbstractView
             if (intval($this->utilityFuncs->getSingle($settings['validators.'], 'disable')) === 0) {
                 foreach ($settings['validators.'] as $key => $validatorSettings) {
                     if (intval($this->utilityFuncs->getSingle($validatorSettings, 'disable')) === 0) {
-                        $disableErrorCheckFields = array();
+                        $disableErrorCheckFields = [];
                         if (is_array($validatorSettings['config.']) && isset($validatorSettings['config.']['disableErrorCheckFields'])) {
                             $disableErrorCheckFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $validatorSettings['config.']['disableErrorCheckFields']);
                         }
@@ -858,14 +853,10 @@ class Form extends AbstractView
                         $link = '<a
 								href="javascript:void(0)" 
 								class="formhandler_removelink" 
-								onclick="' . str_replace(array("\n", '	'), '', $onClick) . '"
+								onclick="' . str_replace(["\n", '	'], '', $onClick) . '"
 								>' . $text . '</a>';
                     }
                     $stdWrappedFilename = $this->utilityFuncs->wrap($filename, $this->settings['singleFileMarkerTemplate.'], 'filenameWrap');
-                    $singleWrap = $settings['singleFileMarkerTemplate.']['singleWrap'];
-                    $totalMarkerSingleWrap = $settings['totalFilesMarkerTemplate.']['singleWrap'];
-                    $totalWrap = $settings['singleFileMarkerTemplate.']['totalWrap'];
-                    $totalMarkersTotalWrap = $settings['totalFilesMarkerTemplate.']['totalWrap'];
 
                     $wrappedFilename = $this->utilityFuncs->wrap($stdWrappedFilename . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
                     $wrappedThumb = $this->utilityFuncs->wrap($thumb . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
@@ -876,10 +867,6 @@ class Form extends AbstractView
                         $markers['###' . $field . '_uploadedFiles###'] .= $wrappedThumbFilename;
                     } else {
                         $markers['###' . $field . '_uploadedFiles###'] .= $wrappedFilename;
-                    }
-                    $uploadedFileName = $fileInfo['name'];
-                    if (!$uploadedFileName) {
-                        $uploadedFileName = $fileInfo['uploaded_name'];
                     }
                     if (intval($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 1 || intval($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 2) {
                         $imgConf['image.'] = $settings['totalFilesMarkerTemplate.']['image.'];
@@ -950,7 +937,7 @@ class Form extends AbstractView
      */
     protected function fillIsErrorMarkers(&$errors)
     {
-        $markers = array();
+        $markers = [];
         foreach ($errors as $field => $types) {
             if ($this->settings['isErrorMarker.'][$field]) {
                 $errorMessage = $this->utilityFuncs->getSingle($this->settings['isErrorMarker.'], $field);
@@ -982,17 +969,16 @@ class Form extends AbstractView
      */
     protected function fillErrorMarkers(&$errors)
     {
-        $markers = array();
+        $markers = [];
         foreach ($errors as $field => $types) {
-            $errorMessages = array();
-            $clearErrorMessages = array();
+            $errorMessages = [];
             $temp = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'error_' . $field);
             if (strlen($temp) > 0) {
                 $errorMessage = $this->utilityFuncs->wrap($temp, $this->settings['singleErrorTemplate.'], 'singleWrap');
                 $errorMessages[] = $errorMessage;
             }
             if (!is_array($types)) {
-                $types = array($types);
+                $types = [$types];
             }
             foreach ($types as $idx => $type) {
                 $temp = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(';', $type);
@@ -1014,7 +1000,7 @@ class Form extends AbstractView
                     $errorMessage = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'error_default_' . $type);
                 }
                 if ($errorMessage) {
-                    $errorMessage = str_replace(array('###fieldname###', '###FIELDNAME###'), $field, $errorMessage);
+                    $errorMessage = str_replace(['###fieldname###', '###FIELDNAME###'], $field, $errorMessage);
                     if (is_array($values)) {
                         foreach ($values as $key => $value) {
                             $errorMessage = str_replace('###' . $key . '###', $value, $errorMessage);
@@ -1026,7 +1012,7 @@ class Form extends AbstractView
                     $errorMessage = $this->utilityFuncs->wrap($errorMessage, $this->settings['singleErrorTemplate.'], 'singleWrap');
                     $errorMessages[] = $errorMessage;
                 } else {
-                    $this->utilityFuncs->debugMessage('no_error_message', array('error_' . $field . '_' . $type), 2);
+                    $this->utilityFuncs->debugMessage('no_error_message', ['error_' . $field . '_' . $type], 2);
                 }
             }
             $errorMessage = implode('', $errorMessages);
@@ -1066,7 +1052,7 @@ class Form extends AbstractView
      */
     protected function fillTypoScriptMarkers()
     {
-        $markers = array();
+        $markers = [];
         if (is_array($this->settings['markers.'])) {
             foreach ($this->settings['markers.'] as $name => $options) {
                 if (!strstr($name, '.') && strstr($this->template, '###' . $name . '###')) {
@@ -1089,8 +1075,7 @@ class Form extends AbstractView
      */
     protected function fillValueMarkers()
     {
-        $values = $this->gp;
-        $this->disableEncodingFields = array();
+        $this->disableEncodingFields = [];
         if ($this->settings['disableEncodingFields']) {
             $this->disableEncodingFields = explode(',', $this->utilityFuncs->getSingle($this->settings, 'disableEncodingFields'));
         }
@@ -1104,7 +1089,7 @@ class Form extends AbstractView
 
     protected function getValueMarkers($values, $level = 0, $prefix = 'value_', $doEncode = TRUE)
     {
-        $markers = array();
+        $markers = [];
 
         $arrayValueSeparator = $this->utilityFuncs->getSingle($this->settings, 'arrayValueSeparator');
         if (strlen($arrayValueSeparator) === 0) {
@@ -1141,7 +1126,7 @@ class Form extends AbstractView
 
     protected function getSelectedMarkers($values, $level = 0, $prefix = 'selected_')
     {
-        $markers = array();
+        $markers = [];
         $activeString = 'selected="selected"';
         if (substr($prefix, 0, 8) === 'checked_') {
             $activeString = 'checked="checked"';
@@ -1183,9 +1168,9 @@ class Form extends AbstractView
      */
     protected function fillLangMarkers()
     {
-        $langMarkers = array();
+        $langMarkers = [];
         if (is_array($this->langFiles)) {
-            $aLLMarkerList = array();
+            $aLLMarkerList = [];
             preg_match_all('/###LLL:[^#]+?###/Ssm', $this->template, $aLLMarkerList);
             foreach ($aLLMarkerList[0] as $idx => $LLMarker) {
                 $llKey = substr($LLMarker, 7, (strlen($LLMarker) - 10));
@@ -1236,7 +1221,7 @@ class Form extends AbstractView
 
         $classprefix = $this->globals->getFormValuesPrefix() . '_stepbar';
 
-        $css = array();
+        $css = [];
         $css[] = '.' . $classprefix . ' { background:' . $bgcolor . '; padding:4px;}';
         $css[] = '.' . $classprefix . '_error { background: ' . $errorbgcolor . ';}';
         $css[] = '.' . $classprefix . '_steps { margin-left:50px; margin-right:25px; vertical-align:middle; font-family:Verdana,Arial,Helvetica; font-size:22px; font-weight:bold; }';
@@ -1264,21 +1249,17 @@ class Form extends AbstractView
         //if not the first step, show back button
         if ($currentStep > 1) {
             //check if label for specific step
-            $buttonvalue = '';
             $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'prev_' . $currentStep);
             if (strlen($message) === 0) {
                 $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'prev');
             }
-            $buttonvalue = $message;
-            $buttons .= '<input type="submit" name="' . $buttonNameBack . '" value="' . trim($buttonvalue) . '" class="button_prev" style="margin-right:10px;" />';
+            $buttons .= '<input type="submit" name="' . $buttonNameBack . '" value="' . trim($message) . '" class="button_prev" style="margin-right:10px;" />';
         }
-        $buttonvalue = '';
         $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'next_' . $currentStep);
         if (strlen($message) === 0) {
             $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'next');
         }
-        $buttonvalue = $message;
-        $buttons .= '<input type="submit" name="' . $buttonNameFwd . '" value="' . trim($buttonvalue) . '" class="button_next" />';
+        $buttons .= '<input type="submit" name="' . $buttonNameFwd . '" value="' . trim($message) . '" class="button_next" />';
 
         $content .= '<span id="stepsFormButtons">' . $buttons . '</span>';
 

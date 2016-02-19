@@ -101,7 +101,7 @@ class DifferentDB extends DB
             //insert query
             if (!$this->doUpdate) {
                 $query = $GLOBALS['TYPO3_DB']->INSERTquery($this->table, $queryFields);
-                $this->utilityFuncs->debugMessage('sql_request', array($query));
+                $this->utilityFuncs->debugMessage('sql_request', [$query]);
 
                 //update query
             } else {
@@ -111,9 +111,9 @@ class DifferentDB extends DB
                 $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
                 if ($uid) {
                     $query = $GLOBALS['TYPO3_DB']->UPDATEquery($this->table, $this->key . '=' . $uid, $queryFields);
-                    $this->utilityFuncs->debugMessage('sql_request', array($query));
+                    $this->utilityFuncs->debugMessage('sql_request', [$query]);
                 } else {
-                    $this->utilityFuncs->debugMessage('no_update_possible', array(), 2);
+                    $this->utilityFuncs->debugMessage('no_update_possible', [], 2);
                 }
             }
 

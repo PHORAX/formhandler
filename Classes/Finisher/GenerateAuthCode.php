@@ -29,17 +29,17 @@ class GenerateAuthCode extends AbstractFinisher
      */
     public function process()
     {
-        $firstInsertInfo = array();
+        $firstInsertInfo = [];
         if ($this->utilityFuncs->getSingle($this->settings, 'uid')) {
             $uidField = $this->utilityFuncs->getSingle($this->settings, 'uidField');
             if (!$uidField) {
                 $uidField = 'uid';
             }
-            $firstInsertInfo = array(
+            $firstInsertInfo = [
                 'table' => $this->utilityFuncs->getSingle($this->settings, 'table'),
                 'uidField' => $uidField,
                 'uid' => $this->utilityFuncs->getSingle($this->settings, 'uid')
-            );
+            ];
         } elseif (is_array($this->gp['saveDB'])) {
             if (isset($this->settings['table'])) {
                 $table = $this->utilityFuncs->getSingle($this->settings, 'table');
@@ -74,7 +74,6 @@ class GenerateAuthCode extends AbstractFinisher
 
                 // looking for the page, which should be used for the authCode Link
                 // first look for TS-setting 'authCodePage', second look for redirect_page-setting, third use actual page
-                $authCodePage = '';
                 if (isset($this->settings['authCodePage'])) {
                     $authCodePage = $this->utilityFuncs->getSingle($this->settings, 'authCodePage');
                 } else {
@@ -85,7 +84,7 @@ class GenerateAuthCode extends AbstractFinisher
                 }
 
                 //create the parameter-array for the authCode Link
-                $paramsArray = array_merge($firstInsertInfo, array('authCode' => $authCode));
+                $paramsArray = array_merge($firstInsertInfo, ['authCode' => $authCode]);
 
                 if ($this->settings['excludeParams']) {
                     $excludeParams = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'excludeParams'));
@@ -103,17 +102,17 @@ class GenerateAuthCode extends AbstractFinisher
                     $formValuesPrefix = $this->globals->getFormValuesPrefix();
                 }
                 if (!empty($formValuesPrefix)) {
-                    $paramsArray = array($formValuesPrefix => $paramsArray);
+                    $paramsArray = [$formValuesPrefix => $paramsArray];
                 }
                 $paramsArray['no_cache'] = 1;
 
-                $linkConf = array(
+                $linkConf = [
                     'parameter' => $authCodePage,
                     'additionalParams' => \TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $paramsArray),
                     'returnLast' => 'url',
                     'useCacheHash' => 1,
                     'forceAbsoluteUrl' => 1
-                );
+                ];
 
                 $url = $this->cObj->typoLink_URL($linkConf);
                 $this->gp['authCodeUrl'] = $url;

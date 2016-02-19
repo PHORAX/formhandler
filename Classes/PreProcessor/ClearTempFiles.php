@@ -74,7 +74,7 @@ class ClearTempFiles extends AbstractPreProcessor
             //read files in directory
             $tmpFiles = \TYPO3\CMS\Core\Utility\GeneralUtility::getFilesInDir($path);
 
-            $this->utilityFuncs->debugMessage('cleaning_temp_files', array($path));
+            $this->utilityFuncs->debugMessage('cleaning_temp_files', [$path]);
 
             //calculate threshold timestamp
             $threshold = $this->utilityFuncs->getTimestamp($olderThanValue, $olderThanUnit);
@@ -91,7 +91,7 @@ class ClearTempFiles extends AbstractPreProcessor
 
                 if ($creationTime < $threshold) {
                     unlink($path . $file);
-                    $this->utilityFuncs->debugMessage('deleting_file', array($file));
+                    $this->utilityFuncs->debugMessage('deleting_file', [$file]);
                 }
             }
         }
