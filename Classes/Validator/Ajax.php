@@ -43,7 +43,7 @@ class Ajax extends AbstractValidator
      * @param array &$errors Reference to the errors array to store the errors occurred
      * @return boolean
      */
-    public function validateAjax($field, $value, &$errors)
+    public function validateAjax($field, $gp, &$errors)
     {
         $this->loadConfig();
         if ($this->validators) {
@@ -141,11 +141,6 @@ class Ajax extends AbstractValidator
                         $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
                     }
                     if (empty($restrictErrorChecks) || in_array($check['check'], $restrictErrorChecks)) {
-                        $gp = [$field => $value];
-
-                        if (strlen(trim($_GET['equalsFieldName'])) > 0) {
-                            $gp[htmlspecialchars($_GET['equalsFieldName'])] = htmlspecialchars($_GET['equalsFieldValue']);
-                        }
 
                         $errorCheckObject->init($gp, $check);
                         $errorCheckObject->setFormFieldName($field);
