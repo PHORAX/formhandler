@@ -129,6 +129,20 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function selectFieldsAction($logDataUids = NULL, $filetype = '')
     {
         if ($logDataUids !== NULL) {
+            if($this->settings[$filetype]['config']['fields']) {
+                $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings[$filetype]['config']['fields']);
+                $this->redirect(
+                    'export',
+                    null,
+                    null,
+                    [
+                        'logDataUids' => $logDataUids,
+                        'fields' => $fields,
+                        'filetype' => $filetype
+                    ]
+                );
+            }
+
             $logDataRows = $this->logDataRepository->findByUids($logDataUids);
             $fields = [
                 'global' => [
