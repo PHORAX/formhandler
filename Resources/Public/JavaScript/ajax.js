@@ -85,6 +85,7 @@
                 var result = formhandlerDiv.find('#result_' + shortName);
                 loading.show();
                 result.hide();
+
                 var url = '/index.php?eID=formhandler&id=' + settings.pageID + '&field=' + shortName + '&randomID=' + settings.randomID + '&uid=' + settings.contentID + '&L=' + settings.lang;
                 var postData = formhandlerDiv.find("form").serialize() + "&" + formhandlerDiv.find(settings.submitButtonSelector).attr("name") + "=submit";
                 settings.validateStart.call(formhandlerDiv, shortName);
