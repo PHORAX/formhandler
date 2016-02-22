@@ -1,11 +1,27 @@
 {
 	"name": "typoheads/formhandler",
-	"description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
 	"type": "typo3-cms-extension",
+	"description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
+	"keywords": [
+		"TYPO3",
+		"extension",
+		"formhandler"
+	],
+	"homepage": "http://www.typo3-formhandler.com",
+	"license": [
+		"GPL-2.0"
+	],
+	"require": {
+		"typo3/cms-core": ">=7.6.0,<8.0"
+	},
 	"autoload": {
 		"psr-4": {
-			"Typoheads\\Formhandler\\": "Classes/"
+			"Typoheads\\Formhandler\\": "Classes"
 		},
 		"classmap": ["Resources/PHP/tcpdf/tcpdf.php"]
+	},
+	"replace": {
+		"formhandler": "self.version",
+		"typo3-ter/formhandler": "self.version"
 	}
 }
