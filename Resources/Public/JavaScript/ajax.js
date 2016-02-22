@@ -19,9 +19,11 @@
             submitStart: function(el) { },
             submitComplete: function(el, data) { },
             submitFinished: function(el, data) { },
-            validateStart: function(el) { },
-            validateComplete: function(el, data) { },
-            validateFinished: function(el, data) { }
+            validateStart: function(container, field) { },
+            validateComplete: function(container, field, result) { },
+            validateFinished: function(container, field, result) { },
+            fileRemoveStart: function(container, el) { },
+            fileRemoveFinished: function(container, el) { }
         };
 
         var settings = $.extend( {}, defaults, options );
@@ -60,7 +62,10 @@
             var el = $(this);
             var url = el.attr("href");
             var container = el.closest("div[id^='Tx_Formhandler_UploadedFiles_']");
-            container.load(url + '#' + container.attr("id"));
+            settings.fileRemoveStart.call(formhandlerDiv, el);
+            container.load(url + '#' + container.attr("id"), function() {
+                settings.fileRemoveFinished.call(formhandlerDiv, el);
+            });
             e.preventDefault();
         });
 
@@ -75,12 +80,7 @@
                 var field = $(this);
                 var name = field.attr("name");
                 var shortName = name.replace(settings.formValuesPrefix, '').replace("[", "").replace("]", "");
-                var fieldVal = encodeURIComponent(field.val());
-                if(field.attr("type") == "radio" || field.attr("type") == "checkbox") {
-                    if (field.attr("checked") == "") {
-                        fieldVal = "";
-                    }
-                }
+
                 var loading = formhandlerDiv.find('#loading_' + shortName);
                 var result = formhandlerDiv.find('#result_' + shortName);
                 loading.show();
@@ -88,13 +88,13 @@
 
                 var url = '/index.php?eID=formhandler&id=' + settings.pageID + '&field=' + shortName + '&randomID=' + settings.randomID + '&uid=' + settings.contentID + '&L=' + settings.lang;
                 var postData = formhandlerDiv.find("form").serialize() + "&" + formhandlerDiv.find(settings.submitButtonSelector).attr("name") + "=submit";
-                settings.validateStart.call(formhandlerDiv, shortName);
+                settings.validateStart.call(formhandlerDiv, field);
                 jQuery.ajax({
                     type: "post",
                     url: url,
                     data: postData,
                     success: function(data, textStatus) {
-                        settings.validateComplete.call(formhandlerDiv, shortName, result);
+                        settings.validateComplete.call(formhandlerDiv, field, result);
                         result.html(data);
                         loading.hide();
                         result.show();
@@ -105,7 +105,7 @@
                             isFieldValid = true;
                             result.data("isValid", true);
                         }
-                        settings.validateFinished.call(formhandlerDiv, shortName, result);
+                        settings.validateFinished.call(formhandlerDiv, field, result);
 
                         if(settings.autoDisableSubmitButton) {
                             var valid = true;
