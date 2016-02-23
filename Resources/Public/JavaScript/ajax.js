@@ -15,25 +15,18 @@
                 base: 'formhandler-validation-status',
                 valid: 'form-valid',
                 invalid: 'form-invalid'
-            },
-            submitStart: function(el) { },
-            submitComplete: function(el, data) { },
-            submitFinished: function(el, data) { },
-            validateStart: function(container, field) { },
-            validateComplete: function(container, field, result) { },
-            validateFinished: function(container, field, result) { },
-            fileRemoveStart: function(container, el) { },
-            fileRemoveFinished: function(container, el) { }
+            }
         };
 
         var settings = $.extend( {}, defaults, options );
         var formhandlerDiv = $(this);
+
         if(settings.autoDisableSubmitButton) {
             formhandlerDiv.find(settings.submitButtonSelector).attr("disabled", "disabled");
         }
         if(settings.ajaxSubmit) {
             formhandlerDiv.on('submit', 'form', function (e) {
-                settings.submitStart.call(formhandlerDiv);
+                formhandlerDiv.trigger('submitStart');
                 formhandlerDiv.find(settings.submitButtonSelector).attr("disabled", "disabled");
                 var form = $(this);
                 var url = '/index.php?eID=formhandler-ajaxsubmit&id=' + settings.pageID + '&randomID=' + settings.randomID + '&uid=' + settings.contentID + '&L=' + settings.lang;
@@ -45,13 +38,13 @@
                     data: postData,
                     dataType: "json",
                     success: function(data, textStatus) {
-                        settings.submitComplete.call(formhandlerDiv, data);
+                        formhandlerDiv.trigger('submitComplete', [data, textStatus]);
                         if (data.redirect) {
                             window.location.href = data.redirect;
                         } else {
                             formhandlerDiv[0].innerHTML = data.form;
                         }
-                        settings.submitFinished.call(formhandlerDiv, data);
+                        formhandlerDiv.trigger('submitFinished', [data]);
                     }
                 });
                 e.preventDefault();
@@ -62,9 +55,9 @@
             var el = $(this);
             var url = el.attr("href");
             var container = el.closest("div[id^='Tx_Formhandler_UploadedFiles_']");
-            settings.fileRemoveStart.call(formhandlerDiv, el);
+            formhandlerDiv.trigger('fileRemoveStart', [el]);
             container.load(url + '#' + container.attr("id"), function() {
-                settings.fileRemoveFinished.call(formhandlerDiv, el);
+                formhandlerDiv.trigger('fileRemoveFinished', [el]);
             });
             e.preventDefault();
         });
@@ -88,13 +81,13 @@
 
                 var url = '/index.php?eID=formhandler&id=' + settings.pageID + '&field=' + shortName + '&randomID=' + settings.randomID + '&uid=' + settings.contentID + '&L=' + settings.lang;
                 var postData = formhandlerDiv.find("form").serialize() + "&" + formhandlerDiv.find(settings.submitButtonSelector).attr("name") + "=submit";
-                settings.validateStart.call(formhandlerDiv, field);
+                formhandlerDiv.trigger('validateStart', [field]);
                 jQuery.ajax({
                     type: "post",
                     url: url,
                     data: postData,
                     success: function(data, textStatus) {
-                        settings.validateComplete.call(formhandlerDiv, field, result);
+                        formhandlerDiv.trigger('validateComplete', [field, result]);
                         result.html(data);
                         loading.hide();
                         result.show();
@@ -105,7 +98,7 @@
                             isFieldValid = true;
                             result.data("isValid", true);
                         }
-                        settings.validateFinished.call(formhandlerDiv, field, result);
+                        formhandlerDiv.trigger('validateFinished', [field, result]);
 
                         if(settings.autoDisableSubmitButton) {
                             var valid = true;

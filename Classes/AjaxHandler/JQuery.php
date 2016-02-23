@@ -79,11 +79,16 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
             }
         }
 
-        $this->addJS('<script type="text/javascript" src="typo3conf/ext/formhandler/Resources/Public/JavaScript/ajax.js"></script>');
+        $formSelector = '.Tx-Formhandler:has(INPUT[value=\"' . $this->globals->getRandomID() . '\"])';
+        $formID = $this->utilityFuncs->getSingle($globalSettings, 'formID');
+        if($formID) {
+            $formSelector = '.Tx-Formhandler:has(FORM[id=\"' . $formID . '\"])';
+        }
+        $this->addJS('<script type="text/javascript" src="typo3conf/ext/formhandler/Resources/Public/JavaScript/ajax.js"></script>', 'base', false);
         $this->addJS('<script type="text/javascript">
             (function( $ ) {
                 $(function() {
-                    $(".Tx-Formhandler:has(INPUT[value=\"' . $this->globals->getRandomID() . '\"])").formhandler({
+                    $("' . $formSelector . '").formhandler({
                         pageID: "' . $GLOBALS['TSFE']->id . '",
                         contentID: "' . $this->cObj->data['uid'] . '",
                         randomID: "' . $this->globals->getRandomID() . '",
@@ -102,7 +107,7 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
                 });
 
             }( jQuery ));
-        </script>');
+        </script>', 'ext');
     }
 
     /**
@@ -177,14 +182,22 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
         return '<a class="formhandler_removelink" href="' . $url . '">' . $text . '</a>';
     }
 
-    protected function addJS($js)
+    protected function addJS($js, $key = '', $doAppend = true)
     {
         if ($this->jsPosition === 'inline') {
             $GLOBALS['TSFE']->content .= $js;
         } elseif ($this->jsPosition === 'footer') {
-            $GLOBALS['TSFE']->additionalFooterData['Tx_Formhandler_AjaxHandler_Jquery_' . $this->globals->getCObj()->data['uid']] .= $js;
+            if($doAppend) {
+                $GLOBALS['TSFE']->additionalFooterData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] .= $js;
+            } else {
+                $GLOBALS['TSFE']->additionalFooterData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] = $js;
+            }
         } else {
-            $GLOBALS['TSFE']->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $this->globals->getCObj()->data['uid']] .= $js;
+            if($doAppend) {
+                $GLOBALS['TSFE']->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] .= $js;
+            } else {
+                $GLOBALS['TSFE']->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] = $js;
+            }
         }
     }
 
