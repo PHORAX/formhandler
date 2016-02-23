@@ -87,8 +87,8 @@
                     url: url,
                     data: postData,
                     success: function(data, textStatus) {
-                        formhandlerDiv.trigger('validateComplete', [field, result]);
                         result.html(data);
+                        formhandlerDiv.trigger('validateComplete', [field, result]);
                         loading.hide();
                         result.show();
                         isFieldValid = false;
