@@ -107,41 +107,43 @@
 											</tr>
 										</thead>
 										<tbody>
-											<f:for each="{paginatedLogDataRows}" as="logDataRow">
-												<tr>
-													<td>{logDataRow.pid}</td>
-													<td><f:format.date format="{settings.dateFormat} {settings.timeFormat}">{logDataRow.crdate}</f:format.date></td>
-													<td>{logDataRow.ip}</td>
-													<td>
-														<f:link.action action="view" class="btn btn-default" arguments="{logDataRow: logDataRow}"><span class="t3-icon fa fa-info-circle"> </span></f:link.action>
-														<f:link.action action="selectFields" class="btn btn-default" arguments="{logDataUids: logDataRow.uid, filetype: 'pdf'}"> PDF </f:link.action>
-														<f:link.action action="selectFields" class="btn btn-default" arguments="{logDataUids: logDataRow.uid, filetype: 'csv'}"> CSV </f:link.action>
-														<f:if condition="{permissions.delete}">
-															<f:then>
-																<f:link.action 
-																	action="deleteLogRows"
-																	class="btn btn-default delete"
-																	arguments="{logDataUids: logDataRow.uid}"
-																	title="{f:translate(key: 'label.delete-log-row')}">
-	
-																	<span 
-																		class="fa fa-trash delete-info" 
-																		data-title="{f:translate(key: 'label.delete-log-row')}"
-																		data-message="{f:translate(key: 'message.delete-log-row')}"
-																		data-uid="{logDataRow.uid}"> 
-																	</span>
-																</f:link.action>
-															</f:then>
-														</f:if>
-													</td>
-													<td>
-														<label class="btn btn-default btn-checkbox">
-															<input type="checkbox" name="marked[]" value="{logDataRow.uid}" class="mark-row">
-															<span class="t3-icon fa"></span>
-														</label>
-													</td>
-												</tr>
-											</f:for>
+											<f:if condition="{paginatedLogDataRows -> f:count()} > 0">
+												<f:for each="{paginatedLogDataRows}" as="logDataRow">
+													<tr>
+														<td>{logDataRow.pid}</td>
+														<td><f:format.date format="{settings.dateFormat} {settings.timeFormat}">{logDataRow.crdate}</f:format.date></td>
+														<td>{logDataRow.ip}</td>
+														<td>
+															<f:link.action action="view" class="btn btn-default" arguments="{logDataRow: logDataRow}"><span class="t3-icon fa fa-info-circle"> </span></f:link.action>
+															<f:link.action action="selectFields" class="btn btn-default" arguments="{logDataUids: logDataRow.uid, filetype: 'pdf'}"> PDF </f:link.action>
+															<f:link.action action="selectFields" class="btn btn-default" arguments="{logDataUids: logDataRow.uid, filetype: 'csv'}"> CSV </f:link.action>
+															<f:if condition="{permissions.delete}">
+																<f:then>
+																	<f:link.action
+																		action="deleteLogRows"
+																		class="btn btn-default delete"
+																		arguments="{logDataUids: logDataRow.uid}"
+																		title="{f:translate(key: 'label.delete-log-row')}">
+
+																		<span
+																			class="fa fa-trash delete-info"
+																			data-title="{f:translate(key: 'label.delete-log-row')}"
+																			data-message="{f:translate(key: 'message.delete-log-row')}"
+																			data-uid="{logDataRow.uid}">
+																		</span>
+																	</f:link.action>
+																</f:then>
+															</f:if>
+														</td>
+														<td>
+															<label class="btn btn-default btn-checkbox">
+																<input type="checkbox" name="marked[]" value="{logDataRow.uid}" class="mark-row">
+																<span class="t3-icon fa"></span>
+															</label>
+														</td>
+													</tr>
+												</f:for>
+											</f:if>
 										</tbody>
 									</table>
 								</div>

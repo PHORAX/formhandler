@@ -17,18 +17,14 @@ class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditi
 {
 
     /**
-     * renders <f:then> child if $condition is an array, otherwise renders <f:else> child.
+     * This method decides if the condition is TRUE or FALSE. It can be overriden in extending viewhelpers to adjust functionality.
      *
-     * @param mixed $condition
-     * @return boolean
+     * @param array $arguments ViewHelper arguments to evaluate the condition for this ViewHelper, allows for flexiblity in overriding this method.
+     * @return bool
      */
-    public function render($condition)
+    protected static function evaluateCondition($arguments = null)
     {
-        if (is_array($condition)) {
-            return $this->renderThenChild();
-        } else {
-            return $this->renderElseChild();
-        }
+        return (isset($arguments['condition']) && (true === is_array($arguments['value'])));
     }
 
 }
