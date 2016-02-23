@@ -80,7 +80,7 @@ class StoreUploadedFiles extends AbstractFinisher
                 if (strlen($uploadPath) > 0) {
                     foreach ($files as $key => $file) {
                         if ($file['uploaded_path'] !== $uploadPath || $disablePathCheck === 1) {
-                            $newFilename = $this->getNewFilename($file['uploaded_name']);
+                            $newFilename = $this->getNewFilename($file['uploaded_name'], $field);
                             $filename = substr($newFilename, 0, strrpos($newFilename, '.'));
                             $ext = substr($newFilename, strrpos($newFilename, '.'));
 
@@ -157,9 +157,10 @@ class StoreUploadedFiles extends AbstractFinisher
      * Generates a new filename for an uploaded file using settings in TypoScript.
      *
      * @param string The current filename
+     * @param string The current field
      * @return string The new filename
      **/
-    protected function getNewFilename($oldName)
+    protected function getNewFilename($oldName, $field)
     {
         $fileparts = explode('.', $oldName);
         $fileext = '.' . $fileparts[count($fileparts) - 1];
@@ -172,6 +173,7 @@ class StoreUploadedFiles extends AbstractFinisher
         }
         $newFilename = $namingScheme;
         $newFilename = str_replace('[filename]', $filename, $newFilename);
+        $newFilename = str_replace('[field]', $field, $newFilename);
         $newFilename = str_replace('[time]', time(), $newFilename);
         $newFilename = str_replace('[md5]', md5($filename), $newFilename);
         $newFilename = str_replace('[pid]', $GLOBALS['TSFE']->id, $newFilename);
