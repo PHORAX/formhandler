@@ -32,22 +32,25 @@ class Validate
     public function main()
     {
         $this->init();
-        if ($this->fieldname) {
-            $this->globals->setCObj($GLOBALS['TSFE']->cObj);
+        $field = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('field'));
+        if ($field) {
             $randomID = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('randomID'));
-            $this->globals->setRandomID($randomID);
-            if (!$this->globals->getSession()) {
+            \Typoheads\Formhandler\Utility\Globals::setCObj($GLOBALS['TSFE']->cObj);
+            \Typoheads\Formhandler\Utility\Globals::setRandomID($randomID);
+            if (!\Typoheads\Formhandler\Utility\Globals::getSession()) {
                 $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
-                $sessionClass = $this->utilityFuncs->getPreparedClassName($ts['session.'], 'Session\PHP');
-                $this->globals->setSession($this->componentManager->getComponent($sessionClass));
+                $sessionClass = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($ts['session.'], 'Session\PHP');
+                \Typoheads\Formhandler\Utility\Globals::setSession($this->componentManager->getComponent($sessionClass));
             }
+            $this->settings = \Typoheads\Formhandler\Utility\Globals::getSession()->get('settings');
+            \Typoheads\Formhandler\Utility\Globals::setFormValuesPrefix(\Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings, 'formValuesPrefix'));
+            $gp = \Typoheads\Formhandler\Utility\GeneralUtility::getMergedGP();
             $validator = $this->componentManager->getComponent('\Typoheads\Formhandler\Validator\Ajax');
             $errors = [];
-            $valid = $validator->validateAjax($this->fieldname, $this->value, $errors);
-            $this->settings = $this->globals->getSession()->get('settings');
+            $valid = $validator->validateAjax($field, $gp, $errors);
 
             if ($valid) {
-                $content = $this->utilityFuncs->getSingle($this->settings['ajax.']['config.'], 'ok');
+                $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'ok');
                 if (strlen($content) === 0) {
                     $content = '<img src="' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/ok.png' . '" />';
                 } else {
@@ -59,7 +62,7 @@ class Validate
                 }
                 $content = '<span class="success">' . $content . '</span>';
             } else {
-                $content = $this->utilityFuncs->getSingle($this->settings['ajax.']['config.'], 'notOk');
+                $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'notOk');
                 if (strlen($content) === 0) {
                     $content = '<img src="' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/notok.png' . '" />';
                 } else {
@@ -82,18 +85,14 @@ class Validate
      */
     protected function init()
     {
-        $this->fieldname = htmlspecialchars(stripslashes($_GET['field']));
-        $this->value = htmlspecialchars(stripslashes($_GET['value']));
         if (isset($_GET['pid'])) {
             $this->id = intval($_GET['pid']);
         } else {
             $this->id = intval($_GET['id']);
         }
         $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
-        $this->globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
-        $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
-        $this->globals->setAjaxMode(TRUE);
-        $this->utilityFuncs->initializeTSFE($this->id);
+        \Typoheads\Formhandler\Utility\Globals::setAjaxMode(TRUE);
+        \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($this->id);
     }
 
     /**
@@ -106,7 +105,7 @@ class Validate
     {
         $viewClass = '\Typoheads\Formhandler\View\AjaxValidation';
         $view = $this->componentManager->getComponent($viewClass);
-        $view->setLangFiles($this->utilityFuncs->readLanguageFiles([], $this->settings));
+        $view->setLangFiles(\Typoheads\Formhandler\Utility\GeneralUtility::readLanguageFiles([], $this->settings));
         $view->setSettings($this->settings);
         $templateName = 'AJAX';
         $template = str_replace('###fieldname###', htmlspecialchars($_GET['field']), $content);

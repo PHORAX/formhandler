@@ -14,6 +14,7 @@ namespace Typoheads\Formhandler\Ajax;
 * Public License for more details.                                       *
 *                                                                        */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * A class calling the controller and returning the form content as JSON. This class is called via AJAX.
@@ -22,6 +23,15 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Submit
 {
+    /**
+     * @var array
+     */
+    private $settings;
+
+    /**
+     * @var \Typoheads\Formhandler\Component\Manager
+     */
+    private $componentManager;
 
     /**
      * Main method of the class.
@@ -33,7 +43,7 @@ class Submit
         $this->init();
 
         $settings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_formhandler_pi1.'];
-        $settings['usePredef'] = $this->globals->getSession()->get('predef');
+        $settings['usePredef'] = Globals::getSession()->get('predef');
 
         $content = $GLOBALS['TSFE']->cObj->cObjGetSingle('USER', $settings);
 
@@ -49,15 +59,13 @@ class Submit
     protected function init()
     {
         if (isset($_GET['pid'])) {
-            $this->id = intval($_GET['pid']);
+            $id = intval($_GET['pid']);
         } else {
-            $this->id = intval($_GET['id']);
+            $id = intval($_GET['id']);
         }
 
         $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
-        $this->globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
-        $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
-        $this->utilityFuncs->initializeTSFE($this->id);
+        \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($id);
 
         $elementUID = intval($_GET['uid']);
         $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tt_content', 'uid=' . $elementUID . $GLOBALS['TSFE']->cObj->enableFields('tt_content'));
@@ -66,24 +74,23 @@ class Submit
             $GLOBALS['TSFE']->cObj->current = 'tt_content_' . $elementUID;
         }
 
-        $this->globals->setCObj($GLOBALS['TSFE']->cObj);
+        Globals::setCObj($GLOBALS['TSFE']->cObj);
         $randomID = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('randomID'));
-        $this->globals->setRandomID($randomID);
-        $this->globals->setAjaxMode(TRUE);
-        if (!$this->globals->getSession()) {
+        Globals::setRandomID($randomID);
+        Globals::setAjaxMode(TRUE);
+        if (!Globals::getSession()) {
             $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
-            $sessionClass = $this->utilityFuncs->getPreparedClassName($ts['session.'], 'Session\PHP');
-            $this->globals->setSession($this->componentManager->getComponent($sessionClass));
+            $sessionClass = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($ts['session.'], 'Session\PHP');
+            Globals::setSession($this->componentManager->getComponent($sessionClass));
         }
 
-        $this->settings = $this->globals->getSession()->get('settings');
-        $this->langFiles = $this->utilityFuncs->readLanguageFiles([], $this->settings);
+        $this->settings = Globals::getSession()->get('settings');
 
         //init ajax
         if ($this->settings['ajax.']) {
-            $class = $this->utilityFuncs->getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\JQuery');
+            $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\JQuery');
             $ajaxHandler = $this->componentManager->getComponent($class);
-            $this->globals->setAjaxHandler($ajaxHandler);
+            Globals::setAjaxHandler($ajaxHandler);
 
             $ajaxHandler->init($this->settings['ajax.']['config.']);
             $ajaxHandler->initAjax();

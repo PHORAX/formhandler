@@ -113,7 +113,7 @@ class RemoveFile
         if (!$this->globals->getSession()) {
             $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
             $sessionClass = $this->utilityFuncs->getPreparedClassName($ts['session.'], 'Session\\PHP');
-            $this->globals->setSession($sessionClass);
+            $this->globals->setSession($this->componentManager->getComponent($sessionClass));
         }
 
         $this->settings = $this->globals->getSession()->get('settings');

@@ -23,203 +23,203 @@ use TYPO3\CMS\Core\SingletonInterface;
 class Globals implements SingletonInterface
 {
 
-    protected $ajaxHandler;
-    protected $ajaxMode;
-    protected $cObj;
-    protected $debuggers;
-    protected $formID;
-    protected $formValuesPrefix;
-    protected $gp;
-    protected $langFiles;
-    protected $overrideSettings;
-    protected $predef;
-    protected $randomID;
-    protected $session;
-    protected $settings;
-    protected $submitted;
-    protected $templateCode;
-    protected $templateSuffix;
+    static protected $ajaxHandler;
+    static protected $ajaxMode;
+    static protected $cObj;
+    static protected $debuggers;
+    static protected $formID;
+    static protected $formValuesPrefix;
+    static protected $gp;
+    static protected $langFiles;
+    static protected $overrideSettings;
+    static protected $predef;
+    static protected $randomID;
+    static protected $session;
+    static protected $settings;
+    static protected $submitted;
+    static protected $templateCode;
+    static protected $templateSuffix;
 
-    public function setAjaxMode($mode)
+    static public function setAjaxMode($mode)
     {
-        $this->ajaxMode = $mode;
+        self::$ajaxMode = $mode;
     }
 
-    public function isAjaxMode()
+    static public function isAjaxMode()
     {
-        return $this->ajaxMode;
+        return self::$ajaxMode;
     }
 
-    public function setAjaxHandler($ajaxHandler)
+    static public function setAjaxHandler($ajaxHandler)
     {
-        $this->ajaxHandler = $ajaxHandler;
+        self::$ajaxHandler = $ajaxHandler;
     }
 
-    public function setCObj($cObj)
+    static public function setCObj($cObj)
     {
-        $this->cObj = $cObj;
+        self::$cObj = $cObj;
     }
 
-    public function setDebuggers($debuggers)
+    static public function setDebuggers($debuggers)
     {
-        $this->debuggers = $debuggers;
+        self::$debuggers = $debuggers;
     }
 
-    public function addDebugger($debugger)
+    static public function addDebugger($debugger)
     {
-        if (!is_array($this->debuggers)) {
-            $this->debuggers = [];
+        if (!is_array(self::$debuggers)) {
+            self::$debuggers = [];
         }
-        $this->debuggers[] = $debugger;
+        self::$debuggers[] = $debugger;
     }
 
-    public function setFormID($formID)
+    static public function setFormID($formID)
     {
-        $this->formID = $formID;
+        self::$formID = $formID;
     }
 
-    public function setFormValuesPrefix($formValuesPrefix)
+    static public function setFormValuesPrefix($formValuesPrefix)
     {
-        $this->formValuesPrefix = $formValuesPrefix;
+        self::$formValuesPrefix = $formValuesPrefix;
     }
 
-    public function setGP($gp)
+    static public function setGP($gp)
     {
-        $this->gp = $gp;
+        self::$gp = $gp;
     }
 
-    public function setLangFiles($langFiles)
+    static public function setLangFiles($langFiles)
     {
-        $this->langFiles = $langFiles;
+        self::$langFiles = $langFiles;
     }
 
-    public function setOverrideSettings($overrideSettings)
+    static public function setOverrideSettings($overrideSettings)
     {
-        $this->overrideSettings = $overrideSettings;
+        self::$overrideSettings = $overrideSettings;
     }
 
-    public function setPredef($predef)
+    static public function setPredef($predef)
     {
-        $this->predef = $predef;
+        self::$predef = $predef;
     }
 
-    public function setRandomID($randomID)
+    static public function setRandomID($randomID)
     {
-        $this->randomID = $randomID;
+        self::$randomID = $randomID;
     }
 
-    public function setSession($session)
+    static public function setSession($session)
     {
-        $this->session = $session;
+        self::$session = $session;
     }
 
-    public function setSettings($settings)
+    static public function setSettings($settings)
     {
-        $this->settings = $settings;
+        self::$settings = $settings;
     }
 
-    public function setSubmitted($submitted)
+    static public function setSubmitted($submitted)
     {
-        $this->submitted = $submitted;
+        self::$submitted = $submitted;
     }
 
-    public function setTemplateCode($templateCode)
+    static public function setTemplateCode($templateCode)
     {
-        $this->templateCode = $templateCode;
+        self::$templateCode = $templateCode;
     }
 
-    public function setTemplateSuffix($templateSuffix)
+    static public function setTemplateSuffix($templateSuffix)
     {
-        $this->templateSuffix = $templateSuffix;
+        self::$templateSuffix = $templateSuffix;
     }
 
-    public function getAjaxHandler()
+    static public function getAjaxHandler()
     {
-        return $this->ajaxHandler;
+        return self::$ajaxHandler;
     }
 
-    public function getCObj()
+    static public function getCObj()
     {
-        return $this->cObj;
+        return self::$cObj;
     }
 
-    public function getDebuggers()
+    static public function getDebuggers()
     {
-        if (!is_array($this->debuggers)) {
-            $this->debuggers = [];
+        if (!is_array(self::$debuggers)) {
+            self::$debuggers = [];
         }
-        return $this->debuggers;
+        return self::$debuggers;
     }
 
-    public function getFormID()
+    static public function getFormID()
     {
-        return $this->formID;
+        return self::$formID;
     }
 
-    public function getFormValuesPrefix()
+    static public function getFormValuesPrefix()
     {
-        return $this->formValuesPrefix;
+        return self::$formValuesPrefix;
     }
 
-    public function getGP()
+    static public function getGP()
     {
-        if (!is_array($this->gp)) {
-            $this->gp = [];
+        if (!is_array(self::$gp)) {
+            self::$gp = [];
         }
-        return $this->gp;
+        return self::$gp;
     }
 
-    public function getLangFiles()
+    static public function getLangFiles()
     {
-        if (!is_array($this->langFiles)) {
-            $this->langFiles = [];
+        if (!is_array(self::$langFiles)) {
+            self::$langFiles = [];
         }
-        return $this->langFiles;
+        return self::$langFiles;
     }
 
-    public function getOverrideSettings()
+    static public function getOverrideSettings()
     {
-        if (!is_array($this->overrideSettings)) {
-            $this->overrideSettings = [];
+        if (!is_array(self::$overrideSettings)) {
+            self::$overrideSettings = [];
         }
-        return $this->overrideSettings;
+        return self::$overrideSettings;
     }
 
-    public function getPredef()
+    static public function getPredef()
     {
-        return $this->predef;
+        return self::$predef;
     }
 
-    public function getRandomID()
+    static public function getRandomID()
     {
-        return $this->randomID;
+        return self::$randomID;
     }
 
-    public function getSession()
+    static public function getSession()
     {
-        return $this->session;
+        return self::$session;
     }
 
-    public function getSettings()
+    static public function getSettings()
     {
-        if (!is_array($this->settings)) {
-            $this->settings = [];
+        if (!is_array(self::$settings)) {
+            self::$settings = [];
         }
-        return $this->settings;
+        return self::$settings;
     }
 
-    public function isSubmitted()
+    static public function isSubmitted()
     {
-        return $this->submitted;
+        return self::$submitted;
     }
 
-    public function getTemplateCode()
+    static public function getTemplateCode()
     {
-        return $this->templateCode;
+        return self::$templateCode;
     }
 
-    public function getTemplateSuffix()
+    static public function getTemplateSuffix()
     {
-        return $this->templateSuffix;
+        return self::$templateSuffix;
     }
 }
