@@ -78,7 +78,7 @@ class DB extends AbstractLogger
         }
         $serialized = serialize($logParams);
         $hash = md5(serialize($keys));
-        $uniqueHash = sha1(sha1($serialized) . $TYPO3_CONF_VARS['SYS']['encryptionKey'] . time() . $this->globals->getRandomID());
+        $uniqueHash = sha1(sha1($serialized) . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . time() . $this->globals->getRandomID());
         $fields['params'] = $serialized;
         $fields['key_hash'] = $hash;
         $fields['unique_hash'] = $uniqueHash;
