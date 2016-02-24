@@ -1,5 +1,5 @@
 <?php
-namespace Typoheads\Formhandler\Generator\FE;
+namespace Typoheads\Formhandler\Generator;
     /*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *

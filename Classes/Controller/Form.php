@@ -176,6 +176,7 @@ class Form extends AbstractController
      */
     protected function processAction($action)
     {
+
         $content = '';
         $gp = $_GET;
         if ($this->globals->getFormValuesPrefix()) {
@@ -183,14 +184,16 @@ class Form extends AbstractController
         }
         if (is_array($this->settings['finishers.'])) {
             $finisherConf = [];
+
             foreach ($this->settings['finishers.'] as $key => $config) {
                 if (strpos($key, '.') !== FALSE) {
                     $className = $this->utilityFuncs->getPreparedClassName($config);
-                    if ($className === '\Typoheads\Formhandler\Finisher\SubmittedOK' && is_array($config['config.'])) {
+                    if ($className === $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK') && is_array($config['config.'])) {
                         $finisherConf = $config['config.'];
                     }
                 }
             }
+
             $params = [];
             $tstamp = intval($gp['tstamp']);
             $hash = $GLOBALS['TYPO3_DB']->fullQuoteStr($gp['hash'], 'tx_formhandler_log');
@@ -202,10 +205,12 @@ class Form extends AbstractController
                     $params = unserialize($row['params']);
                 }
             }
+
             if ($finisherConf['actions.'][$action . '.'] && !empty($params) && intval($this->utilityFuncs->getSingle($finisherConf['actions.'][$action . '.']['config.'], 'returns')) !== 1) {
 
                 $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action . '.']);
                 if ($class) {
+
                     $object = $this->componentManager->getComponent($class);
                     $object->init($params, $finisherConf['actions.'][$action . '.']['config.']);
                     $object->process();
@@ -213,7 +218,7 @@ class Form extends AbstractController
             } elseif ($action === 'show') {
 
                 //"show" makes it possible that Finisher_SubmittedOK show its output again
-                $class = '\Typoheads\Formhandler\Finisher\SubmittedOK';
+                $class = $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK');
                 $object = $this->componentManager->getComponent($class);
                 unset($finisherConf['actions.']);
                 $object->init($params, $finisherConf);
@@ -229,7 +234,7 @@ class Form extends AbstractController
                 } else {
 
                     //Makes it possible that Finisher_SubmittedOK show its output again
-                    $class = '\Typoheads\Formhandler\Finisher\SubmittedOK';
+                    $class = $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK');
                     $object = $this->componentManager->getComponent($class);
                     unset($finisherConf['actions.']);
                     $object->init($params, $finisherConf);

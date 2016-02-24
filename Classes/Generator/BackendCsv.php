@@ -21,7 +21,7 @@ namespace Typoheads\Formhandler\Generator;
  */
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/PHP/parsecsv.lib.php');
 
-class CSV extends \Typoheads\Formhandler\Component\AbstractComponent
+class BackendCsv extends \Typoheads\Formhandler\Component\AbstractComponent
 {
 
     /**

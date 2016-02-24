@@ -27,7 +27,7 @@ module.tx_formhandler {
 	view.widget.TYPO3\CMS\Fluid\ViewHelpers\Be\Widget\PaginateViewHelper.templateRootPath = EXT:formhandler/Resources/Private/Templates/
 	settings {
 		pdf {
-			class = Generator\TCPDF
+			class = Typoheads\Formhandler\Generator\BackendTcPdf
 			config {
 				font = FreeSans
 				fontSize = 12
@@ -37,7 +37,7 @@ module.tx_formhandler {
 			}
 		}
 		csv {
-			class = Generator\CSV
+			class = Typoheads\Formhandler\Generator\BackendCsv
 			config {
 				encoding = utf-8
 				delimiter = ,

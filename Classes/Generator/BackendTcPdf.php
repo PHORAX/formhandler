@@ -21,7 +21,7 @@ namespace Typoheads\Formhandler\Generator;
  * @subpackage    Generator
  * @uses Tx_Formhandler_Template_TCPDF
  */
-class TCPDF extends \Typoheads\Formhandler\Component\AbstractComponent
+class BackendTcPdf extends \Typoheads\Formhandler\Component\AbstractComponent
 {
 
     /**
