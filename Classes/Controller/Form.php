@@ -46,22 +46,6 @@ class Form extends AbstractController
     protected $formValuesPrefix;
 
     /**
-     * The template file to be used. Only if template file was defined via plugin record
-     *
-     * @access protected
-     * @var string
-     */
-    protected $templateFile;
-
-    /**
-     * Array of configured translation files
-     *
-     * @access protected
-     * @var array
-     */
-    protected $langFiles;
-
-    /**
      * Flag indicating if the form got submitted
      *
      * @access protected

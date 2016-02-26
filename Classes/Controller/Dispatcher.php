@@ -40,6 +40,14 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     protected $globals;
 
     /**
+     * The Formhandler utility functions
+     *
+     * @access protected
+     * @var \Typoheads\Formhandler\Utility\GeneralUtility
+     */
+    protected $utilityFuncs;
+
+    /**
      * Main method of the dispatcher. This method is called as a user function.
      *
      * @return string rendered view
@@ -88,6 +96,8 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
             if ($setup['controller']) {
                 $controller = $setup['controller'];
             }
+
+            /** @var \Typoheads\Formhandler\Controller\AbstractController $controller */
             $controller = $this->componentManager->getComponent($controller);
 
             if (isset($content)) {

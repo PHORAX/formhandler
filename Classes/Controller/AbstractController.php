@@ -12,6 +12,7 @@ namespace Typoheads\Formhandler\Controller;
      * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
      * Public License for more details.                                       *
      *                                                                        */
+use Typoheads\Formhandler\Component\AbstractClass;
 
 /**
  * Abstract class for Controller Classes used by Formhandler.
@@ -19,7 +20,7 @@ namespace Typoheads\Formhandler\Controller;
  * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
-abstract class AbstractController extends \Typoheads\Formhandler\Component\AbstractClass
+abstract class AbstractController extends AbstractClass
 {
 
     /**
@@ -39,12 +40,20 @@ abstract class AbstractController extends \Typoheads\Formhandler\Component\Abstr
     protected $predefined;
 
     /**
-     * The path to a possibly selected translation file
+     * The template file to be used. Only if template file was defined via plugin record
      *
      * @access protected
      * @var string
      */
-    protected $langFile;
+    protected $templateFile;
+
+    /**
+     * Array of configured translation files
+     *
+     * @access protected
+     * @var array
+     */
+    protected $langFiles;
 
     /**
      * Sets the content attribute of the controller
@@ -82,30 +91,6 @@ abstract class AbstractController extends \Typoheads\Formhandler\Component\Abstr
     }
 
     /**
-     * Sets the internal attribute "redirectPage"
-     *
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @param integer $new
-     * @return void
-     */
-    public function setRedirectPage($new)
-    {
-        $this->redirectPage = $new;
-    }
-
-    /**
-     * Sets the internal attribute "requiredFields"
-     *
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @param array $new
-     * @return void
-     */
-    public function setRequiredFields($new)
-    {
-        $this->requiredFields = $new;
-    }
-
-    /**
      * Sets the internal attribute "langFile"
      *
      * @author Reinhard Führicht <rf@typoheads.at>
@@ -115,18 +100,6 @@ abstract class AbstractController extends \Typoheads\Formhandler\Component\Abstr
     public function setLangFiles($langFiles)
     {
         $this->langFiles = $langFiles;
-    }
-
-    /**
-     * Sets the internal attribute "emailSettings"
-     *
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @param array $new
-     * @return void
-     */
-    public function setEmailSettings($new)
-    {
-        $this->emailSettings = $new;
     }
 
     /**
