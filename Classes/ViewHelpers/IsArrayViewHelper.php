@@ -13,7 +13,7 @@ namespace Typoheads\Formhandler\ViewHelpers;
  *
  * The TYPO3 project - inspiring people to share!
  */
-class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+class IsArrayViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\IfViewHelper
 {
 
     /**
