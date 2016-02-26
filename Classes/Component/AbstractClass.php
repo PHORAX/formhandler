@@ -59,7 +59,7 @@ abstract class AbstractClass
      * The cObj
      *
      * @access protected
-     * @var tslib_cObj
+     * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
     protected $cObj;
 
