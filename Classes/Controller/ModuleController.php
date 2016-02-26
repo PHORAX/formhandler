@@ -204,7 +204,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             if ($filetype === 'pdf') {
                 $className = $this->utilityFuncs->getPreparedClassName(
                     $this->settings['pdf'],
-                    '\Typoheads\Formhandler\Generator\BE\TCPDF'
+                    '\Typoheads\Formhandler\Generator\BackendTcPdf'
                 );
 
                 $generator = $this->componentManager->getComponent($className);
@@ -215,8 +215,8 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
             } elseif ($filetype === 'csv') {
                 $className = $this->utilityFuncs->getPreparedClassName(
-                    $this->settings['generators.']['csv.'],
-                    '\Typoheads\Formhandler\Generator\BE\CSV'
+                    $this->settings['csv'],
+                    '\Typoheads\Formhandler\Generator\BackendCsv'
                 );
 
                 $generator = $this->componentManager->getComponent($className);
