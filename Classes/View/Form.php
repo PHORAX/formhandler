@@ -987,7 +987,6 @@ class Form extends AbstractView
                 $markers['###is_success_' . $field . '###'] = $successMessage;
             }
         }
-        print_r($markers);
         $this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
     }
 
