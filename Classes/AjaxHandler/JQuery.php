@@ -81,33 +81,37 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
 
         $formSelector = '.Tx-Formhandler:has(INPUT[value=\"' . $this->globals->getRandomID() . '\"])';
         $formID = $this->utilityFuncs->getSingle($globalSettings, 'formID');
-        if($formID) {
+        if ($formID) {
             $formSelector = '.Tx-Formhandler:has(FORM[id=\"' . $formID . '\"])';
         }
-        $this->addJS('<script type="text/javascript" src="typo3conf/ext/formhandler/Resources/Public/JavaScript/ajax.js"></script>', 'base', false);
-        $this->addJS('<script type="text/javascript">
-            (function( $ ) {
-                $(function() {
-                    $("' . $formSelector . '").formhandler({
-                        pageID: "' . $GLOBALS['TSFE']->id . '",
-                        contentID: "' . $this->cObj->data['uid'] . '",
-                        randomID: "' . $this->globals->getRandomID() . '",
-                        formValuesPrefix: "' . $this->globals->getFormValuesPrefix() . '",
-                        lang: "' . $GLOBALS['TSFE']->sys_language_uid . '",
-                        submitButtonSelector: "' . $submitButtonSelector . '",
-                        ajaxSubmit: ' . ($isAjaxSubmit ? "true":"false") . ',
-                        autoDisableSubmitButton: ' . ($autoDisableSubmitButton ? "true":"false") . ',
-                        validateFields: [\'' . implode("','", $validateFields) . '\'],
-                        validationStatusClasses: {
-                            base: "' . $this->validationStatusClasses['base'] . '",
-                            valid: "' . $this->validationStatusClasses['valid'] . '",
-                            invalid: "' . $this->validationStatusClasses['invalid'] . '"
-                        }
-                    });
-                });
 
-            }( jQuery ));
-        </script>', 'ext');
+        $disableJS = intval($this->utilityFuncs->getSingle($this->settings, 'disableJS'));
+        if (!$disableJS) {
+            $this->addJS('<script type="text/javascript" src="typo3conf/ext/formhandler/Resources/Public/JavaScript/ajax.js"></script>', 'base', false);
+            $this->addJS('<script type="text/javascript">
+                (function( $ ) {
+                    $(function() {
+                        $("' . $formSelector . '").formhandler({
+                            pageID: "' . $GLOBALS['TSFE']->id . '",
+                            contentID: "' . $this->cObj->data['uid'] . '",
+                            randomID: "' . $this->globals->getRandomID() . '",
+                            formValuesPrefix: "' . $this->globals->getFormValuesPrefix() . '",
+                            lang: "' . $GLOBALS['TSFE']->sys_language_uid . '",
+                            submitButtonSelector: "' . $submitButtonSelector . '",
+                            ajaxSubmit: ' . ($isAjaxSubmit ? "true" : "false") . ',
+                            autoDisableSubmitButton: ' . ($autoDisableSubmitButton ? "true" : "false") . ',
+                            validateFields: [\'' . implode("','", $validateFields) . '\'],
+                            validationStatusClasses: {
+                                base: "' . $this->validationStatusClasses['base'] . '",
+                                valid: "' . $this->validationStatusClasses['valid'] . '",
+                                invalid: "' . $this->validationStatusClasses['invalid'] . '"
+                            }
+                        });
+                    });
+
+                }( jQuery ));
+            </script>', 'ext');
+        }
     }
 
     /**
@@ -187,13 +191,13 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
         if ($this->jsPosition === 'inline') {
             $GLOBALS['TSFE']->content .= $js;
         } elseif ($this->jsPosition === 'footer') {
-            if($doAppend) {
+            if ($doAppend) {
                 $GLOBALS['TSFE']->additionalFooterData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] .= $js;
             } else {
                 $GLOBALS['TSFE']->additionalFooterData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] = $js;
             }
         } else {
-            if($doAppend) {
+            if ($doAppend) {
                 $GLOBALS['TSFE']->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] .= $js;
             } else {
                 $GLOBALS['TSFE']->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] = $js;
