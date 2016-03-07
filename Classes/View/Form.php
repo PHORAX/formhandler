@@ -126,6 +126,8 @@ class Form extends AbstractView
             $this->fillErrorMarkers($errors);
         }
 
+        $this->fillIsSuccessMarkers($errors);
+
         //fill LLL:[language_key] markers again to make language markers in other markers possible
         $this->fillLangMarkers();
 
@@ -933,9 +935,10 @@ class Form extends AbstractView
      *        ###is_error###
      * in $this->template
      *
+     * @param array $errors
      * @return void
      */
-    protected function fillIsErrorMarkers(&$errors)
+    protected function fillIsErrorMarkers($errors)
     {
         $markers = [];
         foreach ($errors as $field => $types) {
@@ -956,6 +959,35 @@ class Form extends AbstractView
             $errorMessage = $temp;
         }
         $markers['###is_error###'] = $errorMessage;
+        $this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
+    }
+
+    /**
+     * Substitutes markers
+     *        ###is_success_[fieldname]###
+     * in $this->template
+     *
+     * @param array $errors
+     * @return void
+     */
+    protected function fillIsSuccessMarkers($errors)
+    {
+        $markers = [];
+        foreach ($this->gp as $field => $value) {
+            if (!isset($errors[$field])) {
+                if ($this->settings['isSuccessMarker.'][$field]) {
+                    $successMessage = $this->utilityFuncs->getSingle($this->settings['isSuccessMarker.'], $field);
+                } elseif (strlen($temp = trim($this->utilityFuncs->getTranslatedMessage($this->langFiles, 'is_success_' . $field))) > 0) {
+                    $successMessage = $temp;
+                } elseif ($this->settings['isSuccessMarker.']['default']) {
+                    $successMessage = $this->utilityFuncs->getSingle($this->settings['isSuccessMarker.'], 'default');
+                } elseif (strlen($temp = trim($this->utilityFuncs->getTranslatedMessage($this->langFiles, 'is_success_default'))) > 0) {
+                    $successMessage = $temp;
+                }
+                $markers['###is_success_' . $field . '###'] = $successMessage;
+            }
+        }
+        print_r($markers);
         $this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
     }
 
