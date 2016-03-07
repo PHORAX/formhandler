@@ -6,6 +6,7 @@ return [
         'default_sortby' => 'ORDER BY crdate DESC',
         'crdate' => 'crdate',
         'tstamp' => 'tstamp',
+        'delete' => 'deleted',
         'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formhandler') . 'ext_icon.gif',
         'adminOnly' => 1
     ],
