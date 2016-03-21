@@ -234,7 +234,7 @@ class DefaultValidator extends AbstractValidator
                     continue;
                 }
                 $classNameFix = ucfirst($check['check']);
-                if (strpos($classNameFix, 'Tx_') === FALSE) {
+                if (strpos($classNameFix, 'Tx_') === FALSE && strpos($classNameFix, '\\') === FALSE) {
                     $errorCheckObject = $this->componentManager->getComponent($this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\' . $classNameFix));
                     $fullClassName = $this->utilityFuncs->prepareClassName('\\Typoheads\\\Formhandler\\Validator\\ErrorCheck\\' . $classNameFix);
                 } else {
