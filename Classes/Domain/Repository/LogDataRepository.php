@@ -44,14 +44,15 @@ class LogDataRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         $uidArray = explode(",", $uids);
         $query = $this->createQuery();
+        $uidConstraints = [];
         foreach ($uidArray as $key => $value) {
-            $constraints[] = $query->equals('uid', $value);
+            $uidConstraints[] = $query->equals('uid', $value);
         }
-        $constraints[] = $query->equals('deleted', 0);
         return $query->matching(
             $query->logicalAnd(
+                $query->equals('deleted', 0),
                 $query->logicalOr(
-                    $constraints
+                    $uidConstraints
                 )
             )
         )->execute();
