@@ -51,7 +51,8 @@ abstract class AbstractErrorCheck extends \Typoheads\Formhandler\Component\Abstr
      */
     protected function getCheckFailed()
     {
-        $checkFailed = $this->settings['check'];
+        $parts = explode('\\', get_class($this));
+        $checkFailed = strtolower(array_pop($parts));
         if (is_array($this->settings['params'])) {
             $checkFailed .= ';';
             foreach ($this->settings['params'] as $key => $value) {
