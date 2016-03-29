@@ -22,3 +22,12 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['T
         'expirePeriod' => 180
     ];
 }
+
+$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+    \TYPO3\CMS\Core\Imaging\IconRegistry::class
+);
+$iconRegistry->registerIcon(
+    'formhandler-foldericon',
+    \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+    ['source' => 'EXT:formhandler/Resources/Public/Images/pagetreeicon.png']
+);
