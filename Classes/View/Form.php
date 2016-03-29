@@ -1246,9 +1246,9 @@ class Form extends AbstractView
         $bgcolor = '#EAEAEA';
         $bgcolor = $this->settings['stepbar_color'] ? $this->settings['stepbar_color'] : $bgcolor;
 
-        $nrcolor = \TYPO3\CMS\Core\Utility\GeneralUtility::modifyHTMLcolor($bgcolor, 30, 30, 30);
+        $nrcolor = \Typoheads\Formhandler\Utility\GeneralUtility::modifyHTMLcolor($bgcolor, 30, 30, 30);
         $errorbgcolor = '#dd7777';
-        $errornrcolor = \TYPO3\CMS\Core\Utility\GeneralUtility::modifyHTMLcolor($errorbgcolor, 30, 30, 30);
+        $errornrcolor = \Typoheads\Formhandler\Utility\GeneralUtility::modifyHTMLcolor($errorbgcolor, 30, 30, 30);
 
         $classprefix = $this->globals->getFormValuesPrefix() . '_stepbar';
 

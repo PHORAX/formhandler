@@ -14,6 +14,7 @@ namespace Typoheads\Formhandler\Utility;
  * Public License for more details.                                       *
  *                                                                        */
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * A class providing helper functions for Formhandler
@@ -411,7 +412,7 @@ class GeneralUtility implements SingletonInterface
     {
         $tempArr = $sheetArray;
         foreach ($fieldNameArr as $k => $v) {
-            if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($v)) {
+            if (MathUtility::canBeInterpretedAsInteger($v)) {
                 if (is_array($tempArr)) {
                     $c = 0;
                     foreach ($tempArr as $idx => $values) {
@@ -1197,5 +1198,23 @@ class GeneralUtility implements SingletonInterface
         }
 
         return $conditionResult;
+    }
+
+    /**
+     * Modifies a HTML Hex color by adding/subtracting $R,$G and $B integers
+     *
+     * @param string $color A hexadecimal color code, #xxxxxx
+     * @param int $R Offset value 0-255
+     * @param int $G Offset value 0-255
+     * @param int $B Offset value 0-255
+     * @return string A hexadecimal color code, #xxxxxx, modified according to input vars
+     */
+    static public function modifyHTMLColor($color, $R, $G, $B)
+    {
+        // This takes a hex-color (# included!) and adds $R, $G and $B to the HTML-color (format: #xxxxxx) and returns the new color
+        $nR = MathUtility::forceIntegerInRange(hexdec(substr($color, 1, 2)) + $R, 0, 255);
+        $nG = MathUtility::forceIntegerInRange(hexdec(substr($color, 3, 2)) + $G, 0, 255);
+        $nB = MathUtility::forceIntegerInRange(hexdec(substr($color, 5, 2)) + $B, 0, 255);
+        return '#' . substr(('0' . dechex($nR)), -2) . substr(('0' . dechex($nG)), -2) . substr(('0' . dechex($nB)), -2);
     }
 }
