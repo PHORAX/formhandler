@@ -58,7 +58,7 @@ class TcaUtility
     public function addFields_predefinedJS($config)
     {
         $newRecord = 'true';
-        if (reset($GLOBALS['SOBE']->editconf['tt_content']) === 'edit') {
+        if (is_array($GLOBALS['SOBE']->editconf['tt_content']) && reset($GLOBALS['SOBE']->editconf['tt_content']) === 'edit') {
             $newRecord = 'false';
         }
 
@@ -98,7 +98,7 @@ class TcaUtility
     {
         $pid = FALSE;
 
-        if (reset($GLOBALS['SOBE']->editconf['tt_content']) === 'new') {
+        if (is_array($GLOBALS['SOBE']->editconf['tt_content']) && reset($GLOBALS['SOBE']->editconf['tt_content']) === 'new') {
             $pid = key($GLOBALS['SOBE']->editconf['tt_content']);
 
             //Formhandler inserted after existing content element
