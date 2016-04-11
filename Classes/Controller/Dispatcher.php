@@ -114,7 +114,7 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
             }
 
             $result = $controller->process();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             \TYPO3\CMS\Core\Utility\GeneralUtility::sysLog(
                 $e->getFile() . '(' . $e->getLine() . ')' . ' ' . $e->getMessage(),
                 'formhandler',
