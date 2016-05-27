@@ -633,7 +633,7 @@ class Form extends AbstractView
      */
     protected function fillCaptchaMarkers(&$markers)
     {
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('captcha')) {
+        if (stristr($this->template, '###CAPTCHA###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('captcha')) {
             $captchaPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('captcha') . 'captcha/captcha.php?rand=' . rand();
             if (substr($captchaPath, 0, 1) !== '/') {
                 $captchaPath = '/' . $captchaPath;
@@ -641,19 +641,19 @@ class Form extends AbstractView
             $markers['###CAPTCHA###'] = '<img src="' . $captchaPath . '" alt="" />';
             $markers['###captcha###'] = $markers['###CAPTCHA###'];
         }
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_freecap')) {
+        if (stristr($this->template, '###SR_FREECAP_###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_freecap')) {
             require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
             $this->freeCap = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_srfreecap_pi2');
             $markers = array_merge($markers, $this->freeCap->makeCaptcha());
         }
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('jm_recaptcha')) {
+        if (stristr($this->template, '###RECAPTCHA###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('jm_recaptcha')) {
             require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('jm_recaptcha') . 'class.tx_jmrecaptcha.php');
             $this->recaptcha = new \tx_jmrecaptcha();
             $markers['###RECAPTCHA###'] = $this->recaptcha->getReCaptcha();
             $markers['###recaptcha###'] = $markers['###RECAPTCHA###'];
         }
 
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('wt_calculating_captcha')) {
+        if (stristr($this->template, '###WT_CALCULATING_CAPTCHA###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('wt_calculating_captcha')) {
             require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_calculating_captcha') . 'class.tx_wtcalculatingcaptcha.php');
 
             $captcha = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtcalculatingcaptcha');
@@ -661,7 +661,7 @@ class Form extends AbstractView
             $markers['###wt_calculating_captcha###'] = $markers['###WT_CALCULATING_CAPTCHA###'];
         }
 
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mathguard')) {
+        if (stristr($this->template, '###MATHGUARD###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mathguard')) {
             require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mathguard') . 'class.tx_mathguard.php');
 
             $captcha = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mathguard');
