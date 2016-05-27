@@ -1050,7 +1050,7 @@ class Form extends AbstractView
             $errorMessage = $this->utilityFuncs->wrap($errorMessage, $this->settings['singleErrorTemplate.'], 'totalWrap');
             $clearErrorMessage = $errorMessage;
             if ($this->settings['addErrorAnchors']) {
-                $errorMessage = '<a name="' . $field . '">' . $errorMessage . '</a>';
+                $errorMessage = '<a name="' . $field . '-' . $this->globals->getRandomID() . '">' . $errorMessage . '</a>';
             }
             $langMarkers = $this->utilityFuncs->getFilledLangMarkers($errorMessage, $this->langFiles);
             $errorMessage = $this->cObj->substituteMarkerArray($errorMessage, $langMarkers);
@@ -1062,7 +1062,7 @@ class Form extends AbstractView
                 if ($this->globals->isAjaxMode()) {
                     $baseUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('HTTP_REFERER');
                 }
-                $errorMessage = '<a href="' . $baseUrl . '#' . $field . '">' . $errorMessage . '</a>';
+                $errorMessage = '<a href="' . $baseUrl . '#' . $field . '-' . $this->globals->getRandomID() . '">' . $errorMessage . '</a>';
             }
 
             //list settings
