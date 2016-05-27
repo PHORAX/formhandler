@@ -1037,9 +1037,6 @@ class Form extends AbstractView
                             $errorMessage = str_replace('###' . $key . '###', $value, $errorMessage);
                         }
                     }
-                    if (strlen($singleWrap) > 0 && strstr($singleWrap, '|')) {
-                        $errorMessage = str_replace('|', $errorMessage, $singleWrap);
-                    }
                     $errorMessage = $this->utilityFuncs->wrap($errorMessage, $this->settings['singleErrorTemplate.'], 'singleWrap');
                     $errorMessages[] = $errorMessage;
                 } else {
