@@ -7,7 +7,7 @@ return [
         'crdate' => 'crdate',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formhandler') . 'ext_icon.gif',
+        'iconfile' => 'EXT:formhandler/ext_icon.gif',
         'adminOnly' => 1
     ],
     'interface' => [
