@@ -480,7 +480,7 @@ class Form extends AbstractView
         }
         if ($this->gp['formToken']) {
             $markers['###HIDDEN_FIELDS###'] .= '
-				<input type="hidden" name="' . $name . '" value="' . $this->gp['formToken'] . '" />
+				<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($this->gp['formToken']) . '" />
 			';
         }
 
