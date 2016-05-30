@@ -426,7 +426,7 @@ class Form extends AbstractView
             $markers['###TIMESTAMP###'] = htmlspecialchars($this->gp['formtime']);
         }
         $markers['###RANDOM_ID###'] = htmlspecialchars($this->gp['randomID']);
-        $markers['###ABS_URL###'] = \TYPO3\CMS\Core\Utility\GeneralUtility::locationHeaderUrl('') . $path;
+        $markers['###ABS_URL###'] = \TYPO3\CMS\Core\Utility\GeneralUtility::locationHeaderUrl($path);
         $markers['###rel_url###'] = $markers['###REL_URL###'];
         $markers['###timestamp###'] = $markers['###TIMESTAMP###'];
         $markers['###abs_url###'] = $markers['###ABS_URL###'];
