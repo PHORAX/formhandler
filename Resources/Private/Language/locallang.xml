@@ -15,6 +15,7 @@
 			<label index="label.ip">IP</label>
 			<label index="label.detailView">View</label>
 			<label index="label.export">Export as</label>
+			<label index="label.show">Items per page</label>
 			<label index="label.submit">Filter</label>
 			<label index="label.select-all">Select all pages</label>
 			<label index="label.select-page-from-tree">Please select the page using the page tree.</label>

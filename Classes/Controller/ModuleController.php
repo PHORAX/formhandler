@@ -100,10 +100,15 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 $demand->setPid($this->id);
             }
         }
+
         $logDataRows = $this->logDataRepository->findDemanded($demand);
         $this->view->assign('demand', $demand);
         $this->view->assign('logDataRows', $logDataRows);
         $this->view->assign('settings', $this->settings);
+        if(!$this->gp['show']) {
+            $this->gp['show'] = 10;
+        }
+        $this->view->assign('showItems', $this->gp['show']);
         $permissions = [];
         if ($GLOBALS['BE_USER']->user['admin'] || intval($this->settings['enableClearLogs']) === 1) {
             $permissions['delete'] = TRUE;

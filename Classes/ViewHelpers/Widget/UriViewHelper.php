@@ -39,10 +39,12 @@ class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper
         }
 
         $queryParameters = [$argumentPrefix => $arguments];
+
         //@TODO: HOW TO DO THIS BETTER?
         $additionalParams = [
-            'tx_formhandler_web_formhandlertxformhandler' => [
-                'demand' => $_POST['tx_formhandler_web_formhandlertxformhandler']['demand']
+            'tx_formhandler_web_formhandlerlog' => [
+                'demand' => $_POST['tx_formhandler_web_formhandlerlog']['demand'],
+                'show' => $_POST['tx_formhandler_web_formhandlerlog']['show']
             ]
         ];
         $queryParameters = array_merge($queryParameters, $additionalParams);
