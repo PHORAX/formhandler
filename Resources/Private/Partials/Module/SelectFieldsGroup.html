@@ -14,7 +14,12 @@
         <f:for each="{fields}" as="field">
             <tr>
                 <td><label for="tx_formhandler_logdata_{field}">{field}</label></td>
-                <td><f:form.checkbox id="tx_formhandler_logdata_{field}" name="fields[]" value="{field}" /></td>
+                <td>
+                    <label class="btn btn-default btn-checkbox">
+                        <f:form.checkbox id="tx_formhandler_logdata_{field}" name="fields[]" value="{field}" />
+                        <span class="t3-icon fa"></span>
+                    </label>
+                </td>
             </tr>
         </f:for>
         </tbody>
