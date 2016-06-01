@@ -70,4 +70,16 @@ TYPO3.jQuery(function() {
 			});
 		}
 	});
+
+	TYPO3.jQuery(".table.select-fields A.select-all").on("click", function(e) {
+		e.preventDefault();
+		var table = TYPO3.jQuery(this).closest("TABLE");
+		var allCheckboxes = table.find('INPUT[type="checkbox"]');
+		var activeCheckboxes = table.find('INPUT[type="checkbox"]:checked');
+		if(allCheckboxes.length === activeCheckboxes.length) {
+			allCheckboxes.prop("checked", false);
+		} else {
+			allCheckboxes.prop("checked", true);
+		}
+	});
 });

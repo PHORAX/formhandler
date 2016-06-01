@@ -12,39 +12,15 @@
 		<f:form.hidden name="logDataUids" value="{logDataUids}" />
 
 		<f:if condition="{fields.global -> f:count()} > 0">
-			<h3>Global</h3>
-			<f:for each="{fields.global}" as="field">
-				<div class="form-group fields-global">
-					<label for="tx_formhandler_logdata_{field}">
-						<f:form.checkbox id="tx_formhandler_logdata_{field}" name="fields[]" value="{field}" />
-						{field}
-					</label>
-				</div>
-			</f:for>
+			<f:render partial="Module/SelectFieldsGroup" arguments="{fields: fields.global, groupLabel: 'Global Fields', groupName: 'global'}" />
 		</f:if>
 
 		<f:if condition="{fields.custom -> f:count()} > 0">
-			<h3>Custom</h3>
-			<f:for each="{fields.custom}" as="field">
-				<div class="form-group fields-custom">
-					<label for="tx_formhandler_logdata_{field}">
-						<f:form.checkbox id="tx_formhandler_logdata_{field}" name="fields[]" value="{field}" />
-						{field}
-					</label>
-				</div>
-			</f:for>
+			<f:render partial="Module/SelectFieldsGroup" arguments="{fields: fields.custom, groupLabel: 'Custom Fields', groupName: 'custom'}" />
 		</f:if>
 
 		<f:if condition="{fields.system -> f:count()} > 0">
-			<h3>System</h3>
-			<f:for each="{fields.system}" as="field">
-				<div class="form-group fields-system">
-					<label for="tx_formhandler_logdata_{field}">
-						<f:form.checkbox id="tx_formhandler_logdata_{field}" name="fields[]" value="{field}" />
-						{field}
-					</label>
-				</div>
-			</f:for>
+			<f:render partial="Module/SelectFieldsGroup" arguments="{fields: fields.system, groupLabel: 'System Fields', groupName: 'system'}" />
 		</f:if>
 		<div class="form-group">
 			<f:form.submit value="{f:translate(key: 'button.export')}" class="btn btn-default btn-sm" />
