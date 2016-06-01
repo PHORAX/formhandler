@@ -19,7 +19,6 @@
 						<a href="{fh:widget.uri(arguments:{currentPage: 1})}" title="{f:translate(key:'widget.pagination.first')}">
 							<core:icon identifier="actions-view-paging-first" />
 						</a>
-						/>
 					</li>
 					<li>
 						<a href="{fh:widget.uri(arguments:{currentPage: pagination.previousPage})}" title="{f:translate(key:'widget.pagination.previous')}">
@@ -94,6 +93,8 @@
 					<li class="disabled">
 						<span>
 							<core:icon identifier="actions-view-paging-next" />
+						</span>
+					</li>
 					<li class="disabled">
 						<span>
 							<core:icon identifier="actions-view-paging-last" />
