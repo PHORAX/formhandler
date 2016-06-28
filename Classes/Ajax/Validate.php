@@ -25,6 +25,15 @@ class Validate
 {
 
     /**
+     * @var array
+     */
+    protected $templates = array(
+        'spanSuccess' => '<span class="success">%s</span>',
+        'spanError' => '<span class="error">%s</span>',
+    );
+
+
+    /**
      * Main method of the class.
      *
      * @return string The HTML list of remaining files to be displayed in the form
@@ -60,7 +69,7 @@ class Validate
                     $view = $this->initView($content);
                     $content = $view->render($gp, $errors);
                 }
-                $content = '<span class="success">' . $content . '</span>';
+                $content = sprintf($this->templates['spanSuccess'], $content);
             } else {
                 $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'notOk');
                 if (strlen($content) === 0) {
@@ -72,7 +81,7 @@ class Validate
                     ];
                     $content = $view->render($gp, $errors);
                 }
-                $content = '<span class="error">' . $content . '</span>';
+                $content = sprintf($this->templates['spanError'], $content);
             }
             print $content;
         }
