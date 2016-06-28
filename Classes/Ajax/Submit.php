@@ -98,6 +98,3 @@ class Submit
     }
 
 }
-
-$obj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Typoheads\Formhandler\Ajax\Submit::class);
-$obj->main();
