@@ -69,7 +69,7 @@
                 fieldName = settings.formValuesPrefix + '[' + fieldName + ']';
             }
 
-            formhandlerDiv.on('blur', "input[name^='"+ fieldName + "'],textarea[name^='"+ fieldName + "']", function() {
+            formhandlerDiv.on('blur', "input[name^='"+ fieldName + "'],select[name^='"+ fieldName + "'],textarea[name^='"+ fieldName + "']", function() {
                 var field = $(this);
                 var name = field.attr("name");
                 var shortName = name.replace(settings.formValuesPrefix, '').replace("[", "").replace("]", "");
