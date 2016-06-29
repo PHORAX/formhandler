@@ -95,31 +95,11 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
         }
 
         $disableJS = intval($this->utilityFuncs->getSingle($this->settings, 'disableJS'));
-        if (!$disableJS) {
-            $this->addJS('<script type="text/javascript" src="typo3conf/ext/formhandler/Resources/Public/JavaScript/ajax.js"></script>', 'base', false);
-            $this->addJS('<script type="text/javascript">
-                (function( $ ) {
-                    $(function() {
-                        $("' . $formSelector . '").formhandler({
-                            pageID: "' . $GLOBALS['TSFE']->id . '",
-                            contentID: "' . $this->cObj->data['uid'] . '",
-                            randomID: "' . $this->globals->getRandomID() . '",
-                            formValuesPrefix: "' . $this->globals->getFormValuesPrefix() . '",
-                            lang: "' . $GLOBALS['TSFE']->sys_language_uid . '",
-                            submitButtonSelector: "' . $submitButtonSelector . '",
-                            ajaxSubmit: ' . ($isAjaxSubmit ? "true" : "false") . ',
-                            autoDisableSubmitButton: ' . ($autoDisableSubmitButton ? "true" : "false") . ',
-                            validateFields: [\'' . implode("','", $validateFields) . '\'],
-                            validationStatusClasses: {
-                                base: "' . $this->validationStatusClasses['base'] . '",
-                                valid: "' . $this->validationStatusClasses['valid'] . '",
-                                invalid: "' . $this->validationStatusClasses['invalid'] . '"
-                            }
-                        });
-                    });
 
-                }( jQuery ));
-            </script>', 'ext');
+        if (!$disableJS) {
+            $init = $this->getJavascriptFormInit($formSelector, $submitButtonSelector, $isAjaxSubmit, $autoDisableSubmitButton, $validateFields);
+            $this->addJS('<script type="text/javascript" src="typo3conf/ext/formhandler/Resources/Public/JavaScript/ajax.js"></script>', 'base', false);
+            $this->addJS('<script type="text/javascript"> ' . $init . ' </script>', 'ext');
         }
     }
 
@@ -209,6 +189,39 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
                 $GLOBALS['TSFE']->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] = $js;
             }
         }
+    }
+
+    /**
+     * @param $formSelector
+     * @param $submitButtonSelector
+     * @param $isAjaxSubmit
+     * @param $autoDisableSubmitButton
+     * @param $validateFields
+     *
+     * @return string
+     */
+    protected function getJavascriptFormInit($formSelector, $submitButtonSelector, $isAjaxSubmit, $autoDisableSubmitButton, $validateFields)
+    {
+        return '(function( $ ) {
+                    $(function() {
+                        $("'.$formSelector.'").formhandler({
+                            pageID: "'.$GLOBALS['TSFE']->id.'",
+                            contentID: "'.$this->cObj->data['uid'].'",
+                            randomID: "'.$this->globals->getRandomID().'",
+                            formValuesPrefix: "'.$this->globals->getFormValuesPrefix().'",
+                            lang: "'.$GLOBALS['TSFE']->sys_language_uid.'",
+                            submitButtonSelector: "'.$submitButtonSelector.'",
+                            ajaxSubmit: '.($isAjaxSubmit ? "true" : "false").',
+                            autoDisableSubmitButton: '.($autoDisableSubmitButton ? "true" : "false").',
+                            validateFields: [\''.implode("','", $validateFields).'\'],
+                            validationStatusClasses: {
+                                base: "'.$this->validationStatusClasses['base'].'",
+                                valid: "'.$this->validationStatusClasses['valid'].'",
+                                invalid: "'.$this->validationStatusClasses['invalid'].'"
+                            }
+                        });
+                    });
+                }( jQuery ));';
     }
 
 }
