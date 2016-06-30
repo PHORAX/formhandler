@@ -74,6 +74,12 @@
                 var name = field.attr("name");
                 var shortName = name.replace(settings.formValuesPrefix, '').replace("[", "").replace("]", "");
 
+                var regex = /(.*?)\[.*/gi; //Removes deep array keys for checkbox like foo[1]
+                var clean = regex.exec(shortName);
+                if(clean.length>0){
+                  shortName = clean[1]
+                }
+
                 var loading = formhandlerDiv.find('#loading_' + shortName);
                 var result = formhandlerDiv.find('#result_' + shortName);
                 loading.show();
