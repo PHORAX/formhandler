@@ -21,7 +21,7 @@
                 var field = $(this);
                 var name = field.attr("name");
                 var shortName = name.replace(settings.formValuesPrefix, '').replace("[", "").replace("]", "");
-                var regex = /(.*?)\[.*/gi; //Removes deep array keys for checkbox like foo[1]
+                var regex = /(.*?)\[.*/gi; //Removes deep array keys for checkbox like foo[1][2][3]
                 var clean = regex.exec(shortName);
                 if (clean !== null && clean.length > 0) {
                     shortName = clean[1];
