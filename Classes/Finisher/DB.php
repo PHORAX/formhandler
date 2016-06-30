@@ -12,6 +12,8 @@ namespace Typoheads\Formhandler\Finisher;
      * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
      * Public License for more details.                                       *
      *                                                                        */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
 
 /**
  * This finisher stores the submitted values into a table in the TYPO3 database according to the configuration
@@ -19,7 +21,7 @@ namespace Typoheads\Formhandler\Finisher;
  * Example configuration:
  *
  * <code>
- * finishers.1.class = Tx_Formhandler_Finisher_DB
+ * finishers.1.class = Finisher\DB
  *
  * #The table to store the records in
  * finishers.1.config.table = tt_content
@@ -105,7 +107,7 @@ class DB extends AbstractFinisher
 
             //Get DB info, including UID
             if (!$this->doUpdate) {
-                $this->gp['inserted_uid'] = $GLOBALS['TYPO3_DB']->sql_insert_id();
+                $this->gp['inserted_uid'] = $this->getInsertedUid();
                 $this->gp[$this->table . '_inserted_uid'] = $this->gp['inserted_uid'];
                 $info = [
                     'table' => $this->table,
@@ -144,20 +146,19 @@ class DB extends AbstractFinisher
      */
     protected function save(&$queryFields)
     {
-
-        //insert query
+        //insert
         if (!$this->doUpdate) {
             $isSuccess = $this->doInsert($queryFields);
-
-            //update query
-        } else {
-
+        }
+        //update
+        else {
             //check if uid of record to update is in GP
             $uid = $this->getUpdateUid();
 
             $andWhere = $this->utilityFuncs->getSingle($this->settings, 'andWhere');
             $isSuccess = $this->doUpdate($uid, $queryFields, $andWhere);
         }
+
         return $isSuccess;
     }
 
@@ -314,8 +315,8 @@ class DB extends AbstractFinisher
                         case 'saltedpassword':
                             $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
 
-                            $saltedpasswords = \TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility::returnExtConf();
-                            $tx_saltedpasswords = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($saltedpasswords['saltedPWHashingMethod']);
+                            $saltedpasswords = SaltedPasswordsUtility::returnExtConf();
+                            $tx_saltedpasswords = GeneralUtility::makeInstance($saltedpasswords['saltedPWHashingMethod']);
                             $encryptedPassword = $tx_saltedpasswords->getHashedPassword($this->gp[$field]);
 
                             $fieldValue = $encryptedPassword;
@@ -391,7 +392,7 @@ class DB extends AbstractFinisher
                             $fieldValue = time();
                             break;
                         case 'ip':
-                            $fieldValue = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR');
+                            $fieldValue = GeneralUtility::getIndpEnv('REMOTE_ADDR');
                             break;
                         case 'inserted_uid':
                             $table = $this->utilityFuncs->getSingle($options['special.'], 'table');
@@ -438,6 +439,15 @@ class DB extends AbstractFinisher
             array_push($filenames, $file['uploaded_name']);
         }
         return implode(',', $filenames);
+    }
+
+    /**
+     * Returns the last inserted UID
+     * @return int UID
+     */
+    protected function getInsertedUid() {
+        $uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
+        return intval($uid);
     }
 
     /**

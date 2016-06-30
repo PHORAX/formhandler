@@ -12,6 +12,8 @@ namespace Typoheads\Formhandler\Finisher;
      * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
      * Public License for more details.                                       *
      *                                                                        */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use Exception;
 
 /**
  * This finisher stores the submitted values into a table in a different database than the TYPO3 database according to the configuration.
@@ -20,7 +22,7 @@ namespace Typoheads\Formhandler\Finisher;
  * Example configuration:
  *
  * <code>
- * finishers.1.class = Tx_Formhandler_Finisher_DifferentDB
+ * finishers.1.class = Finisher\DifferentDB
  * finishers.1.config.host = 127.0.0.1
  * finishers.1.config.port = 666
  * finishers.1.config.db = typo3_421
@@ -29,10 +31,10 @@ namespace Typoheads\Formhandler\Finisher;
  * finishers.1.config.driver = oci8
  * </code>
  *
- * Further configuration equals the configuration of Tx_Formhandler_Finisher_DB.
+ * Further configuration equals the configuration of Finisher\DB.
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @see Tx_Formhandler_Finisher_DB
+ * @see \Typoheads\Formhandler\Finisher\DB
  */
 class DifferentDB extends DB
 {
@@ -78,6 +80,12 @@ class DifferentDB extends DB
     protected $user;
 
     /**
+     * SQL Statement executed on DB initialization
+     * @var string
+     */
+    protected $setDBinit;
+
+    /**
      * The password to use.
      *
      * @access protected
@@ -86,129 +94,163 @@ class DifferentDB extends DB
     protected $password;
 
     /**
-     * Method to query the database making an insert or update statement using the given fields.
+     * The connection object.
      *
-     * @see \Typoheads\Formhandler\Finisher\DB::save()
-     * @param array &$queryFields Array holding the query fields
-     * @return void
+     * @access protected
+     * @var \ADOConnection
      */
-    protected function save(&$queryFields)
+    protected $connection;
+
+    protected function doInsert($queryFields)
     {
+        $isSuccess = TRUE;
 
-        //if adodb is installed
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('adodb')) {
+        // get insert query
+        $query = $GLOBALS['TYPO3_DB']->INSERTquery($this->table, $queryFields);
+        $this->utilityFuncs->debugMessage('sql_request', [$query]);
 
-            //insert query
-            if (!$this->doUpdate) {
-                $query = $GLOBALS['TYPO3_DB']->INSERTquery($this->table, $queryFields);
-                $this->utilityFuncs->debugMessage('sql_request', [$query]);
+        // execute query
+        $this->connection->Execute($query);
 
-                //update query
-            } else {
-
-                //check if uid of record to update is in GP
-                $uid = $this->getUpdateUid();
-                $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
-                if ($uid) {
-                    $query = $GLOBALS['TYPO3_DB']->UPDATEquery($this->table, $this->key . '=' . $uid, $queryFields);
-                    $this->utilityFuncs->debugMessage('sql_request', [$query]);
-                } else {
-                    $this->utilityFuncs->debugMessage('no_update_possible', [], 2);
-                }
-            }
-
-            //open connection
-            $conn = &NewADOConnection($this->driver);
-            $host = $this->host;
-            if ($this->port) {
-                $host .= ':' . $this->port;
-            }
-            if ($this->db) {
-                $conn->Connect($host, $this->user, $this->password, $this->db);
-            } else {
-                $conn->Connect($host, $this->user, $this->password);
-            }
-
-            if ($this->settings['setDBinit']) {
-                $conn->Execute($this->utilityFuncs->getSingle($this->settings, 'setDBinit'));
-            }
-
-            //insert data
-            $conn->Execute($query);
-
-            //close connection
-            $conn->Close();
+        // error occured?
+        if ($this->connection->ErrorNo() != 0) {
+            $ErrorMsg = $this->connection->ErrorMsg();
+            $this->utilityFuncs->debugMessage('error', [$ErrorMsg], 3);
+            $isSuccess = FALSE;
         }
+
+        return $isSuccess;
     }
 
-    protected function doesRecordExist($uid)
+    protected function doUpdate($uid, $queryFields, $andWhere)
+    {
+        $isSuccess = TRUE;
+
+        // build update query
+        $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
+        $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
+        $query = $GLOBALS['TYPO3_DB']->UPDATEquery($this->table, $this->key . '=' . $uid . $andWhere, $queryFields);
+        $this->utilityFuncs->debugMessage('sql_request', [$query]);
+
+        // execute query
+        $this->connection->Execute($query);
+
+        if ($this->connection->ErrorNo() != 0) {
+            $ErrorMsg = $this->connection->ErrorMsg();
+            $this->utilityFuncs->debugMessage('error', [$ErrorMsg], 3);
+            $isSuccess = FALSE;
+        }
+
+        return $isSuccess;
+    }
+
+    protected function doesRecordExist($uid, $andWhere)
     {
         $exists = FALSE;
+        
         if ($uid) {
             $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
+            $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
+            $query = $GLOBALS['TYPO3_DB']->SELECTquery($this->key, $this->table, $this->key . '=' . $uid . $andWhere);
 
-            //if adodb is installed (already tested in init, but used to show adodb is used)
-            if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('adodb')) {
-
-                //open connection
-                $conn = &NewADOConnection($this->driver);
-
-                $host = $this->host;
-
-                if ($this->port) {
-                    $host .= ':' . $this->port;
-                }
-
-                if ($this->db) {
-                    $conn->Connect($host, $this->user, $this->password, $this->db);
-                } else {
-                    $conn->Connect($host, $this->user, $this->password);
-                }
-
-                $query = $GLOBALS['TYPO3_DB']->SELECTquery($this->key, $this->table, $this->key . '=' . $uid);
-
-                $temp = $conn->Execute($query);
-                $res = count($temp->GetArray());
-
-                //close connection
-                $conn->Close();
-            }
-
-            if ($res > 0) {
+            /** @var \ADORecordSet $rs */
+            $rs = $this->connection->Execute($query);
+            
+            if ($rs->RecordCount() > 0) {
                 $exists = TRUE;
             }
+
+            $rs->Close();
         }
 
         return $exists;
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function getInsertedUid()
+    {
+        $uid = $this->connection->Insert_ID();
+        return intval($uid);
+    }
+
+    /**
      * Inits the finisher mapping settings values to internal attributes.
      *
-     * @see Tx_Formhandler_Finisher_DB::init
+     * @see \Typoheads\Formhandler\Finisher\DB::init
+     * @throws \Exception
      * @return void
      */
     public function init($gp, $settings)
     {
-
-        //if adodb is installed
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('adodb')) {
-            require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('adodb') . 'adodb/adodb.inc.php');
-
-            $this->driver = $this->utilityFuncs->getSingle($settings, 'driver');
-            $this->db = $this->utilityFuncs->getSingle($settings, 'db');
-            $this->host = $this->utilityFuncs->getSingle($settings, 'host');
-            $this->port = $this->utilityFuncs->getSingle($settings, 'port');
-            $this->user = $this->utilityFuncs->getSingle($settings, 'username');
-            $this->password = $this->utilityFuncs->getSingle($settings, 'password');
-            if (!$this->driver) {
-                throw new \Exception('No driver given!');
-            }
-        } else {
+        //if adodb is not loaded
+        if (!ExtensionManagementUtility::isLoaded('adodb')) {
             $this->utilityFuncs->throwException('extension_required', 'adodb', '\\Typoheads\\Formhandler\\Finisher\\DifferentDB');
         }
+
+        //include sources
+        require_once(ExtensionManagementUtility::extPath('adodb') . 'adodb/adodb.inc.php');
+
+        //read settings
+        $this->driver = $this->utilityFuncs->getSingle($settings, 'driver');
+        $this->db = $this->utilityFuncs->getSingle($settings, 'db');
+        $this->host = $this->utilityFuncs->getSingle($settings, 'host');
+        $this->port = $this->utilityFuncs->getSingle($settings, 'port');
+        $this->user = $this->utilityFuncs->getSingle($settings, 'username');
+        $this->password = $this->utilityFuncs->getSingle($settings, 'password');
+        $this->setDBinit = $this->utilityFuncs->getSingle($settings, 'setDBinit');
+
+        //if no driver set
+        if (!$this->driver) {
+            throw new Exception('No driver given!');
+        }
+
+        //open DB connection now
+        $this->connect();
 
         parent::init($gp, $settings);
     }
 
+    /**
+     * Create DB connection
+     * @throws \Exception
+     */
+    protected function connect()
+    {
+        /** @var $this->connection \ADOConnection */
+        $this->connection = &NewADOConnection($this->driver);
+
+        $host = $this->host;
+
+        if ($this->port) {
+            $host .= ':' . $this->port;
+        }
+
+        if ($this->db) {
+            $this->connection->Connect($host, $this->user, $this->password, $this->db);
+        } else {
+            $this->connection->Connect($host, $this->user, $this->password);
+        }
+
+        if(!$this->connection->IsConnected()) {
+            $errMsg = $this->connection->ErrorMsg();
+            $errNo = $this->connection->ErrorNo();
+            $exceptionMsg = sprintf('Could not connect to database: %s', $errMsg);
+            throw new Exception($exceptionMsg, $errNo);
+        }
+
+        if ($this->setDBinit) {
+            $this->connection->Execute($this->setDBinit);
+        }
+    }
+
+    /**
+     * Disconnect DB
+     */
+    public function __destruct()
+    {
+        if($this->connection)
+            $this->connection->Close();
+    }
 }
