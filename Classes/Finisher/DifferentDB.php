@@ -13,7 +13,6 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use Exception;
 
 /**
  * This finisher stores the submitted values into a table in a different database than the TYPO3 database according to the configuration.
@@ -115,7 +114,7 @@ class DifferentDB extends DB
         // error occured?
         if ($this->connection->ErrorNo() != 0) {
             $ErrorMsg = $this->connection->ErrorMsg();
-            $this->utilityFuncs->debugMessage('error', [$ErrorMsg], 3);
+            $this->utilityFuncs->debugMessage('sql_request_error', [$ErrorMsg], 3);
             $isSuccess = FALSE;
         }
 
@@ -137,7 +136,7 @@ class DifferentDB extends DB
 
         if ($this->connection->ErrorNo() != 0) {
             $ErrorMsg = $this->connection->ErrorMsg();
-            $this->utilityFuncs->debugMessage('error', [$ErrorMsg], 3);
+            $this->utilityFuncs->debugMessage('sql_request_error', [$ErrorMsg], 3);
             $isSuccess = FALSE;
         }
 
@@ -179,7 +178,6 @@ class DifferentDB extends DB
      * Inits the finisher mapping settings values to internal attributes.
      *
      * @see \Typoheads\Formhandler\Finisher\DB::init
-     * @throws \Exception
      * @return void
      */
     public function init($gp, $settings)
@@ -203,7 +201,7 @@ class DifferentDB extends DB
 
         //if no driver set
         if (!$this->driver) {
-            throw new Exception('No driver given!');
+            $this->utilityFuncs->throwException('no_driver', '\\Typoheads\\Formhandler\\Finisher\\DifferentDB');
         }
 
         //open DB connection now
@@ -214,7 +212,6 @@ class DifferentDB extends DB
 
     /**
      * Create DB connection
-     * @throws \Exception
      */
     protected function connect()
     {
@@ -227,21 +224,29 @@ class DifferentDB extends DB
             $host .= ':' . $this->port;
         }
 
+        // connect
         if ($this->db) {
             $this->connection->Connect($host, $this->user, $this->password, $this->db);
         } else {
             $this->connection->Connect($host, $this->user, $this->password);
         }
 
+        // check connection
         if(!$this->connection->IsConnected()) {
             $errMsg = $this->connection->ErrorMsg();
-            $errNo = $this->connection->ErrorNo();
-            $exceptionMsg = sprintf('Could not connect to database: %s', $errMsg);
-            throw new Exception($exceptionMsg, $errNo);
+            $this->utilityFuncs->throwException('db_connection_failed', $errMsg);
         }
 
+        // execute initial statement
         if ($this->setDBinit) {
+            $this->utilityFuncs->debugMessage('sql_request', [$this->setDBinit]);
             $this->connection->Execute($this->setDBinit);
+
+            // error occured?
+            if($this->connection->ErrorNo() != 0) {
+                $errMsg = $this->connection->ErrorMsg();
+                $this->utilityFuncs->debugMessage('sql_request_error', [$errMsg], 3);
+            }
         }
     }
 
