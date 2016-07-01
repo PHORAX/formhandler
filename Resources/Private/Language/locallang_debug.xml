@@ -52,6 +52,7 @@
 			<label index="no_update_possible">UID parameter not found in GP. Cannot make update!</label>
 			<label index="redirect_failed">Tried to do a redirect to specified page! The redirect may have failed because the debug settings is on!</label>
 			<label index="sql_request">Executing request "%s";</label>
+			<label index="sql_request_error">SQL request failed: %s</label>
 			<label index="sql_too_many_rows">SQL request resulted in %d rows! Only one row is allowed.</label>
 			<label index="store_gp">Storing GP in session!</label>
 			<label index="subparts_missing">Subparts in template missing! Found: %s</label>
@@ -108,6 +109,7 @@
 			<label index="no_mail_template">E-Mail-Template für Modus %s und Typ %s nicht gefunden! Diese E-Mail wird übersprungen!</label>
 			<label index="no_update_possible">UID-Parameter nicht gefunden in GP. Update nicht möglich!</label>
 			<label index="redirect_failed">Versuchte eine Weiterleitung zur angegebenen Seite zu machen! Die Weiterleitung ist gescheitert, möglicherweise weil der Debug-Modus aktiviert ist!</label>
+			<label index="sql_request_error">SQL Ausführung fehlgeschlagen: %s</label>
 			<label index="sql_request">Führe aus: "%s"</label>
 			<label index="sql_too_many_rows">SQL-Abfrage lieferte %s Ergebnisse. Nur ein Ergebnis ist erlaubt.</label>
 			<label index="store_gp">Speichere GP in Session!</label>
