@@ -634,11 +634,7 @@ class Form extends AbstractView
     protected function fillCaptchaMarkers(&$markers)
     {
         if (stristr($this->template, '###CAPTCHA###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('captcha')) {
-            $captchaPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('captcha') . 'captcha/captcha.php?rand=' . rand();
-            if (substr($captchaPath, 0, 1) !== '/') {
-                $captchaPath = '/' . $captchaPath;
-            }
-            $markers['###CAPTCHA###'] = '<img src="' . $captchaPath . '" alt="" />';
+            $markers['###CAPTCHA###'] = \ThinkopenAt\Captcha\Utility::makeCaptcha();
             $markers['###captcha###'] = $markers['###CAPTCHA###'];
         }
         if (stristr($this->template, '###SR_FREECAP_###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_freecap')) {
