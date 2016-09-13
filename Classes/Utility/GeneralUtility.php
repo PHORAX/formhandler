@@ -39,13 +39,19 @@ class GeneralUtility implements SingletonInterface
         $gp = array_merge(\TYPO3\CMS\Core\Utility\GeneralUtility::_GET(), \TYPO3\CMS\Core\Utility\GeneralUtility::_POST());
         $prefix = \Typoheads\Formhandler\Utility\Globals::getFormValuesPrefix();
         if ($prefix) {
-            $gp = $gp[$prefix];
+            if(is_array($gp[$prefix])) {
+                $gp = $gp[$prefix];
+            } else {
+                $gp = array();
+            }
         }
 
         /*
          * Unset key "saveDB" to prevent conflicts with information set by Finisher_DB
          */
-        unset($gp['saveDB']);
+        if(is_array($gp) && array_key_exists('saveDB', $gp)) {
+            unset($gp['saveDB']);
+        }
         return $gp;
     }
 
