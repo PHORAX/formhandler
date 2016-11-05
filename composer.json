@@ -1,5 +1,5 @@
 {
-	"name": "typoheads/formhandler",
+	"name": "phorax/formhandler",
 	"type": "typo3-cms-extension",
 	"description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
 	"keywords": [
