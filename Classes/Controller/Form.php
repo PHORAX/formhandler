@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Controller;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Page\PageRenderer;
+
 /**
  * Default controller for Formhandler
  *
@@ -1434,7 +1436,7 @@ class Form extends AbstractController
             $file = $fileOptions['file'];
             if (strlen(trim($file)) > 0) {
                 $file = $this->utilityFuncs->resolveRelPathFromSiteRoot($file);
-                $pageRenderer = $GLOBALS['TSFE']->getPageRenderer();
+                $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRenderer::class);
                 $pageRenderer->addCssFile(
                     $file,
                     $fileOptions['alternate'] ? 'alternate stylesheet' : 'stylesheet',
@@ -1461,7 +1463,7 @@ class Form extends AbstractController
             $file = $fileOptions['file'];
             if (strlen(trim($file)) > 0) {
                 $file = $this->utilityFuncs->resolveRelPathFromSiteRoot($file);
-                $pageRenderer = $GLOBALS['TSFE']->getPageRenderer();
+                $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRenderer::class);
                 $pageRenderer->addJsFile(
                     $file,
                     $fileOptions['type'] ? $fileOptions['type'] : 'text/javascript',
@@ -1486,7 +1488,7 @@ class Form extends AbstractController
             $file = $fileOptions['file'];
             if (strlen(trim($file)) > 0) {
                 $file = $this->utilityFuncs->resolveRelPathFromSiteRoot($file);
-                $pageRenderer = $GLOBALS['TSFE']->getPageRenderer();
+                $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRenderer::class);
                 $pageRenderer->addJsFooterFile(
                     $file,
                     $fileOptions['type'] ? $fileOptions['type'] : 'text/javascript',
