@@ -15,8 +15,15 @@ namespace Typoheads\Formhandler\Controller;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Domain\Model\Demand;
+use Typoheads\Formhandler\Domain\Model\LogData;
+use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
 
-class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class ModuleController extends ActionController
 {
 
     /**
@@ -31,7 +38,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * The Formhandler component manager
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Component\Manager
+     * @var Manager
      */
     protected $componentManager;
 
@@ -39,7 +46,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * The Formhandler utility funcs
      *
      * @access protected
-     * @var \\Typoheads\Formhandler\Utility\GeneralUtility
+     * @var FormhandlerGeneralUtility
      */
     protected $utilityFuncs;
 
@@ -63,8 +70,8 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->id = intval($_GET['id']);
 
         $this->gp = $this->request->getArguments();
-        $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
-        $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
+        $this->componentManager = GeneralUtility::makeInstance(Manager::class);
+        $this->utilityFuncs = GeneralUtility::makeInstance(FormhandlerGeneralUtility::class);
         $this->pageRenderer = $this->objectManager->get('TYPO3\CMS\Core\Page\PageRenderer');
 
         if (!isset($this->settings['dateFormat'])) {
@@ -80,7 +87,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             $propertyMappingConfiguration->allowAllProperties();
             $propertyMappingConfiguration->setTypeConverterOption(
                 'TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter',
-                \TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
+                PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
                 TRUE
             );
         }
@@ -90,9 +97,10 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * Displays log data
+     * @param Demand|null $demand
      * @return void
      */
-    public function indexAction(\Typoheads\Formhandler\Domain\Model\Demand $demand = NULL)
+    public function indexAction(Demand $demand = NULL)
     {
         if ($demand === NULL) {
             $demand = $this->objectManager->get('Typoheads\Formhandler\Domain\Model\Demand');
@@ -116,7 +124,10 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->view->assign('permissions', $permissions);
     }
 
-    public function viewAction(\Typoheads\Formhandler\Domain\Model\LogData $logDataRow = NULL)
+    /**
+     * @param LogData|NULL $logDataRow
+     */
+    public function viewAction(LogData $logDataRow = NULL)
     {
         if ($logDataRow !== NULL) {
             $logDataRow->setParams(unserialize($logDataRow->getParams()));
@@ -135,7 +146,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         if ($logDataUids !== NULL) {
             if($this->settings[$filetype]['config']['fields']) {
-                $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings[$filetype]['config']['fields']);
+                $fields = GeneralUtility::trimExplode(',', $this->settings[$filetype]['config']['fields']);
                 $this->redirect(
                     'export',
                     null,
@@ -246,7 +257,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         $forceDelete = intval($this->settings['forceDelete']);
         if ($logDataUids === 'all') {
-            $text = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('message.deleted-all-logs', 'formhandler');
+            $text = LocalizationUtility::translate('message.deleted-all-logs', 'formhandler');
             if ($forceDelete){
                 $GLOBALS['TYPO3_DB']->exec_TRUNCATEquery('tx_formhandler_log');
             } else {
@@ -254,7 +265,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             }
         } else {
             $logDataUids = explode(',', $logDataUids);
-            $text = sprintf(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('message.deleted-log-rows', 'formhandler'), count($logDataUids));
+            $text = sprintf(LocalizationUtility::translate('message.deleted-log-rows', 'formhandler'), count($logDataUids));
             if ($forceDelete){
                 $GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_formhandler_log', 'uid IN (' . implode(',', $logDataUids) . ')');
             } else {

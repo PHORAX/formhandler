@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractComponent;
+
 /**
  * Abstract class for error checks for Formhandler
  *
@@ -20,7 +22,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  * @package    Tx_Formhandler
  * @subpackage    ErrorChecks
  */
-abstract class AbstractErrorCheck extends \Typoheads\Formhandler\Component\AbstractComponent
+abstract class AbstractErrorCheck extends AbstractComponent
 {
 
     protected $formFieldName;

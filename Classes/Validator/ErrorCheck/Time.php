@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Validates that a specified field's value is a valid time
  *
@@ -37,7 +39,7 @@ class Time extends AbstractErrorCheck
             $pattern = $this->utilityFuncs->getSingle($this->settings['params'], 'pattern');
             preg_match('/^[h|m]*(.)[h|m]*/i', $pattern, $res);
             $sep = $res[1];
-            $timeCheck = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $this->gp[$this->formFieldName]);
+            $timeCheck = GeneralUtility::trimExplode($sep, $this->gp[$this->formFieldName]);
             if (is_array($timeCheck)) {
                 $hours = $timeCheck[0];
                 if (!is_numeric($hours) || $hours < 0 || $hours > 23) {

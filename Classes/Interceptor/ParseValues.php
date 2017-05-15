@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Interceptor;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * An interceptor parsing some GET/POST parameters
  *
@@ -31,7 +33,7 @@ class ParseValues extends AbstractInterceptor
 
         //parse as float
         $parseFloatFields = $this->utilityFuncs->getSingle($this->settings, 'parseFloatFields');
-        $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $parseFloatFields, TRUE);
+        $fields = GeneralUtility::trimExplode(',', $parseFloatFields, TRUE);
         $this->parseFloats($fields);
 
         return $this->gp;

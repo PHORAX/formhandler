@@ -14,6 +14,7 @@ namespace Typoheads\Formhandler\Controller;
      *                                                                        */
 
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Default controller for Formhandler
@@ -122,9 +123,9 @@ class Form extends AbstractController
         $this->storeFileNamesInGP();
         $this->processFileRemoval();
 
-        $action = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('action');
+        $action = GeneralUtility::_GP('action');
         if ($this->globals->getFormValuesPrefix()) {
-            $temp = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP($this->globals->getFormValuesPrefix());
+            $temp = GeneralUtility::_GP($this->globals->getFormValuesPrefix());
             $action = $temp['action'];
         }
         if ($action) {
@@ -166,7 +167,7 @@ class Form extends AbstractController
         $content = '';
         $gp = $_GET;
         if ($this->globals->getFormValuesPrefix()) {
-            $gp = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP($this->globals->getFormValuesPrefix());
+            $gp = GeneralUtility::_GP($this->globals->getFormValuesPrefix());
         }
         if (is_array($this->settings['finishers.'])) {
             $finisherConf = [];
@@ -270,7 +271,7 @@ class Form extends AbstractController
             $currentGP = $this->utilityFuncs->getMergedGP();
             if ($this->settings['checkBoxFields']) {
                 $checkBoxFields = $this->utilityFuncs->getSingle($this->settings, 'checkBoxFields');
-                $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $checkBoxFields);
+                $fields = GeneralUtility::trimExplode(',', $checkBoxFields);
                 foreach ($fields as $idx => $field) {
                     if (isset($this->gp[$field]) && !isset($currentGP[$field])) {
                         unset($this->gp[$field]);
@@ -310,7 +311,7 @@ class Form extends AbstractController
 
                             $validator = $this->componentManager->getComponent($className);
                             if ($this->currentStep === $this->lastStep) {
-                                $userSetting = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($tsConfig['config.'], 'restrictErrorChecks'));
+                                $userSetting = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($tsConfig['config.'], 'restrictErrorChecks'));
                                 $autoSetting = [
                                     'fileAllowedTypes',
                                     'fileRequired',
@@ -800,7 +801,7 @@ class Form extends AbstractController
                                             $files['tmp_name'][$field] = [$files['tmp_name'][$field]];
                                         }
                                         move_uploaded_file($files['tmp_name'][$field][$idx], $uploadPath . $uploadedFileName);
-                                        \TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($uploadPath . $uploadedFileName);
+                                        GeneralUtility::fixPermissions($uploadPath . $uploadedFileName);
                                         $files['uploaded_name'][$field][$idx] = $uploadedFileName;
 
                                         //set values for session
@@ -809,7 +810,7 @@ class Form extends AbstractController
                                         $tmp['uploaded_path'] = $uploadPath;
                                         $tmp['uploaded_folder'] = $uploadFolder;
 
-                                        $uploadedUrl = rtrim(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL'), '/');
+                                        $uploadedUrl = rtrim(GeneralUtility::getIndpEnv('TYPO3_SITE_URL'), '/');
                                         $uploadedUrl .= '/' . trim($uploadFolder, '/') . '/';
                                         $uploadedUrl .= trim($uploadedFileName, '/');
                                         
@@ -862,7 +863,7 @@ class Form extends AbstractController
         $data = $this->globals->getSession()->get('values');
 
         $checkBoxFields = $this->utilityFuncs->getSingle($this->settings, 'checkBoxFields');
-        $checkBoxFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $checkBoxFields);
+        $checkBoxFields = GeneralUtility::trimExplode(',', $checkBoxFields);
 
         //set the variables in session
         if ($this->lastStep !== $this->currentStep) {
@@ -1127,9 +1128,9 @@ class Form extends AbstractController
         $session->start();
         $this->globals->setSession($session);
 
-        $action = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('action');
+        $action = GeneralUtility::_GP('action');
         if ($this->globals->getFormValuesPrefix()) {
-            $temp = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP($this->globals->getFormValuesPrefix());
+            $temp = GeneralUtility::_GP($this->globals->getFormValuesPrefix());
             $action = $temp['action'];
         }
         if ($this->globals->getSession()->get('finished') && !$action) {
@@ -1436,7 +1437,7 @@ class Form extends AbstractController
             $file = $fileOptions['file'];
             if (strlen(trim($file)) > 0) {
                 $file = $this->utilityFuncs->resolveRelPathFromSiteRoot($file);
-                $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRenderer::class);
+                $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
                 $pageRenderer->addCssFile(
                     $file,
                     $fileOptions['alternate'] ? 'alternate stylesheet' : 'stylesheet',
@@ -1463,7 +1464,7 @@ class Form extends AbstractController
             $file = $fileOptions['file'];
             if (strlen(trim($file)) > 0) {
                 $file = $this->utilityFuncs->resolveRelPathFromSiteRoot($file);
-                $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRenderer::class);
+                $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
                 $pageRenderer->addJsFile(
                     $file,
                     $fileOptions['type'] ? $fileOptions['type'] : 'text/javascript',
@@ -1488,7 +1489,7 @@ class Form extends AbstractController
             $file = $fileOptions['file'];
             if (strlen(trim($file)) > 0) {
                 $file = $this->utilityFuncs->resolveRelPathFromSiteRoot($file);
-                $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRenderer::class);
+                $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
                 $pageRenderer->addJsFooterFile(
                     $file,
                     $fileOptions['type'] ? $fileOptions['type'] : 'text/javascript',
@@ -1533,7 +1534,7 @@ class Form extends AbstractController
         //check for checkbox fields using the values in $newGP
         if ($this->settings['checkBoxFields']) {
             $checkBoxFields = $this->utilityFuncs->getSingle($this->settings, 'checkBoxFields');
-            $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $checkBoxFields);
+            $fields = GeneralUtility::trimExplode(',', $checkBoxFields);
             foreach ($fields as $idx => $field) {
                 if (!isset($newGP[$field]) && isset($this->gp[$field]) && $this->lastStep < $this->currentStep) {
                     $this->gp[$field] = $newGP[$field] = [];

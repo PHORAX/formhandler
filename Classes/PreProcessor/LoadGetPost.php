@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\PreProcessor;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * A pre processor for Formhandler loading GET/POST parameters passed from another page.
  *
@@ -40,7 +42,7 @@ class LoadGetPost extends AbstractPreProcessor
      */
     protected function loadGP()
     {
-        $gp = array_merge(\TYPO3\CMS\Core\Utility\GeneralUtility::_GET(), \TYPO3\CMS\Core\Utility\GeneralUtility::_POST());
+        $gp = array_merge(GeneralUtility::_GET(), GeneralUtility::_POST());
         $formValuesPrefix = $this->globals->getFormValuesPrefix();
         if ($formValuesPrefix) {
             $gp = $gp[$formValuesPrefix];

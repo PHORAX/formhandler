@@ -14,7 +14,12 @@ namespace Typoheads\Formhandler\Utility;
  * Public License for more details.                                       *
  *                                                                        */
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility as CoreGeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Utility\EidUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * A class providing helper functions for Formhandler
@@ -36,8 +41,8 @@ class GeneralUtility implements SingletonInterface
 
     static public function getMergedGP()
     {
-        $gp = array_merge(\TYPO3\CMS\Core\Utility\GeneralUtility::_GET(), \TYPO3\CMS\Core\Utility\GeneralUtility::_POST());
-        $prefix = \Typoheads\Formhandler\Utility\Globals::getFormValuesPrefix();
+        $gp = array_merge(CoreGeneralUtility::_GET(), CoreGeneralUtility::_POST());
+        $prefix = Globals::getFormValuesPrefix();
         if ($prefix) {
             if(is_array($gp[$prefix])) {
                 $gp = $gp[$prefix];
@@ -62,7 +67,7 @@ class GeneralUtility implements SingletonInterface
      */
     static public function getTYPO3Root()
     {
-        $path = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME');
+        $path = CoreGeneralUtility::getIndpEnv('SCRIPT_FILENAME');
         $path = str_replace('/index.php', '', $path);
         return $path;
     }
@@ -166,7 +171,7 @@ class GeneralUtility implements SingletonInterface
                     if (!@file_exists($templateFile)) {
                         self::throwException('template_file_not_found', $templateFile);
                     }
-                    $templateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile);
+                    $templateCode = CoreGeneralUtility::getURL($templateFile);
                 } else {
 
                     //The setting "templateFile" was a cObject which returned HTML content. Just use that as template code.
@@ -177,7 +182,7 @@ class GeneralUtility implements SingletonInterface
                 if (!@file_exists($templateFile)) {
                     self::throwException('template_file_not_found', $templateFile);
                 }
-                $templateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile);
+                $templateCode = CoreGeneralUtility::getURL($templateFile);
             }
         } else {
             if (self::isTemplateFilePath($templateFile)) {
@@ -185,7 +190,7 @@ class GeneralUtility implements SingletonInterface
                 if (!@file_exists($templateFile)) {
                     self::throwException('template_file_not_found', $templateFile);
                 }
-                $templateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile);
+                $templateCode = CoreGeneralUtility::getURL($templateFile);
             } else {
                 // given variable $templateFile already contains the template code
                 $templateCode = $templateFile;
@@ -265,7 +270,7 @@ class GeneralUtility implements SingletonInterface
         if (!self::isValidCObject($arr[$key])) {
             return $arr[$key];
         }
-        return \Typoheads\Formhandler\Utility\Globals::getCObj()->cObjGetSingle($arr[$key], $arr[$key . '.']);
+        return Globals::getCObj()->cObjGetSingle($arr[$key], $arr[$key . '.']);
     }
 
     static public function isValidCObject($str)
@@ -303,8 +308,8 @@ class GeneralUtility implements SingletonInterface
 
         // these parameters have to be added to the redirect url
         $addParams = [];
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L')) {
-            $addParams['L'] = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L');
+        if (CoreGeneralUtility::_GP('L')) {
+            $addParams['L'] = CoreGeneralUtility::_GP('L');
         }
 
         if (is_array($additionalParams)) {
@@ -318,7 +323,7 @@ class GeneralUtility implements SingletonInterface
             }
         }
 
-        $url = \Typoheads\Formhandler\Utility\Globals::getCObj()->getTypoLink_URL($redirect, $addParams);
+        $url = Globals::getCObj()->getTypoLink_URL($redirect, $addParams);
 
         //correct the URL by replacing &amp;
         if ($correctRedirectUrl) {
@@ -326,15 +331,15 @@ class GeneralUtility implements SingletonInterface
         }
 
         if ($url) {
-            if (!\Typoheads\Formhandler\Utility\Globals::isAjaxMode()) {
+            if (!Globals::isAjaxMode()) {
                 $status = '303 See Other';
                 if ($headerStatusCode) {
                     $status = $headerStatusCode;
                 }
                 header('Status: ' . $status);
-                header('Location: ' . \TYPO3\CMS\Core\Utility\GeneralUtility::locationHeaderUrl($url));
+                header('Location: ' . CoreGeneralUtility::locationHeaderUrl($url));
             } else {
-                print '{' . json_encode('redirect') . ':' . json_encode(\TYPO3\CMS\Core\Utility\GeneralUtility::locationHeaderUrl($url)) . '}';
+                print '{' . json_encode('redirect') . ':' . json_encode(CoreGeneralUtility::locationHeaderUrl($url)) . '}';
                 exit;
             }
 
@@ -399,7 +404,7 @@ class GeneralUtility implements SingletonInterface
             $sheetArray = '';
         }
         if (is_array($sheetArray)) {
-            return self::pi_getFFvalueFromSheetArray($sheetArray, \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('/', $fieldName), $value);
+            return self::pi_getFFvalueFromSheetArray($sheetArray, CoreGeneralUtility::trimExplode('/', $fieldName), $value);
         }
         return '';
     }
@@ -459,7 +464,7 @@ class GeneralUtility implements SingletonInterface
                 $pos2 = strpos($pattern, 'm');
                 $pos3 = strpos($pattern, 'y');
 
-                $dateParts = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $date);
+                $dateParts = CoreGeneralUtility::trimExplode($sep, $date);
                 $timestamp = mktime(0, 0, 0, $dateParts[$pos2], $dateParts[$pos1], $dateParts[$pos3]);
             } else {
                 $dateObj = \DateTime::createFromFormat($format, $date);
@@ -526,7 +531,7 @@ class GeneralUtility implements SingletonInterface
     {
 
         //C:/xampp/htdocs/typo3/index.php
-        $scriptPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME');
+        $scriptPath = CoreGeneralUtility::getIndpEnv('SCRIPT_FILENAME');
 
         //C:/xampp/htdocs/typo3/
         $rootPath = str_replace('index.php', '', $scriptPath);
@@ -581,7 +586,7 @@ class GeneralUtility implements SingletonInterface
             $message = vsprintf($message, $printfArgs);
         }
         $data = self::recursiveHtmlSpecialChars($data);
-        foreach (\Typoheads\Formhandler\Utility\Globals::getDebuggers() as $idx => $debugger) {
+        foreach (Globals::getDebuggers() as $idx => $debugger) {
             $debugger->addToDebugLog(htmlspecialchars($message), $severity, $data);
         }
     }
@@ -652,7 +657,7 @@ class GeneralUtility implements SingletonInterface
         $path = explode('/', $path);
         if (strpos($path[0], 'EXT') === 0) {
             $parts = explode(':', $path[0]);
-            $path[0] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($parts[1]);
+            $path[0] = ExtensionManagementUtility::extPath($parts[1]);
         }
         $path = implode('/', $path);
         $path = str_replace('//', '/', $path);
@@ -670,7 +675,7 @@ class GeneralUtility implements SingletonInterface
         $path = explode('/', $path);
         if (strpos($path[0], 'EXT') === 0) {
             $parts = explode(':', $path[0]);
-            $path[0] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($parts[1]);
+            $path[0] = ExtensionManagementUtility::extRelPath($parts[1]);
         }
         $path = implode('/', $path);
         $path = str_replace('//', '/', $path);
@@ -691,7 +696,7 @@ class GeneralUtility implements SingletonInterface
         $path = explode('/', $path);
         if (strpos($path[0], 'EXT') === 0) {
             $parts = explode(':', $path[0]);
-            $path[0] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($parts[1]);
+            $path[0] = ExtensionManagementUtility::extRelPath($parts[1]);
         }
         $path = implode('/', $path);
         $path = str_replace('//', '/', $path);
@@ -719,7 +724,7 @@ class GeneralUtility implements SingletonInterface
         $uploadFolder = '/uploads/formhandler/tmp/';
 
         //if temp upload folder set in TypoScript, take that setting
-        $settings = \Typoheads\Formhandler\Utility\Globals::getSession()->get('settings');
+        $settings = Globals::getSession()->get('settings');
         if (strlen($fieldName) > 0 && $settings['files.']['uploadFolder.'][$fieldName]) {
             $uploadFolder = self::getSingle($settings['files.']['uploadFolder.'], $fieldName);
         } elseif ($settings['files.']['uploadFolder.']['default']) {
@@ -733,7 +738,7 @@ class GeneralUtility implements SingletonInterface
         //if the set directory doesn't exist, print a message and try to create
         if (!is_dir(self::getTYPO3Root() . $uploadFolder)) {
             self::debugMessage('folder_doesnt_exist', [self::getTYPO3Root() . '/' . $uploadFolder], 2);
-            \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir_deep(self::getTYPO3Root() . '/', $uploadFolder);
+            CoreGeneralUtility::mkdir_deep(self::getTYPO3Root() . '/', $uploadFolder);
         }
         return $uploadFolder;
     }
@@ -753,7 +758,7 @@ class GeneralUtility implements SingletonInterface
         $defaultUploadFolder = '/uploads/formhandler/tmp/';
 
         //if temp upload folder set in TypoScript, take that setting
-        $settings = \Typoheads\Formhandler\Utility\Globals::getSession()->get('settings');
+        $settings = Globals::getSession()->get('settings');
 
         if (is_array($settings['files.']['uploadFolder.'])) {
             foreach ($settings['files.']['uploadFolder.'] as $fieldName => $folderSettings) {
@@ -829,15 +834,15 @@ class GeneralUtility implements SingletonInterface
 
     static public function generateRandomID()
     {
-        $randomID = md5(\Typoheads\Formhandler\Utility\Globals::getFormValuesPrefix() . \TYPO3\CMS\Core\Utility\GeneralUtility::generateRandomBytes(10));
+        $randomID = md5(Globals::getFormValuesPrefix() . CoreGeneralUtility::generateRandomBytes(10));
         return $randomID;
     }
 
     static public function initializeTSFE($pid)
     {
         // create object instances:
-        $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pid, 0, TRUE);
-        $GLOBALS['TSFE']->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\TemplateService');
+        $GLOBALS['TSFE'] = CoreGeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pid, 0, TRUE);
+        $GLOBALS['TSFE']->tmpl = CoreGeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\TemplateService');
         $GLOBALS['TSFE']->tmpl->init();
 
         // then initialize fe user
@@ -845,7 +850,7 @@ class GeneralUtility implements SingletonInterface
         $GLOBALS['TSFE']->fe_user->fetchGroupData();
 
         // Include the TCA
-        \TYPO3\CMS\Frontend\Utility\EidUtility::initTCA();
+        EidUtility::initTCA();
 
         // Get the page
         $GLOBALS['TSFE']->fetch_the_id();
@@ -896,7 +901,7 @@ class GeneralUtility implements SingletonInterface
     static public function doFileNameReplace($fileName)
     {
 
-        $settings = \Typoheads\Formhandler\Utility\Globals::getSettings();
+        $settings = Globals::getSettings();
 
         //Default: Replace spaces with underscores
         $search = [' ', '%20'];
@@ -1046,11 +1051,11 @@ class GeneralUtility implements SingletonInterface
     static public function wrap($str, $settingsArray, $key)
     {
         $wrappedString = $str;
-        \Typoheads\Formhandler\Utility\Globals::getCObj()->setCurrentVal($wrappedString);
+        Globals::getCObj()->setCurrentVal($wrappedString);
         if (is_array($settingsArray[$key . '.'])) {
-            $wrappedString = \Typoheads\Formhandler\Utility\Globals::getCObj()->stdWrap($str, $settingsArray[$key . '.']);
+            $wrappedString = Globals::getCObj()->stdWrap($str, $settingsArray[$key . '.']);
         } elseif (strlen($settingsArray[$key]) > 0) {
-            $wrappedString = \Typoheads\Formhandler\Utility\Globals::getCObj()->wrap($str, $settingsArray[$key]);
+            $wrappedString = Globals::getCObj()->wrap($str, $settingsArray[$key]);
         }
         return $wrappedString;
     }
@@ -1060,12 +1065,12 @@ class GeneralUtility implements SingletonInterface
         $params = [
             'id' => $GLOBALS['TSFE']->id,
             'L' => $GLOBALS['TSFE']->sys_language_uid,
-            'randomID' => \Typoheads\Formhandler\Utility\Globals::getRandomID(),
+            'randomID' => Globals::getRandomID(),
             'field' => $field,
             'uploadedFileName' => $uploadedFileName
         ];
         $params = array_merge($params, $specialParams);
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'index.php?' . \TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);
+        return CoreGeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'index.php?' . CoreGeneralUtility::implodeArrayForUrl('', $params);
     }
 
     static public function prepareAndWhereString($andWhere)
@@ -1092,7 +1097,7 @@ class GeneralUtility implements SingletonInterface
     {
         if ($operand[0] == '{') {
             $data = trim($operand, '{}');
-            $returnValue = \Typoheads\Formhandler\Utility\Globals::getcObj()->getData($data, $values);
+            $returnValue = Globals::getcObj()->getData($data, $values);
         } else {
             $returnValue = $operand;
         }
@@ -1111,7 +1116,7 @@ class GeneralUtility implements SingletonInterface
      */
     static public function mergeConfiguration($settings, $newSettings)
     {
-        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($settings, $newSettings);
+        ArrayUtility::mergeRecursiveWithOverrule($settings, $newSettings);
         return $settings;
     }
 

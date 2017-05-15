@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Validator;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
@@ -60,7 +62,7 @@ class Ajax extends AbstractValidator
                     if (!strstr($disableCheckField, '.')) {
                         $checkString = $this->utilityFuncs->getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
                         if (strlen(trim($checkString)) > 0) {
-                            $disableErrorCheckFields[$disableCheckField] = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
+                            $disableErrorCheckFields[$disableCheckField] = GeneralUtility::trimExplode(
                                 ',',
                                 $checkString
                             );
@@ -70,7 +72,7 @@ class Ajax extends AbstractValidator
                     }
                 }
             } elseif (isset($this->settings['disableErrorCheckFields'])) {
-                $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
+                $fields = GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
                 foreach ($fields as $disableCheckField) {
                     $disableErrorCheckFields[$disableCheckField] = [];
                 }
@@ -78,7 +80,7 @@ class Ajax extends AbstractValidator
 
             $restrictErrorChecks = [];
             if (isset($this->settings['restrictErrorChecks'])) {
-                $restrictErrorChecks = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
+                $restrictErrorChecks = GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
             }
 
             $fieldSettings = $this->settings['fieldConf.'][$field . '.'];

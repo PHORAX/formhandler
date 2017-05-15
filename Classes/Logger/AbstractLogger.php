@@ -13,13 +13,15 @@ namespace Typoheads\Formhandler\Logger;
      * Public License for more details.                                       *
      *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractComponent;
+
 /**
  * Abstract class for loggers
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
-abstract class AbstractLogger extends \Typoheads\Formhandler\Component\AbstractComponent
+abstract class AbstractLogger extends AbstractComponent
 {
 
 }

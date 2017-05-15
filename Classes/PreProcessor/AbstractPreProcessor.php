@@ -13,13 +13,15 @@ namespace Typoheads\Formhandler\PreProcessor;
      * Public License for more details.                                       *
      *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractComponent;
+
 /**
  * An abstract class for pre processors used by Formhandler
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
-abstract class AbstractPreProcessor extends \Typoheads\Formhandler\Component\AbstractComponent
+abstract class AbstractPreProcessor extends AbstractComponent
 {
 
 }

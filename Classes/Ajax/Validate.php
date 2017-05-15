@@ -14,7 +14,11 @@ namespace Typoheads\Formhandler\Ajax;
 * Public License for more details.                                       *
 *
 *                                                                        */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * A class validating a field via AJAX.
@@ -41,27 +45,27 @@ class Validate
     public function main()
     {
         $this->init();
-        $field = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('field'));
+        $field = htmlspecialchars(GeneralUtility::_GP('field'));
         if ($field) {
-            $randomID = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('randomID'));
-            \Typoheads\Formhandler\Utility\Globals::setCObj($GLOBALS['TSFE']->cObj);
-            \Typoheads\Formhandler\Utility\Globals::setRandomID($randomID);
-            if (!\Typoheads\Formhandler\Utility\Globals::getSession()) {
+            $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
+            Globals::setCObj($GLOBALS['TSFE']->cObj);
+            Globals::setRandomID($randomID);
+            if (!Globals::getSession()) {
                 $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
-                $sessionClass = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($ts['session.'], 'Session\PHP');
-                \Typoheads\Formhandler\Utility\Globals::setSession($this->componentManager->getComponent($sessionClass));
+                $sessionClass = FormhandlerGeneralUtility::getPreparedClassName($ts['session.'], 'Session\PHP');
+                Globals::setSession($this->componentManager->getComponent($sessionClass));
             }
-            $this->settings = \Typoheads\Formhandler\Utility\Globals::getSession()->get('settings');
-            \Typoheads\Formhandler\Utility\Globals::setFormValuesPrefix(\Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings, 'formValuesPrefix'));
-            $gp = \Typoheads\Formhandler\Utility\GeneralUtility::getMergedGP();
+            $this->settings = Globals::getSession()->get('settings');
+            Globals::setFormValuesPrefix(FormhandlerGeneralUtility::getSingle($this->settings, 'formValuesPrefix'));
+            $gp = FormhandlerGeneralUtility::getMergedGP();
             $validator = $this->componentManager->getComponent('\Typoheads\Formhandler\Validator\Ajax');
             $errors = [];
             $valid = $validator->validateAjax($field, $gp, $errors);
 
             if ($valid) {
-                $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'ok');
+                $content = FormhandlerGeneralUtility::getSingle($this->settings['ajax.']['config.'], 'ok');
                 if (strlen($content) === 0) {
-                    $content = '<img src="' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/ok.png' . '" />';
+                    $content = '<img src="' . ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/ok.png' . '" />';
                 } else {
                     $gp = [
                         $_GET['field'] => $_GET['value']
@@ -71,9 +75,9 @@ class Validate
                 }
                 $content = sprintf($this->templates['spanSuccess'], $content);
             } else {
-                $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'notOk');
+                $content = FormhandlerGeneralUtility::getSingle($this->settings['ajax.']['config.'], 'notOk');
                 if (strlen($content) === 0) {
-                    $content = '<img src="' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/notok.png' . '" />';
+                    $content = '<img src="' . ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/notok.png' . '" />';
                 } else {
                     $view = $this->initView($content);
                     $gp = [
@@ -99,9 +103,9 @@ class Validate
         } else {
             $this->id = intval($_GET['id']);
         }
-        $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
-        \Typoheads\Formhandler\Utility\Globals::setAjaxMode(TRUE);
-        \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($this->id);
+        $this->componentManager = GeneralUtility::makeInstance(Manager::class);
+        Globals::setAjaxMode(TRUE);
+        FormhandlerGeneralUtility::initializeTSFE($this->id);
     }
 
     /**
@@ -114,7 +118,7 @@ class Validate
     {
         $viewClass = '\Typoheads\Formhandler\View\AjaxValidation';
         $view = $this->componentManager->getComponent($viewClass);
-        $view->setLangFiles(\Typoheads\Formhandler\Utility\GeneralUtility::readLanguageFiles([], $this->settings));
+        $view->setLangFiles(FormhandlerGeneralUtility::readLanguageFiles([], $this->settings));
         $view->setSettings($this->settings);
         $templateName = 'AJAX';
         $template = str_replace('###fieldname###', htmlspecialchars($_GET['field']), $content);

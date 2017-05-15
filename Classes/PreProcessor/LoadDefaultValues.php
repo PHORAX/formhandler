@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\PreProcessor;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * This PreProcessor adds the posibility to load default values.
  * Values fot the first step are loaded to $gp values of other steps are stored
@@ -107,7 +109,7 @@ class LoadDefaultValues extends AbstractPreProcessor
                     $currentLevelGP[$fieldName] = $this->utilityFuncs->getSingle($fields[$fieldName . '.'], 'defaultValue');
                     if ($fields[$fieldName . '.']['defaultValue.']['separator']) {
                         $separator = $this->utilityFuncs->getSingle($fields[$fieldName . '.']['defaultValue.'], 'separator');
-                        $currentLevelGP[$fieldName] = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($separator, $currentLevelGP[$fieldName]);
+                        $currentLevelGP[$fieldName] = GeneralUtility::trimExplode($separator, $currentLevelGP[$fieldName]);
                     }
                 }
             }

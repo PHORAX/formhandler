@@ -13,13 +13,15 @@ namespace Typoheads\Formhandler\Debugger;
      * Public License for more details.                                       *
      *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractComponent;
+
 /**
  * An abstract debugger
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
-abstract class AbstractDebugger extends \Typoheads\Formhandler\Component\AbstractComponent
+abstract class AbstractDebugger extends AbstractComponent
 {
 
     protected $debugLog = [];
