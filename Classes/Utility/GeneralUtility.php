@@ -845,7 +845,7 @@ class GeneralUtility implements SingletonInterface
         $GLOBALS['TSFE']->fe_user->fetchGroupData();
 
         // Include the TCA
-        \TYPO3\CMS\Core\Core\Bootstrap::getInstance()->loadCachedTca();
+        \TYPO3\CMS\Frontend\Utility\EidUtility::initTCA();
 
         // Get the page
         $GLOBALS['TSFE']->fetch_the_id();
