@@ -13,6 +13,10 @@ namespace Typoheads\Formhandler\Component;
     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
     * Public License for more details.                                       *
     *                                                                        */
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Controller\Configuration;
+use Typoheads\Formhandler\Utility\GeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * Abstract class for any usable Formhandler component.
@@ -26,7 +30,7 @@ abstract class AbstractClass
      * The Formhandler component manager
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Component\Manager
+     * @var Manager
      */
     protected $componentManager;
 
@@ -34,7 +38,7 @@ abstract class AbstractClass
      * The global Formhandler configuration
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Controller\Configuration
+     * @var Configuration
      */
     protected $configuration;
 
@@ -42,7 +46,7 @@ abstract class AbstractClass
      * The global Formhandler values
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Utility\Globals
+     * @var Globals
      */
     protected $globals;
 
@@ -50,7 +54,7 @@ abstract class AbstractClass
      * The Formhandler utility methods
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Utility\GeneralUtility
+     * @var GeneralUtility
      */
     protected $utilityFuncs;
 
@@ -65,14 +69,15 @@ abstract class AbstractClass
     /**
      * The constructor for an interceptor setting the component manager and the configuration.
      *
-     * @param \Typoheads\Formhandler\Component\Manager $componentManager
-     * @param \Typoheads\Formhandler\Controller\Configuration $configuration
-     * @return void
+     * @param Manager $componentManager
+     * @param Configuration $configuration
+     * @param Globals $globals
+     * @param GeneralUtility $utilityFuncs
      */
-    public function __construct(\Typoheads\Formhandler\Component\Manager $componentManager,
-                                \Typoheads\Formhandler\Controller\Configuration $configuration,
-                                \Typoheads\Formhandler\Utility\Globals $globals,
-                                \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs)
+    public function __construct(Manager $componentManager,
+                                Configuration $configuration,
+                                Globals $globals,
+                                GeneralUtility $utilityFuncs)
     {
         $this->componentManager = $componentManager;
         $this->configuration = $configuration;

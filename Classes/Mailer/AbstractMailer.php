@@ -13,11 +13,13 @@ namespace Typoheads\Formhandler\Mailer;
     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
     * Public License for more details.                                       *
     *                                                                        */
+use Typoheads\Formhandler\Component\AbstractComponent;
+
 /**
  * An abstract mailer class. Mailers are used by Finisher_Mail
  * @abstract
  */
-abstract class AbstractMailer extends \Typoheads\Formhandler\Component\AbstractComponent
+abstract class AbstractMailer extends AbstractComponent
 {
 
     /**

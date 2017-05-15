@@ -14,11 +14,13 @@ namespace Typoheads\Formhandler\Domain\Model;
      * The TYPO3 project - inspiring people to share!
      */
 
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /**
  * Model for log data
  *
  */
-class LogData extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class LogData extends AbstractEntity
 {
 
     /**

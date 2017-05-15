@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Validates that an uploaded file via specified field matches one of the given file types
  */
@@ -36,7 +38,7 @@ class FileAllowedTypes extends AbstractErrorCheck
             foreach ($files['name'][$this->formFieldName] as $fileName) {
                 if (strlen($fileName) > 0) {
                     if ($allowed) {
-                        $types = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $allowed);
+                        $types = GeneralUtility::trimExplode(',', $allowed);
                         $fileext = substr($fileName, strrpos($fileName, '.') + 1);
                         $fileext = strtolower($fileext);
                         if (!in_array($fileext, $types)) {

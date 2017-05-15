@@ -15,6 +15,9 @@ namespace Typoheads\Formhandler\Component;
  *                                                                        */
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * Component Manager originally written for the extension 'gimmefive'.
@@ -30,7 +33,7 @@ class Manager implements SingletonInterface
      * The global Formhandler values
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Utility\Globals
+     * @var Globals
      */
     protected $globals;
 
@@ -38,14 +41,14 @@ class Manager implements SingletonInterface
      * The global Formhandler values
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Utility\GeneralUtility
+     * @var FormhandlerGeneralUtility
      */
     protected $utilityFuncs;
 
     public function __construct()
     {
-        $this->globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
-        $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
+        $this->globals = GeneralUtility::makeInstance(Globals::class);
+        $this->utilityFuncs = GeneralUtility::makeInstance(FormhandlerGeneralUtility::class);
     }
 
     /**
@@ -65,8 +68,8 @@ class Manager implements SingletonInterface
         }
         $arguments = array_slice(func_get_args(), 1, null, true);
 
-        /** @var $objectManager \TYPO3\CMS\Extbase\Object\ObjectManager */
-        $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        /** @var $objectManager ObjectManager */
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $componentObject = $objectManager->get($componentName, $arguments);
 
         return $componentObject;

@@ -14,6 +14,9 @@ namespace Typoheads\Formhandler\Ajax;
 * Public License for more details.                                       *
 *                                                                        */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * A class removing uploaded files. This class is called via AJAX.
@@ -98,12 +101,12 @@ class RemoveFile
             $this->id = intval($_GET['id']);
         }
 
-        $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
-        $this->globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
-        $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
+        $this->componentManager = GeneralUtility::makeInstance(Manager::class);
+        $this->globals = GeneralUtility::makeInstance(Globals::class);
+        $this->utilityFuncs = GeneralUtility::makeInstance(FormhandlerGeneralUtility::class);
         $this->utilityFuncs->initializeTSFE($this->id);
         $this->globals->setCObj($GLOBALS['TSFE']->cObj);
-        $randomID = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('randomID'));
+        $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
         $this->globals->setRandomID($randomID);
 
         if (!$this->globals->getSession()) {

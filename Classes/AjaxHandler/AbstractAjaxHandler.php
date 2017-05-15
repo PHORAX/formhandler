@@ -14,12 +14,14 @@ namespace Typoheads\Formhandler\AjaxHandler;
     * Public License for more details.                                       *
     *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractClass;
+
 /**
  * Abstract class for an AjaxHandler.
  * The AjaxHandler takes care of adding AJAX related markers and JS used for validation and file removal.
  * @abstract
  */
-abstract class AbstractAjaxHandler extends \Typoheads\Formhandler\Component\AbstractClass
+abstract class AbstractAjaxHandler extends AbstractClass
 {
 
     /**

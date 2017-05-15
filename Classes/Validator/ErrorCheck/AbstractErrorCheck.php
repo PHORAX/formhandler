@@ -14,10 +14,12 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractComponent;
+
 /**
  * Abstract class for error checks for Formhandler
  */
-abstract class AbstractErrorCheck extends \Typoheads\Formhandler\Component\AbstractComponent
+abstract class AbstractErrorCheck extends AbstractComponent
 {
     protected $formFieldName;
     protected $mandatoryParameters = [];

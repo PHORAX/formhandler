@@ -13,6 +13,11 @@ namespace Typoheads\Formhandler\Mailer;
      * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
      * Public License for more details.                                       *
      *                                                                        */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Controller\Configuration;
+use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  *
@@ -44,18 +49,18 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /**
      * Initializes the email object and calls the parent constructor
      *
-     * @param \Typoheads\Formhandler\Component\Manager $componentManager
-     * @param \Typoheads\Formhandler\Controller\Configuration $configuration
-     * @param \Typoheads\Formhandler\Utility\Globals $globals
-     * @param \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs
+     * @param Manager $componentManager
+     * @param Configuration $configuration
+     * @param Globals $globals
+     * @param FormhandlerGeneralUtility $utilityFuncs
      */
-    public function __construct(\Typoheads\Formhandler\Component\Manager $componentManager,
-                                \Typoheads\Formhandler\Controller\Configuration $configuration,
-                                \Typoheads\Formhandler\Utility\Globals $globals,
-                                \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs)
+    public function __construct(Manager $componentManager,
+                                Configuration $configuration,
+                                Globals $globals,
+                                FormhandlerGeneralUtility $utilityFuncs)
     {
         parent::__construct($componentManager, $configuration, $globals, $utilityFuncs);
-        $this->emailObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
+        $this->emailObj = GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
     }
 
     /* (non-PHPdoc)

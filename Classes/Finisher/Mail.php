@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Finisher to send mails after successful form submission.
  *
@@ -208,12 +210,12 @@ class Mail extends AbstractFinisher
 
         $cc = $mailSettings['cc_email'];
         if (!is_array($cc)) {
-            $cc = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $cc);
+            $cc = GeneralUtility::trimExplode(',', $cc);
         }
 
         $ccName = $mailSettings['cc_name'];
         if (!is_array($ccName)) {
-            $ccName = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $ccName);
+            $ccName = GeneralUtility::trimExplode(',', $ccName);
         }
         foreach ($cc as $key => $email) {
             $name = '';
@@ -227,12 +229,12 @@ class Mail extends AbstractFinisher
 
         $bcc = $mailSettings['bcc_email'];
         if (!is_array($bcc)) {
-            $bcc = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $bcc);
+            $bcc = GeneralUtility::trimExplode(',', $bcc);
         }
 
         $bccName = $mailSettings['bcc_name'];
         if (!is_array($bccName)) {
-            $bccName = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $bccName);
+            $bccName = GeneralUtility::trimExplode(',', $bccName);
         }
         foreach ($bcc as $key => $email) {
             $name = '';
@@ -287,7 +289,7 @@ class Mail extends AbstractFinisher
         }
 
         if (!is_array($mailSettings['attachment'])) {
-            $mailSettings['attachment'] = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $mailSettings['attachment']);
+            $mailSettings['attachment'] = GeneralUtility::trimExplode(',', $mailSettings['attachment']);
         }
         foreach ($mailSettings['attachment'] as $idx => $attachment) {
             if (strlen($attachment) > 0 && @file_exists($attachment)) {
@@ -297,7 +299,7 @@ class Mail extends AbstractFinisher
             }
         }
         if ($mailSettings['attachGeneratedFiles']) {
-            $files = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $mailSettings['attachGeneratedFiles']);
+            $files = GeneralUtility::trimExplode(',', $mailSettings['attachGeneratedFiles']);
             $this->utilityFuncs->debugMessage('adding_generated_files', [], 1, $files);
             foreach ($files as $file) {
                 $this->emailObj->addAttachment($file);
@@ -310,7 +312,7 @@ class Mail extends AbstractFinisher
             $max = 2;
         }
         if (!is_array($mailSettings['to_email'])) {
-            $mailSettings['to_email'] = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $mailSettings['to_email']);
+            $mailSettings['to_email'] = GeneralUtility::trimExplode(',', $mailSettings['to_email']);
         }
         reset($mailSettings['to_email']);
 
@@ -340,7 +342,7 @@ class Mail extends AbstractFinisher
 
         // delete generated files
         if ($mailSettings['deleteGeneratedFiles'] && $mailSettings['attachGeneratedFiles']) {
-            $files = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $mailSettings['attachGeneratedFiles']);
+            $files = GeneralUtility::trimExplode(',', $mailSettings['attachGeneratedFiles']);
             foreach ($files as $file) {
                 unlink($file);
             }
@@ -357,7 +359,7 @@ class Mail extends AbstractFinisher
     protected function explodeList($list, $sep = ',')
     {
         if (!is_array($list)) {
-            $items = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $list);
+            $items = GeneralUtility::trimExplode($sep, $list);
             $splitArray = [];
             foreach ($items as $idx => $item) {
                 if (isset($this->gp[$item])) {
@@ -444,9 +446,9 @@ class Mail extends AbstractFinisher
         $files = [];
         if (isset($settings[$key . '.']) && is_array($settings[$key . '.'])) {
             $files = $this->utilityFuncs->getSingle($settings, $key);
-            $files = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $files);
+            $files = GeneralUtility::trimExplode(',', $files);
         } elseif ($settings[$key]) {
-            $files = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $settings[$key]);
+            $files = GeneralUtility::trimExplode(',', $settings[$key]);
         }
         $parsed = [];
         $sessionFiles = $this->globals->getSession()->get('files');
@@ -457,8 +459,8 @@ class Mail extends AbstractFinisher
                 }
             } elseif (file_exists($file)) {
                 array_push($parsed, $file);
-            } elseif (file_exists(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $file)) {
-                array_push($parsed, \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $file);
+            } elseif (file_exists(GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $file)) {
+                array_push($parsed, GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $file);
             } elseif (strlen($file) > 0) {
                 $this->utilityFuncs->debugMessage('attachment_not_found', [$file], 2);
             }

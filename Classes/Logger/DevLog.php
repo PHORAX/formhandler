@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Logger;
     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
     * Public License for more details.                                       *
     *                                                                        */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * A logger to store submission information in DevLog
  */
@@ -35,12 +37,12 @@ class DevLog extends AbstractLogger
         $logParams = $this->gp;
         if ($this->settings['excludeFields']) {
             $excludeFields = $this->utilityFuncs->getSingle($this->settings, 'excludeFields');
-            $excludeFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $excludeFields);
+            $excludeFields = GeneralUtility::trimExplode(',', $excludeFields);
             foreach ($excludeFields as $excludeField) {
                 unset($logParams[$excludeField]);
             }
         }
-        \TYPO3\CMS\Core\Utility\GeneralUtility::devLog($message, 'formhandler', $severity, $logParams);
+        GeneralUtility::devLog($message, 'formhandler', $severity, $logParams);
 
         return $this->gp;
     }

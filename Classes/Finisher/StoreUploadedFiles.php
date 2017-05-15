@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * This finisher stores uploaded files by a user to a final folder. At the time this finisher is called, it is assured, that the form was fully submitted and valid.
  * Use this finisher to move the uploaded files to a save folder where they are not cleared by a possibly time based deletion.
@@ -99,13 +101,13 @@ class StoreUploadedFiles extends AbstractFinisher
                                 ]
                             );
                             copy(($file['uploaded_path'] . $file['uploaded_name']), ($uploadPath . $newFilename));
-                            \TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($uploadPath . $newFilename);
+                            GeneralUtility::fixPermissions($uploadPath . $newFilename);
                             unlink(($file['uploaded_path'] . $file['uploaded_name']));
                             $newFolder = str_replace($this->utilityFuncs->getDocumentRoot(), '', $uploadPath);
                             $sessionFiles[$field][$key]['uploaded_path'] = $uploadPath;
                             $sessionFiles[$field][$key]['uploaded_name'] = $newFilename;
                             $sessionFiles[$field][$key]['uploaded_folder'] = $newFolder;
-                            $sessionFiles[$field][$key]['uploaded_url'] = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $newFolder . $newFilename;
+                            $sessionFiles[$field][$key]['uploaded_url'] = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $newFolder . $newFilename;
                             if (!is_array($this->gp[$field])) {
                                 $this->gp[$field] = [];
                             }
@@ -143,7 +145,7 @@ class StoreUploadedFiles extends AbstractFinisher
                 $doCreateNonExistingFolder = 1;
             }
             if ($doCreateNonExistingFolder === 1) {
-                \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir_deep($this->utilityFuncs->getDocumentRoot(), $newFolder);
+                GeneralUtility::mkdir_deep($this->utilityFuncs->getDocumentRoot(), $newFolder);
                 $this->utilityFuncs->debugMessage('Creating directory "' . $newFolder . '"');
             } else {
                 $this->utilityFuncs->throwException('Directory "' . $newFolder . '" doesn\'t exist!');

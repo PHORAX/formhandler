@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Debugger;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\DebugUtility;
+
 /**
  * A simple debugger printing the messages on the screen
  */
@@ -37,7 +39,7 @@ class PrintToScreen extends AbstractDebugger
                     $message = $this->globals->getCObj()->wrap($message, $this->utilityFuncs->getSingle($this->settings['severityWrap.'], $messageData['severity']));
                     $sectionContent .= $this->globals->getCObj()->wrap($message, $this->settings['messageWrap']);
                     if ($messageData['data']) {
-                        $sectionContent .= \TYPO3\CMS\Core\Utility\DebugUtility::viewArray($messageData['data']);
+                        $sectionContent .= DebugUtility::viewArray($messageData['data']);
                         $sectionContent .= '<br />';
                     }
                 }

@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Debugger;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * A simple debugger writing messages into devlog
  */
@@ -34,7 +36,7 @@ class DevLog extends AbstractDebugger
                 if (is_array($messageData['data'])) {
                     $data = $messageData['data'];
                 }
-                \TYPO3\CMS\Core\Utility\GeneralUtility::devLog($message, 'formhandler', $severity, $data);
+                GeneralUtility::devLog($message, 'formhandler', $severity, $data);
             }
         }
     }

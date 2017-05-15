@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Interceptor;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * An interceptor doing XSS checking on GET/POST parameters
  */
@@ -48,7 +50,7 @@ class RemoveXSS extends AbstractInterceptor
                 //user entered a comma seperated list
                 $list = $globalSetting['removeChars'];
             }
-            $this->removeChars = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $list);
+            $this->removeChars = GeneralUtility::trimExplode($sep, $list);
         } elseif (intval($this->utilityFuncs->getSingle($globalSetting['removeChars.'], 'disable')) === 1) {
 
             //user disabled removal globally
@@ -95,7 +97,7 @@ class RemoveXSS extends AbstractInterceptor
                         //user entered a comma seperated list
                         $list = $fieldSetting['removeChars'];
                     }
-                    $removeChars = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $list);
+                    $removeChars = GeneralUtility::trimExplode($sep, $list);
                 } elseif (intval($this->utilityFuncs->getSingle($fieldSetting['removeChars.'], 'disable')) === 1) {
 
                     //user disabled removal for this field
@@ -109,7 +111,7 @@ class RemoveXSS extends AbstractInterceptor
                 if (!$isUTF8) {
                     $value = utf8_encode($value);
                 }
-                $value = \TYPO3\CMS\Core\Utility\GeneralUtility::removeXSS($value);
+                $value = GeneralUtility::removeXSS($value);
 
                 if (!$isUTF8) {
                     $value = utf8_decode($value);
@@ -174,7 +176,7 @@ class RemoveXSS extends AbstractInterceptor
         parent::init($gp, $settings);
         $this->doNotSanitizeFields = [];
         if ($this->settings['doNotSanitizeFields']) {
-            $this->doNotSanitizeFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'doNotSanitizeFields'));
+            $this->doNotSanitizeFields = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'doNotSanitizeFields'));
         }
     }
 }

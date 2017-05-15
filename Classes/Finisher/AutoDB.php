@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * When a BE-user is logged in and autoCreate is to true this looks if
  * the specified table exists and if not creates it with the key-field (uid).
@@ -38,7 +40,7 @@ class AutoDB extends DB
     public $settings;
 
     /**
-     * @var TYPO3\CMS\Core\Database\DatabaseConnection
+     * @var \TYPO3\CMS\Core\Database\DatabaseConnection
      */
     protected $db;
 
@@ -143,7 +145,7 @@ class AutoDB extends DB
         $fields = $this->getFormFields();
         $excludeFields = trim($this->utilityFuncs->getSingle($this->settings, 'excludeFields'));
         if (strlen($excludeFields) > 0) {
-            $excludes = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $excludeFields);
+            $excludes = GeneralUtility::trimExplode(',', $excludeFields);
             foreach ($excludes as $exclude) {
                 unset($fields[$exclude]);
             }
