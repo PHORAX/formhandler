@@ -22,9 +22,11 @@ namespace Typoheads\Formhandler\Utility;
      *
      *  This copyright notice MUST APPEAR in all copies of the script!
      ***************************************************************/
+use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 
 
 /**
@@ -174,9 +176,9 @@ class TcaUtility
      */
     public function loadTS($pageUid)
     {
-        $sysPageObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+        $sysPageObj = GeneralUtility::makeInstance(PageRepository::class);
         $rootLine = $sysPageObj->getRootLine($pageUid);
-        $TSObj = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\ExtendedTemplateService');
+        $TSObj = GeneralUtility::makeInstance(ExtendedTemplateService::class);
         $TSObj->tt_track = 0;
         $TSObj->init();
         $TSObj->runThroughTemplates($rootLine);
