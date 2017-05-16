@@ -13,6 +13,7 @@ namespace Typoheads\Formhandler\Mailer;
      * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
      * Public License for more details.                                       *
      *                                                                        */
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Controller\Configuration;
@@ -28,7 +29,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /**
      * The TYPO3 mail message object
      *
-     * @var \TYPO3\CMS\Core\Mail\MailMessage
+     * @var MailMessage
      */
     protected $emailObj;
 
@@ -60,7 +61,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
                                 FormhandlerGeneralUtility $utilityFuncs)
     {
         parent::__construct($componentManager, $configuration, $globals, $utilityFuncs);
-        $this->emailObj = GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
+        $this->emailObj = GeneralUtility::makeInstance(MailMessage::class);
     }
 
     /* (non-PHPdoc)

@@ -15,10 +15,12 @@ namespace Typoheads\Formhandler\Utility;
  *                                                                        */
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreGeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Utility\EidUtility;
 use Typoheads\Formhandler\Utility\Globals;
 
@@ -836,8 +838,8 @@ class GeneralUtility implements SingletonInterface
     public static function initializeTSFE($pid)
     {
         // create object instances:
-        $GLOBALS['TSFE'] = CoreGeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pid, 0, TRUE);
-        $GLOBALS['TSFE']->tmpl = CoreGeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\TemplateService');
+        $GLOBALS['TSFE'] = CoreGeneralUtility::makeInstance(TypoScriptFrontendController::class, $GLOBALS['TYPO3_CONF_VARS'], $pid, 0, TRUE);
+        $GLOBALS['TSFE']->tmpl = CoreGeneralUtility::makeInstance(TemplateService::class);
         $GLOBALS['TSFE']->tmpl->init();
 
         // then initialize fe user
