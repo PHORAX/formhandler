@@ -1048,7 +1048,7 @@ class Form extends AbstractView
             $errorMessage = $this->utilityFuncs->wrap($errorMessage, $this->settings['singleErrorTemplate.'], 'totalWrap');
             $clearErrorMessage = $errorMessage;
             if ($this->settings['addErrorAnchors']) {
-                $errorMessage = '<a name="' . $field . '-' . $this->globals->getRandomID() . '">' . $errorMessage . '</a>';
+                $errorMessage = '<a id="' . $field . '-' . $this->globals->getRandomID() . '">' . $errorMessage . '</a>';
             }
             $langMarkers = $this->utilityFuncs->getFilledLangMarkers($errorMessage, $this->langFiles);
             $errorMessage = $this->cObj->substituteMarkerArray($errorMessage, $langMarkers);
