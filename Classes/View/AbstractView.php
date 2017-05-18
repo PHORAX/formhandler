@@ -14,6 +14,9 @@ namespace Typoheads\Formhandler\View;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * An abstract view for Formhandler
  */
@@ -127,6 +130,11 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     protected $componentSettings;
 
     /**
+     * @var MarkerBasedTemplateService
+     */
+    protected $templateService;
+
+    /**
      * The constructor for a view setting the component manager and the configuration.
      *
      * @param \Typoheads\Formhandler\Component\Manager $componentManager
@@ -144,6 +152,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         $this->globals = $globals;
         $this->utilityFuncs = $utilityFuncs;
         $this->cObj = $this->globals->getCObj();
+        $this->templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $this->pi_loadLL();
         $this->initializeView();
     }
@@ -225,8 +234,8 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      */
     public function setTemplate($templateCode, $templateName, $forceTemplate = false)
     {
-        $this->subparts['template'] = $this->cObj->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
-        $this->subparts['item'] = $this->cObj->getSubpart($this->subparts['template'], '###ITEM###');
+        $this->subparts['template'] = $this->templateService->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
+        $this->subparts['item'] =$this->templateService->getSubpart($this->subparts['template'], '###ITEM###');
     }
 
     /**

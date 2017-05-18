@@ -51,6 +51,6 @@ class SubmittedOK extends Form
         }
         $this->fillFEUserMarkers($markers);
         $this->fillFileMarkers($markers);
-        $this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
+        $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
     }
 }
