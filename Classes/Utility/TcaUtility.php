@@ -22,6 +22,11 @@ namespace Typoheads\Formhandler\Utility;
      *
      *  This copyright notice MUST APPEAR in all copies of the script!
      ***************************************************************/
+use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
+use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 
 
 /**
@@ -43,7 +48,7 @@ class TcaUtility
 			onchange="' . htmlspecialchars(implode('', $PA['fieldChangeFunc'])) . '"
 			' . $PA['onFocus'] . '/>
 		';
-        $output .= \TYPO3\CMS\Core\Utility\DebugUtility::viewArray($params);
+        $output .= DebugUtility::viewArray($params);
         return $output;
     }
 
@@ -82,7 +87,7 @@ class TcaUtility
         $js .= "var uid = '" . $uid . "'\n";
         $js .= "var flexformBoxId = '" . $divId . "'\n";
         $js .= "var newRecord = " . $newRecord . "\n";
-        $js .= file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/JavaScript/addFields_predefinedJS.js');
+        $js .= file_get_contents(ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/JavaScript/addFields_predefinedJS.js');
         $js .= "/*]]>*/\n";
         $js .= "</script>\n";
         return $js;
@@ -171,9 +176,9 @@ class TcaUtility
      */
     public function loadTS($pageUid)
     {
-        $sysPageObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+        $sysPageObj = GeneralUtility::makeInstance(PageRepository::class);
         $rootLine = $sysPageObj->getRootLine($pageUid);
-        $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\ExtendedTemplateService');
+        $TSObj = GeneralUtility::makeInstance(ExtendedTemplateService::class);
         $TSObj->tt_track = 0;
         $TSObj->init();
         $TSObj->runThroughTemplates($rootLine);

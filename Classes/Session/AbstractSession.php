@@ -13,12 +13,14 @@ namespace Typoheads\Formhandler\Session;
     * Public License for more details.                                       *
     *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractClass;
+
 /**
  * An abstract session class for Formhandler
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
  */
-abstract class AbstractSession extends \Typoheads\Formhandler\Component\AbstractClass
+abstract class AbstractSession extends AbstractClass
 {
 
     /**

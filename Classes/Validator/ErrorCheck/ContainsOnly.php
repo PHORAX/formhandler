@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Validates that a specified field contains only the specified words/characters
  *
@@ -37,7 +39,7 @@ class ContainsOnly extends AbstractErrorCheck
         if (strlen($formValue) > 0) {
             $checkValue = $this->utilityFuncs->getSingle($this->settings['params'], 'words');
             if (!is_array($checkValue)) {
-                $checkValue = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $checkValue);
+                $checkValue = GeneralUtility::trimExplode(',', $checkValue);
             }
             $error = FALSE;
             $array = preg_split('//', $formValue, -1, PREG_SPLIT_NO_EMPTY);

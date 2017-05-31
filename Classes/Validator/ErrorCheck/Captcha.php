@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use ThinkopenAt\Captcha\Utility;
+
 /**
  * Validates that a specified field's value matches the generated word of the extension "captcha"
  *
@@ -30,7 +32,7 @@ class Captcha extends AbstractErrorCheck
         // get captcha string
         session_start();
 
-        $captchaSolved = \ThinkopenAt\Captcha\Utility::checkCaptcha($this->gp[$this->formFieldName]);
+        $captchaSolved = Utility::checkCaptcha($this->gp[$this->formFieldName]);
         if (!$captchaSolved) {
             $checkFailed = $this->getCheckFailed();
         }

@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Validates that a specified field's value is a valid date and between two specified dates
  *
@@ -53,7 +55,7 @@ class DateRange extends Date
             $check_month = $checkdate[$pos2];
             $check_year = $checkdate[$pos3];
             if (strlen($min) > 0) {
-                $min_date = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $min);
+                $min_date = GeneralUtility::trimExplode($sep, $min);
                 $min_day = $min_date[$pos1];
                 $min_month = $min_date[$pos2];
                 $min_year = $min_date[$pos3];
@@ -66,7 +68,7 @@ class DateRange extends Date
                 }
             }
             if (strlen($max) > 0) {
-                $max_date = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $max);
+                $max_date = GeneralUtility::trimExplode($sep, $max);
                 $max_day = $max_date[$pos1];
                 $max_month = $max_date[$pos2];
                 $max_year = $max_date[$pos3];

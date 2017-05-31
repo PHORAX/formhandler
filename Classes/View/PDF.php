@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\View;
      * Public License for more details.                                       *
      *                                                                       */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * A default view for Formhandler
  *
@@ -48,7 +50,7 @@ class PDF extends Form
         $componentSettings = $this->getComponentSettings();
         $checkBinaryCrLf = $componentSettings['checkBinaryCrLf'];
         if (strlen($checkBinaryCrLf) > 0) {
-            $paramsToCheck = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $checkBinaryCrLf);
+            $paramsToCheck = GeneralUtility::trimExplode(',', $checkBinaryCrLf);
             foreach ($markers as $markerName => &$value) {
                 $fieldName = str_replace(['value_', 'VALUE_', '###'], '', $markerName);
                 if (in_array($fieldName, $paramsToCheck)) {
@@ -71,7 +73,7 @@ class PDF extends Form
 
         $markers = $this->sanitizeMarkers($markers);
 
-        $this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
+        $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
 
         //remove remaining VALUE_-markers
         //needed for nested markers like ###LLL:tx_myextension_table.field1.i.###value_field1###### to avoid wrong marker removal if field1 isn't set

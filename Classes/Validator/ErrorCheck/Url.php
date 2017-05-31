@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Validates that a specified field value is a valid URL.
  *
@@ -36,7 +38,7 @@ class Url extends AbstractErrorCheck
         $checkFailed = '';
 
         if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-            $valid = \TYPO3\CMS\Core\Utility\GeneralUtility::isValidUrl($this->gp[$this->formFieldName]);
+            $valid = GeneralUtility::isValidUrl($this->gp[$this->formFieldName]);
             if (!$valid) {
                 $checkFailed = $this->getCheckFailed();
             }

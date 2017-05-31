@@ -13,13 +13,15 @@ namespace Typoheads\Formhandler\Interceptor;
      * Public License for more details.                                       *
      *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractComponent;
+
 /**
  * Abstract interceptor class
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
-abstract class AbstractInterceptor extends \Typoheads\Formhandler\Component\AbstractComponent
+abstract class AbstractInterceptor extends AbstractComponent
 {
 
     /**

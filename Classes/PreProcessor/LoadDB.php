@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\PreProcessor;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * This PreProcessor adds the posibility to load default values from database.
  * Values for the first step are loaded to $gp values of other steps are stored
@@ -144,7 +146,7 @@ class LoadDB extends AbstractPreProcessor
             }
             if ($settings[$fieldname . '.']['separator']) {
                 $separator = $settings[$fieldname . '.']['separator'];
-                $value = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($separator, $value);
+                $value = GeneralUtility::trimExplode($separator, $value);
             }
         }
 
@@ -163,16 +165,16 @@ class LoadDB extends AbstractPreProcessor
                 $uploadPath = $this->utilityFuncs->getTempUploadFolder($fieldname);
                 $filesArray = $value;
                 if (!is_array($filesArray)) {
-                    $filesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $value);
+                    $filesArray = GeneralUtility::trimExplode(',', $value);
                 }
 
                 foreach ($filesArray as $k => $uploadFile) {
                     if (strpos($uploadFile, '/') !== FALSE) {
                         $file = PATH_site . $uploadFile;
-                        $uploadedUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadFile;
+                        $uploadedUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadFile;
                     } else {
                         $file = PATH_site . $uploadPath . $uploadFile;
-                        $uploadedUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadPath . $uploadFile;
+                        $uploadedUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadPath . $uploadFile;
                     }
 
                     $uploadedUrl = str_replace('//', '/', $uploadedUrl);
@@ -228,7 +230,7 @@ class LoadDB extends AbstractPreProcessor
         //map the old TypoScript setting "limit" to "begin" and "max".
         $limit = $this->utilityFuncs->getSingle($conf, 'limit');
         if (strlen($limit) > 0) {
-            $parts = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $limit);
+            $parts = GeneralUtility::trimExplode(',', $limit);
             if (count($parts) === 2) {
                 $conf['begin'] = $parts[0];
                 $conf['max'] = $parts[1];

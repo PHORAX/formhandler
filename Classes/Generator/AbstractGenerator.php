@@ -13,12 +13,14 @@ namespace Typoheads\Formhandler\Generator;
     * Public License for more details.                                       *
     *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractComponent;
+
 /**
  * Abstract generator class for Formhandler
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
  */
-abstract class AbstractGenerator extends \Typoheads\Formhandler\Component\AbstractComponent
+abstract class AbstractGenerator extends AbstractComponent
 {
 
     /**

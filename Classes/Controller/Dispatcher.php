@@ -14,20 +14,24 @@ namespace Typoheads\Formhandler\Controller;
  * Public License for more details.                                       *
  *                                                                        */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * The Dispatcher instantiates the Component Manager and delegates the process to the given controller.
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
  */
-class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
+class Dispatcher extends AbstractPlugin
 {
 
     /**
      * Compontent Manager
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Component\Manager
+     * @var Manager
      */
     protected $componentManager;
 
@@ -35,7 +39,7 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * The global Formhandler values
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Utility\Globals
+     * @var Globals
      */
     protected $globals;
 
@@ -43,7 +47,7 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * The Formhandler utility functions
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Utility\GeneralUtility
+     * @var FormhandlerGeneralUtility
      */
     protected $utilityFuncs;
 
@@ -57,9 +61,9 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     public function main($content, $setup)
     {
         $this->pi_USER_INT_obj = 1;
-        $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
-        $this->globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
-        $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
+        $this->componentManager = GeneralUtility::makeInstance(Manager::class);
+        $this->globals = GeneralUtility::makeInstance(Globals::class);
+        $this->utilityFuncs = GeneralUtility::makeInstance(FormhandlerGeneralUtility::class);
         try {
 
             //init flexform
@@ -115,10 +119,10 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 
             $result = $controller->process();
         } catch (\Exception $e) {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::sysLog(
+            GeneralUtility::sysLog(
                 $e->getFile() . '(' . $e->getLine() . ')' . ' ' . $e->getMessage(),
                 'formhandler',
-                \TYPO3\CMS\Core\Utility\GeneralUtility::SYSLOG_SEVERITY_ERROR
+                GeneralUtility::SYSLOG_SEVERITY_ERROR
             );
             $result = $this->utilityFuncs->getTranslatedMessage($this->globals->getLangFiles(), 'fe-exception');
             if (!$result) {

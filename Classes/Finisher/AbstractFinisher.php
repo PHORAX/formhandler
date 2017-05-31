@@ -13,13 +13,15 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractComponent;
+
 /**
  * Abstract class for Finisher Classes used by Formhandler
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
-abstract class AbstractFinisher extends \Typoheads\Formhandler\Component\AbstractComponent
+abstract class AbstractFinisher extends AbstractComponent
 {
 
 }

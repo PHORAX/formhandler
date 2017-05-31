@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\PreProcessor;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * A pre processor cleaning old files in the temporary upload folder if set.
  *
@@ -72,7 +74,7 @@ class ClearTempFiles extends AbstractPreProcessor
             $path = $this->utilityFuncs->sanitizePath($path);
 
             //read files in directory
-            $tmpFiles = \TYPO3\CMS\Core\Utility\GeneralUtility::getFilesInDir($path);
+            $tmpFiles = GeneralUtility::getFilesInDir($path);
 
             $this->utilityFuncs->debugMessage('cleaning_temp_files', [$path]);
 

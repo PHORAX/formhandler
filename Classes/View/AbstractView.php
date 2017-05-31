@@ -12,13 +12,21 @@ namespace Typoheads\Formhandler\View;
      * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
      * Public License for more details.                                       *
      *                                                                        */
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Controller\Configuration;
+use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * An abstract view for Formhandler
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
  */
-abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
+abstract class AbstractView extends AbstractPlugin
 {
 
     /**
@@ -41,7 +49,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * The cObj for link generation in FE
      *
      * @access public
-     * @var tslib_cObj
+     * @var ContentObjectRenderer
      */
     public $cObj;
 
@@ -57,7 +65,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * The Formhandler component manager
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Component\Manager
+     * @var Manager
      */
     protected $componentManager;
 
@@ -65,7 +73,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * The global Formhandler configuration
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Controller\Configuration
+     * @var Configuration
      */
     protected $configuration;
 
@@ -73,7 +81,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * The global Formhandler values
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Utility\Globals
+     * @var Globals
      */
     protected $globals;
 
@@ -81,7 +89,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * The Formhandler utility methods
      *
      * @access protected
-     * @var \Typoheads\Formhandler\Utility\GeneralUtility
+     * @var FormhandlerGeneralUtility
      */
     protected $utilityFuncs;
 
@@ -128,16 +136,21 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     protected $componentSettings;
 
     /**
+     * @var MarkerBasedTemplateService
+     */
+    protected $templateService;
+
+    /**
      * The constructor for a view setting the component manager and the configuration.
      *
-     * @param \Typoheads\Formhandler\Component\Manager $componentManager
-     * @param \Typoheads\Formhandler\Controller\Configuration $configuration
+     * @param Manager $componentManager
+     * @param Configuration $configuration
      * @return void
      */
-    public function __construct(\Typoheads\Formhandler\Component\Manager $componentManager,
-                                \Typoheads\Formhandler\Controller\Configuration $configuration,
-                                \Typoheads\Formhandler\Utility\Globals $globals,
-                                \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs)
+    public function __construct(Manager $componentManager,
+                                Configuration $configuration,
+                                Globals $globals,
+                                FormhandlerGeneralUtility $utilityFuncs)
     {
 
         parent::__construct();
@@ -146,6 +159,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         $this->globals = $globals;
         $this->utilityFuncs = $utilityFuncs;
         $this->cObj = $this->globals->getCObj();
+        $this->templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $this->pi_loadLL();
         $this->initializeView();
     }
@@ -227,8 +241,8 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      */
     public function setTemplate($templateCode, $templateName, $forceTemplate = FALSE)
     {
-        $this->subparts['template'] = $this->cObj->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
-        $this->subparts['item'] = $this->cObj->getSubpart($this->subparts['template'], '###ITEM###');
+        $this->subparts['template'] = $this->templateService->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
+        $this->subparts['item'] =$this->templateService->getSubpart($this->subparts['template'], '###ITEM###');
     }
 
     /**
