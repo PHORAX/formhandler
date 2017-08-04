@@ -13,18 +13,22 @@ namespace Typoheads\Formhandler\ViewHelpers;
  *
  * The TYPO3 project - inspiring people to share!
  */
-class IsArrayViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\IfViewHelper
+class IsArrayViewHelper extends \TYPO3Fluid\Fluid\ViewHelpers\IfViewHelper
 {
 
     /**
-     * This method decides if the condition is TRUE or FALSE. It can be overriden in extending viewhelpers to adjust functionality.
+     * Renders <f:then> child if $condition is true, otherwise renders <f:else> child.
      *
-     * @param array $arguments ViewHelper arguments to evaluate the condition for this ViewHelper, allows for flexiblity in overriding this method.
-     * @return bool
+     * @return string the rendered string
+     * @api
      */
-    protected static function evaluateCondition($arguments = null)
+    public function render()
     {
-        return (isset($arguments['condition']) && (true === is_array($arguments['value'])));
+	    if (isset($arguments['condition']) && (true === is_array($arguments['value']))) {
+		return $this->renderThenChild();
+	} else {
+		return $this->renderElseChild();
+	}
     }
 
 }

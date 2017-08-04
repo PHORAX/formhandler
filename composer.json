@@ -1,5 +1,5 @@
 {
-	"name": "phorax/formhandler",
+	"name": "typoheads/formhandler",
 	"type": "typo3-cms-extension",
 	"description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
 	"keywords": [
@@ -12,16 +12,13 @@
 		"GPL-2.0"
 	],
 	"require": {
-		"typo3/cms-core": "~8.6.0||~8.7.0||dev-master"
+		"typo3/cms-core": ">=7.6.0,<8.0"
 	},
 	"autoload": {
 		"psr-4": {
 			"Typoheads\\Formhandler\\": "Classes"
 		},
-		"classmap": [
-			"Resources/PHP/tcpdf/tcpdf.php",
-			"pi1"
-		]
+		"classmap": ["Resources/PHP/tcpdf/tcpdf.php"]
 	},
 	"replace": {
 		"formhandler": "self.version",
