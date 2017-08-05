@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Validator;
 
 /**
  * Abstract class for validators for Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    Validator
  */
 abstract class AbstractValidator extends \Typoheads\Formhandler\Component\AbstractComponent
 {

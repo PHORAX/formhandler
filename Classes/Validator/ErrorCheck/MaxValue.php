@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /**
  * Validates that a specified field is an integer and lower than or equal a specified value
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class MaxValue extends AbstractErrorCheck
 {

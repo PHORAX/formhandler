@@ -30,8 +30,6 @@ namespace Typoheads\Formhandler\Interceptor;
  * saveInterceptors.1.config.minTime.unit = seconds
  * saveInterceptors.1.config.maxTime.value = 5
  * saveInterceptors.1.config.maxTime.unit = minutes
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class AntiSpamFormTime extends AbstractInterceptor
 {

@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Generator;
 
 /**
  * Generator class for Formhandler for creating any file type
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class File extends AbstractGenerator
 {

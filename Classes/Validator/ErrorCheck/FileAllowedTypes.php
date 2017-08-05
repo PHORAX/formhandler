@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /**
  * Validates that an uploaded file via specified field matches one of the given file types
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class FileAllowedTypes extends AbstractErrorCheck
 {

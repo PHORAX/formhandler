@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Generator;
 
 /**
  * Abstract generator class for Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 abstract class AbstractGenerator extends \Typoheads\Formhandler\Component\AbstractComponent
 {

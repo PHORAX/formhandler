@@ -22,10 +22,6 @@ namespace Typoheads\Formhandler\PreProcessor;
  * preProcessors.1.class = Tx_Formhandler_PreProcessor_ClearSession
  * </code>
  *
- * @author    Stefan Froemken <firma@sfroemken.de>
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    PreProcessor
  */
 class ClearSession extends AbstractPreProcessor
 {

@@ -17,8 +17,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * The Dispatcher instantiates the Component Manager and delegates the process to the given controller.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 {

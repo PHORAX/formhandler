@@ -18,8 +18,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A class validating a field via AJAX.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class Validate
 {

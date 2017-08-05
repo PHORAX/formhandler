@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\View;
 
 /**
  * An abstract view for Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 {

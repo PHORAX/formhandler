@@ -17,8 +17,6 @@ namespace Typoheads\Formhandler\Finisher;
 /**
  * Finisher to restore the currently used language to the original one.
  * Only useful if the language got set using Finisher_SetLanguage before.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class RestoreLanguage extends AbstractFinisher
 {

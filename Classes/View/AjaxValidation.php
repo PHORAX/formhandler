@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\View;
 
 /**
  * A default view for Formhandler AJAX based validation
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    View
  */
 class AjaxValidation extends Form
 {

@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Interceptor;
 
 /**
  * Abstract interceptor class
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 abstract class AbstractInterceptor extends \Typoheads\Formhandler\Component\AbstractComponent

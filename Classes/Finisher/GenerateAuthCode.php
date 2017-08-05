@@ -17,8 +17,6 @@ namespace Typoheads\Formhandler\Finisher;
 /**
  * This finisher generates a unique code for a database entry.
  * This can be used for FE user registration or newsletter registration.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class GenerateAuthCode extends AbstractFinisher
 {

@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /**
  * Validates that a specified field contains only the specified words/characters
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class ContainsOnly extends AbstractErrorCheck
 {

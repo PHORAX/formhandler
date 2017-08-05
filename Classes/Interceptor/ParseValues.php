@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Interceptor;
 
 /**
  * An interceptor parsing some GET/POST parameters
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class ParseValues extends AbstractInterceptor
 {

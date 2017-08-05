@@ -17,7 +17,6 @@ namespace Typoheads\Formhandler\Domain\Repository;
 /**
  * Repository for \Typoheads\Formhandler\Domain\Model\LogData
  *
- * @author Reinhard Führicht <rf@typoheads.at>
  */
 class LogDataRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {

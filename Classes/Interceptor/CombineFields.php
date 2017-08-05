@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Interceptor;
 
 /**
  * Combines values entered in form field and stores it in a new entry in $this->gp.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    Interceptor
  */
 class CombineFields extends AbstractInterceptor
 {

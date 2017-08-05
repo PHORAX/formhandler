@@ -5,9 +5,6 @@
  *
  * @author Cristian Năvălici {@link http://www.lemonsoftware.eu} lemonsoftware [at] gmail [.] com
  * @version 1.32 06 January 2010
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @package Filtreatment
- *
  */
 
 //error_reporting(E_ALL);
@@ -19,7 +16,6 @@
  * most of known vulnerabilities
  * it requires at least PHP 5.0
  *
- * @package Filtreatment
  */
 class Filtreatment {
 

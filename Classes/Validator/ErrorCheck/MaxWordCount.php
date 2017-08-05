@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /**
  * Validates that a specified field is a string and shorter than specified count of words
- *
- * @author    Rik Willems <service@metmeer.nl>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class MaxWordCount extends AbstractErrorCheck
 {

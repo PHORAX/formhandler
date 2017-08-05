@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /**
  * Validates that a specified field is an array and has less than or exactly a specified amount of items
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class MaxItems extends AbstractErrorCheck
 {

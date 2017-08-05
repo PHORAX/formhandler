@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Debugger;
 
 /**
  * A simple debugger writing messages into devlog
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class DevLog extends AbstractDebugger
 {

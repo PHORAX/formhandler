@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\PreProcessor;
 
 /**
  * An abstract class for pre processors used by Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 abstract class AbstractPreProcessor extends \Typoheads\Formhandler\Component\AbstractComponent

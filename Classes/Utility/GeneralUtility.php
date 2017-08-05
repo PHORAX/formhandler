@@ -18,8 +18,6 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * A class providing helper functions for Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class GeneralUtility implements SingletonInterface
 {
@@ -147,7 +145,6 @@ class GeneralUtility implements SingletonInterface
      *
      * @param $settings The formhandler settings
      * @return string
-     * @author    Reinhard Führicht <rf@typoheads.at>
      */
     public static function readTemplateFile($templateFile, &$settings)
     {
@@ -206,7 +203,7 @@ class GeneralUtility implements SingletonInterface
      * @param array $langFiles
      * @param array $settings
      * @return array
-     * @author    Reinhard Führicht <rf@typoheads.at>
+
      */
     public static function readLanguageFiles($langFiles, &$settings)
     {

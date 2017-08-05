@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Generator;
 
 /**
  * Class to generate PDF files in Backend
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    Generator
  * @uses Tx_Formhandler_Template_TCPDF
  */
 class BackendTcPdf extends \Typoheads\Formhandler\Component\AbstractComponent

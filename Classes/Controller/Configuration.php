@@ -17,8 +17,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * The configuration of the Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class Configuration implements \ArrayAccess
 {

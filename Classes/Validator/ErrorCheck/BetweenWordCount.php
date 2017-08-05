@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /**
  * Validates that a specified field is a string and has a word count between two specified values
- *
- * @author    Rik Willems <service@metmeer.nl>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class BetweenWordCount extends AbstractErrorCheck
 {

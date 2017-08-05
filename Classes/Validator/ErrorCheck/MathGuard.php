@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /**
  * Validates that a specified field's value matches the expected result of the MathGuard question
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class MathGuard extends AbstractErrorCheck
 {

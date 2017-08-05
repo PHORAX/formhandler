@@ -17,8 +17,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A class removing uploaded files. This class is called via AJAX.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class RemoveFile
 {

@@ -18,8 +18,6 @@ require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formha
 
 /**
  * A PDF Template class for Formhandler generated PDF files for usage with Generator_TCPDF.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class TemplateTCPDF extends \TCPDF
 {

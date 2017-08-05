@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Session;
 
 /**
  * A session class for Formhandler using PHP sessions
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class PHP extends AbstractSession
 {

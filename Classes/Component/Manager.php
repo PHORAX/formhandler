@@ -22,8 +22,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * on code mainly written by Robert Lemke. Thanx to the FLOW3 team for all the great stuff!
  *
  * Refactored for usage with Formhandler.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class Manager implements SingletonInterface
 {

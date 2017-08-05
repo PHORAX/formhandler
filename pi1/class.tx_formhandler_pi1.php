@@ -25,7 +25,6 @@
 /**
  * Plugin 'Formhandler' for the 'formhandler' extension.
  *
- * @author Reinhard Führicht <rf@typoheads.at>
  */
 class tx_formhandler_pi1 extends TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 {

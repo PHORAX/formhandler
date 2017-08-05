@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /**
  * Abstract class for error checks for Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 abstract class AbstractErrorCheck extends \Typoheads\Formhandler\Component\AbstractComponent
 {

@@ -15,8 +15,6 @@ namespace Typoheads\Formhandler\Logger;
     *                                                                        */
 /**
  * A logger to store submission information in DevLog
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class DevLog extends AbstractLogger
 {

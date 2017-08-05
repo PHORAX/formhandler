@@ -30,8 +30,6 @@ namespace Typoheads\Formhandler\Finisher;
  * finishers.3.config.csv.class = Tx_Formhandler_Generator_Csv
  * finishers.3.config.csv.exportFields = firstname,lastname,interests
  * </code>
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class SubmittedOK extends AbstractFinisher
 {

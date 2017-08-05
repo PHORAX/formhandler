@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Logger;
 
 /**
  * Abstract class for loggers
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 abstract class AbstractLogger extends \Typoheads\Formhandler\Component\AbstractComponent

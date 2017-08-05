@@ -17,8 +17,6 @@ namespace Typoheads\Formhandler\Finisher;
 /**
  * Finisher to set the currently used language to a set value.
  * Useful if you want to send the admin email in a specific language and do not want to use the language of the user.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class SetLanguage extends AbstractFinisher
 {

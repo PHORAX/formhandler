@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\View;
 
 /**
  * A view for Finisher_SubmittedOK used by Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    View
  */
 class SubmittedOK extends Form
 {

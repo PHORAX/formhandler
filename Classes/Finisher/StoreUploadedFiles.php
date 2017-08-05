@@ -29,8 +29,6 @@ namespace Typoheads\Formhandler\Finisher;
  * finishers.1.config.schemeMarkers.marker2 = TEXT
  * finishers.1.config.schemeMarkers.marker2.value = Textvalue
  * </code>
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class StoreUploadedFiles extends AbstractFinisher
 {

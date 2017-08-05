@@ -17,8 +17,6 @@ namespace Typoheads\Formhandler\Component;
 /**
  * Abstract class for any usable Formhandler component.
  * This class defines some useful variables and a default constructor for all Formhandler components.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 abstract class AbstractClass

@@ -15,8 +15,6 @@ namespace Typoheads\Formhandler\Mailer;
     *                                                                        */
 /**
  * An abstract mailer class. Mailers are used by Finisher_Mail
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 abstract class AbstractMailer extends \Typoheads\Formhandler\Component\AbstractComponent

@@ -17,8 +17,6 @@ use TYPO3\CMS\Core\SingletonInterface;
 
 /**
  * A helper class for Formhandler to store global values
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class Globals implements SingletonInterface
 {

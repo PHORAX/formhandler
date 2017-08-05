@@ -42,8 +42,6 @@ namespace Typoheads\Formhandler\Interceptor;
  * </code>
  *
  * This example configuration says that the form is allowed to be submitted twice in a period of 5 minutes and 30 times in 5 minutes globally.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @see Tx_Formhandler_Logger_DB
  */
 class IPBlocking extends AbstractInterceptor

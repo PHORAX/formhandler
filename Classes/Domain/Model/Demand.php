@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Domain\Model;
 
 /**
  * Demand object for log data
- *
- * @author Reinhard Führicht <rf@typoheads.at>
  */
 class Demand extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {

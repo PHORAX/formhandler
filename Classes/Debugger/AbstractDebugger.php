@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Debugger;
 
 /**
  * An abstract debugger
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 abstract class AbstractDebugger extends \Typoheads\Formhandler\Component\AbstractComponent

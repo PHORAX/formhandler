@@ -16,9 +16,6 @@ namespace Typoheads\Formhandler\Mailer;
 
 /**
  *
- * @author    Alexander Stehlik
- * @package    Tx_Formhandler
- * @subpackage    Mailer
  */
 class TYPO3Mailer extends AbstractMailer implements MailerInterface
 {

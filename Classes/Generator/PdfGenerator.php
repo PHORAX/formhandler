@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Generator;
 
 /**
  * PDF generator class for Formhandler using the extension "pdf_generator2"
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class PdfGenerator extends AbstractGenerator
 {

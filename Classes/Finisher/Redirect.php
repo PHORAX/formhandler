@@ -24,8 +24,6 @@ namespace Typoheads\Formhandler\Finisher;
  * finishers.4.class = Finisher_Redirect
  * finishers.4.config.redirectPage = 65
  * </code>
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class Redirect extends AbstractFinisher
 {

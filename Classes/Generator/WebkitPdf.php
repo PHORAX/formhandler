@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Generator;
 
 /**
  * PDF generator class for Formhandler using the extension "webkitpdf"
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class WebkitPdf extends AbstractGenerator
 {

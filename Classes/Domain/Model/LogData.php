@@ -17,7 +17,6 @@ namespace Typoheads\Formhandler\Domain\Model;
 /**
  * Model for log data
  *
- * @author Reinhard Führicht <rf@typoheads.at>
  */
 class LogData extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {

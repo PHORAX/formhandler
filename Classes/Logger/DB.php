@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Logger;
 
 /**
  * A logger to store submission information in TYPO3 database
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    Logger
  */
 class DB extends AbstractLogger
 {

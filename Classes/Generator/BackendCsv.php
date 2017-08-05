@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Generator;
 
 /**
  * Class to generate CSV files in Backend
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @uses export2CSV in csv.lib.php
  */
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/PHP/parsecsv.lib.php');

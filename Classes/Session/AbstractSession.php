@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Session;
 
 /**
  * An abstract session class for Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 abstract class AbstractSession extends \Typoheads\Formhandler\Component\AbstractClass
 {

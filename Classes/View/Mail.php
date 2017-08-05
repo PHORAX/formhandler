@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\View;
 
 /**
  * A default view for Formhandler E-Mails
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    View
  */
 class Mail extends Form
 {

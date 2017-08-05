@@ -17,8 +17,6 @@ namespace Typoheads\Formhandler\Component;
 /**
  * Abstract component class for any usable Formhandler component.
  * This class extends the abstract class and adds some useful variables and methods.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 abstract class AbstractComponent extends AbstractClass

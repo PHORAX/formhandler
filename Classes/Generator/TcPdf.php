@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Generator;
 
 /**
  * PDF generator class for Formhandler using TCPDF
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class TcPdf extends AbstractGenerator
 {

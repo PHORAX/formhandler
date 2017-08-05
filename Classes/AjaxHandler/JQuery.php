@@ -17,8 +17,6 @@ namespace Typoheads\Formhandler\AjaxHandler;
 /**
  * Abstract class for an AjaxHandler.
  * The AjaxHandler takes care of adding AJAX related markers and JS used for validation and file removal.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler

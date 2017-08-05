@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Interceptor;
 
 /**
  * An interceptor doing XSS checking on GET/POST parameters
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class RemoveXSS extends AbstractInterceptor
 {

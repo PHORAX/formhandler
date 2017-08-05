@@ -17,10 +17,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 /**
  * Validates that a specified field doesn't equal a specified default value.
  * This default value could have been set via a PreProcessor.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class NotDefaultValue extends AbstractErrorCheck
 {

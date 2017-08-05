@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Debugger;
 
 /**
  * A simple debugger printing the messages on the screen
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class PrintToScreen extends AbstractDebugger
 {

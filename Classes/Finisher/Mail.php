@@ -63,8 +63,6 @@ namespace Typoheads\Formhandler\Finisher;
  * finishers.2.config.html = MyContactForm_
  * finishers.2.config.pdf = MyContactFormPDF_
  * </code>
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class Mail extends AbstractFinisher
 {

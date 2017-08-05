@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\PreProcessor;
 
 /**
  * A pre processor for Formhandler loading GET/POST parameters passed from another page.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class LoadGetPost extends AbstractPreProcessor
 {

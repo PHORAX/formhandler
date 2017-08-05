@@ -35,11 +35,6 @@ namespace Typoheads\Formhandler\Validator;
  * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.lastname.errorCheck.1 = required
  * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.lastname.errorCheck.2 = minLength
  * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.lastname.errorCheck.2.value = 2
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @author Christian Opitz <co@netzelf.de>
- * @package    Tx_Formhandler
- * @subpackage    Validator
  */
 class DefaultValidator extends AbstractValidator
 {

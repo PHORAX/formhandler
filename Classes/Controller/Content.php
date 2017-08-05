@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Controller;
 
 /**
  * Content to be parsed.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class Content
 {

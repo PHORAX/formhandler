@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Session;
 
 /**
  * A session class for Formhandler using TYPO3 sessions
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class TYPO3 extends AbstractSession
 {

@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Generator;
 
 /**
  * Generator class for Formhandler showing a print version of the SUBMITTED_OK template
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class PrintVersion extends AbstractGenerator
 {

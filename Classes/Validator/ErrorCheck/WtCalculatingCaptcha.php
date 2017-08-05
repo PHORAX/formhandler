@@ -16,10 +16,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /**
  * Validates that the correct image of possible images displayed by the extension "simple_captcha" got selected.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class WtCalculatingCaptcha extends AbstractErrorCheck
 {

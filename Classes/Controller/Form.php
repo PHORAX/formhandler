@@ -16,8 +16,6 @@ namespace Typoheads\Formhandler\Controller;
 
 /**
  * Default controller for Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class Form extends AbstractController
 {

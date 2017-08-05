@@ -1,11 +1,4 @@
 <?php
-/**
- * ext tables config file for ext: "formhandler"
- *
- * @author Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- */
-
 if (!defined('TYPO3_MODE')) die ('Access denied.');
 
 if (TYPO3_MODE === 'BE') {

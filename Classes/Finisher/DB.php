@@ -54,8 +54,6 @@ use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
  * finishers.1.config.fields.tstamp.special = sub_tstamp
  * finishers.1.config.fields.imagecaption.special = ip
  * </code>
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class DB extends AbstractFinisher
 {

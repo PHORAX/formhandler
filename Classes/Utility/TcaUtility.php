@@ -27,8 +27,6 @@ namespace Typoheads\Formhandler\Utility;
 
 /**
  * UserFunc for rendering of log entry
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class TcaUtility
 {

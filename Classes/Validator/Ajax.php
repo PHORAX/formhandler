@@ -15,10 +15,6 @@ namespace Typoheads\Formhandler\Validator;
      *                                                                        */
 
 /**
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    Validator
  */
 class Ajax extends AbstractValidator
 {
