@@ -35,9 +35,11 @@
 									<fh:isArray condition="{value}">
 										<f:then>
 											<ul>
-												<f:for each="{value}" as="val">
-													<li>{val}</li>
-												</f:for>
+												<f:if condition="{value -> f:count()} > 0">
+													<f:for each="{value}" as="val">
+														<li>{val}</li>
+													</f:for>
+												</f:if>
 											</ul>
 										</f:then>
 										<f:else>
