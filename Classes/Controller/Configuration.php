@@ -20,7 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Configuration implements \ArrayAccess
 {
-
     /**
      * The package key
      *

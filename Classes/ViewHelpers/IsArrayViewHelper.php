@@ -15,7 +15,6 @@ namespace Typoheads\Formhandler\ViewHelpers;
  */
 class IsArrayViewHelper extends \TYPO3Fluid\Fluid\ViewHelpers\IfViewHelper
 {
-
     /**
      * Renders <f:then> child if $condition is true, otherwise renders <f:else> child.
      *
@@ -26,8 +25,7 @@ class IsArrayViewHelper extends \TYPO3Fluid\Fluid\ViewHelpers\IfViewHelper
     {
         if (isset($arguments['condition']) && (true === is_array($arguments['value']))) {
             return $this->renderThenChild();
-        } else {
-            return $this->renderElseChild();
         }
+        return $this->renderElseChild();
     }
 }

@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Generator;
  */
 class File extends AbstractGenerator
 {
-
     /**
      * Renders the XML file.
      *
@@ -61,7 +60,7 @@ class File extends AbstractGenerator
         }
 
         $view->setComponentSettings($this->settings);
-        $content = $view->render($this->gp, array());
+        $content = $view->render($this->gp, []);
 
         $returns = $this->settings['returnFileName'];
         $contentType = $this->utilityFuncs->getSingle($this->settings, 'contentType');
@@ -80,19 +79,18 @@ class File extends AbstractGenerator
             header('Content-type: ' . $contentType);
             header('Location: ' . $downloadpath);
             exit;
-        } else {
-            header('Content-type: ' . $contentType);
-            header('Content-Disposition: attachment; filename="' . $this->filenameOnly . '"');
-            echo $content;
-            exit;
         }
+        header('Content-type: ' . $contentType);
+        header('Content-Disposition: attachment; filename="' . $this->filenameOnly . '"');
+        echo $content;
+        exit;
     }
 
     protected function getComponentLinkParams($linkGP)
     {
         $prefix = $this->globals->getFormValuesPrefix();
-        $tempParams = array('action' => 'file');
-        $params = array();
+        $tempParams = ['action' => 'file'];
+        $params = [];
 
         if ($prefix) {
             $params[$prefix] = $tempParams;

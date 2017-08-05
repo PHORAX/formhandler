@@ -21,7 +21,6 @@ require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formha
 
 class Csv extends AbstractGenerator
 {
-
     /**
      * Renders the CSV.
      *
@@ -91,21 +90,19 @@ class Csv extends AbstractGenerator
             $csv->save($filename, $data, false, $fields);
             if (intval($this->settings['returnFileName']) === 1) {
                 return $filename;
-            } else {
-                if (!is_array($this->gp['generator-csv-generated-files'])) {
-                    $this->gp['generator-csv-generated-files'] = [];
-                }
-                $this->gp['generator-csv-generated-files'][] = $filename;
-                return $this->gp;
             }
-        } else {
-            $fileName = 'formhandler.csv';
-            if ($this->settings['outputFileName']) {
-                $fileName = $this->utilityFuncs->getSingle($this->settings, 'outputFileName');
+            if (!is_array($this->gp['generator-csv-generated-files'])) {
+                $this->gp['generator-csv-generated-files'] = [];
             }
-            $csv->output($fileName, $data, $fields);
-            die();
+            $this->gp['generator-csv-generated-files'][] = $filename;
+            return $this->gp;
         }
+        $fileName = 'formhandler.csv';
+        if ($this->settings['outputFileName']) {
+            $fileName = $this->utilityFuncs->getSingle($this->settings, 'outputFileName');
+        }
+        $csv->output($fileName, $data, $fields);
+        die();
     }
 
     /* (non-PHPdoc)
@@ -115,7 +112,7 @@ class Csv extends AbstractGenerator
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [
-            'action' => 'csv'
+            'action' => 'csv',
         ];
         $params = [];
         if ($prefix) {

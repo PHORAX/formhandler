@@ -21,7 +21,6 @@ use Typoheads\Formhandler\Component\AbstractClass;
  */
 abstract class AbstractController extends AbstractClass
 {
-
     /**
      * The content returned by the controller
      *

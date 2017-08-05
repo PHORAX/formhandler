@@ -20,7 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class RemoveFile
 {
-
     /**
      * Main method of the class.
      *
@@ -36,7 +35,6 @@ class RemoveFile
             if (is_array($sessionFiles)) {
                 foreach ($sessionFiles as $field => $files) {
                     if (!strcmp($field, $this->fieldName)) {
-
                         //get upload folder
                         $uploadFolder = $this->utilityFuncs->getTempUploadFolder();
 

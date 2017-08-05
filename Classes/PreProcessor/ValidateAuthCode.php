@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\PreProcessor;
  */
 class ValidateAuthCode extends AbstractPreProcessor
 {
-
     /**
      * The main method called by the controller
      *

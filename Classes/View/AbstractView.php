@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\View;
  */
 abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 {
-
     /**
      * The prefix id
      *
@@ -220,7 +219,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      *
      * @param string $templateCode The whole template code of a template file
      * @param string $templateName Name of a subpart containing the template code to work with
-     * @param boolean $forceTemplate Not needed
+     * @param bool $forceTemplate Not needed
      * @return void
      */
     public function setTemplate($templateCode, $templateName, $forceTemplate = false)
@@ -232,7 +231,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * Returns FALSE if the view doesn't have template code.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasTemplate()
     {

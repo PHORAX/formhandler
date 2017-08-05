@@ -47,18 +47,16 @@ namespace Typoheads\Formhandler\PreProcessor;
  *
  * @author    Mathias Bolt Lesniak, LiliO Design <mathias@lilio.com>
  */
-
 class LoadDB extends AbstractPreProcessor
 {
-
     /**
-     * @var Array $data as associative array. Row data from DB.
+     * @var array $data as associative array. Row data from DB.
      * @access protected
      */
     protected $data;
 
     /**
-     * @var Array $files as associative array.
+     * @var array $files as associative array.
      * @access protected
      */
     protected $files;
@@ -66,7 +64,7 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Main method called by the controller
      *
-     * @return Array GP
+     * @return array GP
      */
     public function process()
     {
@@ -90,8 +88,8 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Loads data from DB intto the GP Array
      *
-     * @return void
      * @param array $settings
+     * @return void
      */
     protected function loadDBToGP($settings)
     {
@@ -109,9 +107,9 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Loads DB data into the Session. Used only for step 2+.
      *
-     * @return void
-     * @param Array $settings
+     * @param array $settings
      * @param int $step
+     * @return void
      */
     protected function loadDBToSession($settings, $step)
     {
@@ -183,7 +181,7 @@ class LoadDB extends AbstractPreProcessor
                         'uploaded_path' => PATH_site . $uploadPath,
                         'uploaded_folder' => $uploadPath,
                         'uploaded_url' => $uploadedUrl,
-                        'size' => filesize($file)
+                        'size' => filesize($file),
                     ];
                 }
                 $this->globals->getSession()->set('files', $this->files);
@@ -195,9 +193,9 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Loads data from DB
      *
-     * @return Array of row data
-     * @param Array $settings
+     * @param array $settings
      * @param int $step
+     * @return array of row data
      */
     protected function loadDB($settings)
     {
@@ -224,7 +222,6 @@ class LoadDB extends AbstractPreProcessor
     */
     protected function exec_getQuery($table, $conf)
     {
-
         //map the old TypoScript setting "limit" to "begin" and "max".
         $limit = $this->utilityFuncs->getSingle($conf, 'limit');
         if (strlen($limit) > 0) {

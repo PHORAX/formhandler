@@ -25,7 +25,6 @@ namespace Typoheads\Formhandler\PreProcessor;
  */
 class ClearSession extends AbstractPreProcessor
 {
-
     /**
      * The main method called by the controller
      *
@@ -34,7 +33,7 @@ class ClearSession extends AbstractPreProcessor
     public function process()
     {
         $sessionKeysToRemove = [
-            'finisher-storegp'
+            'finisher-storegp',
         ];
         if ($this->settings['sessionKeysToRemove']) {
             $sessionKeysToRemove = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'sessionKeysToRemove'));

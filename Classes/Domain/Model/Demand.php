@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Domain\Model;
  */
 class Demand extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-
     /**
      * @var int
      */

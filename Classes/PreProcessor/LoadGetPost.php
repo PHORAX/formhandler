@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\PreProcessor;
  */
 class LoadGetPost extends AbstractPreProcessor
 {
-
     /**
      * Main method called by the controller.
      *

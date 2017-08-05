@@ -21,7 +21,6 @@ namespace Typoheads\Formhandler\Component;
  */
 abstract class AbstractComponent extends AbstractClass
 {
-
     /**
      * The GET/POST parameters
      *

@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Controller;
  */
 class Form extends AbstractController
 {
-
     /**
      * The current GET/POST parameters of the form
      *
@@ -48,7 +47,7 @@ class Form extends AbstractController
      * Flag indicating if the form got submitted
      *
      * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $submitted;
 
@@ -64,7 +63,7 @@ class Form extends AbstractController
      * Flag indicating if debug mode is on
      *
      * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $debugMode;
 
@@ -80,7 +79,7 @@ class Form extends AbstractController
      * The current step of the form
      *
      * @access protected
-     * @var integer
+     * @var int
      */
     protected $currentStep;
 
@@ -88,7 +87,7 @@ class Form extends AbstractController
      * The last step of the form
      *
      * @access protected
-     * @var integer
+     * @var int
      */
     protected $lastStep;
 
@@ -96,7 +95,7 @@ class Form extends AbstractController
      * Total steps of the form
      *
      * @access protected
-     * @var integer
+     * @var int
      */
     protected $totalSteps;
 
@@ -104,7 +103,7 @@ class Form extends AbstractController
      * Flag indicating if form is finished (no more steps)
      *
      * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $finished;
 
@@ -125,7 +124,6 @@ class Form extends AbstractController
             $action = $temp['action'];
         }
         if ($action) {
-
             //read template file
             $this->templateFile = $this->utilityFuncs->readTemplateFile($this->templateFile, $this->settings);
             $this->globals->setTemplateCode($this->templateFile);
@@ -145,9 +143,8 @@ class Form extends AbstractController
 
         if (!$this->submitted) {
             return $this->processNotSubmitted();
-        } else {
-            return $this->processSubmitted();
         }
+        return $this->processSubmitted();
     }
 
     /**
@@ -196,7 +193,6 @@ class Form extends AbstractController
                     $object->process();
                 }
             } elseif ($action === 'show') {
-
                 //"show" makes it possible that Finisher_SubmittedOK show its output again
                 $class = $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK');
                 $object = $this->componentManager->getComponent($class);
@@ -206,13 +202,11 @@ class Form extends AbstractController
             } elseif (intval($this->utilityFuncs->getSingle($finisherConf['actions.'][$action . '.']['config.'], 'returns')) === 1) {
                 $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action . '.']);
                 if ($class) {
-
                     //Makes it possible to make your own Generator class show output
                     $object = $this->componentManager->getComponent($class);
                     $object->init($params, $finisherConf['actions.'][$action . '.']['config.']);
                     $content = $object->process();
                 } else {
-
                     //Makes it possible that Finisher_SubmittedOK show its output again
                     $class = $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK');
                     $object = $this->componentManager->getComponent($class);
@@ -232,7 +226,6 @@ class Form extends AbstractController
      */
     protected function processSubmitted()
     {
-
         /*
          * Step may have been set to the next step already.
          * Set the settings back to the one of the previous step
@@ -310,7 +303,7 @@ class Form extends AbstractController
                                     'fileMinCount',
                                     'fileMaxSize',
                                     'fileMinSize',
-                                    'fileMaxTotalSize'
+                                    'fileMaxTotalSize',
                                 ];
                                 $merged = array_merge($userSetting, $autoSetting);
                                 $tsConfig['config.']['restrictErrorChecks'] = implode(',', $merged);
@@ -366,20 +359,18 @@ class Form extends AbstractController
             //if no more steps
             if ($this->finished) {
                 return $this->processFinished();
-            } else {
-                return $this->view->render($this->gp, $this->errors);
             }
-        } else {
-            $this->templateFile = $this->utilityFuncs->readTemplateFile($this->templateFile, $this->settings);
-            $this->globals->setTemplateCode($this->templateFile);
-            $this->langFiles = $this->utilityFuncs->readLanguageFiles($this->langFiles, $this->settings);
-            $this->globals->setLangFiles($this->langFiles);
-
-            $this->view->setLangFiles($this->langFiles);
-            $this->view->setSettings($this->settings);
-            $this->setViewSubpart($this->currentStep);
-            return $this->processNotValid();
+            return $this->view->render($this->gp, $this->errors);
         }
+        $this->templateFile = $this->utilityFuncs->readTemplateFile($this->templateFile, $this->settings);
+        $this->globals->setTemplateCode($this->templateFile);
+        $this->langFiles = $this->utilityFuncs->readLanguageFiles($this->langFiles, $this->settings);
+        $this->globals->setLangFiles($this->langFiles);
+
+        $this->view->setLangFiles($this->langFiles);
+        $this->view->setSettings($this->settings);
+        $this->setViewSubpart($this->currentStep);
+        return $this->processNotValid();
     }
 
     /**
@@ -390,17 +381,13 @@ class Form extends AbstractController
     protected function validateErrorCheckConfig()
     {
         if (isset($_FILES) && is_array($_FILES) && !empty($_FILES)) {
-
             //for all file properties
             foreach ($_FILES as $sthg => $files) {
-
                 //if a file upload field exists
                 if (isset($files['name']) && is_array($files['name'])) {
-
                     //for all file names
                     $uploadFields = array_keys($files['name']);
                     foreach ($uploadFields as $field) {
-
                         //if a file was uploaded through this field
                         if (!is_array($files['tmp_name'][$field])) {
                             $files['tmp_name'][$field] = [$files['tmp_name'][$field]];
@@ -482,10 +469,8 @@ class Form extends AbstractController
      */
     protected function processFinished()
     {
-
         //If skipView is set, call preProcessors and initInterceptors here
         if (intval($this->utilityFuncs->getSingle($this->settings, 'skipView')) === 1) {
-
             //run preProcessors
             $output = $this->runClasses($this->settings['preProcessors.']);
             if (strlen($output) > 0) {
@@ -533,10 +518,9 @@ class Form extends AbstractController
                             if (intval($this->utilityFuncs->getSingle($tsConfig['config.'], 'returns')) === 1) {
                                 $this->globals->getSession()->set('finished', true);
                                 return $finisher->process();
-                            } else {
-                                $this->gp = $finisher->process();
-                                $this->globals->setGP($this->gp);
                             }
+                            $this->gp = $finisher->process();
+                            $this->globals->setGP($this->gp);
                         }
                     } else {
                         $this->utilityFuncs->throwException('classesarray_error');
@@ -592,7 +576,6 @@ class Form extends AbstractController
      */
     protected function storeFileNamesInGP()
     {
-
         //put file names into $this->gp
         $sessionFiles = $this->globals->getSession()->get('files');
         if (!is_array($sessionFiles)) {
@@ -632,12 +615,12 @@ class Form extends AbstractController
     /**
      * Adds a mandatory component to the classes array
      *
+     * @param mixed $className
      * @return void
      */
     protected function addFormhandlerClass(&$classesArray, $className)
     {
         if (!isset($classesArray) && !is_array($classesArray)) {
-
             //add class to the end of the array
             $classesArray[] = ['class' => $className];
         } else {
@@ -650,13 +633,11 @@ class Form extends AbstractController
                 }
             }
             if (!$found) {
-
                 //add class to the end of the array
                 $classesArray[] = ['class' => $className];
             }
         }
     }
-
 
     /**
      * Removes files from the internal file storage
@@ -672,7 +653,6 @@ class Form extends AbstractController
             if (is_array($sessionFiles)) {
                 foreach ($sessionFiles as $field => $files) {
                     if (!strcmp($field, $fieldname)) {
-
                         //get upload folder
                         $uploadFolder = $this->utilityFuncs->getTempUploadFolder($field);
 
@@ -726,20 +706,16 @@ class Form extends AbstractController
 
             //for all file properties
             foreach ($_FILES as $sthg => $files) {
-
                 //if a file was uploaded
                 if (isset($files['name']) && is_array($files['name'])) {
-
                     //for all file names
                     foreach ($files['name'] as $field => $uploadedFiles) {
-
                         //If only a single file is uploaded
                         if (!is_array($uploadedFiles)) {
                             $uploadedFiles = [$uploadedFiles];
                         }
 
                         if (!isset($this->errors[$field])) {
-
                             //get upload folder
                             $uploadFolder = $this->utilityFuncs->getTempUploadFolder($field);
 
@@ -771,7 +747,6 @@ class Form extends AbstractController
                                         $uploadedFileName = $filename . $ext;
 
                                         if ($uploadedFilesWithSameNameAction !== 'replace') {
-
                                             //rename if exists
                                             while (file_exists($uploadPath . $uploadedFileName)) {
                                                 $uploadedFileName = $filename . '_' . $suffix . $ext;
@@ -797,7 +772,7 @@ class Form extends AbstractController
                                         $uploadedUrl = rtrim(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL'), '/');
                                         $uploadedUrl .= '/' . trim($uploadFolder, '/') . '/';
                                         $uploadedUrl .= trim($uploadedFileName, '/');
-                                        
+
                                         $tmp['uploaded_url'] = $uploadedUrl;
                                         $tmp['size'] = $files['size'][$field][$idx];
                                         if (is_array($files['type'][$field][$idx])) {
@@ -872,6 +847,7 @@ class Form extends AbstractController
     /**
      * Resets the values in session to have a clean form
      *
+     * @param mixed $gp
      * @return void
      */
     protected function reset($gp = [])
@@ -888,7 +864,7 @@ class Form extends AbstractController
             'inserted_tstamp' => null,
             'key_hash' => null,
             'finished' => null,
-            'finishedSteps' => []
+            'finishedSteps' => [],
         ];
         $this->globals->getSession()->setMultiple($values);
         $this->gp = $gp;
@@ -1056,7 +1032,6 @@ class Form extends AbstractController
      */
     protected function parseConditions()
     {
-
         //parse global conditions
         if (is_array($this->settings['if.'])) {
             $this->parseConditionsBlock($this->settings);
@@ -1205,7 +1180,7 @@ class Form extends AbstractController
     /**
      * Checks if the form has been submitted
      *
-     * @return boolean
+     * @return bool
      */
     protected function isFormSubmitted()
     {
@@ -1227,6 +1202,7 @@ class Form extends AbstractController
      * Sets the template of the view.
      *
      * @param int The current step
+     * @param mixed $step
      * @return void
      */
     protected function setViewSubpart($step)
@@ -1236,12 +1212,10 @@ class Form extends AbstractController
         if (intval($this->utilityFuncs->getSingle($this->settings, 'skipView')) === 1) {
             $this->finished = true;
         } elseif (strstr($this->templateFile, ('###TEMPLATE_FORM' . $step . $this->settings['templateSuffix'] . '###'))) {
-
             // search for ###TEMPLATE_FORM[step][suffix]###
             $this->utilityFuncs->debugMessage('using_subpart', ['###TEMPLATE_FORM' . $step . $this->settings['templateSuffix'] . '###']);
             $this->view->setTemplate($this->templateFile, ('FORM' . $step . $this->settings['templateSuffix']));
         } elseif (!isset($this->settings['templateSuffix']) && strstr($this->templateFile, ('###TEMPLATE_FORM' . $step . '###'))) {
-
             //search for ###TEMPLATE_FORM[step]###
             $this->utilityFuncs->debugMessage('using_subpart', ['###TEMPLATE_FORM' . $step . '###']);
             $this->view->setTemplate($this->templateFile, ('FORM' . $step));
@@ -1264,7 +1238,7 @@ class Form extends AbstractController
             'currentStep' => $this->currentStep,
             'totalSteps' => $this->totalSteps,
             'lastStep' => $this->lastStep,
-            'templateSuffix' => $this->settings['templateSuffix']
+            'templateSuffix' => $this->settings['templateSuffix'],
         ];
         $this->globals->getSession()->setMultiple($values);
         $this->globals->setFormValuesPrefix($this->formValuesPrefix);
@@ -1279,7 +1253,6 @@ class Form extends AbstractController
      */
     protected function loadSettingsForStep($step)
     {
-
         //merge settings with specific settings for current step
         if (isset($this->settings[$step . '.']) && is_array($this->settings[$step . '.'])) {
             $this->settings = $this->utilityFuncs->mergeConfiguration($this->settings, $this->settings[$step . '.']);
@@ -1384,12 +1357,10 @@ class Form extends AbstractController
                             $obj->validateConfig();
                             $return = $obj->process();
                             if (is_array($return)) {
-
                                 //return value is an array. Treat it as the probably modified get/post parameters
                                 $this->gp = $return;
                                 $this->globals->setGP($this->gp);
                             } else {
-
                                 //return value is no array. treat this return value as output.
                                 return $return;
                             }
@@ -1483,7 +1454,7 @@ class Form extends AbstractController
      * Find out if submitted form was valid. If one of the values in the given array $valid is FALSE the submission was not valid.
      *
      * @param $validArr Array with the return values of each validator
-     * @return boolean
+     * @return bool
      */
     protected function isValid($validArr)
     {

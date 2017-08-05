@@ -1,8 +1,9 @@
 <?php
-if (!defined('TYPO3_MODE')) die ('Access denied.');
+if (!defined('TYPO3_MODE')) {
+    die('Access denied.');
+}
 
 if (TYPO3_MODE === 'BE') {
-
     $GLOBALS['TCA']['tt_content']['types'][$_EXTKEY . '_pi1']['showitem'] = '
 		--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,
 		--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.header;header,
@@ -27,7 +28,7 @@ if (TYPO3_MODE === 'BE') {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
         [
             'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tt_content.list_type_pi1',
-            $_EXTKEY . '_pi1'
+            $_EXTKEY . '_pi1',
         ],
         'CType'
     );
@@ -38,12 +39,12 @@ if (TYPO3_MODE === 'BE') {
         'log',
         'bottom',
         [
-            'Module' => 'index, view, selectFields, export, deleteLogRows'
+            'Module' => 'index, view, selectFields, export, deleteLogRows',
         ],
         [
             'access' => 'user,group',
             'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/moduleicon.gif',
-            'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xml'
+            'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xml',
         ]
     );
 }
@@ -55,5 +56,5 @@ if (TYPO3_MODE === 'BE') {
 $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
     'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:title',
     'formlogs',
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'ext_icon.gif'
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'ext_icon.gif',
 ];

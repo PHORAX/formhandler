@@ -33,7 +33,6 @@ namespace Typoheads\Formhandler\Finisher;
  */
 class SubmittedOK extends AbstractFinisher
 {
-
     /**
      * The main method called by the controller
      *
@@ -41,7 +40,6 @@ class SubmittedOK extends AbstractFinisher
      */
     public function process()
     {
-
         //read template file
         $this->templateFile = $this->globals->getTemplateCode();
         if ($this->settings['templateFile']) {

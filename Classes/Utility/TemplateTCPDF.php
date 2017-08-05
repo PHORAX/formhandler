@@ -21,7 +21,6 @@ require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formha
  */
 class TemplateTCPDF extends \TCPDF
 {
-
     /**
      * Path to language file
      *
@@ -66,11 +65,11 @@ class TemplateTCPDF extends \TCPDF
             $text = str_ireplace(
                 [
                     '###PDF_PAGE_NUMBER###',
-                    '###PDF_TOTAL_PAGES###'
+                    '###PDF_TOTAL_PAGES###',
                 ],
                 [
                     $this->PageNo(),
-                    $this->numpages
+                    $this->numpages,
                 ],
                 $headerText
             );
@@ -85,7 +84,6 @@ class TemplateTCPDF extends \TCPDF
      */
     public function Footer()
     {
-
         //Position at 1.5 cm from bottom
         $this->SetY(-15);
 
@@ -95,11 +93,11 @@ class TemplateTCPDF extends \TCPDF
             $footerText = str_ireplace(
                 [
                     '###PDF_PAGE_NUMBER###',
-                    '###PDF_TOTAL_PAGES###'
+                    '###PDF_TOTAL_PAGES###',
                 ],
                 [
                     $this->getAliasNumPage(),
-                    $this->getAliasNbPages()
+                    $this->getAliasNbPages(),
                 ],
                 $footerText
             );

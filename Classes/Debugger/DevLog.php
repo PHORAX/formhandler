@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Debugger;
  */
 class DevLog extends AbstractDebugger
 {
-
     /**
      * Inserts the messages to the devlog
      *

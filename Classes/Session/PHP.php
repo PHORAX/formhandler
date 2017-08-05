@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Session;
  */
 class PHP extends AbstractSession
 {
-
     /* (non-PHPdoc)
      * @see Classes/Session/Tx_Formhandler_AbstractSession#set()
     */

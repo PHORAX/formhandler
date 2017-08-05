@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Logger;
  */
 class DB extends AbstractLogger
 {
-
     /**
      * Logs the given values.
      *
@@ -27,7 +26,6 @@ class DB extends AbstractLogger
      */
     public function process()
     {
-
         //set params
         $table = 'tx_formhandler_log';
 
@@ -91,7 +89,7 @@ class DB extends AbstractLogger
             'inserted_uid' => $insertedUID,
             'inserted_tstamp' => $fields['tstamp'],
             'key_hash' => $hash,
-            'unique_hash' => $uniqueHash
+            'unique_hash' => $uniqueHash,
         ];
         $this->globals->getSession()->setMultiple($sessionValues);
         $this->gp['inserted_uid'] = $insertedUID;

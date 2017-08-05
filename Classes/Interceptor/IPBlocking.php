@@ -46,7 +46,6 @@ namespace Typoheads\Formhandler\Interceptor;
  */
 class IPBlocking extends AbstractInterceptor
 {
-
     /**
      * The table where the form submissions are logged
      *
@@ -87,7 +86,11 @@ class IPBlocking extends AbstractInterceptor
      * @param int Timebase value
      * @param string Timebase unit (seconds|minutes|hours|days)
      * @param int maximum amount of submissions in given time base.
-     * @param boolean add IP address to where clause
+     * @param bool add IP address to where clause
+     * @param mixed $value
+     * @param mixed $unit
+     * @param mixed $maxValue
+     * @param mixed $addIPToWhere
      * @return void
      */
     private function check($value, $unit, $maxValue, $addIPToWhere = true)
@@ -150,6 +153,8 @@ class IPBlocking extends AbstractInterceptor
      *
      * @param string (ip|global) Defines the message sent
      * @param array The select rows of log table
+     * @param mixed $type
+     * @param mixed $rows
      * @return void
      */
     private function sendReport($type, $rows)

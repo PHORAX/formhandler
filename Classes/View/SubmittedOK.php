@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\View;
  */
 class SubmittedOK extends Form
 {
-
     /**
      * This function fills the default markers:
      *

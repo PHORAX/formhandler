@@ -21,7 +21,6 @@ namespace Typoheads\Formhandler\Component;
  */
 abstract class AbstractClass
 {
-
     /**
      * The Formhandler component manager
      *

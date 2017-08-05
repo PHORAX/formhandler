@@ -19,17 +19,15 @@ namespace Typoheads\Formhandler\Validator;
  */
 abstract class AbstractValidator extends \Typoheads\Formhandler\Component\AbstractComponent
 {
-
     /**
      * Validates the submitted values using given settings
      *
      * @param array $errors Reference to the errors array to store the errors occurred
-     * @return boolean
+     * @return bool
      */
     abstract public function validate(&$errors);
 
     public function process()
     {
-        return;
     }
 }

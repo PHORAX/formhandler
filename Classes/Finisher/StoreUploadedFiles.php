@@ -32,7 +32,6 @@ namespace Typoheads\Formhandler\Finisher;
  */
 class StoreUploadedFiles extends AbstractFinisher
 {
-
     /**
      * The main method called by the controller
      *
@@ -41,7 +40,6 @@ class StoreUploadedFiles extends AbstractFinisher
     public function process()
     {
         if ($this->settings['finishedUploadFolder'] || is_array($this->settings['finishedUploadFolder.'])) {
-
             //move the uploaded files
             $this->moveUploadedFiles();
         }
@@ -95,7 +93,7 @@ class StoreUploadedFiles extends AbstractFinisher
                                 'copy_file',
                                 [
                                     ($file['uploaded_path'] . $file['uploaded_name']),
-                                    ($uploadPath . $newFilename)
+                                    ($uploadPath . $newFilename),
                                 ]
                             );
                             copy(($file['uploaded_path'] . $file['uploaded_name']), ($uploadPath . $newFilename));
@@ -124,6 +122,7 @@ class StoreUploadedFiles extends AbstractFinisher
      * Builds the path to the final upload folder depending on the current field processed
      *
      * @param string The current field name
+     * @param mixed $field
      * @return string The new path
      **/
     protected function getNewFolderPath($field)
@@ -157,6 +156,8 @@ class StoreUploadedFiles extends AbstractFinisher
      *
      * @param string The current filename
      * @param string The current field
+     * @param mixed $oldName
+     * @param mixed $field
      * @return string The new filename
      **/
     protected function getNewFilename($oldName, $field)

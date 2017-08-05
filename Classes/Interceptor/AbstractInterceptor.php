@@ -20,11 +20,10 @@ namespace Typoheads\Formhandler\Interceptor;
  */
 abstract class AbstractInterceptor extends \Typoheads\Formhandler\Component\AbstractComponent
 {
-
     /**
      * Logs an action of an interceptor, e.g. if Interceptor_IPBlocking blocked a request.
      *
-     * @param boolean $markAsSpam Indicates if this was a blocked SPAM attempt. Will be highlighted in the backend module.
+     * @param bool $markAsSpam Indicates if this was a blocked SPAM attempt. Will be highlighted in the backend module.
      * @return void
      */
     protected function log($markAsSpam = false)

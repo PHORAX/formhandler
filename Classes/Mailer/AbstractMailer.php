@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Mailer;
  */
 abstract class AbstractMailer extends \Typoheads\Formhandler\Component\AbstractComponent
 {
-
     /**
      * Not needed for this type of component
      *
@@ -27,6 +26,5 @@ abstract class AbstractMailer extends \Typoheads\Formhandler\Component\AbstractC
      */
     public function process()
     {
-        return;
     }
 }

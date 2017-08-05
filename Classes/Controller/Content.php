@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Controller;
  */
 class Content
 {
-
     /**
      * The actual content
      *
@@ -31,6 +30,7 @@ class Content
     /**
      * The constructor settings the internal attribute "content"
      *
+     * @param mixed $content
      * @return void
      */
     public function __construct($content)

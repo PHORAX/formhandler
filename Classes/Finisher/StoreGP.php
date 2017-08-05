@@ -24,7 +24,6 @@ namespace Typoheads\Formhandler\Finisher;
  */
 class StoreGP extends AbstractFinisher
 {
-
     /**
      * The main method called by the controller
      *
@@ -32,7 +31,6 @@ class StoreGP extends AbstractFinisher
      */
     public function process()
     {
-
         //store in Session for further use by other plugins
         $this->storeUserGPinSession();
 

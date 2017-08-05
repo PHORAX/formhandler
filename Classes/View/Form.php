@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\View;
  */
 class Form extends AbstractView
 {
-
     /**
      * An array of fields to do not encode for output
      *
@@ -37,7 +36,6 @@ class Form extends AbstractView
      */
     public function render($gp, $errors)
     {
-
         //set GET/POST parameters
         $this->gp = $gp;
 
@@ -91,7 +89,6 @@ class Form extends AbstractView
         }
 
         if (intval($this->settings['fillValueMarkersBeforeLangMarkers']) === 1) {
-
             //fill value_[fieldname] markers
             $this->fillValueMarkers();
         }
@@ -109,7 +106,6 @@ class Form extends AbstractView
         $this->fillDefaultMarkers();
 
         if (intval($this->settings['fillValueMarkersBeforeLangMarkers']) !== 1) {
-
             //fill value_[fieldname] markers
             $this->fillValueMarkers();
         }
@@ -210,7 +206,7 @@ class Form extends AbstractView
                             if ($fieldName) {
                                 $markers = [
                                     '###fieldname###' => $fieldName,
-                                    '###formValuesPrefix###' => $this->globals->getFormValuesPrefix()
+                                    '###formValuesPrefix###' => $this->globals->getFormValuesPrefix(),
                                 ];
                                 foreach ($params as $paramKey => $paramValue) {
                                     $markers['###param' . (++$paramKey) . '###'] = $paramValue;
@@ -252,6 +248,7 @@ class Form extends AbstractView
      *
      * @author  Arno Dudek <webmaster@adgrafik.at>
      * @author  Reinhard Führicht <rf@typoheads.at>
+     * @param mixed $type
      * @return    string        substituted HTML content
      */
     protected function substituteConditionalSubparts($type)
@@ -301,7 +298,7 @@ class Form extends AbstractView
                     }
                     $count++;
                 }
-                $write = (boolean)$finalConditionResult;
+                $write = (bool)$finalConditionResult;
                 $replacement = '';
                 if ($write) {
                     $replacement = '${1}';
@@ -337,7 +334,7 @@ class Form extends AbstractView
     protected function handleHasTranslationSubpartCondition($condition)
     {
         $translation = $this->utilityFuncs->getTranslatedMessage($this->langFiles, $condition);
-        return (strlen($translation) > 0);
+        return strlen($translation) > 0;
     }
 
     protected function handleIfSubpartCondition($condition)
@@ -354,7 +351,7 @@ class Form extends AbstractView
     {
         $markers = [
             '###FORM_STARTBLOCK###' => $this->globals->getSession()->get('startblock'),
-            '###FORM_ENDBLOCK###' => $this->globals->getSession()->get('endblock')
+            '###FORM_ENDBLOCK###' => $this->globals->getSession()->get('endblock'),
         ];
         $this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
     }
@@ -485,7 +482,6 @@ class Form extends AbstractView
             && intval($this->utilityFuncs->getSingle($this->settings['session.']['config.'], 'disableCookies')) === 1
             && intval(ini_get('session.use_trans_sid')) === 0
         ) {
-
             /*
              * User currently does not have a session cookie and php is not configured to
              * automatically add session info to forms and links
@@ -671,8 +667,8 @@ class Form extends AbstractView
      */
     protected function fillFEUserMarkers(&$markers)
     {
-        if (is_array($GLOBALS["TSFE"]->fe_user->user)) {
-            foreach ($GLOBALS["TSFE"]->fe_user->user as $k => $v) {
+        if (is_array($GLOBALS['TSFE']->fe_user->user)) {
+            foreach ($GLOBALS['TSFE']->fe_user->user as $k => $v) {
                 $markers['###FEUSER_' . strtoupper($k) . '###'] = $v;
                 $markers['###FEUSER_' . strtolower($k) . '###'] = $v;
                 $markers['###feuser_' . strtoupper($k) . '###'] = $v;
@@ -705,7 +701,6 @@ class Form extends AbstractView
         if ($flexformValue) {
             $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $flexformValue);
             if (is_array($settings['validators.'])) {
-
                 // Searches the index of Tx_Formhandler_Validator_Default
                 foreach ($settings['validators.'] as $index => $validator) {
                     $currentValidatorClass = $this->utilityFuncs->getPreparedClassName($validator);
@@ -1221,15 +1216,14 @@ class Form extends AbstractView
      * </code>
      *
      * @author Johannes Feustel
-     * @param    integer $currentStep current step (begins with 1)
-     * @param    integer $lastStep last step
+     * @param    int $currentStep current step (begins with 1)
+     * @param    int $lastStep last step
      * @param    string $buttonNameBack name attribute of the back button
      * @param    string $buttonNameFwd name attribute of the forward button
      * @return    string    HTML code
      */
     protected function createStepBar($currentStep, $lastStep, $buttonNameBack = '', $buttonNameFwd = '')
     {
-
         //colors
         $bgcolor = '#EAEAEA';
         $bgcolor = $this->settings['stepbar_color'] ? $this->settings['stepbar_color'] : $bgcolor;

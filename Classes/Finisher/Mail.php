@@ -66,7 +66,6 @@ namespace Typoheads\Formhandler\Finisher;
  */
 class Mail extends AbstractFinisher
 {
-
     /**
      * The main method called by the controller
      *
@@ -74,7 +73,6 @@ class Mail extends AbstractFinisher
      */
     public function process()
     {
-
         //send emails
         $this->initMailer('admin');
         $this->sendMail('admin');
@@ -529,6 +527,8 @@ class Mail extends AbstractFinisher
      *
      * @param array The GET/POST values
      * @param array The TypoScript configuration
+     * @param mixed $gp
+     * @param mixed $tsConfig
      * @return void
      */
     public function init($gp, $tsConfig)
@@ -541,6 +541,8 @@ class Mail extends AbstractFinisher
      * Parses the email settings in flexform and stores them in an array.
      *
      * @param array The TypoScript configuration
+     * @param mixed $tsConfig
+     * @param mixed $type
      * @return array The parsed email settings
      */
     protected function parseEmailSettings($tsConfig, $type)
@@ -566,7 +568,7 @@ class Mail extends AbstractFinisher
             'deleteGeneratedFiles',
             'htmlEmailAsAttachment',
             'plain.',
-            'html.'
+            'html.',
         ];
 
         $emailSettings[$type] = $this->parseEmailSettingsByType($emailSettings[$type . '.'], $type, $options);

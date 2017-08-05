@@ -23,7 +23,6 @@ class WtCalculatingCaptcha extends AbstractErrorCheck
     {
         $checkFailed = '';
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('wt_calculating_captcha')) {
-
             // include captcha class
             require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_calculating_captcha') . 'class.tx_wtcalculatingcaptcha.php');
 

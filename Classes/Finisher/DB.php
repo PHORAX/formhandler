@@ -57,7 +57,6 @@ use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
  */
 class DB extends AbstractFinisher
 {
-
     /**
      * The name of the table to put the values into.
      *
@@ -78,7 +77,7 @@ class DB extends AbstractFinisher
      * A flag to indicate if to insert the record or to update an existing one
      *
      * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $doUpdate;
 
@@ -103,7 +102,6 @@ class DB extends AbstractFinisher
 
         //Store info in GP only if the query was successful
         if ($isSuccess) {
-
             //Get DB info, including UID
             if (!$this->doUpdate) {
                 $this->gp['inserted_uid'] = $this->getInsertedUid();
@@ -111,7 +109,7 @@ class DB extends AbstractFinisher
                 $info = [
                     'table' => $this->table,
                     'uid' => $this->gp['inserted_uid'],
-                    'uidField' => $this->key
+                    'uidField' => $this->key,
                 ];
                 array_push($this->gp['saveDB'], $info);
             } else {
@@ -119,7 +117,7 @@ class DB extends AbstractFinisher
                 $info = [
                     'table' => $this->table,
                     'uid' => $uid,
-                    'uidField' => $this->key
+                    'uidField' => $this->key,
                 ];
                 array_push($this->gp['saveDB'], $info);
             }
@@ -141,7 +139,7 @@ class DB extends AbstractFinisher
      * Method to query the database making an insert or update statement using the given fields.
      *
      * @param array &$queryFields Array holding the query fields
-     * @return boolean Success flag
+     * @return bool Success flag
      */
     protected function save(&$queryFields)
     {
@@ -207,6 +205,8 @@ class DB extends AbstractFinisher
     /**
      * Inits the finisher mapping settings values to internal attributes.
      *
+     * @param mixed $gp
+     * @param mixed $settings
      * @return void
      */
     public function init($gp, $settings)
@@ -234,7 +234,6 @@ class DB extends AbstractFinisher
         //check whether to update or to insert a record
         $this->doUpdate = false;
         if (intval($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert')) === 1) {
-
             //check if uid of record to update is in GP
             $uid = $this->getUpdateUid();
 
@@ -428,8 +427,9 @@ class DB extends AbstractFinisher
 
     /**
      * returns a list of uploaded files from given field.
-     * @return string list of filenames
      * @param string $fieldname
+     * @param mixed $files
+     * @return string list of filenames
      */
     protected function getFileList($files, $fieldname)
     {
