@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Finisher;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -164,13 +165,13 @@ class DB extends AbstractFinisher
 
     protected function doesRecordExist($uid, $andWhere)
     {
-        $exists = FALSE;
+        $exists = false;
         if ($uid) {
             $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
             $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
             $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($this->key, $this->table, $this->key . '=' . $uid . $andWhere);
             if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
-                $exists = TRUE;
+                $exists = true;
             }
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
         }
@@ -179,12 +180,12 @@ class DB extends AbstractFinisher
 
     protected function doInsert($queryFields)
     {
-        $isSuccess = TRUE;
+        $isSuccess = true;
         $query = $GLOBALS['TYPO3_DB']->INSERTquery($this->table, $queryFields);
         $this->utilityFuncs->debugMessage('sql_request', [$query]);
         $GLOBALS['TYPO3_DB']->sql_query($query);
         if ($GLOBALS['TYPO3_DB']->sql_error()) {
-            $isSuccess = FALSE;
+            $isSuccess = false;
             $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
         }
         return $isSuccess;
@@ -192,14 +193,14 @@ class DB extends AbstractFinisher
 
     protected function doUpdate($uid, $queryFields, $andWhere)
     {
-        $isSuccess = TRUE;
+        $isSuccess = true;
         $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
         $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
         $query = $GLOBALS['TYPO3_DB']->UPDATEquery($this->table, $this->key . '=' . $uid . $andWhere, $queryFields);
         $this->utilityFuncs->debugMessage('sql_request', [$query]);
         $GLOBALS['TYPO3_DB']->sql_query($query);
         if ($GLOBALS['TYPO3_DB']->sql_error()) {
-            $isSuccess = FALSE;
+            $isSuccess = false;
             $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
         }
         return $isSuccess;
@@ -233,7 +234,7 @@ class DB extends AbstractFinisher
         }
 
         //check whether to update or to insert a record
-        $this->doUpdate = FALSE;
+        $this->doUpdate = false;
         if (intval($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert')) === 1) {
 
             //check if uid of record to update is in GP
@@ -242,7 +243,7 @@ class DB extends AbstractFinisher
             $andWhere = $this->utilityFuncs->getSingle($this->settings, 'andWhere');
             $recordExists = $this->doesRecordExist($uid, $andWhere);
             if ($recordExists) {
-                $this->doUpdate = TRUE;
+                $this->doUpdate = true;
             } elseif (intval($this->utilityFuncs->getSingle($this->settings, 'insertIfNoUpdatePossible')) !== 1) {
                 $this->utilityFuncs->debugMessage('no_update_possible', [], 2);
             }
@@ -445,7 +446,8 @@ class DB extends AbstractFinisher
      * Returns the last inserted UID
      * @return int UID
      */
-    protected function getInsertedUid() {
+    protected function getInsertedUid()
+    {
         $uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
         return intval($uid);
     }
@@ -468,5 +470,4 @@ class DB extends AbstractFinisher
         }
         return $uid;
     }
-
 }

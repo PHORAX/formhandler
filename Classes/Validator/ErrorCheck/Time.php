@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -22,7 +23,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class Time extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -51,5 +51,4 @@ class Time extends AbstractErrorCheck
         }
         return $checkFailed;
     }
-
 }

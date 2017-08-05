@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Generator;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -60,7 +61,7 @@ abstract class AbstractGenerator extends \Typoheads\Formhandler\Component\Abstra
 
         if (is_array($this->settings['additionalParams.'])) {
             foreach ($this->settings['additionalParams.'] as $param => $value) {
-                if (FALSE === strpos($param, '.')) {
+                if (false === strpos($param, '.')) {
                     if (is_array($this->settings['additionalParams.'][$param . '.'])) {
                         $value = $this->utilityFuncs->getSingle($this->settings['additionalParams.'], $param);
                     }

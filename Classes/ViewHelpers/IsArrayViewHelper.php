@@ -24,11 +24,10 @@ class IsArrayViewHelper extends \TYPO3Fluid\Fluid\ViewHelpers\IfViewHelper
      */
     public function render()
     {
-	    if (isset($arguments['condition']) && (true === is_array($arguments['value']))) {
-		return $this->renderThenChild();
-	} else {
-		return $this->renderElseChild();
-	}
+        if (isset($arguments['condition']) && (true === is_array($arguments['value']))) {
+            return $this->renderThenChild();
+        } else {
+            return $this->renderElseChild();
+        }
     }
-
 }

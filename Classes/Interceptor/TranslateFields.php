@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Interceptor;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -56,5 +57,4 @@ class TranslateFields extends AbstractInterceptor
         }
         return $this->utilityFuncs->getTranslatedMessage($this->langFiles, $key);
     }
-
 }

@@ -81,7 +81,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             $propertyMappingConfiguration->setTypeConverterOption(
                 'TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter',
                 \TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
-                TRUE
+                true
             );
         }
         // or just allow certain properties
@@ -92,9 +92,9 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * Displays log data
      * @return void
      */
-    public function indexAction(\Typoheads\Formhandler\Domain\Model\Demand $demand = NULL)
+    public function indexAction(\Typoheads\Formhandler\Domain\Model\Demand $demand = null)
     {
-        if ($demand === NULL) {
+        if ($demand === null) {
             $demand = $this->objectManager->get('Typoheads\Formhandler\Domain\Model\Demand');
             if (!isset($this->gp['demand']['pid'])) {
                 $demand->setPid($this->id);
@@ -105,20 +105,20 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->view->assign('demand', $demand);
         $this->view->assign('logDataRows', $logDataRows);
         $this->view->assign('settings', $this->settings);
-        if(!$this->gp['show']) {
+        if (!$this->gp['show']) {
             $this->gp['show'] = 10;
         }
         $this->view->assign('showItems', $this->gp['show']);
         $permissions = [];
         if ($GLOBALS['BE_USER']->user['admin'] || intval($this->settings['enableClearLogs']) === 1) {
-            $permissions['delete'] = TRUE;
+            $permissions['delete'] = true;
         }
         $this->view->assign('permissions', $permissions);
     }
 
-    public function viewAction(\Typoheads\Formhandler\Domain\Model\LogData $logDataRow = NULL)
+    public function viewAction(\Typoheads\Formhandler\Domain\Model\LogData $logDataRow = null)
     {
-        if ($logDataRow !== NULL) {
+        if ($logDataRow !== null) {
             $logDataRow->setParams(unserialize($logDataRow->getParams()));
             $this->view->assign('data', $logDataRow);
             $this->view->assign('settings', $this->settings);
@@ -131,10 +131,10 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @param string export file type (PDF || CSV)
      * @return void
      */
-    public function selectFieldsAction($logDataUids = NULL, $filetype = '')
+    public function selectFieldsAction($logDataUids = null, $filetype = '')
     {
-        if ($logDataUids !== NULL) {
-            if($this->settings[$filetype]['config']['fields']) {
+        if ($logDataUids !== null) {
+            if ($this->settings[$filetype]['config']['fields']) {
                 $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings[$filetype]['config']['fields']);
                 $this->redirect(
                     'export',
@@ -166,7 +166,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             ];
             foreach ($logDataRows as $logDataRow) {
                 $params = unserialize($logDataRow->getParams());
-                if(is_array($params)) {
+                if (is_array($params)) {
                     $rowFields = array_keys($params);
                     foreach ($rowFields as $idx => $rowField) {
                         if (in_array($rowField, $fields['system'])) {
@@ -196,9 +196,9 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @param string export file type (PDF || CSV)
      * @return void
      */
-    public function exportAction($logDataUids = NULL, array $fields, $filetype = '')
+    public function exportAction($logDataUids = null, array $fields, $filetype = '')
     {
-        if ($logDataUids !== NULL && !empty($fields)) {
+        if ($logDataUids !== null && !empty($fields)) {
             $logDataRows = $this->logDataRepository->findByUids($logDataUids);
             $convertedLogDataRows = [];
             foreach ($logDataRows as $idx => $logDataRow) {
@@ -220,7 +220,6 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 $this->settings['pdf']['config']['exportFields'] = $fields;
                 $generator->init([], $this->settings['pdf']['config']);
                 $generator->process();
-
             } elseif ($filetype === 'csv') {
                 $className = $this->utilityFuncs->getPreparedClassName(
                     $this->settings['csv'],
@@ -232,7 +231,6 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 $this->settings['csv']['config']['exportFields'] = $fields;
                 $generator->init([], $this->settings['csv']['config']);
                 $generator->process();
-
             }
         }
     }
@@ -242,12 +240,12 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @param string uids to delete
      * @return void
      */
-    public function deleteLogRowsAction($logDataUids = NULL)
+    public function deleteLogRowsAction($logDataUids = null)
     {
         $forceDelete = intval($this->settings['forceDelete']);
         if ($logDataUids === 'all') {
             $text = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('message.deleted-all-logs', 'formhandler');
-            if ($forceDelete){
+            if ($forceDelete) {
                 $GLOBALS['TYPO3_DB']->exec_TRUNCATEquery('tx_formhandler_log');
             } else {
                 $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_formhandler_log', '1=1', ['deleted' => 1]);
@@ -255,7 +253,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         } else {
             $logDataUids = explode(',', $logDataUids);
             $text = sprintf(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('message.deleted-log-rows', 'formhandler'), count($logDataUids));
-            if ($forceDelete){
+            if ($forceDelete) {
                 $GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_formhandler_log', 'uid IN (' . implode(',', $logDataUids) . ')');
             } else {
                 $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_formhandler_log', 'uid IN (' . implode(',', $logDataUids) . ')', ['deleted' => 1]);
@@ -265,5 +263,4 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->addFlashMessage($text);
         $this->redirect("index");
     }
-
 }

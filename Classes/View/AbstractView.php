@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\View;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -139,7 +140,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
                                 \Typoheads\Formhandler\Utility\Globals $globals,
                                 \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs)
     {
-
         parent::__construct();
         $this->componentManager = $componentManager;
         $this->configuration = $configuration;
@@ -225,7 +225,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * @param boolean $forceTemplate Not needed
      * @return void
      */
-    public function setTemplate($templateCode, $templateName, $forceTemplate = FALSE)
+    public function setTemplate($templateCode, $templateName, $forceTemplate = false)
     {
         $this->subparts['template'] = $this->cObj->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
         $this->subparts['item'] = $this->cObj->getSubpart($this->subparts['template'], '###ITEM###');

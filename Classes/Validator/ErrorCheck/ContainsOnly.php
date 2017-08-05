@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -22,7 +23,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class ContainsOnly extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -39,11 +39,11 @@ class ContainsOnly extends AbstractErrorCheck
             if (!is_array($checkValue)) {
                 $checkValue = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $checkValue);
             }
-            $error = FALSE;
+            $error = false;
             $array = preg_split('//', $formValue, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($array as $idx => $char) {
                 if (!in_array($char, $checkValue)) {
-                    $error = TRUE;
+                    $error = true;
                 }
             }
             if ($error) {
@@ -56,5 +56,4 @@ class ContainsOnly extends AbstractErrorCheck
         }
         return $checkFailed;
     }
-
 }

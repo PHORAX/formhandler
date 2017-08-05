@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -34,7 +35,7 @@ class Ajax extends AbstractValidator
     {
 
         //Nothing to do here
-        return TRUE;
+        return true;
     }
 
     /**
@@ -124,12 +125,11 @@ class Ajax extends AbstractValidator
                             )
                         )
                     ) {
-
                         continue;
                     }
 
                     $classNameFix = ucfirst($check['check']);
-                    if (strpos($classNameFix, 'Tx_') === FALSE) {
+                    if (strpos($classNameFix, 'Tx_') === false) {
                         $errorCheckObject = $this->componentManager->getComponent('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\' . $classNameFix);
                         $fullClassName = '\\Typoheads\\\Formhandler\\Validator\\ErrorCheck\\' . $classNameFix;
                     } else {
@@ -141,7 +141,6 @@ class Ajax extends AbstractValidator
                         $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
                     }
                     if (empty($restrictErrorChecks) || in_array($check['check'], $restrictErrorChecks)) {
-
                         $errorCheckObject->init($gp, $check);
                         $errorCheckObject->setFormFieldName($field);
                         if ($errorCheckObject->validateConfig()) {
@@ -157,7 +156,6 @@ class Ajax extends AbstractValidator
                         }
                     }
                 }
-
             }
         }
         return empty($errors);
@@ -172,5 +170,4 @@ class Ajax extends AbstractValidator
             $this->settings['ajax.'] = $tsConfig['ajax.'];
         }
     }
-
 }

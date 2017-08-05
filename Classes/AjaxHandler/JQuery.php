@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\AjaxHandler;
-    /*                                                                       *
+
+/*                                                                       *
     * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -169,7 +170,7 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
             'uploadedFileName' => $uploadedFileName
         ];
         $url = $this->utilityFuncs->getAjaxUrl($params);
-        return sprintf($this->templates['aRemoveLink'], $url, $text );
+        return sprintf($this->templates['aRemoveLink'], $url, $text);
     }
 
     protected function addJS($js, $key = '', $doAppend = true)
@@ -223,5 +224,4 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
                     });
                 }( jQuery ));';
     }
-
 }

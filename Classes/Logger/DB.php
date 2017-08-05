@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Logger;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -113,7 +114,7 @@ class DB extends AbstractLogger
     protected function parseFieldOrder($order, $orderedFields = [])
     {
         foreach ($order as $fieldName) {
-            if (strpos($fieldName, '|') !== FALSE) {
+            if (strpos($fieldName, '|') !== false) {
                 $parts = explode('|', $fieldName);
                 $orderedFields = $this->createDeep($orderedFields, $parts);
             } else {
@@ -149,5 +150,4 @@ class DB extends AbstractLogger
         }
         return $sortedParams;
     }
-
 }

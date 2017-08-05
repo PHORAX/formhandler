@@ -16,7 +16,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 class FileMaxTotalSize extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -55,5 +54,4 @@ class FileMaxTotalSize extends AbstractErrorCheck
         }
         return $checkFailed;
     }
-
 }

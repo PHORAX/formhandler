@@ -159,5 +159,4 @@ interface MailerInterface
      * @return void
      */
     public function embed($image);
-
 }

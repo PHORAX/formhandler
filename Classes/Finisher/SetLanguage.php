@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Finisher;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -29,7 +30,7 @@ class SetLanguage extends AbstractFinisher
      */
     public function process()
     {
-        if ($this->globals->getSession()->get('originalLanguage') === NULL) {
+        if ($this->globals->getSession()->get('originalLanguage') === null) {
             $this->globals->getSession()->set('originalLanguage', $GLOBALS['TSFE']->lang);
         }
         $languageCode = $this->utilityFuncs->getSingle($this->settings, 'languageCode');
@@ -53,11 +54,11 @@ class SetLanguage extends AbstractFinisher
     {
         $settings = $this->globals->getSettings();
         if (is_array($settings['finishers.'])) {
-            $found = FALSE;
+            $found = false;
             foreach ($settings['finishers.'] as $finisherConfig) {
                 $currentFinisherClass = $this->utilityFuncs->getPreparedClassName($finisherConfig);
                 if ($currentFinisherClass === $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\RestoreLanguage')) {
-                    $found = TRUE;
+                    $found = true;
                 }
             }
             if (!$found) {
@@ -66,5 +67,4 @@ class SetLanguage extends AbstractFinisher
         }
         return $found;
     }
-
 }

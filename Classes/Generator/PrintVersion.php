@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Generator;
-    /*                                                                        *
+
+/*                                                                        *
     * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -26,7 +27,6 @@ class PrintVersion extends AbstractGenerator
      */
     public function process()
     {
-
     }
 
     /* (non-PHPdoc)
@@ -37,7 +37,6 @@ class PrintVersion extends AbstractGenerator
         $text = $this->utilityFuncs->getSingle($this->settings, 'linkText');
         if (strlen($text) == 0) {
             $text = $this->utilityFuncs->getTranslatedMessage($this->globals->getLangFiles(), 'print');
-
         }
         if (strlen($text) === 0) {
             $text = 'Print';

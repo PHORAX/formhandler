@@ -100,7 +100,7 @@ class Validate
             $this->id = intval($_GET['id']);
         }
         $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
-        \Typoheads\Formhandler\Utility\Globals::setAjaxMode(TRUE);
+        \Typoheads\Formhandler\Utility\Globals::setAjaxMode(true);
         \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($this->id);
     }
 
@@ -122,5 +122,4 @@ class Validate
         $view->setTemplate($template, 'AJAX');
         return $view;
     }
-
 }

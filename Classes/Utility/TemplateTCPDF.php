@@ -1,5 +1,6 @@
 <?php
 namespace Typoheads\Formhandler\Utility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -112,8 +113,6 @@ class TemplateTCPDF extends \TCPDF
             $pageNumbers = $this->getLL('page') . ' ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages();
             $this->Cell(0, 10, $pageNumbers, 'T', 0, 'R');
         }
-
-
     }
 
     /**
@@ -173,5 +172,4 @@ class TemplateTCPDF extends \TCPDF
     {
         return $this->footerText;
     }
-
 }

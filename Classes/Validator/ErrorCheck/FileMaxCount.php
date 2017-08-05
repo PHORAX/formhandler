@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -22,7 +23,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class FileMaxCount extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -47,25 +47,23 @@ class FileMaxCount extends AbstractErrorCheck
             count($files[$this->formFieldName]) >= $maxCount &&
             $currentStep === $lastStep
         ) {
-
-            $found = FALSE;
+            $found = false;
             foreach ($_FILES as $idx => $info) {
                 if (isset($info['name'][$this->formFieldName])) {
                     if (!is_array($info['name'][$this->formFieldName])) {
                         $info['name'][$this->formFieldName] = [$info['name'][$this->formFieldName]];
                     }
                     if (strlen($info['name'][$this->formFieldName][0]) > 0) {
-                        $found = TRUE;
+                        $found = true;
                     }
                 }
             }
             if ($found) {
                 foreach ($info['name'][$this->formFieldName] as $newFileName) {
-
-                    $exists = FALSE;
+                    $exists = false;
                     foreach ($files[$this->formFieldName] as $fileInfo) {
                         if ($fileInfo['name'] === $newFileName) {
-                            $exists = TRUE;
+                            $exists = true;
                         }
                     }
                     if (!$exists) {
@@ -90,5 +88,4 @@ class FileMaxCount extends AbstractErrorCheck
         }
         return $checkFailed;
     }
-
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -22,7 +23,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class MaxWordCount extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -38,10 +38,8 @@ class MaxWordCount extends AbstractErrorCheck
             intval($max) > 0 &&
             str_word_count(trim($this->gp[$this->formFieldName])) > intval($max)
         ) {
-
             $checkFailed = $this->getCheckFailed();
         }
         return $checkFailed;
     }
-
 }

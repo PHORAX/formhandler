@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Mailer;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -56,7 +57,6 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
                                 \Typoheads\Formhandler\Utility\Globals $globals,
                                 \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs)
     {
-
         parent::__construct($componentManager, $configuration, $globals, $utilityFuncs);
         $this->emailObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
     }
@@ -67,17 +67,16 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     public function send($recipients)
     {
         if (!empty($recipients)) {
-
             $this->emailObj->setTo($recipients);
 
             $numberOfEmailsSent = $this->emailObj->send();
 
             if ($numberOfEmailsSent) {
-                return TRUE;
+                return true;
             }
         }
 
-        return FALSE;
+        return false;
     }
 
     /* (non-PHPdoc)
@@ -85,7 +84,6 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function setHTML($html)
     {
-
         if (!isset($this->htmlMimePart)) {
             $this->htmlMimePart = \Swift_MimePart::newInstance($html, 'text/html');
         } else {
@@ -103,7 +101,6 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function setPlain($plain)
     {
-
         if (!isset($this->plainMimePart)) {
             $this->plainMimePart = \Swift_MimePart::newInstance($plain, 'text/plain');
         } else {
@@ -280,5 +277,4 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     {
         return $this->emailObj->embed(\Swift_Image::fromPath($image));
     }
-
 }

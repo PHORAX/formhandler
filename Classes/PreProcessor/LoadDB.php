@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\PreProcessor;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -128,14 +129,14 @@ class LoadDB extends AbstractPreProcessor
 
     protected function parseValue($fieldname, $settings)
     {
-        $value = NULL;
+        $value = null;
         //pre process the field value.
         if (is_array($settings[$fieldname . '.']['preProcessing.'])) {
             $settings[$fieldname . '.']['preProcessing.']['value'] = $value;
             $value = $this->utilityFuncs->getSingle($settings[$fieldname . '.'], 'preProcessing');
         }
 
-        if ($value === NULL) {
+        if ($value === null) {
             $mapping = $this->utilityFuncs->getSingle($settings[$fieldname . '.'], 'mapping');
             if (isset($this->data[$mapping])) {
                 $value = $this->data[$mapping];
@@ -167,7 +168,7 @@ class LoadDB extends AbstractPreProcessor
                 }
 
                 foreach ($filesArray as $k => $uploadFile) {
-                    if (strpos($uploadFile, '/') !== FALSE) {
+                    if (strpos($uploadFile, '/') !== false) {
                         $file = PATH_site . $uploadFile;
                         $uploadedUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadFile;
                     } else {
@@ -200,7 +201,6 @@ class LoadDB extends AbstractPreProcessor
      */
     protected function loadDB($settings)
     {
-
         $store_lastBuiltQuery = $GLOBALS['TYPO3_DB']->store_lastBuiltQuery;
         $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
         $res = $this->exec_getQuery($this->utilityFuncs->getSingle($settings, 'table'), $settings);
@@ -236,7 +236,7 @@ class LoadDB extends AbstractPreProcessor
                 $conf['max'] = $parts[0];
             }
         }
-        $queryParts = $this->globals->getCObj()->getQuery($table, $conf, TRUE);
+        $queryParts = $this->globals->getCObj()->getQuery($table, $conf, true);
 
         //if pidInList is not set in TypoScript remove it from the where clause.
         if (!isset($conf['pidInList']) || strlen($conf['pidInList']) === 0) {

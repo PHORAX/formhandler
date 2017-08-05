@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -22,7 +23,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class Date extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -38,18 +38,16 @@ class Date extends AbstractErrorCheck
             try {
                 \DateTime::createFromFormat($pattern, $this->gp[$this->formFieldName]);
                 $status = \DateTime::getLastErrors();
-                if((isset($status['warning_count']) && intval($status['warning_count']) > 0) ||
+                if ((isset($status['warning_count']) && intval($status['warning_count']) > 0) ||
                     (isset($status['error_count']) && intval($status['error_count']) > 0)) {
-
                     $checkFailed = $this->getCheckFailed();
                     $this->utilityFuncs->debugMessage('Result:', [], 2, $status);
                 }
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $checkFailed = $this->getCheckFailed();
                 $this->utilityFuncs->debugMessage($e->getMessage());
             }
         }
         return $checkFailed;
     }
-
 }

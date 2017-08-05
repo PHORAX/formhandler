@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Finisher;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -102,7 +103,7 @@ class DifferentDB extends DB
 
     protected function doInsert($queryFields)
     {
-        $isSuccess = TRUE;
+        $isSuccess = true;
 
         // get insert query
         $query = $GLOBALS['TYPO3_DB']->INSERTquery($this->table, $queryFields);
@@ -115,7 +116,7 @@ class DifferentDB extends DB
         if ($this->connection->ErrorNo() != 0) {
             $ErrorMsg = $this->connection->ErrorMsg();
             $this->utilityFuncs->debugMessage('sql_request_error', [$ErrorMsg], 3);
-            $isSuccess = FALSE;
+            $isSuccess = false;
         }
 
         return $isSuccess;
@@ -123,7 +124,7 @@ class DifferentDB extends DB
 
     protected function doUpdate($uid, $queryFields, $andWhere)
     {
-        $isSuccess = TRUE;
+        $isSuccess = true;
 
         // build update query
         $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
@@ -137,7 +138,7 @@ class DifferentDB extends DB
         if ($this->connection->ErrorNo() != 0) {
             $ErrorMsg = $this->connection->ErrorMsg();
             $this->utilityFuncs->debugMessage('sql_request_error', [$ErrorMsg], 3);
-            $isSuccess = FALSE;
+            $isSuccess = false;
         }
 
         return $isSuccess;
@@ -145,7 +146,7 @@ class DifferentDB extends DB
 
     protected function doesRecordExist($uid, $andWhere)
     {
-        $exists = FALSE;
+        $exists = false;
         
         if ($uid) {
             $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
@@ -156,7 +157,7 @@ class DifferentDB extends DB
             $rs = $this->connection->Execute($query);
             
             if ($rs->RecordCount() > 0) {
-                $exists = TRUE;
+                $exists = true;
             }
 
             $rs->Close();
@@ -232,7 +233,7 @@ class DifferentDB extends DB
         }
 
         // check connection
-        if(!$this->connection->IsConnected()) {
+        if (!$this->connection->IsConnected()) {
             $errMsg = $this->connection->ErrorMsg();
             $this->utilityFuncs->throwException('db_connection_failed', $errMsg);
         }
@@ -243,7 +244,7 @@ class DifferentDB extends DB
             $this->connection->Execute($this->setDBinit);
 
             // error occured?
-            if($this->connection->ErrorNo() != 0) {
+            if ($this->connection->ErrorNo() != 0) {
                 $errMsg = $this->connection->ErrorMsg();
                 $this->utilityFuncs->debugMessage('sql_request_error', [$errMsg], 3);
             }
@@ -255,7 +256,8 @@ class DifferentDB extends DB
      */
     public function __destruct()
     {
-        if($this->connection)
+        if ($this->connection) {
             $this->connection->Close();
+        }
     }
 }

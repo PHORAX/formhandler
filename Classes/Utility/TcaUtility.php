@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Utility;
-    /***************************************************************
+
+/***************************************************************
      *  Copyright notice
      *
      *  (c) 2010 Dev-Team Typoheads (dev@typoheads.at)
@@ -31,7 +32,6 @@ namespace Typoheads\Formhandler\Utility;
  */
 class TcaUtility
 {
-
     public function getParams($PA, $fobj)
     {
         $params = unserialize($PA['itemFormElValue']);
@@ -62,7 +62,7 @@ class TcaUtility
             $newRecord = 'false';
         }
 
-        $uid = NULL;
+        $uid = null;
         if (is_array($GLOBALS['SOBE']->editconf['tt_content'])) {
             $uid = key($GLOBALS['SOBE']->editconf['tt_content']);
         }
@@ -96,13 +96,13 @@ class TcaUtility
      */
     public function addFields_predefined($config)
     {
-        $pid = FALSE;
+        $pid = false;
 
         if (is_array($GLOBALS['SOBE']->editconf['tt_content']) && reset($GLOBALS['SOBE']->editconf['tt_content']) === 'new') {
             $pid = key($GLOBALS['SOBE']->editconf['tt_content']);
 
             //Formhandler inserted after existing content element
-            if(intval($pid) < 0) {
+            if (intval($pid) < 0) {
                 $element = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('pid', 'tt_content', 'uid=' . abs($pid));
                 $pid = $element['pid'];
             }
@@ -130,7 +130,6 @@ class TcaUtility
 
         # for each view
         foreach ($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.'] as $key => $view) {
-
             if (is_array($view)) {
                 $beName = $view['name'];
                 if (isset($view['name.']['data'])) {
@@ -180,7 +179,4 @@ class TcaUtility
         $TSObj->generateConfig();
         return $TSObj->setup;
     }
-
 }
-
-?>

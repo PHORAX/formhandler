@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Generator;
-    /*                                                                        *
+
+/*                                                                        *
     * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -28,7 +29,6 @@ class PdfGenerator extends AbstractGenerator
      */
     public function process()
     {
-
     }
 
     /* (non-PHPdoc)
@@ -53,5 +53,4 @@ class PdfGenerator extends AbstractGenerator
         $params['type'] = $type;
         return $params;
     }
-
 }

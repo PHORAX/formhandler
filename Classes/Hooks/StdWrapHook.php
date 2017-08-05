@@ -5,7 +5,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class StdWrapHook implements \TYPO3\CMS\Frontend\ContentObject\ContentObjectStdWrapHookInterface
 {
-
     private $originalGET;
     private $originalPOST;
 
@@ -78,5 +77,3 @@ class StdWrapHook implements \TYPO3\CMS\Frontend\ContentObject\ContentObjectStdW
         return $content;
     }
 }
-
-?>

@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Component;
-    /*                                                                       *
+
+/*                                                                       *
     * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -62,7 +63,6 @@ abstract class AbstractComponent extends AbstractClass
 
     public function validateConfig()
     {
-        return TRUE;
+        return true;
     }
-
 }

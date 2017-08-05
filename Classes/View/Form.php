@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\View;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -165,7 +166,7 @@ class Form extends AbstractView
             );
         } elseif (isset($this->settings['masterTemplateFile.']) && is_array($this->settings['masterTemplateFile.'])) {
             foreach ($this->settings['masterTemplateFile.'] as $key => $masterTemplate) {
-                if (FALSE === strpos($key, '.')) {
+                if (false === strpos($key, '.')) {
                     if (is_array($this->settings['masterTemplateFile.'][$key . '.'])) {
                         array_push(
                             $this->masterTemplates,
@@ -270,8 +271,8 @@ class Form extends AbstractView
                 $fullMarkerName = $matches[0][$i];
                 $fullEndMarker = $matches[0][$i + 1];
                 $conditions = preg_split('/\s*(\|\||&&)\s*/i', $conditionString, -1, PREG_SPLIT_DELIM_CAPTURE);
-                $operator = NULL;
-                $finalConditionResult = FALSE;
+                $operator = null;
+                $finalConditionResult = false;
                 $count = 0;
 
                 foreach ($conditions as $condition) {
@@ -320,10 +321,10 @@ class Form extends AbstractView
     protected function handleIssetSubpartCondition($condition)
     {
         $fieldname = $condition;
-        $negate = FALSE;
+        $negate = false;
         if (substr($condition, 0, 1) === '!') {
             $fieldname = substr($condition, 1);
-            $negate = TRUE;
+            $negate = true;
         }
         $value = $this->utilityFuncs->getGlobal($fieldname, $this->gp);
         if (is_array($value)) {
@@ -550,7 +551,7 @@ class Form extends AbstractView
 
         // submit name for previous page
         $prevName = ' name="' . str_replace('#action#', 'prev', $name) . '" ';
-        $allowStepJumps = FALSE;
+        $allowStepJumps = false;
         if (isset($this->settings['allowStepJumps'])) {
             $allowStepJumps = (bool)$this->utilityFuncs->getSingle($this->settings, 'allowStepJumps');
         }
@@ -872,7 +873,6 @@ class Form extends AbstractView
                             $imgConf['image.'] = $settings['singleFileMarkerTemplate.']['image.'];
                         }
                         $thumb = $this->getThumbnail($imgConf, $fileInfo);
-
                     }
                     $stdWrappedFilename = $this->utilityFuncs->wrap($filename, $this->settings['totalFilesMarkerTemplate.'], 'filenameWrap');
 
@@ -1111,7 +1111,7 @@ class Form extends AbstractView
         $this->template = preg_replace('/###value_.*?###/i', '', $this->template);
     }
 
-    protected function getValueMarkers($values, $level = 0, $prefix = 'value_', $doEncode = TRUE)
+    protected function getValueMarkers($values, $level = 0, $prefix = 'value_', $doEncode = true)
     {
         $markers = [];
 
@@ -1177,7 +1177,6 @@ class Form extends AbstractView
                     $markers['###' . $currPrefix . '_' . $v . '###'] = $activeString;
                     $markers['###' . strtoupper($currPrefix) . '###'] = $markers['###' . $currPrefix . '_' . $v . '###'];
                 }
-
             }
         }
         return $markers;

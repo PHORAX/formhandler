@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Debugger;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -28,18 +29,15 @@ class DevLog extends AbstractDebugger
      */
     public function outputDebugLog()
     {
-
         foreach ($this->debugLog as $section => $logData) {
             foreach ($logData as $messageData) {
                 $message = $section . ': ' . $messageData['message'];
-                $data = FALSE;
+                $data = false;
                 if (is_array($messageData['data'])) {
                     $data = $messageData['data'];
                 }
                 \TYPO3\CMS\Core\Utility\GeneralUtility::devLog($message, 'formhandler', $severity, $data);
             }
         }
-
     }
-
 }

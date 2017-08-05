@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\AjaxHandler;
-    /*                                                                       *
+
+/*                                                                       *
     * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -60,5 +61,4 @@ abstract class AbstractAjaxHandler extends \Typoheads\Formhandler\Component\Abst
      * @return void
      */
     abstract public function getFileRemovalLink($text, $field, $uploadedFileName);
-
 }

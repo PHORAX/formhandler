@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Finisher;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -29,11 +30,11 @@ class RestoreLanguage extends AbstractFinisher
      */
     public function process()
     {
-        if ($this->globals->getSession()->get('originalLanguage') !== NULL) {
+        if ($this->globals->getSession()->get('originalLanguage') !== null) {
             $lang = $this->globals->getSession()->get('originalLanguage');
             $GLOBALS['TSFE']->config['config']['language'] = $lang;
             $GLOBALS['TSFE']->initLLvars();
-            $this->globals->getSession()->set('originalLanguage', NULL);
+            $this->globals->getSession()->set('originalLanguage', null);
             $this->utilityFuncs->debugMessage('Language restored to "' . $lang . '"!', [], 1);
         } else {
             $this->utilityFuncs->debugMessage('Unable to restore language! No original language found!', [], 2);
@@ -41,5 +42,4 @@ class RestoreLanguage extends AbstractFinisher
 
         return $this->gp;
     }
-
 }

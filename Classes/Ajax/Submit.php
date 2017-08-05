@@ -77,7 +77,7 @@ class Submit
         Globals::setCObj($GLOBALS['TSFE']->cObj);
         $randomID = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('randomID'));
         Globals::setRandomID($randomID);
-        Globals::setAjaxMode(TRUE);
+        Globals::setAjaxMode(true);
         if (!Globals::getSession()) {
             $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
             $sessionClass = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($ts['session.'], 'Session\PHP');
@@ -96,5 +96,4 @@ class Submit
             $ajaxHandler->initAjax();
         }
     }
-
 }

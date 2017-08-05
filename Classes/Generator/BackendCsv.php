@@ -1,5 +1,6 @@
 <?php
 namespace Typoheads\Formhandler\Generator;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -70,7 +71,6 @@ class BackendCsv extends \Typoheads\Formhandler\Component\AbstractComponent
      */
     public function process()
     {
-
         $records = $this->settings['records'];
         $exportParams = $this->settings['exportFields'];
 
@@ -129,9 +129,9 @@ class BackendCsv extends \Typoheads\Formhandler\Component\AbstractComponent
         $csv->enclosure = $this->settings['enclosure'];
         $csv->input_encoding = strtolower($this->getInputCharset());
         $csv->output_encoding = strtolower($this->settings['encoding']);
-        $csv->convert_encoding = FALSE;
+        $csv->convert_encoding = false;
         if ($csv->input_encoding !== $csv->output_encoding) {
-            $csv->convert_encoding = TRUE;
+            $csv->convert_encoding = true;
         }
         $csv->output($this->settings['fileName'], $data, $exportParams);
         die();
@@ -171,5 +171,3 @@ class BackendCsv extends \Typoheads\Formhandler\Component\AbstractComponent
         return $charset;
     }
 }
-
-?>

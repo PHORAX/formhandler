@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Interceptor;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -44,7 +45,7 @@ class AntiSpamFormTime extends AbstractInterceptor
     {
         $isSpam = $this->doCheck();
         if ($isSpam) {
-            $this->log(TRUE);
+            $this->log(true);
             if ($this->settings['redirectPage']) {
                 $this->globals->getSession()->reset();
                 $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
@@ -63,7 +64,7 @@ class AntiSpamFormTime extends AbstractInterceptor
 
                 $templateCode = $this->globals->getTemplateCode();
                 if ($this->settings['templateFile']) {
-                    $templateCode = $this->utilityFuncs->readTemplateFile(FALSE, $this->settings);
+                    $templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings);
                 }
                 $view->setTemplate($templateCode, 'ANTISPAM');
                 if (!$view->hasTemplate()) {
@@ -92,18 +93,16 @@ class AntiSpamFormTime extends AbstractInterceptor
         $value = $this->utilityFuncs->getSingle($this->settings['maxTime.'], 'value');
         $unit = $this->utilityFuncs->getSingle($this->settings['maxTime.'], 'unit');
         $maxTime = $this->utilityFuncs->convertToSeconds($value, $unit);
-        $spam = FALSE;
+        $spam = false;
         if (!isset($this->gp['formtime']) ||
             !is_numeric($this->gp['formtime'])
         ) {
-
-            $spam = TRUE;
+            $spam = true;
         } elseif ($minTime && time() - intval($this->gp['formtime']) < $minTime) {
-            $spam = TRUE;
+            $spam = true;
         } elseif ($maxTime && time() - intval($this->gp['formtime']) > $maxTime) {
-            $spam = TRUE;
+            $spam = true;
         }
         return $spam;
     }
-
 }

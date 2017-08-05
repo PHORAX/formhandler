@@ -48,7 +48,6 @@ class Manager implements SingletonInterface
     {
         $this->globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
         $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
-
     }
 
     /**
@@ -66,7 +65,7 @@ class Manager implements SingletonInterface
         if (get_class($this) === $componentName) {
             return $this;
         }
-        $arguments = array_slice(func_get_args(), 1, NULL, TRUE);
+        $arguments = array_slice(func_get_args(), 1, null, true);
 
         /** @var $objectManager \TYPO3\CMS\Extbase\Object\ObjectManager */
         $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);

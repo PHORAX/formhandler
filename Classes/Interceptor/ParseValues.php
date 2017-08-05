@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Interceptor;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -31,7 +32,7 @@ class ParseValues extends AbstractInterceptor
 
         //parse as float
         $parseFloatFields = $this->utilityFuncs->getSingle($this->settings, 'parseFloatFields');
-        $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $parseFloatFields, TRUE);
+        $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $parseFloatFields, true);
         $this->parseFloats($fields);
 
         return $this->gp;
@@ -66,5 +67,4 @@ class ParseValues extends AbstractInterceptor
     {
         return floatval(preg_replace('#^([-]*[0-9\.,\' ]+?)((\.|,){1}([0-9-]{1,2}))*$#e', "str_replace(array('.', ',', \"'\", ' '), '', '\\1') . '.\\4'", $value));
     }
-
 }

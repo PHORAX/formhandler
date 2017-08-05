@@ -90,7 +90,7 @@ class Configuration implements \ArrayAccess
 
     public function offsetUnset($offset)
     {
-        $this->setup['settings.'][$offset] = NULL;
+        $this->setup['settings.'][$offset] = null;
     }
 
     /**
