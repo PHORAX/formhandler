@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Interceptor;
  */
 class RemoveXSS extends AbstractInterceptor
 {
-
     /**
      * The main method called by the controller
      *
@@ -44,13 +43,11 @@ class RemoveXSS extends AbstractInterceptor
                     $sep = $this->utilityFuncs->getSingle($globalSetting, 'separator');
                 }
             } else {
-
                 //user entered a comma seperated list
                 $list = $globalSetting['removeChars'];
             }
             $this->removeChars = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $list);
         } elseif (intval($this->utilityFuncs->getSingle($globalSetting['removeChars.'], 'disable')) === 1) {
-
             //user disabled removal globally
             $this->removeChars = [];
         }
@@ -91,13 +88,11 @@ class RemoveXSS extends AbstractInterceptor
                             $sep = $this->utilityFuncs->getSingle($fieldSetting, 'separator');
                         }
                     } else {
-
                         //user entered a comma seperated list
                         $list = $fieldSetting['removeChars'];
                     }
                     $removeChars = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $list);
                 } elseif (intval($this->utilityFuncs->getSingle($fieldSetting['removeChars.'], 'disable')) === 1) {
-
                     //user disabled removal for this field
                     $removeChars = [];
                 }
@@ -127,7 +122,8 @@ class RemoveXSS extends AbstractInterceptor
      *
      * @author hmdker <hmdker(at)gmail(dot)com>
      * @param string
-     * @return boolean is UTF-8
+     * @param mixed $str
+     * @return bool is UTF-8
      */
     protected function isUTF8($str)
     {

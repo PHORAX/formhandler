@@ -43,8 +43,8 @@ class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper
         $additionalParams = [
             'tx_formhandler_web_formhandlerlog' => [
                 'demand' => $_POST['tx_formhandler_web_formhandlerlog']['demand'],
-                'show' => $_POST['tx_formhandler_web_formhandlerlog']['show']
-            ]
+                'show' => $_POST['tx_formhandler_web_formhandlerlog']['show'],
+            ],
         ];
         $queryParameters = array_merge($queryParameters, $additionalParams);
         return $uriBuilder->reset()->setArguments($queryParameters)->setSection($this->arguments['section'])->setAddQueryString(true)->setAddQueryStringMethod($this->arguments['addQueryStringMethod'])->setArgumentsToBeExcludedFromQueryString([$argumentPrefix, 'cHash'])->setFormat($this->arguments['format'])->build();

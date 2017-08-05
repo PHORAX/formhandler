@@ -21,15 +21,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Validate
 {
-
     /**
      * @var array
      */
-    protected $templates = array(
+    protected $templates = [
         'spanSuccess' => '<span class="success">%s</span>',
         'spanError' => '<span class="error">%s</span>',
-    );
-
+    ];
 
     /**
      * Main method of the class.
@@ -62,7 +60,7 @@ class Validate
                     $content = '<img src="' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/ok.png' . '" />';
                 } else {
                     $gp = [
-                        $_GET['field'] => $_GET['value']
+                        $_GET['field'] => $_GET['value'],
                     ];
                     $view = $this->initView($content);
                     $content = $view->render($gp, $errors);
@@ -75,7 +73,7 @@ class Validate
                 } else {
                     $view = $this->initView($content);
                     $gp = [
-                        $_GET['field'] => $_GET['value']
+                        $_GET['field'] => $_GET['value'],
                     ];
                     $content = $view->render($gp, $errors);
                 }

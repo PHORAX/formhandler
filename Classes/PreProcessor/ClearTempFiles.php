@@ -27,7 +27,6 @@ namespace Typoheads\Formhandler\PreProcessor;
  */
 class ClearTempFiles extends AbstractPreProcessor
 {
-
     /**
      * The main method called by the controller
      *
@@ -49,7 +48,7 @@ class ClearTempFiles extends AbstractPreProcessor
      * Deletes all files older than a specific time in a temporary upload folder.
      * Settings for the threshold time and the folder are made in TypoScript.
      *
-     * @param integer $olderThanValue Delete files older than this value.
+     * @param int $olderThanValue Delete files older than this value.
      * @param string $olderThanUnit The unit for $olderThan. May be seconds|minutes|hours|days
      * @return void
      */
@@ -62,7 +61,6 @@ class ClearTempFiles extends AbstractPreProcessor
         $uploadFolders = $this->utilityFuncs->getAllTempUploadFolders();
 
         foreach ($uploadFolders as $uploadFolder) {
-
             //build absolute path to upload folder
             $path = $this->utilityFuncs->getDocumentRoot() . $uploadFolder;
             $path = $this->utilityFuncs->sanitizePath($path);
@@ -77,7 +75,6 @@ class ClearTempFiles extends AbstractPreProcessor
 
             //for all files in temp upload folder
             foreach ($tmpFiles as $idx => $file) {
-
                 //if creation timestamp is lower than threshold timestamp
                 //delete the file
                 $creationTime = filemtime($path . $file);

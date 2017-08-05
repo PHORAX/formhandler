@@ -14,11 +14,8 @@ namespace Typoheads\Formhandler\Validator;
      * Public License for more details.                                       *
      *                                                                        */
 
-/**
- */
 class Ajax extends AbstractValidator
 {
-
     /**
      * Array holding the configured validators
      *
@@ -29,7 +26,6 @@ class Ajax extends AbstractValidator
 
     public function validate(&$errors)
     {
-
         //Nothing to do here
         return true;
     }
@@ -38,7 +34,9 @@ class Ajax extends AbstractValidator
      * Validates the submitted values using given settings
      *
      * @param array &$errors Reference to the errors array to store the errors occurred
-     * @return boolean
+     * @param mixed $field
+     * @param mixed $gp
+     * @return bool
      */
     public function validateAjax($field, $gp, &$errors)
     {
@@ -109,7 +107,6 @@ class Ajax extends AbstractValidator
 
                 //foreach error checks
                 foreach ($errorChecks as $idx => $check) {
-
                     //Skip error check if the check is disabled for this field or if all checks are disabled for this field
                     if (!empty($disableErrorCheckFields) &&
                         in_array('all', array_keys($disableErrorCheckFields)) ||

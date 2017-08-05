@@ -40,7 +40,6 @@ namespace Typoheads\Formhandler\PreProcessor;
  *
  * @author    Johannes Feustel
  */
-
 class LoadDefaultValues extends AbstractPreProcessor
 {
     public function process()
@@ -61,8 +60,8 @@ class LoadDefaultValues extends AbstractPreProcessor
      * adapted from class tx_thmailformplus_pi1
      * Loads the default values to the GP Array
      *
-     * @return void
      * @param array $settings
+     * @return void
      */
     public function loadDefaultValuesToGP($settings)
     {
@@ -74,9 +73,9 @@ class LoadDefaultValues extends AbstractPreProcessor
     /**
      * loads the Default Setting in the Session. Used only for step 2+.
      *
-     * @return void
-     * @param Array $settings
+     * @param array $settings
      * @param int $step
+     * @return void
      */
     private function loadDefaultValuesToSession($settings, $step)
     {
@@ -90,9 +89,9 @@ class LoadDefaultValues extends AbstractPreProcessor
     /**
      * Recursive method to set the GP values
      *
-     * @return void
      * @param array $fields
      * @param array &$currentLevelGP
+     * @return void
      */
     protected function setDefaultValues($fields, &$currentLevelGP)
     {

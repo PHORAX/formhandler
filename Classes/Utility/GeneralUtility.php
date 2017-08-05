@@ -21,7 +21,6 @@ use TYPO3\CMS\Core\Utility\MathUtility;
  */
 class GeneralUtility implements SingletonInterface
 {
-
     /**
      * Returns the absolute path to the document root
      *
@@ -40,7 +39,7 @@ class GeneralUtility implements SingletonInterface
             if (is_array($gp[$prefix])) {
                 $gp = $gp[$prefix];
             } else {
-                $gp = array();
+                $gp = [];
             }
         }
 
@@ -95,6 +94,8 @@ class GeneralUtility implements SingletonInterface
      *
      * @param    string
      * @param    array
+     * @param mixed $content
+     * @param mixed $markContentArray
      * @return    string
      */
     public static function substituteMarkerArray($content, $markContentArray)
@@ -114,6 +115,8 @@ class GeneralUtility implements SingletonInterface
      *
      * @param    string    Content with subpart wrapped in fx. "###CONTENT_PART###" inside.
      * @param    string    Marker string, eg. "###CONTENT_PART###"
+     * @param mixed $content
+     * @param mixed $marker
      * @return    string
      */
     public static function getSubpart($content, $marker)
@@ -144,11 +147,11 @@ class GeneralUtility implements SingletonInterface
      * Read template file set in flexform or TypoScript, read the file's contents to $this->templateFile
      *
      * @param $settings The formhandler settings
+     * @param mixed $templateFile
      * @return string
      */
     public static function readTemplateFile($templateFile, &$settings)
     {
-
         //template file was not set in flexform, search TypoScript for setting
         if (!$templateFile) {
             if (!$settings['templateFile'] && !$settings['templateFile.']) {
@@ -165,7 +168,6 @@ class GeneralUtility implements SingletonInterface
                     }
                     $templateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile);
                 } else {
-
                     //The setting "templateFile" was a cObject which returned HTML content. Just use that as template code.
                     $templateCode = $templateFile;
                 }
@@ -207,7 +209,6 @@ class GeneralUtility implements SingletonInterface
      */
     public static function readLanguageFiles($langFiles, &$settings)
     {
-
         //language file was not set in flexform, search TypoScript for setting
         if (!$langFiles) {
             $langFiles = [];
@@ -267,7 +268,7 @@ class GeneralUtility implements SingletonInterface
 
     public static function isValidCObject($str)
     {
-        return (
+        return
             $str === 'CASE' || $str === 'CLEARGIF' || $str === 'COA' || $str === 'COA_INT' ||
             $str === 'COLUMNS' || $str === 'CONTENT' || $str === 'CTABLE' || $str === 'EDITPANEL' ||
             $str === 'FILE' || $str === 'FILES' || $str === 'FLUIDTEMPLATE' || $str === 'FORM' ||
@@ -275,8 +276,7 @@ class GeneralUtility implements SingletonInterface
             $str === 'IMG_RESOURCE' || $str === 'IMGTEXT' || $str === 'LOAD_REGISTER' || $str === 'MEDIA' ||
             $str === 'MULTIMEDIA' || $str === 'OTABLE' || $str === 'QTOBJECT' || $str === 'RECORDS' ||
             $str === 'RESTORE_REGISTER' || $str === 'SEARCHRESULT' || $str === 'SVG' || $str === 'SWFOBJECT' ||
-            $str === 'TEMPLATE' || $str === 'TEXT' || $str === 'USER' || $str === 'USER_INT'
-        );
+            $str === 'TEMPLATE' || $str === 'TEXT' || $str === 'USER' || $str === 'USER_INT';
     }
 
     public static function getPreparedClassName($settingsArray, $defaultClassName = '')
@@ -292,12 +292,13 @@ class GeneralUtility implements SingletonInterface
      * Redirects to a specified page or URL.
      *
      * @param mixed $redirect Page id or URL to redirect to
-     * @param boolean $correctRedirectUrl replace &amp; with & in URL
+     * @param bool $correctRedirectUrl replace &amp; with & in URL
+     * @param mixed $additionalParams
+     * @param mixed $headerStatusCode
      * @return void
      */
     public static function doRedirect($redirect, $correctRedirectUrl, $additionalParams = [], $headerStatusCode = '')
     {
-
         // these parameters have to be added to the redirect url
         $addParams = [];
         if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L')) {
@@ -371,9 +372,8 @@ class GeneralUtility implements SingletonInterface
             }
             self::doRedirect($redirectPage, $correctRedirectUrl, $additionalParams, $headerStatusCode);
             exit();
-        } else {
-            self::debugMessage('No redirectPage set.');
         }
+        self::debugMessage('No redirectPage set.');
     }
 
     /**
@@ -384,6 +384,11 @@ class GeneralUtility implements SingletonInterface
      * @param    string        Sheet pointer, eg. "sDEF"
      * @param    string        Language pointer, eg. "lDEF"
      * @param    string        Value pointer, eg. "vDEF"
+     * @param mixed $T3FlexForm_array
+     * @param mixed $fieldName
+     * @param mixed $sheet
+     * @param mixed $lang
+     * @param mixed $value
      * @return    string        The content.
      */
     public static function pi_getFFvalue($T3FlexForm_array, $fieldName, $sheet = 'sDEF', $lang = 'lDEF', $value = 'vDEF')
@@ -405,6 +410,9 @@ class GeneralUtility implements SingletonInterface
      * @param    array        Multidimensiona array, typically FlexForm contents
      * @param    array        Array where each value points to a key in the FlexForms content - the input array will have the value returned pointed to by these keys. All integer keys will not take their integer counterparts, but rather traverse the current position in the array an return element number X (whether this is right behavior is not settled yet...)
      * @param    string        Value for outermost key, typ. "vDEF" depending on language.
+     * @param mixed $sheetArray
+     * @param mixed $fieldNameArr
+     * @param mixed $value
      * @return    mixed        The value, typ. string.
      * @access private
      * @see pi_getFFvalue()
@@ -435,13 +443,14 @@ class GeneralUtility implements SingletonInterface
      * Converts a date to a UNIX timestamp.
      *
      * @param array $options The TS settings of the "special" section
+     * @param mixed $date
+     * @param mixed $format
      * @return long The timestamp
      */
     public static function dateToTimestamp($date, $format = 'Y-m-d')
     {
         if (strlen(trim($date)) > 0) {
             if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-
                 // find out separator
                 preg_match('/^[d|m|y]*(.)[d|m|y]*/i', $format, $res);
                 $sep = $res[1];
@@ -515,11 +524,11 @@ class GeneralUtility implements SingletonInterface
      *
      * @param string $template The template code
      * @param string $langFile The path to the language file
+     * @param mixed $absPath
      * @return array The filled language markers
      */
     public static function convertToRelativePath($absPath)
     {
-
         //C:/xampp/htdocs/typo3/index.php
         $scriptPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME');
 
@@ -534,6 +543,7 @@ class GeneralUtility implements SingletonInterface
      *
      * @param string $template The template code
      * @param string $langFile The path to the language file
+     * @param mixed $langFiles
      * @return array The filled language markers
      */
     public static function getFilledLangMarkers(&$template, $langFiles)
@@ -615,14 +625,13 @@ class GeneralUtility implements SingletonInterface
         $message = self::getExceptionMessage($key);
         if (strlen($message) == 0) {
             throw new \Exception($key);
-        } else {
-            if (func_num_args() > 1) {
-                $args = func_get_args();
-                array_shift($args);
-                $message = vsprintf($message, $args);
-            }
-            throw new \Exception($message);
         }
+        if (func_num_args() > 1) {
+            $args = func_get_args();
+            array_shift($args);
+            $message = vsprintf($message, $args);
+        }
+        throw new \Exception($message);
     }
 
     /**
@@ -640,6 +649,7 @@ class GeneralUtility implements SingletonInterface
      * Substitutes EXT: with extension path in a file path
      *
      * @param string The path
+     * @param mixed $path
      * @return string The resolved path
      */
     public static function resolvePath($path)
@@ -658,6 +668,7 @@ class GeneralUtility implements SingletonInterface
      * Substitutes EXT: with extension path in a file path and returns the relative path.
      *
      * @param string The path
+     * @param mixed $path
      * @return string The resolved path
      */
     public static function resolveRelPath($path)
@@ -676,6 +687,7 @@ class GeneralUtility implements SingletonInterface
      * Substitutes EXT: with extension path in a file path and returns the relative path from site root.
      *
      * @param string The path
+     * @param mixed $path
      * @return string The resolved path
      */
     public static function resolveRelPathFromSiteRoot($path)
@@ -705,11 +717,11 @@ class GeneralUtility implements SingletonInterface
      *
      * The default upload folder is: '/uploads/formhandler/tmp/'
      *
+     * @param mixed $fieldName
      * @return string
      */
     public static function getTempUploadFolder($fieldName = '')
     {
-
         //set default upload folder
         $uploadFolder = '/uploads/formhandler/tmp/';
 
@@ -769,6 +781,8 @@ class GeneralUtility implements SingletonInterface
      *
      * @param int Timebase value
      * @param string Timebase unit (seconds|minutes|hours|days)
+     * @param mixed $value
+     * @param mixed $unit
      * @return long The timestamp
      */
     public static function getTimestamp($value, $unit)
@@ -799,6 +813,8 @@ class GeneralUtility implements SingletonInterface
      *
      * @param int Timebase value
      * @param string Timebase unit (seconds|minutes|hours|days)
+     * @param mixed $value
+     * @param mixed $unit
      * @return long The seconds
      */
     public static function convertToSeconds($value, $unit)
@@ -855,6 +871,7 @@ class GeneralUtility implements SingletonInterface
      * Returns a debug message according to given key
      *
      * @param string The key in translation file
+     * @param mixed $key
      * @return string
      */
     public static function getDebugMessage($key)
@@ -866,6 +883,7 @@ class GeneralUtility implements SingletonInterface
      * Returns an exception message according to given key
      *
      * @param string The key in translation file
+     * @param mixed $key
      * @return string
      */
     public static function getExceptionMessage($key)
@@ -884,6 +902,7 @@ class GeneralUtility implements SingletonInterface
      * </code>
      *
      * @param string The file name
+     * @param mixed $fileName
      * @return string The replaced file name
      *
      **/
@@ -954,11 +973,11 @@ class GeneralUtility implements SingletonInterface
     {
         if (is_numeric($value)) {
             return $value;
-        } else {
-            $value_length = strlen($value);
-            $qty = substr($value, 0, $value_length - 1);
-            $unit = strtolower(substr($value, $value_length - 1));
-            switch ($unit) {
+        }
+        $value_length = strlen($value);
+        $qty = substr($value, 0, $value_length - 1);
+        $unit = strtolower(substr($value, $value_length - 1));
+        switch ($unit) {
                 case 'k':
                     $qty *= 1024;
                     break;
@@ -969,19 +988,18 @@ class GeneralUtility implements SingletonInterface
                     $qty *= 1073741824;
                     break;
             }
-            return $qty;
-        }
+        return $qty;
     }
 
     /**
      * Check if a given string is a file path or contains parsed HTML template data
      *
      * @param    string $templateFile
-     * @return    boolean
+     * @return    bool
      */
     public static function isTemplateFilePath($templateFile)
     {
-        return (stristr($templateFile, '###TEMPLATE_') === false);
+        return stristr($templateFile, '###TEMPLATE_') === false;
     }
 
     /**
@@ -1009,6 +1027,8 @@ class GeneralUtility implements SingletonInterface
      *
      * @param string Global var key, eg. "HTTP_GET_VAR" or "HTTP_GET_VARS|id" to get the GET parameter "id" back.
      * @param array Alternative array than $GLOBAL to get variables from.
+     * @param mixed $keyString
+     * @param null|mixed $source
      * @return mixed Whatever value. If none, then blank string.
      */
     public static function getGlobal($keyString, $source = null)
@@ -1055,7 +1075,7 @@ class GeneralUtility implements SingletonInterface
             'L' => $GLOBALS['TSFE']->sys_language_uid,
             'randomID' => \Typoheads\Formhandler\Utility\Globals::getRandomID(),
             'field' => $field,
-            'uploadedFileName' => $uploadedFileName
+            'uploadedFileName' => $uploadedFileName,
         ];
         $params = array_merge($params, $specialParams);
         return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'index.php?' . \TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);
@@ -1100,6 +1120,8 @@ class GeneralUtility implements SingletonInterface
      *
      * @param array The base settings
      * @param array The settings overriding the base settings.
+     * @param mixed $settings
+     * @param mixed $newSettings
      * @return array The merged settings
      */
     public static function mergeConfiguration($settings, $newSettings)

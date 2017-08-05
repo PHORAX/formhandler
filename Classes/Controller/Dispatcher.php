@@ -20,7 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 {
-
     /**
      * Compontent Manager
      *
@@ -48,9 +47,9 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * Main method of the dispatcher. This method is called as a user function.
      *
-     * @return string rendered view
      * @param string $content
      * @param array $setup The TypoScript config
+     * @return string rendered view
      */
     public function main($content, $setup)
     {
@@ -59,7 +58,6 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         $this->globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
         $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
         try {
-
             //init flexform
             $this->pi_initPIflexForm();
 

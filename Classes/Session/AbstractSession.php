@@ -19,12 +19,11 @@ namespace Typoheads\Formhandler\Session;
  */
 abstract class AbstractSession extends \Typoheads\Formhandler\Component\AbstractClass
 {
-
     /**
      * An indicator if a session was already started
      *
      * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $started = false;
 
@@ -76,7 +75,7 @@ abstract class AbstractSession extends \Typoheads\Formhandler\Component\Abstract
     /**
      * Checks if a session exists
      *
-     * @return boolean
+     * @return bool
      */
     abstract public function exists();
 

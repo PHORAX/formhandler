@@ -33,7 +33,6 @@ class EmailExists extends AbstractErrorCheck
             $hostname = substr($email, strpos($email, '@') + 1);
             $valid = getmxrr($hostname, $mxhosts);
             if ($valid) {
-
                 //Sometimes getmxrr returns TRUE, but empty mx hosts.
                 $valid = !empty($mxhosts);
             }

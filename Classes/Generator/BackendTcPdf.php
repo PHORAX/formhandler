@@ -20,7 +20,6 @@ namespace Typoheads\Formhandler\Generator;
  */
 class BackendTcPdf extends \Typoheads\Formhandler\Component\AbstractComponent
 {
-
     /**
      * The internal PDF object
      *

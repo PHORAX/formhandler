@@ -20,7 +20,6 @@ namespace Typoheads\Formhandler\Domain\Model;
  */
 class LogData extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-
     /**
      * @var int
      * @validate notEmpty

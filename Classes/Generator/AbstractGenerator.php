@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Generator;
  */
 abstract class AbstractGenerator extends \Typoheads\Formhandler\Component\AbstractComponent
 {
-
     /**
      * Returns the link with the right action set to be used in Finisher_SubmittedOK
      *
@@ -48,7 +47,7 @@ abstract class AbstractGenerator extends \Typoheads\Formhandler\Component\Abstra
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [
             'tstamp' => $this->globals->getSession()->get('inserted_tstamp'),
-            'hash' => $this->globals->getSession()->get('unique_hash')
+            'hash' => $this->globals->getSession()->get('unique_hash'),
         ];
         $params = [];
         if ($prefix) {

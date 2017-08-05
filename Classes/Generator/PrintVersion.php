@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Generator;
  */
 class PrintVersion extends AbstractGenerator
 {
-
     /**
      * Unused
      */
@@ -49,7 +48,7 @@ class PrintVersion extends AbstractGenerator
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [
-            'action' => 'show'
+            'action' => 'show',
         ];
         $params = [];
         if ($prefix) {

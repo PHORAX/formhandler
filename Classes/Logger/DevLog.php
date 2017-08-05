@@ -18,7 +18,6 @@ namespace Typoheads\Formhandler\Logger;
  */
 class DevLog extends AbstractLogger
 {
-
     /**
      * Logs the given values.
      *

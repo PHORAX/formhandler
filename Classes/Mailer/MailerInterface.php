@@ -3,12 +3,11 @@ namespace Typoheads\Formhandler\Mailer;
 
 interface MailerInterface
 {
-
     /**
      * Sends the email to the given reccipients
      *
      * @param array $recipients
-     * @return boolean Sent successfully?
+     * @return bool Sent successfully?
      */
     public function send($recipients);
 

@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Interceptor;
  */
 class ParseValues extends AbstractInterceptor
 {
-
     /**
      * The main method called by the controller
      *
@@ -27,7 +26,6 @@ class ParseValues extends AbstractInterceptor
      */
     public function process()
     {
-
         //parse as float
         $parseFloatFields = $this->utilityFuncs->getSingle($this->settings, 'parseFloatFields');
         $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $parseFloatFields, true);
@@ -39,8 +37,8 @@ class ParseValues extends AbstractInterceptor
     /**
      * parses the given field values from strings to floats
      *
-     * @return void
      * @param array $fields
+     * @return void
      */
     protected function parseFloats($fields)
     {
@@ -58,8 +56,8 @@ class ParseValues extends AbstractInterceptor
      * x xxx,- / xx,xx / xx'xxx,xx / -xx.xxx,xx
      * Caution: This pareses x.xxx.xxx to xxxxxxx (but xx.xx to xx.xx)
      *
-     * @return float
      * @param string $value formated float
+     * @return float
      */
     protected function getFloat($value)
     {

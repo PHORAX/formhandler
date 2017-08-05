@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Generator;
  */
 class PdfGenerator extends AbstractGenerator
 {
-
     /**
      * Renders the PDF.
      *
@@ -36,7 +35,7 @@ class PdfGenerator extends AbstractGenerator
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [
-            'action' => 'show'
+            'action' => 'show',
         ];
         $params = [];
         if ($prefix) {

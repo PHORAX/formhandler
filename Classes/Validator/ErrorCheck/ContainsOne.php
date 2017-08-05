@@ -42,7 +42,6 @@ class ContainsOne extends AbstractErrorCheck
                 }
             }
             if (!$found) {
-
                 //remove userfunc settings and only store comma seperated words
                 $this->settings['params']['words'] = implode(',', $checkValue);
                 unset($this->settings['params']['words.']);

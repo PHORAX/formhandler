@@ -22,7 +22,6 @@ require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formha
 
 class BackendCsv extends \Typoheads\Formhandler\Component\AbstractComponent
 {
-
     /**
      * The internal CSV object
      *
@@ -97,7 +96,6 @@ class BackendCsv extends \Typoheads\Formhandler\Component\AbstractComponent
         }
         if (count($exportParams) > 0) {
             foreach ($data as $idx => &$params) {
-
                 // fill missing fields with empty value
                 foreach ($exportParams as $key => $exportParam) {
                     if (!array_key_exists($exportParam, $params)) {
@@ -138,6 +136,8 @@ class BackendCsv extends \Typoheads\Formhandler\Component\AbstractComponent
     /**
      * Sorts the CSV data
      *
+     * @param mixed $array
+     * @param mixed $orderArray
      * @return array The sorted array
      */
     private function sortArrayByArray($array, $orderArray)

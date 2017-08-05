@@ -18,7 +18,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-
     /**
      * The request arguments
      *
@@ -129,6 +128,8 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * Displays fields selector
      * @param string uids to export
      * @param string export file type (PDF || CSV)
+     * @param null|mixed $logDataUids
+     * @param mixed $filetype
      * @return void
      */
     public function selectFieldsAction($logDataUids = null, $filetype = '')
@@ -143,7 +144,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                     [
                         'logDataUids' => $logDataUids,
                         'fields' => $fields,
-                        'filetype' => $filetype
+                        'filetype' => $filetype,
                     ]
                 );
             }
@@ -153,16 +154,16 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 'global' => [
                     'pid',
                     'ip',
-                    'submission_date'
+                    'submission_date',
                 ],
                 'system' => [
                     'randomID',
                     'removeFile',
                     'removeFileField',
                     'submitField',
-                    'submitted'
+                    'submitted',
                 ],
-                'custom' => []
+                'custom' => [],
             ];
             foreach ($logDataRows as $logDataRow) {
                 $params = unserialize($logDataRow->getParams());
@@ -194,9 +195,11 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @param string uids to export
      * @param array fields to export
      * @param string export file type (PDF || CSV)
+     * @param mixed $logDataUids
+     * @param mixed $filetype
      * @return void
      */
-    public function exportAction($logDataUids = null, array $fields, $filetype = '')
+    public function exportAction($logDataUids, array $fields, $filetype = '')
     {
         if ($logDataUids !== null && !empty($fields)) {
             $logDataRows = $this->logDataRepository->findByUids($logDataUids);
@@ -206,7 +209,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                     'pid' => $logDataRow->getPid(),
                     'ip' => $logDataRow->getIp(),
                     'crdate' => $logDataRow->getCrdate(),
-                    'params' => unserialize($logDataRow->getParams())
+                    'params' => unserialize($logDataRow->getParams()),
                 ];
             }
             if ($filetype === 'pdf') {
@@ -238,6 +241,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * Deletes given logs or all if value is "all"
      * @param string uids to delete
+     * @param null|mixed $logDataUids
      * @return void
      */
     public function deleteLogRowsAction($logDataUids = null)
@@ -261,6 +265,6 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         }
 
         $this->addFlashMessage($text);
-        $this->redirect("index");
+        $this->redirect('index');
     }
 }

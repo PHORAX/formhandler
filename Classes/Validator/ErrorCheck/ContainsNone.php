@@ -38,7 +38,6 @@ class ContainsNone extends AbstractErrorCheck
             $found = false;
             foreach ($checkValue as $idx => $word) {
                 if (stristr($formValue, $word) && !$found) {
-
                     //remove userfunc settings and only store comma seperated words
                     $this->settings['params']['words'] = implode(',', $checkValue);
                     unset($this->settings['params']['words.']);

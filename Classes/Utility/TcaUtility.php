@@ -24,7 +24,6 @@ namespace Typoheads\Formhandler\Utility;
      *  This copyright notice MUST APPEAR in all copies of the script!
      ***************************************************************/
 
-
 /**
  * UserFunc for rendering of log entry
  */
@@ -73,13 +72,13 @@ class TcaUtility
 
         $divId = $GLOBALS['SOBE']->tceforms->dynNestedStack[0][1];
         if (!$divId) {
-            $divId = "DIV.c-tablayer";
+            $divId = 'DIV.c-tablayer';
         } else {
-            $divId .= "-DIV";
+            $divId .= '-DIV';
         }
         $js .= "var uid = '" . $uid . "'\n";
         $js .= "var flexformBoxId = '" . $divId . "'\n";
-        $js .= "var newRecord = " . $newRecord . "\n";
+        $js .= 'var newRecord = ' . $newRecord . "\n";
         $js .= file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/JavaScript/addFields_predefinedJS.js');
         $js .= "/*]]>*/\n";
         $js .= "</script>\n";
@@ -117,16 +116,16 @@ class TcaUtility
 
         $predef = [];
 
-        # no config available
+        // no config available
         if (!is_array($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.']) || count($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.']) === 0) {
             $optionList[] = [
                 0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:be_missing_config'),
-                1 => ''
+                1 => '',
             ];
             return $config['items'] = array_merge($config['items'], $optionList);
         }
 
-        # for each view
+        // for each view
         foreach ($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.'] as $key => $view) {
             if (is_array($view)) {
                 $beName = $view['name'];
@@ -147,13 +146,13 @@ class TcaUtility
         $optionList = [
             [
                 0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:be_please_select'),
-                1 => ''
-            ]
+                1 => '',
+            ],
         ];
         foreach ($predef as $k => $v) {
             $optionList[] = [
                 0 => $v,
-                1 => $k
+                1 => $k,
             ];
         }
         $config['items'] = array_merge($config['items'], $optionList);

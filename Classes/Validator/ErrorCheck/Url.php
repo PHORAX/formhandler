@@ -19,7 +19,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class Url extends AbstractErrorCheck
 {
-
     /**
      * Validates that a specified field has valid url syntax.
      *

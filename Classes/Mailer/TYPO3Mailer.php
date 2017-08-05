@@ -14,12 +14,8 @@ namespace Typoheads\Formhandler\Mailer;
      * Public License for more details.                                       *
      *                                                                        */
 
-/**
- *
- */
 class TYPO3Mailer extends AbstractMailer implements MailerInterface
 {
-
     /**
      * The TYPO3 mail message object
      *
@@ -191,9 +187,8 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     {
         if (isset($this->htmlMimePart)) {
             return $this->htmlMimePart->getBody();
-        } else {
-            return '';
         }
+        return '';
     }
 
     /* (non-PHPdoc)
@@ -203,9 +198,8 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     {
         if (isset($this->plainMimePart)) {
             return $this->plainMimePart->getBody();
-        } else {
-            return '';
         }
+        return '';
     }
 
     /* (non-PHPdoc)
