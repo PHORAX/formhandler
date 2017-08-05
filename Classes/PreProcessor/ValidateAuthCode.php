@@ -68,8 +68,8 @@ class ValidateAuthCode extends AbstractPreProcessor
                 $hiddenField = 'disable';
                 if ($this->settings['hiddenField']) {
                     $hiddenField = $this->utilityFuncs->getSingle($this->settings, 'hiddenField');
-                } elseif ($TCA[$table]['ctrl']['enablecolumns']['disable']) {
-                    $hiddenField = $TCA[$table]['ctrl']['enablecolumns']['disable'];
+                } elseif ($GLOBALS['TCA'][$table]['ctrl']['enablecolumns']['disable']) {
+                    $hiddenField = $GLOBALS['TCA'][$table]['ctrl']['enablecolumns']['disable'];
                 }
                 $selectFields = '*';
                 if ($this->settings['selectFields']) {
