@@ -1480,7 +1480,7 @@ class Form extends AbstractController
     }
 
     /**
-     * Find out if submitted form was valid. If one of the values in the given array $valid is FALSE the submission was not valid.
+     * Find out if submitted form was valid. If one of the values in the given array $valid is false the submission was not valid.
      *
      * @param $validArr Array with the return values of each validator
      * @return boolean

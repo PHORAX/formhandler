@@ -1821,10 +1821,10 @@ class TCPDF {
 	 * @param $orientation (string) page orientation. Possible values are (case insensitive):<ul><li>P or Portrait (default)</li><li>L or Landscape</li><li>'' (empty string) for automatic orientation</li></ul>
 	 * @param $unit (string) User measure unit. Possible values are:<ul><li>pt: point</li><li>mm: millimeter (default)</li><li>cm: centimeter</li><li>in: inch</li></ul><br />A point equals 1/72 of inch, that is to say about 0.35 mm (an inch being 2.54 cm). This is a very common unit in typography; font sizes are expressed in that unit.
 	 * @param $format (mixed) The format used for pages. It can be either: one of the string values specified at getPageSizeFromFormat() or an array of parameters specified at setPageFormat().
-	 * @param $unicode (boolean) TRUE means that the input text is unicode (default = true)
+	 * @param $unicode (boolean) true means that the input text is unicode (default = true)
 	 * @param $encoding (string) Charset encoding (used only when converting back html entities); default is UTF-8.
-	 * @param $diskcache (boolean) If TRUE reduce the RAM memory usage by caching temporary data on filesystem (slower).
-	 * @param $pdfa (boolean) If TRUE set the document to PDF/A mode.
+	 * @param $diskcache (boolean) If true reduce the RAM memory usage by caching temporary data on filesystem (slower).
+	 * @param $pdfa (boolean) If true set the document to PDF/A mode.
 	 * @public
 	 * @see getPageSizeFromFormat(), setPageFormat()
 	 */
@@ -4559,7 +4559,7 @@ class TCPDF {
 	/**
 	 * Returns the glyph bounding box of the specified character in the current font in user units.
 	 * @param $char (int) Input character code.
-	 * @return mixed array(xMin, yMin, xMax, yMax) or FALSE if not defined.
+	 * @return mixed array(xMin, yMin, xMax, yMax) or false if not defined.
 	 * @since 5.9.186 (2012-09-13)
 	 */
 	public function getCharBBox($char) {
@@ -13703,7 +13703,7 @@ class TCPDF {
 	/**
 	 * Start a new pdf layer.
 	 * @param $name (string) Layer name (only a-z letters and numbers). Leave empty for automatic name.
-	 * @param $print (boolean|null) Set to TRUE to print this layer, FALSE to not print and NULL to not set this option
+	 * @param $print (boolean|null) Set to true to print this layer, false to not print and null to not set this option
 	 * @param $view (boolean) Set to true to view this layer.
 	 * @param $lock (boolean) If true lock the layer
 	 * @public

@@ -16,5 +16,5 @@ $EM_CONF[$_EXTKEY] = array(
     ),
   ),
   'uploadfolder' => false,
-  'createDirs' => null,
+  'createDirs' => null
 );

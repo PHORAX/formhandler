@@ -82,7 +82,7 @@ class IPBlocking extends AbstractInterceptor
     }
 
     /**
-     * Checks if the form got submitted too often and throws Exception if TRUE.
+     * Checks if the form got submitted too often and throws Exception if true.
      *
      * @param int Timebase value
      * @param string Timebase unit (seconds|minutes|hours|days)

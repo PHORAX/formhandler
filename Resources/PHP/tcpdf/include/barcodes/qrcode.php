@@ -255,7 +255,7 @@ if (!function_exists('str_split')) {
 	 * Convert a string to an array (needed for PHP4 compatibility)
 	 * @param $string (string) The input string.
 	 * @param $split_length (int) Maximum length of the chunk.
-	 * @return  If the optional split_length  parameter is specified, the returned array will be broken down into chunks with each being split_length  in length, otherwise each chunk will be one character in length. FALSE is returned if split_length is less than 1. If the split_length length exceeds the length of string , the entire string is returned as the first (and only) array element.
+	 * @return  If the optional split_length  parameter is specified, the returned array will be broken down into chunks with each being split_length  in length, otherwise each chunk will be one character in length. false is returned if split_length is less than 1. If the split_length length exceeds the length of string , the entire string is returned as the first (and only) array element.
 	 */
 	function str_split($string, $split_length=1) {
 		if ((strlen($string) > $split_length) OR (!$split_length)) {

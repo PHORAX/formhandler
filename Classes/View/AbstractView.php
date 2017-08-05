@@ -230,7 +230,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     }
 
     /**
-     * Returns FALSE if the view doesn't have template code.
+     * Returns false if the view doesn't have template code.
      *
      * @return boolean
      */

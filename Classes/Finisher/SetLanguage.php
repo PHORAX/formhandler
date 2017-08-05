@@ -45,7 +45,7 @@ class SetLanguage extends AbstractFinisher
 
     /**
      * Method to define whether the config is valid or not. If no, display a warning on the frontend.
-     * The default value is TRUE. This up to the finisher to overload this method
+     * The default value is true. This up to the finisher to overload this method
      *
      */
     public function validateConfig()

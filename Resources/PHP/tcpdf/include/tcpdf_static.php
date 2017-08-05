@@ -130,7 +130,7 @@ class TCPDF_STATIC {
 
 	/**
 	 * Sets the current active configuration setting of magic_quotes_runtime (if the set_magic_quotes_runtime function exist)
-	 * @param $mqr (boolean) FALSE for off, TRUE for on.
+	 * @param $mqr (boolean) false for off, true for on.
 	 * @since 4.6.025 (2009-08-17)
 	 * @public static
 	 */
@@ -1310,7 +1310,7 @@ class TCPDF_STATIC {
 	 * Reads up to length bytes from the file pointer referenced by handle. Reading stops as soon as one of the following conditions is met: length bytes have been read; EOF (end of file) is reached.
 	 * @param $handle (resource)
 	 * @param $length (int)
-	 * @return Returns the read string or FALSE in case of error.
+	 * @return Returns the read string or false in case of error.
 	 * @author Nicola Asuni
 	 * @since 4.5.027 (2009-03-16)
 	 * @public static
@@ -2438,7 +2438,7 @@ class TCPDF_STATIC {
 	 * @param $haystack (string) The string to search in.
 	 * @param $needle (string) substring to search.
 	 * @param $offset (int) May be specified to begin searching an arbitrary number of characters into the string.
-	 * @return Returns the position where the needle exists. Returns FALSE if the needle was not found.
+	 * @return Returns the position where the needle exists. Returns false if the needle was not found.
 	 * @since 4.8.038 (2010-03-13)
 	 * @public static
 	 */
@@ -2758,7 +2758,7 @@ class TCPDF_STATIC {
 	 * Reads entire file into a string.
 	 * The file can be also an URL.
 	 * @param $file (string) Name of the file or URL to read.
-	 * @return The function returns the read data or FALSE on failure. 
+	 * @return The function returns the read data or false on failure.
 	 * @author Nicola Asuni
 	 * @since 6.0.025
 	 * @public static

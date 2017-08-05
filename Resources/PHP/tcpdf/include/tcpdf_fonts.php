@@ -353,7 +353,7 @@ class TCPDF_FONTS {
 			}
 			$fmetric['AvgWidth'] = round($fmetric['AvgWidth'] / count($cwidths));
 		} else {
-			// ---------- TRUE TYPE ----------
+			// ---------- true TYPE ----------
 			if ($fmetric['type'] != 'cidfont0') {
 				if ($link) {
 					// creates a symbolic link to the existing font

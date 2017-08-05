@@ -77,7 +77,7 @@ class DefaultValidator extends AbstractValidator
     public function validate(&$errors)
     {
 
-        //no config? validation returns TRUE
+        //no config? validation returns true
         if (!is_array($this->settings['fieldConf.'])) {
             return true;
         }
