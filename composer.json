@@ -14,7 +14,10 @@
 		"psr-4": {
 			"Typoheads\\Formhandler\\": "Classes"
 		},
-		"classmap": ["Resources/PHP/tcpdf/tcpdf.php"]
+		"classmap": [
+			"Resources/PHP/tcpdf/tcpdf.php",
+			"pi1/class.tx_formhandler_pi1.php"
+		]
 	},
 	"replace": {
 		"formhandler": "self.version",
