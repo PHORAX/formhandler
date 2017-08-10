@@ -57,3 +57,11 @@ $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
     'formlogs',
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'ext_icon.gif'
 ];
+
+// REGISTER ICONS FOR USE IN BACKEND WIZARD
+$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+$iconRegistry->registerIcon(
+    'formhandlerElement',
+    \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+    ['source' => 'EXT:formhandler/ext_icon.gif']
+);
