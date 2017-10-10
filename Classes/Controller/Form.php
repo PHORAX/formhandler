@@ -1112,6 +1112,9 @@ class Form extends AbstractController
 
         $this->gp = $this->utilityFuncs->getMergedGP();
 
+        if (!$this->settings['uniqueFormID']) {
+            $this->gp['randomID'] = preg_replace('/[^0-9a-z]/', '', preg_quote($this->gp['randomID']));
+        }
         $randomID = $this->gp['randomID'];
         if (!$randomID) {
             if ($this->settings['uniqueFormID']) {
