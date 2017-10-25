@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -19,18 +20,14 @@ use Typoheads\Formhandler\Component\AbstractComponent;
  * Abstract class for error checks for Formhandler
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 abstract class AbstractErrorCheck extends AbstractComponent
 {
-
     protected $formFieldName;
     protected $mandatoryParameters = [];
 
     public function process()
     {
-
     }
 
     public function setFormFieldName($name)
@@ -67,7 +64,7 @@ abstract class AbstractErrorCheck extends AbstractComponent
 
     public function validateConfig()
     {
-        $valid = TRUE;
+        $valid = true;
         if (!$this->formFieldName) {
             $this->utilityFuncs->throwException('error_checks_form_field_name_missing', $this->settings['check']);
         }
@@ -84,5 +81,4 @@ abstract class AbstractErrorCheck extends AbstractComponent
         }
         return $valid;
     }
-
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Domain\Model;
 
-    /*
+/*
      * This file is part of the TYPO3 CMS project.
      *
      * It is free software; you can redistribute it and/or modify it under
@@ -112,7 +112,6 @@ class Demand extends AbstractEntity
      * Set calculated start timestamp from query constraints
      *
      * @param int $timestamp
-     * @return void
      */
     public function setStartTimestamp($timestamp)
     {
@@ -133,11 +132,9 @@ class Demand extends AbstractEntity
      * Set calculated end timestamp from query constraints
      *
      * @param int $timestamp
-     * @return void
      */
     public function setEndTimestamp($timestamp)
     {
         $this->endTimestamp = (int)$timestamp;
     }
-
 }

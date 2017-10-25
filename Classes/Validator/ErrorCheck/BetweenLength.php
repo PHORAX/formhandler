@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -17,12 +18,9 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  * Validates that a specified field is a string and has a length between two specified values
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class BetweenLength extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -38,12 +36,8 @@ class BetweenLength extends AbstractErrorCheck
             (mb_strlen($this->gp[$this->formFieldName], $GLOBALS['TSFE']->renderCharset) < $min ||
                 mb_strlen($this->gp[$this->formFieldName], $GLOBALS['TSFE']->renderCharset) > $max)
         ) {
-
             $checkFailed = $this->getCheckFailed();
         }
         return $checkFailed;
     }
-
 }
-
-?>

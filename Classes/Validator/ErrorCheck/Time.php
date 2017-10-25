@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -19,12 +20,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Validates that a specified field's value is a valid time
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class Time extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -53,5 +51,4 @@ class Time extends AbstractErrorCheck
         }
         return $checkFailed;
     }
-
 }

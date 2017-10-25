@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Debugger;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -25,8 +26,6 @@ class PrintToScreen extends AbstractDebugger
 
     /**
      * Prints the messages to the screen
-     *
-     * @return void
      */
     public function outputDebugLog()
     {
@@ -52,8 +51,6 @@ class PrintToScreen extends AbstractDebugger
 
     /**
      * Sets default config for the debugger.
-     *
-     * @return void
      */
     public function validateConfig()
     {
@@ -76,5 +73,4 @@ class PrintToScreen extends AbstractDebugger
             $this->settings['severityWrap.']['3'] = '<span style="color:#FF2800;">|</span>';
         }
     }
-
 }

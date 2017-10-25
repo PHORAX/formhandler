@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Component;
-    /*                                                                       *
+
+/*                                                                       *
     * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -14,7 +15,6 @@ namespace Typoheads\Formhandler\Component;
     *                                                                        */
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreGeneralUtility;
-use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Controller\Configuration;
 use Typoheads\Formhandler\Utility\GeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
@@ -77,12 +77,12 @@ abstract class AbstractClass
      * @param Globals $globals
      * @param GeneralUtility $utilityFuncs
      */
-    public function __construct(Manager $componentManager,
+    public function __construct(
+        Manager $componentManager,
                                 Configuration $configuration,
                                 Globals $globals,
-                                GeneralUtility $utilityFuncs)
-    {
-
+                                GeneralUtility $utilityFuncs
+    ) {
         $this->componentManager = $componentManager;
         $this->configuration = $configuration;
         $this->globals = $globals;

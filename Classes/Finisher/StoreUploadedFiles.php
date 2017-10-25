@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Finisher;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -68,8 +69,6 @@ class StoreUploadedFiles extends AbstractFinisher
      * plugin.Tx_Formhandler.settings.finishers.1.config.finishedUploadFolder = uploads/formhandler/finishedFiles/
      * plugin.Tx_Formhandler.settings.finishers.1.config.renameScheme = [filename]_[md5]_[time]
      * </code>
-     *
-     * @return void
      */
     protected function moveUploadedFiles()
     {
@@ -215,5 +214,4 @@ class StoreUploadedFiles extends AbstractFinisher
         }
         return $replacedStr;
     }
-
 }

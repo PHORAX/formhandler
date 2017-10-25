@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -17,12 +18,9 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  * Validates that a specified field is a string and shorter a specified count of characters
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class MaxLength extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -38,10 +36,8 @@ class MaxLength extends AbstractErrorCheck
             (int)$max > 0 &&
             mb_strlen(trim($this->gp[$this->formFieldName]), $GLOBALS['TSFE']->renderCharset) > $max
         ) {
-
             $checkFailed = $this->getCheckFailed();
         }
         return $checkFailed;
     }
-
 }

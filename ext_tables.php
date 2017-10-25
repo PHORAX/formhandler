@@ -3,13 +3,12 @@
  * ext tables config file for ext: "formhandler"
  *
  * @author Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
  */
-
-if (!defined('TYPO3_MODE')) die ('Access denied.');
+if (!defined('TYPO3_MODE')) {
+    die('Access denied.');
+}
 
 if (TYPO3_MODE === 'BE') {
-
     $TCA['tt_content']['types'][$_EXTKEY . '_pi1']['showitem'] = '
 		--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,
 		--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.header;header,

@@ -51,7 +51,6 @@ class Manager implements SingletonInterface
     {
         $this->globals = GeneralUtility::makeInstance(Globals::class);
         $this->utilityFuncs = GeneralUtility::makeInstance(FormhandlerGeneralUtility::class);
-
     }
 
     /**
@@ -69,7 +68,7 @@ class Manager implements SingletonInterface
         if (get_class($this) === $componentName) {
             return $this;
         }
-        $arguments = array_slice(func_get_args(), 1, NULL, TRUE);
+        $arguments = array_slice(func_get_args(), 1, null, true);
 
         /** @var $objectManager ObjectManager */
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);

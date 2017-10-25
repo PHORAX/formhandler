@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -19,12 +20,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Validates that a specified field's value matches the generated word of the extension "sr_freecap"
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class SrFreecap extends AbstractErrorCheck
 {
-
     public function check()
     {
         $checkFailed = '';
@@ -37,5 +35,4 @@ class SrFreecap extends AbstractErrorCheck
         }
         return $checkFailed;
     }
-
 }

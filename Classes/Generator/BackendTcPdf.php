@@ -1,5 +1,6 @@
 <?php
 namespace Typoheads\Formhandler\Generator;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -19,8 +20,6 @@ use Typoheads\Formhandler\Component\AbstractComponent;
  * Class to generate PDF files in Backend
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    Generator
  * @uses Tx_Formhandler_Template_TCPDF
  */
 class BackendTcPdf extends AbstractComponent
@@ -69,39 +68,37 @@ class BackendTcPdf extends AbstractComponent
     }
 
     /**
-     * @return void
      */
     public function process()
     {
-
         $records = $this->settings['records'];
         $exportFields = $this->settings['exportFields'];
 
         //init pdf object
         $this->pdf = $this->componentManager->getComponent('Typoheads\Formhandler\Utility\TemplateTCPDF');
-        $this->pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        $this->pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 
         $this->pdf->SetFont($this->settings['font'], '', $this->settings['fontSize']);
         $this->pdf->SetHeaderFont([$this->settings['font'], '', $this->settings['fontSizeHeader']]);
         $this->pdf->SetFooterFont([$this->settings['font'], '', $this->settings['fontSizeFooter']]);
 
-        $addedOneRecord = FALSE;
+        $addedOneRecord = false;
 
         //for all records,
         //check if the record is valid.
         //a valid record has at least one param to export
         //if no valid record is found render an error message in pdf file
         foreach ($records as $data) {
-            $valid = FALSE;
+            $valid = false;
             if (isset($data['params']) && is_array($data['params'])) {
                 foreach ($data['params'] as $key => $value) {
                     if (count($exportFields) == 0 || in_array($key, $exportFields)) {
-                        $valid = TRUE;
+                        $valid = true;
                     }
                 }
             }
             if ($valid) {
-                $addedOneRecord = TRUE;
+                $addedOneRecord = true;
                 $this->pdf->AddPage();
                 $standardWidth = 100;
                 $nameWidth = 70;
@@ -125,11 +122,11 @@ class BackendTcPdf extends AbstractComponent
                 $this->pdf->SetLineWidth(.3);
                 $this->pdf->Cell($feedWidth);
                 $this->pdf->SetFillColor(255, 255, 255);
-                $this->pdf->Cell($nameWidth, '6', 'Name', 'B', 0, 'C', TRUE);
-                $this->pdf->Cell($valueWidth, '6', 'Value', 'B', 0, 'C', TRUE);
+                $this->pdf->Cell($nameWidth, '6', 'Name', 'B', 0, 'C', true);
+                $this->pdf->Cell($valueWidth, '6', 'Value', 'B', 0, 'C', true);
                 $this->pdf->Ln();
                 $this->pdf->SetFillColor(200, 200, 200);
-                $fill = FALSE;
+                $fill = false;
 
                 if (count($exportFields) == 0) {
                     $exportFields = array_keys($data['params']);
@@ -141,7 +138,7 @@ class BackendTcPdf extends AbstractComponent
                             $this->pdf->Cell($feedWidth);
                             $this->pdf->Cell($nameWidth, '6', $key, 0, 0, 'L', $fill);
                             $arrayValue = array_shift($value);
-                            if (strpos($arrayValue, "\n") === FALSE && strpos($arrayValue, "\r") === FALSE && strlen($arrayValue) < $valueWidth - 40) {
+                            if (strpos($arrayValue, "\n") === false && strpos($arrayValue, "\r") === false && strlen($arrayValue) < $valueWidth - 40) {
                                 $this->pdf->Cell($valueWidth, '6', $arrayValue, 0, 0, 'L', $fill);
                             } else {
                                 $this->pdf->MultiCell($valueWidth, '6', $arrayValue, 0, 0, 'L', $fill);
@@ -150,7 +147,7 @@ class BackendTcPdf extends AbstractComponent
                             foreach ($value as $v) {
                                 $this->pdf->Cell($feedWidth);
                                 $this->pdf->Cell($nameWidth, '6', '', 0, 0, 'L', $fill);
-                                if (strpos($v, "\n") === FALSE && strpos($v, "\r") === FALSE && strlen($v) < $valueWidth - 40) {
+                                if (strpos($v, "\n") === false && strpos($v, "\r") === false && strlen($v) < $valueWidth - 40) {
                                     $this->pdf->Cell($valueWidth, '6', $v, 0, 0, 'L', $fill);
                                 } else {
                                     $this->pdf->MultiCell($valueWidth, '6', $v, 0, 0, 'L', $fill);
@@ -161,7 +158,7 @@ class BackendTcPdf extends AbstractComponent
                         } else {
                             $this->pdf->Cell($feedWidth);
                             $this->pdf->Cell($nameWidth, '6', $key, 0, 0, 'L', $fill);
-                            if (strpos($value, "\n") === FALSE && strpos($value, "\r") === FALSE && strlen($value) < $valueWidth - 40) {
+                            if (strpos($value, "\n") === false && strpos($value, "\r") === false && strlen($value) < $valueWidth - 40) {
                                 $this->pdf->Cell($valueWidth, '6', $value, 0, 0, 'L', $fill);
                             } else {
                                 $this->pdf->MultiCell($valueWidth, '6', $value, 0, 0, 'L', $fill);
@@ -188,12 +185,9 @@ class BackendTcPdf extends AbstractComponent
      * Sets the template code for the PDF
      *
      * @param string $templateCode The template code
-     * @return void
      */
     public function setTemplateCode($templateCode)
     {
         $this->templateCode = $templateCode;
     }
 }
-
-?>

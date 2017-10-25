@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -19,12 +20,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Validates that a specified field doesn't contain one of the specified words
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class ContainsNone extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -41,7 +39,7 @@ class ContainsNone extends AbstractErrorCheck
             if (!is_array($checkValue)) {
                 $checkValue = GeneralUtility::trimExplode(',', $checkValue);
             }
-            $found = FALSE;
+            $found = false;
             foreach ($checkValue as $idx => $word) {
                 if (stristr($formValue, $word) && !$found) {
 
@@ -49,11 +47,10 @@ class ContainsNone extends AbstractErrorCheck
                     $this->settings['params']['words'] = implode(',', $checkValue);
                     unset($this->settings['params']['words.']);
                     $checkFailed = $this->getCheckFailed();
-                    $found = TRUE;
+                    $found = true;
                 }
             }
         }
         return $checkFailed;
     }
-
 }

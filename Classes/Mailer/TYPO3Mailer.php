@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Mailer;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -20,10 +21,7 @@ use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
 
 /**
- *
  * @author    Alexander Stehlik
- * @package    Tx_Formhandler
- * @subpackage    Mailer
  */
 class TYPO3Mailer extends AbstractMailer implements MailerInterface
 {
@@ -57,12 +55,12 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
      * @param Globals $globals
      * @param FormhandlerGeneralUtility $utilityFuncs
      */
-    public function __construct(Manager $componentManager,
+    public function __construct(
+        Manager $componentManager,
                                 Configuration $configuration,
                                 Globals $globals,
-                                FormhandlerGeneralUtility $utilityFuncs)
-    {
-
+                                FormhandlerGeneralUtility $utilityFuncs
+    ) {
         parent::__construct($componentManager, $configuration, $globals, $utilityFuncs);
         $this->emailObj = GeneralUtility::makeInstance(MailMessage::class);
     }
@@ -73,17 +71,16 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     public function send($recipients)
     {
         if (!empty($recipients)) {
-
             $this->emailObj->setTo($recipients);
 
             $numberOfEmailsSent = $this->emailObj->send();
 
             if ($numberOfEmailsSent) {
-                return TRUE;
+                return true;
             }
         }
 
-        return FALSE;
+        return false;
     }
 
     /* (non-PHPdoc)
@@ -91,7 +88,6 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function setHTML($html)
     {
-
         if (!isset($this->htmlMimePart)) {
             $this->htmlMimePart = \Swift_MimePart::newInstance($html, 'text/html');
         } else {
@@ -109,7 +105,6 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function setPlain($plain)
     {
-
         if (!isset($this->plainMimePart)) {
             $this->plainMimePart = \Swift_MimePart::newInstance($plain, 'text/plain');
         } else {
@@ -203,9 +198,8 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     {
         if (isset($this->htmlMimePart)) {
             return $this->htmlMimePart->getBody();
-        } else {
-            return '';
         }
+        return '';
     }
 
     /* (non-PHPdoc)
@@ -215,9 +209,8 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     {
         if (isset($this->plainMimePart)) {
             return $this->plainMimePart->getBody();
-        } else {
-            return '';
         }
+        return '';
     }
 
     /* (non-PHPdoc)
@@ -286,5 +279,4 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     {
         return $this->emailObj->embed(\Swift_Image::fromPath($image));
     }
-
 }

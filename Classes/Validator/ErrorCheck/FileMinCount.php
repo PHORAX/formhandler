@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -17,12 +18,9 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  * Abstract class for validators for Formhandler
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    Validator
  */
 class FileMinCount extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -40,7 +38,6 @@ class FileMinCount extends AbstractErrorCheck
         if (is_array($files[$this->formFieldName]) &&
             $currentStep > $lastStep
         ) {
-
             foreach ($_FILES as $idx => $info) {
                 if (!is_array($info['name'][$this->formFieldName])) {
                     $info['name'][$this->formFieldName] = [$info['name'][$this->formFieldName]];
@@ -56,5 +53,4 @@ class FileMinCount extends AbstractErrorCheck
 
         return $checkFailed;
     }
-
 }

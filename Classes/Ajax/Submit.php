@@ -55,8 +55,6 @@ class Submit
 
     /**
      * Initialize the class. Read GET parameters
-     *
-     * @return void
      */
     protected function init()
     {
@@ -83,7 +81,7 @@ class Submit
         Globals::setCObj($GLOBALS['TSFE']->cObj);
         $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
         Globals::setRandomID($randomID);
-        Globals::setAjaxMode(TRUE);
+        Globals::setAjaxMode(true);
         if (!Globals::getSession()) {
             $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
             $sessionClass = FormhandlerGeneralUtility::getPreparedClassName($ts['session.'], 'Session\PHP');
@@ -102,5 +100,4 @@ class Submit
             $ajaxHandler->initAjax();
         }
     }
-
 }

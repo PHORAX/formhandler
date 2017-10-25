@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Finisher;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -159,9 +160,9 @@ class AutoDB extends DB
         $res = $this->db->sql_query("SHOW TABLES LIKE '" . $this->table . "'");
 
         if (!$this->db->sql_num_rows($res)) {
-            $query = "CREATE TABLE `" . $this->table . "` (
-				`" . $this->key . "` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
-			)";
+            $query = 'CREATE TABLE `' . $this->table . '` (
+				`' . $this->key . '` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
+			)';
             $this->db->sql_query($query);
             $this->utilityFuncs->debugMessage('sql_request', [$query]);
             $dbFields = [$this->key];

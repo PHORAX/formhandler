@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -19,12 +20,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Validates that a specified field contains at least one of the specified words
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class ContainsOne extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -41,10 +39,10 @@ class ContainsOne extends AbstractErrorCheck
             if (!is_array($checkValue)) {
                 $checkValue = GeneralUtility::trimExplode(',', $checkValue);
             }
-            $found = FALSE;
+            $found = false;
             foreach ($checkValue as $idx => $word) {
                 if (stristr($formValue, $word) && !$found) {
-                    $found = TRUE;
+                    $found = true;
                 }
             }
             if (!$found) {
@@ -57,5 +55,4 @@ class ContainsOne extends AbstractErrorCheck
         }
         return $checkFailed;
     }
-
 }

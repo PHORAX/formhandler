@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Session;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -27,14 +28,12 @@ abstract class AbstractSession extends AbstractClass
      * An indicator if a session was already started
      *
      * @access protected
-     * @var boolean
+     * @var bool
      */
-    protected $started = FALSE;
+    protected $started = false;
 
     /**
      * Starts a new session
-     *
-     * @return void
      */
     public function start()
     {
@@ -47,7 +46,7 @@ abstract class AbstractSession extends AbstractClass
             if (empty($current_session_id)) {
                 session_start();
             }
-            $this->started = TRUE;
+            $this->started = true;
         }
     }
 
@@ -56,7 +55,6 @@ abstract class AbstractSession extends AbstractClass
      *
      * @param string $key The key
      * @param string $value The value to set
-     * @return void
      */
     abstract public function set($key, $value);
 
@@ -64,7 +62,6 @@ abstract class AbstractSession extends AbstractClass
      * Sets multiple keys at once
      *
      * @param array $values key value pairs
-     * @return void
      */
     abstract public function setMultiple($values);
 
@@ -79,14 +76,12 @@ abstract class AbstractSession extends AbstractClass
     /**
      * Checks if a session exists
      *
-     * @return boolean
+     * @return bool
      */
     abstract public function exists();
 
     /**
      * Resets all session values
-     *
-     * @return void
      */
     abstract public function reset();
 
@@ -108,8 +103,6 @@ abstract class AbstractSession extends AbstractClass
      *
      * @param array $gp GET and POST variable array
      * @param array $settings Typoscript configuration for the component (component.1.config.*)
-     *
-     * @return void
      */
     public function init($gp, $settings)
     {

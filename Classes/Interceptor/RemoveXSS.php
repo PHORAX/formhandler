@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Interceptor;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -69,7 +70,6 @@ class RemoveXSS extends AbstractInterceptor
      */
     public function sanitizeValues($values)
     {
-
         if (!is_array($values)) {
             return [];
         }
@@ -131,7 +131,7 @@ class RemoveXSS extends AbstractInterceptor
      *
      * @author hmdker <hmdker(at)gmail(dot)com>
      * @param string
-     * @return boolean is UTF-8
+     * @return bool is UTF-8
      */
     protected function isUTF8($str)
     {
@@ -140,8 +140,9 @@ class RemoveXSS extends AbstractInterceptor
             $c = ord($str[$i]);
             if ($c > 128) {
                 if (($c >= 254)) {
-                    return FALSE;
-                } elseif ($c >= 252) {
+                    return false;
+                }
+                if ($c >= 252) {
                     $bits = 6;
                 } elseif ($c >= 248) {
                     $bits = 5;
@@ -152,22 +153,22 @@ class RemoveXSS extends AbstractInterceptor
                 } elseif ($c >= 192) {
                     $bits = 2;
                 } else {
-                    return FALSE;
+                    return false;
                 }
                 if (($i + $bits) > $len) {
-                    return FALSE;
+                    return false;
                 }
                 while ($bits > 1) {
                     $i++;
                     $b = ord($str[$i]);
                     if ($b < 128 || $b > 191) {
-                        return FALSE;
+                        return false;
                     }
                     $bits--;
                 }
             }
         }
-        return TRUE;
+        return true;
     }
 
     /* (non-PHPdoc)
@@ -181,5 +182,4 @@ class RemoveXSS extends AbstractInterceptor
             $this->doNotSanitizeFields = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'doNotSanitizeFields'));
         }
     }
-
 }

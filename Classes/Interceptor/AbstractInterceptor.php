@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Interceptor;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -27,17 +28,15 @@ abstract class AbstractInterceptor extends AbstractComponent
     /**
      * Logs an action of an interceptor, e.g. if Interceptor_IPBlocking blocked a request.
      *
-     * @param boolean $markAsSpam Indicates if this was a blocked SPAM attempt. Will be highlighted in the backend module.
-     * @return void
+     * @param bool $markAsSpam Indicates if this was a blocked SPAM attempt. Will be highlighted in the backend module.
      */
-    protected function log($markAsSpam = FALSE)
+    protected function log($markAsSpam = false)
     {
         $classesArray = $this->settings['loggers.'];
         if (isset($classesArray) && is_array($classesArray)) {
             foreach ($classesArray as $idx => $tsConfig) {
                 $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
                 if (is_array($tsConfig) && strlen($className) > 0 && (int)($this->utilityFuncs->getSingle($tsConfig, 'disable')) !== 1) {
-
                     $this->utilityFuncs->debugMessage('calling_class', [$className]);
                     $obj = $this->componentManager->getComponent($className);
                     if ($markAsSpam) {
@@ -51,5 +50,4 @@ abstract class AbstractInterceptor extends AbstractComponent
             }
         }
     }
-
 }

@@ -24,7 +24,6 @@ class IsArrayViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\IfViewHelper
      */
     protected static function evaluateCondition($arguments = null)
     {
-        return (isset($arguments['condition']) && (true === is_array($arguments['value'])));
+        return isset($arguments['condition']) && (true === is_array($arguments['value']));
     }
-
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\View;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -19,12 +20,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * A default view for Formhandler E-Mails
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    View
  */
 class Mail extends Form
 {
-
     protected $currentMailSettings;
 
     /**
@@ -79,9 +77,9 @@ class Mail extends Form
          * getValueMarkers() will call htmlSpecialChars on all values before adding them to the marker array.
          * In case of a plain text email, this is unwanted behavior.
          */
-        $doEncode = TRUE;
+        $doEncode = true;
         if ($this->currentMailSettings['suffix'] === 'plain') {
-            $doEncode = FALSE;
+            $doEncode = false;
         }
         $markers = $this->getValueMarkers($this->gp, 0, 'value_', $doEncode);
 
@@ -109,7 +107,6 @@ class Mail extends Form
         if (strlen($checkBinaryCrLf) > 0) {
             $paramsToCheck = GeneralUtility::trimExplode(',', $checkBinaryCrLf);
             foreach ($markers as $markerName => &$value) {
-
                 $fieldName = str_replace(['value_', 'VALUE_', '###'], '', $markerName);
                 if (in_array($fieldName, $paramsToCheck)) {
                     $value = str_replace(chr(13), '', $value);
@@ -120,5 +117,4 @@ class Mail extends Form
         }
         return $markers;
     }
-
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\View;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -22,8 +23,6 @@ use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
  * A default view for Formhandler
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    View
  */
 class Form extends AbstractView
 {
@@ -153,8 +152,6 @@ class Form extends AbstractView
 
     /**
      * Reads the translation file entered in TS setup.
-     *
-     * @return void
      */
     protected function readMasterTemplates()
     {
@@ -168,7 +165,7 @@ class Form extends AbstractView
             );
         } elseif (isset($this->settings['masterTemplateFile.']) && is_array($this->settings['masterTemplateFile.'])) {
             foreach ($this->settings['masterTemplateFile.'] as $key => $masterTemplate) {
-                if (FALSE === strpos($key, '.')) {
+                if (false === strpos($key, '.')) {
                     if (is_array($this->settings['masterTemplateFile.'][$key . '.'])) {
                         array_push(
                             $this->masterTemplates,
@@ -237,8 +234,6 @@ class Form extends AbstractView
     /**
      * Copies the subparts ###FORM_STARTBLOCK### and ###FORM_ENDBLOCK### and stored them in session.
      * This is needed to replace the markers ###FORM_STARTBLOCK### and ###FORM_ENDBLOCK### in the next steps.
-     *
-     * @return void
      */
     protected function storeStartEndBlock()
     {
@@ -273,8 +268,8 @@ class Form extends AbstractView
                 $fullMarkerName = $matches[0][$i];
                 $fullEndMarker = $matches[0][$i + 1];
                 $conditions = preg_split('/\s*(\|\||&&)\s*/i', $conditionString, -1, PREG_SPLIT_DELIM_CAPTURE);
-                $operator = NULL;
-                $finalConditionResult = FALSE;
+                $operator = null;
+                $finalConditionResult = false;
                 $count = 0;
 
                 foreach ($conditions as $condition) {
@@ -323,10 +318,10 @@ class Form extends AbstractView
     protected function handleIssetSubpartCondition($condition)
     {
         $fieldname = $condition;
-        $negate = FALSE;
+        $negate = false;
         if (substr($condition, 0, 1) === '!') {
             $fieldname = substr($condition, 1);
-            $negate = TRUE;
+            $negate = true;
         }
         $value = $this->utilityFuncs->getGlobal($fieldname, $this->gp);
         if (is_array($value)) {
@@ -343,7 +338,7 @@ class Form extends AbstractView
     protected function handleHasTranslationSubpartCondition($condition)
     {
         $translation = $this->utilityFuncs->getTranslatedMessage($this->langFiles, $condition);
-        return (strlen($translation) > 0);
+        return strlen($translation) > 0;
     }
 
     protected function handleIfSubpartCondition($condition)
@@ -353,8 +348,6 @@ class Form extends AbstractView
 
     /**
      * Fills the markers ###FORM_STARTBLOCK### and ###FORM_ENDBLOCK### with the stored values from session.
-     *
-     * @return void
      */
     protected function fillStartEndBlock()
     {
@@ -380,8 +373,6 @@ class Form extends AbstractView
      *        ###selected_[fieldname]_[value]###
      *        ###checked_[fieldname]_[value]###
      * in $this->template
-     *
-     * @return void
      */
     protected function fillSelectedMarkers()
     {
@@ -401,8 +392,6 @@ class Form extends AbstractView
 
     /**
      * Substitutes default markers in $this->template.
-     *
-     * @return void
      */
     protected function fillDefaultMarkers()
     {
@@ -553,7 +542,7 @@ class Form extends AbstractView
 
         // submit name for previous page
         $prevName = ' name="' . str_replace('#action#', 'prev', $name) . '" ';
-        $allowStepJumps = FALSE;
+        $allowStepJumps = false;
         if (isset($this->settings['allowStepJumps'])) {
             $allowStepJumps = (bool)$this->utilityFuncs->getSingle($this->settings, 'allowStepJumps');
         }
@@ -632,7 +621,6 @@ class Form extends AbstractView
      * Fills the markers for the supported captcha extensions.
      *
      * @param array &$markers Reference to the markers array
-     * @return void
      */
     protected function fillCaptchaMarkers(&$markers)
     {
@@ -673,12 +661,11 @@ class Form extends AbstractView
      * Fills the markers ###FEUSER_[property]### with the data from $GLOBALS["TSFE"]->fe_user->user.
      *
      * @param array &$markers Reference to the markers array
-     * @return void
      */
     protected function fillFEUserMarkers(&$markers)
     {
-        if (is_array($GLOBALS["TSFE"]->fe_user->user)) {
-            foreach ($GLOBALS["TSFE"]->fe_user->user as $k => $v) {
+        if (is_array($GLOBALS['TSFE']->fe_user->user)) {
+            foreach ($GLOBALS['TSFE']->fe_user->user as $k => $v) {
                 $markers['###FEUSER_' . strtoupper($k) . '###'] = $v;
                 $markers['###FEUSER_' . strtolower($k) . '###'] = $v;
                 $markers['###feuser_' . strtoupper($k) . '###'] = $v;
@@ -701,7 +688,6 @@ class Form extends AbstractView
      *  ###total_uploadedFiles###
      *
      * @param array &$markers Reference to the markers array
-     * @return void
      */
     public function fillFileMarkers(&$markers)
     {
@@ -875,7 +861,6 @@ class Form extends AbstractView
                             $imgConf['image.'] = $settings['singleFileMarkerTemplate.']['image.'];
                         }
                         $thumb = $this->getThumbnail($imgConf, $fileInfo);
-
                     }
                     $stdWrappedFilename = $this->utilityFuncs->wrap($filename, $this->settings['totalFilesMarkerTemplate.'], 'filenameWrap');
 
@@ -935,7 +920,6 @@ class Form extends AbstractView
      * in $this->template
      *
      * @param array $errors
-     * @return void
      */
     protected function fillIsErrorMarkers($errors)
     {
@@ -967,7 +951,6 @@ class Form extends AbstractView
      * in $this->template
      *
      * @param array $errors
-     * @return void
      */
     protected function fillIsSuccessMarkers($errors)
     {
@@ -994,8 +977,6 @@ class Form extends AbstractView
      *        ###error_[fieldname]###
      *        ###ERROR###
      * in $this->template
-     *
-     * @return void
      */
     protected function fillErrorMarkers(&$errors)
     {
@@ -1074,8 +1055,6 @@ class Form extends AbstractView
 
     /**
      * Substitutes markers defined in TypoScript in $this->template
-     *
-     * @return void
      */
     protected function fillTypoScriptMarkers()
     {
@@ -1097,8 +1076,6 @@ class Form extends AbstractView
      *        ###[fieldname]###
      *        ###[FIELDNAME]###
      * in $this->template
-     *
-     * @return void
      */
     protected function fillValueMarkers()
     {
@@ -1114,7 +1091,7 @@ class Form extends AbstractView
         $this->template = preg_replace('/###value_.*?###/i', '', $this->template);
     }
 
-    protected function getValueMarkers($values, $level = 0, $prefix = 'value_', $doEncode = TRUE)
+    protected function getValueMarkers($values, $level = 0, $prefix = 'value_', $doEncode = true)
     {
         $markers = [];
 
@@ -1180,7 +1157,6 @@ class Form extends AbstractView
                     $markers['###' . $currPrefix . '_' . $v . '###'] = $activeString;
                     $markers['###' . strtoupper($currPrefix) . '###'] = $markers['###' . $currPrefix . '_' . $v . '###'];
                 }
-
             }
         }
         return $markers;
@@ -1190,8 +1166,6 @@ class Form extends AbstractView
      * Substitutes markers
      *        ###LLL:[languageKey]###
      * in $this->template
-     *
-     * @return void
      */
     protected function fillLangMarkers()
     {
@@ -1229,8 +1203,8 @@ class Form extends AbstractView
      * </code>
      *
      * @author Johannes Feustel
-     * @param    integer $currentStep current step (begins with 1)
-     * @param    integer $lastStep last step
+     * @param    int $currentStep current step (begins with 1)
+     * @param    int $lastStep last step
      * @param    string $buttonNameBack name attribute of the back button
      * @param    string $buttonNameFwd name attribute of the forward button
      * @return    string    HTML code

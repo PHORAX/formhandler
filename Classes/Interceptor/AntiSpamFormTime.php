@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Interceptor;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -44,36 +45,35 @@ class AntiSpamFormTime extends AbstractInterceptor
     {
         $isSpam = $this->doCheck();
         if ($isSpam) {
-            $this->log(TRUE);
+            $this->log(true);
             if ($this->settings['redirectPage']) {
                 $this->globals->getSession()->reset();
                 $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
                 return 'Lousy spammer!';
-            } else {
-
-                //set view
-                $viewClass = '\Typoheads\Formhandler\View\AntiSpam';
-                if ($this->settings['view']) {
-                    $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
-                }
-                $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
-                $view = $this->componentManager->getComponent($viewClass);
-                $view->setLangFiles($this->globals->getLangFiles());
-                $view->setPredefined($this->predefined);
-
-                $templateCode = $this->globals->getTemplateCode();
-                if ($this->settings['templateFile']) {
-                    $templateCode = $this->utilityFuncs->readTemplateFile(FALSE, $this->settings);
-                }
-                $view->setTemplate($templateCode, 'ANTISPAM');
-                if (!$view->hasTemplate()) {
-                    $this->utilityFuncs->throwException('spam_detected');
-                    return 'Lousy spammer!';
-                }
-                $content = $view->render($this->gp, []);
-                $this->globals->getSession()->reset();
-                return $content;
             }
+
+            //set view
+            $viewClass = '\Typoheads\Formhandler\View\AntiSpam';
+            if ($this->settings['view']) {
+                $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
+            }
+            $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
+            $view = $this->componentManager->getComponent($viewClass);
+            $view->setLangFiles($this->globals->getLangFiles());
+            $view->setPredefined($this->predefined);
+
+            $templateCode = $this->globals->getTemplateCode();
+            if ($this->settings['templateFile']) {
+                $templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings);
+            }
+            $view->setTemplate($templateCode, 'ANTISPAM');
+            if (!$view->hasTemplate()) {
+                $this->utilityFuncs->throwException('spam_detected');
+                return 'Lousy spammer!';
+            }
+            $content = $view->render($this->gp, []);
+            $this->globals->getSession()->reset();
+            return $content;
         }
         return $this->gp;
     }
@@ -81,7 +81,7 @@ class AntiSpamFormTime extends AbstractInterceptor
     /**
      * Performs checks if the submitted form should be treated as Spam.
      *
-     * @return boolean
+     * @return bool
      */
     protected function doCheck()
     {
@@ -92,18 +92,16 @@ class AntiSpamFormTime extends AbstractInterceptor
         $value = $this->utilityFuncs->getSingle($this->settings['maxTime.'], 'value');
         $unit = $this->utilityFuncs->getSingle($this->settings['maxTime.'], 'unit');
         $maxTime = $this->utilityFuncs->convertToSeconds($value, $unit);
-        $spam = FALSE;
+        $spam = false;
         if (!isset($this->gp['formtime']) ||
             !is_numeric($this->gp['formtime'])
         ) {
-
-            $spam = TRUE;
+            $spam = true;
         } elseif ($minTime && time() - (int)($this->gp['formtime']) < $minTime) {
-            $spam = TRUE;
+            $spam = true;
         } elseif ($maxTime && time() - (int)($this->gp['formtime']) > $maxTime) {
-            $spam = TRUE;
+            $spam = true;
         }
         return $spam;
     }
-
 }

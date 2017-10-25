@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\View;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -17,12 +18,9 @@ namespace Typoheads\Formhandler\View;
  * A default view for Formhandler AJAX based validation
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    View
  */
 class AjaxValidation extends Form
 {
-
     public function pi_wrapInBaseClass($content)
     {
         return $content;

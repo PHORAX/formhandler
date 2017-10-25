@@ -22,50 +22,49 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class Globals implements SingletonInterface
 {
+    protected static $ajaxHandler;
+    protected static $ajaxMode;
+    protected static $cObj;
+    protected static $debuggers;
+    protected static $formID;
+    protected static $formValuesPrefix;
+    protected static $gp;
+    protected static $langFiles;
+    protected static $overrideSettings;
+    protected static $predef;
+    protected static $randomID;
+    protected static $session;
+    protected static $settings;
+    protected static $submitted;
+    protected static $templateCode;
+    protected static $templateSuffix;
 
-    static protected $ajaxHandler;
-    static protected $ajaxMode;
-    static protected $cObj;
-    static protected $debuggers;
-    static protected $formID;
-    static protected $formValuesPrefix;
-    static protected $gp;
-    static protected $langFiles;
-    static protected $overrideSettings;
-    static protected $predef;
-    static protected $randomID;
-    static protected $session;
-    static protected $settings;
-    static protected $submitted;
-    static protected $templateCode;
-    static protected $templateSuffix;
-
-    static public function setAjaxMode($mode)
+    public static function setAjaxMode($mode)
     {
         self::$ajaxMode = $mode;
     }
 
-    static public function isAjaxMode()
+    public static function isAjaxMode()
     {
         return self::$ajaxMode;
     }
 
-    static public function setAjaxHandler($ajaxHandler)
+    public static function setAjaxHandler($ajaxHandler)
     {
         self::$ajaxHandler = $ajaxHandler;
     }
 
-    static public function setCObj($cObj)
+    public static function setCObj($cObj)
     {
         self::$cObj = $cObj;
     }
 
-    static public function setDebuggers($debuggers)
+    public static function setDebuggers($debuggers)
     {
         self::$debuggers = $debuggers;
     }
 
-    static public function addDebugger($debugger)
+    public static function addDebugger($debugger)
     {
         if (!is_array(self::$debuggers)) {
             self::$debuggers = [];
@@ -73,77 +72,77 @@ class Globals implements SingletonInterface
         self::$debuggers[] = $debugger;
     }
 
-    static public function setFormID($formID)
+    public static function setFormID($formID)
     {
         self::$formID = $formID;
     }
 
-    static public function setFormValuesPrefix($formValuesPrefix)
+    public static function setFormValuesPrefix($formValuesPrefix)
     {
         self::$formValuesPrefix = $formValuesPrefix;
     }
 
-    static public function setGP($gp)
+    public static function setGP($gp)
     {
         self::$gp = $gp;
     }
 
-    static public function setLangFiles($langFiles)
+    public static function setLangFiles($langFiles)
     {
         self::$langFiles = $langFiles;
     }
 
-    static public function setOverrideSettings($overrideSettings)
+    public static function setOverrideSettings($overrideSettings)
     {
         self::$overrideSettings = $overrideSettings;
     }
 
-    static public function setPredef($predef)
+    public static function setPredef($predef)
     {
         self::$predef = $predef;
     }
 
-    static public function setRandomID($randomID)
+    public static function setRandomID($randomID)
     {
         self::$randomID = $randomID;
     }
 
-    static public function setSession($session)
+    public static function setSession($session)
     {
         self::$session = $session;
     }
 
-    static public function setSettings($settings)
+    public static function setSettings($settings)
     {
         self::$settings = $settings;
     }
 
-    static public function setSubmitted($submitted)
+    public static function setSubmitted($submitted)
     {
         self::$submitted = $submitted;
     }
 
-    static public function setTemplateCode($templateCode)
+    public static function setTemplateCode($templateCode)
     {
         self::$templateCode = $templateCode;
     }
 
-    static public function setTemplateSuffix($templateSuffix)
+    public static function setTemplateSuffix($templateSuffix)
     {
         self::$templateSuffix = $templateSuffix;
     }
 
-    static public function getAjaxHandler()
+    public static function getAjaxHandler()
     {
         return self::$ajaxHandler;
     }
 
-    static public function getCObj()
+    public static function getCObj()
     {
         return self::$cObj;
     }
 
-    static public function getDebuggers()
+    public static function getDebuggers()
     {
         if (!is_array(self::$debuggers)) {
             self::$debuggers = [];
@@ -151,17 +150,17 @@ class Globals implements SingletonInterface
         return self::$debuggers;
     }
 
-    static public function getFormID()
+    public static function getFormID()
     {
         return self::$formID;
     }
 
-    static public function getFormValuesPrefix()
+    public static function getFormValuesPrefix()
     {
         return self::$formValuesPrefix;
     }
 
-    static public function getGP()
+    public static function getGP()
     {
         if (!is_array(self::$gp)) {
             self::$gp = [];
@@ -169,7 +168,7 @@ class Globals implements SingletonInterface
         return self::$gp;
     }
 
-    static public function getLangFiles()
+    public static function getLangFiles()
     {
         if (!is_array(self::$langFiles)) {
             self::$langFiles = [];
@@ -177,7 +176,7 @@ class Globals implements SingletonInterface
         return self::$langFiles;
     }
 
-    static public function getOverrideSettings()
+    public static function getOverrideSettings()
     {
         if (!is_array(self::$overrideSettings)) {
             self::$overrideSettings = [];
@@ -185,22 +184,22 @@ class Globals implements SingletonInterface
         return self::$overrideSettings;
     }
 
-    static public function getPredef()
+    public static function getPredef()
     {
         return self::$predef;
     }
 
-    static public function getRandomID()
+    public static function getRandomID()
     {
         return self::$randomID;
     }
 
-    static public function getSession()
+    public static function getSession()
     {
         return self::$session;
     }
 
-    static public function getSettings()
+    public static function getSettings()
     {
         if (!is_array(self::$settings)) {
             self::$settings = [];
@@ -208,17 +207,17 @@ class Globals implements SingletonInterface
         return self::$settings;
     }
 
-    static public function isSubmitted()
+    public static function isSubmitted()
     {
         return self::$submitted;
     }
 
-    static public function getTemplateCode()
+    public static function getTemplateCode()
     {
         return self::$templateCode;
     }
 
-    static public function getTemplateSuffix()
+    public static function getTemplateSuffix()
     {
         return self::$templateSuffix;
     }

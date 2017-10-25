@@ -27,12 +27,11 @@
  *
  * @author Reinhard Führicht <rf@typoheads.at>
  */
-
 class tx_formhandler_pi1 extends TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 {
-    var $prefixId = 'tx_formhandler_pi1';
-    var $scriptRelPath = 'pi1/class.tx_formhandler_pi1.php';
-    var $extKey = 'formhandler';
+    public $prefixId = 'tx_formhandler_pi1';
+    public $scriptRelPath = 'pi1/class.tx_formhandler_pi1.php';
+    public $extKey = 'formhandler';
 
     /**
      * The main method of the PlugIn

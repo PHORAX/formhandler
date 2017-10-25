@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\View;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -145,14 +146,13 @@ abstract class AbstractView extends AbstractPlugin
      *
      * @param Manager $componentManager
      * @param Configuration $configuration
-     * @return void
      */
-    public function __construct(Manager $componentManager,
+    public function __construct(
+        Manager $componentManager,
                                 Configuration $configuration,
                                 Globals $globals,
-                                FormhandlerGeneralUtility $utilityFuncs)
-    {
-
+                                FormhandlerGeneralUtility $utilityFuncs
+    ) {
         parent::__construct();
         $this->componentManager = $componentManager;
         $this->configuration = $configuration;
@@ -168,7 +168,6 @@ abstract class AbstractView extends AbstractPlugin
      * Sets the internal attribute "langFiles"
      *
      * @param array $langFiles The files array
-     * @return void
      */
     public function setLangFiles($langFiles)
     {
@@ -179,7 +178,6 @@ abstract class AbstractView extends AbstractPlugin
      * Sets the settings
      *
      * @param string $settings The settings
-     * @return void
      */
     public function setSettings($settings)
     {
@@ -203,7 +201,6 @@ abstract class AbstractView extends AbstractPlugin
      * Sets the key of the chosen predefined form
      *
      * @param string $key The key of the predefined form
-     * @return void
      */
     public function setPredefined($key)
     {
@@ -214,7 +211,6 @@ abstract class AbstractView extends AbstractPlugin
      * Sets the model of the view
      *
      * @param misc $model
-     * @return void
      */
     public function setModel($model)
     {
@@ -236,10 +232,9 @@ abstract class AbstractView extends AbstractPlugin
      *
      * @param string $templateCode The whole template code of a template file
      * @param string $templateName Name of a subpart containing the template code to work with
-     * @param boolean $forceTemplate Not needed
-     * @return void
+     * @param bool $forceTemplate Not needed
      */
-    public function setTemplate($templateCode, $templateName, $forceTemplate = FALSE)
+    public function setTemplate($templateCode, $templateName, $forceTemplate = false)
     {
         $this->subparts['template'] = $this->templateService->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
         $this->subparts['item'] =$this->templateService->getSubpart($this->subparts['template'], '###ITEM###');
@@ -248,7 +243,7 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * Returns FALSE if the view doesn't have template code.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasTemplate()
     {
@@ -268,7 +263,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * Overwrite this method to extend the initialization of the View
      *
-     * @return void
      * @author Jochen Rau
      */
     protected function initializeView()

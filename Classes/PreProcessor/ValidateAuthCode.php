@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\PreProcessor;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -33,7 +34,6 @@ class ValidateAuthCode extends AbstractPreProcessor
     public function process()
     {
         if (strlen(trim($this->gp['authCode'])) > 0) {
-
             try {
                 $authCode = trim($this->gp['authCode']);
                 $table = trim($this->gp['table']);
@@ -127,5 +127,4 @@ class ValidateAuthCode extends AbstractPreProcessor
         }
         return $this->gp;
     }
-
 }

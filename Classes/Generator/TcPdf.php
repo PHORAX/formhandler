@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Generator;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -26,7 +27,6 @@ class TcPdf extends AbstractGenerator
      */
     public function process()
     {
-
         $this->pdf = $this->componentManager->getComponent('\Typoheads\Formhandler\Utility\TemplateTCPDF');
 
         $this->pdf->setHeaderText($this->utilityFuncs->getSingle($this->settings, 'headerText'));
@@ -35,7 +35,7 @@ class TcPdf extends AbstractGenerator
         $this->pdf->AddPage();
         $this->pdf->SetFont('Helvetica', '', 12);
         $view = $this->componentManager->getComponent('\Typoheads\Formhandler\View\PDF');
-        $this->filename = FALSE;
+        $this->filename = false;
         if ((int)$this->settings['storeInTempFile'] === 1) {
             $this->outputPath = $this->utilityFuncs->getDocumentRoot();
             if ($this->settings['customTempOutputPath']) {
@@ -54,9 +54,9 @@ class TcPdf extends AbstractGenerator
 
         $this->formhandlerSettings = $this->globals->getSettings();
         $suffix = $this->formhandlerSettings['templateSuffix'];
-        $this->templateCode = $this->utilityFuncs->readTemplateFile(FALSE, $this->formhandlerSettings);
+        $this->templateCode = $this->utilityFuncs->readTemplateFile(false, $this->formhandlerSettings);
         if ($this->settings['templateFile']) {
-            $this->templateCode = $this->utilityFuncs->readTemplateFile(FALSE, $this->settings);
+            $this->templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings);
         }
         if ($suffix) {
             $view->setTemplate($this->templateCode, 'PDF' . $suffix);
@@ -74,7 +74,7 @@ class TcPdf extends AbstractGenerator
         $this->pdf->writeHTML($content);
         $returns = $this->settings['returnFileName'];
 
-        if ($this->filename !== FALSE) {
+        if ($this->filename !== false) {
             $this->pdf->Output($this->filename, 'F');
 
             $downloadpath = $this->filename;
@@ -84,14 +84,13 @@ class TcPdf extends AbstractGenerator
             $downloadpath = str_replace($this->utilityFuncs->getDocumentRoot(), '', $downloadpath);
             header('Location: ' . $downloadpath);
             exit;
-        } else {
-            $fileName = 'formhandler.pdf';
-            if ($this->settings['outputFileName']) {
-                $fileName = $this->utilityFuncs->getSingle($this->settings, 'outputFileName');
-            }
-            $this->pdf->Output($fileName, 'D');
-            exit;
         }
+        $fileName = 'formhandler.pdf';
+        if ($this->settings['outputFileName']) {
+            $fileName = $this->utilityFuncs->getSingle($this->settings, 'outputFileName');
+        }
+        $this->pdf->Output($fileName, 'D');
+        exit;
     }
 
     /* (non-PHPdoc)

@@ -21,7 +21,6 @@ namespace Typoheads\Formhandler\ViewHelpers\Widget;
 
 class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper
 {
-
     protected function getWidgetUri()
     {
         $uriBuilder = $this->controllerContext->getUriBuilder();
@@ -48,6 +47,6 @@ class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper
             ]
         ];
         $queryParameters = array_merge($queryParameters, $additionalParams);
-        return $uriBuilder->reset()->setArguments($queryParameters)->setSection($this->arguments['section'])->setAddQueryString(TRUE)->setAddQueryStringMethod($this->arguments['addQueryStringMethod'])->setArgumentsToBeExcludedFromQueryString([$argumentPrefix, 'cHash'])->setFormat($this->arguments['format'])->build();
+        return $uriBuilder->reset()->setArguments($queryParameters)->setSection($this->arguments['section'])->setAddQueryString(true)->setAddQueryStringMethod($this->arguments['addQueryStringMethod'])->setArgumentsToBeExcludedFromQueryString([$argumentPrefix, 'cHash'])->setFormat($this->arguments['format'])->build();
     }
 }

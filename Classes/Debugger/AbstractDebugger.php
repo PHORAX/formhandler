@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Debugger;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -23,7 +24,6 @@ use Typoheads\Formhandler\Component\AbstractComponent;
  */
 abstract class AbstractDebugger extends AbstractComponent
 {
-
     protected $debugLog = [];
 
     /**
@@ -42,7 +42,6 @@ abstract class AbstractDebugger extends AbstractComponent
      * @param string $message The message to log
      * @param int $severity The severity of the message (1,2,3)
      * @param array $data Additional data to log
-     * @return void
      */
     public function addToDebugLog($message = '', $severity = 1, array $data = [])
     {
@@ -65,8 +64,6 @@ abstract class AbstractDebugger extends AbstractComponent
     /**
      * Called if all messages were added to the internal message storage.
      * The component decides how to output the messages.
-     *
-     * @return void/mixed
      */
     abstract public function outputDebugLog();
 }

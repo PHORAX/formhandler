@@ -1,7 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Domain\Repository;
 
-    /*
+/*
      * This file is part of the TYPO3 CMS project.
      *
      * It is free software; you can redistribute it and/or modify it under
@@ -26,14 +26,12 @@ class LogDataRepository extends Repository
 
     /**
      * Initializes the repository.
-     *
-     * @return void
      */
     public function initializeObject()
     {
         /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
         $querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
-        $querySettings->setRespectStoragePage(FALSE);
+        $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
     }
 
@@ -44,7 +42,7 @@ class LogDataRepository extends Repository
      */
     public function findByUids($uids)
     {
-        $uidArray = explode(",", $uids);
+        $uidArray = explode(',', $uids);
         $query = $this->createQuery();
         $uidConstraints = [];
         foreach ($uidArray as $key => $value) {
@@ -60,13 +58,12 @@ class LogDataRepository extends Repository
         )->execute();
     }
 
-    public function findDemanded(Demand $demand = NULL)
+    public function findDemanded(Demand $demand = null)
     {
-
         $query = $this->createQuery();
         $constraints = [$query->equals('deleted', 0)];
 
-        if ($demand !== NULL) {
+        if ($demand !== null) {
             if ($demand->getPid() > 0) {
                 $constraints[] = $query->equals('pid', $demand->getPid());
             }
@@ -85,10 +82,7 @@ class LogDataRepository extends Repository
         if (count($constraints) > 0) {
             $query->matching($query->logicalAnd($constraints));
             return $query->execute();
-        } else {
-            return $this->findAll();
         }
-
+        return $this->findAll();
     }
-
 }

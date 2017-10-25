@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -17,12 +18,9 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  * Validates that a person is older than a specified amount of years by converting a specified date field's value to a timestamp.
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class IsYoungerThan extends IsOlderThan
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -45,5 +43,4 @@ class IsYoungerThan extends IsOlderThan
         }
         return $checkFailed;
     }
-
 }

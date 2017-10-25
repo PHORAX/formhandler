@@ -8,7 +8,6 @@ use Typoheads\Formhandler\Utility\Globals;
 
 class StdWrapHook implements ContentObjectStdWrapHookInterface
 {
-
     private $originalGET;
     private $originalPOST;
 
@@ -81,5 +80,3 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface
         return $content;
     }
 }
-
-?>

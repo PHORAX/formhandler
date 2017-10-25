@@ -8,7 +8,7 @@ interface MailerInterface
      * Sends the email to the given reccipients
      *
      * @param array $recipients
-     * @return boolean Sent successfully?
+     * @return bool Sent successfully?
      */
     public function send($recipients);
 
@@ -16,7 +16,6 @@ interface MailerInterface
      * Set the HTML content of the email
      *
      * @param string $html The HTML content
-     * @return void
      */
     public function setHTML($html);
 
@@ -24,7 +23,6 @@ interface MailerInterface
      * Set the plain text content of the email
      *
      * @param string $plain The plain text content
-     * @return void
      */
     public function setPlain($plain);
 
@@ -32,7 +30,6 @@ interface MailerInterface
      * Set the subject of the email
      *
      * @param string $value The subject
-     * @return void
      */
     public function setSubject($value);
 
@@ -41,7 +38,6 @@ interface MailerInterface
      *
      * @param string $email The email address
      * @param string $name The name
-     * @return void
      */
     public function setSender($email, $name);
 
@@ -50,7 +46,6 @@ interface MailerInterface
      *
      * @param string $email The email address
      * @param string $name The name
-     * @return void
      */
     public function setReplyTo($email, $name);
 
@@ -59,7 +54,6 @@ interface MailerInterface
      *
      * @param string $email The email address
      * @param string $name The name
-     * @return void
      */
     public function addCc($email, $name);
 
@@ -68,7 +62,6 @@ interface MailerInterface
      *
      * @param string $email The email address
      * @param string $name The name
-     * @return void
      */
     public function addBcc($email, $name);
 
@@ -76,7 +69,6 @@ interface MailerInterface
      * Set the return path of the email
      *
      * @param string $value The return path
-     * @return void
      */
     public function setReturnPath($value);
 
@@ -84,7 +76,6 @@ interface MailerInterface
      * Add an email header
      *
      * @param string $value The header
-     * @return void
      */
     public function addHeader($value);
 
@@ -92,7 +83,6 @@ interface MailerInterface
      * Add an attachment to the email
      *
      * @param string $value The file name
-     * @return void
      */
     public function addAttachment($value);
 
@@ -156,8 +146,6 @@ interface MailerInterface
      * Embeds an image to the email content
      *
      * @param string $image The image path
-     * @return void
      */
     public function embed($image);
-
 }

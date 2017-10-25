@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\AjaxHandler;
-    /*                                                                       *
+
+/*                                                                       *
     * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -27,8 +28,6 @@ abstract class AbstractAjaxHandler extends AbstractClass
 
     /**
      * Initialize AJAX stuff
-     *
-     * @return void
      */
     abstract public function initAjax();
 
@@ -36,7 +35,6 @@ abstract class AbstractAjaxHandler extends AbstractClass
      * Initialize the AjaxHandler
      *
      * @param array $settings The settings of the AjaxHandler
-     * @return void
      */
     public function init($settings)
     {
@@ -49,7 +47,6 @@ abstract class AbstractAjaxHandler extends AbstractClass
      * The view passes the marker array by reference.
      *
      * @param array &$markers Reference to the marker array
-     * @return void
      */
     abstract public function fillAjaxMarkers(&$markers);
 
@@ -59,8 +56,6 @@ abstract class AbstractAjaxHandler extends AbstractClass
      * @param string $text The link text to be used
      * @param string $field The field name of the form field
      * @param string $uploadedFileName The name of the file to be deleted
-     * @return void
      */
     abstract public function getFileRemovalLink($text, $field, $uploadedFileName);
-
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -17,12 +18,9 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  * Validates that a specified field is a string and shorter than specified count of words
  *
  * @author    Rik Willems <service@metmeer.nl>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class MaxWordCount extends AbstractErrorCheck
 {
-
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
@@ -38,10 +36,8 @@ class MaxWordCount extends AbstractErrorCheck
             (int)$max > 0 &&
             str_word_count(trim($this->gp[$this->formFieldName])) > (int) $max
         ) {
-
             $checkFailed = $this->getCheckFailed();
         }
         return $checkFailed;
     }
-
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Utility;
-    /***************************************************************
+
+/***************************************************************
      *  Copyright notice
      *
      *  (c) 2010 Dev-Team Typoheads (dev@typoheads.at)
@@ -28,7 +29,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 
-
 /**
  * UserFunc for rendering of log entry
  *
@@ -36,7 +36,6 @@ use TYPO3\CMS\Frontend\Page\PageRepository;
  */
 class TcaUtility
 {
-
     public function getParams($PA, $fobj)
     {
         $params = unserialize($PA['itemFormElValue']);
@@ -67,7 +66,7 @@ class TcaUtility
             $newRecord = 'false';
         }
 
-        $uid = NULL;
+        $uid = null;
         if (is_array($GLOBALS['SOBE']->editconf['tt_content'])) {
             $uid = key($GLOBALS['SOBE']->editconf['tt_content']);
         }
@@ -80,13 +79,13 @@ class TcaUtility
 
         $divId = $GLOBALS['SOBE']->tceforms->dynNestedStack[0][1];
         if (!$divId) {
-            $divId = "DIV.c-tablayer";
+            $divId = 'DIV.c-tablayer';
         } else {
-            $divId .= "-DIV";
+            $divId .= '-DIV';
         }
         $js .= "var uid = '" . $uid . "'\n";
         $js .= "var flexformBoxId = '" . $divId . "'\n";
-        $js .= "var newRecord = " . $newRecord . "\n";
+        $js .= 'var newRecord = ' . $newRecord . "\n";
         $js .= file_get_contents(ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/JavaScript/addFields_predefinedJS.js');
         $js .= "/*]]>*/\n";
         $js .= "</script>\n";
@@ -101,13 +100,13 @@ class TcaUtility
      */
     public function addFields_predefined($config)
     {
-        $pid = FALSE;
+        $pid = false;
 
         if (is_array($GLOBALS['SOBE']->editconf['tt_content']) && reset($GLOBALS['SOBE']->editconf['tt_content']) === 'new') {
             $pid = key($GLOBALS['SOBE']->editconf['tt_content']);
 
             //Formhandler inserted after existing content element
-            if((int)$pid < 0) {
+            if ((int)$pid < 0) {
                 $element = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('pid', 'tt_content', 'uid=' . abs($pid));
                 $pid = $element['pid'];
             }
@@ -124,7 +123,7 @@ class TcaUtility
 
         $predef = [];
 
-        # no config available
+        // no config available
         if (!is_array($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.']) || count($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.']) === 0) {
             $optionList[] = [
                 0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:be_missing_config'),
@@ -133,9 +132,8 @@ class TcaUtility
             return $config['items'] = array_merge($config['items'], $optionList);
         }
 
-        # for each view
+        // for each view
         foreach ($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.'] as $key => $view) {
-
             if (is_array($view)) {
                 $beName = $view['name'];
                 if (isset($view['name.']['data'])) {
@@ -185,7 +183,4 @@ class TcaUtility
         $TSObj->generateConfig();
         return $TSObj->setup;
     }
-
 }
-
-?>

@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Generator;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -34,7 +35,7 @@ class Csv extends AbstractGenerator
     {
         $params = $this->gp;
         $exportParams = $this->utilityFuncs->getSingle($this->settings, 'exportParams');
-        if (!is_array($exportParams) && strpos($exportParams, ',') !== FALSE) {
+        if (!is_array($exportParams) && strpos($exportParams, ',') !== false) {
             $exportParams = GeneralUtility::trimExplode(',', $exportParams);
         }
 
@@ -55,10 +56,10 @@ class Csv extends AbstractGenerator
         //parseCSV expects data to be a two dimensional array
         $data = [$params];
 
-        $fields = FALSE;
+        $fields = false;
         if ((int)($this->utilityFuncs->getSingle($this->settings, 'addFieldNames')) === 1) {
             $fields = array_keys($params);
-            $csv->heading = TRUE;
+            $csv->heading = true;
         }
 
         if ($this->settings['delimiter']) {
@@ -78,9 +79,9 @@ class Csv extends AbstractGenerator
         $csv->input_encoding = strtolower($inputEncoding);
         $csv->output_encoding = strtolower($outputEncoding);
 
-        $csv->convert_encoding = FALSE;
+        $csv->convert_encoding = false;
         if ($csv->input_encoding !== $csv->output_encoding) {
-            $csv->convert_encoding = TRUE;
+            $csv->convert_encoding = true;
         }
         if ((int)($this->settings['returnFileName']) === 1 || (int) ($this->settings['returnGP']) === 1) {
             $outputPath = $this->utilityFuncs->getDocumentRoot();
@@ -91,24 +92,22 @@ class Csv extends AbstractGenerator
             }
             $outputPath = $this->utilityFuncs->sanitizePath($outputPath);
             $filename = $outputPath . $this->settings['filePrefix'] . $this->utilityFuncs->generateHash() . '.csv';
-            $csv->save($filename, $data, FALSE, $fields);
+            $csv->save($filename, $data, false, $fields);
             if ((int)($this->settings['returnFileName']) === 1) {
                 return $filename;
-            } else {
-                if (!is_array($this->gp['generator-csv-generated-files'])) {
-                    $this->gp['generator-csv-generated-files'] = [];
-                }
-                $this->gp['generator-csv-generated-files'][] = $filename;
-                return $this->gp;
             }
-        } else {
-            $fileName = 'formhandler.csv';
-            if ($this->settings['outputFileName']) {
-                $fileName = $this->utilityFuncs->getSingle($this->settings, 'outputFileName');
+            if (!is_array($this->gp['generator-csv-generated-files'])) {
+                $this->gp['generator-csv-generated-files'] = [];
             }
-            $csv->output($fileName, $data, $fields);
-            die();
+            $this->gp['generator-csv-generated-files'][] = $filename;
+            return $this->gp;
         }
+        $fileName = 'formhandler.csv';
+        if ($this->settings['outputFileName']) {
+            $fileName = $this->utilityFuncs->getSingle($this->settings, 'outputFileName');
+        }
+        $csv->output($fileName, $data, $fields);
+        die();
     }
 
     /* (non-PHPdoc)
@@ -128,5 +127,4 @@ class Csv extends AbstractGenerator
         }
         return $params;
     }
-
 }

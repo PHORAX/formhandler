@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -19,12 +20,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Validates that the correct image of possible images displayed by the extension "simple_captcha" got selected.
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
- * @package    Tx_Formhandler
- * @subpackage    ErrorChecks
  */
 class WtCalculatingCaptcha extends AbstractErrorCheck
 {
-
     public function check()
     {
         $checkFailed = '';
@@ -48,5 +46,4 @@ class WtCalculatingCaptcha extends AbstractErrorCheck
 
         return $checkFailed;
     }
-
 }

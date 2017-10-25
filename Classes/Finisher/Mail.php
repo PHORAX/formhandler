@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Finisher;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -129,7 +130,6 @@ class Mail extends AbstractFinisher
      */
     protected function parseTemplate($mode, $suffix)
     {
-
         $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
         if (!$viewClass) {
             $viewClass = '\\Typoheads\\Formhandler\\View\\Mail';
@@ -143,10 +143,10 @@ class Mail extends AbstractFinisher
         $view->setComponentSettings($this->settings);
         $templateCode = $this->globals->getTemplateCode();
         if ($this->settings['templateFile']) {
-            $templateCode = $this->utilityFuncs->readTemplateFile(FALSE, $this->settings);
+            $templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings);
         }
         if ($this->settings[$mode]['templateFile']) {
-            $templateCode = $this->utilityFuncs->readTemplateFile(FALSE, $this->settings[$mode]);
+            $templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings[$mode]);
         }
 
         $view->setTemplate($templateCode, ('EMAIL_' . strtoupper($mode) . '_' . strtoupper($suffix) . $this->globals->getTemplateSuffix()));
@@ -164,14 +164,13 @@ class Mail extends AbstractFinisher
      * Sends mail according to given type.
      *
      * @param string $type (admin|user)
-     * @return void
      */
     protected function sendMail($type)
     {
-        $doSend = TRUE;
+        $doSend = true;
         if ((int)$this->utilityFuncs->getSingle($this->settings[$type], 'disable') === 1) {
             $this->utilityFuncs->debugMessage('mail_disabled', [$type]);
-            $doSend = FALSE;
+            $doSend = false;
         }
 
         $mailSettings = $this->settings[$type];
@@ -265,7 +264,7 @@ class Mail extends AbstractFinisher
         if (strlen(trim($template['plain'])) > 0) {
             $this->emailObj->setPlain($template['plain']);
         } else {
-            $this->emailObj->setPlain(NULL);
+            $this->emailObj->setPlain(null);
         }
 
         if (strlen(trim($template['html'])) > 0) {
@@ -321,14 +320,14 @@ class Mail extends AbstractFinisher
         //send e-mails
         $recipients = $mailSettings['to_email'];
         foreach ($recipients as $key => $recipient) {
-            if (strpos($recipient, '@') === FALSE || strpos($recipient, '@') === 0 || strlen(trim($recipient)) === 0) {
+            if (strpos($recipient, '@') === false || strpos($recipient, '@') === 0 || strlen(trim($recipient)) === 0) {
                 unset($recipients[$key]);
             }
         }
         if (!empty($recipients) && count($recipients) > $max) {
             $recipients = array_slice($recipients, 0, $max);
         }
-        $sent = FALSE;
+        $sent = false;
         if ($doSend && !empty($recipients)) {
             $sent = $this->emailObj->send($recipients);
         }
@@ -405,7 +404,7 @@ class Mail extends AbstractFinisher
     {
         if (isset($this->emailSettings[$type][$key])) {
             $parsed = $this->parseSettingValue($this->emailSettings[$type][$key]);
-        } else if (isset($settings[$key . '.']) && is_array($settings[$key . '.'])) {
+        } elseif (isset($settings[$key . '.']) && is_array($settings[$key . '.'])) {
             $settings[$key . '.']['gp'] = $this->gp;
             $parsed = $this->utilityFuncs->getSingle($settings, $key);
         } else {
@@ -481,7 +480,7 @@ class Mail extends AbstractFinisher
         $cids = [];
         if (isset($settings['embedFiles.']) && is_array($settings['embedFiles.'])) {
             foreach ($settings['embedFiles.'] as $key => $embedFileSettings) {
-                if (strpos($key, '.') === FALSE) {
+                if (strpos($key, '.') === false) {
                     $embedFile = $this->utilityFuncs->getSingle($settings['embedFiles.'], $key);
                     if (strlen($embedFile) > 0) {
                         if (!strstr($embedFile, $this->utilityFuncs->getDocumentRoot())) {
@@ -502,7 +501,6 @@ class Mail extends AbstractFinisher
      * Substitutes markers like ###LLL:langKey### in given TypoScript settings array.
      *
      * @param array &$settings The E-Mail settings
-     * @return void
      */
     protected function fillLangMarkersInSettings(&$settings)
     {
@@ -533,13 +531,11 @@ class Mail extends AbstractFinisher
      *
      * @param array The GET/POST values
      * @param array The TypoScript configuration
-     * @return void
      */
     public function init($gp, $tsConfig)
     {
         $this->gp = $gp;
         $this->settings = $tsConfig;
-
     }
 
     /**
@@ -599,7 +595,6 @@ class Mail extends AbstractFinisher
                 if (isset($this->gp[$value])) {
                     $emailSettings[$option] = $this->gp[$value];
                 }
-
             } else {
                 switch ($option) {
                     case 'to_email':

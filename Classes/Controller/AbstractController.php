@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Controller;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -60,7 +61,6 @@ abstract class AbstractController extends AbstractClass
      *
      * @param Content $content
      * @author Reinhard Führicht <rf@typoheads.at>
-     * @return void
      */
     public function setContent($content)
     {
@@ -83,7 +83,6 @@ abstract class AbstractController extends AbstractClass
      *
      * @author Reinhard Führicht <rf@typoheads.at>
      * @param string $key
-     * @return void
      */
     public function setPredefined($key)
     {
@@ -95,7 +94,6 @@ abstract class AbstractController extends AbstractClass
      *
      * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $langFiles
-     * @return void
      */
     public function setLangFiles($langFiles)
     {
@@ -107,7 +105,6 @@ abstract class AbstractController extends AbstractClass
      *
      * @author    Reinhard Führicht <rf@typoheads.at>
      * @param string $template
-     * @return void
      */
     public function setTemplateFile($template)
     {

@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\PreProcessor;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -41,10 +42,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @author    Johannes Feustel
  */
-
 class LoadDefaultValues extends AbstractPreProcessor
 {
-
     public function process()
     {
         foreach ($this->settings as $step => $stepSettings) {
@@ -63,12 +62,10 @@ class LoadDefaultValues extends AbstractPreProcessor
      * adapted from class tx_thmailformplus_pi1
      * Loads the default values to the GP Array
      *
-     * @return void
      * @param array $settings
      */
-    function loadDefaultValuesToGP($settings)
+    public function loadDefaultValuesToGP($settings)
     {
-
         if (is_array($settings)) {
             $this->setDefaultValues($settings, $this->gp);
         }
@@ -77,7 +74,6 @@ class LoadDefaultValues extends AbstractPreProcessor
     /**
      * loads the Default Setting in the Session. Used only for step 2+.
      *
-     * @return void
      * @param Array $settings
      * @param int $step
      */
@@ -93,7 +89,6 @@ class LoadDefaultValues extends AbstractPreProcessor
     /**
      * Recursive method to set the GP values
      *
-     * @return void
      * @param array $fields
      * @param array &$currentLevelGP
      */

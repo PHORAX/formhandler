@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Controller;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
      * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -31,8 +32,6 @@ class Content
 
     /**
      * The constructor settings the internal attribute "content"
-     *
-     * @return void
      */
     public function __construct($content)
     {
@@ -43,7 +42,6 @@ class Content
      * Sets the internal attribute "content"
      *
      * @param string $content
-     * @return void
      */
     public function setContent($content)
     {

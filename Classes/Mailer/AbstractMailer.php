@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Mailer;
-    /*                                                                        *
+
+/*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
     * TYPO3 is free software; you can redistribute it and/or modify it under *
@@ -25,12 +26,9 @@ abstract class AbstractMailer extends AbstractComponent
 
     /**
      * Not needed for this type of component
-     *
-     * @return void
      */
     public function process()
     {
         return;
     }
-
 }
