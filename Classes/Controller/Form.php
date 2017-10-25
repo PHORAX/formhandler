@@ -182,7 +182,7 @@ class Form extends AbstractController
             }
 
             $params = [];
-            $tstamp = intval($gp['tstamp']);
+            $tstamp = (int)$gp['tstamp'];
             $hash = $GLOBALS['TYPO3_DB']->fullQuoteStr($gp['hash'], 'tx_formhandler_log');
             if ($tstamp && strpos($hash, ' ') === FALSE) {
                 $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('params', 'tx_formhandler_log', 'tstamp=' . $tstamp . ' AND unique_hash=' . $hash);
@@ -193,7 +193,7 @@ class Form extends AbstractController
                 }
             }
 
-            if ($finisherConf['actions.'][$action . '.'] && !empty($params) && intval($this->utilityFuncs->getSingle($finisherConf['actions.'][$action . '.']['config.'], 'returns')) !== 1) {
+            if ($finisherConf['actions.'][$action . '.'] && !empty($params) && (int)$this->utilityFuncs->getSingle($finisherConf['actions.'][$action . '.']['config.'], 'returns') !== 1) {
 
                 $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action . '.']);
                 if ($class) {
@@ -210,16 +210,14 @@ class Form extends AbstractController
                 unset($finisherConf['actions.']);
                 $object->init($params, $finisherConf);
                 $content = $object->process();
-            } elseif (intval($this->utilityFuncs->getSingle($finisherConf['actions.'][$action . '.']['config.'], 'returns')) === 1) {
+            } elseif ((int)$this->utilityFuncs->getSingle($finisherConf['actions.'][$action . '.']['config.'], 'returns') === 1) {
                 $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action . '.']);
                 if ($class) {
-
                     //Makes it possible to make your own Generator class show output
                     $object = $this->componentManager->getComponent($class);
                     $object->init($params, $finisherConf['actions.'][$action . '.']['config.']);
                     $content = $object->process();
                 } else {
-
                     //Makes it possible that Finisher_SubmittedOK show its output again
                     $class = $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK');
                     $object = $this->componentManager->getComponent($class);
@@ -300,14 +298,14 @@ class Form extends AbstractController
         }
         if (isset($this->settings['validators.']) &&
             is_array($this->settings['validators.']) &&
-            intval($this->utilityFuncs->getSingle($this->settings['validators.'], 'disable')) !== 1
+            (int)$this->utilityFuncs->getSingle($this->settings['validators.'], 'disable') !== 1
         ) {
 
             foreach ($this->settings['validators.'] as $idx => $tsConfig) {
                 if ($idx !== 'disable') {
                     $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
                     if (is_array($tsConfig) && strlen($className) > 0) {
-                        if (intval($this->utilityFuncs->getSingle($tsConfig, 'disable')) !== 1) {
+                        if ((int)$this->utilityFuncs->getSingle($tsConfig, 'disable') !== 1) {
 
                             $validator = $this->componentManager->getComponent($className);
                             if ($this->currentStep === $this->lastStep) {
@@ -420,7 +418,7 @@ class Form extends AbstractController
                             $hasAllowedTypesCheck = FALSE;
                             if (isset($this->settings['validators.']) &&
                                 is_array($this->settings['validators.']) &&
-                                intval($this->utilityFuncs->getSingle($this->settings['validators.'], 'disable')) !== 1
+                                (int)$this->utilityFuncs->getSingle($this->settings['validators.'], 'disable') !== 1
                             ) {
 
                                 foreach ($this->settings['validators.'] as $idx => $tsConfig) {
@@ -496,7 +494,7 @@ class Form extends AbstractController
     {
 
         //If skipView is set, call preProcessors and initInterceptors here
-        if (intval($this->utilityFuncs->getSingle($this->settings, 'skipView')) === 1) {
+        if ((int)$this->utilityFuncs->getSingle($this->settings, 'skipView') === 1) {
 
             //run preProcessors
             $output = $this->runClasses($this->settings['preProcessors.']);
@@ -528,14 +526,14 @@ class Form extends AbstractController
         }
 
         //run finishers
-        if (isset($this->settings['finishers.']) && is_array($this->settings['finishers.']) && intval($this->utilityFuncs->getSingle($this->settings['finishers.'], 'disable')) !== 1) {
+        if (isset($this->settings['finishers.']) && is_array($this->settings['finishers.']) && (int)$this->utilityFuncs->getSingle($this->settings['finishers.'], 'disable') !== 1) {
             ksort($this->settings['finishers.']);
 
             foreach ($this->settings['finishers.'] as $idx => $tsConfig) {
                 if ($idx !== 'disabled') {
                     $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
                     if (is_array($tsConfig) && strlen($className) > 0) {
-                        if (intval($this->utilityFuncs->getSingle($tsConfig, 'disable')) !== 1) {
+                        if ((int)$this->utilityFuncs->getSingle($tsConfig, 'disable') !== 1) {
 
                             $finisher = $this->componentManager->getComponent($className);
                             $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.']);
@@ -543,7 +541,7 @@ class Form extends AbstractController
                             $finisher->validateConfig();
 
                             //if the finisher returns HTML (e.g. Typoheads\Formhandler\Finisher\SubmittedOK)
-                            if (intval($this->utilityFuncs->getSingle($tsConfig['config.'], 'returns')) === 1) {
+                            if ((int)$this->utilityFuncs->getSingle($tsConfig['config.'], 'returns') === 1) {
                                 $this->globals->getSession()->set('finished', TRUE);
                                 return $finisher->process();
                             } else {
@@ -929,7 +927,7 @@ class Form extends AbstractController
                     preg_match_all('/step-([0-9]+)-([a-z]+)/', $pname, $matches);
                     if (isset($matches[2][0])) {
                         $action = $matches[2][0];
-                        $step = intval($matches[1][0]);
+                        $step = (int)$matches[1][0];
                     }
                 }
             }
@@ -939,7 +937,7 @@ class Form extends AbstractController
         if (isset($this->settings['allowStepJumps'])) {
             $allowStepJumps = (bool)$this->utilityFuncs->getSingle($this->settings, 'allowStepJumps');
         }
-        $stepInSession = max(intval($this->globals->getSession()->get('currentStep')), 1);
+        $stepInSession = max((int)$this->globals->getSession()->get('currentStep'), 1);
         switch ($action) {
             case 'prev':
             case 'next':
@@ -1108,7 +1106,7 @@ class Form extends AbstractController
         $this->globals->setFormValuesPrefix($this->formValuesPrefix);
 
         $isDebugMode = $this->utilityFuncs->getSingle($this->settings, 'debug');
-        $this->debugMode = (intval($isDebugMode) === 1);
+        $this->debugMode = ((int)$isDebugMode === 1);
 
         $this->gp = $this->utilityFuncs->getMergedGP();
 
@@ -1151,7 +1149,7 @@ class Form extends AbstractController
 
         $currentStepFromSession = $this->globals->getSession()->get('currentStep');
         $prevStep = $currentStepFromSession;
-        if (intval($prevStep) !== intval($currentStepFromSession)) {
+        if ((int)$prevStep !== (int)$currentStepFromSession) {
             $this->currentStep = 1;
             $this->lastStep = 1;
             $this->utilityFuncs->throwException('You messed with the steps!');
@@ -1161,14 +1159,14 @@ class Form extends AbstractController
 
         $this->parseConditions();
 
-        if (intval($this->utilityFuncs->getSingle($this->settings, 'disableConfigValidation')) === 0) {
+        if ((int)$this->utilityFuncs->getSingle($this->settings, 'disableConfigValidation') === 0) {
             $this->validateConfig();
         }
         $this->globals->setSettings($this->settings);
 
         //set debug mode again cause it may have changed in specific step settings
         $isDebugMode = $this->utilityFuncs->getSingle($this->settings, 'debug');
-        $this->debugMode = (intval($isDebugMode) === 1);
+        $this->debugMode = ((int)$isDebugMode === 1);
         $this->globals->getSession()->set('debug', $this->debugMode);
 
         $this->utilityFuncs->debugMessage('using_prefix', [$this->formValuesPrefix]);
@@ -1238,7 +1236,7 @@ class Form extends AbstractController
                     $submitted = TRUE;
                 }
             }
-        } elseif (intval($this->utilityFuncs->getSingle($this->settings, 'skipView')) === 1) {
+        } elseif ((int)$this->utilityFuncs->getSingle($this->settings, 'skipView') === 1) {
             $submitted = TRUE;
         }
 
@@ -1255,7 +1253,7 @@ class Form extends AbstractController
     {
         $this->finished = FALSE;
 
-        if (intval($this->utilityFuncs->getSingle($this->settings, 'skipView')) === 1) {
+        if ((int)$this->utilityFuncs->getSingle($this->settings, 'skipView') === 1) {
             $this->finished = TRUE;
         } elseif (strstr($this->templateFile, ('###TEMPLATE_FORM' . $step . $this->settings['templateSuffix'] . '###'))) {
 
@@ -1268,7 +1266,7 @@ class Form extends AbstractController
             $this->utilityFuncs->debugMessage('using_subpart', ['###TEMPLATE_FORM' . $step . '###']);
             $this->view->setTemplate($this->templateFile, ('FORM' . $step));
 
-        } elseif (intval($step) === intval($this->globals->getSession()->get('lastStep')) + 1) {
+        } elseif ((int)$step === (int)$this->globals->getSession()->get('lastStep') + 1) {
             $this->finished = TRUE;
         }
     }
@@ -1390,7 +1388,7 @@ class Form extends AbstractController
      */
     protected function runClasses($classesArray)
     {
-        if (isset($classesArray) && is_array($classesArray) && intval($this->utilityFuncs->getSingle($classesArray, 'disable')) !== 1) {
+        if (isset($classesArray) && is_array($classesArray) && (int)$this->utilityFuncs->getSingle($classesArray, 'disable') !== 1) {
 
             ksort($classesArray);
 
@@ -1401,7 +1399,7 @@ class Form extends AbstractController
                 if ($idx !== 'disable') {
                     $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
                     if (is_array($tsConfig) && strlen($className) > 0) {
-                        if (intval($this->utilityFuncs->getSingle($tsConfig, 'disable')) !== 1) {
+                        if ((int)$this->utilityFuncs->getSingle($tsConfig, 'disable') !== 1) {
 
                             $this->utilityFuncs->debugMessage('calling_class', [$className]);
                             $obj = $this->componentManager->getComponent($className);
@@ -1565,7 +1563,7 @@ class Form extends AbstractController
         $this->addFormhandlerClass($this->settings['debuggers.'], 'Typoheads\\Formhandler\\Debugger\\PrintToScreen');
 
         foreach ($this->settings['debuggers.'] as $idx => $options) {
-            if (intval($this->utilityFuncs->getSingle($options, 'disable')) !== 1) {
+            if ((int)$this->utilityFuncs->getSingle($options, 'disable') !== 1) {
                 $debuggerClass = $this->utilityFuncs->getPreparedClassName($options);
                 $debugger = $this->componentManager->getComponent($debuggerClass);
                 $debugger->init($this->gp, $options['config.']);

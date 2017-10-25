@@ -35,9 +35,9 @@ class FileMaxCount extends AbstractErrorCheck
 
         $files = $this->globals->getSession()->get('files');
         $settings = $this->globals->getSession()->get('settings');
-        $currentStep = intval($this->globals->getSession()->get('currentStep'));
-        $lastStep = intval($this->globals->getSession()->get('lastStep'));
-        $maxCount = intval($this->utilityFuncs->getSingle($this->settings['params'], 'maxCount'));
+        $currentStep = (int)($this->globals->getSession()->get('currentStep'));
+        $lastStep = (int)($this->globals->getSession()->get('lastStep'));
+        $maxCount = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'maxCount'));
 
         $uploadedFilesWithSameNameAction = $this->utilityFuncs->getSingle($settings['files.'], 'uploadedFilesWithSameName');
         if (!$uploadedFilesWithSameNameAction) {

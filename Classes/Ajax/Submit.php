@@ -61,15 +61,15 @@ class Submit
     protected function init()
     {
         if (isset($_GET['pid'])) {
-            $id = intval($_GET['pid']);
+            $id = (int)$_GET['pid'];
         } else {
-            $id = intval($_GET['id']);
+            $id = (int)$_GET['id'];
         }
 
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);
         FormhandlerGeneralUtility::initializeTSFE($id);
 
-        $elementUID = intval($_GET['uid']);
+        $elementUID = (int)$_GET['uid'];
         $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
             '*',
             'tt_content',

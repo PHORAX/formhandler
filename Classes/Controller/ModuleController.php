@@ -67,7 +67,7 @@ class ModuleController extends ActionController
      */
     public function initializeAction()
     {
-        $this->id = intval($_GET['id']);
+        $this->id = (int)$_GET['id'];
 
         $this->gp = $this->request->getArguments();
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);
@@ -118,7 +118,7 @@ class ModuleController extends ActionController
         }
         $this->view->assign('showItems', $this->gp['show']);
         $permissions = [];
-        if ($GLOBALS['BE_USER']->user['admin'] || intval($this->settings['enableClearLogs']) === 1) {
+        if ($GLOBALS['BE_USER']->user['admin'] || (int)$this->settings['enableClearLogs'] === 1) {
             $permissions['delete'] = TRUE;
         }
         $this->view->assign('permissions', $permissions);
@@ -255,7 +255,7 @@ class ModuleController extends ActionController
      */
     public function deleteLogRowsAction($logDataUids = NULL)
     {
-        $forceDelete = intval($this->settings['forceDelete']);
+        $forceDelete = (int)$this->settings['forceDelete'];
         if ($logDataUids === 'all') {
             $text = LocalizationUtility::translate('message.deleted-all-logs', 'formhandler');
             if ($forceDelete){

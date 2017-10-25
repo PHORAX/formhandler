@@ -98,9 +98,9 @@ class AntiSpamFormTime extends AbstractInterceptor
         ) {
 
             $spam = TRUE;
-        } elseif ($minTime && time() - intval($this->gp['formtime']) < $minTime) {
+        } elseif ($minTime && time() - (int)($this->gp['formtime']) < $minTime) {
             $spam = TRUE;
-        } elseif ($maxTime && time() - intval($this->gp['formtime']) > $maxTime) {
+        } elseif ($maxTime && time() - (int)($this->gp['formtime']) > $maxTime) {
             $spam = TRUE;
         }
         return $spam;

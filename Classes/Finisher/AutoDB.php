@@ -74,7 +74,7 @@ class AutoDB extends DB
      */
     protected function parseFields()
     {
-        $doAutoCreate = intval($this->utilityFuncs->getSingle($this->settings, 'newFieldsSqlAttribs'));
+        $doAutoCreate = (int)($this->utilityFuncs->getSingle($this->settings, 'newFieldsSqlAttribs'));
         if ($doAutoCreate === 1 && $GLOBALS['TSFE']->beUserLogin) {
             $this->createTable();
         }
@@ -152,7 +152,7 @@ class AutoDB extends DB
 
         $globalSettings = $this->globals->getSettings();
         $isDebugMode = $this->utilityFuncs->getSingle($globalSettings, 'debug');
-        if (intval($isDebugMode) === 1) {
+        if ((int)$isDebugMode === 1) {
             $this->db->debugOutput = 1;
         }
 

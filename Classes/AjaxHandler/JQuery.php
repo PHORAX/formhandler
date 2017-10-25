@@ -69,7 +69,7 @@ class JQuery extends AbstractAjaxHandler
         $autoDisableSubmitButton = $this->utilityFuncs->getSingle($this->settings, 'autoDisableSubmitButton');
 
         $this->jsPosition = trim($this->utilityFuncs->getSingle($this->settings, 'jsPosition'));
-        $isAjaxSubmit = intval($this->utilityFuncs->getSingle($this->settings, 'ajaxSubmit'));
+        $isAjaxSubmit = (int)$this->utilityFuncs->getSingle($this->settings, 'ajaxSubmit');
 
         $submitButtonSelector = $this->utilityFuncs->getSingle($this->settings, 'submitButtonSelector');
         if (strlen(trim($submitButtonSelector)) === 0) {
@@ -79,9 +79,9 @@ class JQuery extends AbstractAjaxHandler
 
         $globalSettings = $this->globals->getSession()->get('settings');
         $validateFields = [];
-        if (is_array($globalSettings['validators.']) && intval($this->utilityFuncs->getSingle($globalSettings['validators.'], 'disable')) !== 1) {
+        if (is_array($globalSettings['validators.']) && (int)$this->utilityFuncs->getSingle($globalSettings['validators.'], 'disable') !== 1) {
             foreach ($globalSettings['validators.'] as $key => $validatorSettings) {
-                if (is_array($validatorSettings['config.']['fieldConf.']) && intval($this->utilityFuncs->getSingle($validatorSettings['config.'], 'disable')) !== 1) {
+                if (is_array($validatorSettings['config.']['fieldConf.']) && (int)$this->utilityFuncs->getSingle($validatorSettings['config.'], 'disable') !== 1) {
                     foreach ($validatorSettings['config.']['fieldConf.'] as $fieldName => $fieldSettings) {
                         $replacedFieldName = str_replace('.', '', $fieldName);
                         $fieldName = $replacedFieldName;
@@ -97,7 +97,7 @@ class JQuery extends AbstractAjaxHandler
             $formSelector = '.Tx-Formhandler:has(FORM[id=\"' . $formID . '\"])';
         }
 
-        $disableJS = intval($this->utilityFuncs->getSingle($this->settings, 'disableJS'));
+        $disableJS = (int)$this->utilityFuncs->getSingle($this->settings, 'disableJS');
 
         if (!$disableJS) {
             $init = $this->getJavascriptFormInit($formSelector, $submitButtonSelector, $isAjaxSubmit, $autoDisableSubmitButton, $validateFields);
@@ -118,7 +118,7 @@ class JQuery extends AbstractAjaxHandler
     {
         $settings = $this->globals->getSession()->get('settings');
         $ajaxSubmit = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmit');
-        if (intval($ajaxSubmit) === 1) {
+        if ((int)$ajaxSubmit === 1) {
             $ajaxSubmitLoader = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmitLoader');
             if (strlen($ajaxSubmitLoader) === 0) {
                 $loadingImg = ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/ajax-loader.gif';
@@ -130,7 +130,7 @@ class JQuery extends AbstractAjaxHandler
         }
 
         $autoDisableSubmitButton = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'autoDisableSubmitButton');
-        if (intval($autoDisableSubmitButton) === 1) {
+        if ((int)$autoDisableSubmitButton === 1) {
             $markers['###validation-status###'] = $this->validationStatusClasses['base'] . ' ' . $this->validationStatusClasses['invalid'];
         }
 
@@ -143,9 +143,9 @@ class JQuery extends AbstractAjaxHandler
             $loadingImg = '<img src="' . $loadingImg . '" alt="loading" />';
         }
 
-        if (is_array($settings['validators.']) && intval($this->utilityFuncs->getSingle($settings['validators.'], 'disable')) !== 1) {
+        if (is_array($settings['validators.']) && (int)$this->utilityFuncs->getSingle($settings['validators.'], 'disable') !== 1) {
             foreach ($settings['validators.'] as $key => $validatorSettings) {
-                if (is_array($validatorSettings['config.']['fieldConf.']) && intval($this->utilityFuncs->getSingle($validatorSettings['config.'], 'disable')) !== 1) {
+                if (is_array($validatorSettings['config.']['fieldConf.']) && (int)$this->utilityFuncs->getSingle($validatorSettings['config.'], 'disable') !== 1) {
                     foreach ($validatorSettings['config.']['fieldConf.'] as $fieldname => $fieldSettings) {
                         $replacedFieldname = str_replace('.', '', $fieldname);
                         $markers['###validate_' . $replacedFieldname . '###'] = sprintf($this->templates['spanLoading'], $replacedFieldname, $loadingImg);

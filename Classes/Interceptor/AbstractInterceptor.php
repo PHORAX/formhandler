@@ -36,7 +36,7 @@ abstract class AbstractInterceptor extends AbstractComponent
         if (isset($classesArray) && is_array($classesArray)) {
             foreach ($classesArray as $idx => $tsConfig) {
                 $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
-                if (is_array($tsConfig) && strlen($className) > 0 && intval($this->utilityFuncs->getSingle($tsConfig, 'disable')) !== 1) {
+                if (is_array($tsConfig) && strlen($className) > 0 && (int)($this->utilityFuncs->getSingle($tsConfig, 'disable')) !== 1) {
 
                     $this->utilityFuncs->debugMessage('calling_class', [$className]);
                     $obj = $this->componentManager->getComponent($className);

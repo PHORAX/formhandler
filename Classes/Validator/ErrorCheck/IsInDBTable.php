@@ -40,7 +40,7 @@ class IsInDBTable extends AbstractErrorCheck
             if (!empty($checkTable) && !empty($checkField)) {
                 $additionalWhere = $this->utilityFuncs->prepareAndWhereString($additionalWhere);
                 $where = $checkField . '=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($this->gp[$this->formFieldName], $checkTable) . $additionalWhere;
-                $showHidden = intval($this->settings['params']['showHidden']) === 1 ? 1 : 0;
+                $showHidden = (int)$this->settings['params']['showHidden'] === 1 ? 1 : 0;
                 $where .= $GLOBALS['TSFE']->sys_page->enableFields($checkTable, $showHidden);
                 $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($checkField, $checkTable, $where);
                 if ($res && !$GLOBALS['TYPO3_DB']->sql_num_rows($res)) {

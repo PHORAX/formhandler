@@ -97,7 +97,7 @@ class IPBlocking extends AbstractInterceptor
     private function check($value, $unit, $maxValue, $addIPToWhere = TRUE)
     {
         $timestamp = $this->utilityFuncs->getTimestamp($value, $unit);
-        $where = 'crdate >= ' . intval($timestamp);
+        $where = 'crdate >= ' . (int)$timestamp;
         if ($addIPToWhere) {
             $where = 'ip=\'' . GeneralUtility::getIndpEnv('REMOTE_ADDR') . '\' AND ' . $where;
         }
@@ -118,7 +118,7 @@ class IPBlocking extends AbstractInterceptor
                 $send = FALSE;
                 if ($intervalUnit && $intervalValue) {
                     $intervalTstamp = $this->utilityFuncs->getTimestamp($intervalValue, $intervalUnit);
-                    $where = 'pid=' . $GLOBALS['TSFE']->id . ' AND crdate>' . intval($intervalTstamp);
+                    $where = 'pid=' . $GLOBALS['TSFE']->id . ' AND crdate>' . (int)$intervalTstamp;
                     if ($addIPToWhere) {
                         $where .= ' AND ip=\'' . GeneralUtility::getIndpEnv('REMOTE_ADDR') . '\'';
                     }

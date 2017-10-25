@@ -172,7 +172,7 @@ class DifferentDB extends DB
     protected function getInsertedUid()
     {
         $uid = $this->connection->Insert_ID();
-        return intval($uid);
+        return (int)$uid;
     }
 
     /**

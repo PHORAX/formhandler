@@ -234,7 +234,7 @@ class DB extends AbstractFinisher
 
         //check whether to update or to insert a record
         $this->doUpdate = FALSE;
-        if (intval($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert')) === 1) {
+        if ((int)($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert')) === 1) {
 
             //check if uid of record to update is in GP
             $uid = $this->getUpdateUid();
@@ -243,7 +243,7 @@ class DB extends AbstractFinisher
             $recordExists = $this->doesRecordExist($uid, $andWhere);
             if ($recordExists) {
                 $this->doUpdate = TRUE;
-            } elseif (intval($this->utilityFuncs->getSingle($this->settings, 'insertIfNoUpdatePossible')) !== 1) {
+            } elseif ((int)($this->utilityFuncs->getSingle($this->settings, 'insertIfNoUpdatePossible')) !== 1) {
                 $this->utilityFuncs->debugMessage('no_update_possible', [], 2);
             }
         }
@@ -292,7 +292,7 @@ class DB extends AbstractFinisher
                         $fieldValue = $this->utilityFuncs->getSingle($options, 'ifIsEmpty');
                     }
 
-                    if (intval($this->utilityFuncs->getSingle($options, 'zeroIfEmpty')) === 1 && strlen($fieldValue) === 0) {
+                    if ((int)($this->utilityFuncs->getSingle($options, 'zeroIfEmpty')) === 1 && strlen($fieldValue) === 0) {
                         $fieldValue = 0;
                     }
 
@@ -420,7 +420,7 @@ class DB extends AbstractFinisher
 
             $queryFields[$fieldname] = $fieldValue;
 
-            if (intval($this->utilityFuncs->getSingle($options, 'nullIfEmpty')) === 1 && strlen($queryFields[$fieldname]) == 0) {
+            if ((int)($this->utilityFuncs->getSingle($options, 'nullIfEmpty')) === 1 && strlen($queryFields[$fieldname]) == 0) {
                 unset($queryFields[$fieldname]);
             }
         }
@@ -447,7 +447,7 @@ class DB extends AbstractFinisher
      */
     protected function getInsertedUid() {
         $uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
-        return intval($uid);
+        return (int)$uid;
     }
 
     /**
@@ -457,7 +457,7 @@ class DB extends AbstractFinisher
     protected function getUpdateUid()
     {
         $uid = $this->utilityFuncs->getSingle($this->settings, 'key_value');
-        $disableFallback = (intval($this->utilityFuncs->getSingle($this->settings, 'disableUpdateUidFallback')) === 1);
+        $disableFallback = ((int)($this->utilityFuncs->getSingle($this->settings, 'disableUpdateUidFallback')) === 1);
         if (!$disableFallback) {
             if (!$uid) {
                 $uid = $this->gp[$this->key];

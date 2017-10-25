@@ -107,7 +107,7 @@ class TcaUtility
             $pid = key($GLOBALS['SOBE']->editconf['tt_content']);
 
             //Formhandler inserted after existing content element
-            if(intval($pid) < 0) {
+            if((int)$pid < 0) {
                 $element = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('pid', 'tt_content', 'uid=' . abs($pid));
                 $pid = $element['pid'];
             }

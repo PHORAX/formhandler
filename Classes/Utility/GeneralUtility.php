@@ -580,7 +580,7 @@ class GeneralUtility implements SingletonInterface
      */
     static public function debugMessage($key, array $printfArgs = [], $severity = 1, array $data = [])
     {
-        $severity = intval($severity);
+        $severity = (int)$severity;
         $message = self::getDebugMessage($key);
         if (strlen($message) == 0) {
             $message = $key;
@@ -911,7 +911,7 @@ class GeneralUtility implements SingletonInterface
         $separator = ',';
 
         $usePregReplace = self::getSingle($settings['files.'], 'usePregReplace');
-        if (intval($usePregReplace) === 1) {
+        if ((int)$usePregReplace === 1) {
             $search = ['/ /', '/%20/'];
         }
 
@@ -932,7 +932,7 @@ class GeneralUtility implements SingletonInterface
         }
 
         $usePregReplace = self::getSingle($settings['files.'], 'usePregReplace');
-        if (intval($usePregReplace) === 1) {
+        if ((int)$usePregReplace === 1) {
             $fileName = preg_replace($search, $replace, $fileName);
         } else {
             $fileName = str_replace($search, $replace, $fileName);
@@ -1180,25 +1180,25 @@ class GeneralUtility implements SingletonInterface
             case '>':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) > floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value > (float)self::parseOperand($valueConditions[2], $gp);
                 }
                 break;
             case '<':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) < floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value < (float)self::parseOperand($valueConditions[2], $gp);
                 }
                 break;
             case '>=':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) >= floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value >= (float)self::parseOperand($valueConditions[2], $gp);
                 }
                 break;
             case '<=':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) <= floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value <= (float)self::parseOperand($valueConditions[2], $gp);
                 }
                 break;
             default:

@@ -100,9 +100,9 @@ class RemoveFile
         $this->fieldName = htmlspecialchars($_GET['field']);
         $this->uploadedFileName = htmlspecialchars($_GET['uploadedFileName']);
         if (isset($_GET['pid'])) {
-            $this->id = intval($_GET['pid']);
+            $this->id = (int)$_GET['pid'];
         } else {
-            $this->id = intval($_GET['id']);
+            $this->id = (int)$_GET['id'];
         }
 
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);

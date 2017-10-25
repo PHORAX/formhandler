@@ -169,7 +169,7 @@ class Mail extends AbstractFinisher
     protected function sendMail($type)
     {
         $doSend = TRUE;
-        if (intval($this->utilityFuncs->getSingle($this->settings[$type], 'disable')) === 1) {
+        if ((int)$this->utilityFuncs->getSingle($this->settings[$type], 'disable') === 1) {
             $this->utilityFuncs->debugMessage('mail_disabled', [$type]);
             $doSend = FALSE;
         }
@@ -653,14 +653,14 @@ class Mail extends AbstractFinisher
 
                     case 'htmlEmailAsAttachment':
                         $htmlEmailAsAttachment = $this->utilityFuncs->getSingle($currentSettings, 'htmlEmailAsAttachment');
-                        if (intval($htmlEmailAsAttachment) === 1) {
+                        if ((int)$htmlEmailAsAttachment === 1) {
                             $emailSettings['htmlEmailAsAttachment'] = 1;
                         }
 
                         break;
                     case 'deleteGeneratedFiles':
                         $htmlEmailAsAttachment = $this->utilityFuncs->getSingle($currentSettings, 'deleteGeneratedFiles');
-                        if (intval($htmlEmailAsAttachment) === 1) {
+                        if ((int)$htmlEmailAsAttachment === 1) {
                             $emailSettings['deleteGeneratedFiles'] = 1;
                         }
 

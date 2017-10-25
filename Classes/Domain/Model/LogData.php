@@ -53,7 +53,7 @@ class LogData extends AbstractEntity
 
     public function setCrdate($crdate)
     {
-        $this->crdate = intval($crdate);
+        $this->crdate = (int)$crdate;
     }
 
     public function getIp()

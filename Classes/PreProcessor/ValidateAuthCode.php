@@ -83,7 +83,7 @@ class ValidateAuthCode extends AbstractPreProcessor
                 }
                 $hiddenStatusValue = $GLOBALS['TYPO3_DB']->fullQuoteStr($hiddenStatusValue, $table);
                 $enableFieldsWhere = '';
-                if (intval($this->utilityFuncs->getSingle($this->settings, 'showDeleted')) !== 1) {
+                if ((int)$this->utilityFuncs->getSingle($this->settings, 'showDeleted') !== 1) {
                     $enableFieldsWhere = $this->cObj->enableFields($table, 1);
                 }
                 $query = $GLOBALS['TYPO3_DB']->SELECTquery($selectFields, $table, $uidField . '=' . $uid . ' AND ' . $hiddenField . '=' . $hiddenStatusValue . $enableFieldsWhere);

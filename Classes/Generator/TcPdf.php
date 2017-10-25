@@ -36,7 +36,7 @@ class TcPdf extends AbstractGenerator
         $this->pdf->SetFont('Helvetica', '', 12);
         $view = $this->componentManager->getComponent('\Typoheads\Formhandler\View\PDF');
         $this->filename = FALSE;
-        if (intval($this->settings['storeInTempFile']) === 1) {
+        if ((int)$this->settings['storeInTempFile'] === 1) {
             $this->outputPath = $this->utilityFuncs->getDocumentRoot();
             if ($this->settings['customTempOutputPath']) {
                 $this->outputPath .= $this->settings['customTempOutputPath'];

@@ -57,7 +57,7 @@ class CombineFields extends AbstractInterceptor
         $fieldsArr = $options['fields.'];
         $combinedString = '';
         $stringsToCombine = [];
-        $hideEmptyValues = intval($this->utilityFuncs->getSingle($options, 'hideEmptyValues'));
+        $hideEmptyValues = (int)($this->utilityFuncs->getSingle($options, 'hideEmptyValues'));
         foreach ($fieldsArr as $idx => $field) {
             $value = $this->utilityFuncs->getGlobal($field, $this->gp);
             if ($hideEmptyValues === 0 ||
