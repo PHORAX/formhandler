@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Component;
     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
     * Public License for more details.                                       *
     *                                                                        */
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\Utility\GeneralUtility as CoreGeneralUtility;
 
 /**
  * Abstract class for any usable Formhandler component.
@@ -63,6 +65,11 @@ abstract class AbstractClass
     protected $cObj;
 
     /**
+    * @var MarkerBasedTemplateService
+    */
+    protected $templateService;
+
+    /**
      * The constructor for an interceptor setting the component manager and the configuration.
      *
      * @param \Typoheads\Formhandler\Component\Manager $componentManager
@@ -78,6 +85,7 @@ abstract class AbstractClass
         $this->configuration = $configuration;
         $this->globals = $globals;
         $this->utilityFuncs = $utilityFuncs;
+        $this->templateService = CoreGeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $this->cObj = $this->globals->getCObj();
     }
 }
