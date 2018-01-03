@@ -55,7 +55,7 @@ class Mail extends Form
             foreach ($mailSettings['embedFiles'] as $key => $cid) {
                 $markers['###embed_' . $key . '###'] = $cid;
             }
-            $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
+            $this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
         }
     }
 
@@ -85,7 +85,7 @@ class Mail extends Form
             $markers = $this->sanitizeMarkers($markers);
         }
 
-        $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
+        $this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 
         //remove remaining VALUE_-markers
         //needed for nested markers like ###LLL:tx_myextension_table.field1.i.###value_field1###### to avoid wrong marker removal if field1 isn't set
