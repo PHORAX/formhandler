@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
      * Public License for more details.                                       *
      *                                                                        */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Validates that a specified field's value matches the generated word of the extension "sr_freecap"
@@ -22,9 +24,9 @@ class SrFreecap extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_freecap')) {
-            require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
-            $this->freeCap = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_srfreecap_pi2');
+        if (ExtensionManagementUtility::isLoaded('sr_freecap')) {
+            require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
+            $this->freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
             if (!$this->freeCap->checkWord($this->gp[$this->formFieldName])) {
                 $checkFailed = $this->getCheckFailed();
             }

@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Validates that an uploaded file has a maximum file size
  */
@@ -31,7 +33,7 @@ class FileMaxSize extends AbstractErrorCheck
         $maxSize = intval($this->utilityFuncs->getSingle($this->settings['params'], 'maxSize'));
         $phpIniUploadMaxFileSize = $this->utilityFuncs->convertBytes(ini_get('upload_max_filesize'));
         if ($maxSize > $phpIniUploadMaxFileSize) {
-            $this->utilityFuncs->throwException('error_check_filemaxsize', \TYPO3\CMS\Core\Utility\GeneralUtility::formatSize($maxSize, ' Bytes| KB| MB| GB'), $this->formFieldName, \TYPO3\CMS\Core\Utility\GeneralUtility::formatSize($phpIniUploadMaxFileSize, ' Bytes| KB| MB| GB'));
+            $this->utilityFuncs->throwException('error_check_filemaxsize', GeneralUtility::formatSize($maxSize, ' Bytes| KB| MB| GB'), $this->formFieldName, GeneralUtility::formatSize($phpIniUploadMaxFileSize, ' Bytes| KB| MB| GB'));
         }
         foreach ($_FILES as $sthg => &$files) {
             if (!is_array($files['name'][$this->formFieldName])) {

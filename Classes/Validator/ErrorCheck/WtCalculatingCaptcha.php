@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
      * Public License for more details.                                       *
      *                                                                        */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Validates that the correct image of possible images displayed by the extension "simple_captcha" got selected.
@@ -22,13 +24,13 @@ class WtCalculatingCaptcha extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('wt_calculating_captcha')) {
+        if (ExtensionManagementUtility::isLoaded('wt_calculating_captcha')) {
 
             // include captcha class
-            require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_calculating_captcha') . 'class.tx_wtcalculatingcaptcha.php');
+            require_once(ExtensionManagementUtility::extPath('wt_calculating_captcha') . 'class.tx_wtcalculatingcaptcha.php');
 
             // generate object
-            $captcha = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtcalculatingcaptcha');
+            $captcha = GeneralUtility::makeInstance('tx_wtcalculatingcaptcha');
 
             // check if code is correct
             if (!$captcha->correctCode($this->gp[$this->formFieldName])) {

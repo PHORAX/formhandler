@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Validates that a specified field contains all of the specified words
  */
@@ -33,7 +35,7 @@ class ContainsAll extends AbstractErrorCheck
         if (strlen($formValue) > 0) {
             $checkValue = $this->utilityFuncs->getSingle($this->settings['params'], 'words');
             if (!is_array($checkValue)) {
-                $checkValue = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $checkValue);
+                $checkValue = GeneralUtility::trimExplode(',', $checkValue);
             }
             foreach ($checkValue as $idx => $word) {
                 if (!stristr($formValue, $word)) {

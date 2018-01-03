@@ -14,11 +14,14 @@ namespace Typoheads\Formhandler\Domain\Repository;
      * The TYPO3 project - inspiring people to share!
      */
 
+use TYPO3\CMS\Extbase\Persistence\Repository;
+use Typoheads\Formhandler\Domain\Model\Demand;
+
 /**
  * Repository for \Typoheads\Formhandler\Domain\Model\LogData
  *
  */
-class LogDataRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class LogDataRepository extends Repository
 {
 
     /**
@@ -57,7 +60,7 @@ class LogDataRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         )->execute();
     }
 
-    public function findDemanded(\Typoheads\Formhandler\Domain\Model\Demand $demand = null)
+    public function findDemanded(Demand $demand = null)
     {
         $query = $this->createQuery();
         $constraints = [$query->equals('deleted', 0)];

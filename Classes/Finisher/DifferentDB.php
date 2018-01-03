@@ -13,6 +13,7 @@ namespace Typoheads\Formhandler\Finisher;
      * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
      * Public License for more details.                                       *
      *                                                                        */
+
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**

@@ -14,6 +14,9 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Validates that a specified field's value matches the expected result of the MathGuard question
  */
@@ -22,10 +25,10 @@ class MathGuard extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mathguard')) {
-            require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mathguard') . 'class.tx_mathguard.php');
+        if (ExtensionManagementUtility::isLoaded('mathguard')) {
+            require_once(ExtensionManagementUtility::extPath('mathguard') . 'class.tx_mathguard.php');
 
-            $captcha = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mathguard');
+            $captcha = GeneralUtility::makeInstance('tx_mathguard');
             $valid = $captcha->validateCaptcha();
             if (!$valid) {
                 $checkFailed = $this->getCheckFailed();

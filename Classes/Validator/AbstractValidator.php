@@ -14,10 +14,12 @@ namespace Typoheads\Formhandler\Validator;
      * Public License for more details.                                       *
      *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractComponent;
+
 /**
  * Abstract class for validators for Formhandler
  */
-abstract class AbstractValidator extends \Typoheads\Formhandler\Component\AbstractComponent
+abstract class AbstractValidator extends AbstractComponent
 {
 
     /**

@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 /**
  * Validates that a specified field's value matches the generated word of the extension "jm_recaptcha"
  */
@@ -22,8 +24,8 @@ class JmRecaptcha extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('jm_recaptcha')) {
-            require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('jm_recaptcha') . 'class.tx_jmrecaptcha.php');
+        if (ExtensionManagementUtility::isLoaded('jm_recaptcha')) {
+            require_once(ExtensionManagementUtility::extPath('jm_recaptcha') . 'class.tx_jmrecaptcha.php');
             $this->recaptcha = new \tx_jmrecaptcha();
             $status = $this->recaptcha->validateReCaptcha();
             if (!$status['verified']) {

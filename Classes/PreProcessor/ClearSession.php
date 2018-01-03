@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\PreProcessor;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * A PreProcessor cleaning session values stored by Finisher_StoreGP
  *
@@ -37,7 +39,7 @@ class ClearSession extends AbstractPreProcessor
             'finisher-storegp'
         ];
         if ($this->settings['sessionKeysToRemove']) {
-            $sessionKeysToRemove = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'sessionKeysToRemove'));
+            $sessionKeysToRemove = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'sessionKeysToRemove'));
         }
 
         foreach ($sessionKeysToRemove as $sessionKey) {

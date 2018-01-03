@@ -14,6 +14,11 @@ namespace Typoheads\Formhandler\Generator;
     * Public License for more details.                                       *
     *                                                                        */
 
+use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Page\PageRepository;
+
 /**
  * PDF generator class for Formhandler using the extension "webkitpdf"
  */
@@ -27,7 +32,7 @@ class WebkitPdf extends AbstractGenerator
      */
     public function process()
     {
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('webkitpdf')) {
+        if (ExtensionManagementUtility::isLoaded('webkitpdf')) {
             $linkGP = [];
             if (strlen($this->globals->getFormValuesPrefix()) > 0) {
                 $linkGP[$this->globals->getFormValuesPrefix()] = $this->gp;
@@ -35,7 +40,7 @@ class WebkitPdf extends AbstractGenerator
                 $linkGP = $this->gp;
             }
 
-            $url = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $this->cObj->getTypolink_URL($GLOBALS['TSFE']->id, $linkGP);
+            $url = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $this->cObj->getTypolink_URL($GLOBALS['TSFE']->id, $linkGP);
             if ($this->url) {
                 $url = $this->url;
             }
@@ -43,9 +48,9 @@ class WebkitPdf extends AbstractGenerator
             $config['fileOnly'] = 1;
             $config['urls.'] = $url;
             if (!class_exists('tx_webkitpdf_pi1')) {
-                require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('webkitpdf') . 'pi1/class.tx_webkitpdf_pi1.php');
+                require_once(ExtensionManagementUtility::extPath('webkitpdf') . 'pi1/class.tx_webkitpdf_pi1.php');
             }
-            $generator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_webkitpdf_pi1');
+            $generator = GeneralUtility::makeInstance('tx_webkitpdf_pi1');
             $generator->cObj = $this->globals->getCObj();
 
             return $generator->main('', $config);
@@ -59,14 +64,14 @@ class WebkitPdf extends AbstractGenerator
      */
     protected function readWebkitPdfConf()
     {
-        $sysPageObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Frontend\Page\PageRepository');
+        $sysPageObj = GeneralUtility::makeInstance(PageRepository::class);
 
         if (!$GLOBALS['TSFE']->sys_page) {
             $GLOBALS['TSFE']->sys_page = $sysPageObj;
         }
 
         $rootLine = $sysPageObj->getRootLine($GLOBALS['TSFE']->id);
-        $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Core\TypoScript\ExtendedTemplateService');
+        $TSObj = GeneralUtility::makeInstance(ExtendedTemplateService::class);
         $TSObj->tt_track = 0;
         $TSObj->init();
         $TSObj->runThroughTemplates($rootLine);
@@ -90,7 +95,7 @@ class WebkitPdf extends AbstractGenerator
             $params = $this->utilityFuncs->mergeConfiguration($params, $componentParams);
         }
         $text = $this->getLinkText();
-        $this->url = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $this->cObj->getTypolink_URL($GLOBALS['TSFE']->id, $params);
+        $this->url = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $this->cObj->getTypolink_URL($GLOBALS['TSFE']->id, $params);
         $params = [
             'tx_webkitpdf_pi1' => [
                 'urls' => [

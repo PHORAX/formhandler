@@ -14,11 +14,13 @@ namespace Typoheads\Formhandler\Generator;
  * Public License for more details.                                       *
  *                                                                        */
 
+use Typoheads\Formhandler\Component\AbstractComponent;
+
 /**
  * Class to generate PDF files in Backend
  * @uses Tx_Formhandler_Template_TCPDF
  */
-class BackendTcPdf extends \Typoheads\Formhandler\Component\AbstractComponent
+class BackendTcPdf extends AbstractComponent
 {
 
     /**

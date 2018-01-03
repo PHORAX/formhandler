@@ -17,6 +17,8 @@ namespace Typoheads\Formhandler\Generator;
 /**
  * CSV generator class for Formhandler
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/PHP/parsecsv.lib.php');
 
 class Csv extends AbstractGenerator
@@ -31,8 +33,9 @@ class Csv extends AbstractGenerator
     {
         $params = $this->gp;
         $exportParams = $this->utilityFuncs->getSingle($this->settings, 'exportParams');
+
         if (!is_array($exportParams) && strpos($exportParams, ',') !== false) {
-            $exportParams = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $exportParams);
+            $exportParams = GeneralUtility::trimExplode(',', $exportParams);
         }
 
         //build data
