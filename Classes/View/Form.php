@@ -628,7 +628,7 @@ class Form extends AbstractView
             $markers['###CAPTCHA###'] = Utility::makeCaptcha();
             $markers['###captcha###'] = $markers['###CAPTCHA###'];
         }
-        if (stristr($this->template, '###SR_FREECAP_IMAGE###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_freecap')) {
+        if (stristr($this->template, '###SR_FREECAP_IMAGE###') && ExtensionManagementUtility::isLoaded('sr_freecap')) {
             require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
             $this->freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
             $markers = array_merge($markers, $this->freeCap->makeCaptcha());
