@@ -13,9 +13,18 @@ namespace Typoheads\Formhandler\ViewHelpers;
  *
  * The TYPO3 project - inspiring people to share!
  */
-class IsArrayViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\IfViewHelper
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
+
+class IsArrayViewHelper extends AbstractConditionViewHelper
 {
 
+    /**
+     * Initialize arguments
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+    }
     /**
      * This method decides if the condition is TRUE or FALSE. It can be overriden in extending viewhelpers to adjust functionality.
      *
@@ -24,6 +33,6 @@ class IsArrayViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\IfViewHelper
      */
     protected static function evaluateCondition($arguments = null)
     {
-        return isset($arguments['condition']) && (true === is_array($arguments['value']));
+        return isset($arguments['condition']) && (true === is_array($arguments['condition']));
     }
 }
