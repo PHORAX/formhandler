@@ -13,6 +13,7 @@ namespace Typoheads\Formhandler\Domain\Repository;
      *
      * The TYPO3 project - inspiring people to share!
      */
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Typoheads\Formhandler\Domain\Model\Demand;
 
@@ -68,15 +69,17 @@ class LogDataRepository extends Repository
                 $constraints[] = $query->equals('pid', $demand->getPid());
             }
 
-            if (strlen($demand->getIp()) > 0) {
+            if (\strlen($demand->getIp()) > 0) {
                 $constraints[] = $query->equals('ip', $demand->getIp());
             }
 
-            if ($demand->getStartTimestamp() > 0) {
-                $constraints[] = $query->greaterThanOrEqual('tstamp', $demand->getStartTimestamp());
+            if ($demand->getStartTimestamp()) {
+                $startTime = $this->getTimestamp($demand->getStartTimestamp());
+                $constraints[] = $query->greaterThanOrEqual('tstamp', $startTime);
             }
-            if ($demand->getEndTimestamp() > 0) {
-                $constraints[] = $query->lessThan('tstamp', $demand->getEndTimestamp());
+            if ($demand->getEndTimestamp()) {
+                $endTime = $this->getTimestamp($demand->getEndTimestamp());
+                $constraints[] = $query->lessThan('tstamp', $endTime);
             }
         }
         if (count($constraints) > 0) {
@@ -84,5 +87,32 @@ class LogDataRepository extends Repository
             return $query->execute();
         }
         return $this->findAll();
+    }
+
+    /**
+     * @param string|int $timeInput
+     * @return int
+     * @throws \Exception
+     */
+    public function getTimestamp($timeInput)
+    {
+        if (MathUtility::canBeInterpretedAsInteger($timeInput)) {
+            return $timeInput;
+        }
+
+        $timeByFormat = \DateTime::createFromFormat('HH:mm DD-MM-YYYY', $timeInput);
+        if ($timeByFormat) {
+            $timeLimit = $timeByFormat->getTimestamp();
+        } else {
+            // try to check strtotime
+            $timeFromString = strtotime($timeInput);
+
+            if ($timeFromString) {
+                $timeLimit = $timeFromString;
+            } else {
+                throw new \Exception('Time could not be resolved to an integer. Given was: ' . htmlspecialchars($timeInput));
+            }
+        }
+        return $timeLimit;
     }
 }

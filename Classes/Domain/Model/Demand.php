@@ -47,16 +47,16 @@ class Demand extends AbstractEntity
     /**
      * Calculated start timestamp
      *
-     * @var int
+     * @var string
      */
-    protected $startTimestamp = 0;
+    protected $startTimestamp = null;
 
     /**
      * Calculated end timestamp
      *
-     * @var int
+     * @var string
      */
-    protected $endTimestamp = 0;
+    protected $endTimestamp = null;
 
     public function getCrdate()
     {
@@ -101,7 +101,7 @@ class Demand extends AbstractEntity
     /**
      * Get calculated start timestamp from query constraints
      *
-     * @return int
+     * @return string
      */
     public function getStartTimestamp()
     {
@@ -111,17 +111,17 @@ class Demand extends AbstractEntity
     /**
      * Set calculated start timestamp from query constraints
      *
-     * @param int $timestamp
+     * @param string $timestamp
      */
     public function setStartTimestamp($timestamp)
     {
-        $this->startTimestamp = (int)$timestamp;
+        $this->startTimestamp = $timestamp;
     }
 
     /**
      * Get calculated end timestamp from query constraints
      *
-     * @return int
+     * @return string
      */
     public function getEndTimestamp()
     {
@@ -131,10 +131,10 @@ class Demand extends AbstractEntity
     /**
      * Set calculated end timestamp from query constraints
      *
-     * @param int $timestamp
+     * @param string $timestamp
      */
     public function setEndTimestamp($timestamp)
     {
-        $this->endTimestamp = (int)$timestamp;
+        $this->endTimestamp = $timestamp;
     }
 }

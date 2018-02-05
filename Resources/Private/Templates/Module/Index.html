@@ -1,4 +1,6 @@
-{namespace fh = Typoheads\Formhandler\ViewHelpers}
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+	data-namespace-typo3-fluid="true">
+
 <f:layout name="Default" />
 <div class="row">
 	<div class="col-xs-12">
@@ -21,13 +23,11 @@
 						<label for="tx_formhandler_logdata_start"><f:translate key="label.start" /></label>
 						<div class="input-group input-group-sm">
 							<f:form.textfield
-									name="start"
-									value="{f:if(condition: demand.startTimestamp, then: \"{f:format.date(format:'{settings.timeFormat} {settings.dateFormat}', date: '@{demand.startTimestamp}')}\")}"
+									type="datetime"
+									property="startTimestamp"
 									id="tx_formhandler_logdata_start"
-									class="form-control input-sm t3js-datetimepicker t3js-clearable"
-									data="{date-type: 'datetime', date-offset: 0}"
-									/>
-							<f:form.hidden property="startTimestamp" value="{demand.startTimestamp}" />
+									class="form-control t3js-datetimepicker t3js-clearable"
+									data="{date-type:'datetime',date-offset:'0'}" />
 							<span class="input-group-btn">
 								<label class="btn btn-default" for="tx_formhandler_logdata_start">
 									<span class="fa fa-calendar"></span>
@@ -39,13 +39,12 @@
 						<label for="tx_formhandler_logdata_end"><f:translate key="label.end" /></label>
 						<div class="input-group input-group-sm">
 							<f:form.textfield
-									name="start"
-									value="{f:if(condition: demand.endTimestamp, then: \"{f:format.date(format:'{settings.timeFormat} {settings.dateFormat}', date: '@{demand.endTimestamp}')}\")}"
+									type="datetime"
+									property="endTimestamp"
 									id="tx_formhandler_logdata_end"
-									class="form-control input-sm t3js-datetimepicker t3js-clearable"
-									data="{date-type: 'datetime', date-offset: 0}"
-									/>
-							<f:form.hidden property="endTimestamp" value="{demand.endTimestamp}" />
+									class="form-control t3js-datetimepicker t3js-clearable"
+									data="{date-type:'datetime',date-offset:'0'}"
+							/>
 							<span class="input-group-btn">
 								<label class="btn btn-default" for="tx_formhandler_logdata_end">
 									<span class="fa fa-calendar"></span>
@@ -177,3 +176,4 @@
 		</f:section>
 	</div>
 </div>
+</html>
