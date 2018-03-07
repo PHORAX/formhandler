@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = [
     'description' => 'The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).',
     'category' => 'plugin',
     'shy' => 0,
-    'version' => '2.4.0',
+    'version' => '3.0.0',
     'state' => 'stable',
     'dependencies' => '',
     'conflicts' => '',
@@ -32,7 +32,7 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'php' => '5.5.0-0.0.0',
-            'typo3' => '7.6.0-7.6.99',
+            'typo3' => '7.6.0-8.7.99',
         ],
         'conflicts' => [],
         'suggests' => [],
