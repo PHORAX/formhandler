@@ -53,6 +53,7 @@
                             </label>
                             <config>
                                 <type>select</type>
+                                <renderType>selectSingle</renderType>
                                 <itemsProcFunc>Typoheads\Formhandler\Utility\TcaUtility->addFields_predefined</itemsProcFunc>
                                 <maxitems>1</maxitems>
                                 <size>1</size>
