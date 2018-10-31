@@ -4,14 +4,6 @@ if (!defined('TYPO3_MODE')) die ('Access denied.');
 if (TYPO3_MODE === 'BE') {
 
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
-        [
-            'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tt_content.list_type_pi1',
-            $_EXTKEY . '_pi1'
-        ],
-        'CType'
-    );
-
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
         'Typoheads.' . $_EXTKEY,
         'web',

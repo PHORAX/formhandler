@@ -1,6 +1,15 @@
 <?php
 defined('TYPO3_MODE') or die();
 
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+    [
+        'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tt_content.list_type_pi1',
+         'formhandler_pi1'
+    ],
+    'CType',
+    'formhandler'
+);
+
 $GLOBALS['TCA']['tt_content']['types']['formhandler_pi1']['showitem'] = '
 --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,
 --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.header;header,
