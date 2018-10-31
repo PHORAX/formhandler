@@ -18,7 +18,7 @@ if (TYPO3_MODE === 'BE') {
         'log',
         'bottom',
         [
-            'Module' => 'index, view, selectFields, export, deleteLogRows'
+            'Module' => 'index, view, selectFields, export'
         ],
         [
             'access' => 'user,group',
