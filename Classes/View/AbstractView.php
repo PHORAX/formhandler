@@ -1,18 +1,20 @@
 <?php
 namespace Typoheads\Formhandler\View;
 
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+
 /*                                                                        *
-     * This script is part of the TYPO3 project - inspiring people to share!  *
-     *                                                                        *
-     * TYPO3 is free software; you can redistribute it and/or modify it under *
-     * the terms of the GNU General Public License version 2 as published by  *
-     * the Free Software Foundation.                                          *
-     *                                                                        *
-     * This script is distributed in the hope that it will be useful, but     *
-     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
-     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
-     * Public License for more details.                                       *
-     *                                                                        */
+ * This script is part of the TYPO3 project - inspiring people to share!  *
+ *                                                                        *
+ * TYPO3 is free software; you can redistribute it and/or modify it under *
+ * the terms of the GNU General Public License version 2 as published by  *
+ * the Free Software Foundation.                                          *
+ *                                                                        *
+ * This script is distributed in the hope that it will be useful, but     *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+ * Public License for more details.                                       *
+ *                                                                        */
 
 /**
  * An abstract view for Formhandler
@@ -43,6 +45,11 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * @var tslib_cObj
      */
     public $cObj;
+
+    /**
+     * @var \TYPO3\CMS\Core\Service\MarkerBasedTemplateService
+     */
+    protected $markerBasedTemplateService;
 
     /**
      * The piVars
@@ -144,6 +151,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         $this->globals = $globals;
         $this->utilityFuncs = $utilityFuncs;
         $this->cObj = $this->globals->getCObj();
+        $this->markerBasedTemplateService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $this->pi_loadLL();
         $this->initializeView();
     }
@@ -225,8 +233,8 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      */
     public function setTemplate($templateCode, $templateName, $forceTemplate = false)
     {
-        $this->subparts['template'] = $this->cObj->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
-        $this->subparts['item'] = $this->cObj->getSubpart($this->subparts['template'], '###ITEM###');
+        $this->subparts['template'] = $this->markerBasedTemplateService->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
+        $this->subparts['item'] = $this->markerBasedTemplateService->getSubpart($this->subparts['template'], '###ITEM###');
     }
 
     /**

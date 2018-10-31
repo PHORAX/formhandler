@@ -508,7 +508,7 @@ class Mail extends AbstractFinisher
             } else {
                 $langMarkers = $this->utilityFuncs->getFilledLangMarkers($value, $this->globals->getLangFiles());
                 if (!empty($langMarkers)) {
-                    $value = $this->cObj->substituteMarkerArray($value, $langMarkers);
+                    $value = $this->markerBasedTemplateService->substituteMarkerArray($value, $langMarkers);
                 }
             }
         }
