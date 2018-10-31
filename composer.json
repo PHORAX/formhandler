@@ -9,7 +9,8 @@
 	"require": {
 		"typo3/cms-core": "^9.5.0",
 		"friendsoftypo3/typo3db-legacy": "^1.1",
-		"tecnickcom/tcpdf": "^6.0"
+		"tecnickcom/tcpdf": "^6.0",
+		"parsecsv/php-parsecsv": "^0.4"
 	},
 	"autoload": {
 		"psr-4": {
