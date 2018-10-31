@@ -45,7 +45,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * @var \Typoheads\Formhandler\Domain\Repository\LogDataRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $logDataRepository;
 
