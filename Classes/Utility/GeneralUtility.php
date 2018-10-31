@@ -15,6 +15,7 @@ namespace Typoheads\Formhandler\Utility;
  *                                                                        */
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use \TYPO3\CMS\Core\Crypto\Random;
 
 /**
  * A class providing helper functions for Formhandler
@@ -823,7 +824,10 @@ class GeneralUtility implements SingletonInterface
 
     public static function generateRandomID()
     {
-        $randomID = md5(\Typoheads\Formhandler\Utility\Globals::getFormValuesPrefix() . \TYPO3\CMS\Core\Utility\GeneralUtility::generateRandomBytes(10));
+        $randomID = md5(
+            \Typoheads\Formhandler\Utility\Globals::getFormValuesPrefix() .
+            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Random::class)->generateRandomBytes(10)
+        );
         return $randomID;
     }
 
