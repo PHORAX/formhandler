@@ -1,4 +1,5 @@
 <?php
+
 namespace Typoheads\Formhandler\ViewHelpers;
 
 /*
@@ -13,21 +14,15 @@ namespace Typoheads\Formhandler\ViewHelpers;
  *
  * The TYPO3 project - inspiring people to share!
  */
-class IsArrayViewHelper extends \TYPO3Fluid\Fluid\ViewHelpers\IfViewHelper
-{
 
+class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+{
     /**
-     * Renders <f:then> child if $condition is true, otherwise renders <f:else> child.
-     *
-     * @return string the rendered string
-     * @api
+     * @param array|NULL $arguments
+     * @return boolean
      */
-    public function render()
+    protected static function evaluateCondition($arguments = null)
     {
-        if (isset($arguments['condition']) && (true === is_array($arguments['value']))) {
-            return $this->renderThenChild();
-        } else {
-            return $this->renderElseChild();
-        }
+        return (isset($arguments['condition']) && (true === is_array($arguments['condition'])));
     }
 }
