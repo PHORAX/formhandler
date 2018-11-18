@@ -140,11 +140,12 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * @param \Typoheads\Formhandler\Controller\Configuration $configuration
      * @return void
      */
-    public function __construct(\Typoheads\Formhandler\Component\Manager $componentManager,
+    public function __construct(
+        \Typoheads\Formhandler\Component\Manager $componentManager,
                                 \Typoheads\Formhandler\Controller\Configuration $configuration,
                                 \Typoheads\Formhandler\Utility\Globals $globals,
-                                \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs)
-    {
+                                \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs
+    ) {
         parent::__construct();
         $this->componentManager = $componentManager;
         $this->configuration = $configuration;

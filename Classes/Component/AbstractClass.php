@@ -69,11 +69,12 @@ abstract class AbstractClass
      * @param \Typoheads\Formhandler\Controller\Configuration $configuration
      * @return void
      */
-    public function __construct(\Typoheads\Formhandler\Component\Manager $componentManager,
+    public function __construct(
+        \Typoheads\Formhandler\Component\Manager $componentManager,
                                 \Typoheads\Formhandler\Controller\Configuration $configuration,
                                 \Typoheads\Formhandler\Utility\Globals $globals,
-                                \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs)
-    {
+                                \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs
+    ) {
         $this->componentManager = $componentManager;
         $this->configuration = $configuration;
         $this->globals = $globals;
