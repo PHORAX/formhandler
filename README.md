@@ -1,4 +1,4 @@
-# TYPO3 Formhandle
+# TYPO3 Formhandler
 
 In case you need a TYPO3 CMS version 9 LTS compatible version of EXT: formhandler, please contact us at hello@phorax.com.
 
