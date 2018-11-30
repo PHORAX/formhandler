@@ -917,7 +917,7 @@ class Form extends AbstractView
             $imgConf['image.']['file.']['width'] = '100m';
             $imgConf['image.']['file.']['height'] = '100m';
         }
-        $thumb = $this->cObj->IMAGE($imgConf['image.']);
+        $thumb = $this->cObj->cObjGetSingle('IMAGE', $imgConf['image.']);
         return $thumb;
     }
 
