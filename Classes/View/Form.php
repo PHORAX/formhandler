@@ -763,7 +763,12 @@ class Form extends AbstractView
                                                 $maxCount = $fieldSettings['errorCheck.'][$key . '.']['maxCount'];
                                                 $markers['###' . $replacedFieldname . '_maxCount###'] = $maxCount;
 
-                                                $fileCount = count($sessionFiles[$replacedFieldname]);
+                                                if (is_array($sessionFiles[$replacedFieldname])) {
+                                                    $fileCount = count($sessionFiles[$replacedFieldname]);
+                                                }
+                                                else {
+                                                    $fileCount = 0;
+                                                }
                                                 $markers['###' . $replacedFieldname . '_fileCount###'] = $fileCount;
 
                                                 $remaining = $maxCount - $fileCount;
