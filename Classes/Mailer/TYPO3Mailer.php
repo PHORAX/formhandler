@@ -49,11 +49,12 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
      * @param \Typoheads\Formhandler\Utility\Globals $globals
      * @param \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs
      */
-    public function __construct(\Typoheads\Formhandler\Component\Manager $componentManager,
+    public function __construct(
+        \Typoheads\Formhandler\Component\Manager $componentManager,
                                 \Typoheads\Formhandler\Controller\Configuration $configuration,
                                 \Typoheads\Formhandler\Utility\Globals $globals,
-                                \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs)
-    {
+                                \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs
+    ) {
         parent::__construct($componentManager, $configuration, $globals, $utilityFuncs);
         $this->emailObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
     }

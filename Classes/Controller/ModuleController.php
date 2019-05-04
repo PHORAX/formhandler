@@ -45,7 +45,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * @var \Typoheads\Formhandler\Domain\Repository\LogDataRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $logDataRepository;
 
@@ -110,9 +110,6 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         }
         $this->view->assign('showItems', $this->gp['show']);
         $permissions = [];
-        if ($GLOBALS['BE_USER']->user['admin'] || intval($this->settings['enableClearLogs']) === 1) {
-            $permissions['delete'] = true;
-        }
         $this->view->assign('permissions', $permissions);
     }
 
@@ -233,34 +230,5 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 $generator->process();
             }
         }
-    }
-
-    /**
-     * Deletes given logs or all if value is "all"
-     * @param string uids to delete
-     * @return void
-     */
-    public function deleteLogRowsAction($logDataUids = null)
-    {
-        $forceDelete = intval($this->settings['forceDelete']);
-        if ($logDataUids === 'all') {
-            $text = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('message.deleted-all-logs', 'formhandler');
-            if ($forceDelete) {
-                $GLOBALS['TYPO3_DB']->exec_TRUNCATEquery('tx_formhandler_log');
-            } else {
-                $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_formhandler_log', '1=1', ['deleted' => 1]);
-            }
-        } else {
-            $logDataUids = explode(',', $logDataUids);
-            $text = sprintf(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('message.deleted-log-rows', 'formhandler'), count($logDataUids));
-            if ($forceDelete) {
-                $GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_formhandler_log', 'uid IN (' . implode(',', $logDataUids) . ')');
-            } else {
-                $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_formhandler_log', 'uid IN (' . implode(',', $logDataUids) . ')', ['deleted' => 1]);
-            }
-        }
-
-        $this->addFlashMessage($text);
-        $this->redirect("index");
     }
 }
