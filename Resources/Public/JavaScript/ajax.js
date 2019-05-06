@@ -119,8 +119,7 @@
         });
 
         for (index = 0; index < settings.validateFields.length; ++index) {
-            var shortFieldName = settings.validateFields[index];
-            var fieldName = shortFieldName;
+            var fieldName = settings.validateFields[index];
             if (settings.formValuesPrefix) {
                 fieldName = settings.formValuesPrefix + '[' + fieldName + ']';
             }
