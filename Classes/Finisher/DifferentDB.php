@@ -40,7 +40,6 @@ class DifferentDB extends DB
     /**
      * The name of the database driver to use.
      *
-     * @access protected
      * @var string
      */
     protected $driver;
@@ -48,7 +47,6 @@ class DifferentDB extends DB
     /**
      * The name of the database host.
      *
-     * @access protected
      * @var string
      */
     protected $host;
@@ -56,15 +54,13 @@ class DifferentDB extends DB
     /**
      * The port the database listens.
      *
-     * @access protected
-     * @var integer
+     * @var int
      */
     protected $port;
 
     /**
      * The name of the database.
      *
-     * @access protected
      * @var string
      */
     protected $db;
@@ -72,7 +68,6 @@ class DifferentDB extends DB
     /**
      * The username to use.
      *
-     * @access protected
      * @var string
      */
     protected $user;
@@ -86,7 +81,6 @@ class DifferentDB extends DB
     /**
      * The password to use.
      *
-     * @access protected
      * @var string
      */
     protected $password;
@@ -94,7 +88,6 @@ class DifferentDB extends DB
     /**
      * The connection object.
      *
-     * @access protected
      * @var \ADOConnection
      */
     protected $connection;
@@ -145,7 +138,7 @@ class DifferentDB extends DB
     protected function doesRecordExist($uid, $andWhere)
     {
         $exists = false;
-        
+
         if ($uid) {
             $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
             $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
@@ -153,7 +146,7 @@ class DifferentDB extends DB
 
             /** @var \ADORecordSet $rs */
             $rs = $this->connection->Execute($query);
-            
+
             if ($rs->RecordCount() > 0) {
                 $exists = true;
             }
@@ -177,7 +170,6 @@ class DifferentDB extends DB
      * Inits the finisher mapping settings values to internal attributes.
      *
      * @see \Typoheads\Formhandler\Finisher\DB::init
-     * @return void
      */
     public function init($gp, $settings)
     {

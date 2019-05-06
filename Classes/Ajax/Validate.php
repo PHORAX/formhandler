@@ -25,11 +25,10 @@ class Validate
     /**
      * @var array
      */
-    protected $templates = array(
+    protected $templates = [
         'spanSuccess' => '<span class="success">%s</span>',
         'spanError' => '<span class="error">%s</span>',
-    );
-
+    ];
 
     /**
      * Main method of the class.
@@ -87,8 +86,6 @@ class Validate
 
     /**
      * Initialize the class. Read GET parameters
-     *
-     * @return void
      */
     protected function init()
     {

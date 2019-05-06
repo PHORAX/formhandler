@@ -23,7 +23,6 @@ class TemplateTCPDF extends \TCPDF
     /**
      * Path to language file
      *
-     * @access protected
      * @var string
      */
     protected $sysLangFile;
@@ -31,7 +30,6 @@ class TemplateTCPDF extends \TCPDF
     /**
      * Text for the header
      *
-     * @access protected
      * @var string
      */
     protected $headerText;
@@ -39,7 +37,6 @@ class TemplateTCPDF extends \TCPDF
     /**
      * Text for the footer
      *
-     * @access protected
      * @var string
      */
     protected $footerText;
@@ -52,8 +49,6 @@ class TemplateTCPDF extends \TCPDF
 
     /**
      * Generates the header of the page
-     *
-     * @return void
      */
     public function Header()
     {
@@ -78,8 +73,6 @@ class TemplateTCPDF extends \TCPDF
 
     /**
      * Generates the footer
-     *
-     * @return void
      */
     public function Footer()
     {

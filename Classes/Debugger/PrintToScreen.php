@@ -22,8 +22,6 @@ class PrintToScreen extends AbstractDebugger
 
     /**
      * Prints the messages to the screen
-     *
-     * @return void
      */
     public function outputDebugLog()
     {
@@ -49,8 +47,6 @@ class PrintToScreen extends AbstractDebugger
 
     /**
      * Sets default config for the debugger.
-     *
-     * @return void
      */
     public function validateConfig()
     {

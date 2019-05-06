@@ -39,7 +39,6 @@ class ParseValues extends AbstractInterceptor
     /**
      * parses the given field values from strings to floats
      *
-     * @return void
      * @param array $fields
      */
     protected function parseFloats($fields)
