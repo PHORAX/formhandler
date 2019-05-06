@@ -84,7 +84,7 @@
 															<f:form.hidden name="logDataUids" class="logDataUids"/>
 														</f:form>
 														<a class="btn btn-default select-all" rel="" href="#" title="{f:translate(key: 'label.select-all-rows')}">
-															<span class="t3-icon fa fa-check-square-o"> </span>
+															<core:icon identifier="actions-document-select" />
 														</a>
 														<a href="#" class="btn btn-default pdf">PDF</a>
 														<a href="#" class="btn btn-default csv">CSV</a>
@@ -100,7 +100,7 @@
 														<td><f:format.date format="{settings.dateFormat} {settings.timeFormat}">{logDataRow.crdate}</f:format.date></td>
 														<td>{logDataRow.ip}</td>
 														<td>
-															<f:link.action action="view" class="btn btn-default" arguments="{logDataRow: logDataRow}"><span class="t3-icon fa fa-info-circle"> </span></f:link.action>
+															<f:link.action action="view" class="btn btn-default" arguments="{logDataRow: logDataRow}"><core:icon identifier="actions-document-view" /></f:link.action>
 															<f:link.action action="selectFields" class="btn btn-default" arguments="{logDataUids: logDataRow.uid, filetype: 'pdf'}"> PDF </f:link.action>
 															<f:link.action action="selectFields" class="btn btn-default" arguments="{logDataUids: logDataRow.uid, filetype: 'csv'}"> CSV </f:link.action>
 														</td>

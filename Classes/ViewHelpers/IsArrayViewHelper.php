@@ -13,21 +13,21 @@ namespace Typoheads\Formhandler\ViewHelpers;
  *
  * The TYPO3 project - inspiring people to share!
  */
-class IsArrayViewHelper extends \TYPO3Fluid\Fluid\ViewHelpers\IfViewHelper
-{
 
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\ViewHelpers\IfViewHelper;
+
+class IsArrayViewHelper extends IfViewHelper
+{
     /**
      * Renders <f:then> child if $condition is true, otherwise renders <f:else> child.
      *
-     * @return string the rendered string
-     * @api
+     * @param array $arguments
+     * @param RenderingContextInterface $renderingContext
+     * @return bool
      */
-    public function render()
+    public static function verdict(array $arguments, RenderingContextInterface $renderingContext)
     {
-        if (isset($arguments['condition']) && (true === is_array($arguments['value']))) {
-            return $this->renderThenChild();
-        } else {
-            return $this->renderElseChild();
-        }
+        return isset($arguments['condition']) && is_array($arguments['condition']);
     }
 }

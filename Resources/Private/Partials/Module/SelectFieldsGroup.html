@@ -2,24 +2,24 @@
     <table class="table table-striped table-hover select-fields fields-{groupName}">
         <thead>
         <tr>
-            <th>{groupLabel}</th>
             <th>
-                <a class="btn btn-default select-all" rel="" href="#" title="{f:translate(key: 'label.select-all-rows')}">
-                    <span class="t3-icon fa fa-check-square-o"> </span>
+                <a class="btn btn-default checkAll select-all" rel="" href="#" title="{f:translate(key: 'label.select-all-rows')}">
+									<core:icon identifier="actions-document-select" />
                 </a>
             </th>
+						<th style="width: 99%;">{groupLabel}</th>
         </tr>
         </thead>
         <tbody>
         <f:for each="{fields}" as="field">
             <tr>
+							<td>
+								<label class="btn btn-default btn-checkbox">
+									<f:form.checkbox id="tx_formhandler_logdata_{field}" name="fields[]" value="{field}" />
+									<span class="t3-icon fa"></span>
+								</label>
+							</td>
                 <td><label for="tx_formhandler_logdata_{field}">{field}</label></td>
-                <td>
-                    <label class="btn btn-default btn-checkbox">
-                        <f:form.checkbox id="tx_formhandler_logdata_{field}" name="fields[]" value="{field}" />
-                        <span class="t3-icon fa"></span>
-                    </label>
-                </td>
             </tr>
         </f:for>
         </tbody>
