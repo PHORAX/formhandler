@@ -14,6 +14,12 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Types\Type;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * When a BE-user is logged in and autoCreate is to true this looks if
  * the specified table exists and if not creates it with the key-field (uid).
@@ -38,14 +44,9 @@ class AutoDB extends DB
     public $settings;
 
     /**
-     * @var TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected $db;
-
-    /**
      * @var string Attributes for new db fields
      */
-    protected $newFieldsSqlAttribs = 'TINYTEXT NOT NULL';
+    protected $newFieldsSqlAttribs = 'text';
 
     /**
      * Initialize the component
@@ -60,12 +61,9 @@ class AutoDB extends DB
         }
         $this->settings = $settings;
         parent::init($gp, $settings);
-
         if ($this->settings['newFieldsSqlAttribs']) {
             $this->newFieldsSqlAttribs = $this->utilityFuncs->getSingle($this->settings, 'newFieldsSqlAttribs');
         }
-
-        $this->db = $GLOBALS['TYPO3_DB'];
     }
 
     /* (non-PHPdoc)
@@ -78,9 +76,11 @@ class AutoDB extends DB
             $this->createTable();
         }
 
-        $dbFields = $this->db->admin_get_fields($this->table);
-
-        foreach ($dbFields as $field => $properties) {
+        $conn = $this->getConnection();
+        $schemaManager = $conn->getSchemaManager();
+        $tableColumns = $schemaManager->listTableColumns($this->table);
+        foreach ($tableColumns as $column) {
+            $field = strtolower($column->getName());
             if ($field != $this->key && !isset($this->settings['fields.'][$field])) {
                 $this->settings['fields.'][$field . '.'] = ['mapping' => $field];
             }
@@ -143,44 +143,46 @@ class AutoDB extends DB
         $fields = $this->getFormFields();
         $excludeFields = trim($this->utilityFuncs->getSingle($this->settings, 'excludeFields'));
         if (strlen($excludeFields) > 0) {
-            $excludes = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $excludeFields);
+            $excludes = GeneralUtility::trimExplode(',', $excludeFields);
             foreach ($excludes as $exclude) {
                 unset($fields[$exclude]);
             }
         }
 
-        $globalSettings = $this->globals->getSettings();
-        $isDebugMode = $this->utilityFuncs->getSingle($globalSettings, 'debug');
-        if (intval($isDebugMode) === 1) {
-            $this->db->debugOutput = 1;
-        }
+        $conn = $this->getConnection();
+        $schemaManager = $conn->getSchemaManager();
 
-        $res = $this->db->sql_query("SHOW TABLES LIKE '" . $this->table . "'");
-
-        if (!$this->db->sql_num_rows($res)) {
-            $query = "CREATE TABLE `" . $this->table . "` (
-				`" . $this->key . "` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
-			)";
-            $this->db->sql_query($query);
-            $this->utilityFuncs->debugMessage('sql_request', [$query]);
+        if (!$schemaManager->tablesExist([$this->table])) {
+            $table = new Table($this->table);
+            $table->addColumn(
+                'uid',
+                'integer',
+                [
+                    'notnull' => true,
+                    'unsigned' => true,
+                    'autoincrement' => true,
+                ]
+            );
+            $table->setPrimaryKey(['uid']);
+            $schemaManager->createTable($table);
             $dbFields = [$this->key];
         } else {
-            $dbFields = array_keys($this->db->admin_get_fields($this->table));
+            $dbFields = [];
+            $tableColumns = $schemaManager->listTableColumns($this->table);
+            foreach ($tableColumns as $column) {
+                $dbFields[] = strtolower($column->getName());
+            }
         }
-        $this->db->sql_free_result($res);
 
         $createFields = array_diff($fields, $dbFields);
 
         if (count($createFields)) {
-            $sql = 'ALTER TABLE ' . $this->table . ' ADD `';
-            $sql .= implode('` ' . $this->newFieldsSqlAttribs . ', ADD `', $createFields);
-            $sql .= '` ' . $this->newFieldsSqlAttribs;
-
-            $this->db->sql_query($sql);
-            $this->utilityFuncs->debugMessage('sql_request', [$sql]);
-            if ($this->db->sql_error()) {
-                $this->utilityFuncs->debugMessage('error', [$this->db->sql_error()], 3);
+            $addedColumns = [];
+            foreach ($createFields as $fieldName) {
+                $addedColumns[] = new Column($fieldName, Type::getType($this->newFieldsSqlAttribs));
             }
+            $tableDiff = new TableDiff($this->table, $addedColumns);
+            $schemaManager->alterTable($tableDiff);
         }
     }
 }

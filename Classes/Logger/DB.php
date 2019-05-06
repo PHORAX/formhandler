@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Logger;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+
 /**
  * A logger to store submission information in TYPO3 database
  */
@@ -85,8 +87,12 @@ class DB extends AbstractLogger
         }
 
         //query the database
-        $GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $fields);
-        $insertedUID = $GLOBALS['TYPO3_DB']->sql_insert_id();
+        $conn = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable($table);
+
+        $conn->insert($table, $fields);
+        $insertedUID = (int)$conn->lastInsertId($table);
+
         $sessionValues = [
             'inserted_uid' => $insertedUID,
             'inserted_tstamp' => $fields['tstamp'],
@@ -99,8 +105,8 @@ class DB extends AbstractLogger
 
         if (intval($this->utilityFuncs->getSingle($this->settings, 'nodebug')) !== 1) {
             $this->utilityFuncs->debugMessage('logging', [$table, implode(',', $fields)]);
-            if (strlen($GLOBALS['TYPO3_DB']->sql_error()) > 0) {
-                $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
+            if ($conn->errorInfo()) {
+                $this->utilityFuncs->debugMessage('error', [$conn->errorInfo()], 3);
             }
         }
 
