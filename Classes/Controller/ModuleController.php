@@ -220,7 +220,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             } elseif ($filetype === 'csv') {
                 $className = $this->utilityFuncs->getPreparedClassName(
                     $this->settings['csv'],
-                    '\Typoheads\Formhandler\Generator\BackendCsv'
+                    \Typoheads\Formhandler\Generator\BackendCsv::class
                 );
 
                 $generator = $this->componentManager->getComponent($className);

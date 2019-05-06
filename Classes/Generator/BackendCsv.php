@@ -120,7 +120,7 @@ class BackendCsv extends \Typoheads\Formhandler\Component\AbstractComponent
         $data = $dataSorted;
 
         // create new parseCSV object.
-        $csv = new \parseCSV();
+        $csv = new \parseCSV(null, null, null, []);
         $csv->delimiter = $csv->output_delimiter = $this->settings['delimiter'];
         $csv->enclosure = $this->settings['enclosure'];
         $csv->input_encoding = strtolower($this->getInputCharset());
