@@ -22,8 +22,6 @@ class PdfGenerator extends AbstractGenerator
 
     /**
      * Renders the PDF.
-     *
-     * @return void
      */
     public function process()
     {

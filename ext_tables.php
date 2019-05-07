@@ -1,9 +1,9 @@
 <?php
-if (!defined('TYPO3_MODE')) die ('Access denied.');
+if (!defined('TYPO3_MODE')) {
+    die('Access denied.');
+}
 
 if (TYPO3_MODE === 'BE') {
-
-
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
         'Typoheads.' . $_EXTKEY,
         'web',
@@ -21,7 +21,6 @@ if (TYPO3_MODE === 'BE') {
 }
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_formhandler_log');
-
 
 // REGISTER ICONS FOR USE IN BACKEND WIZARD
 $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);

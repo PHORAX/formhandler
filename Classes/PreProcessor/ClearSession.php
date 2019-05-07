@@ -21,7 +21,6 @@ namespace Typoheads\Formhandler\PreProcessor;
  * <code>
  * preProcessors.1.class = Tx_Formhandler_PreProcessor_ClearSession
  * </code>
- *
  */
 class ClearSession extends AbstractPreProcessor
 {

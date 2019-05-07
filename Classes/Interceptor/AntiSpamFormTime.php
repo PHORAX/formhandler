@@ -48,31 +48,30 @@ class AntiSpamFormTime extends AbstractInterceptor
                 $this->globals->getSession()->reset();
                 $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
                 return 'Lousy spammer!';
-            } else {
-
-                //set view
-                $viewClass = '\Typoheads\Formhandler\View\AntiSpam';
-                if ($this->settings['view']) {
-                    $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
-                }
-                $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
-                $view = $this->componentManager->getComponent($viewClass);
-                $view->setLangFiles($this->globals->getLangFiles());
-                $view->setPredefined($this->predefined);
-
-                $templateCode = $this->globals->getTemplateCode();
-                if ($this->settings['templateFile']) {
-                    $templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings);
-                }
-                $view->setTemplate($templateCode, 'ANTISPAM');
-                if (!$view->hasTemplate()) {
-                    $this->utilityFuncs->throwException('spam_detected');
-                    return 'Lousy spammer!';
-                }
-                $content = $view->render($this->gp, []);
-                $this->globals->getSession()->reset();
-                return $content;
             }
+
+            //set view
+            $viewClass = '\Typoheads\Formhandler\View\AntiSpam';
+            if ($this->settings['view']) {
+                $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
+            }
+            $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
+            $view = $this->componentManager->getComponent($viewClass);
+            $view->setLangFiles($this->globals->getLangFiles());
+            $view->setPredefined($this->predefined);
+
+            $templateCode = $this->globals->getTemplateCode();
+            if ($this->settings['templateFile']) {
+                $templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings);
+            }
+            $view->setTemplate($templateCode, 'ANTISPAM');
+            if (!$view->hasTemplate()) {
+                $this->utilityFuncs->throwException('spam_detected');
+                return 'Lousy spammer!';
+            }
+            $content = $view->render($this->gp, []);
+            $this->globals->getSession()->reset();
+            return $content;
         }
         return $this->gp;
     }
@@ -80,7 +79,7 @@ class AntiSpamFormTime extends AbstractInterceptor
     /**
      * Performs checks if the submitted form should be treated as Spam.
      *
-     * @return boolean
+     * @return bool
      */
     protected function doCheck()
     {

@@ -25,7 +25,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * The content returned by the controller
      *
-     * @access protected
      * @var Content
      */
     protected $content;
@@ -33,7 +32,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * The key of a possibly selected predefined form
      *
-     * @access protected
      * @var string
      */
     protected $predefined;
@@ -41,7 +39,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * The template file to be used. Only if template file was defined via plugin record
      *
-     * @access protected
      * @var string
      */
     protected $templateFile;
@@ -49,7 +46,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * Array of configured translation files
      *
-     * @access protected
      * @var array
      */
     protected $langFiles;
@@ -58,7 +54,6 @@ abstract class AbstractController extends AbstractClass
      * Sets the content attribute of the controller
      *
      * @param Content $content
-     * @return void
      */
     public function setContent($content)
     {
@@ -79,7 +74,6 @@ abstract class AbstractController extends AbstractClass
      * Sets the internal attribute "predefined"
      *
      * @param string $key
-     * @return void
      */
     public function setPredefined($key)
     {
@@ -90,7 +84,6 @@ abstract class AbstractController extends AbstractClass
      * Sets the internal attribute "langFile"
      *
      * @param array $langFiles
-     * @return void
      */
     public function setLangFiles($langFiles)
     {
@@ -100,7 +93,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * Sets the template file attribute to $template
      * @param string $template
-     * @return void
      */
     public function setTemplateFile($template)
     {

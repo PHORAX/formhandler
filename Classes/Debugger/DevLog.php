@@ -22,8 +22,6 @@ class DevLog extends AbstractDebugger
 
     /**
      * Inserts the messages to the devlog
-     *
-     * @return void
      */
     public function outputDebugLog()
     {

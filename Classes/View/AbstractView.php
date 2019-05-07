@@ -25,7 +25,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The prefix id
      *
-     * @access public
      * @var string
      */
     public $prefixId = 'Tx_Formhandler';
@@ -33,7 +32,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The extension key
      *
-     * @access public
      * @var string
      */
     public $extKey = 'formhandler';
@@ -41,7 +39,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The cObj for link generation in FE
      *
-     * @access public
      * @var tslib_cObj
      */
     public $cObj;
@@ -54,7 +51,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The piVars
      *
-     * @access public
      * @var array
      */
     public $piVars;
@@ -62,7 +58,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The Formhandler component manager
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Component\Manager
      */
     protected $componentManager;
@@ -70,7 +65,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The global Formhandler configuration
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Controller\Configuration
      */
     protected $configuration;
@@ -78,7 +72,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The global Formhandler values
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Utility\Globals
      */
     protected $globals;
@@ -86,7 +79,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The Formhandler utility methods
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
     protected $utilityFuncs;
@@ -94,7 +86,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The model of the view
      *
-     * @access protected
      * @var misc
      */
     protected $model;
@@ -102,7 +93,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The subparts array
      *
-     * @access protected
      * @var array
      */
     protected $subparts;
@@ -110,7 +100,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The template code
      *
-     * @access protected
      * @var string
      */
     protected $template;
@@ -118,7 +107,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * An array of translation file names
      *
-     * @access protected
      * @var array
      */
     protected $langFiles;
@@ -126,7 +114,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The get/post parameters
      *
-     * @access protected
      * @var array
      */
     protected $gp;
@@ -138,13 +125,12 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      *
      * @param \Typoheads\Formhandler\Component\Manager $componentManager
      * @param \Typoheads\Formhandler\Controller\Configuration $configuration
-     * @return void
      */
     public function __construct(
         \Typoheads\Formhandler\Component\Manager $componentManager,
-                                \Typoheads\Formhandler\Controller\Configuration $configuration,
-                                \Typoheads\Formhandler\Utility\Globals $globals,
-                                \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs
+        \Typoheads\Formhandler\Controller\Configuration $configuration,
+        \Typoheads\Formhandler\Utility\Globals $globals,
+        \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs
     ) {
         parent::__construct();
         $this->componentManager = $componentManager;
@@ -161,7 +147,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * Sets the internal attribute "langFiles"
      *
      * @param array $langFiles The files array
-     * @return void
      */
     public function setLangFiles($langFiles)
     {
@@ -172,7 +157,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * Sets the settings
      *
      * @param string $settings The settings
-     * @return void
      */
     public function setSettings($settings)
     {
@@ -196,7 +180,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * Sets the key of the chosen predefined form
      *
      * @param string $key The key of the predefined form
-     * @return void
      */
     public function setPredefined($key)
     {
@@ -207,7 +190,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * Sets the model of the view
      *
      * @param misc $model
-     * @return void
      */
     public function setModel($model)
     {
@@ -229,8 +211,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      *
      * @param string $templateCode The whole template code of a template file
      * @param string $templateName Name of a subpart containing the template code to work with
-     * @param boolean $forceTemplate Not needed
-     * @return void
+     * @param bool $forceTemplate Not needed
      */
     public function setTemplate($templateCode, $templateName, $forceTemplate = false)
     {
@@ -241,7 +222,7 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * Returns false if the view doesn't have template code.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasTemplate()
     {
@@ -261,7 +242,6 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * Overwrite this method to extend the initialization of the View
      *
-     * @return void
      * @author Jochen Rau
      */
     protected function initializeView()

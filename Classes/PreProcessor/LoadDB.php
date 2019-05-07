@@ -47,26 +47,23 @@ namespace Typoheads\Formhandler\PreProcessor;
  *
  * @author    Mathias Bolt Lesniak, LiliO Design <mathias@lilio.com>
  */
-
 class LoadDB extends AbstractPreProcessor
 {
 
     /**
-     * @var Array $data as associative array. Row data from DB.
-     * @access protected
+     * @var array $data as associative array. Row data from DB.
      */
     protected $data;
 
     /**
-     * @var Array $files as associative array.
-     * @access protected
+     * @var array $files as associative array.
      */
     protected $files;
 
     /**
      * Main method called by the controller
      *
-     * @return Array GP
+     * @return array GP
      */
     public function process()
     {
@@ -90,7 +87,6 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Loads data from DB intto the GP Array
      *
-     * @return void
      * @param array $settings
      */
     protected function loadDBToGP($settings)
@@ -109,8 +105,7 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Loads DB data into the Session. Used only for step 2+.
      *
-     * @return void
-     * @param Array $settings
+     * @param array $settings
      * @param int $step
      */
     protected function loadDBToSession($settings, $step)
@@ -195,8 +190,8 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Loads data from DB
      *
-     * @return Array of row data
-     * @param Array $settings
+     * @return array of row data
+     * @param array $settings
      * @param int $step
      */
     protected function loadDB($settings)
@@ -213,7 +208,8 @@ class LoadDB extends AbstractPreProcessor
             $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
             return $row;
-        } elseif ($rowCount > 0) {
+        }
+        if ($rowCount > 0) {
             $this->utilityFuncs->debugMessage('sql_too_many_rows', [$rowCount], 3);
         }
         return [];
@@ -242,7 +238,7 @@ class LoadDB extends AbstractPreProcessor
         $quotes = '|\"|\`|\'';
         //if pidInList is not set in TypoScript remove it from the where clause.
         if (!isset($conf['pidInList']) || strlen($conf['pidInList']) === 0) {
-            $queryParts['WHERE'] = preg_replace('/([^ ]+\.('.$quotes.')pid('.$quotes.') IN \([^ ]+\) AND )/i', '', $queryParts['WHERE']);
+            $queryParts['WHERE'] = preg_replace('/([^ ]+\.(' . $quotes . ')pid(' . $quotes . ') IN \([^ ]+\) AND )/i', '', $queryParts['WHERE']);
         }
         return $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
     }

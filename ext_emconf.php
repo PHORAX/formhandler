@@ -1,6 +1,6 @@
 <?php
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
   'title' => 'Formhandler',
   'description' => 'The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).',
   'category' => 'plugin',
@@ -10,12 +10,12 @@ $EM_CONF[$_EXTKEY] = array(
   'author' => 'Dev-Team Typoheads',
   'author_email' => 'dev@typoheads.at',
   'author_company' => 'Typoheads GmbH',
-  'constraints' => array(
-    'depends' => array(
+  'constraints' => [
+    'depends' => [
       'typo3' => '9.5.0-9.5.99',
       'typo3db_legacy' => ''
-    ),
-  ),
+    ],
+  ],
   'uploadfolder' => false,
   'createDirs' => null
-);
+];
