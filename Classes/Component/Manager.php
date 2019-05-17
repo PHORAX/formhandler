@@ -29,7 +29,6 @@ class Manager implements SingletonInterface
     /**
      * The global Formhandler values
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Utility\Globals
      */
     protected $globals;
@@ -37,7 +36,6 @@ class Manager implements SingletonInterface
     /**
      * The global Formhandler values
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
     protected $utilityFuncs;

@@ -25,7 +25,6 @@ abstract class AbstractComponent extends AbstractClass
     /**
      * The GET/POST parameters
      *
-     * @access protected
      * @var array
      */
     protected $gp;
@@ -33,7 +32,6 @@ abstract class AbstractComponent extends AbstractClass
     /**
      * Settings
      *
-     * @access protected
      * @var array
      */
     protected $settings;
@@ -43,8 +41,6 @@ abstract class AbstractComponent extends AbstractClass
      *
      * @param array $gp GET and POST variable array
      * @param array $settings Typoscript configuration for the component (component.1.config.*)
-     *
-     * @return void
      */
     public function init($gp, $settings)
     {

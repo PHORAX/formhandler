@@ -50,19 +50,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @author    Mathias Bolt Lesniak, LiliO Design <mathias@lilio.com>
  */
-
 class LoadDB extends AbstractPreProcessor
 {
 
     /**
      * @var array $data as associative array. Row data from DB.
-     * @access protected
      */
     protected $data;
 
     /**
      * @var array $files as associative array.
-     * @access protected
      */
     protected $files;
 
@@ -93,7 +90,6 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Loads data from DB intto the GP Array
      *
-     * @return void
      * @param array $settings
      */
     protected function loadDBToGP($settings)
@@ -112,8 +108,7 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Loads DB data into the Session. Used only for step 2+.
      *
-     * @return void
-     * @param Array $settings
+     * @param array $settings
      * @param int $step
      */
     protected function loadDBToSession($settings, $step)
@@ -213,7 +208,8 @@ class LoadDB extends AbstractPreProcessor
         $rowCount = count($rows);
         if ($rowCount === 1) {
             return reset($rows);
-        } elseif ($rowCount > 0) {
+        }
+        if ($rowCount > 0) {
             $this->utilityFuncs->debugMessage('sql_too_many_rows', [$rowCount], 3);
         }
         return [];
@@ -243,7 +239,7 @@ class LoadDB extends AbstractPreProcessor
         $quotes = '|\"|\`|\'';
         //if pidInList is not set in TypoScript remove it from the where clause.
         if (!isset($conf['pidInList']) || strlen($conf['pidInList']) === 0) {
-            $sql = preg_replace('/([^ ]+\.('.$quotes.')pid('.$quotes.') IN \([^ ]+\) AND )/i', '', $sql);
+            $sql = preg_replace('/([^ ]+\.(' . $quotes . ')pid(' . $quotes . ') IN \([^ ]+\) AND )/i', '', $sql);
         }
         return $sql;
     }

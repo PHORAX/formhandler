@@ -23,15 +23,12 @@ class Content
     /**
      * The actual content
      *
-     * @access protected
      * @var string
      */
     protected $content;
 
     /**
      * The constructor settings the internal attribute "content"
-     *
-     * @return void
      */
     public function __construct($content)
     {
@@ -42,7 +39,6 @@ class Content
      * Sets the internal attribute "content"
      *
      * @param string $content
-     * @return void
      */
     public function setContent($content)
     {

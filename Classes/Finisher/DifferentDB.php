@@ -41,7 +41,6 @@ class DifferentDB extends DB
      * Inits the finisher mapping settings values to internal attributes.
      *
      * @see \Typoheads\Formhandler\Finisher\DB::init
-     * @return void
      */
     public function init($gp, $settings)
     {

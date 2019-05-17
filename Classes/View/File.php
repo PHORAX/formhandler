@@ -6,7 +6,7 @@ class File extends Form
     public function render($gp, $errors)
     {
         $this->settings['disableWrapInBaseClass'] = 1;
-        $content = parent::render($gp, array());
+        $content = parent::render($gp, []);
         return trim($content);
     }
 }

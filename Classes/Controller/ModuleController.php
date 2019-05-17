@@ -22,7 +22,6 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * The request arguments
      *
-     * @access protected
      * @var array
      */
     protected $gp;
@@ -30,7 +29,6 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * The Formhandler component manager
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Component\Manager
      */
     protected $componentManager;
@@ -38,8 +36,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * The Formhandler utility funcs
      *
-     * @access protected
-     * @var \\Typoheads\Formhandler\Utility\GeneralUtility
+     * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
     protected $utilityFuncs;
 
@@ -56,7 +53,6 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * init all actions
-     * @return void
      */
     public function initializeAction()
     {
@@ -90,7 +86,6 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * Displays log data
-     * @return void
      */
     public function indexAction(\Typoheads\Formhandler\Domain\Model\Demand $demand = null)
     {
@@ -126,7 +121,6 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * Displays fields selector
      * @param string uids to export
      * @param string export file type (PDF || CSV)
-     * @return void
      */
     public function selectFieldsAction($logDataUids = null, $filetype = '')
     {
@@ -191,7 +185,6 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @param string uids to export
      * @param array fields to export
      * @param string export file type (PDF || CSV)
-     * @return void
      */
     public function exportAction($logDataUids = null, array $fields, $filetype = '')
     {
@@ -220,7 +213,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             } elseif ($filetype === 'csv') {
                 $className = $this->utilityFuncs->getPreparedClassName(
                     $this->settings['csv'],
-                    '\Typoheads\Formhandler\Generator\BackendCsv'
+                    \Typoheads\Formhandler\Generator\BackendCsv::class
                 );
 
                 $generator = $this->componentManager->getComponent($className);

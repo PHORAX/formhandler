@@ -65,7 +65,6 @@ class DB extends AbstractFinisher
     /**
      * The name of the table to put the values into.
      *
-     * @access protected
      * @var string
      */
     protected $table;
@@ -73,7 +72,6 @@ class DB extends AbstractFinisher
     /**
      * The field in the table holding the primary key.
      *
-     * @access protected
      * @var string
      */
     protected $key;
@@ -81,8 +79,7 @@ class DB extends AbstractFinisher
     /**
      * A flag to indicate if to insert the record or to update an existing one
      *
-     * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $doUpdate;
 
@@ -150,7 +147,7 @@ class DB extends AbstractFinisher
      * Method to query the database making an insert or update statement using the given fields.
      *
      * @param array &$queryFields Array holding the query fields
-     * @return boolean Success flag
+     * @return bool Success flag
      */
     protected function save(&$queryFields)
     {
@@ -248,8 +245,6 @@ class DB extends AbstractFinisher
 
     /**
      * Inits the finisher mapping settings values to internal attributes.
-     *
-     * @return void
      */
     public function init($gp, $settings)
     {

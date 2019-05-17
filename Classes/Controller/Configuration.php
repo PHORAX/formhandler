@@ -31,15 +31,12 @@ class Configuration implements \ArrayAccess
     /**
      * The TS setup
      *
-     * @access protected
      * @var array
      */
     protected $setup;
 
     /**
      * The constructor reading the TS setup into the according attribute
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -60,7 +57,6 @@ class Configuration implements \ArrayAccess
      * Merges the values of $setup with plugin.[xxx].settings
      *
      * @param array $setup
-     * @return void
      */
     public function merge($setup)
     {

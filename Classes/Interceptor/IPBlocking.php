@@ -53,7 +53,6 @@ class IPBlocking extends AbstractInterceptor
     /**
      * The table where the form submissions are logged
      *
-     * @access protected
      * @var string
      */
     protected $logTable = 'tx_formhandler_log';
@@ -90,9 +89,7 @@ class IPBlocking extends AbstractInterceptor
      * @param int Timebase value
      * @param string Timebase unit (seconds|minutes|hours|days)
      * @param int maximum amount of submissions in given time base.
-     * @param boolean add IP address to where clause
-     * @return void
-     * @throws \Exception
+     * @param bool add IP address to where clause
      */
     private function check($value, $unit, $maxValue, $addIPToWhere = true)
     {
@@ -173,7 +170,6 @@ class IPBlocking extends AbstractInterceptor
      *
      * @param string (ip|global) Defines the message sent
      * @param array The select rows of log table
-     * @return void
      */
     private function sendReport($type, $rows)
     {

@@ -24,7 +24,6 @@ class BackendTcPdf extends \Typoheads\Formhandler\Component\AbstractComponent
     /**
      * The internal PDF object
      *
-     * @access protected
      * @var Tx_Formhandler_Template_TCPDF
      */
     protected $pdf;
@@ -64,7 +63,6 @@ class BackendTcPdf extends \Typoheads\Formhandler\Component\AbstractComponent
     }
 
     /**
-     * @return void
      */
     public function process()
     {
@@ -182,7 +180,6 @@ class BackendTcPdf extends \Typoheads\Formhandler\Component\AbstractComponent
      * Sets the template code for the PDF
      *
      * @param string $templateCode The template code
-     * @return void
      */
     public function setTemplateCode($templateCode)
     {

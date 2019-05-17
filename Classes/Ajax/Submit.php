@@ -54,8 +54,6 @@ class Submit
 
     /**
      * Initialize the class. Read GET parameters
-     *
-     * @return void
      */
     protected function init()
     {

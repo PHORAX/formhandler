@@ -127,7 +127,7 @@ class RemoveXSS extends AbstractInterceptor
      *
      * @author hmdker <hmdker(at)gmail(dot)com>
      * @param string
-     * @return boolean is UTF-8
+     * @return bool is UTF-8
      */
     protected function isUTF8($str)
     {
@@ -137,7 +137,8 @@ class RemoveXSS extends AbstractInterceptor
             if ($c > 128) {
                 if (($c >= 254)) {
                     return false;
-                } elseif ($c >= 252) {
+                }
+                if ($c >= 252) {
                     $bits = 6;
                 } elseif ($c >= 248) {
                     $bits = 5;

@@ -23,7 +23,6 @@ class Form extends AbstractView
     /**
      * An array of fields to do not encode for output
      *
-     * @access protected
      * @var array
      */
     protected $disableEncodingFields;
@@ -147,8 +146,6 @@ class Form extends AbstractView
 
     /**
      * Reads the translation file entered in TS setup.
-     *
-     * @return void
      */
     protected function readMasterTemplates()
     {
@@ -231,8 +228,6 @@ class Form extends AbstractView
     /**
      * Copies the subparts ###FORM_STARTBLOCK### and ###FORM_ENDBLOCK### and stored them in session.
      * This is needed to replace the markers ###FORM_STARTBLOCK### and ###FORM_ENDBLOCK### in the next steps.
-     *
-     * @return void
      */
     protected function storeStartEndBlock()
     {
@@ -337,7 +332,7 @@ class Form extends AbstractView
     protected function handleHasTranslationSubpartCondition($condition)
     {
         $translation = $this->utilityFuncs->getTranslatedMessage($this->langFiles, $condition);
-        return (strlen($translation) > 0);
+        return strlen($translation) > 0;
     }
 
     protected function handleIfSubpartCondition($condition)
@@ -347,8 +342,6 @@ class Form extends AbstractView
 
     /**
      * Fills the markers ###FORM_STARTBLOCK### and ###FORM_ENDBLOCK### with the stored values from session.
-     *
-     * @return void
      */
     protected function fillStartEndBlock()
     {
@@ -374,8 +367,6 @@ class Form extends AbstractView
      *        ###selected_[fieldname]_[value]###
      *        ###checked_[fieldname]_[value]###
      * in $this->template
-     *
-     * @return void
      */
     protected function fillSelectedMarkers()
     {
@@ -395,8 +386,6 @@ class Form extends AbstractView
 
     /**
      * Substitutes default markers in $this->template.
-     *
-     * @return void
      */
     protected function fillDefaultMarkers()
     {
@@ -626,7 +615,6 @@ class Form extends AbstractView
      * Fills the markers for the supported captcha extensions.
      *
      * @param array &$markers Reference to the markers array
-     * @return void
      */
     protected function fillCaptchaMarkers(&$markers)
     {
@@ -667,12 +655,11 @@ class Form extends AbstractView
      * Fills the markers ###FEUSER_[property]### with the data from $GLOBALS["TSFE"]->fe_user->user.
      *
      * @param array &$markers Reference to the markers array
-     * @return void
      */
     protected function fillFEUserMarkers(&$markers)
     {
-        if (is_array($GLOBALS["TSFE"]->fe_user->user)) {
-            foreach ($GLOBALS["TSFE"]->fe_user->user as $k => $v) {
+        if (is_array($GLOBALS['TSFE']->fe_user->user)) {
+            foreach ($GLOBALS['TSFE']->fe_user->user as $k => $v) {
                 $markers['###FEUSER_' . strtoupper($k) . '###'] = $v;
                 $markers['###FEUSER_' . strtolower($k) . '###'] = $v;
                 $markers['###feuser_' . strtoupper($k) . '###'] = $v;
@@ -695,7 +682,6 @@ class Form extends AbstractView
      *  ###total_uploadedFiles###
      *
      * @param array &$markers Reference to the markers array
-     * @return void
      */
     public function fillFileMarkers(&$markers)
     {
@@ -763,7 +749,12 @@ class Form extends AbstractView
                                                 $maxCount = $fieldSettings['errorCheck.'][$key . '.']['maxCount'];
                                                 $markers['###' . $replacedFieldname . '_maxCount###'] = $maxCount;
 
-                                                $fileCount = count($sessionFiles[$replacedFieldname]);
+                                                if (is_array($sessionFiles[$replacedFieldname])) {
+                                                    $fileCount = count($sessionFiles[$replacedFieldname]);
+                                                }
+                                                else {
+                                                    $fileCount = 0;
+                                                }
                                                 $markers['###' . $replacedFieldname . '_fileCount###'] = $fileCount;
 
                                                 $remaining = $maxCount - $fileCount;
@@ -928,7 +919,6 @@ class Form extends AbstractView
      * in $this->template
      *
      * @param array $errors
-     * @return void
      */
     protected function fillIsErrorMarkers($errors)
     {
@@ -960,7 +950,6 @@ class Form extends AbstractView
      * in $this->template
      *
      * @param array $errors
-     * @return void
      */
     protected function fillIsSuccessMarkers($errors)
     {
@@ -987,8 +976,6 @@ class Form extends AbstractView
      *        ###error_[fieldname]###
      *        ###ERROR###
      * in $this->template
-     *
-     * @return void
      */
     protected function fillErrorMarkers(&$errors)
     {
@@ -1067,8 +1054,6 @@ class Form extends AbstractView
 
     /**
      * Substitutes markers defined in TypoScript in $this->template
-     *
-     * @return void
      */
     protected function fillTypoScriptMarkers()
     {
@@ -1090,8 +1075,6 @@ class Form extends AbstractView
      *        ###[fieldname]###
      *        ###[FIELDNAME]###
      * in $this->template
-     *
-     * @return void
      */
     protected function fillValueMarkers()
     {
@@ -1182,8 +1165,6 @@ class Form extends AbstractView
      * Substitutes markers
      *        ###LLL:[languageKey]###
      * in $this->template
-     *
-     * @return void
      */
     protected function fillLangMarkers()
     {
@@ -1221,8 +1202,8 @@ class Form extends AbstractView
      * </code>
      *
      * @author Johannes Feustel
-     * @param    integer $currentStep current step (begins with 1)
-     * @param    integer $lastStep last step
+     * @param    int $currentStep current step (begins with 1)
+     * @param    int $lastStep last step
      * @param    string $buttonNameBack name attribute of the back button
      * @param    string $buttonNameFwd name attribute of the forward button
      * @return    string    HTML code
