@@ -13,8 +13,12 @@ namespace Typoheads\Formhandler\Finisher;
      * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
      * Public License for more details.                                       *
      *                                                                        */
+
+use Doctrine\DBAL\Connection;
+use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
 
 /**
  * This finisher stores the submitted values into a table in the TYPO3 database according to the configuration
@@ -78,6 +82,11 @@ class DB extends AbstractFinisher
      * @var bool
      */
     protected $doUpdate;
+
+    /**
+     * @var Connection
+     */
+    protected $connection;
 
     /**
      * The main method called by the controller
@@ -160,45 +169,78 @@ class DB extends AbstractFinisher
 
     protected function doesRecordExist($uid, $andWhere)
     {
-        $exists = false;
-        if ($uid) {
-            $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
-            $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
-            $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($this->key, $this->table, $this->key . '=' . $uid . $andWhere);
-            if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
-                $exists = true;
-            }
-            $GLOBALS['TYPO3_DB']->sql_free_result($res);
+        if (!$uid) {
+            return false;
         }
-        return $exists;
+        $queryBuilder = $this->getConnection()->createQueryBuilder();
+        $queryBuilder->getRestrictions()->removeAll();
+        $queryBuilder
+            ->select($this->key)
+            ->from($this->table);
+
+        $queryBuilder->where(
+            $queryBuilder->expr()->eq($this->key, $queryBuilder->createNamedParameter($uid))
+        );
+
+        $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
+        $andWhere = QueryHelper::stripLogicalOperatorPrefix($andWhere);
+        if (!empty($andWhere)) {
+            $queryBuilder->andWhere($andWhere);
+        }
+
+        $row = $queryBuilder->execute()->fetch();
+        if (is_array($row)) {
+            return true;
+        }
+        return false;
     }
 
     protected function doInsert($queryFields)
     {
-        $isSuccess = true;
-        $query = $GLOBALS['TYPO3_DB']->INSERTquery($this->table, $queryFields);
-        $this->utilityFuncs->debugMessage('sql_request', [$query]);
-        $GLOBALS['TYPO3_DB']->sql_query($query);
-        if ($GLOBALS['TYPO3_DB']->sql_error()) {
-            $isSuccess = false;
-            $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
+        $queryBuilder = $this->getConnection()->createQueryBuilder();
+        $queryBuilder->insert($this->table);
+        foreach ($queryFields as $k => $v) {
+            $queryBuilder->set($k, $v);
         }
-        return $isSuccess;
+
+        $this->utilityFuncs->debugMessage('sql_request', [$queryBuilder->getSQL()]);
+        $stmt = $queryBuilder->execute();
+        if ($stmt->errorInfo()) {
+            $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
+            return false;
+        }
+        return true;
     }
 
     protected function doUpdate($uid, $queryFields, $andWhere)
     {
-        $isSuccess = true;
-        $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
-        $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
-        $query = $GLOBALS['TYPO3_DB']->UPDATEquery($this->table, $this->key . '=' . $uid . $andWhere, $queryFields);
-        $this->utilityFuncs->debugMessage('sql_request', [$query]);
-        $GLOBALS['TYPO3_DB']->sql_query($query);
-        if ($GLOBALS['TYPO3_DB']->sql_error()) {
-            $isSuccess = false;
-            $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
+        $queryBuilder = $this->getConnection()->createQueryBuilder();
+        $queryBuilder->getRestrictions()->removeAll();
+        $queryBuilder->update($this->table);
+
+        foreach ($queryFields as $k => $v) {
+            $queryBuilder->set($k, $v);
         }
-        return $isSuccess;
+
+        $queryBuilder->where(
+            $queryBuilder->expr()->eq($this->key, $queryBuilder->createNamedParameter($uid))
+        );
+
+        $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
+        $andWhere = QueryHelper::stripLogicalOperatorPrefix($andWhere);
+        if (!empty($andWhere)) {
+            $queryBuilder->andWhere($andWhere);
+        }
+
+        $query = $queryBuilder->getSQL();
+        $this->utilityFuncs->debugMessage('sql_request', [$query]);
+
+        $stmt = $queryBuilder->execute();
+        if ($stmt->errorInfo()) {
+            $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -309,9 +351,8 @@ class DB extends AbstractFinisher
                         case 'saltedpassword':
                             $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
 
-                            $saltedpasswords = SaltedPasswordsUtility::returnExtConf();
-                            $tx_saltedpasswords = GeneralUtility::makeInstance($saltedpasswords['saltedPWHashingMethod']);
-                            $encryptedPassword = $tx_saltedpasswords->getHashedPassword($this->gp[$field]);
+                            $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
+                            $encryptedPassword = $hashInstance->getHashedPassword($this->gp[$field]);
 
                             $fieldValue = $encryptedPassword;
                             break;
@@ -441,8 +482,7 @@ class DB extends AbstractFinisher
      */
     protected function getInsertedUid()
     {
-        $uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
-        return intval($uid);
+        return (int)$this->getConnection()->lastInsertId();
     }
 
     /**
@@ -462,5 +502,13 @@ class DB extends AbstractFinisher
             }
         }
         return $uid;
+    }
+
+    protected function getConnection()
+    {
+        if (!$this->connection) {
+            $this->connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($this->table);
+        }
+        return $this->connection;
     }
 }

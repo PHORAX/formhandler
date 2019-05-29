@@ -14,6 +14,9 @@ namespace Typoheads\Formhandler\PreProcessor;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * This PreProcessor adds the posibility to load default values from database.
  * Values for the first step are loaded to $gp values of other steps are stored
@@ -140,7 +143,7 @@ class LoadDB extends AbstractPreProcessor
             }
             if ($settings[$fieldname . '.']['separator']) {
                 $separator = $settings[$fieldname . '.']['separator'];
-                $value = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($separator, $value);
+                $value = GeneralUtility::trimExplode($separator, $value);
             }
         }
 
@@ -159,16 +162,16 @@ class LoadDB extends AbstractPreProcessor
                 $uploadPath = $this->utilityFuncs->getTempUploadFolder($fieldname);
                 $filesArray = $value;
                 if (!is_array($filesArray)) {
-                    $filesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $value);
+                    $filesArray = GeneralUtility::trimExplode(',', $value);
                 }
 
                 foreach ($filesArray as $k => $uploadFile) {
                     if (strpos($uploadFile, '/') !== false) {
                         $file = PATH_site . $uploadFile;
-                        $uploadedUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadFile;
+                        $uploadedUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadFile;
                     } else {
                         $file = PATH_site . $uploadPath . $uploadFile;
-                        $uploadedUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadPath . $uploadFile;
+                        $uploadedUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadPath . $uploadFile;
                     }
 
                     $uploadedUrl = str_replace('//', '/', $uploadedUrl);
@@ -192,22 +195,19 @@ class LoadDB extends AbstractPreProcessor
      *
      * @return array of row data
      * @param array $settings
-     * @param int $step
      */
     protected function loadDB($settings)
     {
-        $store_lastBuiltQuery = $GLOBALS['TYPO3_DB']->store_lastBuiltQuery;
-        $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
-        $res = $this->exec_getQuery($this->utilityFuncs->getSingle($settings, 'table'), $settings);
-        $sql = $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+        $table = $this->utilityFuncs->getSingle($settings, 'table');
+        $sql = $this->getQuery($table, $settings);
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
         $this->utilityFuncs->debugMessage($sql);
+        $stmt = $connection->executeQuery($sql);
 
-        $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = $store_lastBuiltQuery;
-        $rowCount = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
+        $rows = $stmt->fetchAll();
+        $rowCount = count($rows);
         if ($rowCount === 1) {
-            $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-            $GLOBALS['TYPO3_DB']->sql_free_result($res);
-            return $row;
+            return reset($rows);
         }
         if ($rowCount > 0) {
             $this->utilityFuncs->debugMessage('sql_too_many_rows', [$rowCount], 3);
@@ -215,16 +215,17 @@ class LoadDB extends AbstractPreProcessor
         return [];
     }
 
-    /* (non-PHPdoc)
-     * @see tslib_content::exec_getQuery
-    */
-    protected function exec_getQuery($table, $conf)
+    /**
+     * @param string $table
+     * @param array $conf
+     * @return string
+     */
+    protected function getQuery($table, $conf)
     {
-
         //map the old TypoScript setting "limit" to "begin" and "max".
         $limit = $this->utilityFuncs->getSingle($conf, 'limit');
         if (strlen($limit) > 0) {
-            $parts = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $limit);
+            $parts = GeneralUtility::trimExplode(',', $limit);
             if (count($parts) === 2) {
                 $conf['begin'] = $parts[0];
                 $conf['max'] = $parts[1];
@@ -232,14 +233,14 @@ class LoadDB extends AbstractPreProcessor
                 $conf['max'] = $parts[0];
             }
         }
-        $queryParts = $this->globals->getCObj()->getQuery($table, $conf, true);
+        $sql = $this->globals->getCObj()->getQuery($table, $conf);
 
         // possible quotes: empty, ", ` or '
         $quotes = '|\"|\`|\'';
         //if pidInList is not set in TypoScript remove it from the where clause.
         if (!isset($conf['pidInList']) || strlen($conf['pidInList']) === 0) {
-            $queryParts['WHERE'] = preg_replace('/([^ ]+\.(' . $quotes . ')pid(' . $quotes . ') IN \([^ ]+\) AND )/i', '', $queryParts['WHERE']);
+            $sql = preg_replace('/([^ ]+\.(' . $quotes . ')pid(' . $quotes . ') IN \([^ ]+\) AND )/i', '', $sql);
         }
-        return $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
+        return $sql;
     }
 }

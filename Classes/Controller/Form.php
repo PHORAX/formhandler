@@ -14,6 +14,9 @@ namespace Typoheads\Formhandler\Controller;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Default controller for Formhandler
  */
@@ -165,13 +168,13 @@ class Form extends AbstractController
             }
 
             $params = [];
-            $tstamp = intval($gp['tstamp']);
-            $hash = $GLOBALS['TYPO3_DB']->fullQuoteStr($gp['hash'], 'tx_formhandler_log');
+            $tstamp = (int)$gp['tstamp'];
+            $hash = $gp['hash'];
             if ($tstamp && strpos($hash, ' ') === false) {
-                $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('params', 'tx_formhandler_log', 'tstamp=' . $tstamp . ' AND unique_hash=' . $hash);
-                if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) === 1) {
-                    $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-                    $GLOBALS['TYPO3_DB']->sql_free_result($res);
+                $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tx_formhandler_log');
+                $stmt = $conn->select(['params'], 'tx_formhandler_log', ['tstamp' => $tstamp, 'unique_hash' => $hash]);
+                if ($stmt->rowCount() === 1) {
+                    $row = $stmt->fetch();
                     $params = unserialize($row['params']);
                 }
             }

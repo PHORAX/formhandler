@@ -14,6 +14,9 @@ namespace Typoheads\Formhandler\Interceptor;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * An interceptor checking if form got submitted too often by an IP address or globally.
  * Settings how often a form is allowed to be submitted and the period of time are set in TypoScript.
@@ -91,12 +94,24 @@ class IPBlocking extends AbstractInterceptor
     private function check($value, $unit, $maxValue, $addIPToWhere = true)
     {
         $timestamp = $this->utilityFuncs->getTimestamp($value, $unit);
-        $where = 'crdate >= ' . intval($timestamp);
+
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->logTable);
+        $queryBuilder->getRestrictions()->removeAll();
+        $queryBuilder
+            ->select('uid', 'ip', 'crdate', 'params')
+            ->from($this->logTable)
+            ->where(
+                $queryBuilder->expr()->gte('crdate', $queryBuilder->createNamedParameter($timestamp, \PDO::PARAM_INT))
+            );
+
+
         if ($addIPToWhere) {
-            $where = 'ip=\'' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR') . '\' AND ' . $where;
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->eq('ip', $queryBuilder->createNamedParameter(GeneralUtility::getIndpEnv('REMOTE_ADDR')))
+            );
         }
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,ip,crdate,params', $this->logTable, $where);
-        if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) >= $maxValue) {
+        $stmt = $queryBuilder->execute();
+        if ($stmt && $stmt->rowCount() >= $maxValue) {
             $this->log(true);
             $message = 'You are not allowed to send more mails because the form got submitted too many times ';
             if ($addIPToWhere) {
@@ -104,21 +119,29 @@ class IPBlocking extends AbstractInterceptor
             }
             $message .= 'in the last ' . $value . ' ' . $unit . '!';
             if ($this->settings['report.']['email']) {
-                while (false !== ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
-                    $rows[] = $row;
-                }
+                $rows = $stmt->fetchAll();
                 $intervalValue = $this->utilityFuncs->getSingle($this->settings['report.']['interval.'], 'value');
                 $intervalUnit = $this->utilityFuncs->getSingle($this->settings['report.']['interval.'], 'unit');
                 $send = false;
                 if ($intervalUnit && $intervalValue) {
                     $intervalTstamp = $this->utilityFuncs->getTimestamp($intervalValue, $intervalUnit);
-                    $where = 'pid=' . $GLOBALS['TSFE']->id . ' AND crdate>' . intval($intervalTstamp);
-                    if ($addIPToWhere) {
-                        $where .= ' AND ip=\'' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR') . '\'';
-                    }
+                    $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                        ->getQueryBuilderForTable($this->logTable);
+                    $queryBuilder->getRestrictions()->removeAll();
+                    $queryBuilder
+                        ->count('*')
+                        ->from($this->logTable)
+                        ->where(
+                            $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($GLOBALS['TSFE']->id, \PDO::PARAM_INT)),
+                            $queryBuilder->expr()->gt('crdate', $queryBuilder->createNamedParameter($intervalTstamp, \PDO::PARAM_INT))
+                        );
 
-                    $count = $GLOBALS['TYPO3_DB']->exec_SELECTcountRows('*', $this->logTable, $where);
-                    if ($count > 0) {
+                    if ($addIPToWhere) {
+                        $queryBuilder->andWhere(
+                            $queryBuilder->expr()->eq('ip', $queryBuilder->createNamedParameter(GeneralUtility::getIndpEnv('REMOTE_ADDR')))
+                        );
+                    }
+                    if ($queryBuilder->execute()->fetchColumn() > 0) {
                         $send = true;
                     }
                 } else {
@@ -134,7 +157,6 @@ class IPBlocking extends AbstractInterceptor
                     $this->utilityFuncs->debugMessage('alert_mail_not_sent', [], 2);
                 }
             }
-            $GLOBALS['TYPO3_DB']->sql_free_result($res);
             if ($this->settings['redirectPage']) {
                 $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
             } else {
@@ -152,17 +174,17 @@ class IPBlocking extends AbstractInterceptor
     private function sendReport($type, $rows)
     {
         $email = $this->utilityFuncs->getSingle($this->settings['report.'], 'email');
-        $email = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $email);
+        $email = GeneralUtility::trimExplode(',', $email);
         $sender = $this->utilityFuncs->getSingle($this->settings['report.'], 'sender');
         $subject = $this->utilityFuncs->getSingle($this->settings['report.'], 'subject');
 
         if ($type == 'ip') {
-            $message = 'IP address "' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR') . '" has submitted a form too many times!';
+            $message = 'IP address "' . GeneralUtility::getIndpEnv('REMOTE_ADDR') . '" has submitted a form too many times!';
         } else {
             $message = 'A form got submitted too many times!';
         }
 
-        $message .= "\n\n" . 'This is the URL to the form: ' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL');
+        $message .= "\n\n" . 'This is the URL to the form: ' . GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL');
         if (is_array($rows)) {
             $message .= "\n\n" . 'These are the submitted values:' . "\n\n";
             foreach ($rows as $idx => $row) {

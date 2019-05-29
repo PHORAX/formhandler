@@ -14,6 +14,12 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryHelper;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Validates that a specified field's value is not found in a specified db table
  */
@@ -34,17 +40,31 @@ class IsNotInDBTable extends AbstractErrorCheck
             $checkField = $this->utilityFuncs->getSingle($this->settings['params'], 'field');
             $additionalWhere = $this->utilityFuncs->getSingle($this->settings['params'], 'additionalWhere');
             if (!empty($checkTable) && !empty($checkField)) {
+                $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                    ->getQueryBuilderForTable($checkTable);
+                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
+                $queryBuilder
+                    ->select($checkField)
+                    ->from($checkTable)
+                    ->where(
+                        $queryBuilder->expr()->eq($checkField, $queryBuilder->createNamedParameter($this->gp[$this->formFieldName]))
+                    );
+
                 $additionalWhere = $this->utilityFuncs->prepareAndWhereString($additionalWhere);
-                $where = $checkField . '=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($this->gp[$this->formFieldName], $checkTable) . $additionalWhere;
-                $showHidden = intval($this->settings['params']['showHidden']) === 1 ? 1 : 0;
-                $where .= $GLOBALS['TSFE']->sys_page->enableFields($checkTable, $showHidden);
-                $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($checkField, $checkTable, $where);
-                if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
-                    $checkFailed = $this->getCheckFailed();
-                } elseif (!$res) {
-                    $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
+                if (!empty($additionalWhere)) {
+                    $queryBuilder->andWhere(QueryHelper::stripLogicalOperatorPrefix($additionalWhere));
                 }
-                $GLOBALS['TYPO3_DB']->sql_free_result($res);
+                $showHidden = intval($this->settings['params']['showHidden']) === 1;
+                if ($showHidden) {
+                    $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+                }
+
+                $stmt = $queryBuilder->execute();
+                if ($stmt && $stmt->rowCount() > 0) {
+                    $checkFailed = $this->getCheckFailed();
+                } elseif (!$stmt) {
+                    $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
+                }
             }
         }
         return $checkFailed;
