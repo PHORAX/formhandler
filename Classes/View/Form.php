@@ -751,8 +751,7 @@ class Form extends AbstractView
 
                                                 if (is_array($sessionFiles[$replacedFieldname])) {
                                                     $fileCount = count($sessionFiles[$replacedFieldname]);
-                                                }
-                                                else {
+                                                } else {
                                                     $fileCount = 0;
                                                 }
                                                 $markers['###' . $replacedFieldname . '_fileCount###'] = $fileCount;

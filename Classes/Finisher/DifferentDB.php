@@ -63,5 +63,4 @@ class DifferentDB extends DB
 
         parent::init($gp, $settings);
     }
-
 }

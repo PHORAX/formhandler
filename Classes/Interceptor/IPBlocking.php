@@ -104,7 +104,6 @@ class IPBlocking extends AbstractInterceptor
                 $queryBuilder->expr()->gte('crdate', $queryBuilder->createNamedParameter($timestamp, \PDO::PARAM_INT))
             );
 
-
         if ($addIPToWhere) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->eq('ip', $queryBuilder->createNamedParameter(GeneralUtility::getIndpEnv('REMOTE_ADDR')))
