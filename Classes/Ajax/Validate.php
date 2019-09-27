@@ -79,7 +79,7 @@ class Validate
             if ($valid) {
                 $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'ok');
                 if (strlen($content) === 0) {
-                    $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/ok.png' . '" />';
+                    $content = '<img src="' . PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/ok.png' . '" />';
                 } else {
                     $gp = [
                         $_GET['field'] => $_GET['value']
@@ -91,7 +91,7 @@ class Validate
             } else {
                 $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'notOk');
                 if (strlen($content) === 0) {
-                    $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/notok.png' . '" />';
+                    $content = '<img src="' . PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/notok.png' . '" />';
                 } else {
                     $view = $this->initView($content);
                     $gp = [
@@ -111,7 +111,7 @@ class Validate
     protected function init()
     {
         if (isset($_GET['pid'])) {
-            $this->id = (int)($_GET['pid']);
+            $this->id = intval($_GET['pid']);
         } else {
             $this->id = (int)($_GET['id']);
         }
