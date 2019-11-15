@@ -22,7 +22,6 @@ class Ajax extends AbstractValidator
     /**
      * Array holding the configured validators
      *
-     * @access protected
      * @var array
      */
     protected $validators;
@@ -38,7 +37,7 @@ class Ajax extends AbstractValidator
      * Validates the submitted values using given settings
      *
      * @param array &$errors Reference to the errors array to store the errors occurred
-     * @return boolean
+     * @return bool
      */
     public function validateAjax($field, $gp, &$errors)
     {

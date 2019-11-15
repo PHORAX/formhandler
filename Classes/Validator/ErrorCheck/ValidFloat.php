@@ -17,7 +17,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 /**
  * Validates that a specified field is a valid float
  */
-class Float extends AbstractErrorCheck
+class ValidFloat extends AbstractErrorCheck
 {
     public function check()
     {

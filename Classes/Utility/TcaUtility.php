@@ -24,6 +24,9 @@ namespace Typoheads\Formhandler\Utility;
      *  This copyright notice MUST APPEAR in all copies of the script!
      ***************************************************************/
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 /**
  * UserFunc for rendering of log entry
@@ -73,13 +76,13 @@ class TcaUtility
 
         $divId = $GLOBALS['SOBE']->tceforms->dynNestedStack[0][1];
         if (!$divId) {
-            $divId = "DIV.c-tablayer";
+            $divId = 'DIV.c-tablayer';
         } else {
-            $divId .= "-DIV";
+            $divId .= '-DIV';
         }
         $js .= "var uid = '" . $uid . "'\n";
         $js .= "var flexformBoxId = '" . $divId . "'\n";
-        $js .= "var newRecord = " . $newRecord . "\n";
+        $js .= 'var newRecord = ' . $newRecord . "\n";
         $js .= file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/JavaScript/addFields_predefinedJS.js');
         $js .= "/*]]>*/\n";
         $js .= "</script>\n";
@@ -101,14 +104,17 @@ class TcaUtility
 
             //Formhandler inserted after existing content element
             if (intval($pid) < 0) {
-                $element = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('pid', 'tt_content', 'uid=' . abs($pid));
-                $pid = $element['pid'];
+                $conn = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ConnectionPool::class)
+                    ->getConnectionForTable('tt_content');
+                $pid = $conn->select(['pid'], 'tt_content', ['uid' => abs($pid)])->fetchColumn(0);
             }
         }
 
         $contentUid = $config['row']['uid'] ?: 0;
         if (!$pid) {
-            $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('pid', 'tt_content', 'uid=' . $contentUid);
+            $conn = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getConnectionForTable('tt_content');
+            $row = $conn->select(['pid'], 'tt_content', ['uid' => $contentUid])->fetch();
             if ($row) {
                 $pid = $row['pid'];
             }
@@ -117,7 +123,7 @@ class TcaUtility
 
         $predef = [];
 
-        # no config available
+        // no config available
         if (!is_array($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.']) || count($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.']) === 0) {
             $optionList[] = [
                 0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:be_missing_config'),
@@ -126,7 +132,7 @@ class TcaUtility
             return $config['items'] = array_merge($config['items'], $optionList);
         }
 
-        # for each view
+        // for each view
         foreach ($ts['plugin.']['Tx_Formhandler.']['settings.']['predef.'] as $key => $view) {
             if (is_array($view)) {
                 $beName = $view['name'];
@@ -168,11 +174,9 @@ class TcaUtility
      */
     public function loadTS($pageUid)
     {
-        $sysPageObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
-        $rootLine = $sysPageObj->getRootLine($pageUid);
-        $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\ExtendedTemplateService');
-        $TSObj->tt_track = 0;
-        $TSObj->init();
+        $rootLine = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
+        $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ExtendedTemplateService::class);
+        $TSObj->tt_track = false;
         $TSObj->runThroughTemplates($rootLine);
         $TSObj->generateConfig();
         return $TSObj->setup;

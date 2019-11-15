@@ -18,15 +18,12 @@ namespace Typoheads\Formhandler\Generator;
  * Class to generate CSV files in Backend
  * @uses export2CSV in csv.lib.php
  */
-require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/PHP/parsecsv.lib.php');
-
 class BackendCsv extends \Typoheads\Formhandler\Component\AbstractComponent
 {
 
     /**
      * The internal CSV object
      *
-     * @access protected
      * @var export2CSV
      */
     protected $csv;
@@ -65,7 +62,6 @@ class BackendCsv extends \Typoheads\Formhandler\Component\AbstractComponent
      * @param array $records The records to export to CSV
      * @param array $exportParams A list of fields to export. If not set all fields are exported
      * @see Tx_Formhandler_Controller_Backend::generateCSV()
-     * @return void
      */
     public function process()
     {
@@ -122,7 +118,7 @@ class BackendCsv extends \Typoheads\Formhandler\Component\AbstractComponent
         $data = $dataSorted;
 
         // create new parseCSV object.
-        $csv = new \parseCSV();
+        $csv = new \parseCSV(null, null, null, []);
         $csv->delimiter = $csv->output_delimiter = $this->settings['delimiter'];
         $csv->enclosure = $this->settings['enclosure'];
         $csv->input_encoding = strtolower($this->getInputCharset());

@@ -65,8 +65,6 @@ class StoreUploadedFiles extends AbstractFinisher
      * plugin.Tx_Formhandler.settings.finishers.1.config.finishedUploadFolder = uploads/formhandler/finishedFiles/
      * plugin.Tx_Formhandler.settings.finishers.1.config.renameScheme = [filename]_[md5]_[time]
      * </code>
-     *
-     * @return void
      */
     protected function moveUploadedFiles()
     {

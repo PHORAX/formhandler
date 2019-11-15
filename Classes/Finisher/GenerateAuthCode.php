@@ -14,6 +14,9 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * This finisher generates a unique code for a database entry.
  * This can be used for FE user registration or newsletter registration.
@@ -30,10 +33,7 @@ class GenerateAuthCode extends AbstractFinisher
     {
         $firstInsertInfo = [];
         if ($this->utilityFuncs->getSingle($this->settings, 'uid')) {
-            $uidField = $this->utilityFuncs->getSingle($this->settings, 'uidField');
-            if (!$uidField) {
-                $uidField = 'uid';
-            }
+            $uidField = $this->utilityFuncs->getSingle($this->settings, 'uidField') ?: 'uid';
             $firstInsertInfo = [
                 'table' => $this->utilityFuncs->getSingle($this->settings, 'table'),
                 'uidField' => $uidField,
@@ -54,20 +54,20 @@ class GenerateAuthCode extends AbstractFinisher
                 $firstInsertInfo = current($this->gp['saveDB']);
             }
         }
+
         $table = $firstInsertInfo['table'];
-        $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($firstInsertInfo['uid'], $table);
-        $uidField = $firstInsertInfo['uidField'];
-        if (!$uidField) {
-            $uidField = 'uid';
-        }
-        if ($table && $uid && $uidField) {
+        $uid = $firstInsertInfo['uid'];
+        $uidField = $firstInsertInfo['uidField'] ?: 'uid';
+
+        if ($table && $uid) {
+            $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+
             $selectFields = '*';
             if ($this->settings['selectFields']) {
                 $selectFields = $this->utilityFuncs->getSingle($this->settings, 'selectFields');
             }
-            $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($selectFields, $table, $uidField . '=' . $uid);
-            if ($res) {
-                $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+            $row = $conn->select(explode(',', $selectFields), $table, [$uidField => $uid])->fetch();
+            if (!empty($row)) {
                 $authCode = $this->generateAuthCode($row);
                 $this->gp['generated_authCode'] = $authCode;
 
@@ -86,7 +86,7 @@ class GenerateAuthCode extends AbstractFinisher
                 $paramsArray = array_merge($firstInsertInfo, ['authCode' => $authCode]);
 
                 if ($this->settings['excludeParams']) {
-                    $excludeParams = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'excludeParams'));
+                    $excludeParams = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'excludeParams'));
                     foreach ($excludeParams as $param) {
                         if (isset($paramsArray[$param])) {
                             unset($paramsArray[$param]);
@@ -107,7 +107,7 @@ class GenerateAuthCode extends AbstractFinisher
 
                 $linkConf = [
                     'parameter' => $authCodePage,
-                    'additionalParams' => \TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $paramsArray),
+                    'additionalParams' => GeneralUtility::implodeArrayForUrl('', $paramsArray),
                     'returnLast' => 'url',
                     'useCacheHash' => 1,
                     'forceAbsoluteUrl' => 1
@@ -128,6 +128,6 @@ class GenerateAuthCode extends AbstractFinisher
      */
     protected function generateAuthCode($row)
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::hmac(serialize($row), 'formhandler');
+        return GeneralUtility::hmac(serialize($row), 'formhandler');
     }
 }

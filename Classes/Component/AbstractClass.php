@@ -25,7 +25,6 @@ abstract class AbstractClass
     /**
      * The Formhandler component manager
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Component\Manager
      */
     protected $componentManager;
@@ -33,7 +32,6 @@ abstract class AbstractClass
     /**
      * The global Formhandler configuration
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Controller\Configuration
      */
     protected $configuration;
@@ -41,7 +39,6 @@ abstract class AbstractClass
     /**
      * The global Formhandler values
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Utility\Globals
      */
     protected $globals;
@@ -49,7 +46,6 @@ abstract class AbstractClass
     /**
      * The Formhandler utility methods
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
     protected $utilityFuncs;
@@ -57,7 +53,6 @@ abstract class AbstractClass
     /**
      * The cObj
      *
-     * @access protected
      * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
     protected $cObj;
@@ -67,13 +62,13 @@ abstract class AbstractClass
      *
      * @param \Typoheads\Formhandler\Component\Manager $componentManager
      * @param \Typoheads\Formhandler\Controller\Configuration $configuration
-     * @return void
      */
-    public function __construct(\Typoheads\Formhandler\Component\Manager $componentManager,
-                                \Typoheads\Formhandler\Controller\Configuration $configuration,
-                                \Typoheads\Formhandler\Utility\Globals $globals,
-                                \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs)
-    {
+    public function __construct(
+        \Typoheads\Formhandler\Component\Manager $componentManager,
+        \Typoheads\Formhandler\Controller\Configuration $configuration,
+        \Typoheads\Formhandler\Utility\Globals $globals,
+        \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs
+    ) {
         $this->componentManager = $componentManager;
         $this->configuration = $configuration;
         $this->globals = $globals;

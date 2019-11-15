@@ -108,7 +108,6 @@ class Demand extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Set calculated start timestamp from query constraints
      *
      * @param int $timestamp
-     * @return void
      */
     public function setStartTimestamp($timestamp)
     {
@@ -129,7 +128,6 @@ class Demand extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Set calculated end timestamp from query constraints
      *
      * @param int $timestamp
-     * @return void
      */
     public function setEndTimestamp($timestamp)
     {

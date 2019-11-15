@@ -160,7 +160,6 @@ class Mail extends AbstractFinisher
      * Sends mail according to given type.
      *
      * @param string $type (admin|user)
-     * @return void
      */
     protected function sendMail($type)
     {
@@ -498,7 +497,6 @@ class Mail extends AbstractFinisher
      * Substitutes markers like ###LLL:langKey### in given TypoScript settings array.
      *
      * @param array &$settings The E-Mail settings
-     * @return void
      */
     protected function fillLangMarkersInSettings(&$settings)
     {
@@ -508,7 +506,7 @@ class Mail extends AbstractFinisher
             } else {
                 $langMarkers = $this->utilityFuncs->getFilledLangMarkers($value, $this->globals->getLangFiles());
                 if (!empty($langMarkers)) {
-                    $value = $this->cObj->substituteMarkerArray($value, $langMarkers);
+                    $value = $this->markerBasedTemplateService->substituteMarkerArray($value, $langMarkers);
                 }
             }
         }
@@ -529,7 +527,6 @@ class Mail extends AbstractFinisher
      *
      * @param array The GET/POST values
      * @param array The TypoScript configuration
-     * @return void
      */
     public function init($gp, $tsConfig)
     {

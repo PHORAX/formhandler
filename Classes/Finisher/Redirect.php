@@ -51,7 +51,6 @@ class Redirect extends AbstractFinisher
      *
      * @param array The GET/POST values
      * @param array The TypoScript configuration
-     * @return void
      */
     public function init($gp, $tsConfig)
     {

@@ -38,7 +38,6 @@ abstract class AbstractDebugger extends \Typoheads\Formhandler\Component\Abstrac
      * @param string $message The message to log
      * @param int $severity The severity of the message (1,2,3)
      * @param array $data Additional data to log
-     * @return void
      */
     public function addToDebugLog($message = '', $severity = 1, array $data = [])
     {

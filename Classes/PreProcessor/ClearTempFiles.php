@@ -49,9 +49,8 @@ class ClearTempFiles extends AbstractPreProcessor
      * Deletes all files older than a specific time in a temporary upload folder.
      * Settings for the threshold time and the folder are made in TypoScript.
      *
-     * @param integer $olderThanValue Delete files older than this value.
+     * @param int $olderThanValue Delete files older than this value.
      * @param string $olderThanUnit The unit for $olderThan. May be seconds|minutes|hours|days
-     * @return void
      */
     protected function clearTempFiles($olderThanValue, $olderThanUnit)
     {

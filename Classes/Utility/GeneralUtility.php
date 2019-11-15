@@ -13,6 +13,7 @@ namespace Typoheads\Formhandler\Utility;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
+use TYPO3\CMS\Core\Crypto\Random;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -40,7 +41,7 @@ class GeneralUtility implements SingletonInterface
             if (is_array($gp[$prefix])) {
                 $gp = $gp[$prefix];
             } else {
-                $gp = array();
+                $gp = [];
             }
         }
 
@@ -109,7 +110,6 @@ class GeneralUtility implements SingletonInterface
     }
 
     /**
-     *
      * Returns the first subpart encapsulated in the marker, $marker (possibly present in $content as a HTML comment)
      *
      * @param    string    Content with subpart wrapped in fx. "###CONTENT_PART###" inside.
@@ -203,7 +203,6 @@ class GeneralUtility implements SingletonInterface
      * @param array $langFiles
      * @param array $settings
      * @return array
-
      */
     public static function readLanguageFiles($langFiles, &$settings)
     {
@@ -267,7 +266,7 @@ class GeneralUtility implements SingletonInterface
 
     public static function isValidCObject($str)
     {
-        return (
+        return
             $str === 'CASE' || $str === 'CLEARGIF' || $str === 'COA' || $str === 'COA_INT' ||
             $str === 'COLUMNS' || $str === 'CONTENT' || $str === 'CTABLE' || $str === 'EDITPANEL' ||
             $str === 'FILE' || $str === 'FILES' || $str === 'FLUIDTEMPLATE' || $str === 'FORM' ||
@@ -276,7 +275,7 @@ class GeneralUtility implements SingletonInterface
             $str === 'MULTIMEDIA' || $str === 'OTABLE' || $str === 'QTOBJECT' || $str === 'RECORDS' ||
             $str === 'RESTORE_REGISTER' || $str === 'SEARCHRESULT' || $str === 'SVG' || $str === 'SWFOBJECT' ||
             $str === 'TEMPLATE' || $str === 'TEXT' || $str === 'USER' || $str === 'USER_INT'
-        );
+        ;
     }
 
     public static function getPreparedClassName($settingsArray, $defaultClassName = '')
@@ -292,8 +291,7 @@ class GeneralUtility implements SingletonInterface
      * Redirects to a specified page or URL.
      *
      * @param mixed $redirect Page id or URL to redirect to
-     * @param boolean $correctRedirectUrl replace &amp; with & in URL
-     * @return void
+     * @param bool $correctRedirectUrl replace &amp; with & in URL
      */
     public static function doRedirect($redirect, $correctRedirectUrl, $additionalParams = [], $headerStatusCode = '')
     {
@@ -344,7 +342,6 @@ class GeneralUtility implements SingletonInterface
      * @param array $settings Array containing the redirect settings
      * @param array $gp Array with GET/POST parameters
      * @param string $redirectPageSetting Name of the Typoscript setting which holds the redirect page.
-     * @return void
      */
     public static function doRedirectBasedOnSettings($settings, $gp, $redirectPageSetting = 'redirectPage')
     {
@@ -371,9 +368,8 @@ class GeneralUtility implements SingletonInterface
             }
             self::doRedirect($redirectPage, $correctRedirectUrl, $additionalParams, $headerStatusCode);
             exit();
-        } else {
-            self::debugMessage('No redirectPage set.');
         }
+        self::debugMessage('No redirectPage set.');
     }
 
     /**
@@ -406,7 +402,6 @@ class GeneralUtility implements SingletonInterface
      * @param    array        Array where each value points to a key in the FlexForms content - the input array will have the value returned pointed to by these keys. All integer keys will not take their integer counterparts, but rather traverse the current position in the array an return element number X (whether this is right behavior is not settled yet...)
      * @param    string        Value for outermost key, typ. "vDEF" depending on language.
      * @return    mixed        The value, typ. string.
-     * @access private
      * @see pi_getFFvalue()
      */
     public static function pi_getFFvalueFromSheetArray($sheetArray, $fieldNameArr, $value)
@@ -564,7 +559,6 @@ class GeneralUtility implements SingletonInterface
      * @param array $printfArgs If the messsage contains placeholders for usage with printf, pass the replacement values in this array.
      * @param int $severity The severity of the message. Valid values are 1,2 and 3 (1= info, 2 = warning, 3 = error)
      * @param array $data Additional debug data (e.g. the array of GET/POST values)
-     * @return void
      */
     public static function debugMessage($key, array $printfArgs = [], $severity = 1, array $data = [])
     {
@@ -608,21 +602,19 @@ class GeneralUtility implements SingletonInterface
      * Manages the exception throwing
      *
      * @param string $key Key in language file
-     * @return void
      */
     public static function throwException($key)
     {
         $message = self::getExceptionMessage($key);
         if (strlen($message) == 0) {
             throw new \Exception($key);
-        } else {
-            if (func_num_args() > 1) {
-                $args = func_get_args();
-                array_shift($args);
-                $message = vsprintf($message, $args);
-            }
-            throw new \Exception($message);
         }
+        if (func_num_args() > 1) {
+            $args = func_get_args();
+            array_shift($args);
+            $message = vsprintf($message, $args);
+        }
+        throw new \Exception($message);
     }
 
     /**
@@ -823,7 +815,10 @@ class GeneralUtility implements SingletonInterface
 
     public static function generateRandomID()
     {
-        $randomID = md5(\Typoheads\Formhandler\Utility\Globals::getFormValuesPrefix() . \TYPO3\CMS\Core\Utility\GeneralUtility::generateRandomBytes(10));
+        $randomID = md5(
+            \Typoheads\Formhandler\Utility\Globals::getFormValuesPrefix() .
+            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Random::class)->generateRandomBytes(10)
+        );
         return $randomID;
     }
 
@@ -954,11 +949,11 @@ class GeneralUtility implements SingletonInterface
     {
         if (is_numeric($value)) {
             return $value;
-        } else {
-            $value_length = strlen($value);
-            $qty = substr($value, 0, $value_length - 1);
-            $unit = strtolower(substr($value, $value_length - 1));
-            switch ($unit) {
+        }
+        $value_length = strlen($value);
+        $qty = substr($value, 0, $value_length - 1);
+        $unit = strtolower(substr($value, $value_length - 1));
+        switch ($unit) {
                 case 'k':
                     $qty *= 1024;
                     break;
@@ -969,19 +964,18 @@ class GeneralUtility implements SingletonInterface
                     $qty *= 1073741824;
                     break;
             }
-            return $qty;
-        }
+        return $qty;
     }
 
     /**
      * Check if a given string is a file path or contains parsed HTML template data
      *
      * @param    string $templateFile
-     * @return    boolean
+     * @return    bool
      */
     public static function isTemplateFilePath($templateFile)
     {
-        return (stristr($templateFile, '###TEMPLATE_') === false);
+        return stristr($templateFile, '###TEMPLATE_') === false;
     }
 
     /**

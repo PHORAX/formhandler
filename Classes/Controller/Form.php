@@ -14,6 +14,9 @@ namespace Typoheads\Formhandler\Controller;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Default controller for Formhandler
  */
@@ -23,7 +26,6 @@ class Form extends AbstractController
     /**
      * The current GET/POST parameters of the form
      *
-     * @access protected
      * @var array
      */
     protected $gp;
@@ -31,7 +33,6 @@ class Form extends AbstractController
     /**
      * Contains all errors occurred while validation
      *
-     * @access protected
      * @var array
      */
     protected $errors;
@@ -39,7 +40,6 @@ class Form extends AbstractController
     /**
      * Holds the prefix value of all parameters of this form.
      *
-     * @access protected
      * @var string
      */
     protected $formValuesPrefix;
@@ -47,15 +47,13 @@ class Form extends AbstractController
     /**
      * Flag indicating if the form got submitted
      *
-     * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $submitted;
 
     /**
      * The settings array
      *
-     * @access protected
      * @var array
      */
     protected $settings;
@@ -63,15 +61,13 @@ class Form extends AbstractController
     /**
      * Flag indicating if debug mode is on
      *
-     * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $debugMode;
 
     /**
      * The view object
      *
-     * @access protected
      * @var misc
      */
     protected $view;
@@ -79,32 +75,28 @@ class Form extends AbstractController
     /**
      * The current step of the form
      *
-     * @access protected
-     * @var integer
+     * @var int
      */
     protected $currentStep;
 
     /**
      * The last step of the form
      *
-     * @access protected
-     * @var integer
+     * @var int
      */
     protected $lastStep;
 
     /**
      * Total steps of the form
      *
-     * @access protected
-     * @var integer
+     * @var int
      */
     protected $totalSteps;
 
     /**
      * Flag indicating if form is finished (no more steps)
      *
-     * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $finished;
 
@@ -145,9 +137,8 @@ class Form extends AbstractController
 
         if (!$this->submitted) {
             return $this->processNotSubmitted();
-        } else {
-            return $this->processSubmitted();
         }
+        return $this->processSubmitted();
     }
 
     /**
@@ -177,13 +168,13 @@ class Form extends AbstractController
             }
 
             $params = [];
-            $tstamp = intval($gp['tstamp']);
-            $hash = $GLOBALS['TYPO3_DB']->fullQuoteStr($gp['hash'], 'tx_formhandler_log');
+            $tstamp = (int)$gp['tstamp'];
+            $hash = $gp['hash'];
             if ($tstamp && strpos($hash, ' ') === false) {
-                $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('params', 'tx_formhandler_log', 'tstamp=' . $tstamp . ' AND unique_hash=' . $hash);
-                if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) === 1) {
-                    $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-                    $GLOBALS['TYPO3_DB']->sql_free_result($res);
+                $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tx_formhandler_log');
+                $stmt = $conn->select(['params'], 'tx_formhandler_log', ['tstamp' => $tstamp, 'unique_hash' => $hash]);
+                if ($stmt->rowCount() === 1) {
+                    $row = $stmt->fetch();
                     $params = unserialize($row['params']);
                 }
             }
@@ -366,26 +357,22 @@ class Form extends AbstractController
             //if no more steps
             if ($this->finished) {
                 return $this->processFinished();
-            } else {
-                return $this->view->render($this->gp, $this->errors);
             }
-        } else {
-            $this->templateFile = $this->utilityFuncs->readTemplateFile($this->templateFile, $this->settings);
-            $this->globals->setTemplateCode($this->templateFile);
-            $this->langFiles = $this->utilityFuncs->readLanguageFiles($this->langFiles, $this->settings);
-            $this->globals->setLangFiles($this->langFiles);
-
-            $this->view->setLangFiles($this->langFiles);
-            $this->view->setSettings($this->settings);
-            $this->setViewSubpart($this->currentStep);
-            return $this->processNotValid();
+            return $this->view->render($this->gp, $this->errors);
         }
+        $this->templateFile = $this->utilityFuncs->readTemplateFile($this->templateFile, $this->settings);
+        $this->globals->setTemplateCode($this->templateFile);
+        $this->langFiles = $this->utilityFuncs->readLanguageFiles($this->langFiles, $this->settings);
+        $this->globals->setLangFiles($this->langFiles);
+
+        $this->view->setLangFiles($this->langFiles);
+        $this->view->setSettings($this->settings);
+        $this->setViewSubpart($this->currentStep);
+        return $this->processNotValid();
     }
 
     /**
      * Validate if the error checks have all been set correctly.
-     *
-     * @return void
      */
     protected function validateErrorCheckConfig()
     {
@@ -533,10 +520,9 @@ class Form extends AbstractController
                             if (intval($this->utilityFuncs->getSingle($tsConfig['config.'], 'returns')) === 1) {
                                 $this->globals->getSession()->set('finished', true);
                                 return $finisher->process();
-                            } else {
-                                $this->gp = $finisher->process();
-                                $this->globals->setGP($this->gp);
                             }
+                            $this->gp = $finisher->process();
+                            $this->globals->setGP($this->gp);
                         }
                     } else {
                         $this->utilityFuncs->throwException('classesarray_error');
@@ -587,8 +573,6 @@ class Form extends AbstractController
 
     /**
      * Stores file names of uploaded files into the internal GET/POST parameters storage ($this->gp) so that they can be used later on in "value markers", userFuncs, ...
-     *
-     * @return void
      */
     protected function storeFileNamesInGP()
     {
@@ -631,8 +615,6 @@ class Form extends AbstractController
 
     /**
      * Adds a mandatory component to the classes array
-     *
-     * @return void
      */
     protected function addFormhandlerClass(&$classesArray, $className)
     {
@@ -657,11 +639,8 @@ class Form extends AbstractController
         }
     }
 
-
     /**
      * Removes files from the internal file storage
-     *
-     * @return void
      */
     protected function processFileRemoval()
     {
@@ -710,8 +689,6 @@ class Form extends AbstractController
     /**
      * Processes uploaded files, moves them to a temporary upload folder, renames them if they already exist and
      * stores the information in user session
-     *
-     * @return void
      */
     protected function processFiles()
     {
@@ -797,7 +774,7 @@ class Form extends AbstractController
                                         $uploadedUrl = rtrim(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL'), '/');
                                         $uploadedUrl .= '/' . trim($uploadFolder, '/') . '/';
                                         $uploadedUrl .= trim($uploadedFileName, '/');
-                                        
+
                                         $tmp['uploaded_url'] = $uploadedUrl;
                                         $tmp['size'] = $files['size'][$field][$idx];
                                         if (is_array($files['type'][$field][$idx])) {
@@ -833,7 +810,6 @@ class Form extends AbstractController
      * Stores the current GET/POST parameters in SESSION
      *
      * @param array &$settings Reference to the settings array to get information about checkboxes and radiobuttons.
-     * @return void
      */
     protected function storeGPinSession()
     {
@@ -871,8 +847,6 @@ class Form extends AbstractController
 
     /**
      * Resets the values in session to have a clean form
-     *
-     * @return void
      */
     protected function reset($gp = [])
     {
@@ -899,8 +873,6 @@ class Form extends AbstractController
 
     /**
      * Searches for current step and sets $this->currentStep according
-     *
-     * @return void
      */
     protected function findCurrentStep()
     {
@@ -976,8 +948,6 @@ class Form extends AbstractController
     /**
      * Validates the Formhandler config.
      * E.g. If email addresses were set in flexform then Finisher_Mail must exist in the TS configuration.
-     *
-     * @return void
      */
     public function validateConfig()
     {
@@ -1016,7 +986,6 @@ class Form extends AbstractController
      * Method to parse a conditions block of the TS setting "if"
      *
      * @param array $settings The settings of this form
-     * @return void
      */
     protected function parseConditionsBlock($settings)
     {
@@ -1051,8 +1020,6 @@ class Form extends AbstractController
 
     /**
      * Method to parse all conditions set in the TS setting "if"
-     *
-     * @return void
      */
     protected function parseConditions()
     {
@@ -1078,8 +1045,6 @@ class Form extends AbstractController
     /**
      * Init method for the controller.
      * This method sets internal values, initializes the ajax handler and the session.
-     *
-     * @return void
      */
     protected function init()
     {
@@ -1208,7 +1173,7 @@ class Form extends AbstractController
     /**
      * Checks if the form has been submitted
      *
-     * @return boolean
+     * @return bool
      */
     protected function isFormSubmitted()
     {
@@ -1230,7 +1195,6 @@ class Form extends AbstractController
      * Sets the template of the view.
      *
      * @param int The current step
-     * @return void
      */
     protected function setViewSubpart($step)
     {
@@ -1255,8 +1219,6 @@ class Form extends AbstractController
 
     /**
      * Stores some settings of the form into the session
-     *
-     * @return void
      */
     protected function storeSettingsInSession()
     {
@@ -1278,7 +1240,6 @@ class Form extends AbstractController
      * Loads form settings for a given step
      *
      * @param int $step The step to load the settings for
-     * @return void
      */
     protected function loadSettingsForStep($step)
     {
@@ -1292,8 +1253,6 @@ class Form extends AbstractController
 
     /**
      * Sets the current and last step of the form
-     *
-     * @return void
      */
     protected function getStepInformation()
     {
@@ -1335,8 +1294,6 @@ class Form extends AbstractController
 
     /**
      * Merges the current GET/POST parameters with the stored ones in SESSION
-     *
-     * @return void
      */
     protected function mergeGPWithSession()
     {
@@ -1407,8 +1364,6 @@ class Form extends AbstractController
 
     /**
      * Read stylesheet file(s) set in TypoScript. If set add to header data
-     *
-     * @return void
      */
     protected function addCSS()
     {
@@ -1434,8 +1389,6 @@ class Form extends AbstractController
 
     /**
      * Read JavaScript file(s) set in TypoScript. If set add to header data
-     *
-     * @return void
      */
     protected function addJS()
     {
@@ -1459,8 +1412,6 @@ class Form extends AbstractController
 
     /**
      * Read JavaScript file(s) set in TypoScript. If set add to footer data
-     *
-     * @return void
      */
     protected function addJSFooter()
     {
@@ -1486,7 +1437,7 @@ class Form extends AbstractController
      * Find out if submitted form was valid. If one of the values in the given array $valid is false the submission was not valid.
      *
      * @param $validArr Array with the return values of each validator
-     * @return boolean
+     * @return bool
      */
     protected function isValid($validArr)
     {
@@ -1519,7 +1470,7 @@ class Form extends AbstractController
                 if (!isset($newGP[$field]) && isset($this->gp[$field]) && $this->lastStep < $this->currentStep) {
                     $this->gp[$field] = $newGP[$field] = [];
 
-                    //Insert default checkbox values
+                //Insert default checkbox values
                 } elseif (!isset($newGP[$field]) && $this->lastStep < $this->currentStep) {
                     if (is_array($this->settings['checkBoxUncheckedValue.']) && isset($this->settings['checkBoxUncheckedValue.'][$field])) {
                         $this->gp[$field] = $newGP[$field] = $this->utilityFuncs->getSingle($this->settings['checkBoxUncheckedValue.'], $field);
@@ -1534,8 +1485,6 @@ class Form extends AbstractController
 
     /**
      * Initializes the debuggers set in TS.
-     *
-     * @return void
      */
     protected function initializeDebuggers()
     {

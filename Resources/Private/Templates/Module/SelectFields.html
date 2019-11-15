@@ -23,9 +23,8 @@
 			<f:render partial="Module/SelectFieldsGroup" arguments="{fields: fields.system, groupLabel: 'System Fields', groupName: 'system'}" />
 		</f:if>
 		<div class="form-group">
-			<f:form.submit value="{f:translate(key: 'button.export')}" class="btn btn-default btn-sm" />
+			<f:form.submit value="{f:translate(key: 'button.export')}" class="btn btn-primary" />
+			<f:link.action action="index" class="btn btn-default"><f:translate key="label.back" /></f:link.action>
 		</div>
-		
 	</f:form>
-	<f:link.action action="index"><f:translate key="label.back" /></f:link.action>
 </f:section>

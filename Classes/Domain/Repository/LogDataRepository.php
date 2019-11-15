@@ -16,15 +16,12 @@ namespace Typoheads\Formhandler\Domain\Repository;
 
 /**
  * Repository for \Typoheads\Formhandler\Domain\Model\LogData
- *
  */
 class LogDataRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
     /**
      * Initializes the repository.
-     *
-     * @return void
      */
     public function initializeObject()
     {
@@ -41,7 +38,7 @@ class LogDataRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public function findByUids($uids)
     {
-        $uidArray = explode(",", $uids);
+        $uidArray = explode(',', $uids);
         $query = $this->createQuery();
         $uidConstraints = [];
         foreach ($uidArray as $key => $value) {
@@ -81,8 +78,7 @@ class LogDataRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         if (count($constraints) > 0) {
             $query->matching($query->logicalAnd($constraints));
             return $query->execute();
-        } else {
-            return $this->findAll();
         }
+        return $this->findAll();
     }
 }
