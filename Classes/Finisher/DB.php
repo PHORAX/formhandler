@@ -199,16 +199,18 @@ class DB extends AbstractFinisher
     {
         $queryBuilder = $this->getConnection()->createQueryBuilder();
         $queryBuilder->insert($this->table);
-        foreach ($queryFields as $k => $v) {
-            $queryBuilder->set($k, $v);
-        }
+
+        $queryBuilder->values($queryFields);
 
         $this->utilityFuncs->debugMessage('sql_request', [$queryBuilder->getSQL()]);
+
         $stmt = $queryBuilder->execute();
-        if ($stmt->errorInfo()) {
+
+        if (is_object($stmt) && $stmt->errorInfo()) {
             $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
             return false;
         }
+
         return true;
     }
 
