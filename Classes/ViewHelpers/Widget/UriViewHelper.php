@@ -19,27 +19,33 @@ namespace Typoheads\Formhandler\ViewHelpers\Widget;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+
 class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper
 {
-    protected function getWidgetUri()
+
+    /**
+     * Get the URI for a non-AJAX Request.
+     *
+     * @param RenderingContextInterface $renderingContext
+     * @param array $arguments
+     * @return string the Widget URI
+     */
+    protected static function getWidgetUri(RenderingContextInterface $renderingContext, array $arguments)
     {
-        $uriBuilder = $this->controllerContext->getUriBuilder();
-        $argumentPrefix = $this->controllerContext->getRequest()->getArgumentPrefix();
-
-        $arguments = $this->hasArgument('arguments') ? $this->arguments['arguments'] : [];
-        if ($this->hasArgument('action')) {
-            $arguments['action'] = $this->arguments['action'];
+        $controllerContext = $renderingContext->getControllerContext();
+        $uriBuilder = $controllerContext->getUriBuilder();
+        $argumentPrefix = $controllerContext->getRequest()->getArgumentPrefix();
+        $parameters = $arguments['arguments'] ?? [];
+        if ($arguments['action'] ?? false) {
+            $parameters['action'] = $arguments['action'];
         }
-        if ($this->hasArgument('format') && $this->arguments['format'] !== '') {
-            $arguments['format'] = $this->arguments['format'];
+        if (($arguments['format'] ?? '') !== '') {
+            $parameters['format'] = $arguments['format'];
         }
-        if ($this->hasArgument('addQueryStringMethod') && $this->arguments['addQueryStringMethod'] !== '') {
-            $arguments['addQueryStringMethod'] = $this->arguments['addQueryStringMethod'];
-        }
+        $queryParameters = [$argumentPrefix => $parameters];
 
-        $queryParameters = [$argumentPrefix => $arguments];
-
-        //@TODO: HOW TO DO THIS BETTER?
+        // @todo: how to do this better
         $additionalParams = [
             'tx_formhandler_web_formhandlerlog' => [
                 'demand' => $_POST['tx_formhandler_web_formhandlerlog']['demand'],
@@ -47,6 +53,14 @@ class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper
             ]
         ];
         $queryParameters = array_merge($queryParameters, $additionalParams);
-        return $uriBuilder->reset()->setArguments($queryParameters)->setSection($this->arguments['section'])->setAddQueryString(true)->setAddQueryStringMethod($this->arguments['addQueryStringMethod'])->setArgumentsToBeExcludedFromQueryString([$argumentPrefix, 'cHash'])->setFormat($this->arguments['format'])->build();
+        return $uriBuilder->reset()
+            ->setArguments($queryParameters)
+            ->setSection($arguments['section'])
+            ->setUseCacheHash($arguments['useCacheHash'])
+            ->setAddQueryString(true)
+            ->setAddQueryStringMethod($arguments['addQueryStringMethod'])
+            ->setArgumentsToBeExcludedFromQueryString([$argumentPrefix, 'cHash'])
+            ->setFormat($arguments['format'])
+            ->build();
     }
 }

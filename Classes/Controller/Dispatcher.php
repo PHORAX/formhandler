@@ -24,7 +24,6 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * Compontent Manager
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Component\Manager
      */
     protected $componentManager;
@@ -32,7 +31,6 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The global Formhandler values
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Utility\Globals
      */
     protected $globals;
@@ -40,7 +38,6 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * The Formhandler utility functions
      *
-     * @access protected
      * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
     protected $utilityFuncs;

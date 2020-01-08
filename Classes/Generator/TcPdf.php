@@ -82,14 +82,13 @@ class TcPdf extends AbstractGenerator
             $downloadpath = str_replace($this->utilityFuncs->getDocumentRoot(), '', $downloadpath);
             header('Location: ' . $downloadpath);
             exit;
-        } else {
-            $fileName = 'formhandler.pdf';
-            if ($this->settings['outputFileName']) {
-                $fileName = $this->utilityFuncs->getSingle($this->settings, 'outputFileName');
-            }
-            $this->pdf->Output($fileName, 'D');
-            exit;
         }
+        $fileName = 'formhandler.pdf';
+        if ($this->settings['outputFileName']) {
+            $fileName = $this->utilityFuncs->getSingle($this->settings, 'outputFileName');
+        }
+        $this->pdf->Output($fileName, 'D');
+        exit;
     }
 
     /* (non-PHPdoc)

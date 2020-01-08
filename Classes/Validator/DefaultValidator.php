@@ -46,7 +46,6 @@ class DefaultValidator extends AbstractValidator
      *
      * @param array The GET/POST values
      * @param array The TypoScript configuration
-     * @return void
      */
     public function init($gp, $tsConfig)
     {
@@ -72,7 +71,7 @@ class DefaultValidator extends AbstractValidator
      * Validates the submitted values using given settings
      *
      * @param array &$errors Reference to the errors array to store the errors occurred
-     * @return boolean
+     * @return bool
      */
     public function validate(&$errors)
     {

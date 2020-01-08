@@ -44,8 +44,6 @@ class StoreGP extends AbstractFinisher
 
     /**
      * Stores the GP in session.
-     *
-     * @return void
      */
     protected function storeUserGPinSession()
     {
@@ -61,8 +59,6 @@ class StoreGP extends AbstractFinisher
     /**
      * Stores $this->gp parameters in SESSION
      * actually only needed for finisher_submittedok
-     *
-     * @return void
      */
     protected function updateSession()
     {

@@ -24,8 +24,6 @@ abstract class AbstractAjaxHandler extends \Typoheads\Formhandler\Component\Abst
 
     /**
      * Initialize AJAX stuff
-     *
-     * @return void
      */
     abstract public function initAjax();
 
@@ -33,7 +31,6 @@ abstract class AbstractAjaxHandler extends \Typoheads\Formhandler\Component\Abst
      * Initialize the AjaxHandler
      *
      * @param array $settings The settings of the AjaxHandler
-     * @return void
      */
     public function init($settings)
     {
@@ -46,7 +43,6 @@ abstract class AbstractAjaxHandler extends \Typoheads\Formhandler\Component\Abst
      * The view passes the marker array by reference.
      *
      * @param array &$markers Reference to the marker array
-     * @return void
      */
     abstract public function fillAjaxMarkers(&$markers);
 
@@ -56,7 +52,6 @@ abstract class AbstractAjaxHandler extends \Typoheads\Formhandler\Component\Abst
      * @param string $text The link text to be used
      * @param string $field The field name of the form field
      * @param string $uploadedFileName The name of the file to be deleted
-     * @return void
      */
     abstract public function getFileRemovalLink($text, $field, $uploadedFileName);
 }

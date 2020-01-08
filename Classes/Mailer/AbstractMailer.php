@@ -22,8 +22,6 @@ abstract class AbstractMailer extends \Typoheads\Formhandler\Component\AbstractC
 
     /**
      * Not needed for this type of component
-     *
-     * @return void
      */
     public function process()
     {

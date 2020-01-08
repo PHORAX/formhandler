@@ -23,15 +23,12 @@ abstract class AbstractSession extends \Typoheads\Formhandler\Component\Abstract
     /**
      * An indicator if a session was already started
      *
-     * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $started = false;
 
     /**
      * Starts a new session
-     *
-     * @return void
      */
     public function start()
     {
@@ -53,7 +50,6 @@ abstract class AbstractSession extends \Typoheads\Formhandler\Component\Abstract
      *
      * @param string $key The key
      * @param string $value The value to set
-     * @return void
      */
     abstract public function set($key, $value);
 
@@ -61,7 +57,6 @@ abstract class AbstractSession extends \Typoheads\Formhandler\Component\Abstract
      * Sets multiple keys at once
      *
      * @param array $values key value pairs
-     * @return void
      */
     abstract public function setMultiple($values);
 
@@ -76,14 +71,12 @@ abstract class AbstractSession extends \Typoheads\Formhandler\Component\Abstract
     /**
      * Checks if a session exists
      *
-     * @return boolean
+     * @return bool
      */
     abstract public function exists();
 
     /**
      * Resets all session values
-     *
-     * @return void
      */
     abstract public function reset();
 
@@ -105,8 +98,6 @@ abstract class AbstractSession extends \Typoheads\Formhandler\Component\Abstract
      *
      * @param array $gp GET and POST variable array
      * @param array $settings Typoscript configuration for the component (component.1.config.*)
-     *
-     * @return void
      */
     public function init($gp, $settings)
     {
