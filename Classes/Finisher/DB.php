@@ -238,7 +238,7 @@ class DB extends AbstractFinisher
         $this->utilityFuncs->debugMessage('sql_request', [$query]);
 
         $stmt = $queryBuilder->execute();
-        if ($stmt->errorInfo()) {
+        if (is_object($stmt) && $stmt->errorInfo()) {
             $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
             return false;
         }
