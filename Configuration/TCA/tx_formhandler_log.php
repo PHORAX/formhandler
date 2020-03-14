@@ -10,9 +10,6 @@ return [
         'iconfile' => 'EXT:formhandler/ext_icon.gif',
         'adminOnly' => 1
     ],
-    'interface' => [
-        'showRecordFieldList' => 'crdate,ip,params,is_spam,key_hash'
-    ],
     'columns' => [
         'crdate' => [
             'exclude' => 1,
