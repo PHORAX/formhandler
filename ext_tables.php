@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 if (TYPO3_MODE === 'BE') {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'Typoheads.' . $_EXTKEY,
+        'Typoheads.formhandler',
         'web',
         'log',
         'bottom',
@@ -14,8 +14,8 @@ if (TYPO3_MODE === 'BE') {
         ],
         [
             'access' => 'user,group',
-            'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/moduleicon.gif',
-            'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xml'
+            'icon' => 'EXT:formhandler/Resources/Public/Icons/moduleicon.gif',
+            'labels' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_mod.xml'
         ]
     );
 }
