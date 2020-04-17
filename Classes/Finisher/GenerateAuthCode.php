@@ -63,8 +63,15 @@ class GenerateAuthCode extends AbstractFinisher
         if ($table && $uid) {
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
             $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
-
-            $row = $queryBuilder->select('*')->from($table)->execute()->fetch();
+            $row = $queryBuilder->select('*')
+                                ->from($table)
+                                ->where(
+                                    $queryBuilder->expr()->eq(
+                                        $uidField,
+                                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                                    )
+                                )
+                                ->execute()->fetch();
             if (!empty($row)) {
                 $authCode = $this->generateAuthCode($row);
                 $this->gp['generated_authCode'] = $authCode;
