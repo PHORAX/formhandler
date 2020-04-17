@@ -16,6 +16,7 @@ namespace Typoheads\Formhandler\Finisher;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 
 /**
  * This finisher generates a unique code for a database entry.
@@ -60,13 +61,10 @@ class GenerateAuthCode extends AbstractFinisher
         $uidField = $firstInsertInfo['uidField'] ?: 'uid';
 
         if ($table && $uid) {
-            $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+            $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
 
-            $selectFields = '*';
-            if ($this->settings['selectFields']) {
-                $selectFields = $this->utilityFuncs->getSingle($this->settings, 'selectFields');
-            }
-            $row = $conn->select(explode(',', $selectFields), $table, [$uidField => $uid])->fetch();
+            $row = $queryBuilder->select('*')->from($table)->execute()->fetch();
             if (!empty($row)) {
                 $authCode = $this->generateAuthCode($row);
                 $this->gp['generated_authCode'] = $authCode;
