@@ -43,6 +43,11 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     protected $utilityFuncs;
 
     /**
+     * @var \TYPO3\CMS\Core\Log\Logger
+     */
+    protected $logger;
+
+    /**
      * Main method of the dispatcher. This method is called as a user function.
      *
      * @return string rendered view
@@ -55,6 +60,7 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
         $this->globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
         $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
+        $this->logger = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Log\LogManager::class)->getLogger(__CLASS__);
         try {
 
             //init flexform
@@ -110,10 +116,9 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 
             $result = $controller->process();
         } catch (\Exception $e) {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::sysLog(
+            $this->logger->error(
                 $e->getFile() . '(' . $e->getLine() . ')' . ' ' . $e->getMessage(),
-                'formhandler',
-                \TYPO3\CMS\Core\Utility\GeneralUtility::SYSLOG_SEVERITY_ERROR
+                ['formhandler']
             );
             $result = $this->utilityFuncs->getTranslatedMessage($this->globals->getLangFiles(), 'fe-exception');
             if (!$result) {
