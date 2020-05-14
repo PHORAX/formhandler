@@ -22,7 +22,7 @@ class LogData extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * @var int
-     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
+     * @validate TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator
      */
     protected $crdate = 0;
 
@@ -33,7 +33,7 @@ class LogData extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * @var string
-     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
+     * @validate TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator
      */
     protected $params = '';
 
