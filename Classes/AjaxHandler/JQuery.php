@@ -14,6 +14,9 @@ namespace Typoheads\Formhandler\AjaxHandler;
     * Public License for more details.                                       *
     *                                                                        */
 
+use TYPO3\CMS\Core\Utility\PathUtility;
+
+
 /**
  * Abstract class for an AjaxHandler.
  * The AjaxHandler takes care of adding AJAX related markers and JS used for validation and file removal.
