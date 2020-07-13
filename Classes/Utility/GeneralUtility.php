@@ -15,7 +15,9 @@ namespace Typoheads\Formhandler\Utility;
  *                                                                        */
 use TYPO3\CMS\Core\Crypto\Random;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
  * A class providing helper functions for Formhandler
@@ -657,7 +659,7 @@ class GeneralUtility implements SingletonInterface
         $path = explode('/', $path);
         if (strpos($path[0], 'EXT') === 0) {
             $parts = explode(':', $path[0]);
-            $path[0] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($parts[1]);
+            $path[0] = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($parts[1]));
         }
         $path = implode('/', $path);
         $path = str_replace('//', '/', $path);
@@ -678,7 +680,7 @@ class GeneralUtility implements SingletonInterface
         $path = explode('/', $path);
         if (strpos($path[0], 'EXT') === 0) {
             $parts = explode(':', $path[0]);
-            $path[0] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($parts[1]);
+            $path[0] = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($parts[1]));
         }
         $path = implode('/', $path);
         $path = str_replace('//', '/', $path);
