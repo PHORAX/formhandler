@@ -7,16 +7,15 @@
 		"GPL-2.0"
 	],
 	"require": {
-		"typo3/cms-core": "^9.5.0",
-		"friendsoftypo3/typo3db-legacy": "^1.1",
-		"tecnickcom/tcpdf": "^6.0",
-		"parsecsv/php-parsecsv": "^0.4"
+		"php": "~7.0.0|~7.1.0|~7.2.0",
+		"typo3/cms-core": ">=7.6.0,<9.0"
 	},
 	"autoload": {
 		"psr-4": {
 			"Typoheads\\Formhandler\\": "Classes"
 		},
 		"classmap": [
+			"Resources/PHP/tcpdf/tcpdf.php",
 			"pi1/class.tx_formhandler_pi1.php"
 		]
 	},

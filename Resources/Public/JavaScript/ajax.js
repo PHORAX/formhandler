@@ -31,7 +31,7 @@
                 loading.show();
                 result.hide();
 
-                var url = '/index.php?eID=formhandler&id=' + settings.pageID + '&field=' + shortName + '&randomID=' + settings.randomID + '&uid=' + settings.contentID + '&L=' + settings.lang;
+                var url = '/index.php?formhandler_eID_middleware_ajaxmethod=formhandler-validate&id=' + settings.pageID + '&field=' + shortName + '&randomID=' + settings.randomID + '&uid=' + settings.contentID + '&L=' + settings.lang;
                 var postData = formhandlerDiv.find("form").serialize() + "&" + formhandlerDiv.find(settings.submitButtonSelector).attr("name") + "=submit";
                 formhandlerDiv.trigger('validateStart', [field]);
                 jQuery.ajax({
@@ -85,7 +85,7 @@
                 formhandlerDiv.trigger('submitStart');
                 formhandlerDiv.find(settings.submitButtonSelector).attr("disabled", "disabled");
                 var form = $(this);
-                var url = '/index.php?eID=formhandler-ajaxsubmit&id=' + settings.pageID + '&randomID=' + settings.randomID + '&uid=' + settings.contentID + '&L=' + settings.lang;
+                var url = '/index.php?formhandler_eID_middleware_ajaxmethod=formhandler-ajaxsubmit&id=' + settings.pageID + '&randomID=' + settings.randomID + '&uid=' + settings.contentID + '&L=' + settings.lang;
                 var postData = form.serialize() + "&" + formhandlerDiv.find(settings.submitButtonSelector).attr("name") + "=submit";
                 formhandlerDiv.find(".loading_ajax-submit").show();
                 jQuery.ajax({

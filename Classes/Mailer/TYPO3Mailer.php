@@ -32,14 +32,14 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
      *
      * @var \Swift_Mime_MimePart
      */
-    protected $htmlMimePart;
+    // protected $htmlMimePart;
 
     /**
      * The plain text part of the message
      *
      * @var \Swift_Mime_MimePart
      */
-    protected $plainMimePart;
+    // protected $plainMimePart;
 
     /**
      * Initializes the email object and calls the parent constructor
@@ -55,7 +55,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
                                 \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs)
     {
         parent::__construct($componentManager, $configuration, $globals, $utilityFuncs);
-        $this->emailObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
+        $this->emailObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
     }
 
     /* (non-PHPdoc)
@@ -81,16 +81,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function setHTML($html)
     {
-        if (!isset($this->htmlMimePart)) {
-            $this->htmlMimePart = \Swift_MimePart::newInstance($html, 'text/html');
-        } else {
-            $this->emailObj->detach($this->htmlMimePart);
-            $this->htmlMimePart->setBody($html);
-        }
-
-        if (!empty($html)) {
-            $this->emailObj->attach($this->htmlMimePart);
-        }
+        $this->emailObj->html($html);
     }
 
     /* (non-PHPdoc)
@@ -98,16 +89,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function setPlain($plain)
     {
-        if (!isset($this->plainMimePart)) {
-            $this->plainMimePart = \Swift_MimePart::newInstance($plain, 'text/plain');
-        } else {
-            $this->emailObj->detach($this->plainMimePart);
-            $this->plainMimePart->setBody($plain);
-        }
-
-        if (!empty($plain)) {
-            $this->emailObj->attach($this->plainMimePart);
-        }
+        $this->emailObj->text($plain);
     }
 
     /* (non-PHPdoc)
@@ -115,7 +97,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function setSubject($value)
     {
-        $this->emailObj->setSubject($value);
+        $this->emailObj->subject($value);
     }
 
     /**
@@ -149,7 +131,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function addCc($email, $name)
     {
-        $this->emailObj->addCc($email, $name);
+        $this->emailObj->addCc(new \Symfony\Component\Mime\Address($email, $name));
     }
 
     /* (non-PHPdoc)
@@ -157,7 +139,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function addBcc($email, $name)
     {
-        $this->emailObj->addBcc($email, $name);
+        $this->emailObj->addBcc(new \Symfony\Component\Mime\Address($email, $name));
     }
 
     /* (non-PHPdoc)
@@ -165,7 +147,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function setReturnPath($value)
     {
-        $this->emailObj->setReturnPath($value);
+        $this->emailObj->returnPath($value);
     }
 
     /* (non-PHPdoc)
@@ -255,8 +237,8 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
         $bccArray = $this->emailObj->getBcc();
         $bccConcat = [];
         if (is_array($bccArray)) {
-            foreach ($bccArray as $email => $name) {
-                $bccConcat[] = $name . ' <' . $email . '>';
+            foreach ($bccArray as $i => $address) {
+                $bccConcat[] = $address->getName() . ' <' . $address->getAddress() . '>';
             }
         }
         return $bccConcat;

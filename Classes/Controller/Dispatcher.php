@@ -113,11 +113,11 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 
             $result = $controller->process();
         } catch (\Exception $e) {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::sysLog(
+            /*\TYPO3\CMS\Core\Utility\GeneralUtility::sysLog(
                 $e->getFile() . '(' . $e->getLine() . ')' . ' ' . $e->getMessage(),
                 'formhandler',
                 \TYPO3\CMS\Core\Utility\GeneralUtility::SYSLOG_SEVERITY_ERROR
-            );
+            );*/
             $result = $this->utilityFuncs->getTranslatedMessage($this->globals->getLangFiles(), 'fe-exception');
             if (!$result) {
                 $result = '<div style="color:red; font-weight: bold">' . $this->utilityFuncs->getExceptionMessage('fe-exception') . '</div>';

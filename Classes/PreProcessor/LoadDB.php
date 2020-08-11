@@ -169,10 +169,10 @@ class LoadDB extends AbstractPreProcessor
 
                 foreach ($filesArray as $k => $uploadFile) {
                     if (strpos($uploadFile, '/') !== false) {
-                        $file = PATH_site . $uploadFile;
+                        $file = \TYPO3\CMS\Core\Core\Environment::getPublicPath().'/' . $uploadFile;
                         $uploadedUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadFile;
                     } else {
-                        $file = PATH_site . $uploadPath . $uploadFile;
+                        $file = \TYPO3\CMS\Core\Core\Environment::getPublicPath().'/' . $uploadPath . $uploadFile;
                         $uploadedUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadPath . $uploadFile;
                     }
 
@@ -180,7 +180,7 @@ class LoadDB extends AbstractPreProcessor
                     $this->files[$fieldname][] = [
                         'name' => $uploadFile,
                         'uploaded_name' => $uploadFile,
-                        'uploaded_path' => PATH_site . $uploadPath,
+                        'uploaded_path' => \TYPO3\CMS\Core\Core\Environment::getPublicPath().'/' . $uploadPath,
                         'uploaded_folder' => $uploadPath,
                         'uploaded_url' => $uploadedUrl,
                         'size' => filesize($file)
@@ -238,11 +238,9 @@ class LoadDB extends AbstractPreProcessor
         }
         $queryParts = $this->globals->getCObj()->getQuery($table, $conf, true);
 
-        // possible quotes: empty, ", ` or '
-        $quotes = '|\"|\`|\'';
         //if pidInList is not set in TypoScript remove it from the where clause.
         if (!isset($conf['pidInList']) || strlen($conf['pidInList']) === 0) {
-            $queryParts['WHERE'] = preg_replace('/([^ ]+\.('.$quotes.')pid('.$quotes.') IN \([^ ]+\) AND )/i', '', $queryParts['WHERE']);
+            $queryParts['WHERE'] = preg_replace('/([^ ]+\.pid IN \([^ ]+\) AND )/i', '', $queryParts['WHERE']);
         }
         return $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
     }

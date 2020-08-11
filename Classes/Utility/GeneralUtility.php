@@ -13,9 +13,16 @@ namespace Typoheads\Formhandler\Utility;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
+
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use \TYPO3\CMS\Core\Crypto\Random;
+use TYPO3\CMS\Frontend\Aspect\PreviewAspect;
+use TYPO3\CMS\Frontend\Controller\ErrorController;
+use TYPO3\CMS\Frontend\Page\PageAccessFailureReasons;
 
 /**
  * A class providing helper functions for Formhandler
@@ -30,7 +37,7 @@ class GeneralUtility implements SingletonInterface
      */
     public static function getDocumentRoot()
     {
-        return PATH_site;
+        return \TYPO3\CMS\Core\Core\Environment::getPublicPath().'/';
     }
 
     public static function getMergedGP()
@@ -141,12 +148,14 @@ class GeneralUtility implements SingletonInterface
         return $content;
     }
 
-    /**
-     * Read template file set in flexform or TypoScript, read the file's contents to $this->templateFile
-     *
-     * @param $settings The formhandler settings
-     * @return string
-     */
+	/**
+	 * Read template file set in flexform or TypoScript, read the file's contents to $this->templateFile
+	 *
+	 * @param $templateFile
+	 * @param $settings array The formhandler settings
+	 * @return string
+	 * @throws \Exception
+	 */
     public static function readTemplateFile($templateFile, &$settings)
     {
 
@@ -364,7 +373,7 @@ class GeneralUtility implements SingletonInterface
                 $additionalParamsKeysAndValues = explode('&', $additionalParamsString);
                 $additionalParams = [];
                 foreach ($additionalParamsKeysAndValues as $keyAndValue) {
-                    list($key, $value) = explode('=', $keyAndValue, 2);
+                    [$key, $value] = explode('=', $keyAndValue, 2);
                     $additionalParams[$key] = $value;
                 }
             } else {
@@ -666,7 +675,7 @@ class GeneralUtility implements SingletonInterface
         $path = explode('/', $path);
         if (strpos($path[0], 'EXT') === 0) {
             $parts = explode(':', $path[0]);
-            $path[0] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($parts[1]);
+            $path[0] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($parts[1]);
         }
         $path = implode('/', $path);
         $path = str_replace('//', '/', $path);
@@ -687,7 +696,7 @@ class GeneralUtility implements SingletonInterface
         $path = explode('/', $path);
         if (strpos($path[0], 'EXT') === 0) {
             $parts = explode(':', $path[0]);
-            $path[0] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($parts[1]);
+            $path[0] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($parts[1]);
         }
         $path = implode('/', $path);
         $path = str_replace('//', '/', $path);
@@ -824,17 +833,44 @@ class GeneralUtility implements SingletonInterface
 
     public static function generateRandomID()
     {
-        $randomID = md5(
-            \Typoheads\Formhandler\Utility\Globals::getFormValuesPrefix() .
-            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Random::class)->generateRandomBytes(10)
-        );
+        $randomID = md5(\Typoheads\Formhandler\Utility\Globals::getFormValuesPrefix() . \TYPO3\CMS\Core\Crypto\Random::generateRandomBytes(10));
         return $randomID;
     }
 
-    public static function initializeTSFE($pid)
+    /**
+	 * Main method of the class.
+	 * @param ServerRequestInterface $request
+	 * @return void
+	 */
+    public static function initializeTSFE($pid, ServerRequestInterface $request)
     {
+    	
+    	
+    	
+    	
+    	
+    	$GLOBALS['TYPO3_REQUEST'] = $request;
+        /** @var Site $site */
+        $site = $request->getAttribute('site', null);
+        $pageArguments = $request->getAttribute('routing', null);
+        if (!$pageArguments instanceof PageArguments) {
+            // Page Arguments must be set in order to validate. This middleware only works if PageArguments
+            // is available, and is usually combined with the Page Resolver middleware
+            return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ErrorController::class)->pageNotFoundAction(
+                $request,
+                'Page Arguments could not be resolved',
+                ['code' => PageAccessFailureReasons::INVALID_PAGE_ARGUMENTS]
+            );
+        }
+        $context->setAspect('frontend.preview', GeneralUtility::makeInstance(PreviewAspect::class));
+        
+        
+        
         // create object instances:
-        $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pid, 0, true);
+        $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::class,
+	        \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class),
+	        
+	        $GLOBALS['TYPO3_CONF_VARS'], $pid, 0, true);
         $GLOBALS['TSFE']->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\TemplateService');
         $GLOBALS['TSFE']->tmpl->init();
 
@@ -843,7 +879,10 @@ class GeneralUtility implements SingletonInterface
         $GLOBALS['TSFE']->fe_user->fetchGroupData();
 
         // Include the TCA
-        \TYPO3\CMS\Core\Core\Bootstrap::getInstance()->loadCachedTca();
+        // q3i 8.7 fix
+        //\TYPO3\CMS\Core\Core\Bootstrap::getInstance()->loadCachedTca();
+        \TYPO3\CMS\Frontend\Utility\EidUtility::initTCA();
+        // //q3i
 
         // Get the page
         $GLOBALS['TSFE']->fetch_the_id();
@@ -1059,7 +1098,8 @@ class GeneralUtility implements SingletonInterface
             'L' => $GLOBALS['TSFE']->sys_language_uid,
             'randomID' => \Typoheads\Formhandler\Utility\Globals::getRandomID(),
             'field' => $field,
-            'uploadedFileName' => $uploadedFileName
+            'uploadedFileName' => $uploadedFileName,
+	        'no_cache' => 1,
         ];
         $params = array_merge($params, $specialParams);
         return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'index.php?' . \TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);

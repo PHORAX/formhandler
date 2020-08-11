@@ -27,9 +27,13 @@
 			<label index="label.back">Back to list</label>
 			
 			<label index="label.delete-all-selected-logs">Delete all selected log rows</label>
+			<label index="label.delete-all-logs">Delete all log rows</label>
+			<label index="label.delete-log-row">Delete this log row</label>
 			<label index="label.select-all-rows">Select all/Select none</label>
 			
 			<label index="message.delete-all-selected-logs">Are you sure you want to delete all selected log rows?</label>
+			<label index="message.delete-all-logs">Are you sure you want to delete all log rows?</label>
+			<label index="message.delete-log-row">Are you sure you want to delete this log row?</label>
 			<label index="message.deleted-log-rows">Deleted %d log row(s)!</label>
 			<label index="message.deleted-all-logs">Deleted all log rows!</label>
 

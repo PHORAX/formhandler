@@ -83,11 +83,26 @@
 															<f:form.hidden name="filetype" class="filetype"/>
 															<f:form.hidden name="logDataUids" class="logDataUids"/>
 														</f:form>
+														<f:form method="post" action="deleteLogRows" id="process-selected-form-delete">
+															<f:form.hidden name="logDataUids" class="logDataUids"/>
+														</f:form>
 														<a class="btn btn-default select-all" rel="" href="#" title="{f:translate(key: 'label.select-all-rows')}">
 															<span class="t3-icon fa fa-check-square-o"> </span>
 														</a>
 														<a href="#" class="btn btn-default pdf">PDF</a>
 														<a href="#" class="btn btn-default csv">CSV</a>
+
+														<f:if condition="{permissions.delete}">
+															<f:then>
+																<a href="#" class="btn btn-default delete" title="{f:translate(key: 'label.delete-all-selected-logs')}">
+																	<span 
+																		class="fa fa-trash delete-info" 
+																		data-title="{f:translate(key: 'label.delete-all-selected-logs')}"
+																		data-message="{f:translate(key: 'message.delete-log-row')}"> 
+																	</span>
+																</a>
+															</f:then>
+														</f:if>
 													</div>
 												</th>
 											</tr>
@@ -103,6 +118,23 @@
 															<f:link.action action="view" class="btn btn-default" arguments="{logDataRow: logDataRow}"><span class="t3-icon fa fa-info-circle"> </span></f:link.action>
 															<f:link.action action="selectFields" class="btn btn-default" arguments="{logDataUids: logDataRow.uid, filetype: 'pdf'}"> PDF </f:link.action>
 															<f:link.action action="selectFields" class="btn btn-default" arguments="{logDataUids: logDataRow.uid, filetype: 'csv'}"> CSV </f:link.action>
+															<f:if condition="{permissions.delete}">
+																<f:then>
+																	<f:link.action
+																		action="deleteLogRows"
+																		class="btn btn-default delete"
+																		arguments="{logDataUids: logDataRow.uid}"
+																		title="{f:translate(key: 'label.delete-log-row')}">
+
+																		<span
+																			class="fa fa-trash delete-info"
+																			data-title="{f:translate(key: 'label.delete-log-row')}"
+																			data-message="{f:translate(key: 'message.delete-log-row')}"
+																			data-uid="{logDataRow.uid}">
+																		</span>
+																	</f:link.action>
+																</f:then>
+															</f:if>
 														</td>
 														<td>
 															<label class="btn btn-default btn-checkbox">
@@ -117,6 +149,24 @@
 									</table>
 								</div>
 							</f:be.widget.paginate>
+							<f:if condition="{permissions.delete}">
+								<f:then>
+									<f:link.action 
+										action="deleteLogRows"
+										class="btn btn-default delete"
+										arguments="{logDataUids: logDataRow.uid}"
+										title="{f:translate(key: 'label.delete-all-logs')}">
+
+										<span 
+											class="delete-info" 
+											data-title="{f:translate(key: 'label.delete-all-logs')}"
+											data-message="{f:translate(key: 'message.delete-all-logs')}"
+											data-uid="all">
+											{f:translate(key: 'label.delete-all-logs')} 
+										</span>
+									</f:link.action>
+								</f:then>
+							</f:if>
 						</f:then>
 						<f:else>
 							<p><f:translate key="message.noRecordsFound" /></p>

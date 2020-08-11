@@ -14,6 +14,9 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use Typoheads\Formhandler\Mailer\TYPO3Mailer;
+use Typoheads\Formhandler\View\AbstractView;
+
 /**
  * Finisher to send mails after successful form submission.
  *
@@ -67,6 +70,13 @@ namespace Typoheads\Formhandler\Finisher;
 class Mail extends AbstractFinisher
 {
 
+	/**
+	 * @var TYPO3Mailer
+	 */
+	protected $emailObj = null;
+	
+	protected $predefined;
+
     /**
      * The main method called by the controller
      *
@@ -74,7 +84,7 @@ class Mail extends AbstractFinisher
      */
     public function process()
     {
-
+// die('send mail 2!');
         //send emails
         $this->initMailer('admin');
         $this->sendMail('admin');
@@ -131,7 +141,7 @@ class Mail extends AbstractFinisher
             $viewClass = '\\Typoheads\\Formhandler\\View\\Mail';
         }
 
-        /* @var $view Tx_Formhandler_AbstractView */
+        /* @var $view AbstractView */
         $view = $this->componentManager->getComponent($viewClass);
 
         $view->setLangFiles($this->globals->getLangFiles());
@@ -164,6 +174,15 @@ class Mail extends AbstractFinisher
      */
     protected function sendMail($type)
     {
+    	if (!$this->settings[$type]['to_email'][0]) {
+    		/*var_dump($this->settings);
+    		var_dump($type);
+    		die('stop!');
+    		return;*/
+		    $x=1;
+		    return;
+	    }
+
         $doSend = true;
         if (intval($this->utilityFuncs->getSingle($this->settings[$type], 'disable')) === 1) {
             $this->utilityFuncs->debugMessage('mail_disabled', [$type]);
@@ -508,7 +527,7 @@ class Mail extends AbstractFinisher
             } else {
                 $langMarkers = $this->utilityFuncs->getFilledLangMarkers($value, $this->globals->getLangFiles());
                 if (!empty($langMarkers)) {
-                    $value = $this->markerBasedTemplateService->substituteMarkerArray($value, $langMarkers);
+                    $value = $this->TemplateService->substituteMarkerArray($value, $langMarkers);
                 }
             }
         }

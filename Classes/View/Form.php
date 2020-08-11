@@ -2,23 +2,27 @@
 namespace Typoheads\Formhandler\View;
 
 /*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        */
+     * This script is part of the TYPO3 project - inspiring people to share!  *
+     *                                                                        *
+     * TYPO3 is free software; you can redistribute it and/or modify it under *
+     * the terms of the GNU General Public License version 2 as published by  *
+     * the Free Software Foundation.                                          *
+     *                                                                        *
+     * This script is distributed in the hope that it will be useful, but     *
+     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+     * Public License for more details.                                       *
+     *                                                                        */
 
 /**
  * A default view for Formhandler
  */
 class Form extends AbstractView
 {
+	
+	protected $masterTemplates = [];
+	protected $errors = [];
+	protected $settings = [];
 
     /**
      * An array of fields to do not encode for output
@@ -44,7 +48,8 @@ class Form extends AbstractView
         //set template
         $this->template = $this->subparts['template'];
         if (strlen($this->template) === 0) {
-            $this->utilityFuncs->throwException('no_template_file');
+//        	die ('NO TEMPLATE!');
+//          $this->utilityFuncs->throwException('no_template_file');
         }
 
         $this->errors = $errors;
@@ -75,7 +80,7 @@ class Form extends AbstractView
         if ($this->globals->getAjaxHandler()) {
             $markers = [];
             $this->globals->getAjaxHandler()->fillAjaxMarkers($markers);
-            $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
+            $this->template = $this->TemplateService->substituteMarkerArray($this->template, $markers);
         }
 
         //fill Typoscript markers
@@ -189,7 +194,7 @@ class Form extends AbstractView
                 if (is_array($subparts)) {
                     foreach ($subparts as $index => $subpart) {
                         $subpartKey = str_replace('#', '', $subpart);
-                        $code = $this->markerBasedTemplateService->getSubpart($masterTemplateCode, $subpart);
+                        $code = $this->TemplateService->getSubpart($masterTemplateCode, $subpart);
                         if (!empty($code)) {
                             $subpartsCodes[$subpartKey] = $code;
                         }
@@ -215,7 +220,7 @@ class Form extends AbstractView
                                 foreach ($params as $paramKey => $paramValue) {
                                     $markers['###param' . (++$paramKey) . '###'] = $paramValue;
                                 }
-                                $replacedCode = $this->markerBasedTemplateService->substituteMarkerArray($code, $markers);
+                                $replacedCode = $this->TemplateService->substituteMarkerArray($code, $markers);
                             } else {
                                 $replacedCode = $code;
                             }
@@ -225,7 +230,7 @@ class Form extends AbstractView
                 }
             }
         }
-        $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $fieldMarkers);
+        $this->template = $this->TemplateService->substituteMarkerArray($this->template, $fieldMarkers);
     }
 
     /**
@@ -239,10 +244,10 @@ class Form extends AbstractView
         $startblock = $this->globals->getSession()->get('startblock');
         $endblock = $this->globals->getSession()->get('endblock');
         if (empty($startblock)) {
-            $startblock = $this->markerBasedTemplateService->getSubpart($this->template, '###FORM_STARTBLOCK###');
+            $startblock = $this->TemplateService->getSubpart($this->template, '###FORM_STARTBLOCK###');
         }
         if (empty($endblock)) {
-            $endblock = $this->markerBasedTemplateService->getSubpart($this->template, '###FORM_ENDBLOCK###');
+            $endblock = $this->TemplateService->getSubpart($this->template, '###FORM_ENDBLOCK###');
         }
         $this->globals->getSession()->setMultiple(['startblock' => $startblock, 'endblock' => $endblock]);
     }
@@ -356,7 +361,7 @@ class Form extends AbstractView
             '###FORM_STARTBLOCK###' => $this->globals->getSession()->get('startblock'),
             '###FORM_ENDBLOCK###' => $this->globals->getSession()->get('endblock')
         ];
-        $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
+        $this->template = $this->TemplateService->substituteMarkerArray($this->template, $markers);
     }
 
     /**
@@ -388,7 +393,7 @@ class Form extends AbstractView
         unset($values['formErrors']);
         $markers = $this->getSelectedMarkers($values);
         $markers = array_merge($markers, $this->getSelectedMarkers($this->gp, 0, 'checked_'));
-        $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
+        $this->template = $this->TemplateService->substituteMarkerArray($this->template, $markers);
 
         $this->template = preg_replace('/###(selected|checked)_.*?###/i', '', $this->template);
     }
@@ -404,8 +409,8 @@ class Form extends AbstractView
         if (isset($parameters['id'])) {
             unset($parameters['id']);
         }
-        if (isset($parameters['eID'])) {
-            unset($parameters['eID']);
+        if (isset($parameters['formhandler_eID_middleware_ajaxmethod'])) {
+            unset($parameters['formhandler_eID_middleware_ajaxmethod']);
         }
         if (isset($parameters['randomID'])) {
             unset($parameters['randomID']);
@@ -619,7 +624,7 @@ class Form extends AbstractView
             );
         }
 
-        $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
+        $this->template = $this->TemplateService->substituteMarkerArray($this->template, $markers);
     }
 
     /**
@@ -634,7 +639,7 @@ class Form extends AbstractView
             $markers['###CAPTCHA###'] = \ThinkopenAt\Captcha\Utility::makeCaptcha();
             $markers['###captcha###'] = $markers['###CAPTCHA###'];
         }
-        if (stristr($this->template, '###SR_FREECAP_IMAGE###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_freecap')) {
+        if (stristr($this->template, '###SR_FREECAP_###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_freecap')) {
             require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
             $this->freeCap = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_srfreecap_pi2');
             $markers = array_merge($markers, $this->freeCap->makeCaptcha());
@@ -763,7 +768,8 @@ class Form extends AbstractView
                                                 $maxCount = $fieldSettings['errorCheck.'][$key . '.']['maxCount'];
                                                 $markers['###' . $replacedFieldname . '_maxCount###'] = $maxCount;
 
-                                                $fileCount = count($sessionFiles[$replacedFieldname]);
+                                                // fix - cast to array to avoid warnings
+                                                $fileCount = count((Array) $sessionFiles[$replacedFieldname]);
                                                 $markers['###' . $replacedFieldname . '_fileCount###'] = $fileCount;
 
                                                 $remaining = $maxCount - $fileCount;
@@ -917,7 +923,7 @@ class Form extends AbstractView
             $imgConf['image.']['file.']['width'] = '100m';
             $imgConf['image.']['file.']['height'] = '100m';
         }
-        $thumb = $this->cObj->IMAGE($imgConf['image.']);
+        $thumb = $this->cObj->cObjGetSingle('IMAGE', $imgConf['image.']);
         return $thumb;
     }
 
@@ -951,7 +957,7 @@ class Form extends AbstractView
             $errorMessage = $temp;
         }
         $markers['###is_error###'] = $errorMessage;
-        $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
+        $this->template = $this->TemplateService->substituteMarkerArray($this->template, $markers);
     }
 
     /**
@@ -979,7 +985,7 @@ class Form extends AbstractView
                 $markers['###is_success_' . $field . '###'] = $successMessage;
             }
         }
-        $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
+        $this->template = $this->TemplateService->substituteMarkerArray($this->template, $markers);
     }
 
     /**
@@ -1042,7 +1048,7 @@ class Form extends AbstractView
                 $errorMessage = '<a name="' . $field . '-' . $this->globals->getRandomID() . '">' . $errorMessage . '</a>';
             }
             $langMarkers = $this->utilityFuncs->getFilledLangMarkers($errorMessage, $this->langFiles);
-            $errorMessage = $this->markerBasedTemplateService->substituteMarkerArray($errorMessage, $langMarkers);
+            $errorMessage = $this->TemplateService->substituteMarkerArray($errorMessage, $langMarkers);
             $markers['###error_' . $field . '###'] = $errorMessage;
             $markers['###ERROR_' . strtoupper($field) . '###'] = $errorMessage;
             $errorMessage = $clearErrorMessage;
@@ -1060,9 +1066,9 @@ class Form extends AbstractView
         }
         $markers['###ERROR###'] = $this->utilityFuncs->wrap($markers['###ERROR###'], $this->settings['errorListTemplate.'], 'totalWrap');
         $langMarkers = $this->utilityFuncs->getFilledLangMarkers($markers['###ERROR###'], $this->langFiles);
-        $markers['###ERROR###'] = $this->markerBasedTemplateService->substituteMarkerArray($markers['###ERROR###'], $langMarkers);
+        $markers['###ERROR###'] = $this->TemplateService->substituteMarkerArray($markers['###ERROR###'], $langMarkers);
         $markers['###error###'] = $markers['###ERROR###'];
-        $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
+        $this->template = $this->TemplateService->substituteMarkerArray($this->template, $markers);
     }
 
     /**
@@ -1080,7 +1086,7 @@ class Form extends AbstractView
                 }
             }
         }
-        $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
+        $this->template = $this->TemplateService->substituteMarkerArray($this->template, $markers);
     }
 
     /**
@@ -1100,7 +1106,7 @@ class Form extends AbstractView
             $this->disableEncodingFields = explode(',', $this->utilityFuncs->getSingle($this->settings, 'disableEncodingFields'));
         }
         $markers = $this->getValueMarkers($this->gp);
-        $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
+        $this->template = $this->TemplateService->substituteMarkerArray($this->template, $markers);
 
         //remove remaining VALUE_-markers
         //needed for nested markers like ###LLL:tx_myextension_table.field1.i.###value_field1###### to avoid wrong marker removal if field1 isn't set
@@ -1204,7 +1210,7 @@ class Form extends AbstractView
                 $langMarkers['###LLL:' . $marker . '###'] = $message;
             }
         }
-        $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $langMarkers);
+        $this->template = $this->TemplateService->substituteMarkerArray($this->template, $langMarkers);
     }
 
     /**

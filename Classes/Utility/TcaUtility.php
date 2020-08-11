@@ -1,6 +1,10 @@
 <?php
 namespace Typoheads\Formhandler\Utility;
 
+use TYPO3\CMS\Backend\Form\NodeInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
+
 /***************************************************************
      *  Copyright notice
      *
@@ -45,46 +49,6 @@ class TcaUtility
         return $output;
     }
 
-    /**
-     * Adds onchange listener on the drop down menu "predefined".
-     * If the event is fired and old value was ".default", then empty some fields.
-     *
-     * @param array $config
-     * @return string the javascript
-     * @author Fabien Udriot
-     */
-    public function addFields_predefinedJS($config)
-    {
-        $newRecord = 'true';
-        if (is_array($GLOBALS['SOBE']->editconf['tt_content']) && reset($GLOBALS['SOBE']->editconf['tt_content']) === 'edit') {
-            $newRecord = 'false';
-        }
-
-        $uid = null;
-        if (is_array($GLOBALS['SOBE']->editconf['tt_content'])) {
-            $uid = key($GLOBALS['SOBE']->editconf['tt_content']);
-        }
-        if ($uid < 0 || empty($uid) || !strstr($uid, 'NEW')) {
-            $uid = $GLOBALS['SOBE']->elementsData[0]['uid'];
-        }
-
-        $js = "<script>\n";
-        $js .= "/*<![CDATA[*/\n";
-
-        $divId = $GLOBALS['SOBE']->tceforms->dynNestedStack[0][1];
-        if (!$divId) {
-            $divId = "DIV.c-tablayer";
-        } else {
-            $divId .= "-DIV";
-        }
-        $js .= "var uid = '" . $uid . "'\n";
-        $js .= "var flexformBoxId = '" . $divId . "'\n";
-        $js .= "var newRecord = " . $newRecord . "\n";
-        $js .= file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/JavaScript/addFields_predefinedJS.js');
-        $js .= "/*]]>*/\n";
-        $js .= "</script>\n";
-        return $js;
-    }
 
     /**
      * Sets the items for the "Predefined" dropdown.
@@ -96,7 +60,7 @@ class TcaUtility
     {
         $pid = false;
 
-        if (is_array($GLOBALS['SOBE']->editconf['tt_content']) && reset($GLOBALS['SOBE']->editconf['tt_content']) === 'new') {
+        /*if (is_array($GLOBALS['SOBE']->editconf['tt_content']) && reset($GLOBALS['SOBE']->editconf['tt_content']) === 'new') {
             $pid = key($GLOBALS['SOBE']->editconf['tt_content']);
 
             //Formhandler inserted after existing content element
@@ -104,7 +68,7 @@ class TcaUtility
                 $element = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('pid', 'tt_content', 'uid=' . abs($pid));
                 $pid = $element['pid'];
             }
-        }
+        }*/
 
         $contentUid = $config['row']['uid'] ?: 0;
         if (!$pid) {
@@ -168,11 +132,8 @@ class TcaUtility
      */
     public function loadTS($pageUid)
     {
-        $sysPageObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
-        $rootLine = $sysPageObj->getRootLine($pageUid);
-        $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\ExtendedTemplateService');
-        $TSObj->tt_track = 0;
-        $TSObj->init();
+	    $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
+        $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\ExtendedTemplateService::class);
         $TSObj->runThroughTemplates($rootLine);
         $TSObj->generateConfig();
         return $TSObj->setup;

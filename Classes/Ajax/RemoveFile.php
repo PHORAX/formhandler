@@ -16,6 +16,7 @@ namespace Typoheads\Formhandler\Ajax;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
+ * @TODO: needs migration to middleware like others. finish when needed 
  * A class removing uploaded files. This class is called via AJAX.
  */
 class RemoveFile

@@ -363,7 +363,7 @@ class Form extends AbstractController
             }
             $this->globals->getSession()->set('finishedSteps', $finishedSteps);
 
-            //if no more steps
+            //if no more steps  // TODO: what sets that it's finished?
             if ($this->finished) {
                 return $this->processFinished();
             } else {
@@ -999,7 +999,8 @@ class Form extends AbstractController
             if (is_array($this->settings[$component . '.'])) {
                 foreach ($this->settings[$component . '.'] as $finisher) {
                     $className = $this->utilityFuncs->getPreparedClassName($finisher);
-                    if ($className == $componentName || @is_subclass_of($className, $componentName)) {
+                    // fix - remove error mute
+                    if ($className == $componentName || is_subclass_of($className, $componentName)) {
                         $isConfigOk = true;
                         break;
                     }
@@ -1249,6 +1250,7 @@ class Form extends AbstractController
             $this->utilityFuncs->debugMessage('using_subpart', ['###TEMPLATE_FORM' . $step . '###']);
             $this->view->setTemplate($this->templateFile, ('FORM' . $step));
         } elseif (intval($step) === intval($this->globals->getSession()->get('lastStep')) + 1) {
+        // } elseif (intval($step) === intval($this->globals->getSession()->get('lastStep'))) {
             $this->finished = true;
         }
     }

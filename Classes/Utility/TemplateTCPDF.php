@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Utility;
 * Public License for more details.                                       *
 *                                                                        */
 
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/PHP/tcpdf/tcpdf.php');
+
 /**
  * A PDF Template class for Formhandler generated PDF files for usage with Generator_TCPDF.
  */

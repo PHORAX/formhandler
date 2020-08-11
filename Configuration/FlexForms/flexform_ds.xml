@@ -19,14 +19,17 @@
                                 LLL:EXT:formhandler/Resources/Private/Language/locallang_tca.xml:formhandler.pi_flexform.template_file
                             </label>
                             <config>
-                                <type>group</type>
+                                <!--<type>group</type>
                                 <internal_type>file</internal_type>
                                 <allowed>tmpl,html,htm</allowed>
                                 <max_size>500</max_size>
                                 <minitems>0</minitems>
                                 <maxitems>1</maxitems>
                                 <size>1</size>
-                                <selectedListStyle>Width:180px</selectedListStyle>
+                                <selectedListStyle>Width:180px</selectedListStyle>-->
+                                <!-- doesn't work anymore, needs fal relation -->
+                                <type>input</type>
+                                <eval>trim</eval>
                             </config>
                         </TCEforms>
                     </template_file>
@@ -36,13 +39,15 @@
                                 LLL:EXT:formhandler/Resources/Private/Language/locallang_tca.xml:formhandler.pi_flexform.lang_file
                             </label>
                             <config>
-                                <type>group</type>
+                                <!--<type>group</type>
                                 <internal_type>file</internal_type>
                                 <allowed>php,xml</allowed>
                                 <max_size>500</max_size>
                                 <minitems>0</minitems>
                                 <maxitems>1</maxitems>
-                                <size>1</size>
+                                <size>1</size>-->
+                                <type>input</type>
+                                <eval>trim</eval>
                             </config>
                         </TCEforms>
                     </lang_file>
@@ -61,14 +66,14 @@
                             </config>
                         </TCEforms>
                     </predefined>
-                    <predefinedJS>
+                    <!--<predefinedJS>
                         <TCEforms>
                             <config>
                                 <type>user</type>
-                                <userFunc>Typoheads\Formhandler\Utility\TcaUtility->addFields_predefinedJS</userFunc>
+                                <renderType>predefinedJS</renderType>
                             </config>
                         </TCEforms>
-                    </predefinedJS>
+                    </predefinedJS>-->
                 </el>
             </ROOT>
         </sDEF>

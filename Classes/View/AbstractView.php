@@ -1,20 +1,21 @@
 <?php
 namespace Typoheads\Formhandler\View;
 
-use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
-
 /*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        */
+     * This script is part of the TYPO3 project - inspiring people to share!  *
+     *                                                                        *
+     * TYPO3 is free software; you can redistribute it and/or modify it under *
+     * the terms of the GNU General Public License version 2 as published by  *
+     * the Free Software Foundation.                                          *
+     *                                                                        *
+     * This script is distributed in the hope that it will be useful, but     *
+     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+     * Public License for more details.                                       *
+     *                                                                        */
+
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * An abstract view for Formhandler
@@ -42,14 +43,9 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * The cObj for link generation in FE
      *
      * @access public
-     * @var tslib_cObj
+     * @var ContentObjectRenderer
      */
     public $cObj;
-
-    /**
-     * @var \TYPO3\CMS\Core\Service\MarkerBasedTemplateService
-     */
-    protected $markerBasedTemplateService;
 
     /**
      * The piVars
@@ -132,6 +128,11 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     protected $gp;
 
     protected $componentSettings;
+    
+    /**
+     * @var MarkerBasedTemplateService
+     */
+	protected $TemplateService;
 
     /**
      * The constructor for a view setting the component manager and the configuration.
@@ -151,8 +152,8 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         $this->globals = $globals;
         $this->utilityFuncs = $utilityFuncs;
         $this->cObj = $this->globals->getCObj();
-        $this->markerBasedTemplateService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $this->pi_loadLL();
+        $this->TemplateService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $this->initializeView();
     }
 
@@ -233,8 +234,8 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      */
     public function setTemplate($templateCode, $templateName, $forceTemplate = false)
     {
-        $this->subparts['template'] = $this->markerBasedTemplateService->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
-        $this->subparts['item'] = $this->markerBasedTemplateService->getSubpart($this->subparts['template'], '###ITEM###');
+        $this->subparts['template'] = $this->TemplateService->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
+        $this->subparts['item'] = $this->TemplateService->getSubpart($this->subparts['template'], '###ITEM###');
     }
 
     /**

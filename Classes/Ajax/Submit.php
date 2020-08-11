@@ -13,6 +13,12 @@ namespace Typoheads\Formhandler\Ajax;
 * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
 * Public License for more details.                                       *
 *                                                                        */
+
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
 
@@ -31,12 +37,13 @@ class Submit
      */
     private $componentManager;
 
-    /**
-     * Main method of the class.
-     *
-     * @return string The HTML list of remaining files to be displayed in the form
-     */
-    public function main()
+	/**
+	 * Main method of the class.
+	 * @param ServerRequestInterface $request
+	 * @param Response|null $response
+	 * @return null|Response      * @return string The HTML list of remaining files to be displayed in the form
+	 */
+    public function main(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         $this->init();
 
@@ -46,12 +53,17 @@ class Submit
         $content = $GLOBALS['TSFE']->cObj->cObjGetSingle('USER', $settings);
 
         $content = '{' . json_encode('form') . ':' . json_encode($content, JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS) . '}';
-        print $content;
+        
+        // print $content;
+        $response = GeneralUtility::makeInstance(Response::class);
+        //$response = $response->withHeader('Content-type', 'text/html');   // I'm not really sure if the output is always of one type
+        $response->getBody()->write($content);
+        return $response;
     }
 
     /**
      * Initialize the class. Read GET parameters
-     *
+     * @param ServerRequestInterface $request
      * @return void
      */
     protected function init()
@@ -63,10 +75,21 @@ class Submit
         }
 
         $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
-        \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($id);
 
         $elementUID = intval($_GET['uid']);
-        $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tt_content', 'uid=' . $elementUID . $GLOBALS['TSFE']->cObj->enableFields('tt_content'));
+        
+        /** @var QueryBuilder $queryBuilder */
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tt_content')->createQueryBuilder();
+		$row = $queryBuilder
+			->select('*')
+			->from('tt_content')
+			->where(
+				$queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($elementUID, \PDO::PARAM_INT))
+			)
+			->setMaxResults(1)
+			->execute()
+			->fetch();
+		
         if (!empty($row)) {
             $GLOBALS['TSFE']->cObj->data = $row;
             $GLOBALS['TSFE']->cObj->current = 'tt_content_' . $elementUID;

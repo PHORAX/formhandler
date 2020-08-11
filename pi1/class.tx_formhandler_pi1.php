@@ -37,12 +37,16 @@ class tx_formhandler_pi1 extends TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      *
      * @param    string $content : The PlugIn content
      * @param    array $conf : The PlugIn configuration
-     * @return    The content that is displayed on the website
+     * @return   string The content that is displayed on the website
      */
     public function main($content, $conf)
     {
-        $dispatcher = new \Typoheads\Formhandler\Controller\Dispatcher();
-        $dispatcher->cObj = &$this->cObj;
+        // q3i - just tag to find changes on possible update in future
+        // wolo fix - make dispatcher xclassable
+        //$dispatcher = new \Typoheads\Formhandler\Controller\Dispatcher();
+        $dispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Typoheads\Formhandler\Controller\Dispatcher::class);
+        // wolo fix end.
+        $dispatcher->cObj = $this->cObj;
         return $dispatcher->main($content, $conf);
     }
 }

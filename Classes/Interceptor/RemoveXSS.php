@@ -109,6 +109,11 @@ class RemoveXSS extends AbstractInterceptor
                 if (!$isUTF8) {
                     $value = utf8_encode($value);
                 }
+                //$value = \TYPO3\CMS\Core\Utility\GeneralUtility::removeXSS($value);
+	            // do this manually
+                $value = trim($value);
+				$value = strip_tags($value);
+				$value = stripslashes($value);
                 $value = htmlspecialchars($value);
 
                 if (!$isUTF8) {
