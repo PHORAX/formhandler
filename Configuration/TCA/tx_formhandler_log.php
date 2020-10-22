@@ -19,8 +19,8 @@ return [
             'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tx_formhandler_log.submission_date',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => '10',
-                'max' => '20',
                 'eval' => 'datetime',
                 'checkbox' => '0',
                 'default' => '0'
