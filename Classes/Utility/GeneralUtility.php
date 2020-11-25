@@ -833,7 +833,9 @@ class GeneralUtility implements SingletonInterface
 
     public static function generateRandomID()
     {
-        $randomID = md5(\Typoheads\Formhandler\Utility\Globals::getFormValuesPrefix() . \TYPO3\CMS\Core\Crypto\Random::generateRandomBytes(10));
+        $randomID = md5(\Typoheads\Formhandler\Utility\Globals::getFormValuesPrefix() 
+	        . \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Crypto\Random::class)->generateRandomBytes(10)
+        );
         return $randomID;
     }
 
@@ -975,7 +977,7 @@ class GeneralUtility implements SingletonInterface
             foreach ($values as &$value) {
                 if (is_array($value)) {
                     $value = self::recursiveHtmlSpecialChars($value);
-                } else {
+                } else if (is_string($value)) {
                     $value = htmlspecialchars($value);
                 }
             }
