@@ -406,6 +406,12 @@ class Form extends AbstractView
     protected function fillDefaultMarkers()
     {
         $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET();
+        
+        // compatibility with 10.x routes / it doesn't translate it automatically back to get param, so it's not passed the easy way...
+	    $parameters = $_REQUEST;
+        $parameters['type'] = $GLOBALS['TYPO3_REQUEST']->getAttributes()['routing']['pageType'];
+
+
         if (isset($parameters['id'])) {
             unset($parameters['id']);
         }

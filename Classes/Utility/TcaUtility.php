@@ -32,21 +32,18 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 /**
  * UserFunc for rendering of log entry
  */
-class TcaUtility
+class TcaUtility extends \TYPO3\CMS\Backend\Form\Element\AbstractFormElement
 {
-    public function getParams($PA, $fobj)
+    public function render()
     {
-        $params = unserialize($PA['itemFormElValue']);
-        $output =
-            '<input
-			readonly="readonly" style="display:none"
-			name="' . $PA['itemFormElName'] . '"
-			value="' . htmlspecialchars($PA['itemFormElValue']) . '"
-			onchange="' . htmlspecialchars(implode('', $PA['fieldChangeFunc'])) . '"
-			' . $PA['onFocus'] . '/>
-		';
-        $output .= \TYPO3\CMS\Core\Utility\DebugUtility::viewArray($params);
-        return $output;
+        $params = unserialize($this->data['databaseRow']['params']);
+
+	    $result = $this->initializeResultArray();
+	    foreach($params as $key => $value)  {
+            $result['html'] .= '<tr><td style="padding: 4px 10px; font-style: italic;">'. htmlspecialchars($key) .'</td><td style="padding: 4px 10px;">'. htmlspecialchars($value) .'</td>';
+	    }
+	    $result['html'] = '<table>' . $result['html'] . '</table>';
+        return $result;
     }
 
 
