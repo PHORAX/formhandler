@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.0" xmlns="urn:oasis:names:tc:xliff:document:1.1">
+    <file source-language="en" datatype="plaintext" original="EXT:formhandler/Resources/Private/Language/locallang_tca.xlf" date="2021-01-01T00:00:000" product-name="formhandler">
+        <header />
+        <body>
+            <trans-unit id="formhandler.pi_flexform.sheet_general">
+                <source>General Settings</source>
+                <target>Allgemeine Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.sheet_emailAdminSettings">
+                <source>Admin E-Mail Settings</source>
+                <target>Admin E-Mail Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.sheet_emailUserSettings">
+                <source>User E-Mail Settings</source>
+                <target>User E-Mail Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.sheet_miscSettings">
+                <source>Other Settings</source>
+                <target>Andere Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.template_file">
+                <source>Template File</source>
+                <target>Template-Datei</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.emailRecipient">
+                <source>Recipient</source>
+                <target>Empfänger</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.emailSubject">
+                <source>Subject</source>
+                <target>Betreff</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.emailFrom">
+                <source>Mail From E-mail</source>
+                <target>Absender E-mail</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.emailFromName">
+                <source>Mail From Name</source>
+                <target>Absendername</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.redirectPage">
+                <source>Redirect Page</source>
+                <target>Redirect Seite</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.store_gp">
+                <source>Store data in session when submitting the form</source>
+                <target>Store data in session when submitting the form</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.mandatoryFields">
+                <source>Mandatory fields (enter names of formular fields seperated by ",")</source>
+                <target>Pflichtfelder (Kommaseparierte Liste mit Formularfeldnamen)</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.replyTo">
+                <source>Reply-To E-mail (optional, name of input field)</source>
+                <target>Reply-To E-mail</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.replyToName">
+                <source>Reply-To Name (optional, name of input field)</source>
+                <target>Reply-To Name</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.cc">
+                <source>Send CC E-mail to (optional, name of input field)</source>
+                <target>Sende CC E-mail an</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.ccName">
+                <source>CC Name</source>
+                <target>CC Name</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.bcc">
+                <source>Send BCC E-mail to (optional, name of input field)</source>
+                <target>Sende BCC E-mail an</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.bccName">
+                <source>BCC Name</source>
+                <target>BCC Name</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.emailConfirm">
+                <source>Send E-mail to address entered in form (enter name of form field here)</source>
+                <target>Sende E-mail an eine Adresse, die im Formular eingegeben wurde (Name des Formularfelds eingeben)</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.emailConfirmSubject">
+                <source>Subject of the mail to the user:</source>
+                <target>Betreff dieser E-Mail</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.template_predefined">
+                <source>Predefined forms:</source>
+                <target>Vordefinierte Formulare</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.template_controller">
+                <source>Controller:</source>
+                <target>Controller</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.template_file">
+                <source>Template File</source>
+                <target>Template-Datei</target>
+            </trans-unit>
+            <trans-unit id="formhandler.pi_flexform.lang_file">
+                <source>Translation File</source>
+                <target>Übersetzungsdatei</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
