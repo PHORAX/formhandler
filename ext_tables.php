@@ -12,5 +12,5 @@ $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
 $iconRegistry->registerIcon(
     'formhandlerElement',
     BitmapIconProvider::class,
-    ['source' => 'EXT:formhandler/ext_icon.gif']
+    ['source' => 'EXT:formhandler/Resources/Public/Icons/Extension.gif']
 );
