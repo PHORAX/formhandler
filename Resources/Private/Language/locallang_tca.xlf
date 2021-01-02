@@ -15,9 +15,6 @@
 			<trans-unit id="formhandler.pi_flexform.sheet_miscSettings">
 				<source>Other Settings</source>
 			</trans-unit>
-			<trans-unit id="formhandler.pi_flexform.template_file">
-				<source>Template File</source>
-			</trans-unit>
 			<trans-unit id="formhandler.pi_flexform.emailRecipient">
 				<source>Recipient</source>
 			</trans-unit>
@@ -72,9 +69,6 @@
 			</trans-unit>
 			<trans-unit id="formhandler.pi_flexform.template_file">
 				<source>Template File</source>
-			</trans-unit>
-			<trans-unit id="formhandler.pi_flexform.lang_file">
-				<source>Translation File</source>
 			</trans-unit>
 		</body>
 	</file>

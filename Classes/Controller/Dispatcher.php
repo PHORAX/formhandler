@@ -69,8 +69,6 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
              * - Required fields
              * - Redirect page
              */
-            $templateFile = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'template_file', 'sDEF');
-            $langFile = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'lang_file', 'sDEF');
             $predef = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'predefined', 'sDEF');
 
             $this->globals->setCObj($this->cObj);
@@ -97,12 +95,6 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 
             if (isset($content)) {
                 $controller->setContent($this->componentManager->getComponent($this->utilityFuncs->prepareClassName('Typoheads\Formhandler\Controller\Content'), $content));
-            }
-            if (strlen($templateFile) > 0) {
-                $controller->setTemplateFile($templateFile);
-            }
-            if (strlen($langFile) > 0) {
-                $controller->setLangFiles([$langFile]);
             }
             if (strlen($predef) > 0) {
                 $controller->setPredefined($predef);

@@ -14,39 +14,6 @@
                 </TCEforms>
                 <type>array</type>
                 <el>
-                    <template_file>
-                        <TCEforms>
-                            <label>
-                                LLL:EXT:formhandler/Resources/Private/Language/locallang_tca.xlf:formhandler.pi_flexform.template_file
-                            </label>
-                            <config>
-                                <type>group</type>
-                                <internal_type>file</internal_type>
-                                <allowed>tmpl,html,htm</allowed>
-                                <max_size>500</max_size>
-                                <minitems>0</minitems>
-                                <maxitems>1</maxitems>
-                                <size>1</size>
-                                <selectedListStyle>Width:180px</selectedListStyle>
-                            </config>
-                        </TCEforms>
-                    </template_file>
-                    <lang_file>
-                        <TCEforms>
-                            <label>
-                                LLL:EXT:formhandler/Resources/Private/Language/locallang_tca.xml:formhandler.pi_flexform.lang_file
-                            </label>
-                            <config>
-                                <type>group</type>
-                                <internal_type>file</internal_type>
-                                <allowed>php,xml</allowed>
-                                <max_size>500</max_size>
-                                <minitems>0</minitems>
-                                <maxitems>1</maxitems>
-                                <size>1</size>
-                            </config>
-                        </TCEforms>
-                    </lang_file>
                     <predefined>
                         <TCEforms>
                             <label>

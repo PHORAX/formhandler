@@ -19,10 +19,6 @@
                 <source>Other Settings</source>
                 <target>Andere Einstellungen</target>
             </trans-unit>
-            <trans-unit id="formhandler.pi_flexform.template_file">
-                <source>Template File</source>
-                <target>Template-Datei</target>
-            </trans-unit>
             <trans-unit id="formhandler.pi_flexform.emailRecipient">
                 <source>Recipient</source>
                 <target>Empfänger</target>
@@ -94,10 +90,6 @@
             <trans-unit id="formhandler.pi_flexform.template_file">
                 <source>Template File</source>
                 <target>Template-Datei</target>
-            </trans-unit>
-            <trans-unit id="formhandler.pi_flexform.lang_file">
-                <source>Translation File</source>
-                <target>Übersetzungsdatei</target>
             </trans-unit>
         </body>
     </file>
