@@ -28,12 +28,6 @@
 			<label index="be_please_select">Choose a predefined form</label>
 			<label index="tt_content.pi1_plus_wiz_description">Advanced form system with many typoscript options which bring a lot of flexibiliy.</label>
 			<label index="be_defined_by_TS">Defined by TypoScript</label>
-
-			<label index="tx_formhandler_log">Formhandler log entry</label>
-			<label index="tx_formhandler_log.submission_date">Submission date</label>
-			<label index="tx_formhandler_log.ip">IP address</label>
-			<label index="tx_formhandler_log.params">Submitted values</label>
-			<label index="tx_formhandler_log.is_spam">Considered as SPAM</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="wizard_pi1.title">Formhandler</label>
@@ -58,12 +52,6 @@
 			<label index="be_please_select">wählen Sie eine Vorlage</label>
 			<label index="tt_content.pi1_plus_wiz_description">Advanced form system with many typoscript options which bring a lot of flexibiliy.</label>
 			<label index="be_defined_by_TS">Definiert durch TypoScript</label>
-
-			<label index="tx_formhandler_log">Formhandler Logeintrag</label>
-			<label index="tx_formhandler_log.submission_date">Absendedatum</label>
-			<label index="tx_formhandler_log.ip">IP-Addresse</label>
-			<label index="tx_formhandler_log.params">Abgeschickte Werte</label>
-			<label index="tx_formhandler_log.is_spam">Als SPAM erkannt</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -42,7 +42,6 @@
 			<label index="function1">Log overview</label>
 			<label index="function2">Clear logs</label>
 			<label index="function3">Function #3</label>
-			<label index="noLogTable">Required table 'tx_formhandler_log' not found. Please add the default logger to your Formhandler TypoScript setup.</label>
 			<label index="select_export_fields">Please select the fields to export:</label>
 			<label index="select_all">Select all</label>
 			<label index="deselect_all">Deselect all</label>
@@ -89,7 +88,6 @@
 			<label index="function1">Log-Übersicht</label>
 			<label index="function2">Logs leeren</label>
 			<label index="function3">Function #3</label>
-			<label index="noLogTable">Benötigte Datenbanktabelle 'tx_formhandler_log' nicht gefunden. Bitte fügen Sie den Logger Tx_Formhandler_Logger_Default zu Ihrem Formhandler TypoScript setup hinzu.</label>
 			<label index="welcome">Willkommen zu der Log-Übersicht von Formhandler!</label>
 			<label index="mathguard_question"> Sicherheitsabfrage. Bitte lösen Sie folgende Rechnung:</label>
 			<label index="select_export_fields">Bitte wählen Sie die zu exportierenden Felder:</label>
