@@ -13,6 +13,10 @@ namespace Typoheads\Formhandler\Controller;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
+
+use TYPO3\CMS\Core\Log\Logger;
+use TYPO3\CMS\Core\Log\LogLevel;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -102,11 +106,12 @@ class Dispatcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 
             $result = $controller->process();
         } catch (\Exception $e) {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::sysLog(
-                $e->getFile() . '(' . $e->getLine() . ')' . ' ' . $e->getMessage(),
-                'formhandler',
-                \TYPO3\CMS\Core\Utility\GeneralUtility::SYSLOG_SEVERITY_ERROR
-            );
+            /**
+             * @var Logger
+             */
+            $logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+            $logger->log(LogLevel::ERROR, $e->getFile() . '(' . $e->getLine() . ')' . ' ' . $e->getMessage());
+
             $result = $this->utilityFuncs->getTranslatedMessage($this->globals->getLangFiles(), 'fe-exception');
             if (!$result) {
                 $result = '<div style="color:red; font-weight: bold">' . $this->utilityFuncs->getExceptionMessage('fe-exception') . '</div>';
