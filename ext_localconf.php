@@ -6,8 +6,6 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-//Hook in tslib_content->stdWrap
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['stdWrap'][$_EXTKEY] = 'Typoheads\Formhandler\Hooks\StdWrapHook';
 ExtensionManagementUtility::addPItoST43(
     'formhandler',
     'pi1/class.tx_formhandler_pi1.php',
