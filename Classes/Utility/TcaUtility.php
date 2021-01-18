@@ -1,9 +1,9 @@
 <?php
 namespace Typoheads\Formhandler\Utility;
 
-use TYPO3\CMS\Backend\Form\NodeInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 
 /***************************************************************
      *  Copyright notice
@@ -32,20 +32,8 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 /**
  * UserFunc for rendering of log entry
  */
-class TcaUtility extends \TYPO3\CMS\Backend\Form\Element\AbstractFormElement
+class TcaUtility
 {
-    public function render()
-    {
-        $params = unserialize($this->data['databaseRow']['params']);
-
-	    $result = $this->initializeResultArray();
-	    foreach($params as $key => $value)  {
-            $result['html'] .= '<tr><td style="padding: 4px 10px; font-style: italic;">'. htmlspecialchars($key) .'</td><td style="padding: 4px 10px;">'. htmlspecialchars($value) .'</td>';
-	    }
-	    $result['html'] = '<table>' . $result['html'] . '</table>';
-        return $result;
-    }
-
 
     /**
      * Sets the items for the "Predefined" dropdown.
@@ -69,7 +57,17 @@ class TcaUtility extends \TYPO3\CMS\Backend\Form\Element\AbstractFormElement
 
         $contentUid = $config['row']['uid'] ?: 0;
         if (!$pid) {
-            $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('pid', 'tt_content', 'uid=' . $contentUid);
+			$query = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+			$row = $query
+				->select('*')
+				->from('tt_content')
+				->where(
+					$query->expr()->eq('uid', $query->createNamedParameter($contentUid, \PDO::PARAM_INT))
+				)
+				->setMaxResults(1)
+				->execute()
+				->fetch();
+
             if ($row) {
                 $pid = $row['pid'];
             }
@@ -84,7 +82,8 @@ class TcaUtility extends \TYPO3\CMS\Backend\Form\Element\AbstractFormElement
                 0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:be_missing_config'),
                 1 => ''
             ];
-            return $config['items'] = array_merge($config['items'], $optionList);
+            $config['items'] = array_merge($config['items'], $optionList);
+            return $config;
         }
 
         # for each view
@@ -130,7 +129,7 @@ class TcaUtility extends \TYPO3\CMS\Backend\Form\Element\AbstractFormElement
     public function loadTS($pageUid)
     {
 	    $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
-        $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\ExtendedTemplateService::class);
+        $TSObj = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\ExtendedTemplateService::class);
         $TSObj->runThroughTemplates($rootLine);
         $TSObj->generateConfig();
         return $TSObj->setup;
