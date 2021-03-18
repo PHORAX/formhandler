@@ -29,7 +29,6 @@
         "typo3-ter/formhandler": "self.version"
     },
     "require-dev": {
-        "ssch/typo3-rector-prefixed": "dev-main",
         "saschaegerer/phpstan-typo3": "^0.13.1",
         "phpstan/extension-installer": "^1.1",
         "typo3/coding-standards": "^0.3.0"
