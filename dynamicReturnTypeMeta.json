@@ -1,0 +1,16 @@
+{
+  "methodCalls": [
+    {
+      "class": "\\TYPO3\\CMS\\Core\\Utility\\GeneralUtility",
+      "method": "makeInstance",
+      "position": 0
+    },
+    {
+      "class": "\\TYPO3\\CMS\\Extbase\\Object\\ObjectManagerInterface",
+      "method": "get",
+      "position": 0
+    }
+  ],
+  "functionCalls": [
+  ]
+}

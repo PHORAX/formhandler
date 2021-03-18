@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Controller;
 
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\Globals;
@@ -49,12 +50,11 @@ class Dispatcher extends AbstractPlugin
      * Main method of the dispatcher. This method is called as a user function.
      *
      * @return string rendered view
-     * @param string $content
+     * @param string|null $content
      * @param array $setup The TypoScript config
      */
     public function main($content, $setup)
     {
-        $this->pi_USER_INT_obj = 1;
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);
         $this->globals = GeneralUtility::makeInstance(Globals::class);
         $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
@@ -113,11 +113,11 @@ class Dispatcher extends AbstractPlugin
 
             $result = $controller->process();
         } catch (\Exception $e) {
-            GeneralUtility::sysLog(
+            GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->error(
                 $e->getFile() . '(' . $e->getLine() . ')' . ' ' . $e->getMessage(),
-                'formhandler',
-                GeneralUtility::SYSLOG_SEVERITY_ERROR
+                ['formhandler']
             );
+
             $result = $this->utilityFuncs->getTranslatedMessage($this->globals->getLangFiles(), 'fe-exception');
             if (!$result) {
                 $result = '<div style="color:red; font-weight: bold">' . $this->utilityFuncs->getExceptionMessage('fe-exception') . '</div>';

@@ -40,7 +40,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Typo3Option::OUTPUT_CHANGELOG, true);
 
     $parameters->set(Option::PATHS, [
-        __DIR__. '/composer.json',
         __DIR__. '/Configuration',
         __DIR__. '/pi1',
         __DIR__. '/ext_emconf.php',

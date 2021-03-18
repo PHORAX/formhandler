@@ -22,16 +22,54 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class RemoveFile
 {
+    /**
+     * @var string
+     */
+    private $fieldName;
+
+    /**
+     * @var string
+     */
+    private $uploadedFileName;
+
+    /**
+     * @var Manager
+     */
+    private $componentManager;
+
+    /**
+     * @var Globals
+     */
+    private $globals;
+
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var \Typoheads\Formhandler\Utility\GeneralUtility
+     */
+    private $utilityFuncs;
+
+    /**
+     * @var array
+     */
+    private $settings;
+
+    /**
+     * @var array
+     */
+    private $langFiles;
 
     /**
      * Main method of the class.
-     *
-     * @return string The HTML list of remaining files to be displayed in the form
      */
     public function main()
     {
         $this->init();
         $content = '';
+        $field = null;
 
         if ($this->fieldName) {
             $sessionFiles = $this->globals->getSession()->get('files');
@@ -72,7 +110,7 @@ class RemoveFile
             $this->globals->getSession()->set('files', $sessionFiles);
 
             // Add the content to or Result Box: #formResult
-            if (is_array($sessionFiles) && !empty($sessionFiles[$field])) {
+            if ($field !== null && is_array($sessionFiles) && !empty($sessionFiles[$field])) {
                 $markers = [];
                 $view = $this->componentManager->getComponent('View\\Form');
                 $view->setSettings($this->settings);

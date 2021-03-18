@@ -60,6 +60,16 @@ abstract class AbstractClass
     protected $cObj;
 
     /**
+     * @var array
+     */
+    protected $settings;
+
+    /**
+     * @var array
+     */
+    protected $validationStatusClasses;
+
+    /**
      * The constructor for an interceptor setting the component manager and the configuration.
      *
      * @param \Typoheads\Formhandler\Component\Manager $componentManager
