@@ -622,36 +622,10 @@ class Form extends AbstractView
      */
     protected function fillCaptchaMarkers(&$markers)
     {
-        if (stristr($this->template, '###CAPTCHA###') && ExtensionManagementUtility::isLoaded('captcha')) {
-            $markers['###CAPTCHA###'] = \ThinkopenAt\Captcha\Utility::makeCaptcha();
-            $markers['###captcha###'] = $markers['###CAPTCHA###'];
-        }
         if (stristr($this->template, '###SR_FREECAP_IMAGE###') && ExtensionManagementUtility::isLoaded('sr_freecap')) {
             require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
             $this->freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
             $markers = array_merge($markers, $this->freeCap->makeCaptcha());
-        }
-        if (stristr($this->template, '###RECAPTCHA###') && ExtensionManagementUtility::isLoaded('jm_recaptcha')) {
-            require_once(ExtensionManagementUtility::extPath('jm_recaptcha') . 'class.tx_jmrecaptcha.php');
-            $this->recaptcha = new \tx_jmrecaptcha();
-            $markers['###RECAPTCHA###'] = $this->recaptcha->getReCaptcha();
-            $markers['###recaptcha###'] = $markers['###RECAPTCHA###'];
-        }
-
-        if (stristr($this->template, '###WT_CALCULATING_CAPTCHA###') && ExtensionManagementUtility::isLoaded('wt_calculating_captcha')) {
-            require_once(ExtensionManagementUtility::extPath('wt_calculating_captcha') . 'class.tx_wtcalculatingcaptcha.php');
-
-            $captcha = GeneralUtility::makeInstance('tx_wtcalculatingcaptcha');
-            $markers['###WT_CALCULATING_CAPTCHA###'] = $captcha->generateCaptcha();
-            $markers['###wt_calculating_captcha###'] = $markers['###WT_CALCULATING_CAPTCHA###'];
-        }
-
-        if (stristr($this->template, '###MATHGUARD###') && ExtensionManagementUtility::isLoaded('mathguard')) {
-            require_once(ExtensionManagementUtility::extPath('mathguard') . 'class.tx_mathguard.php');
-
-            $captcha = GeneralUtility::makeInstance('tx_mathguard');
-            $markers['###MATHGUARD###'] = $captcha->getCaptcha();
-            $markers['###mathguard###'] = $markers['###MATHGUARD###'];
         }
     }
 
@@ -781,10 +755,7 @@ class Form extends AbstractView
                                                 break;
                                             case 'required':
                                             case 'fileRequired':
-                                            case 'jmRecaptcha':
-                                            case 'captcha':
                                             case 'srFreecap':
-                                            case 'mathGuard':
                                                 if (!in_array('all', $disableErrorCheckFields) && !in_array($replacedFieldname, $disableErrorCheckFields)) {
                                                     $markers['###required_' . $replacedFieldname . '###'] = $requiredSign;
                                                     $markers['###requiredMarker_' . $replacedFieldname . '###'] = $requiredMarker;

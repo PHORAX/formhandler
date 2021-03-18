@@ -236,24 +236,9 @@ parameters:
 			path: Classes/Utility/GeneralUtility.php
 
 		-
-			message: "#^Call to static method checkCaptcha\\(\\) on an unknown class ThinkopenAt\\\\Captcha\\\\Utility\\.$#"
-			count: 1
-			path: Classes/Validator/ErrorCheck/Captcha.php
-
-		-
 			message: "#^Variable \\$info might not be defined\\.$#"
 			count: 1
 			path: Classes/Validator/ErrorCheck/FileMaxCount.php
-
-		-
-			message: "#^Access to an undefined property Typoheads\\\\Formhandler\\\\Validator\\\\ErrorCheck\\\\JmRecaptcha\\:\\:\\$recaptcha\\.$#"
-			count: 1
-			path: Classes/Validator/ErrorCheck/JmRecaptcha.php
-
-		-
-			message: "#^Instantiated class tx_jmrecaptcha not found\\.$#"
-			count: 1
-			path: Classes/Validator/ErrorCheck/JmRecaptcha.php
 
 		-
 			message: "#^Access to an undefined property Typoheads\\\\Formhandler\\\\Validator\\\\ErrorCheck\\\\SrFreecap\\:\\:\\$freeCap\\.$#"
@@ -301,22 +286,7 @@ parameters:
 			path: Classes/View/Form.php
 
 		-
-			message: "#^Call to static method makeCaptcha\\(\\) on an unknown class ThinkopenAt\\\\Captcha\\\\Utility\\.$#"
-			count: 1
-			path: Classes/View/Form.php
-
-		-
 			message: "#^Access to an undefined property Typoheads\\\\Formhandler\\\\View\\\\Form\\:\\:\\$freeCap\\.$#"
-			count: 1
-			path: Classes/View/Form.php
-
-		-
-			message: "#^Access to an undefined property Typoheads\\\\Formhandler\\\\View\\\\Form\\:\\:\\$recaptcha\\.$#"
-			count: 1
-			path: Classes/View/Form.php
-
-		-
-			message: "#^Instantiated class tx_jmrecaptcha not found\\.$#"
 			count: 1
 			path: Classes/View/Form.php
 
