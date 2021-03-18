@@ -66,11 +66,11 @@ class ParseValues extends AbstractInterceptor
      */
     protected function getFloat($value)
     {
-        return floatval(
+        return (float)(
             preg_replace_callback(
                 '#^([-]*[0-9.,\' ]+?)(([.,])([0-9-]{1,2}))*$#',
                 function ($m) {
-                    return str_replace(array('.', ',', "'", ' '), '', $m[1]).'.'.$m[4];
+                    return str_replace(['.', ',', "'", ' '], '', $m[1]) . '.' . $m[4];
                 },
                 $value
             )

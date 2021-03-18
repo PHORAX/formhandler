@@ -1262,10 +1262,10 @@ class Form extends AbstractView
         // Create filename / tags:
         $script = '';
         switch ($ext) {
-            case 'js' :
+            case 'js':
                 $script = 'typo3temp/javascript_' . substr(md5($str), 0, 10) . '.js';
                 break;
-            case 'css' :
+            case 'css':
                 $script = 'typo3temp/stylesheet_' . substr(md5($str), 0, 10) . '.css';
                 break;
         }

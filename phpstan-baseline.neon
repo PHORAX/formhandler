@@ -176,21 +176,6 @@ parameters:
 			path: Classes/Interceptor/TranslateFields.php
 
 		-
-			message: "#^Call to static method newInstance\\(\\) on an unknown class Swift_MimePart\\.$#"
-			count: 2
-			path: Classes/Mailer/TYPO3Mailer.php
-
-		-
-			message: "#^Call to static method fromPath\\(\\) on an unknown class Swift_Attachment\\.$#"
-			count: 1
-			path: Classes/Mailer/TYPO3Mailer.php
-
-		-
-			message: "#^Call to static method fromPath\\(\\) on an unknown class Swift_Image\\.$#"
-			count: 1
-			path: Classes/Mailer/TYPO3Mailer.php
-
-		-
 			message: "#^Access to an undefined property Typoheads\\\\Formhandler\\\\Session\\\\AbstractSession\\:\\:\\$gp\\.$#"
 			count: 1
 			path: Classes/Session/AbstractSession.php
