@@ -1,6 +1,8 @@
 <?php
 namespace Typoheads\Formhandler\Ajax;
 
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Utility\Globals;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -96,12 +98,12 @@ class RemoveFile
             $this->id = intval($_GET['id']);
         }
 
-        $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
-        $this->globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
+        $this->componentManager = GeneralUtility::makeInstance(Manager::class);
+        $this->globals = GeneralUtility::makeInstance(Globals::class);
         $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
         $this->utilityFuncs->initializeTSFE($this->id);
         $this->globals->setCObj($GLOBALS['TSFE']->cObj);
-        $randomID = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('randomID'));
+        $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
         $this->globals->setRandomID($randomID);
 
         if (!$this->globals->getSession()) {

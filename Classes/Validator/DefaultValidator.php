@@ -1,19 +1,19 @@
 <?php
 namespace Typoheads\Formhandler\Validator;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /*                                                                        *
-     * This script is part of the TYPO3 project - inspiring people to share!  *
-     *                                                                        *
-     * TYPO3 is free software; you can redistribute it and/or modify it under *
-     * the terms of the GNU General Public License version 2 as published by  *
-     * the Free Software Foundation.                                          *
-     *                                                                        *
-     * This script is distributed in the hope that it will be useful, but     *
-     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
-     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
-     * Public License for more details.                                       *
-     *                                                                        */
-
+ * This script is part of the TYPO3 project - inspiring people to share!  *
+ *                                                                        *
+ * TYPO3 is free software; you can redistribute it and/or modify it under *
+ * the terms of the GNU General Public License version 2 as published by  *
+ * the Free Software Foundation.                                          *
+ *                                                                        *
+ * This script is distributed in the hope that it will be useful, but     *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+ * Public License for more details.                                       *
+ *                                                                        */
 /**
  * A default validator for Formhandler providing basic validations.
  *
@@ -53,7 +53,7 @@ class DefaultValidator extends AbstractValidator
 
         $flexformValue = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], 'required_fields', 'sMISC');
         if ($flexformValue) {
-            $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $flexformValue);
+            $fields = GeneralUtility::trimExplode(',', $flexformValue);
             foreach ($fields as $field) {
                 if (!is_array($this->settings['fieldConf.'][$field . '.']['errorCheck.'])) {
                     $this->settings['fieldConf.'][$field . '.']['errorCheck.'] = [];
@@ -87,7 +87,7 @@ class DefaultValidator extends AbstractValidator
                 if (!strstr($disableCheckField, '.')) {
                     $checkString = $this->utilityFuncs->getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
                     if (strlen(trim($checkString)) > 0) {
-                        $this->disableErrorCheckFields[$disableCheckField] = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
+                        $this->disableErrorCheckFields[$disableCheckField] = GeneralUtility::trimExplode(
                             ',',
                             $checkString
                         );
@@ -97,14 +97,14 @@ class DefaultValidator extends AbstractValidator
                 }
             }
         } elseif (isset($this->settings['disableErrorCheckFields'])) {
-            $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
+            $fields = GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
             foreach ($fields as $disableCheckField) {
                 $this->disableErrorCheckFields[$disableCheckField] = [];
             }
         }
 
         if (isset($this->settings['restrictErrorChecks'])) {
-            $this->restrictErrorChecks = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
+            $this->restrictErrorChecks = GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
         }
 
         if (!in_array('all', array_keys($this->disableErrorCheckFields))) {

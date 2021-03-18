@@ -1,6 +1,8 @@
 <?php
 namespace Typoheads\Formhandler\Component;
 
+use Typoheads\Formhandler\Utility\Globals;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -42,7 +44,7 @@ class Manager implements SingletonInterface
 
     public function __construct()
     {
-        $this->globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
+        $this->globals = GeneralUtility::makeInstance(Globals::class);
         $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
     }
 
@@ -64,7 +66,7 @@ class Manager implements SingletonInterface
         $arguments = array_slice(func_get_args(), 1, null, true);
 
         /** @var $objectManager \TYPO3\CMS\Extbase\Object\ObjectManager */
-        $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $componentObject = $objectManager->get($componentName, $arguments);
 
         return $componentObject;

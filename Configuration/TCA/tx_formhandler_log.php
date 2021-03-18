@@ -10,9 +10,6 @@ return [
         'iconfile' => 'EXT:formhandler/ext_icon.gif',
         'adminOnly' => 1
     ],
-    'interface' => [
-        'showRecordFieldList' => 'crdate,ip,params,is_spam,key_hash'
-    ],
     'columns' => [
         'crdate' => [
             'exclude' => 1,
@@ -20,10 +17,10 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '10',
-                'max' => '20',
                 'eval' => 'datetime',
                 'checkbox' => '0',
-                'default' => '0'
+                'default' => '0',
+                'renderType' => 'inputDateTime'
             ]
         ],
         'ip' => [

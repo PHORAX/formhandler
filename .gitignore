@@ -3,3 +3,6 @@
 *.ipr
 *.iws
 /.php_cs.cache
+composer.lock
+vendor
+public

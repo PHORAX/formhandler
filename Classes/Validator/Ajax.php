@@ -1,19 +1,19 @@
 <?php
 namespace Typoheads\Formhandler\Validator;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /*                                                                        *
-     * This script is part of the TYPO3 project - inspiring people to share!  *
-     *                                                                        *
-     * TYPO3 is free software; you can redistribute it and/or modify it under *
-     * the terms of the GNU General Public License version 2 as published by  *
-     * the Free Software Foundation.                                          *
-     *                                                                        *
-     * This script is distributed in the hope that it will be useful, but     *
-     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
-     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
-     * Public License for more details.                                       *
-     *                                                                        */
-
+ * This script is part of the TYPO3 project - inspiring people to share!  *
+ *                                                                        *
+ * TYPO3 is free software; you can redistribute it and/or modify it under *
+ * the terms of the GNU General Public License version 2 as published by  *
+ * the Free Software Foundation.                                          *
+ *                                                                        *
+ * This script is distributed in the hope that it will be useful, but     *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+ * Public License for more details.                                       *
+ *                                                                        */
 /**
  */
 class Ajax extends AbstractValidator
@@ -56,7 +56,7 @@ class Ajax extends AbstractValidator
                     if (!strstr($disableCheckField, '.')) {
                         $checkString = $this->utilityFuncs->getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
                         if (strlen(trim($checkString)) > 0) {
-                            $disableErrorCheckFields[$disableCheckField] = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
+                            $disableErrorCheckFields[$disableCheckField] = GeneralUtility::trimExplode(
                                 ',',
                                 $checkString
                             );
@@ -66,7 +66,7 @@ class Ajax extends AbstractValidator
                     }
                 }
             } elseif (isset($this->settings['disableErrorCheckFields'])) {
-                $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
+                $fields = GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
                 foreach ($fields as $disableCheckField) {
                     $disableErrorCheckFields[$disableCheckField] = [];
                 }
@@ -74,7 +74,7 @@ class Ajax extends AbstractValidator
 
             $restrictErrorChecks = [];
             if (isset($this->settings['restrictErrorChecks'])) {
-                $restrictErrorChecks = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
+                $restrictErrorChecks = GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
             }
 
             $fieldSettings = $this->settings['fieldConf.'][$field . '.'];

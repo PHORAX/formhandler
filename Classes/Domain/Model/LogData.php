@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Domain\Model;
 
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,16 +14,15 @@ namespace Typoheads\Formhandler\Domain\Model;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 /**
  * Model for log data
  */
-class LogData extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class LogData extends AbstractEntity
 {
 
     /**
      * @var int
-     * @validate TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator
+     * @TYPO3\CMS\Extbase\Annotation\Validate(validator="TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator")
      */
     protected $crdate = 0;
 
@@ -33,7 +33,7 @@ class LogData extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * @var string
-     * @validate TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator
+     * @TYPO3\CMS\Extbase\Annotation\Validate(validator="TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator")
      */
     protected $params = '';
 

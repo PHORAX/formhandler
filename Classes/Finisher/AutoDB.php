@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Finisher;
 
+use TYPO3\CMS\Core\Context\Context;
 /*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
@@ -72,7 +73,7 @@ class AutoDB extends DB
     protected function parseFields()
     {
         $doAutoCreate = intval($this->utilityFuncs->getSingle($this->settings, 'newFieldsSqlAttribs'));
-        if ($doAutoCreate === 1 && $GLOBALS['TSFE']->beUserLogin) {
+        if ($doAutoCreate === 1 && GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('backend.user', 'isLoggedIn')) {
             $this->createTable();
         }
 
