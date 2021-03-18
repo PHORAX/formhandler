@@ -236,11 +236,6 @@ parameters:
 			path: Classes/Utility/GeneralUtility.php
 
 		-
-			message: "#^Constant TYPO3_MODE not found\\.$#"
-			count: 1
-			path: Classes/Utility/TemplateTCPDF.php
-
-		-
 			message: "#^Call to static method checkCaptcha\\(\\) on an unknown class ThinkopenAt\\\\Captcha\\\\Utility\\.$#"
 			count: 1
 			path: Classes/Validator/ErrorCheck/Captcha.php

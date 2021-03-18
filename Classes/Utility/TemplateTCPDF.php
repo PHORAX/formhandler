@@ -15,6 +15,8 @@ namespace Typoheads\Formhandler\Utility;
 * Public License for more details.                                       *
 *                                                                        */
 
+use TYPO3\CMS\Core\Http\ApplicationType;
+
 /**
  * A PDF Template class for Formhandler generated PDF files for usage with Generator_TCPDF.
  */
@@ -114,7 +116,7 @@ class TemplateTCPDF extends \TCPDF
     private function getLL($key)
     {
         global $LANG;
-        if (TYPO3_MODE == 'BE') {
+        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
             $LANG->includeLLFile($this->sysLangFile);
             $text = trim($LANG->getLL($key));
         } else {
