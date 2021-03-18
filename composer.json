@@ -1,29 +1,31 @@
 {
-	"name": "phorax/formhandler",
-	"type": "typo3-cms-extension",
-	"description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
-	"homepage": "https://github.com/PHORAX/formhandler",
-	"license": "GPL-2.0-or-later",
-	"require": {
-		"typo3/cms-core": "^10.4.0",
-		"tecnickcom/tcpdf": "^6.0",
-		"parsecsv/php-parsecsv": "^0.4",
-		"typo3/cms-extbase": "^10.4.0",
-		"typo3/cms-fluid": "^10.4.0",
-		"typo3/cms-frontend": "^10.4.0"
-	},
-	"autoload": {
-		"psr-4": {
-			"Typoheads\\Formhandler\\": "Classes"
-		},
-		"classmap": [
-			"pi1/class.tx_formhandler_pi1.php"
-		]
-	},
-	"replace": {
-		"typo3-ter/formhandler": "self.version"
-	},
-	"require-dev": {
-		"ssch/typo3-rector-prefixed": "dev-main"
-	}
+    "name": "phorax/formhandler",
+    "type": "typo3-cms-extension",
+    "description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
+    "homepage": "https://github.com/PHORAX/formhandler",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "typo3/cms-core": "^10.4.0",
+        "tecnickcom/tcpdf": "^6.0",
+        "parsecsv/php-parsecsv": "^0.4",
+        "typo3/cms-extbase": "^10.4.0",
+        "typo3/cms-fluid": "^10.4.0",
+        "typo3/cms-frontend": "^10.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Typoheads\\Formhandler\\": "Classes"
+        },
+        "classmap": [
+            "pi1/class.tx_formhandler_pi1.php"
+        ]
+    },
+    "replace": {
+        "typo3-ter/formhandler": "self.version"
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "formhandler"
+        }
+    }
 }
