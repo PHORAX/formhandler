@@ -2,6 +2,7 @@
 
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 use Typoheads\Formhandler\Controller\Dispatcher;
+
 /***************************************************************
  *  Copyright notice
  *

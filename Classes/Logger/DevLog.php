@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Logger;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -29,7 +31,7 @@ class DevLog extends AbstractLogger
     {
         $message = 'Form on page ' . $GLOBALS['TSFE']->id . ' was submitted!';
         $severity = 1;
-        if (intval($this->settings['markAsSpam']) === 1) {
+        if ((int)($this->settings['markAsSpam']) === 1) {
             $message = 'Caught possible spamming on page ' . $GLOBALS['TSFE']->id . '!';
             $severity = 2;
         }

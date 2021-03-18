@@ -1,10 +1,11 @@
 <?php
+
 namespace Typoheads\Formhandler\Controller;
 
 use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 use Typoheads\Formhandler\Component\Manager;
-use Typoheads\Formhandler\Utility\Globals;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -17,7 +18,7 @@ use Typoheads\Formhandler\Utility\Globals;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * The Dispatcher instantiates the Component Manager and delegates the process to the given controller.

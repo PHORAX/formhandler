@@ -1,7 +1,8 @@
 <?php
+
 namespace Typoheads\Formhandler\Ajax;
 
-use Typoheads\Formhandler\Component\Manager;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -15,9 +16,9 @@ use Typoheads\Formhandler\Component\Manager;
 * Public License for more details.                                       *
 *                                                                        */
 
-use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\Globals;
 
 /**

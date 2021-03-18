@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -61,7 +63,7 @@ class Demand extends AbstractEntity
 
     public function setCrdate($crdate)
     {
-        $this->crdate = intval($crdate);
+        $this->crdate = (int)$crdate;
     }
 
     public function getIp()

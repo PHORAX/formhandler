@@ -1,9 +1,11 @@
 <?php
+
 namespace Typoheads\Formhandler\Component;
 
 use Typoheads\Formhandler\Controller\Configuration;
-use Typoheads\Formhandler\Utility\Globals;
 use Typoheads\Formhandler\Utility\GeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
+
 /*                                                                       *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *

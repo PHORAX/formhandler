@@ -1,8 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Ajax;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Component\Manager;
-use Typoheads\Formhandler\Utility\Globals;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -15,7 +16,7 @@ use Typoheads\Formhandler\Utility\Globals;
 * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
 * Public License for more details.                                       *
 *                                                                        */
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * A class removing uploaded files. This class is called via AJAX.
@@ -131,9 +132,9 @@ class RemoveFile
         $this->fieldName = htmlspecialchars($_GET['field']);
         $this->uploadedFileName = htmlspecialchars($_GET['uploadedFileName']);
         if (isset($_GET['pid'])) {
-            $this->id = intval($_GET['pid']);
+            $this->id = (int)($_GET['pid']);
         } else {
-            $this->id = intval($_GET['id']);
+            $this->id = (int)($_GET['id']);
         }
 
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);

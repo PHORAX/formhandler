@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Generator;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -48,7 +50,7 @@ class Csv extends AbstractGenerator
         $data = [$params];
 
         $fields = false;
-        if (intval($this->utilityFuncs->getSingle($this->settings, 'addFieldNames')) === 1) {
+        if ((int)($this->utilityFuncs->getSingle($this->settings, 'addFieldNames')) === 1) {
             $fields = array_keys($params);
             $csv->heading = true;
         }
@@ -74,7 +76,7 @@ class Csv extends AbstractGenerator
         if ($csv->input_encoding !== $csv->output_encoding) {
             $csv->convert_encoding = true;
         }
-        if (intval($this->settings['returnFileName']) === 1 || intval($this->settings['returnGP']) === 1) {
+        if ((int)($this->settings['returnFileName']) === 1 || (int)($this->settings['returnGP']) === 1) {
             $outputPath = $this->utilityFuncs->getDocumentRoot();
             if ($this->settings['customTempOutputPath']) {
                 $outputPath .= $this->settings['customTempOutputPath'];
@@ -84,7 +86,7 @@ class Csv extends AbstractGenerator
             $outputPath = $this->utilityFuncs->sanitizePath($outputPath);
             $filename = $outputPath . $this->settings['filePrefix'] . $this->utilityFuncs->generateHash() . '.csv';
             $csv->save($filename, $data, false, $fields);
-            if (intval($this->settings['returnFileName']) === 1) {
+            if ((int)($this->settings['returnFileName']) === 1) {
                 return $filename;
             }
             if (!is_array($this->gp['generator-csv-generated-files'])) {

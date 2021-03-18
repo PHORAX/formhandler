@@ -1,4 +1,5 @@
 <?php
+
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /*                                                                        *
@@ -31,8 +32,8 @@ class MinLength extends AbstractErrorCheck
         $min = $this->utilityFuncs->getSingle($this->settings['params'], 'value');
         if (isset($this->gp[$this->formFieldName]) &&
             mb_strlen(trim($this->gp[$this->formFieldName]), 'utf-8') > 0 &&
-            intval($min) > 0 &&
-            mb_strlen(trim($this->gp[$this->formFieldName]), 'utf-8') < intval($min)
+            (int)$min > 0 &&
+            mb_strlen(trim($this->gp[$this->formFieldName]), 'utf-8') < (int)$min
         ) {
             $checkFailed = $this->getCheckFailed();
         }

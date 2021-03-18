@@ -1,8 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Controller;
 
 use TYPO3\CMS\Core\Http\ApplicationType;
-use Typoheads\Formhandler\Utility\Globals;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -15,7 +16,7 @@ use Typoheads\Formhandler\Utility\Globals;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * The configuration of the Formhandler

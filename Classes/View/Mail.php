@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\View;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *

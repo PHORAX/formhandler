@@ -1,4 +1,5 @@
 <?php
+
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /*                                                                        *
@@ -32,7 +33,7 @@ class IsYoungerThan extends IsOlderThan
         if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
             $date = $this->gp[$this->formFieldName];
             $dateFormat = $this->utilityFuncs->getSingle($this->settings['params'], 'dateFormat');
-            $mandatoryYears = intval($this->utilityFuncs->getSingle($this->settings['params'], 'years'));
+            $mandatoryYears = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'years'));
             $timestamp = $this->utilityFuncs->dateToTimestamp($date, $dateFormat);
             $years = $this->getDateDifference($timestamp);
             if ($years >= $mandatoryYears) {

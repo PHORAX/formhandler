@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Generator;
 
 use Typoheads\Formhandler\Component\AbstractComponent;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -62,8 +64,6 @@ class BackendTcPdf extends AbstractComponent
         $this->settings['font'] = $font;
     }
 
-    /**
-     */
     public function process()
     {
         $records = $this->settings['records'];

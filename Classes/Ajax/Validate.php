@@ -1,9 +1,10 @@
 <?php
+
 namespace Typoheads\Formhandler\Ajax;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use Typoheads\Formhandler\Utility\Globals;
-use Typoheads\Formhandler\Component\Manager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -17,8 +18,8 @@ use Typoheads\Formhandler\Component\Manager;
 * Public License for more details.                                       *
 *
 *                                                                        */
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Utility\Globals;
 use Typoheads\Formhandler\View\AjaxValidation;
 
 /**
@@ -44,7 +45,6 @@ class Validate
      * @var array
      */
     private $settings;
-
 
     /**
      * @var int
@@ -79,7 +79,7 @@ class Validate
             if ($valid) {
                 $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'ok');
                 if (strlen($content) === 0) {
-                    $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')). 'Resources/Public/Images/ok.png' . '" />';
+                    $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/ok.png' . '" />';
                 } else {
                     $gp = [
                         $_GET['field'] => $_GET['value']
@@ -91,7 +91,7 @@ class Validate
             } else {
                 $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'notOk');
                 if (strlen($content) === 0) {
-                    $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')). 'Resources/Public/Images/notok.png' . '" />';
+                    $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/notok.png' . '" />';
                 } else {
                     $view = $this->initView($content);
                     $gp = [
@@ -111,9 +111,9 @@ class Validate
     protected function init()
     {
         if (isset($_GET['pid'])) {
-            $this->id = intval($_GET['pid']);
+            $this->id = (int)($_GET['pid']);
         } else {
-            $this->id = intval($_GET['id']);
+            $this->id = (int)($_GET['id']);
         }
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);
         Globals::setAjaxMode(true);

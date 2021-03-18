@@ -1,7 +1,8 @@
 <?php
+
 namespace Typoheads\Formhandler\Logger;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 /*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
@@ -15,7 +16,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
      * Public License for more details.                                       *
      *                                                                        */
 
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A logger to store submission information in TYPO3 database
@@ -36,7 +37,7 @@ class DB extends AbstractLogger
 
         $doDisableIPlog = $this->utilityFuncs->getSingle($this->settings, 'disableIPlog');
         $fields['ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
-        if (intval($doDisableIPlog) === 1) {
+        if ((int)$doDisableIPlog === 1) {
             unset($fields['ip']);
         }
         $fields['tstamp'] = time();
@@ -57,7 +58,7 @@ class DB extends AbstractLogger
                     $value = $this->utilityFuncs->getSingle($fieldConf, 'ifIsEmpty');
                     $logParams[$field] = $value;
                 }
-                if (intval($this->utilityFuncs->getSingle($fieldConf, 'nullIfEmpty')) === 1 && (empty($logParams[$field]) || !isset($logParams[$field]))) {
+                if ((int)($this->utilityFuncs->getSingle($fieldConf, 'nullIfEmpty')) === 1 && (empty($logParams[$field]) || !isset($logParams[$field]))) {
                     unset($logParams[$field]);
                 }
             }
@@ -83,7 +84,7 @@ class DB extends AbstractLogger
         $fields['key_hash'] = $hash;
         $fields['unique_hash'] = $uniqueHash;
 
-        if (intval($this->settings['markAsSpam']) === 1) {
+        if ((int)($this->settings['markAsSpam']) === 1) {
             $fields['is_spam'] = 1;
         }
 
@@ -104,7 +105,7 @@ class DB extends AbstractLogger
         $this->gp['inserted_uid'] = $insertedUID;
         $this->gp[$table . '_inserted_uid'] = $this->gp['inserted_uid'];
 
-        if (intval($this->utilityFuncs->getSingle($this->settings, 'nodebug')) !== 1) {
+        if ((int)($this->utilityFuncs->getSingle($this->settings, 'nodebug')) !== 1) {
             $this->utilityFuncs->debugMessage('logging', [$table, implode(',', $fields)]);
             if ($conn->errorInfo()) {
                 $this->utilityFuncs->debugMessage('error', [$conn->errorInfo()], 3);

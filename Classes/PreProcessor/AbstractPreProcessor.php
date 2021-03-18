@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\PreProcessor;
 
 use Typoheads\Formhandler\Component\AbstractComponent;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
