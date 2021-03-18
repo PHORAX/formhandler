@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Ajax;
 
+use Typoheads\Formhandler\Component\Manager;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -59,7 +60,7 @@ class Submit
     {
         $id = (int)($_GET['pid'] ?? $_GET['id'] ?? 0);
 
-        $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
+        $this->componentManager = GeneralUtility::makeInstance(Manager::class);
         \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($id);
 
         $elementUID = (int)$_GET['uid'];
@@ -79,7 +80,7 @@ class Submit
         }
 
         Globals::setCObj($GLOBALS['TSFE']->cObj);
-        $randomID = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('randomID'));
+        $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
         Globals::setRandomID($randomID);
         Globals::setAjaxMode(true);
         if (!Globals::getSession()) {

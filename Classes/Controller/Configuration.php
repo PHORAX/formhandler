@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Controller;
 
+use Typoheads\Formhandler\Utility\Globals;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -41,7 +42,7 @@ class Configuration implements \ArrayAccess
     public function __construct()
     {
         if (TYPO3_MODE === 'FE') {
-            $this->globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
+            $this->globals = GeneralUtility::makeInstance(Globals::class);
             $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
             $this->setup = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->getPrefixedPackageKey() . '.'];
             if (!is_array($this->setup)) {

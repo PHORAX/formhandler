@@ -1,6 +1,8 @@
 <?php
 namespace Typoheads\Formhandler\AjaxHandler;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Context\Context;
 /*                                                                       *
     * This script is part of the TYPO3 project - inspiring people to share!  *
     *                                                                        *
@@ -22,7 +24,7 @@ use TYPO3\CMS\Core\Utility\PathUtility;
  * The AjaxHandler takes care of adding AJAX related markers and JS used for validation and file removal.
  * @abstract
  */
-class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
+class JQuery extends AbstractAjaxHandler
 {
     /**
      * @var array
@@ -208,7 +210,7 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
                             contentID: "' . $this->cObj->data['uid'] . '",
                             randomID: "' . $this->globals->getRandomID() . '",
                             formValuesPrefix: "' . $this->globals->getFormValuesPrefix() . '",
-                            lang: "' . $GLOBALS['TSFE']->sys_language_uid . '",
+                            lang: "' . GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id') . '",
                             submitButtonSelector: "' . $submitButtonSelector . '",
                             ajaxSubmit: ' . ($isAjaxSubmit ? 'true' : 'false') . ',
                             autoDisableSubmitButton: ' . ($autoDisableSubmitButton ? 'true' : 'false') . ',

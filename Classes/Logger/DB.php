@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Logger;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
@@ -34,7 +35,7 @@ class DB extends AbstractLogger
         $table = 'tx_formhandler_log';
 
         $doDisableIPlog = $this->utilityFuncs->getSingle($this->settings, 'disableIPlog');
-        $fields['ip'] = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR');
+        $fields['ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
         if (intval($doDisableIPlog) === 1) {
             unset($fields['ip']);
         }
@@ -63,7 +64,7 @@ class DB extends AbstractLogger
         }
         if ($this->settings['excludeFields']) {
             $excludeFields = $this->utilityFuncs->getSingle($this->settings, 'excludeFields');
-            $excludeFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $excludeFields);
+            $excludeFields = GeneralUtility::trimExplode(',', $excludeFields);
             foreach ($excludeFields as $excludeField) {
                 unset($logParams[$excludeField]);
             }
@@ -71,7 +72,7 @@ class DB extends AbstractLogger
 
         if ($this->settings['fieldOrder']) {
             $fieldOrder = $this->utilityFuncs->getSingle($this->settings, 'fieldOrder');
-            $fieldOrder = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $fieldOrder);
+            $fieldOrder = GeneralUtility::trimExplode(',', $fieldOrder);
             $orderedFields = $this->parseFieldOrder($fieldOrder);
             $logParams = $this->sortFields($logParams, $orderedFields);
         }
@@ -87,7 +88,7 @@ class DB extends AbstractLogger
         }
 
         //query the database
-        $conn = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ConnectionPool::class)
+        $conn = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable($table);
 
         $conn->insert($table, $fields);

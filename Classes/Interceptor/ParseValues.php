@@ -1,19 +1,19 @@
 <?php
 namespace Typoheads\Formhandler\Interceptor;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /*                                                                        *
-     * This script is part of the TYPO3 project - inspiring people to share!  *
-     *                                                                        *
-     * TYPO3 is free software; you can redistribute it and/or modify it under *
-     * the terms of the GNU General Public License version 2 as published by  *
-     * the Free Software Foundation.                                          *
-     *                                                                        *
-     * This script is distributed in the hope that it will be useful, but     *
-     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
-     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
-     * Public License for more details.                                       *
-     *                                                                        */
-
+ * This script is part of the TYPO3 project - inspiring people to share!  *
+ *                                                                        *
+ * TYPO3 is free software; you can redistribute it and/or modify it under *
+ * the terms of the GNU General Public License version 2 as published by  *
+ * the Free Software Foundation.                                          *
+ *                                                                        *
+ * This script is distributed in the hope that it will be useful, but     *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+ * Public License for more details.                                       *
+ *                                                                        */
 /**
  * An interceptor parsing some GET/POST parameters
  */
@@ -30,7 +30,7 @@ class ParseValues extends AbstractInterceptor
 
         //parse as float
         $parseFloatFields = $this->utilityFuncs->getSingle($this->settings, 'parseFloatFields');
-        $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $parseFloatFields, true);
+        $fields = GeneralUtility::trimExplode(',', $parseFloatFields, true);
         $this->parseFloats($fields);
 
         return $this->gp;

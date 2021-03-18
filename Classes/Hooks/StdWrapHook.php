@@ -1,9 +1,12 @@
 <?php
 namespace Typoheads\Formhandler\Hooks;
 
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectStdWrapHookInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use Typoheads\Formhandler\Utility\Globals;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class StdWrapHook implements \TYPO3\CMS\Frontend\ContentObject\ContentObjectStdWrapHookInterface
+class StdWrapHook implements ContentObjectStdWrapHookInterface
 {
     private $originalGET;
     private $originalPOST;
@@ -16,10 +19,10 @@ class StdWrapHook implements \TYPO3\CMS\Frontend\ContentObject\ContentObjectStdW
      * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $parentObject Parent content object
      * @return string Further processed $content
      */
-    public function stdWrapPreProcess($content, array $configuration, \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer &$parentObject)
+    public function stdWrapPreProcess($content, array $configuration, ContentObjectRenderer &$parentObject)
     {
         if (intval($configuration['sanitize']) === 1) {
-            $globals = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\Globals::class);
+            $globals = GeneralUtility::makeInstance(Globals::class);
             $this->originalGET = $_GET;
             $this->originalPOST = $_POST;
             $prefix = $globals->getFormValuesPrefix();
@@ -42,7 +45,7 @@ class StdWrapHook implements \TYPO3\CMS\Frontend\ContentObject\ContentObjectStdW
      * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $parentObject Parent content object
      * @return string Further processed $content
      */
-    public function stdWrapOverride($content, array $configuration, \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer &$parentObject)
+    public function stdWrapOverride($content, array $configuration, ContentObjectRenderer &$parentObject)
     {
         return $content;
     }
@@ -55,7 +58,7 @@ class StdWrapHook implements \TYPO3\CMS\Frontend\ContentObject\ContentObjectStdW
      * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $parentObject Parent content object
      * @return string Further processed $content
      */
-    public function stdWrapProcess($content, array $configuration, \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer &$parentObject)
+    public function stdWrapProcess($content, array $configuration, ContentObjectRenderer &$parentObject)
     {
         return $content;
     }
@@ -68,7 +71,7 @@ class StdWrapHook implements \TYPO3\CMS\Frontend\ContentObject\ContentObjectStdW
      * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $parentObject Parent content object
      * @return string Further processed $content
      */
-    public function stdWrapPostProcess($content, array $configuration, \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer &$parentObject)
+    public function stdWrapPostProcess($content, array $configuration, ContentObjectRenderer &$parentObject)
     {
         if (intval($configuration['sanitize']) === 1) {
             $_GET = $this->originalGET;

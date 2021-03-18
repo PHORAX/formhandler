@@ -1,6 +1,11 @@
 <?php
 namespace Typoheads\Formhandler\View;
 
+use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Controller\Configuration;
+use Typoheads\Formhandler\Utility\Globals;
+use Typoheads\Formhandler\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 
 /*                                                                        *
@@ -19,7 +24,7 @@ use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 /**
  * An abstract view for Formhandler
  */
-abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
+abstract class AbstractView extends AbstractPlugin
 {
 
     /**
@@ -127,10 +132,10 @@ abstract class AbstractView extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * @param \Typoheads\Formhandler\Controller\Configuration $configuration
      */
     public function __construct(
-        \Typoheads\Formhandler\Component\Manager $componentManager,
-        \Typoheads\Formhandler\Controller\Configuration $configuration,
-        \Typoheads\Formhandler\Utility\Globals $globals,
-        \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs
+        Manager $componentManager,
+        Configuration $configuration,
+        Globals $globals,
+        GeneralUtility $utilityFuncs
     ) {
         parent::__construct();
         $this->componentManager = $componentManager;

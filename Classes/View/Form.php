@@ -1,6 +1,9 @@
 <?php
 namespace Typoheads\Formhandler\View;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Information\Typo3Version;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -13,7 +16,6 @@ namespace Typoheads\Formhandler\View;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-
 /**
  * A default view for Formhandler
  */
@@ -177,7 +179,7 @@ class Form extends AbstractView
     {
         $fieldMarkers = [];
         foreach ($this->masterTemplates as $idx => $masterTemplate) {
-            $masterTemplateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($this->utilityFuncs->resolvePath($masterTemplate));
+            $masterTemplateCode = GeneralUtility::getURL($this->utilityFuncs->resolvePath($masterTemplate));
             $matches = [];
             preg_match_all('/###(field|master)_([^#]*)###/', $masterTemplateCode, $matches);
             if (!empty($matches[0])) {
@@ -389,7 +391,7 @@ class Form extends AbstractView
      */
     protected function fillDefaultMarkers()
     {
-        $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET();
+        $parameters = GeneralUtility::_GET();
         if (isset($parameters['id'])) {
             unset($parameters['id']);
         }
@@ -412,7 +414,7 @@ class Form extends AbstractView
             $markers['###TIMESTAMP###'] = htmlspecialchars($this->gp['formtime']);
         }
         $markers['###RANDOM_ID###'] = htmlspecialchars($this->gp['randomID']);
-        $markers['###ABS_URL###'] = \TYPO3\CMS\Core\Utility\GeneralUtility::locationHeaderUrl($path);
+        $markers['###ABS_URL###'] = GeneralUtility::locationHeaderUrl($path);
         $markers['###rel_url###'] = $markers['###REL_URL###'];
         $markers['###timestamp###'] = $markers['###TIMESTAMP###'];
         $markers['###abs_url###'] = $markers['###ABS_URL###'];
@@ -506,7 +508,7 @@ class Form extends AbstractView
             $markers['###auth_code###'] = htmlspecialchars($this->gp['generated_authCode']);
         }
 
-        $markers['###ip###'] = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR');
+        $markers['###ip###'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
         $markers['###IP###'] = $markers['###ip###'];
         $markers['###submission_date###'] = date('d.m.Y H:i:s', time());
         $markers['###pid###'] = $GLOBALS['TSFE']->id;
@@ -618,34 +620,34 @@ class Form extends AbstractView
      */
     protected function fillCaptchaMarkers(&$markers)
     {
-        if (stristr($this->template, '###CAPTCHA###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('captcha')) {
+        if (stristr($this->template, '###CAPTCHA###') && ExtensionManagementUtility::isLoaded('captcha')) {
             $markers['###CAPTCHA###'] = \ThinkopenAt\Captcha\Utility::makeCaptcha();
             $markers['###captcha###'] = $markers['###CAPTCHA###'];
         }
-        if (stristr($this->template, '###SR_FREECAP_IMAGE###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_freecap')) {
-            require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
-            $this->freeCap = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_srfreecap_pi2');
+        if (stristr($this->template, '###SR_FREECAP_IMAGE###') && ExtensionManagementUtility::isLoaded('sr_freecap')) {
+            require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
+            $this->freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
             $markers = array_merge($markers, $this->freeCap->makeCaptcha());
         }
-        if (stristr($this->template, '###RECAPTCHA###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('jm_recaptcha')) {
-            require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('jm_recaptcha') . 'class.tx_jmrecaptcha.php');
+        if (stristr($this->template, '###RECAPTCHA###') && ExtensionManagementUtility::isLoaded('jm_recaptcha')) {
+            require_once(ExtensionManagementUtility::extPath('jm_recaptcha') . 'class.tx_jmrecaptcha.php');
             $this->recaptcha = new \tx_jmrecaptcha();
             $markers['###RECAPTCHA###'] = $this->recaptcha->getReCaptcha();
             $markers['###recaptcha###'] = $markers['###RECAPTCHA###'];
         }
 
-        if (stristr($this->template, '###WT_CALCULATING_CAPTCHA###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('wt_calculating_captcha')) {
-            require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_calculating_captcha') . 'class.tx_wtcalculatingcaptcha.php');
+        if (stristr($this->template, '###WT_CALCULATING_CAPTCHA###') && ExtensionManagementUtility::isLoaded('wt_calculating_captcha')) {
+            require_once(ExtensionManagementUtility::extPath('wt_calculating_captcha') . 'class.tx_wtcalculatingcaptcha.php');
 
-            $captcha = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtcalculatingcaptcha');
+            $captcha = GeneralUtility::makeInstance('tx_wtcalculatingcaptcha');
             $markers['###WT_CALCULATING_CAPTCHA###'] = $captcha->generateCaptcha();
             $markers['###wt_calculating_captcha###'] = $markers['###WT_CALCULATING_CAPTCHA###'];
         }
 
-        if (stristr($this->template, '###MATHGUARD###') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mathguard')) {
-            require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mathguard') . 'class.tx_mathguard.php');
+        if (stristr($this->template, '###MATHGUARD###') && ExtensionManagementUtility::isLoaded('mathguard')) {
+            require_once(ExtensionManagementUtility::extPath('mathguard') . 'class.tx_mathguard.php');
 
-            $captcha = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mathguard');
+            $captcha = GeneralUtility::makeInstance('tx_mathguard');
             $markers['###MATHGUARD###'] = $captcha->getCaptcha();
             $markers['###mathguard###'] = $markers['###MATHGUARD###'];
         }
@@ -689,7 +691,7 @@ class Form extends AbstractView
 
         $flexformValue = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], 'required_fields', 'sMISC');
         if ($flexformValue) {
-            $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $flexformValue);
+            $fields = GeneralUtility::trimExplode(',', $flexformValue);
             if (is_array($settings['validators.'])) {
 
                 // Searches the index of Tx_Formhandler_Validator_Default
@@ -725,7 +727,7 @@ class Form extends AbstractView
                     if (intval($this->utilityFuncs->getSingle($validatorSettings, 'disable')) === 0) {
                         $disableErrorCheckFields = [];
                         if (is_array($validatorSettings['config.']) && isset($validatorSettings['config.']['disableErrorCheckFields'])) {
-                            $disableErrorCheckFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $validatorSettings['config.']['disableErrorCheckFields']);
+                            $disableErrorCheckFields = GeneralUtility::trimExplode(',', $validatorSettings['config.']['disableErrorCheckFields']);
                         }
                         if (is_array($validatorSettings['config.']) && is_array($validatorSettings['config.']['fieldConf.'])) {
                             foreach ($validatorSettings['config.']['fieldConf.'] as $fieldname => $fieldSettings) {
@@ -735,11 +737,11 @@ class Form extends AbstractView
                                         switch ($check) {
                                             case 'fileMinSize':
                                                 $minSize = $fieldSettings['errorCheck.'][$key . '.']['minSize'];
-                                                $markers['###' . $replacedFieldname . '_minSize###'] = \TYPO3\CMS\Core\Utility\GeneralUtility::formatSize($minSize, ' Bytes| KB| MB| GB');
+                                                $markers['###' . $replacedFieldname . '_minSize###'] = GeneralUtility::formatSize($minSize, ' Bytes| KB| MB| GB');
                                                 break;
                                             case 'fileMaxSize':
                                                 $maxSize = $fieldSettings['errorCheck.'][$key . '.']['maxSize'];
-                                                $markers['###' . $replacedFieldname . '_maxSize###'] = \TYPO3\CMS\Core\Utility\GeneralUtility::formatSize($maxSize, ' Bytes| KB| MB| GB');
+                                                $markers['###' . $replacedFieldname . '_maxSize###'] = GeneralUtility::formatSize($maxSize, ' Bytes| KB| MB| GB');
                                                 break;
                                             case 'fileAllowedTypes':
                                                 $types = $fieldSettings['errorCheck.'][$key . '.']['allowedTypes'];
@@ -765,15 +767,15 @@ class Form extends AbstractView
                                                 break;
                                             case 'fileMaxTotalSize':
                                                 $maxTotalSize = $fieldSettings['errorCheck.'][$key . '.']['maxTotalSize'];
-                                                $markers['###' . $replacedFieldname . '_maxTotalSize###'] = \TYPO3\CMS\Core\Utility\GeneralUtility::formatSize($maxTotalSize, ' Bytes| KB| MB| GB');
+                                                $markers['###' . $replacedFieldname . '_maxTotalSize###'] = GeneralUtility::formatSize($maxTotalSize, ' Bytes| KB| MB| GB');
                                                 $totalSize = 0;
                                                 if (is_array($sessionFiles[$replacedFieldname])) {
                                                     foreach ($sessionFiles[$replacedFieldname] as $file) {
                                                         $totalSize += intval($file['size']);
                                                     }
                                                 }
-                                                $markers['###' . $replacedFieldname . '_currentTotalSize###'] = \TYPO3\CMS\Core\Utility\GeneralUtility::formatSize($totalSize, ' Bytes| KB| MB| GB');
-                                                $markers['###' . $replacedFieldname . '_remainingTotalSize###'] = \TYPO3\CMS\Core\Utility\GeneralUtility::formatSize($maxTotalSize - $totalSize, ' Bytes| KB| MB| GB');
+                                                $markers['###' . $replacedFieldname . '_currentTotalSize###'] = GeneralUtility::formatSize($totalSize, ' Bytes| KB| MB| GB');
+                                                $markers['###' . $replacedFieldname . '_remainingTotalSize###'] = GeneralUtility::formatSize($maxTotalSize - $totalSize, ' Bytes| KB| MB| GB');
                                                 break;
                                             case 'required':
                                             case 'fileRequired':
@@ -990,10 +992,10 @@ class Form extends AbstractView
                 $types = [$types];
             }
             foreach ($types as $idx => $type) {
-                $temp = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(';', $type);
+                $temp = GeneralUtility::trimExplode(';', $type);
                 $type = array_shift($temp);
                 foreach ($temp as $subIdx => $item) {
-                    $item = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('::', $item);
+                    $item = GeneralUtility::trimExplode('::', $item);
                     $values[$item[0]] = $item[1];
                 }
 
@@ -1033,9 +1035,9 @@ class Form extends AbstractView
             $markers['###ERROR_' . strtoupper($field) . '###'] = $errorMessage;
             $errorMessage = $clearErrorMessage;
             if ($this->settings['addErrorAnchors']) {
-                $baseUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REQUEST_URI');
+                $baseUrl = GeneralUtility::getIndpEnv('REQUEST_URI');
                 if ($this->globals->isAjaxMode()) {
-                    $baseUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('HTTP_REFERER');
+                    $baseUrl = GeneralUtility::getIndpEnv('HTTP_REFERER');
                 }
                 $errorMessage = '<a href="' . $baseUrl . '#' . $field . '-' . $this->globals->getRandomID() . '">' . $errorMessage . '</a>';
             }
@@ -1273,7 +1275,7 @@ class Form extends AbstractView
         if ($this->settings['useDefaultStepBarStyles']) {
             $css = implode("\n", $css);
             $css = TSpagegen::inline2TempFile($css, 'css');
-            if (version_compare(TYPO3_version, '4.3.0') >= 0) {
+            if (version_compare(GeneralUtility::makeInstance(Typo3Version::class)->getVersion(), '4.3.0') >= 0) {
                 $css = '<link rel="stylesheet" type="text/css" href="' . htmlspecialchars($css) . '" />';
             }
             $GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_' . $classprefix] .= $css;
