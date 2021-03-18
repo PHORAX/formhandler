@@ -2,6 +2,7 @@
 
 namespace Typoheads\Formhandler\View;
 
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -1247,12 +1248,35 @@ class Form extends AbstractView
         //add default css to page
         if ($this->settings['useDefaultStepBarStyles']) {
             $css = implode("\n", $css);
-            $css = TSpagegen::inline2TempFile($css, 'css');
+            $css = self::inline2TempFile($css, 'css');
             if (version_compare(GeneralUtility::makeInstance(Typo3Version::class)->getVersion(), '4.3.0') >= 0) {
                 $css = '<link rel="stylesheet" type="text/css" href="' . htmlspecialchars($css) . '" />';
             }
             $GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_' . $classprefix] .= $css;
         }
         return $content;
+    }
+
+    private static function inline2TempFile($str, $ext): string
+    {
+        // Create filename / tags:
+        $script = '';
+        switch ($ext) {
+            case 'js' :
+                $script = 'typo3temp/javascript_' . substr(md5($str), 0, 10) . '.js';
+                break;
+            case 'css' :
+                $script = 'typo3temp/stylesheet_' . substr(md5($str), 0, 10) . '.css';
+                break;
+        }
+
+        // Write file:
+        if ($script) {
+            if (! @is_file(Environment::getPublicPath() . '/' . $script)) {
+                GeneralUtility::writeFile(Environment::getPublicPath() . '/' . $script, $str);
+            }
+        }
+
+        return $script;
     }
 }

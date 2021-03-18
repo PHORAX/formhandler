@@ -40,12 +40,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Typo3Option::OUTPUT_CHANGELOG, true);
 
     $parameters->set(Option::PATHS, [
-        __DIR__. '/Configuration',
-        __DIR__. '/pi1',
-        __DIR__. '/ext_emconf.php',
-        __DIR__. '/ext_localconf.php',
-        __DIR__. '/ext_tables.php',
-        __DIR__. '/ext_tables.php',
+        __DIR__. '/Classes/View/',
     ]);
     // If you set option Option::AUTO_IMPORT_NAMES to true, you should consider excluding some TYPO3 files.
     // If you use the option --config change __DIR__ to getcwd()
