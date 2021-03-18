@@ -1,4 +1,5 @@
 <?php
+
 namespace Typoheads\Formhandler\Interceptor;
 
 /*                                                                        *
@@ -95,9 +96,9 @@ class AntiSpamFormTime extends AbstractInterceptor
             !is_numeric($this->gp['formtime'])
         ) {
             $spam = true;
-        } elseif ($minTime && time() - intval($this->gp['formtime']) < $minTime) {
+        } elseif ($minTime && time() - (int)($this->gp['formtime']) < $minTime) {
             $spam = true;
-        } elseif ($maxTime && time() - intval($this->gp['formtime']) > $maxTime) {
+        } elseif ($maxTime && time() - (int)($this->gp['formtime']) > $maxTime) {
             $spam = true;
         }
         return $spam;

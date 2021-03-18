@@ -1,4 +1,5 @@
 <?php
+
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /*                                                                        *
@@ -34,7 +35,7 @@ class MinItems extends AbstractErrorCheck
             $removeEmptyValues = $this->utilityFuncs->getSingle($this->settings['params'], 'removeEmptyValues');
             if (is_array($this->gp[$this->formFieldName])) {
                 $valuesArray = $this->gp[$this->formFieldName];
-                if (intval($removeEmptyValues) === 1) {
+                if ((int)$removeEmptyValues === 1) {
                     foreach ($valuesArray as $key => $fieldName) {
                         if (empty($fieldName)) {
                             unset($valuesArray[$key]);

@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Session;
 
 use Typoheads\Formhandler\Component\AbstractClass;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -32,7 +34,7 @@ abstract class AbstractSession extends AbstractClass
      */
     public function start()
     {
-        if (intval($this->utilityFuncs->getSingle($this->settings, 'disableCookies')) === 1) {
+        if ((int)($this->utilityFuncs->getSingle($this->settings, 'disableCookies')) === 1) {
             ini_set('session.use_only_cookies', 'off');
             ini_set('session.use_cookies', '0');
         }

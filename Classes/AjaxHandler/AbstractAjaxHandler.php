@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\AjaxHandler;
 
 use Typoheads\Formhandler\Component\AbstractClass;
+
 /*                                                                       *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *

@@ -1,4 +1,5 @@
 <?php
+
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /*                                                                        *
@@ -34,8 +35,8 @@ class Date extends AbstractErrorCheck
             try {
                 \DateTime::createFromFormat($pattern, $this->gp[$this->formFieldName]);
                 $status = \DateTime::getLastErrors();
-                if ((isset($status['warning_count']) && intval($status['warning_count']) > 0) ||
-                    (isset($status['error_count']) && intval($status['error_count']) > 0)) {
+                if ((isset($status['warning_count']) && (int)($status['warning_count']) > 0) ||
+                    (isset($status['error_count']) && (int)($status['error_count']) > 0)) {
                     $checkFailed = $this->getCheckFailed();
                     $this->utilityFuncs->debugMessage('Result:', [], 2, $status);
                 }

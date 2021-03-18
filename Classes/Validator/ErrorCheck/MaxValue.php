@@ -1,4 +1,5 @@
 <?php
+
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /*                                                                        *
@@ -28,13 +29,13 @@ class MaxValue extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        $max = floatval(str_replace(',', '.', $this->utilityFuncs->getSingle($this->settings['params'], 'value')));
+        $max = (float)(str_replace(',', '.', $this->utilityFuncs->getSingle($this->settings['params'], 'value')));
         if (isset($this->gp[$this->formFieldName]) && strlen($this->gp[$this->formFieldName]) > 0) {
             $valueToCheck = str_replace(',', '.', $this->gp[$this->formFieldName]);
             if (!is_numeric($valueToCheck)) {
                 $checkFailed = $this->getCheckFailed();
             } else {
-                $valueToCheck = floatval($valueToCheck);
+                $valueToCheck = (float)$valueToCheck;
                 if ($valueToCheck > $max) {
                     $checkFailed = $this->getCheckFailed();
                 }

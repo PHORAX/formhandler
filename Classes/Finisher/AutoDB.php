@@ -1,7 +1,8 @@
 <?php
+
 namespace Typoheads\Formhandler\Finisher;
 
-use TYPO3\CMS\Core\Context\Context;
+use Doctrine\DBAL\Schema\Column;
 /*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
@@ -15,10 +16,10 @@ use TYPO3\CMS\Core\Context\Context;
      * Public License for more details.                                       *
      *                                                                        */
 
-use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -72,7 +73,7 @@ class AutoDB extends DB
      */
     protected function parseFields()
     {
-        $doAutoCreate = intval($this->utilityFuncs->getSingle($this->settings, 'newFieldsSqlAttribs'));
+        $doAutoCreate = (int)($this->utilityFuncs->getSingle($this->settings, 'newFieldsSqlAttribs'));
         if ($doAutoCreate === 1 && GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('backend.user', 'isLoggedIn')) {
             $this->createTable();
         }

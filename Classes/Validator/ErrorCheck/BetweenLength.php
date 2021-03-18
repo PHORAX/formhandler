@@ -1,4 +1,5 @@
 <?php
+
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /*                                                                        *
@@ -28,11 +29,11 @@ class BetweenLength extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        $min = intval($this->utilityFuncs->getSingle($this->settings['params'], 'minValue'));
-        $max = intval($this->utilityFuncs->getSingle($this->settings['params'], 'maxValue'));
+        $min = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'minValue'));
+        $max = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'maxValue'));
         if (isset($this->gp[$this->formFieldName]) &&
-            (mb_strlen($this->gp[$this->formFieldName], 'utf-8') < intval($min) ||
-                mb_strlen($this->gp[$this->formFieldName], 'utf-8') > intval($max))
+            (mb_strlen($this->gp[$this->formFieldName], 'utf-8') < (int)$min ||
+                mb_strlen($this->gp[$this->formFieldName], 'utf-8') > (int)$max)
         ) {
             $checkFailed = $this->getCheckFailed();
         }

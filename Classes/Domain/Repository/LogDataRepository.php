@@ -1,8 +1,10 @@
 <?php
+
 namespace Typoheads\Formhandler\Domain\Repository;
 
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Typoheads\Formhandler\Domain\Model\Demand;
+
 /*
  * This file is part of the TYPO3 CMS project.
  *

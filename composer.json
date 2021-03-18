@@ -31,6 +31,15 @@
     "require-dev": {
         "ssch/typo3-rector-prefixed": "dev-main",
         "saschaegerer/phpstan-typo3": "^0.13.1",
-        "phpstan/extension-installer": "^1.1"
+        "phpstan/extension-installer": "^1.1",
+        "typo3/coding-standards": "^0.3.0"
+    },
+    "scripts": {
+        "check-style": [
+            "php-cs-fixer fix -v --dry-run --using-cache false --diff --diff-format=udiff"
+        ],
+        "fix-style": [
+            "php-cs-fixer fix -v --using-cache false --diff --diff-format=udiff"
+        ]
     }
 }

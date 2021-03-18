@@ -1,4 +1,5 @@
 <?php
+
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /*                                                                        *
@@ -53,7 +54,7 @@ class IsInDBTable extends AbstractErrorCheck
                 if (!empty($additionalWhere)) {
                     $queryBuilder->andWhere(QueryHelper::stripLogicalOperatorPrefix($additionalWhere));
                 }
-                $showHidden = intval($this->settings['params']['showHidden']) === 1;
+                $showHidden = (int)($this->settings['params']['showHidden']) === 1;
                 if ($showHidden) {
                     $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
                 }

@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *

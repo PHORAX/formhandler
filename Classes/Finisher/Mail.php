@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Finisher;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -164,7 +166,7 @@ class Mail extends AbstractFinisher
     protected function sendMail($type)
     {
         $doSend = true;
-        if (intval($this->utilityFuncs->getSingle($this->settings[$type], 'disable')) === 1) {
+        if ((int)($this->utilityFuncs->getSingle($this->settings[$type], 'disable')) === 1) {
             $this->utilityFuncs->debugMessage('mail_disabled', [$type]);
             $doSend = false;
         }
@@ -644,14 +646,14 @@ class Mail extends AbstractFinisher
 
                     case 'htmlEmailAsAttachment':
                         $htmlEmailAsAttachment = $this->utilityFuncs->getSingle($currentSettings, 'htmlEmailAsAttachment');
-                        if (intval($htmlEmailAsAttachment) === 1) {
+                        if ((int)$htmlEmailAsAttachment === 1) {
                             $emailSettings['htmlEmailAsAttachment'] = 1;
                         }
 
                         break;
                     case 'deleteGeneratedFiles':
                         $htmlEmailAsAttachment = $this->utilityFuncs->getSingle($currentSettings, 'deleteGeneratedFiles');
-                        if (intval($htmlEmailAsAttachment) === 1) {
+                        if ((int)$htmlEmailAsAttachment === 1) {
                             $emailSettings['deleteGeneratedFiles'] = 1;
                         }
 

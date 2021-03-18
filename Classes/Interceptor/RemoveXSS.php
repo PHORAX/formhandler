@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Interceptor;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -49,7 +51,7 @@ class RemoveXSS extends AbstractInterceptor
                 $list = $globalSetting['removeChars'];
             }
             $this->removeChars = GeneralUtility::trimExplode($sep, $list);
-        } elseif (intval($this->utilityFuncs->getSingle($globalSetting['removeChars.'], 'disable')) === 1) {
+        } elseif ((int)($this->utilityFuncs->getSingle($globalSetting['removeChars.'], 'disable')) === 1) {
 
             //user disabled removal globally
             $this->removeChars = [];
@@ -96,7 +98,7 @@ class RemoveXSS extends AbstractInterceptor
                         $list = $fieldSetting['removeChars'];
                     }
                     $removeChars = GeneralUtility::trimExplode($sep, $list);
-                } elseif (intval($this->utilityFuncs->getSingle($fieldSetting['removeChars.'], 'disable')) === 1) {
+                } elseif ((int)($this->utilityFuncs->getSingle($fieldSetting['removeChars.'], 'disable')) === 1) {
 
                     //user disabled removal for this field
                     $removeChars = [];

@@ -1,12 +1,13 @@
 <?php
+
 namespace Typoheads\Formhandler\Controller;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use Typoheads\Formhandler\Component\Manager;
 use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
+use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Domain\Model\Demand;
 use Typoheads\Formhandler\Domain\Model\LogData;
-use Typoheads\Formhandler\Generator\BackendCsv;
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -20,7 +21,7 @@ use Typoheads\Formhandler\Generator\BackendCsv;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Generator\BackendCsv;
 
 class ModuleController extends ActionController
 {
@@ -62,7 +63,7 @@ class ModuleController extends ActionController
      */
     public function initializeAction()
     {
-        $this->id = intval($_GET['id']);
+        $this->id = (int)($_GET['id']);
 
         $this->gp = $this->request->getArguments();
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);

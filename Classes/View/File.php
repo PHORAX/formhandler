@@ -1,4 +1,5 @@
 <?php
+
 namespace Typoheads\Formhandler\View;
 
 class File extends Form
