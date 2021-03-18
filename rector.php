@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\PostRector\Rector\NameImportingPostRector;
+use Ssch\TYPO3Rector\Rector\Composer\ExtensionComposerRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Ssch\TYPO3Rector\Set\Typo3SetList;
 use Ssch\TYPO3Rector\Configuration\Typo3Option;
@@ -39,11 +40,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Typo3Option::OUTPUT_CHANGELOG, true);
 
     $parameters->set(Option::PATHS, [
-        __DIR__. '/Classes',
+        __DIR__. '/composer.json',
         __DIR__. '/Configuration',
         __DIR__. '/pi1',
         __DIR__. '/ext_emconf.php',
         __DIR__. '/ext_localconf.php',
+        __DIR__. '/ext_tables.php',
         __DIR__. '/ext_tables.php',
     ]);
     // If you set option Option::AUTO_IMPORT_NAMES to true, you should consider excluding some TYPO3 files.
@@ -65,8 +67,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // ]);
 
     // get services (needed for register a single rule)
-    // $services = $containerConfigurator->services();
+    $services = $containerConfigurator->services();
 
     // register a single rule
-    // $services->set(InjectAnnotationRector::class);
+    $services->set(ExtensionComposerRector::class);
 };
