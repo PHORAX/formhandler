@@ -16,6 +16,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
+
 /**
  * An interceptor parsing some GET/POST parameters
  */
@@ -59,11 +60,20 @@ class ParseValues extends AbstractInterceptor
      * x xxx,- / xx,xx / xx'xxx,xx / -xx.xxx,xx
      * Caution: This pareses x.xxx.xxx to xxxxxxx (but xx.xx to xx.xx)
      *
-     * @return float
      * @param string $value formated float
+     *
+     * @return float
      */
     protected function getFloat($value)
     {
-        return (float)(preg_replace('#^([-]*[0-9\.,\' ]+?)((\.|,){1}([0-9-]{1,2}))*$#e', "str_replace(array('.', ',', \"'\", ' '), '', '\\1') . '.\\4'", $value));
+        return floatval(
+            preg_replace_callback(
+                '#^([-]*[0-9.,\' ]+?)(([.,])([0-9-]{1,2}))*$#',
+                function ($m) {
+                    return str_replace(array('.', ',', "'", ' '), '', $m[1]).'.'.$m[4];
+                },
+                $value
+            )
+        );
     }
 }
