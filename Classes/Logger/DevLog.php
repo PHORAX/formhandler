@@ -2,6 +2,8 @@
 
 namespace Typoheads\Formhandler\Logger;
 
+use TYPO3\CMS\Core\Log\LogLevel;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /*                                                                        *
@@ -30,10 +32,10 @@ class DevLog extends AbstractLogger
     public function process()
     {
         $message = 'Form on page ' . $GLOBALS['TSFE']->id . ' was submitted!';
-        $severity = 1;
+        $severity = LogLevel::INFO;
         if ((int)($this->settings['markAsSpam']) === 1) {
             $message = 'Caught possible spamming on page ' . $GLOBALS['TSFE']->id . '!';
-            $severity = 2;
+            $severity = LogLevel::WARNING;
         }
         $logParams = $this->gp;
         if ($this->settings['excludeFields']) {
@@ -43,7 +45,7 @@ class DevLog extends AbstractLogger
                 unset($logParams[$excludeField]);
             }
         }
-        GeneralUtility::devLog($message, 'formhandler', $severity, $logParams);
+        GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->log($severity, $message, $logParams);
 
         return $this->gp;
     }
