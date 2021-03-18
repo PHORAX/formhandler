@@ -2,6 +2,7 @@
 
 namespace Typoheads\Formhandler\Debugger;
 
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /*                                                                        *
@@ -34,7 +35,7 @@ class DevLog extends AbstractDebugger
                 if (is_array($messageData['data'])) {
                     $data = $messageData['data'];
                 }
-                GeneralUtility::devLog($message, 'formhandler', $severity, $data);
+                GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->debug($message, $data);
             }
         }
     }
