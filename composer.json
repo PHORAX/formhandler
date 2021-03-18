@@ -7,10 +7,10 @@
     "require": {
         "typo3/cms-core": "^10.4.0",
         "tecnickcom/tcpdf": "^6.0",
-        "parsecsv/php-parsecsv": "^0.4",
         "typo3/cms-extbase": "^10.4.0",
         "typo3/cms-fluid": "^10.4.0",
-        "typo3/cms-frontend": "^10.4.0"
+        "typo3/cms-frontend": "^10.4.0",
+        "parsecsv/php-parsecsv": "^1.2"
     },
     "autoload": {
         "psr-4": {

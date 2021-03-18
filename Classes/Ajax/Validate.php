@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Ajax;
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use Typoheads\Formhandler\Utility\Globals;
 use Typoheads\Formhandler\Component\Manager;
 /*                                                                        *
@@ -18,6 +19,7 @@ use Typoheads\Formhandler\Component\Manager;
 *                                                                        */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use Typoheads\Formhandler\View\AjaxValidation;
 
 /**
  * A class validating a field via AJAX.
@@ -32,6 +34,22 @@ class Validate
         'spanSuccess' => '<span class="success">%s</span>',
         'spanError' => '<span class="error">%s</span>',
     ];
+
+    /**
+     * @var Manager
+     */
+    private $componentManager;
+
+    /**
+     * @var array
+     */
+    private $settings;
+
+
+    /**
+     * @var int
+     */
+    private $id;
 
     /**
      * Main method of the class.
@@ -106,7 +124,7 @@ class Validate
      * Initialize the AJAX validation view.
      *
      * @param string $content The raw content
-     * @return Tx_Formhandler_View_AjaxValidation The view class
+     * @return AjaxValidation The view class
      */
     protected function initView($content)
     {
