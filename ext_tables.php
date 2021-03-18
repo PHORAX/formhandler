@@ -27,5 +27,5 @@ $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\
 $iconRegistry->registerIcon(
     'formhandlerElement',
     \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-    ['source' => 'EXT:formhandler/ext_icon.gif']
+    ['source' => 'EXT:formhandler/Resources/Public/Icons/Extension.gif']
 );
