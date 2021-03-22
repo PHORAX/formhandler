@@ -2,6 +2,7 @@
 
 namespace Typoheads\Formhandler\Generator;
 
+use ParseCsv\Csv;
 use Typoheads\Formhandler\Component\AbstractComponent;
 
 /*                                                                        *
@@ -119,7 +120,7 @@ class BackendCsv extends AbstractComponent
         }
         $data = $dataSorted;
 
-        $csv = new \ParseCsv\Csv(null, null, null, []);
+        $csv = new Csv(null, null, null, []);
         $csv->delimiter = $csv->output_delimiter = $this->settings['delimiter'];
         $csv->enclosure = $this->settings['enclosure'];
         $csv->input_encoding = strtolower($this->getInputCharset());
