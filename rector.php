@@ -7,6 +7,7 @@ use Rector\Core\ValueObject\PhpVersion;
 use Rector\PostRector\Rector\NameImportingPostRector;
 use Ssch\TYPO3Rector\Configuration\Typo3Option;
 use Ssch\TYPO3Rector\Rector\Composer\ExtensionComposerRector;
+use Ssch\TYPO3Rector\Rector\v9\v0\InjectAnnotationRector;
 use Ssch\TYPO3Rector\Set\Typo3SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -24,7 +25,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     // FQN classes are not imported by default. If you don't do it manually after every Rector run, enable it by:
-    $parameters->set(Option::AUTO_IMPORT_NAMES, false);
+    $parameters->set(Option::AUTO_IMPORT_NAMES, true);
 
     // this will not import root namespace classes, like \DateTime or \Exception
     $parameters->set(Option::IMPORT_SHORT_CLASSES, false);
@@ -50,12 +51,19 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // If you use the option --config change __DIR__ to getcwd()
     $parameters->set(Option::SKIP, [
         NameImportingPostRector::class => [
-            __DIR__ . '/ext_localconf.php',
-            __DIR__ . '/ext_emconf.php',
-            __DIR__ . '/ext_tables.php',
-            __DIR__ . '/Configuration/TCA/*',
+            __DIR__ . '/**/Configuration/AjaxRoutes.php',
+            __DIR__ . '/**/Configuration/Commands.php',
+            __DIR__ . '/**/Configuration/Extbase/Persistence/Classes.php',
+            __DIR__ . '/**/Configuration/RequestMiddlewares.php',
+            __DIR__ . '/**/TCA/*',
+            __DIR__ . '/ClassAliasMap.php',
             __DIR__ . '/Configuration/Extbase/Persistence/Classes.php',
-        ],
+            __DIR__ . '/Configuration/TCA/*',
+            __DIR__ . '/Configuration/TCA/*',
+            __DIR__ . '/ext_emconf.php',
+            __DIR__ . '/ext_localconf.php',
+            __DIR__ . '/ext_tables.php'
+        ]
     ]);
 
     // If you have trouble that rector cannot run because some TYPO3 constants are not defined add an additional constants file
