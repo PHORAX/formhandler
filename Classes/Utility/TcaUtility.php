@@ -3,6 +3,7 @@
 namespace Typoheads\Formhandler\Utility;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 /***************************************************************
@@ -63,13 +64,17 @@ class TcaUtility
     public function addFields_predefinedJS($config)
     {
         $newRecord = 'true';
-        if (is_array($GLOBALS['SOBE']->editconf['tt_content']) && reset($GLOBALS['SOBE']->editconf['tt_content']) === 'edit') {
+        /** @var ServerRequest $request */
+        $request = $GLOBALS['TYPO3_REQUEST'];
+        $editConf = $request->getQueryParams()['edit']['tt_content'];
+
+        if (is_array($editConf) && reset($editConf) === 'edit') {
             $newRecord = 'false';
         }
 
         $uid = null;
-        if (is_array($GLOBALS['SOBE']->editconf['tt_content'])) {
-            $uid = key($GLOBALS['SOBE']->editconf['tt_content']);
+        if (is_array($editConf)) {
+            $uid = key($editConf);
         }
         if ($uid < 0 || empty($uid) || !strstr($uid, 'NEW')) {
             $uid = $GLOBALS['SOBE']->elementsData[0]['uid'];
@@ -103,8 +108,12 @@ class TcaUtility
     {
         $pid = false;
 
-        if (is_array($GLOBALS['SOBE']->editconf['tt_content']) && reset($GLOBALS['SOBE']->editconf['tt_content']) === 'new') {
-            $pid = key($GLOBALS['SOBE']->editconf['tt_content']);
+        /** @var ServerRequest $request */
+        $request = $GLOBALS['TYPO3_REQUEST'];
+        $editConf = $request->getQueryParams()['edit']['tt_content'];
+
+        if (is_array($editConf) && reset($editConf) === 'new') {
+            $pid = key($editConf);
 
             //Formhandler inserted after existing content element
             if ((int)$pid < 0) {
