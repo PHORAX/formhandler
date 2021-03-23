@@ -32,20 +32,6 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     protected $emailObj;
 
     /**
-     * The html part of the message
-     *
-     * @var \Swift_Mime_MimePart
-     */
-    protected $htmlMimePart;
-
-    /**
-     * The plain text part of the message
-     *
-     * @var \Swift_Mime_MimePart
-     */
-    protected $plainMimePart;
-
-    /**
      * Initializes the email object and calls the parent constructor
      *
      * @param \Typoheads\Formhandler\Component\Manager $componentManager
@@ -106,7 +92,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function setSubject($value)
     {
-        $this->emailObj->setSubject($value);
+        return $this->emailObj->setSubject((string)$value);
     }
 
     /**
@@ -121,7 +107,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     public function setSender($email, $name)
     {
         if (!empty($email)) {
-            $this->emailObj->setFrom($email, $name);
+            return $this->emailObj->setFrom($email, $name);
         }
     }
 
