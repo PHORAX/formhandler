@@ -930,7 +930,7 @@ class GeneralUtility implements SingletonInterface
             foreach ($values as &$value) {
                 if (is_array($value)) {
                     $value = self::recursiveHtmlSpecialChars($value);
-                } else {
+                } elseif(!is_object($value)) {
                     $value = htmlspecialchars($value);
                 }
             }
