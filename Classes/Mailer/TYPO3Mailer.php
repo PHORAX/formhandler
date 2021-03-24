@@ -126,7 +126,9 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function addCc($email, $name)
     {
-        $this->emailObj->addCc($email, $name);
+        if(!empty($email)) {
+            $this->emailObj->addCc($email, $name);
+        }
     }
 
     /* (non-PHPdoc)
@@ -134,7 +136,9 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function addBcc($email, $name)
     {
-        $this->emailObj->addBcc($email, $name);
+        if(!empty($email)) {
+            $this->emailObj->addBcc($email, $name);
+        }
     }
 
     /* (non-PHPdoc)
@@ -142,7 +146,9 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function setReturnPath($value)
     {
-        $this->emailObj->setReturnPath($value);
+        if(!empty($value)) {
+            $this->emailObj->setReturnPath($value);
+        }
     }
 
     /* (non-PHPdoc)
