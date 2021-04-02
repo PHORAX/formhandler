@@ -14,8 +14,8 @@ namespace Typoheads\Formhandler\AjaxHandler;
     * Public License for more details.                                       *
     *                                                                        */
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+
 
 /**
  * Abstract class for an AjaxHandler.
@@ -116,7 +116,8 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
         if (intval($ajaxSubmit) === 1) {
             $ajaxSubmitLoader = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmitLoader');
             if (strlen($ajaxSubmitLoader) === 0) {
-                $loadingImg = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/ajax-loader.gif';
+
+                $loadingImg =PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/ajax-loader.gif';
                 $loadingImg = '<img src="' . $loadingImg . '" alt="loading" />';
                 $loadingImg = str_replace('../', '', $loadingImg);
                 $ajaxSubmitLoader = '<span class="loading_ajax-submit">' . $loadingImg . '</span>';
@@ -133,7 +134,7 @@ class JQuery extends \Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler
 
         $loadingImg = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'loading');
         if (strlen($loadingImg) === 0) {
-            $loadingImg = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/ajax-loader.gif';
+            $loadingImg =PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/ajax-loader.gif';
             $loadingImg = str_replace('../', '', $loadingImg);
             $loadingImg = '<img src="' . $loadingImg . '" alt="loading" />';
         }

@@ -5,7 +5,7 @@
 	"homepage": "https://github.com/PHORAX/formhandler",
 	"license": "GPL-2.0-or-later",
 	"require": {
-		"typo3/cms-core": "^9.5.0",
+		"typo3/cms-core": "^10.4.0",
 		"tecnickcom/tcpdf": "^6.0",
 		"parsecsv/php-parsecsv": "^0.4"
 	},
