@@ -20,7 +20,7 @@
                             </label>
                             <config>
                                 <type>group</type>
-                                <internal_type>file</internal_type>
+                                <internal_type>folder</internal_type>
                                 <allowed>tmpl,html,htm</allowed>
                                 <max_size>500</max_size>
                                 <minitems>0</minitems>
@@ -37,7 +37,7 @@
                             </label>
                             <config>
                                 <type>group</type>
-                                <internal_type>file</internal_type>
+                                <internal_type>folder</internal_type>
                                 <allowed>php,xml</allowed>
                                 <max_size>500</max_size>
                                 <minitems>0</minitems>
