@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Controller;
 
+use TYPO3\CMS\Core\Http\ApplicationType;
 use Typoheads\Formhandler\Utility\Globals;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
@@ -37,11 +38,21 @@ class Configuration implements \ArrayAccess
     protected $setup;
 
     /**
+     * @var Globals
+     */
+    private $globals;
+
+    /**
+     * @var \Typoheads\Formhandler\Utility\GeneralUtility
+     */
+    private $utilityFuncs;
+
+    /**
      * The constructor reading the TS setup into the according attribute
      */
     public function __construct()
     {
-        if (TYPO3_MODE === 'FE') {
+        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
             $this->globals = GeneralUtility::makeInstance(Globals::class);
             $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
             $this->setup = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->getPrefixedPackageKey() . '.'];
@@ -57,7 +68,7 @@ class Configuration implements \ArrayAccess
     /**
      * Merges the values of $setup with plugin.[xxx].settings
      *
-     * @param array $setup
+     * @param array|null $setup
      */
     public function merge($setup)
     {

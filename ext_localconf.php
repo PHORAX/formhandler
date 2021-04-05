@@ -31,3 +31,11 @@ $iconRegistry->registerIcon(
     \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
     ['source' => 'EXT:formhandler/Resources/Public/Images/pagetreeicon.png']
 );
+
+if (!isset($GLOBALS['TYPO3_CONF_VARS']['LOG']['Typoheads']['Formhandler']['writerConfiguration'])) {
+    $GLOBALS['TYPO3_CONF_VARS']['LOG']['Typoheads']['Formhandler']['writerConfiguration'] = [
+        \TYPO3\CMS\Core\Log\LogLevel::ERROR => [
+            \TYPO3\CMS\Core\Log\Writer\SyslogWriter::class => []
+        ],
+    ];
+}
