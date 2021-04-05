@@ -21,7 +21,6 @@ use Typoheads\Formhandler\Utility\Globals;
 * Public License for more details.                                       *
 *                                                                        */
 
-
 /**
  * A class calling the controller and returning the form content as JSON. This class is called via AJAX.
  */

@@ -19,7 +19,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Public License for more details.                                       *
  *                                                                        */
 
-
 /**
  * Default controller for Formhandler
  */
