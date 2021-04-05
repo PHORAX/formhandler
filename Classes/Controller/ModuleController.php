@@ -8,6 +8,8 @@ use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Domain\Model\Demand;
 use Typoheads\Formhandler\Domain\Model\LogData;
+use Typoheads\Formhandler\Generator\BackendCsv;
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -20,9 +22,6 @@ use Typoheads\Formhandler\Domain\Model\LogData;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
-use Typoheads\Formhandler\Generator\BackendCsv;
-
 class ModuleController extends ActionController
 {
 

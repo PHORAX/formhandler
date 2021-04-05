@@ -22,7 +22,6 @@ use TYPO3\CMS\Core\Utility\MathUtility;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-
 /**
  * A class providing helper functions for Formhandler
  */

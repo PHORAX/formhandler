@@ -5,6 +5,10 @@ namespace Typoheads\Formhandler\Ajax;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Utility\Globals;
+use Typoheads\Formhandler\View\AjaxValidation;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -18,10 +22,6 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 * Public License for more details.                                       *
 *
 *                                                                        */
-use Typoheads\Formhandler\Component\Manager;
-use Typoheads\Formhandler\Utility\Globals;
-use Typoheads\Formhandler\View\AjaxValidation;
-
 /**
  * A class validating a field via AJAX.
  */

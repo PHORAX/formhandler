@@ -14,7 +14,6 @@ namespace Typoheads\Formhandler\Utility;
 * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
 * Public License for more details.                                       *
 *                                                                        */
-
 /**
  * A PDF Template class for Formhandler generated PDF files for usage with Generator_TCPDF.
  */

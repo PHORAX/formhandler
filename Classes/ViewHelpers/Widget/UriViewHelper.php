@@ -2,6 +2,8 @@
 
 namespace Typoheads\Formhandler\ViewHelpers\Widget;
 
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+
 /*                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -19,9 +21,6 @@ namespace Typoheads\Formhandler\ViewHelpers\Widget;
  *                                                                        *
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
-
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-
 class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper
 {
 
