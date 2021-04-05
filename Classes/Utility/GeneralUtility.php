@@ -1,12 +1,13 @@
 <?php
+
 namespace Typoheads\Formhandler\Utility;
 
-use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\Random;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
 /*                                                                        *
@@ -21,7 +22,6 @@ use TYPO3\CMS\Core\Utility\MathUtility;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-
 /**
  * A class providing helper functions for Formhandler
  */
@@ -567,7 +567,7 @@ class GeneralUtility implements SingletonInterface
      */
     public static function debugMessage($key, array $printfArgs = [], $severity = 1, array $data = [])
     {
-        $severity = intval($severity);
+        $severity = (int)$severity;
         $message = self::getDebugMessage($key);
         if (strlen($message) == 0) {
             $message = $key;
@@ -894,7 +894,7 @@ class GeneralUtility implements SingletonInterface
         $separator = ',';
 
         $usePregReplace = self::getSingle($settings['files.'], 'usePregReplace');
-        if (intval($usePregReplace) === 1) {
+        if ((int)$usePregReplace === 1) {
             $search = ['/ /', '/%20/'];
         }
 
@@ -915,7 +915,7 @@ class GeneralUtility implements SingletonInterface
         }
 
         $usePregReplace = self::getSingle($settings['files.'], 'usePregReplace');
-        if (intval($usePregReplace) === 1) {
+        if ((int)$usePregReplace === 1) {
             $fileName = preg_replace($search, $replace, $fileName);
         } else {
             $fileName = str_replace($search, $replace, $fileName);
@@ -1162,25 +1162,25 @@ class GeneralUtility implements SingletonInterface
             case '>':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) > floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value > (float)(self::parseOperand($valueConditions[2], $gp));
                 }
                 break;
             case '<':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) < floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value < (float)(self::parseOperand($valueConditions[2], $gp));
                 }
                 break;
             case '>=':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) >= floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value >= (float)(self::parseOperand($valueConditions[2], $gp));
                 }
                 break;
             case '<=':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) <= floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value <= (float)(self::parseOperand($valueConditions[2], $gp));
                 }
                 break;
             default:

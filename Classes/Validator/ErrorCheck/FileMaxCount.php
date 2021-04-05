@@ -1,18 +1,19 @@
 <?php
+
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 /*                                                                        *
-     * This script is part of the TYPO3 project - inspiring people to share!  *
-     *                                                                        *
-     * TYPO3 is free software; you can redistribute it and/or modify it under *
-     * the terms of the GNU General Public License version 2 as published by  *
-     * the Free Software Foundation.                                          *
-     *                                                                        *
-     * This script is distributed in the hope that it will be useful, but     *
-     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
-     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
-     * Public License for more details.                                       *
-     *                                                                        */
+ * This script is part of the TYPO3 project - inspiring people to share!  *
+ *                                                                        *
+ * TYPO3 is free software; you can redistribute it and/or modify it under *
+ * the terms of the GNU General Public License version 2 as published by  *
+ * the Free Software Foundation.                                          *
+ *                                                                        *
+ * This script is distributed in the hope that it will be useful, but     *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+ * Public License for more details.                                       *
+ *                                                                        */
 
 /**
  * Validates that up to x files get uploaded via the specified upload field.
@@ -31,9 +32,9 @@ class FileMaxCount extends AbstractErrorCheck
 
         $files = $this->globals->getSession()->get('files');
         $settings = $this->globals->getSession()->get('settings');
-        $currentStep = intval($this->globals->getSession()->get('currentStep'));
-        $lastStep = intval($this->globals->getSession()->get('lastStep'));
-        $maxCount = intval($this->utilityFuncs->getSingle($this->settings['params'], 'maxCount'));
+        $currentStep = (int)($this->globals->getSession()->get('currentStep'));
+        $lastStep = (int)($this->globals->getSession()->get('lastStep'));
+        $maxCount = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'maxCount'));
 
         $uploadedFilesWithSameNameAction = $this->utilityFuncs->getSingle($settings['files.'], 'uploadedFilesWithSameName');
         if (!$uploadedFilesWithSameNameAction) {

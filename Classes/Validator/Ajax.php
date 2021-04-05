@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Validator;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -14,8 +16,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-/**
- */
+
 class Ajax extends AbstractValidator
 {
 

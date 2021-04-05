@@ -1,9 +1,11 @@
 <?php
+
 namespace Typoheads\Formhandler\View;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -87,11 +89,11 @@ class Form extends AbstractView
         $this->substituteConditionalSubparts('has_translation');
         if (!$this->gp['submitted']) {
             $this->storeStartEndBlock();
-        } elseif (intval($this->globals->getSession()->get('currentStep')) !== 1) {
+        } elseif ((int)($this->globals->getSession()->get('currentStep')) !== 1) {
             $this->fillStartEndBlock();
         }
 
-        if (intval($this->settings['fillValueMarkersBeforeLangMarkers']) === 1) {
+        if ((int)($this->settings['fillValueMarkersBeforeLangMarkers']) === 1) {
 
             //fill value_[fieldname] markers
             $this->fillValueMarkers();
@@ -109,7 +111,7 @@ class Form extends AbstractView
         //fill default markers
         $this->fillDefaultMarkers();
 
-        if (intval($this->settings['fillValueMarkersBeforeLangMarkers']) !== 1) {
+        if ((int)($this->settings['fillValueMarkersBeforeLangMarkers']) !== 1) {
 
             //fill value_[fieldname] markers
             $this->fillValueMarkers();
@@ -140,7 +142,7 @@ class Form extends AbstractView
         if (is_array($this->settings['stdWrap.'])) {
             $content = $this->cObj->stdWrap($content, $this->settings['stdWrap.']);
         }
-        if (intval($this->settings['disableWrapInBaseClass']) !== 1) {
+        if ((int)($this->settings['disableWrapInBaseClass']) !== 1) {
             $content = $this->pi_wrapInBaseClass($content);
         }
         return $content;
@@ -473,8 +475,8 @@ class Form extends AbstractView
         }
 
         if (is_array($this->settings['session.'])
-            && intval($this->utilityFuncs->getSingle($this->settings['session.']['config.'], 'disableCookies')) === 1
-            && intval(ini_get('session.use_trans_sid')) === 0
+            && (int)($this->utilityFuncs->getSingle($this->settings['session.']['config.'], 'disableCookies')) === 1
+            && (int)(ini_get('session.use_trans_sid')) === 0
         ) {
 
             /*
@@ -576,7 +578,7 @@ class Form extends AbstractView
 
         preg_match_all('/###submit_step_([^#])+?###/Ssm', $this->template, $allJumpToStepSubmits);
         foreach ($allJumpToStepSubmits[0] as $idx => $allJumpToStepSubmit) {
-            $step = intval($allJumpToStepSubmits[1][$idx]);
+            $step = (int)($allJumpToStepSubmits[1][$idx]);
             $action = 'next';
             if ($step < $this->currentStep) {
                 $action = 'prev';
@@ -722,9 +724,9 @@ class Form extends AbstractView
 
         //parse validation settings
         if (is_array($settings['validators.'])) {
-            if (intval($this->utilityFuncs->getSingle($settings['validators.'], 'disable')) === 0) {
+            if ((int)($this->utilityFuncs->getSingle($settings['validators.'], 'disable')) === 0) {
                 foreach ($settings['validators.'] as $key => $validatorSettings) {
-                    if (intval($this->utilityFuncs->getSingle($validatorSettings, 'disable')) === 0) {
+                    if ((int)($this->utilityFuncs->getSingle($validatorSettings, 'disable')) === 0) {
                         $disableErrorCheckFields = [];
                         if (is_array($validatorSettings['config.']) && isset($validatorSettings['config.']['disableErrorCheckFields'])) {
                             $disableErrorCheckFields = GeneralUtility::trimExplode(',', $validatorSettings['config.']['disableErrorCheckFields']);
@@ -771,7 +773,7 @@ class Form extends AbstractView
                                                 $totalSize = 0;
                                                 if (is_array($sessionFiles[$replacedFieldname])) {
                                                     foreach ($sessionFiles[$replacedFieldname] as $file) {
-                                                        $totalSize += intval($file['size']);
+                                                        $totalSize += (int)($file['size']);
                                                     }
                                                 }
                                                 $markers['###' . $replacedFieldname . '_currentTotalSize###'] = GeneralUtility::formatSize($totalSize, ' Bytes| KB| MB| GB');
@@ -802,7 +804,7 @@ class Form extends AbstractView
                 foreach ($files as $idx => $fileInfo) {
                     $filename = $fileInfo['name'];
                     $thumb = '';
-                    if (intval($settings['singleFileMarkerTemplate.']['showThumbnails']) === 1 || intval($settings['singleFileMarkerTemplate.']['showThumbnails']) === 2) {
+                    if ((int)($settings['singleFileMarkerTemplate.']['showThumbnails']) === 1 || (int)($settings['singleFileMarkerTemplate.']['showThumbnails']) === 2) {
                         $imgConf['image.'] = $settings['singleFileMarkerTemplate.']['image.'];
                         $thumb = $this->getThumbnail($imgConf, $fileInfo);
                     }
@@ -848,14 +850,14 @@ class Form extends AbstractView
                     $wrappedFilename = $this->utilityFuncs->wrap($stdWrappedFilename . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
                     $wrappedThumb = $this->utilityFuncs->wrap($thumb . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
                     $wrappedThumbFilename = $this->utilityFuncs->wrap($thumb . ' ' . $stdWrappedFilename . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
-                    if (intval($settings['singleFileMarkerTemplate.']['showThumbnails']) === 1) {
+                    if ((int)($settings['singleFileMarkerTemplate.']['showThumbnails']) === 1) {
                         $markers['###' . $field . '_uploadedFiles###'] .= $wrappedThumb;
-                    } elseif (intval($settings['singleFileMarkerTemplate.']['showThumbnails']) === 2) {
+                    } elseif ((int)($settings['singleFileMarkerTemplate.']['showThumbnails']) === 2) {
                         $markers['###' . $field . '_uploadedFiles###'] .= $wrappedThumbFilename;
                     } else {
                         $markers['###' . $field . '_uploadedFiles###'] .= $wrappedFilename;
                     }
-                    if (intval($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 1 || intval($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 2) {
+                    if ((int)($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 1 || (int)($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 2) {
                         $imgConf['image.'] = $settings['totalFilesMarkerTemplate.']['image.'];
                         if (!$imgConf['image.']) {
                             $imgConf['image.'] = $settings['singleFileMarkerTemplate.']['image.'];
@@ -868,9 +870,9 @@ class Form extends AbstractView
                     $wrappedThumb = $this->utilityFuncs->wrap($thumb . $link, $settings['totalFilesMarkerTemplate.'], 'singleWrap');
                     $wrappedThumbFilename = $this->utilityFuncs->wrap($thumb . ' ' . $stdWrappedFilename . $link, $settings['totalFilesMarkerTemplate.'], 'singleWrap');
 
-                    if (intval($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 1) {
+                    if ((int)($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 1) {
                         $markers['###total_uploadedFiles###'] .= $wrappedThumb;
-                    } elseif (intval($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 2) {
+                    } elseif ((int)($settings['totalFilesMarkerTemplate.']['showThumbnails']) === 2) {
                         $markers['###total_uploadedFiles###'] .= $wrappedThumbFilename;
                     } else {
                         $markers['###total_uploadedFiles###'] .= $wrappedFilename;
