@@ -31,6 +31,16 @@ parameters:
 			path: Classes/Controller/ModuleController.php
 
 		-
+			message: "#^Call to an undefined static method TYPO3\\\\CMS\\\\Core\\\\Utility\\\\GeneralUtility\\:\\:devLog\\(\\)\\.$#"
+			count: 1
+			path: Classes/Debugger/DevLog.php
+
+		-
+			message: "#^Undefined variable\\: \\$severity$#"
+			count: 1
+			path: Classes/Debugger/DevLog.php
+
+		-
 			message: "#^Variable \\$fieldValue might not be defined\\.$#"
 			count: 2
 			path: Classes/Finisher/DB.php
@@ -166,6 +176,11 @@ parameters:
 			path: Classes/Interceptor/IPBlocking.php
 
 		-
+			message: "#^Regex pattern is invalid\\: The /e modifier is no longer supported, use preg_replace_callback instead in pattern\\: \\#\\^\\(\\[\\-\\]\\*\\[0\\-9\\\\\\.,' \\]\\+\\?\\)\\(\\(\\\\\\.\\|,\\)\\{1\\}\\(\\[0\\-9\\-\\]\\{1,2\\}\\)\\)\\*\\$\\#e$#"
+			count: 1
+			path: Classes/Interceptor/ParseValues.php
+
+		-
 			message: "#^Access to an undefined property Typoheads\\\\Formhandler\\\\Interceptor\\\\RemoveXSS\\:\\:\\$removeChars\\.$#"
 			count: 2
 			path: Classes/Interceptor/RemoveXSS.php
@@ -184,6 +199,11 @@ parameters:
 			message: "#^Access to an undefined property Typoheads\\\\Formhandler\\\\Interceptor\\\\TranslateFields\\:\\:\\$langFiles\\.$#"
 			count: 2
 			path: Classes/Interceptor/TranslateFields.php
+
+		-
+			message: "#^Call to an undefined static method TYPO3\\\\CMS\\\\Core\\\\Utility\\\\GeneralUtility\\:\\:devLog\\(\\)\\.$#"
+			count: 1
+			path: Classes/Logger/DevLog.php
 
 		-
 			message: "#^Call to static method newInstance\\(\\) on an unknown class Swift_MimePart\\.$#"
@@ -218,6 +238,11 @@ parameters:
 		-
 			message: "#^Variable \\$timestamp might not be defined\\.$#"
 			count: 1
+			path: Classes/Utility/GeneralUtility.php
+
+		-
+			message: "#^Call to an undefined static method TYPO3\\\\CMS\\\\Core\\\\Utility\\\\ExtensionManagementUtility\\:\\:extRelPath\\(\\)\\.$#"
+			count: 2
 			path: Classes/Utility/GeneralUtility.php
 
 		-
