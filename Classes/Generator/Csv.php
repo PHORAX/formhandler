@@ -43,10 +43,8 @@ class Csv extends AbstractGenerator
             $value = str_replace('"', '""', $value);
         }
 
-        // create new parseCSV object.
-        $csv = new \parseCSV();
+        $csv = new \ParseCsv\Csv();
 
-        //parseCSV expects data to be a two dimensional array
         $data = [$params];
 
         $fields = false;

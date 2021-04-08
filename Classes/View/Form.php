@@ -2,6 +2,7 @@
 
 namespace Typoheads\Formhandler\View;
 
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -622,36 +623,10 @@ class Form extends AbstractView
      */
     protected function fillCaptchaMarkers(&$markers)
     {
-        if (stristr($this->template, '###CAPTCHA###') && ExtensionManagementUtility::isLoaded('captcha')) {
-            $markers['###CAPTCHA###'] = \ThinkopenAt\Captcha\Utility::makeCaptcha();
-            $markers['###captcha###'] = $markers['###CAPTCHA###'];
-        }
         if (stristr($this->template, '###SR_FREECAP_IMAGE###') && ExtensionManagementUtility::isLoaded('sr_freecap')) {
             require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
             $this->freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
             $markers = array_merge($markers, $this->freeCap->makeCaptcha());
-        }
-        if (stristr($this->template, '###RECAPTCHA###') && ExtensionManagementUtility::isLoaded('jm_recaptcha')) {
-            require_once(ExtensionManagementUtility::extPath('jm_recaptcha') . 'class.tx_jmrecaptcha.php');
-            $this->recaptcha = new \tx_jmrecaptcha();
-            $markers['###RECAPTCHA###'] = $this->recaptcha->getReCaptcha();
-            $markers['###recaptcha###'] = $markers['###RECAPTCHA###'];
-        }
-
-        if (stristr($this->template, '###WT_CALCULATING_CAPTCHA###') && ExtensionManagementUtility::isLoaded('wt_calculating_captcha')) {
-            require_once(ExtensionManagementUtility::extPath('wt_calculating_captcha') . 'class.tx_wtcalculatingcaptcha.php');
-
-            $captcha = GeneralUtility::makeInstance('tx_wtcalculatingcaptcha');
-            $markers['###WT_CALCULATING_CAPTCHA###'] = $captcha->generateCaptcha();
-            $markers['###wt_calculating_captcha###'] = $markers['###WT_CALCULATING_CAPTCHA###'];
-        }
-
-        if (stristr($this->template, '###MATHGUARD###') && ExtensionManagementUtility::isLoaded('mathguard')) {
-            require_once(ExtensionManagementUtility::extPath('mathguard') . 'class.tx_mathguard.php');
-
-            $captcha = GeneralUtility::makeInstance('tx_mathguard');
-            $markers['###MATHGUARD###'] = $captcha->getCaptcha();
-            $markers['###mathguard###'] = $markers['###MATHGUARD###'];
         }
     }
 
@@ -781,10 +756,7 @@ class Form extends AbstractView
                                                 break;
                                             case 'required':
                                             case 'fileRequired':
-                                            case 'jmRecaptcha':
-                                            case 'captcha':
                                             case 'srFreecap':
-                                            case 'mathGuard':
                                                 if (!in_array('all', $disableErrorCheckFields) && !in_array($replacedFieldname, $disableErrorCheckFields)) {
                                                     $markers['###required_' . $replacedFieldname . '###'] = $requiredSign;
                                                     $markers['###requiredMarker_' . $replacedFieldname . '###'] = $requiredMarker;
@@ -1276,12 +1248,35 @@ class Form extends AbstractView
         //add default css to page
         if ($this->settings['useDefaultStepBarStyles']) {
             $css = implode("\n", $css);
-            $css = TSpagegen::inline2TempFile($css, 'css');
+            $css = self::inline2TempFile($css, 'css');
             if (version_compare(GeneralUtility::makeInstance(Typo3Version::class)->getVersion(), '4.3.0') >= 0) {
                 $css = '<link rel="stylesheet" type="text/css" href="' . htmlspecialchars($css) . '" />';
             }
             $GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_' . $classprefix] .= $css;
         }
         return $content;
+    }
+
+    private static function inline2TempFile($str, $ext): string
+    {
+        // Create filename / tags:
+        $script = '';
+        switch ($ext) {
+            case 'js':
+                $script = 'typo3temp/javascript_' . substr(md5($str), 0, 10) . '.js';
+                break;
+            case 'css':
+                $script = 'typo3temp/stylesheet_' . substr(md5($str), 0, 10) . '.css';
+                break;
+        }
+
+        // Write file:
+        if ($script) {
+            if (! @is_file(Environment::getPublicPath() . '/' . $script)) {
+                GeneralUtility::writeFile(Environment::getPublicPath() . '/' . $script, $str);
+            }
+        }
+
+        return $script;
     }
 }

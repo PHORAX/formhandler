@@ -5,11 +5,10 @@ declare(strict_types=1);
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\PostRector\Rector\NameImportingPostRector;
-use Ssch\TYPO3Rector\Configuration\Typo3Option;
-use Ssch\TYPO3Rector\Rector\Composer\ExtensionComposerRector;
-use Ssch\TYPO3Rector\Rector\v9\v0\InjectAnnotationRector;
-use Ssch\TYPO3Rector\Set\Typo3SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Ssch\TYPO3Rector\Set\Typo3SetList;
+use Ssch\TYPO3Rector\Configuration\Typo3Option;
+use Ssch\TYPO3Rector\Rector\v9\v0\InjectAnnotationRector;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     // get parameters
@@ -21,7 +20,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         Typo3SetList::TYPO3_87,
         Typo3SetList::TYPO3_95,
         Typo3SetList::TYPO3_104,
-        // Typo3SetList::TYPO3_11,
     ]);
 
     // FQN classes are not imported by default. If you don't do it manually after every Rector run, enable it by:
@@ -39,31 +37,20 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // If you would like to see the changelog url when a rector is applied
     $parameters->set(Typo3Option::OUTPUT_CHANGELOG, true);
 
-    $parameters->set(Option::PATHS, [
-        __DIR__ . '/Configuration',
-        __DIR__ . '/pi1',
-        __DIR__ . '/ext_emconf.php',
-        __DIR__ . '/ext_localconf.php',
-        __DIR__ . '/ext_tables.php',
-        __DIR__ . '/ext_tables.php',
-    ]);
     // If you set option Option::AUTO_IMPORT_NAMES to true, you should consider excluding some TYPO3 files.
     // If you use the option --config change __DIR__ to getcwd()
     $parameters->set(Option::SKIP, [
         NameImportingPostRector::class => [
-            __DIR__ . '/**/Configuration/AjaxRoutes.php',
-            __DIR__ . '/**/Configuration/Commands.php',
-            __DIR__ . '/**/Configuration/Extbase/Persistence/Classes.php',
-            __DIR__ . '/**/Configuration/RequestMiddlewares.php',
+            'ClassAliasMap.php',
+            'ext_localconf.php',
+            'ext_emconf.php',
+            'ext_tables.php',
             __DIR__ . '/**/TCA/*',
-            __DIR__ . '/ClassAliasMap.php',
-            __DIR__ . '/Configuration/Extbase/Persistence/Classes.php',
-            __DIR__ . '/Configuration/TCA/*',
-            __DIR__ . '/Configuration/TCA/*',
-            __DIR__ . '/ext_emconf.php',
-            __DIR__ . '/ext_localconf.php',
-            __DIR__ . '/ext_tables.php'
-        ]
+            __DIR__ . '/**/Configuration/RequestMiddlewares.php',
+            __DIR__ . '/**/Configuration/Commands.php',
+            __DIR__ . '/**/Configuration/AjaxRoutes.php',
+            __DIR__ . '/**/Configuration/Extbase/Persistence/Classes.php',
+        ],
     ]);
 
     // If you have trouble that rector cannot run because some TYPO3 constants are not defined add an additional constants file
@@ -73,8 +60,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // ]);
 
     // get services (needed for register a single rule)
-    $services = $containerConfigurator->services();
+    // $services = $containerConfigurator->services();
 
     // register a single rule
-    $services->set(ExtensionComposerRector::class);
+    // $services->set(InjectAnnotationRector::class);
 };
