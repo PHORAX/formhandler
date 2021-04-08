@@ -231,11 +231,6 @@ parameters:
 			path: Classes/Utility/GeneralUtility.php
 
 		-
-			message: "#^Call to an undefined static method TYPO3\\\\CMS\\\\Core\\\\Utility\\\\ExtensionManagementUtility\\:\\:extRelPath\\(\\)\\.$#"
-			count: 2
-			path: Classes/Utility/GeneralUtility.php
-
-		-
 			message: "#^Undefined variable\\: \\$field$#"
 			count: 1
 			path: Classes/Utility/GeneralUtility.php
