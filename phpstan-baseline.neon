@@ -331,11 +331,6 @@ parameters:
 			path: Classes/View/Form.php
 
 		-
-			message: "#^Call to static method inline2TempFile\\(\\) on an unknown class Typoheads\\\\Formhandler\\\\View\\\\TSpagegen\\.$#"
-			count: 1
-			path: Classes/View/Form.php
-
-		-
 			message: "#^Access to an undefined property Typoheads\\\\Formhandler\\\\View\\\\Mail\\:\\:\\$settings\\.$#"
 			count: 4
 			path: Classes/View/Mail.php
