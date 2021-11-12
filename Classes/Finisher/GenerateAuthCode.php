@@ -3,6 +3,7 @@
 namespace Typoheads\Formhandler\Finisher;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /*                                                                        *
@@ -60,13 +61,19 @@ class GenerateAuthCode extends AbstractFinisher
         $uidField = $firstInsertInfo['uidField'] ?: 'uid';
 
         if ($table && $uid) {
-            $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+            $queryBuilder->getRestrictions()
+                ->removeAll()
+                ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 
             $selectFields = '*';
             if ($this->settings['selectFields']) {
                 $selectFields = $this->utilityFuncs->getSingle($this->settings, 'selectFields');
             }
-            $row = $conn->select(explode(',', $selectFields), $table, [$uidField => $uid])->fetch();
+            $queryBuilder->select($selectFields)
+                ->from($table)
+                ->where($queryBuilder->expr()->eq($uidField, $queryBuilder->createNamedParameter($uid)));
+            $row = $queryBuilder->execute()->fetchAssociative();
             if (!empty($row)) {
                 $authCode = $this->generateAuthCode($row);
                 $this->gp['generated_authCode'] = $authCode;
@@ -103,7 +110,6 @@ class GenerateAuthCode extends AbstractFinisher
                 if (!empty($formValuesPrefix)) {
                     $paramsArray = [$formValuesPrefix => $paramsArray];
                 }
-                $paramsArray['no_cache'] = 1;
 
                 $linkConf = [
                     'parameter' => $authCodePage,
