@@ -5,12 +5,12 @@ if (!defined('TYPO3_MODE')) {
 
 if (TYPO3_MODE === 'BE') {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'Typoheads.formhandler',
+        'Formhandler',
         'web',
         'log',
         'bottom',
         [
-            'Module' => 'index, view, selectFields, export'
+            \Typoheads\Formhandler\Controller\ModuleController::class => 'index, view, selectFields, export'
         ],
         [
             'access' => 'user,group',

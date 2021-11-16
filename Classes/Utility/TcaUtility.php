@@ -1,6 +1,9 @@
 <?php
 namespace Typoheads\Formhandler\Utility;
 
+use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /***************************************************************
      *  Copyright notice
      *
@@ -44,7 +47,7 @@ class TcaUtility
 			onchange="' . htmlspecialchars(implode('', $PA['fieldChangeFunc'])) . '"
 			' . $PA['onFocus'] . '/>
 		';
-        $output .= \TYPO3\CMS\Core\Utility\DebugUtility::viewArray($params);
+        $output .= DebugUtility::viewArray($params);
         return $output;
     }
 
@@ -83,7 +86,7 @@ class TcaUtility
         $js .= "var uid = '" . $uid . "'\n";
         $js .= "var flexformBoxId = '" . $divId . "'\n";
         $js .= 'var newRecord = ' . $newRecord . "\n";
-        $js .= file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/JavaScript/addFields_predefinedJS.js');
+        $js .= file_get_contents(ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/JavaScript/addFields_predefinedJS.js');
         $js .= "/*]]>*/\n";
         $js .= "</script>\n";
         return $js;
@@ -104,7 +107,7 @@ class TcaUtility
 
             //Formhandler inserted after existing content element
             if (intval($pid) < 0) {
-                $conn = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ConnectionPool::class)
+                $conn = GeneralUtility::makeInstance(ConnectionPool::class)
                     ->getConnectionForTable('tt_content');
                 $pid = $conn->select(['pid'], 'tt_content', ['uid' => abs($pid)])->fetchColumn(0);
             }
@@ -112,7 +115,7 @@ class TcaUtility
 
         $contentUid = $config['row']['uid'] ?: 0;
         if (!$pid) {
-            $conn = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ConnectionPool::class)
+            $conn = GeneralUtility::makeInstance(ConnectionPool::class)
                 ->getConnectionForTable('tt_content');
             $row = $conn->select(['pid'], 'tt_content', ['uid' => $contentUid])->fetch();
             if ($row) {
@@ -174,8 +177,8 @@ class TcaUtility
      */
     public function loadTS($pageUid)
     {
-        $rootLine = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
-        $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ExtendedTemplateService::class);
+        $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
+        $TSObj = GeneralUtility::makeInstance(ExtendedTemplateService::class);
         $TSObj->tt_track = false;
         $TSObj->runThroughTemplates($rootLine);
         $TSObj->generateConfig();

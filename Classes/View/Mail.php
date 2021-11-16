@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\View;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -13,7 +14,6 @@ namespace Typoheads\Formhandler\View;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-
 /**
  * A default view for Formhandler E-Mails
  */
@@ -101,7 +101,7 @@ class Mail extends Form
         $componentSettings = $this->getComponentSettings();
         $checkBinaryCrLf = $componentSettings['checkBinaryCrLf'];
         if (strlen($checkBinaryCrLf) > 0) {
-            $paramsToCheck = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $checkBinaryCrLf);
+            $paramsToCheck = GeneralUtility::trimExplode(',', $checkBinaryCrLf);
             foreach ($markers as $markerName => &$value) {
                 $fieldName = str_replace(['value_', 'VALUE_', '###'], '', $markerName);
                 if (in_array($fieldName, $paramsToCheck)) {

@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Generator;
 
+use Typoheads\Formhandler\Component\AbstractComponent;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -13,12 +14,11 @@ namespace Typoheads\Formhandler\Generator;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-
 /**
  * Class to generate PDF files in Backend
  * @uses Tx_Formhandler_Template_TCPDF
  */
-class BackendTcPdf extends \Typoheads\Formhandler\Component\AbstractComponent
+class BackendTcPdf extends AbstractComponent
 {
 
     /**
