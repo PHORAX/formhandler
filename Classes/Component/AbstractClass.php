@@ -1,9 +1,11 @@
 <?php
+
 namespace Typoheads\Formhandler\Component;
 
 use Typoheads\Formhandler\Controller\Configuration;
-use Typoheads\Formhandler\Utility\Globals;
 use Typoheads\Formhandler\Utility\GeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
+
 /*                                                                       *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -58,6 +60,16 @@ abstract class AbstractClass
      * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
     protected $cObj;
+
+    /**
+     * @var array
+     */
+    protected $settings;
+
+    /**
+     * @var array
+     */
+    protected $validationStatusClasses;
 
     /**
      * The constructor for an interceptor setting the component manager and the configuration.

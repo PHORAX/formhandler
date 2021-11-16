@@ -1,18 +1,6 @@
 <?php
-namespace Typoheads\Formhandler\Finisher;
 
-/*                                                                        *
-     * This script is part of the TYPO3 project - inspiring people to share!  *
-     *                                                                        *
-     * TYPO3 is free software; you can redistribute it and/or modify it under *
-     * the terms of the GNU General Public License version 2 as published by  *
-     * the Free Software Foundation.                                          *
-     *                                                                        *
-     * This script is distributed in the hope that it will be useful, but     *
-     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
-     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
-     * Public License for more details.                                       *
-     *                                                                        */
+namespace Typoheads\Formhandler\Finisher;
 
 use Doctrine\DBAL\Connection;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
@@ -20,6 +8,18 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/*                                                                        *
+ * This script is part of the TYPO3 project - inspiring people to share!  *
+ *                                                                        *
+ * TYPO3 is free software; you can redistribute it and/or modify it under *
+ * the terms of the GNU General Public License version 2 as published by  *
+ * the Free Software Foundation.                                          *
+ *                                                                        *
+ * This script is distributed in the hope that it will be useful, but     *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+ * Public License for more details.                                       *
+ *                                                                        */
 /**
  * This finisher stores the submitted values into a table in the TYPO3 database according to the configuration
  *
@@ -272,7 +272,7 @@ class DB extends AbstractFinisher
 
         //check whether to update or to insert a record
         $this->doUpdate = false;
-        if (intval($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert')) === 1) {
+        if ((int)($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert')) === 1) {
 
             //check if uid of record to update is in GP
             $uid = $this->getUpdateUid();
@@ -281,7 +281,7 @@ class DB extends AbstractFinisher
             $recordExists = $this->doesRecordExist($uid, $andWhere);
             if ($recordExists) {
                 $this->doUpdate = true;
-            } elseif (intval($this->utilityFuncs->getSingle($this->settings, 'insertIfNoUpdatePossible')) !== 1) {
+            } elseif ((int)($this->utilityFuncs->getSingle($this->settings, 'insertIfNoUpdatePossible')) !== 1) {
                 $this->utilityFuncs->debugMessage('no_update_possible', [], 2);
             }
         }
@@ -330,7 +330,7 @@ class DB extends AbstractFinisher
                         $fieldValue = $this->utilityFuncs->getSingle($options, 'ifIsEmpty');
                     }
 
-                    if (intval($this->utilityFuncs->getSingle($options, 'zeroIfEmpty')) === 1 && strlen($fieldValue) === 0) {
+                    if ((int)($this->utilityFuncs->getSingle($options, 'zeroIfEmpty')) === 1 && strlen($fieldValue) === 0) {
                         $fieldValue = 0;
                     }
 
@@ -457,7 +457,7 @@ class DB extends AbstractFinisher
 
             $queryFields[$fieldname] = $fieldValue;
 
-            if (intval($this->utilityFuncs->getSingle($options, 'nullIfEmpty')) === 1 && strlen($queryFields[$fieldname]) == 0) {
+            if ((int)($this->utilityFuncs->getSingle($options, 'nullIfEmpty')) === 1 && strlen($queryFields[$fieldname]) == 0) {
                 unset($queryFields[$fieldname]);
             }
         }
@@ -494,7 +494,7 @@ class DB extends AbstractFinisher
     protected function getUpdateUid()
     {
         $uid = $this->utilityFuncs->getSingle($this->settings, 'key_value');
-        $disableFallback = (intval($this->utilityFuncs->getSingle($this->settings, 'disableUpdateUidFallback')) === 1);
+        $disableFallback = ((int)($this->utilityFuncs->getSingle($this->settings, 'disableUpdateUidFallback')) === 1);
         if (!$disableFallback) {
             if (!$uid) {
                 $uid = $this->gp[$this->key];

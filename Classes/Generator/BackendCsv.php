@@ -1,7 +1,10 @@
 <?php
+
 namespace Typoheads\Formhandler\Generator;
 
+use ParseCsv\Csv;
 use Typoheads\Formhandler\Component\AbstractComponent;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -118,7 +121,7 @@ class BackendCsv extends AbstractComponent
         $data = $dataSorted;
 
         // create new parseCSV object.
-        $csv = new \parseCSV(null, null, null, []);
+        $csv = new Csv(null, null, null, []);
         $csv->delimiter = $csv->output_delimiter = $this->settings['delimiter'];
         $csv->enclosure = $this->settings['enclosure'];
         $csv->input_encoding = strtolower($this->getInputCharset());

@@ -1,9 +1,16 @@
 <?php
+
 namespace Typoheads\Formhandler\Utility;
 
-use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Crypto\Random;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -16,12 +23,6 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-use TYPO3\CMS\Core\Crypto\Random;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
-
 /**
  * A class providing helper functions for Formhandler
  */
@@ -567,7 +568,7 @@ class GeneralUtility implements SingletonInterface
      */
     public static function debugMessage($key, array $printfArgs = [], $severity = 1, array $data = [])
     {
-        $severity = intval($severity);
+        $severity = (int)$severity;
         $message = self::getDebugMessage($key);
         if (strlen($message) == 0) {
             $message = $key;
@@ -662,7 +663,7 @@ class GeneralUtility implements SingletonInterface
         $path = explode('/', $path);
         if (strpos($path[0], 'EXT') === 0) {
             $parts = explode(':', $path[0]);
-            $path[0] = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($parts[1]));
+            $path[0] = PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath($parts[1]));
         }
         $path = implode('/', $path);
         $path = str_replace('//', '/', $path);
@@ -683,7 +684,7 @@ class GeneralUtility implements SingletonInterface
         $path = explode('/', $path);
         if (strpos($path[0], 'EXT') === 0) {
             $parts = explode(':', $path[0]);
-            $path[0] = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($parts[1]));
+            $path[0] = PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath($parts[1]));
         }
         $path = implode('/', $path);
         $path = str_replace('//', '/', $path);
@@ -833,6 +834,9 @@ class GeneralUtility implements SingletonInterface
         $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pid, 0, true);
         $GLOBALS['TSFE']->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\TemplateService');
         $GLOBALS['TSFE']->tmpl->init();
+
+        // then initialize fe user
+        $GLOBALS['TSFE']->initFEuser();
         $GLOBALS['TSFE']->fe_user->fetchGroupData();
 
         // Get the page
@@ -891,7 +895,7 @@ class GeneralUtility implements SingletonInterface
         $separator = ',';
 
         $usePregReplace = self::getSingle($settings['files.'], 'usePregReplace');
-        if (intval($usePregReplace) === 1) {
+        if ((int)$usePregReplace === 1) {
             $search = ['/ /', '/%20/'];
         }
 
@@ -912,7 +916,7 @@ class GeneralUtility implements SingletonInterface
         }
 
         $usePregReplace = self::getSingle($settings['files.'], 'usePregReplace');
-        if (intval($usePregReplace) === 1) {
+        if ((int)$usePregReplace === 1) {
             $fileName = preg_replace($search, $replace, $fileName);
         } else {
             $fileName = str_replace($search, $replace, $fileName);
@@ -1159,25 +1163,25 @@ class GeneralUtility implements SingletonInterface
             case '>':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) > floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value > (float)(self::parseOperand($valueConditions[2], $gp));
                 }
                 break;
             case '<':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) < floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value < (float)(self::parseOperand($valueConditions[2], $gp));
                 }
                 break;
             case '>=':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) >= floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value >= (float)(self::parseOperand($valueConditions[2], $gp));
                 }
                 break;
             case '<=':
                 $value = self::getGlobal($fieldName, $gp);
                 if (is_numeric($value)) {
-                    $conditionResult = floatval($value) <= floatval(self::parseOperand($valueConditions[2], $gp));
+                    $conditionResult = (float)$value <= (float)(self::parseOperand($valueConditions[2], $gp));
                 }
                 break;
             default:

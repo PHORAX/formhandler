@@ -1,8 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Domain\Model;
 
-use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -23,7 +24,7 @@ class LogData extends AbstractEntity
 
     /**
      * @var int
-     * @Extbase\Validate("TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator")
+     * @TYPO3\CMS\Extbase\Annotation\Validate(validator="TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator")
      */
     protected $crdate = 0;
 
@@ -34,7 +35,7 @@ class LogData extends AbstractEntity
 
     /**
      * @var string
-     * @Extbase\Validate("TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator")
+     * @TYPO3\CMS\Extbase\Annotation\Validate(validator="TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator")
      */
     protected $params = '';
 
@@ -50,7 +51,7 @@ class LogData extends AbstractEntity
 
     public function setCrdate($crdate)
     {
-        $this->crdate = intval($crdate);
+        $this->crdate = (int)$crdate;
     }
 
     public function getIp()

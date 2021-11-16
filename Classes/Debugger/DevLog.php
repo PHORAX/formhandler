@@ -1,9 +1,10 @@
 <?php
+
 namespace Typoheads\Formhandler\Debugger;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogManager;
-use TYPO3\CMS\Core\Log\LogLevel;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -34,7 +35,7 @@ class DevLog extends AbstractDebugger
                 if (is_array($messageData['data'])) {
                     $data = $messageData['data'];
                 }
-                GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->log(LogLevel::INFO, $message, $data);
+                GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->debug($message, $data);
             }
         }
     }

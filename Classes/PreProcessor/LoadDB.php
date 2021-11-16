@@ -1,23 +1,23 @@
 <?php
+
 namespace Typoheads\Formhandler\PreProcessor;
 
 use TYPO3\CMS\Core\Core\Environment;
-/*                                                                        *
-     * This script is part of the TYPO3 project - inspiring people to share!  *
-     *                                                                        *
-     * TYPO3 is free software; you can redistribute it and/or modify it under *
-     * the terms of the GNU General Public License version 2 as published by  *
-     * the Free Software Foundation.                                          *
-     *                                                                        *
-     * This script is distributed in the hope that it will be useful, but     *
-     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
-     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
-     * Public License for more details.                                       *
-     *                                                                        */
-
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/*                                                                        *
+ * This script is part of the TYPO3 project - inspiring people to share!  *
+ *                                                                        *
+ * TYPO3 is free software; you can redistribute it and/or modify it under *
+ * the terms of the GNU General Public License version 2 as published by  *
+ * the Free Software Foundation.                                          *
+ *                                                                        *
+ * This script is distributed in the hope that it will be useful, but     *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+ * Public License for more details.                                       *
+ *                                                                        */
 /**
  * This PreProcessor adds the posibility to load default values from database.
  * Values for the first step are loaded to $gp values of other steps are stored
@@ -77,7 +77,7 @@ class LoadDB extends AbstractPreProcessor
             $step = preg_replace('/\.$/', '', $step);
 
             if ($step !== 'select') {
-                if (intval($step) === 1) {
+                if ((int)$step === 1) {
                     $this->loadDBToGP($stepSettings);
                 } elseif (is_numeric($step)) {
                     $this->loadDBToSession($stepSettings, $step);

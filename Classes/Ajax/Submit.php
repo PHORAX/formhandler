@@ -1,7 +1,13 @@
 <?php
+
 namespace Typoheads\Formhandler\Ajax;
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Utility\Globals;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -14,11 +20,6 @@ use Typoheads\Formhandler\Component\Manager;
 * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
 * Public License for more details.                                       *
 *                                                                        */
-
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * A class calling the controller and returning the form content as JSON. This class is called via AJAX.

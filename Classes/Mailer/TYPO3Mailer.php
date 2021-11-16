@@ -1,10 +1,12 @@
 <?php
+
 namespace Typoheads\Formhandler\Mailer;
 
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Controller\Configuration;
-use Typoheads\Formhandler\Utility\Globals;
 use Typoheads\Formhandler\Utility\GeneralUtility;
+use Typoheads\Formhandler\Utility\Globals;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -17,9 +19,7 @@ use Typoheads\Formhandler\Utility\GeneralUtility;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-/**
- *
- */
+
 class TYPO3Mailer extends AbstractMailer implements MailerInterface
 {
 
@@ -185,7 +185,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function addAttachment($value)
     {
-        $this->emailObj->attachFromPath($value);
+        $this->emailObj->attach(\Swift_Attachment::fromPath($value));
     }
 
     /* (non-PHPdoc)
@@ -274,6 +274,6 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
 
     public function embed($image)
     {
-        return $this->emailObj->embedFromPath($image);
+        return $this->emailObj->embed(\Swift_Image::fromPath($image));
     }
 }

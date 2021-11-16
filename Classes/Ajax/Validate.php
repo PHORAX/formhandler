@@ -1,8 +1,14 @@
 <?php
+
 namespace Typoheads\Formhandler\Ajax;
 
-use Typoheads\Formhandler\Utility\Globals;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Utility\Globals;
+use Typoheads\Formhandler\View\AjaxValidation;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -16,9 +22,6 @@ use Typoheads\Formhandler\Component\Manager;
 * Public License for more details.                                       *
 *
 *                                                                        */
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
-
 /**
  * A class validating a field via AJAX.
  */
@@ -32,6 +35,21 @@ class Validate
         'spanSuccess' => '<span class="success">%s</span>',
         'spanError' => '<span class="error">%s</span>',
     ];
+
+    /**
+     * @var Manager
+     */
+    private $componentManager;
+
+    /**
+     * @var array
+     */
+    private $settings;
+
+    /**
+     * @var int
+     */
+    private $id;
 
     /**
      * Main method of the class.
@@ -61,7 +79,7 @@ class Validate
             if ($valid) {
                 $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'ok');
                 if (strlen($content) === 0) {
-                    $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')). 'Resources/Public/Images/ok.png' . '" />';
+                    $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/ok.png' . '" />';
                 } else {
                     $gp = [
                         $_GET['field'] => $_GET['value']
@@ -73,7 +91,7 @@ class Validate
             } else {
                 $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'notOk');
                 if (strlen($content) === 0) {
-                    $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')). 'Resources/Public/Images/notok.png' . '" />';
+                    $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/notok.png' . '" />';
                 } else {
                     $view = $this->initView($content);
                     $gp = [
@@ -93,9 +111,9 @@ class Validate
     protected function init()
     {
         if (isset($_GET['pid'])) {
-            $this->id = intval($_GET['pid']);
+            $this->id = (int)($_GET['pid']);
         } else {
-            $this->id = intval($_GET['id']);
+            $this->id = (int)($_GET['id']);
         }
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);
         Globals::setAjaxMode(true);
@@ -106,7 +124,7 @@ class Validate
      * Initialize the AJAX validation view.
      *
      * @param string $content The raw content
-     * @return Tx_Formhandler_View_AjaxValidation The view class
+     * @return AjaxValidation The view class
      */
     protected function initView($content)
     {

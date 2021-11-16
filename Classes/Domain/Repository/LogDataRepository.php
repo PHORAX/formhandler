@@ -1,8 +1,10 @@
 <?php
+
 namespace Typoheads\Formhandler\Domain\Repository;
 
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Typoheads\Formhandler\Domain\Model\Demand;
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -46,9 +48,12 @@ class LogDataRepository extends Repository
             $uidConstraints[] = $query->equals('uid', $value);
         }
         return $query->matching(
-            $query->logicalAnd([$query->equals('deleted', 0), $query->logicalOr(
-                $uidConstraints
-            )])
+            $query->logicalAnd(
+                $query->equals('deleted', 0),
+                $query->logicalOr(
+                    $uidConstraints
+                )
+            )
         )->execute();
     }
 

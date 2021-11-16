@@ -1,9 +1,10 @@
 <?php
+
 namespace Typoheads\Formhandler\Generator;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -61,7 +62,7 @@ class WebkitPdf extends AbstractGenerator
      */
     protected function readWebkitPdfConf()
     {
-        $sysPageObj = GeneralUtility::makeInstance(PageRepository::class);
+        $sysPageObj = GeneralUtility::makeInstance('\TYPO3\CMS\Frontend\Page\PageRepository');
 
         if (!$GLOBALS['TSFE']->sys_page) {
             $GLOBALS['TSFE']->sys_page = $sysPageObj;
@@ -84,7 +85,7 @@ class WebkitPdf extends AbstractGenerator
     /* (non-PHPdoc)
      * @see Classes/Generator/Tx_Formhandler_AbstractGenerator#getLink($linkGP)
     */
-    public function getLink($linkGP)
+    public function getLink($linkGP = [])
     {
         $params = $this->getDefaultLinkParams();
         $componentParams = $this->getComponentLinkParams($linkGP);

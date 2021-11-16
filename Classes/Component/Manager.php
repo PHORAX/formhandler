@@ -1,8 +1,12 @@
 <?php
+
 namespace Typoheads\Formhandler\Component;
 
-use Typoheads\Formhandler\Utility\Globals;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use Typoheads\Formhandler\Utility\Globals;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -15,8 +19,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Component Manager originally written for the extension 'gimmefive'.

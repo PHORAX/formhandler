@@ -1,9 +1,11 @@
 <?php
+
 namespace Typoheads\Formhandler\Logger;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Log\LogLevel;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -30,10 +32,10 @@ class DevLog extends AbstractLogger
     public function process()
     {
         $message = 'Form on page ' . $GLOBALS['TSFE']->id . ' was submitted!';
-        $severity = 1;
-        if (intval($this->settings['markAsSpam']) === 1) {
+        $severity = LogLevel::INFO;
+        if ((int)($this->settings['markAsSpam']) === 1) {
             $message = 'Caught possible spamming on page ' . $GLOBALS['TSFE']->id . '!';
-            $severity = 2;
+            $severity = LogLevel::WARNING;
         }
         $logParams = $this->gp;
         if ($this->settings['excludeFields']) {
@@ -43,7 +45,7 @@ class DevLog extends AbstractLogger
                 unset($logParams[$excludeField]);
             }
         }
-        GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->log(LogLevel::INFO, $message, $logParams);
+        GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->log($severity, $message, $logParams);
 
         return $this->gp;
     }

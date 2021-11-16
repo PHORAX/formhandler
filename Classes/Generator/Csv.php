@@ -1,24 +1,21 @@
 <?php
+
 namespace Typoheads\Formhandler\Generator;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /*                                                                        *
-     * This script is part of the TYPO3 project - inspiring people to share!  *
-    *                                                                        *
-    * TYPO3 is free software; you can redistribute it and/or modify it under *
-    * the terms of the GNU General Public License version 2 as published by  *
-    * the Free Software Foundation.                                          *
-    *                                                                        *
-    * This script is distributed in the hope that it will be useful, but     *
-    * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
-    * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
-    * Public License for more details.                                       *
-    *                                                                        */
-
-/**
- * CSV generator class for Formhandler
- */
-require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/PHP/parsecsv.lib.php');
-
+ * This script is part of the TYPO3 project - inspiring people to share!  *
+ *                                                                        *
+ * TYPO3 is free software; you can redistribute it and/or modify it under *
+ * the terms of the GNU General Public License version 2 as published by  *
+ * the Free Software Foundation.                                          *
+ *                                                                        *
+ * This script is distributed in the hope that it will be useful, but     *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+ * Public License for more details.                                       *
+ *                                                                        */
 class Csv extends AbstractGenerator
 {
 
@@ -32,7 +29,7 @@ class Csv extends AbstractGenerator
         $params = $this->gp;
         $exportParams = $this->utilityFuncs->getSingle($this->settings, 'exportParams');
         if (!is_array($exportParams) && strpos($exportParams, ',') !== false) {
-            $exportParams = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $exportParams);
+            $exportParams = GeneralUtility::trimExplode(',', $exportParams);
         }
 
         //build data
@@ -53,7 +50,7 @@ class Csv extends AbstractGenerator
         $data = [$params];
 
         $fields = false;
-        if (intval($this->utilityFuncs->getSingle($this->settings, 'addFieldNames')) === 1) {
+        if ((int)($this->utilityFuncs->getSingle($this->settings, 'addFieldNames')) === 1) {
             $fields = array_keys($params);
             $csv->heading = true;
         }
@@ -79,7 +76,7 @@ class Csv extends AbstractGenerator
         if ($csv->input_encoding !== $csv->output_encoding) {
             $csv->convert_encoding = true;
         }
-        if (intval($this->settings['returnFileName']) === 1 || intval($this->settings['returnGP']) === 1) {
+        if ((int)($this->settings['returnFileName']) === 1 || (int)($this->settings['returnGP']) === 1) {
             $outputPath = $this->utilityFuncs->getDocumentRoot();
             if ($this->settings['customTempOutputPath']) {
                 $outputPath .= $this->settings['customTempOutputPath'];
@@ -89,7 +86,7 @@ class Csv extends AbstractGenerator
             $outputPath = $this->utilityFuncs->sanitizePath($outputPath);
             $filename = $outputPath . $this->settings['filePrefix'] . $this->utilityFuncs->generateHash() . '.csv';
             $csv->save($filename, $data, false, $fields);
-            if (intval($this->settings['returnFileName']) === 1) {
+            if ((int)($this->settings['returnFileName']) === 1) {
                 return $filename;
             }
             if (!is_array($this->gp['generator-csv-generated-files'])) {

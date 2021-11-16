@@ -1,8 +1,11 @@
 <?php
+
 namespace Typoheads\Formhandler\Ajax;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\Globals;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -15,23 +18,60 @@ use Typoheads\Formhandler\Utility\Globals;
 * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
 * Public License for more details.                                       *
 *                                                                        */
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A class removing uploaded files. This class is called via AJAX.
  */
 class RemoveFile
 {
+    /**
+     * @var string
+     */
+    private $fieldName;
+
+    /**
+     * @var string
+     */
+    private $uploadedFileName;
+
+    /**
+     * @var Manager
+     */
+    private $componentManager;
+
+    /**
+     * @var Globals
+     */
+    private $globals;
+
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var \Typoheads\Formhandler\Utility\GeneralUtility
+     */
+    private $utilityFuncs;
+
+    /**
+     * @var array
+     */
+    private $settings;
+
+    /**
+     * @var array
+     */
+    private $langFiles;
 
     /**
      * Main method of the class.
-     *
-     * @return string The HTML list of remaining files to be displayed in the form
      */
     public function main()
     {
         $this->init();
         $content = '';
+        $field = null;
 
         if ($this->fieldName) {
             $sessionFiles = $this->globals->getSession()->get('files');
@@ -72,7 +112,7 @@ class RemoveFile
             $this->globals->getSession()->set('files', $sessionFiles);
 
             // Add the content to or Result Box: #formResult
-            if (is_array($sessionFiles) && !empty($sessionFiles[$field])) {
+            if ($field !== null && is_array($sessionFiles) && !empty($sessionFiles[$field])) {
                 $markers = [];
                 $view = $this->componentManager->getComponent('View\\Form');
                 $view->setSettings($this->settings);
@@ -93,9 +133,9 @@ class RemoveFile
         $this->fieldName = htmlspecialchars($_GET['field']);
         $this->uploadedFileName = htmlspecialchars($_GET['uploadedFileName']);
         if (isset($_GET['pid'])) {
-            $this->id = intval($_GET['pid']);
+            $this->id = (int)($_GET['pid']);
         } else {
-            $this->id = intval($_GET['id']);
+            $this->id = (int)($_GET['id']);
         }
 
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);

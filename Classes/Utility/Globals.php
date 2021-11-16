@@ -1,8 +1,11 @@
 <?php
+
 namespace Typoheads\Formhandler\Utility;
 
+use TYPO3\CMS\Core\SingletonInterface;
+
 /*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
+* This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
 * TYPO3 is free software; you can redistribute it and/or modify it under *
 * the terms of the GNU General Public License version 2 as published by  *
@@ -13,8 +16,6 @@ namespace Typoheads\Formhandler\Utility;
 * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
 * Public License for more details.                                       *
 *                                                                        */
-use TYPO3\CMS\Core\SingletonInterface;
-
 /**
  * A helper class for Formhandler to store global values
  */

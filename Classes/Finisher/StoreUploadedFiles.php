@@ -1,7 +1,9 @@
 <?php
+
 namespace Typoheads\Formhandler\Finisher;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -70,7 +72,7 @@ class StoreUploadedFiles extends AbstractFinisher
     {
         $sessionFiles = $this->globals->getSession()->get('files');
         if (is_array($sessionFiles) && !empty($sessionFiles)) {
-            $disablePathCheck = intval($this->utilityFuncs->getSingle($this->settings, 'disablePathCheck'));
+            $disablePathCheck = (int)($this->utilityFuncs->getSingle($this->settings, 'disablePathCheck'));
             foreach ($sessionFiles as $field => $files) {
                 $this->gp[$field] = [];
                 $uploadPath = $this->getNewFolderPath($field);
@@ -136,7 +138,7 @@ class StoreUploadedFiles extends AbstractFinisher
         $uploadPath = $this->utilityFuncs->getDocumentRoot() . $newFolder;
         $uploadPath = $this->utilityFuncs->sanitizePath($uploadPath);
         if (!file_exists($uploadPath)) {
-            $doCreateNonExistingFolder = intval($this->utilityFuncs->getSingle($this->settings, 'createNonExistingFolder'));
+            $doCreateNonExistingFolder = (int)($this->utilityFuncs->getSingle($this->settings, 'createNonExistingFolder'));
             if (!isset($this->settings['createNonExistingFolder'])) {
                 $doCreateNonExistingFolder = 1;
             }

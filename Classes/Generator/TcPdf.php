@@ -1,19 +1,19 @@
 <?php
+
 namespace Typoheads\Formhandler\Generator;
 
 /*                                                                        *
-     * This script is part of the TYPO3 project - inspiring people to share!  *
-    *                                                                        *
-    * TYPO3 is free software; you can redistribute it and/or modify it under *
-    * the terms of the GNU General Public License version 2 as published by  *
-    * the Free Software Foundation.                                          *
-    *                                                                        *
-    * This script is distributed in the hope that it will be useful, but     *
-    * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
-    * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
-    * Public License for more details.                                       *
-    *                                                                        */
-
+ * This script is part of the TYPO3 project - inspiring people to share!  *
+*                                                                        *
+* TYPO3 is free software; you can redistribute it and/or modify it under *
+* the terms of the GNU General Public License version 2 as published by  *
+* the Free Software Foundation.                                          *
+*                                                                        *
+* This script is distributed in the hope that it will be useful, but     *
+* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+* TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+* Public License for more details.                                       *
+*                                                                        */
 /**
  * PDF generator class for Formhandler using TCPDF
  */
@@ -34,7 +34,7 @@ class TcPdf extends AbstractGenerator
         $this->pdf->SetFont('Helvetica', '', 12);
         $view = $this->componentManager->getComponent('\Typoheads\Formhandler\View\PDF');
         $this->filename = false;
-        if (intval($this->settings['storeInTempFile']) === 1) {
+        if ((int)($this->settings['storeInTempFile']) === 1) {
             $this->outputPath = $this->utilityFuncs->getDocumentRoot();
             if ($this->settings['customTempOutputPath']) {
                 $this->outputPath .= $this->settings['customTempOutputPath'];
