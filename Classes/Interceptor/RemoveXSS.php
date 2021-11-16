@@ -1,19 +1,19 @@
 <?php
 namespace Typoheads\Formhandler\Interceptor;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /*                                                                        *
-     * This script is part of the TYPO3 project - inspiring people to share!  *
-     *                                                                        *
-     * TYPO3 is free software; you can redistribute it and/or modify it under *
-     * the terms of the GNU General Public License version 2 as published by  *
-     * the Free Software Foundation.                                          *
-     *                                                                        *
-     * This script is distributed in the hope that it will be useful, but     *
-     * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
-     * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
-     * Public License for more details.                                       *
-     *                                                                        */
-
+ * This script is part of the TYPO3 project - inspiring people to share!  *
+ *                                                                        *
+ * TYPO3 is free software; you can redistribute it and/or modify it under *
+ * the terms of the GNU General Public License version 2 as published by  *
+ * the Free Software Foundation.                                          *
+ *                                                                        *
+ * This script is distributed in the hope that it will be useful, but     *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+ * Public License for more details.                                       *
+ *                                                                        */
 /**
  * An interceptor doing XSS checking on GET/POST parameters
  */
@@ -48,7 +48,7 @@ class RemoveXSS extends AbstractInterceptor
                 //user entered a comma seperated list
                 $list = $globalSetting['removeChars'];
             }
-            $this->removeChars = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $list);
+            $this->removeChars = GeneralUtility::trimExplode($sep, $list);
         } elseif (intval($this->utilityFuncs->getSingle($globalSetting['removeChars.'], 'disable')) === 1) {
 
             //user disabled removal globally
@@ -95,7 +95,7 @@ class RemoveXSS extends AbstractInterceptor
                         //user entered a comma seperated list
                         $list = $fieldSetting['removeChars'];
                     }
-                    $removeChars = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $list);
+                    $removeChars = GeneralUtility::trimExplode($sep, $list);
                 } elseif (intval($this->utilityFuncs->getSingle($fieldSetting['removeChars.'], 'disable')) === 1) {
 
                     //user disabled removal for this field
@@ -175,7 +175,7 @@ class RemoveXSS extends AbstractInterceptor
         parent::init($gp, $settings);
         $this->doNotSanitizeFields = [];
         if ($this->settings['doNotSanitizeFields']) {
-            $this->doNotSanitizeFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'doNotSanitizeFields'));
+            $this->doNotSanitizeFields = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'doNotSanitizeFields'));
         }
     }
 }

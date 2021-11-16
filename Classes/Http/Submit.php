@@ -1,5 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Http;
 
-$obj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Typoheads\Formhandler\Ajax\Submit::class);
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Ajax\Submit;
+$obj = GeneralUtility::makeInstance(Submit::class);
 $obj->main();

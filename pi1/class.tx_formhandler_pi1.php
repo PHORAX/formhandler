@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
+use Typoheads\Formhandler\Controller\Dispatcher;
 /***************************************************************
  *  Copyright notice
  *
@@ -21,11 +24,10 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 /**
  * Plugin 'Formhandler' for the 'formhandler' extension.
  */
-class tx_formhandler_pi1 extends TYPO3\CMS\Frontend\Plugin\AbstractPlugin
+class tx_formhandler_pi1 extends AbstractPlugin
 {
     public $prefixId = 'tx_formhandler_pi1';
     public $scriptRelPath = 'pi1/class.tx_formhandler_pi1.php';
@@ -40,7 +42,7 @@ class tx_formhandler_pi1 extends TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      */
     public function main($content, $conf)
     {
-        $dispatcher = new \Typoheads\Formhandler\Controller\Dispatcher();
+        $dispatcher = new Dispatcher();
         $dispatcher->cObj = &$this->cObj;
         return $dispatcher->main($content, $conf);
     }

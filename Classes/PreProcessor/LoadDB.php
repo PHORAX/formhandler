@@ -1,6 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\PreProcessor;
 
+use TYPO3\CMS\Core\Core\Environment;
 /*                                                                        *
      * This script is part of the TYPO3 project - inspiring people to share!  *
      *                                                                        *
@@ -167,10 +168,10 @@ class LoadDB extends AbstractPreProcessor
 
                 foreach ($filesArray as $k => $uploadFile) {
                     if (strpos($uploadFile, '/') !== false) {
-                        $file = PATH_site . $uploadFile;
+                        $file = Environment::getPublicPath() . '/' . $uploadFile;
                         $uploadedUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadFile;
                     } else {
-                        $file = PATH_site . $uploadPath . $uploadFile;
+                        $file = Environment::getPublicPath() . '/' . $uploadPath . $uploadFile;
                         $uploadedUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadPath . $uploadFile;
                     }
 
@@ -178,7 +179,7 @@ class LoadDB extends AbstractPreProcessor
                     $this->files[$fieldname][] = [
                         'name' => $uploadFile,
                         'uploaded_name' => $uploadFile,
-                        'uploaded_path' => PATH_site . $uploadPath,
+                        'uploaded_path' => Environment::getPublicPath() . '/' . $uploadPath,
                         'uploaded_folder' => $uploadPath,
                         'uploaded_url' => $uploadedUrl,
                         'size' => filesize($file)

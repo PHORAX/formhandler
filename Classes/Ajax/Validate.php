@@ -1,6 +1,8 @@
 <?php
 namespace Typoheads\Formhandler\Ajax;
 
+use Typoheads\Formhandler\Utility\Globals;
+use Typoheads\Formhandler\Component\Manager;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -39,18 +41,18 @@ class Validate
     public function main()
     {
         $this->init();
-        $field = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('field'));
+        $field = htmlspecialchars(GeneralUtility::_GP('field'));
         if ($field) {
-            $randomID = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('randomID'));
-            \Typoheads\Formhandler\Utility\Globals::setCObj($GLOBALS['TSFE']->cObj);
-            \Typoheads\Formhandler\Utility\Globals::setRandomID($randomID);
-            if (!\Typoheads\Formhandler\Utility\Globals::getSession()) {
+            $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
+            Globals::setCObj($GLOBALS['TSFE']->cObj);
+            Globals::setRandomID($randomID);
+            if (!Globals::getSession()) {
                 $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
                 $sessionClass = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($ts['session.'], 'Session\PHP');
-                \Typoheads\Formhandler\Utility\Globals::setSession($this->componentManager->getComponent($sessionClass));
+                Globals::setSession($this->componentManager->getComponent($sessionClass));
             }
-            $this->settings = \Typoheads\Formhandler\Utility\Globals::getSession()->get('settings');
-            \Typoheads\Formhandler\Utility\Globals::setFormValuesPrefix(\Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings, 'formValuesPrefix'));
+            $this->settings = Globals::getSession()->get('settings');
+            Globals::setFormValuesPrefix(\Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings, 'formValuesPrefix'));
             $gp = \Typoheads\Formhandler\Utility\GeneralUtility::getMergedGP();
             $validator = $this->componentManager->getComponent('\Typoheads\Formhandler\Validator\Ajax');
             $errors = [];
@@ -95,8 +97,8 @@ class Validate
         } else {
             $this->id = intval($_GET['id']);
         }
-        $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
-        \Typoheads\Formhandler\Utility\Globals::setAjaxMode(true);
+        $this->componentManager = GeneralUtility::makeInstance(Manager::class);
+        Globals::setAjaxMode(true);
         \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($this->id);
     }
 

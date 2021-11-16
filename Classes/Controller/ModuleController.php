@@ -1,6 +1,12 @@
 <?php
 namespace Typoheads\Formhandler\Controller;
 
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Typoheads\Formhandler\Component\Manager;
+use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
+use Typoheads\Formhandler\Domain\Model\Demand;
+use Typoheads\Formhandler\Domain\Model\LogData;
+use Typoheads\Formhandler\Generator\BackendCsv;
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -16,7 +22,7 @@ namespace Typoheads\Formhandler\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class ModuleController extends ActionController
 {
 
     /**
@@ -59,7 +65,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->id = intval($_GET['id']);
 
         $this->gp = $this->request->getArguments();
-        $this->componentManager = GeneralUtility::makeInstance(\Typoheads\Formhandler\Component\Manager::class);
+        $this->componentManager = GeneralUtility::makeInstance(Manager::class);
         $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
         $this->pageRenderer = $this->objectManager->get('TYPO3\CMS\Core\Page\PageRenderer');
 
@@ -76,7 +82,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             $propertyMappingConfiguration->allowAllProperties();
             $propertyMappingConfiguration->setTypeConverterOption(
                 'TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter',
-                \TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
+                PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
                 true
             );
         }
@@ -87,7 +93,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * Displays log data
      */
-    public function indexAction(\Typoheads\Formhandler\Domain\Model\Demand $demand = null)
+    public function indexAction(Demand $demand = null)
     {
         if ($demand === null) {
             $demand = $this->objectManager->get('Typoheads\Formhandler\Domain\Model\Demand');
@@ -108,7 +114,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->view->assign('permissions', $permissions);
     }
 
-    public function viewAction(\Typoheads\Formhandler\Domain\Model\LogData $logDataRow = null)
+    public function viewAction(LogData $logDataRow = null)
     {
         if ($logDataRow !== null) {
             $logDataRow->setParams(unserialize($logDataRow->getParams()));
@@ -126,7 +132,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         if ($logDataUids !== null) {
             if ($this->settings[$filetype]['config']['fields']) {
-                $fields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings[$filetype]['config']['fields']);
+                $fields = GeneralUtility::trimExplode(',', $this->settings[$filetype]['config']['fields']);
                 $this->redirect(
                     'export',
                     null,
@@ -213,7 +219,7 @@ class ModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             } elseif ($filetype === 'csv') {
                 $className = $this->utilityFuncs->getPreparedClassName(
                     $this->settings['csv'],
-                    \Typoheads\Formhandler\Generator\BackendCsv::class
+                    BackendCsv::class
                 );
 
                 $generator = $this->componentManager->getComponent($className);

@@ -17,6 +17,11 @@
 			"pi1/class.tx_formhandler_pi1.php"
 		]
 	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "formhandler"
+		}
+	},
 	"replace": {
 		"typo3-ter/formhandler": "self.version"
 	}
