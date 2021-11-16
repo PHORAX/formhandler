@@ -21,7 +21,7 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
  *                                                                        *
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
-class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Widget\UriViewHelper
+class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\UriViewHelper
 {
 
     /**

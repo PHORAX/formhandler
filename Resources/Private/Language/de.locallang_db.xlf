@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file t3:id="1636740703" source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-11-12T18:11:43Z" product-name="formhandler">
+		<header/>
+		<body>
+			<trans-unit id="wizard_pi1.title" resname="wizard_pi1.title"  approved="yes">
+				<source>Formhandler</source>
+				<target>Formhandler</target>
+			</trans-unit>
+			<trans-unit id="tt_content.list_type_pi1" resname="tt_content.list_type_pi1"  approved="yes">
+				<source>Formhandler</source>
+				<target>Formhandler</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main" resname="tx_formhandler_main"  approved="yes">
+				<source>Formhandler</source>
+				<target>Formhandler</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_to" resname="tx_formhandler_main.email_to"  approved="yes">
+				<source>send formular field to this email</source>
+				<target>sende die Formularfelder an folgende Email</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_subject" resname="tx_formhandler_main.email_subject"  approved="yes">
+				<source>subject of email</source>
+				<target>Betreff der Email</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_sender" resname="tx_formhandler_main.email_sender"  approved="yes">
+				<source>email sender (email from)</source>
+				<target>Absende-Emailadresse</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_redirect" resname="tx_formhandler_main.email_redirect"  approved="yes">
+				<source>redirect to this page (only if all &quot;have-to&quot; fields are filled out)</source>
+				<target>nach dem Abschicken zu dieser Seite weiterleten (nur wenn Mussfelder ausgefüllt wurden)</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_requiredfields" resname="tx_formhandler_main.email_requiredfields"  approved="yes">
+				<source>these fields have to be filled out (enter name of formular field seperated by &quot;,&quot;)</source>
+				<target>diese Felder müssen ausgefüllt sein (Name der Eingabefelder durch &quot;,&quot; getrennt)</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_htmltemplate" resname="tx_formhandler_main.email_htmltemplate"  approved="yes">
+				<source>HTML-Template with formular fields in it</source>
+				<target>HTML-Template mit dem Formularfeldern</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_html_as_attachment" resname="tx_formhandler_main.email_html_as_attachment"  approved="yes">
+				<source>send out html version of the output (if any) as an attachment instead of alternative to text</source>
+				<target>HTML Version der E-Mail as Attachment zur Plaintext-Version versenden</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_sendtouser" resname="tx_formhandler_main.email_sendtouser"  approved="yes">
+				<source>optional: Send a confirmation email to user. Specify the input-field name where the user fills out his/her emailadress:</source>
+				<target>optional: Bestätigungs-Email an den User senden? Geben Sie hier den namen des Formularfeldes an, in dem der User seine Emailadresse angibt:</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_subject_user" resname="tx_formhandler_main.email_subject_user"  approved="yes">
+				<source>Subject of the mail to the user:</source>
+				<target>Betreff der Mail, die an den User geht:</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_replyto" resname="tx_formhandler_main.email_replyto"  approved="yes">
+				<source>use the value of this submitted form-field as reply-to (optional, name of input field)</source>
+				<target>den Wert dieses ausgefüllten Eingabefeldes als reply-to verwenden (optional, Name des Formularfeldes)</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.tx_formhandler_maxrows" resname="tx_formhandler_main.tx_formhandler_maxrows"  approved="yes">
+				<source>Maximum number of rows (records) per page (zero = unlimited) in LIST-view</source>
+				<target>max. Anzahl Zeilen pro Seite (0 = unendlich) in der LIST-Anzeige</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.tx_formhandler_singlepid" resname="tx_formhandler_main.tx_formhandler_singlepid"  approved="yes">
+				<source>Id of the related page for the single data display</source>
+				<target>Id der Seite, die den kompletten Inhalt zeigt</target>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_formhandler_contenttype.I.0" resname="tt_content.tx_formhandler_contenttype.I.0"  approved="yes">
+				<source>list</source>
+				<target>Liste</target>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_formhandler_contenttype.I.1" resname="tt_content.tx_formhandler_contenttype.I.1"  approved="yes">
+				<source>single</source>
+				<target>Einzelansicht</target>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_formhandler_contenttype" resname="tt_content.tx_formhandler_contenttype"  approved="yes">
+				<source>Type of data display</source>
+				<target>Art der Darstellung</target>
+			</trans-unit>
+			<trans-unit id="be_missing_config" resname="be_missing_config"  approved="yes">
+				<source>No forms predefined</source>
+				<target>keine Vorlagen vorhanden</target>
+			</trans-unit>
+			<trans-unit id="be_please_select" resname="be_please_select"  approved="yes">
+				<source>Choose a predefined form</source>
+				<target>wählen Sie eine Vorlage</target>
+			</trans-unit>
+			<trans-unit id="tt_content.pi1_plus_wiz_description" resname="tt_content.pi1_plus_wiz_description"  approved="yes">
+				<source>Advanced form system with many typoscript options which bring a lot of flexibiliy.</source>
+				<target>Advanced form system with many typoscript options which bring a lot of flexibiliy.</target>
+			</trans-unit>
+			<trans-unit id="be_defined_by_TS" resname="be_defined_by_TS"  approved="yes">
+				<source>Defined by TypoScript</source>
+				<target>Definiert durch TypoScript</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_log" resname="tx_formhandler_log"  approved="yes">
+				<source>Formhandler log entry</source>
+				<target>Formhandler Logeintrag</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_log.submission_date" resname="tx_formhandler_log.submission_date"  approved="yes">
+				<source>Submission date</source>
+				<target>Absendedatum</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_log.ip" resname="tx_formhandler_log.ip"  approved="yes">
+				<source>IP address</source>
+				<target>IP-Addresse</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_log.params" resname="tx_formhandler_log.params"  approved="yes">
+				<source>Submitted values</source>
+				<target>Abgeschickte Werte</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_log.is_spam" resname="tx_formhandler_log.is_spam"  approved="yes">
+				<source>Considered as SPAM</source>
+				<target>Als SPAM erkannt</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

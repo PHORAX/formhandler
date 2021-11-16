@@ -2,6 +2,7 @@
 
 namespace Typoheads\Formhandler\Utility;
 
+use TYPO3\CMS\Core\Http\ApplicationType;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -44,7 +45,7 @@ class TemplateTCPDF extends \TCPDF
     public function __construct()
     {
         parent::__construct();
-        $this->sysLangFile = 'EXT:formhandler/Resources/Private/Language/locallang.xml';
+        $this->sysLangFile = 'EXT:formhandler/Resources/Private/Language/locallang.xlf';
     }
 
     /**
@@ -105,7 +106,7 @@ class TemplateTCPDF extends \TCPDF
     }
 
     /**
-     * Get a translation for given key from "EXT:formhandler/Resources/Private/Language/locallang.xml"
+     * Get a translation for given key from "EXT:formhandler/Resources/Private/Language/locallang.xlf"
      *
      * @param string $key The key
      * @return string The translation
@@ -113,7 +114,7 @@ class TemplateTCPDF extends \TCPDF
     private function getLL($key)
     {
         global $LANG;
-        if (TYPO3_MODE == 'BE') {
+        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
             $LANG->includeLLFile($this->sysLangFile);
             $text = trim($LANG->getLL($key));
         } else {

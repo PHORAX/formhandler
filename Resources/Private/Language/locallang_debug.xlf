@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-11-12T18:12:42Z" product-name="formhandler">
+		<header/>
+		<body>
+			<trans-unit id="adding_html" resname="adding_html" >
+				<source>Adding HTML:</source>
+			</trans-unit>
+			<trans-unit id="adding_generated_files" resname="adding_generated_files" >
+				<source>Adding generated files:</source>
+			</trans-unit>
+			<trans-unit id="alert_mail_not_sent" resname="alert_mail_not_sent" >
+				<source>Mails not sent because a mail has already been sent in defined interval!</source>
+			</trans-unit>
+			<trans-unit id="attachment_not_found" resname="attachment_not_found" >
+				<source>Attachment not found: %s!</source>
+			</trans-unit>
+			<trans-unit id="calling_class" resname="calling_class" >
+				<source>Calling class &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="calling_finisher" resname="calling_finisher" >
+				<source>Calling finisher &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="calling_logger" resname="calling_logger" >
+				<source>Calling logger &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="calling_validator" resname="calling_validator" >
+				<source>Calling validator &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="check_not_found" resname="check_not_found" >
+				<source>Error check &quot;%s&quot; not found!</source>
+			</trans-unit>
+			<trans-unit id="check_skipped" resname="check_skipped" >
+				<source>Skipped error check &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="cleaning_temp_files" resname="cleaning_temp_files" >
+				<source>Cleaning temporary files in folder &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="clear_steps" resname="clear_steps" >
+				<source>Clearing steps after form is finished:</source>
+			</trans-unit>
+			<trans-unit id="cleared_session" resname="cleared_session" >
+				<source>Cleared params in session</source>
+			</trans-unit>
+			<trans-unit id="cleared_steps" resname="cleared_steps" >
+				<source>Cleared steps:</source>
+			</trans-unit>
+			<trans-unit id="combined" resname="combined" >
+				<source>Combined %s = %s!</source>
+			</trans-unit>
+			<trans-unit id="condition" resname="condition" >
+				<source>Condition was evaluated as %s : %s!</source>
+			</trans-unit>
+			<trans-unit id="copy_file" resname="copy_file" >
+				<source>Copying file &quot;%s&quot; to &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="current_files" resname="current_files" >
+				<source>The current uploaded files are:</source>
+			</trans-unit>
+			<trans-unit id="current_gp" resname="current_gp" >
+				<source>The current GET/POST params are:</source>
+			</trans-unit>
+			<trans-unit id="current_session_params" resname="current_session_params" >
+				<source>The current values in session are:</source>
+			</trans-unit>
+			<trans-unit id="current_step" resname="current_step" >
+				<source>Current step is: %s</source>
+			</trans-unit>
+			<trans-unit id="data_stored" resname="data_stored" >
+				<source>Data gets stored!</source>
+			</trans-unit>
+			<trans-unit id="deleting_file" resname="deleting_file" >
+				<source>Deleting file &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="error" resname="error" >
+				<source>The following error occurred: %s</source>
+			</trans-unit>
+			<trans-unit id="folder_doesnt_exist" resname="folder_doesnt_exist" >
+				<source>Folder &quot;%s&quot; doesn't exist! Trying to create!</source>
+			</trans-unit>
+			<trans-unit id="form_finished" resname="form_finished" >
+				<source>Form is finished!</source>
+			</trans-unit>
+			<trans-unit id="init_values" resname="init_values" >
+				<source>Initial values</source>
+			</trans-unit>
+			<trans-unit id="invalid_isset" resname="invalid_isset" >
+				<source>&quot;Invalid format of ISSET Marker. Hint: %s</source>
+			</trans-unit>
+			<trans-unit id="last_step" resname="last_step" >
+				<source>Last step was: %s</source>
+			</trans-unit>
+			<trans-unit id="finished_step" resname="finished_step" >
+				<source>Last step in form is: %s</source>
+			</trans-unit>
+			<trans-unit id="logging" resname="logging" >
+				<source>Logging into table &quot;%s&quot; values: %s!</source>
+			</trans-unit>
+			<trans-unit id="mail_bcc" resname="mail_bcc" >
+				<source>BCC:</source>
+			</trans-unit>
+			<trans-unit id="mail_cc" resname="mail_cc" >
+				<source>CC:</source>
+			</trans-unit>
+			<trans-unit id="mail_disabled" resname="mail_disabled" >
+				<source>Skipped %s mail because it is disabled in TypoScript!</source>
+			</trans-unit>
+			<trans-unit id="mail_html" resname="mail_html" >
+				<source>Message HTML:</source>
+			</trans-unit>
+			<trans-unit id="mail_message" resname="mail_message" >
+				<source>Message:</source>
+			</trans-unit>
+			<trans-unit id="mail_not_sent" resname="mail_not_sent" >
+				<source>Mail NOT sent to: %s</source>
+			</trans-unit>
+			<trans-unit id="mail_plain" resname="mail_plain" >
+				<source>Message plain:</source>
+			</trans-unit>
+			<trans-unit id="mail_replyto" resname="mail_replyto" >
+				<source>Reply to:</source>
+			</trans-unit>
+			<trans-unit id="mail_returnpath" resname="mail_returnpath" >
+				<source>Return path:</source>
+			</trans-unit>
+			<trans-unit id="mail_sender" resname="mail_sender" >
+				<source>Sender:</source>
+			</trans-unit>
+			<trans-unit id="mail_sent" resname="mail_sent" >
+				<source>Mail successfully sent to: %s</source>
+			</trans-unit>
+			<trans-unit id="mail_subject" resname="mail_subject" >
+				<source>Subject: %s</source>
+			</trans-unit>
+			<trans-unit id="missing_field_for_error_check" resname="missing_field_for_error_check" >
+				<source>Trying to validate a field that doesn't exist: &quot;%s&quot;! Either you forgot to remove an error check or yorgot to add a field to your HTML! Maybe it is just an unset checkbox field! In that case, everything is fine.</source>
+			</trans-unit>
+			<trans-unit id="no_submittedok_template" resname="no_submittedok_template" >
+				<source>SubmittedOK template not found! Make sure that the subpart ###TEMPLATE_SUBMITTEDOK### is in your HTML template!</source>
+			</trans-unit>
+			<trans-unit id="no_error_message" resname="no_error_message" >
+				<source>Could not find error message with key &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="no_mail_template" resname="no_mail_template" >
+				<source>E-Mail template not found for mode %s and type %s! This mail is skipped!</source>
+			</trans-unit>
+			<trans-unit id="no_update_possible" resname="no_update_possible" >
+				<source>UID parameter not found in GP. Cannot make update!</source>
+			</trans-unit>
+			<trans-unit id="redirect_failed" resname="redirect_failed" >
+				<source>Tried to do a redirect to specified page! The redirect may have failed because the debug settings is on!</source>
+			</trans-unit>
+			<trans-unit id="sql_request" resname="sql_request" >
+				<source>Executing request &quot;%s&quot;;</source>
+			</trans-unit>
+			<trans-unit id="sql_request_error" resname="sql_request_error" >
+				<source>SQL request failed: %s</source>
+			</trans-unit>
+			<trans-unit id="sql_too_many_rows" resname="sql_too_many_rows" >
+				<source>SQL request resulted in %d rows! Only one row is allowed.</source>
+			</trans-unit>
+			<trans-unit id="store_gp" resname="store_gp" >
+				<source>Storing GP in session!</source>
+			</trans-unit>
+			<trans-unit id="subparts_missing" resname="subparts_missing" >
+				<source>Subparts in template missing! Found: %s</source>
+			</trans-unit>
+			<trans-unit id="total_steps" resname="total_steps" >
+				<source>Highest step subpart found in template file (number of steps): %s</source>
+			</trans-unit>
+			<trans-unit id="translated" resname="translated" >
+				<source>Translated %s = %s!</source>
+			</trans-unit>
+			<trans-unit id="using_controller" resname="using_controller" >
+				<source>Using controller &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="using_prefix" resname="using_prefix" >
+				<source>Using prefix for form values: &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="using_subpart" resname="using_subpart" >
+				<source>Using subpart &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="using_view" resname="using_view" >
+				<source>Using view &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="cacheCmd" resname="cacheCmd" >
+				<source>Clearing cache user cacheCmd &quot;%s&quot;</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

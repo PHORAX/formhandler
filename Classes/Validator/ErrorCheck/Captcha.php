@@ -2,6 +2,7 @@
 
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
+use ThinkopenAt\Captcha\Utility;
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *
@@ -14,7 +15,6 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-
 /**
  * Validates that a specified field's value matches the generated word of the extension "captcha"
  */
@@ -27,7 +27,7 @@ class Captcha extends AbstractErrorCheck
         // get captcha string
         session_start();
 
-        $captchaSolved = \ThinkopenAt\Captcha\Utility::checkCaptcha($this->gp[$this->formFieldName]);
+        $captchaSolved = Utility::checkCaptcha($this->gp[$this->formFieldName]);
         if (!$captchaSolved) {
             $checkFailed = $this->getCheckFailed();
         }

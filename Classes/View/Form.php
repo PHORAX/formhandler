@@ -2,6 +2,7 @@
 
 namespace Typoheads\Formhandler\View;
 
+use ThinkopenAt\Captcha\Utility;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -623,7 +624,7 @@ class Form extends AbstractView
     protected function fillCaptchaMarkers(&$markers)
     {
         if (stristr($this->template, '###CAPTCHA###') && ExtensionManagementUtility::isLoaded('captcha')) {
-            $markers['###CAPTCHA###'] = \ThinkopenAt\Captcha\Utility::makeCaptcha();
+            $markers['###CAPTCHA###'] = Utility::makeCaptcha();
             $markers['###captcha###'] = $markers['###CAPTCHA###'];
         }
         if (stristr($this->template, '###SR_FREECAP_IMAGE###') && ExtensionManagementUtility::isLoaded('sr_freecap')) {
