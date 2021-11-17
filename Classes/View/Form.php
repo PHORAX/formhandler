@@ -2,10 +2,14 @@
 
 namespace Typoheads\Formhandler\View;
 
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Crypto\Random;
 use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
@@ -628,6 +632,42 @@ class Form extends AbstractView
             $this->freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
             $markers = array_merge($markers, $this->freeCap->makeCaptcha());
         }
+
+        if (stristr($this->template, '###BW_CAPTCHA###') && ExtensionManagementUtility::isLoaded('bw_captcha')) {
+            // TODO: this functionality should be available in bw_captcha itself, till then we keep it hardcoded here
+            // get TypoScript
+            $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
+            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
+            $typoScript = $typoScriptService->convertTypoScriptArrayToPlainArray($configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT));
+            $captchaSettings = $typoScript['plugin']['tx_bwcaptcha']['settings'];
+
+            // build captcha and add to template
+            $builder = \Blueways\BwCaptcha\Utility\CaptchaBuilderUtility::getBuilderFromSettings($captchaSettings);
+            $builder->build((int)$captchaSettings['width'], (int)$captchaSettings['height']);
+            $markers['###BW_CAPTCHA###'] = $builder->inline();
+
+            // save captcha secret in cache
+            $phrase = $builder->getPhrase();
+            $cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('bwcaptcha');
+            $random = GeneralUtility::makeInstance(Random::class);
+            $cacheIdentifier = $random->generateRandomHexString(32);
+            $cache->set($cacheIdentifier, $phrase, [], 86400);
+
+            //build reload url
+            $parameters = [
+                'type' => '3413',
+                'tx_bwcaptcha_pi1[pluginName]' => 'Pi1',
+                'tx_bwcaptcha_pi1[extensionName]' => 'cacheIdentifier',
+                'tx_bwcaptcha_pi1[controller]' => 'Captcha',
+                'tx_bwcaptcha_pi1[action]' => 'refresh',
+                'tx_bwcaptcha_pi1[cacheIdentifier]' => $cacheIdentifier
+            ];
+            $markers['###BW_CAPTCHA_RELOAD_URL###'] = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $parameters);
+
+            // write cache identifier to cookie
+            $GLOBALS['TSFE']->fe_user->setKey('ses', 'captchaId', $cacheIdentifier);
+            $GLOBALS['TSFE']->fe_user->storeSessionData();
+        }
     }
 
     /**
@@ -812,8 +852,8 @@ class Form extends AbstractView
                         $onClick .= 'return false;';
 
                         $link = '<a
-								href="javascript:void(0)" 
-								class="formhandler_removelink" 
+								href="javascript:void(0)"
+								class="formhandler_removelink"
 								onclick="' . str_replace(["\n", '	'], '', $onClick) . '"
 								>' . $text . '</a>';
                     }
