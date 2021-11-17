@@ -217,7 +217,7 @@ class GeneralUtility implements SingletonInterface
         if (!$langFiles) {
             $langFiles = [];
             if (isset($settings['langFile']) && !isset($settings['langFile.'])) {
-                array_push($langFiles, self::resolveRelPathFromSiteRoot($settings['langFile']));
+                array_push($langFiles, self::resolvePath($settings['langFile']));
             } elseif (isset($settings['langFile']) && isset($settings['langFile.'])) {
                 array_push($langFiles, self::getSingle($settings, 'langFile'));
             } elseif (isset($settings['langFile.']) && is_array($settings['langFile.'])) {
@@ -226,7 +226,7 @@ class GeneralUtility implements SingletonInterface
                         if (is_array($settings['langFile.'][$key . '.'])) {
                             array_push($langFiles, self::getSingle($settings['langFile.'], $key));
                         } else {
-                            array_push($langFiles, self::resolveRelPathFromSiteRoot($langFile));
+                            array_push($langFiles, self::resolvePath($langFile));
                         }
                     }
                 }
