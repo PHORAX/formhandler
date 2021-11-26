@@ -48,12 +48,9 @@ class LogDataRepository extends Repository
             $uidConstraints[] = $query->equals('uid', $value);
         }
         return $query->matching(
-            $query->logicalAnd(
-                $query->equals('deleted', 0),
-                $query->logicalOr(
-                    $uidConstraints
-                )
-            )
+            $query->logicalAnd([$query->equals('deleted', 0), $query->logicalOr(
+                $uidConstraints
+            )])
         )->execute();
     }
 

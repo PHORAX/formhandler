@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 if (TYPO3_MODE === 'BE') {
@@ -15,9 +15,10 @@ if (TYPO3_MODE === 'BE') {
         [
             'access' => 'user,group',
             'icon' => 'EXT:formhandler/Resources/Public/Icons/moduleicon.gif',
-            'labels' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_mod.xml'
+            'labels' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_mod.xlf'
         ]
     );
+
 }
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_formhandler_log');
 // REGISTER ICONS FOR USE IN BACKEND WIZARD
@@ -25,5 +26,5 @@ $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\
 $iconRegistry->registerIcon(
     'formhandlerElement',
     \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-    ['source' => 'EXT:formhandler/ext_icon.gif']
+    ['source' => 'EXT:formhandler/Resources/Public/Icons/Extension.gif']
 );

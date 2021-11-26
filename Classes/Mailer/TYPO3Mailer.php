@@ -185,7 +185,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function addAttachment($value)
     {
-        $this->emailObj->attach(\Swift_Attachment::fromPath($value));
+        $this->emailObj->attachFromPath($value);
     }
 
     /* (non-PHPdoc)
@@ -274,6 +274,6 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
 
     public function embed($image)
     {
-        return $this->emailObj->embed(\Swift_Image::fromPath($image));
+        return $this->emailObj->embedFromPath($image);
     }
 }

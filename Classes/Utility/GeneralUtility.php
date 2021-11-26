@@ -561,7 +561,7 @@ class GeneralUtility implements SingletonInterface
      * Method to log a debug message.
      * The message will be handled by one or more configured "Debuggers".
      *
-     * @param string $key The message or key in language file (locallang_debug.xml)
+     * @param string $key The message or key in language file (locallang_debug.xlf)
      * @param array $printfArgs If the messsage contains placeholders for usage with printf, pass the replacement values in this array.
      * @param int $severity The severity of the message. Valid values are 1,2 and 3 (1= info, 2 = warning, 3 = error)
      * @param array $data Additional debug data (e.g. the array of GET/POST values)
@@ -834,9 +834,6 @@ class GeneralUtility implements SingletonInterface
         $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pid, 0, true);
         $GLOBALS['TSFE']->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\TemplateService');
         $GLOBALS['TSFE']->tmpl->init();
-
-        // then initialize fe user
-        $GLOBALS['TSFE']->initFEuser();
         $GLOBALS['TSFE']->fe_user->fetchGroupData();
 
         // Get the page
@@ -857,7 +854,7 @@ class GeneralUtility implements SingletonInterface
      */
     public static function getDebugMessage($key)
     {
-        return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_debug.xml:' . $key));
+        return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_debug.xlf:' . $key));
     }
 
     /**
@@ -868,7 +865,7 @@ class GeneralUtility implements SingletonInterface
      */
     public static function getExceptionMessage($key)
     {
-        return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_exceptions.xml:' . $key));
+        return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_exceptions.xlf:' . $key));
     }
 
     /**

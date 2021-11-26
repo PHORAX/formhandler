@@ -2,6 +2,7 @@
 
 namespace Typoheads\Formhandler\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
@@ -9,6 +10,7 @@ use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Domain\Model\Demand;
 use Typoheads\Formhandler\Domain\Model\LogData;
 use Typoheads\Formhandler\Generator\BackendCsv;
+use Typoheads\Formhandler\Domain\Repository\LogDataRepository;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -47,10 +49,19 @@ class ModuleController extends ActionController
     protected $utilityFuncs;
 
     /**
-     * @var \Typoheads\Formhandler\Domain\Repository\LogDataRepository
+     * @var LogDataRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $logDataRepository;
+
+    /**
+     * @param LogDataRepository $logDataRepository
+     */
+    public function injectLogDataRepository(LogDataRepository $logDataRepository)
+    {
+        $this->logDataRepository = $logDataRepository;
+    }
+
 
     /**
      * @var \TYPO3\CMS\Core\Page\PageRenderer
@@ -93,7 +104,7 @@ class ModuleController extends ActionController
     /**
      * Displays log data
      */
-    public function indexAction(Demand $demand = null)
+    public function indexAction(Demand $demand = null): ResponseInterface
     {
         if ($demand === null) {
             $demand = $this->objectManager->get('Typoheads\Formhandler\Domain\Model\Demand');
@@ -102,6 +113,7 @@ class ModuleController extends ActionController
             }
         }
 
+        //@TODO findDemanded funktioniert nicht, da die Datepicker zunächst gefixt werden müssen
         $logDataRows = $this->logDataRepository->findDemanded($demand);
         $this->view->assign('demand', $demand);
         $this->view->assign('logDataRows', $logDataRows);
@@ -112,15 +124,17 @@ class ModuleController extends ActionController
         $this->view->assign('showItems', $this->gp['show']);
         $permissions = [];
         $this->view->assign('permissions', $permissions);
+        return $this->htmlResponse();
     }
 
-    public function viewAction(LogData $logDataRow = null)
+    public function viewAction(LogData $logDataRow = null): ResponseInterface
     {
         if ($logDataRow !== null) {
             $logDataRow->setParams(unserialize($logDataRow->getParams()));
             $this->view->assign('data', $logDataRow);
             $this->view->assign('settings', $this->settings);
         }
+        return $this->htmlResponse();
     }
 
     /**
@@ -192,7 +206,7 @@ class ModuleController extends ActionController
      * @param array fields to export
      * @param string export file type (PDF || CSV)
      */
-    public function exportAction($logDataUids = null, array $fields, $filetype = '')
+    public function exportAction($logDataUids = null, array $fields, $filetype = ''): ResponseInterface
     {
         if ($logDataUids !== null && !empty($fields)) {
             $logDataRows = $this->logDataRepository->findByUids($logDataUids);
@@ -229,5 +243,6 @@ class ModuleController extends ActionController
                 $generator->process();
             }
         }
+        return $this->htmlResponse();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Typoheads\Formhandler\Generator;
 
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -62,7 +63,7 @@ class WebkitPdf extends AbstractGenerator
      */
     protected function readWebkitPdfConf()
     {
-        $sysPageObj = GeneralUtility::makeInstance('\TYPO3\CMS\Frontend\Page\PageRepository');
+        $sysPageObj = GeneralUtility::makeInstance(PageRepository::class);
 
         if (!$GLOBALS['TSFE']->sys_page) {
             $GLOBALS['TSFE']->sys_page = $sysPageObj;

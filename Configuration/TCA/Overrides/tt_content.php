@@ -1,10 +1,10 @@
 <?php
 
-defined('TYPO3_MODE') or die();
+defined('TYPO3') or die();
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
     [
-        'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tt_content.list_type_pi1',
+        'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tt_content.list_type_pi1',
          'formhandler_pi1'
     ],
     'CType',

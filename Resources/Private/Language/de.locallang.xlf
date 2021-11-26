@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file  source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-11-12T18:10:43Z" product-name="formhandler">
+		<header/>
+		<body>
+			<trans-unit id="action.index" resname="action.index"  approved="yes">
+				<source>View log data</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="action.clearLogs" resname="action.clearLogs"  approved="yes">
+				<source>Clear log data</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="headline.index" resname="headline.index"  approved="yes">
+				<source>Log Data</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="headline.clearLogs" resname="headline.clearLogs"  approved="yes">
+				<source>Clear Log Data</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="headline.selectFields" resname="headline.selectFields"  approved="yes">
+				<source>Select the fields to export</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.pid" resname="label.pid"  approved="yes">
+				<source>Page ID</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.page" resname="label.page"  approved="yes">
+				<source>Page Info</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.count" resname="label.count"  approved="yes">
+				<source>Number of logs</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.submissionDate" resname="label.submissionDate"  approved="yes">
+				<source>Submission Date</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.ip" resname="label.ip"  approved="yes">
+				<source>IP</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.detailView" resname="label.detailView"  approved="yes">
+				<source>View</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.export" resname="label.export"  approved="yes">
+				<source>Export as</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.show" resname="label.show"  approved="yes">
+				<source>Items per page</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.submit" resname="label.submit"  approved="yes">
+				<source>Filter</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.select-all" resname="label.select-all"  approved="yes">
+				<source>Select all pages</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.select-page-from-tree" resname="label.select-page-from-tree"  approved="yes">
+				<source>Please select the page using the page tree.</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.start" resname="label.start"  approved="yes">
+				<source>Start</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.end" resname="label.end"  approved="yes">
+				<source>End</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.params" resname="label.params"  approved="yes">
+				<source>Submitted Values</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.data" resname="label.data"  approved="yes">
+				<source>Submission Data</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.back" resname="label.back"  approved="yes">
+				<source>Back to list</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.delete-all-selected-logs" resname="label.delete-all-selected-logs"  approved="yes">
+				<source>Delete all selected log rows</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="label.select-all-rows" resname="label.select-all-rows"  approved="yes">
+				<source>Select all/Select none</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="message.delete-all-selected-logs" resname="message.delete-all-selected-logs"  approved="yes">
+				<source>Are you sure you want to delete all selected log rows?</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="message.deleted-log-rows" resname="message.deleted-log-rows"  approved="yes">
+				<source>Deleted %d log row(s)!</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="message.deleted-all-logs" resname="message.deleted-all-logs"  approved="yes">
+				<source>Deleted all log rows!</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="message.noRecordsFound" resname="message.noRecordsFound"  approved="yes">
+				<source>No records found</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="button.export" resname="button.export"  approved="yes">
+				<source>Export</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="title" resname="title"  approved="yes">
+				<source>Formhandler</source>
+				<target>Formhandler</target>
+			</trans-unit>
+			<trans-unit id="no_id" resname="no_id"  approved="yes">
+				<source>Please select a page first!</source>
+				<target>Bitte wählen Sie eine Seite aus!</target>
+			</trans-unit>
+			<trans-unit id="function1" resname="function1"  approved="yes">
+				<source>Log overview</source>
+				<target>Log-Übersicht</target>
+			</trans-unit>
+			<trans-unit id="function2" resname="function2"  approved="yes">
+				<source>Clear logs</source>
+				<target>Logs leeren</target>
+			</trans-unit>
+			<trans-unit id="function3" resname="function3"  approved="yes">
+				<source>Function #3</source>
+				<target>Function #3</target>
+			</trans-unit>
+			<trans-unit id="noLogTable" resname="noLogTable"  approved="yes">
+				<source>Required table 'tx_formhandler_log' not found. Please add the default logger to your Formhandler TypoScript setup.</source>
+				<target>Benötigte Datenbanktabelle 'tx_formhandler_log' nicht gefunden. Bitte fügen Sie den Logger Tx_Formhandler_Logger_Default zu Ihrem Formhandler TypoScript setup hinzu.</target>
+			</trans-unit>
+			<trans-unit id="select_export_fields" resname="select_export_fields"  approved="yes">
+				<source>Please select the fields to export:</source>
+				<target>Bitte wählen Sie die zu exportierenden Felder:</target>
+			</trans-unit>
+			<trans-unit id="select_all" resname="select_all"  approved="yes">
+				<source>Select all</source>
+				<target>Alle auswählen</target>
+			</trans-unit>
+			<trans-unit id="deselect_all" resname="deselect_all"  approved="yes">
+				<source>Deselect all</source>
+				<target>Auswahl aufheben</target>
+			</trans-unit>
+			<trans-unit id="export" resname="export"  approved="yes">
+				<source>Export</source>
+				<target>Exportieren</target>
+			</trans-unit>
+			<trans-unit id="export_all" resname="export_all"  approved="yes">
+				<source>Export all</source>
+				<target>Alle exportieren</target>
+			</trans-unit>
+			<trans-unit id="export_as" resname="export_as"  approved="yes">
+				<source>Export as</source>
+				<target>Exportieren als</target>
+			</trans-unit>
+			<trans-unit id="ip_address" resname="ip_address"  approved="yes">
+				<source>IP address</source>
+				<target>IP-Adresse</target>
+			</trans-unit>
+			<trans-unit id="search" resname="search"  approved="yes">
+				<source>Search</source>
+				<target>Suchen</target>
+			</trans-unit>
+			<trans-unit id="submission_date" resname="submission_date"  approved="yes">
+				<source>Submission date</source>
+				<target>Absendedatum</target>
+			</trans-unit>
+			<trans-unit id="submitted_values" resname="submitted_values"  approved="yes">
+				<source>Submitted values</source>
+				<target>Submitted values</target>
+			</trans-unit>
+			<trans-unit id="submission_details" resname="submission_details"  approved="yes">
+				<source>Submission details</source>
+				<target>Formulardetails</target>
+			</trans-unit>
+			<trans-unit id="footer_text" resname="footer_text"  approved="yes">
+				<source>Generated by Formhandler using TCPDF at %s</source>
+				<target>Generiert von Formhandler mit TCPDF am %s</target>
+			</trans-unit>
+			<trans-unit id="fieldname" resname="fieldname"  approved="yes">
+				<source>Name</source>
+				<target>Name</target>
+			</trans-unit>
+			<trans-unit id="fieldvalue" resname="fieldvalue"  approved="yes">
+				<source>Entered value</source>
+				<target>Eingegebener Wert</target>
+			</trans-unit>
+			<trans-unit id="page" resname="page"  approved="yes">
+				<source>Page</source>
+				<target>Seite</target>
+			</trans-unit>
+			<trans-unit id="page_id" resname="page_id"  approved="yes">
+				<source>Page ID</source>
+				<target>Seiten-ID</target>
+			</trans-unit>
+			<trans-unit id="params" resname="params"  approved="yes">
+				<source>Params</source>
+				<target>Formularwerte</target>
+			</trans-unit>
+			<trans-unit id="back" resname="back"  approved="yes">
+				<source>Back</source>
+				<target>Zurück</target>
+			</trans-unit>
+			<trans-unit id="pdf" resname="pdf"  approved="yes">
+				<source>PDF</source>
+				<target>PDF</target>
+			</trans-unit>
+			<trans-unit id="csv" resname="csv"  approved="yes">
+				<source>CSV</source>
+				<target>CSV</target>
+			</trans-unit>
+			<trans-unit id="filter" resname="filter"  approved="yes">
+				<source>Filter</source>
+				<target>Filter</target>
+			</trans-unit>
+			<trans-unit id="pid_label" resname="pid_label"  approved="yes">
+				<source>PID (comma seperated)</source>
+				<target>Seiten-ID (Beistrich getrennt)</target>
+			</trans-unit>
+			<trans-unit id="startdate" resname="startdate"  approved="yes">
+				<source>Start date</source>
+				<target>Startzeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="enddate" resname="enddate"  approved="yes">
+				<source>End date</source>
+				<target>Endzeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="detail_view" resname="detail_view"  approved="yes">
+				<source>Detail view</source>
+				<target>Detailansicht</target>
+			</trans-unit>
+			<trans-unit id="delete_selected" resname="delete_selected"  approved="yes">
+				<source>Delete selected</source>
+				<target>Ausgewählte löschen</target>
+			</trans-unit>
+			<trans-unit id="delete_question" resname="delete_question"  approved="yes">
+				<source>Remove selected records?</source>
+				<target>Ausgewählte Datensätze wirklich löschen?</target>
+			</trans-unit>
+			<trans-unit id="show" resname="show"  approved="yes">
+				<source>Show</source>
+				<target>Anzeigen</target>
+			</trans-unit>
+			<trans-unit id="cal" resname="cal"  approved="yes">
+				<source>Cal</source>
+				<target>Kalender</target>
+			</trans-unit>
+			<trans-unit id="no_records" resname="no_records"  approved="yes">
+				<source>No records found!</source>
+				<target>Keine Datensätze gefunden!</target>
+			</trans-unit>
+			<trans-unit id="formats_found" resname="formats_found"  approved="yes">
+				<source>%d formats found! Please export them in seperatefiles!</source>
+				<target>%d verschiedene Formate gefunden! Bitte exportieren Sie diese in unterschiedliche Dateien</target>
+			</trans-unit>
+			<trans-unit id="crdate" resname="crdate"  approved="yes">
+				<source>Date</source>
+				<target>Datum</target>
+			</trans-unit>
+			<trans-unit id="welcome" resname="welcome"  approved="yes">
+				<source>Welcome to the log of Formhandler!</source>
+				<target>Willkommen zu der Log-Übersicht von Formhandler!</target>
+			</trans-unit>
+			<trans-unit id="mathguard_question" resname="mathguard_question"  approved="yes">
+				<source> security question, please solve:</source>
+				<target> Sicherheitsabfrage. Bitte lösen Sie folgende Rechnung:</target>
+			</trans-unit>
+			<trans-unit id="clear" resname="clear"  approved="yes">
+				<source>Delete</source>
+				<target>Löschen</target>
+			</trans-unit>
+			<trans-unit id="clear-logs-message" resname="clear-logs-message"  approved="yes">
+				<source>Do you really want to delete %d logged records? These changes cannot be reverted!</source>
+				<target>Wollen Sie wirklich alle %d Log-Datensätze löschen? Diese Änderungen können nicht rückgängig gemacht werden!</target>
+			</trans-unit>
+			<trans-unit id="no-logs-message" resname="no-logs-message"  approved="yes">
+				<source>Nothing to remove!</source>
+				<target>Keine Log-Datensätze gefunden!</target>
+			</trans-unit>
+			<trans-unit id="clear-logs-success-header" resname="clear-logs-success-header"  approved="yes">
+				<source>Success!</source>
+				<target>Erfolgreich!</target>
+			</trans-unit>
+			<trans-unit id="clear-logs-success-message" resname="clear-logs-success-message"  approved="yes">
+				<source>%d records were removed successfully!</source>
+				<target>%d Datensätze wurden erfolgreich gelöscht!</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

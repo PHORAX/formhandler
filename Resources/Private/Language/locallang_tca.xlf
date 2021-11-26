@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-11-12T18:14:58Z" product-name="formhandler">
+		<header/>
+		<body>
+			<trans-unit id="formhandler.pi_flexform.sheet_general" resname="formhandler.pi_flexform.sheet_general" >
+				<source>General Settings</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.sheet_emailAdminSettings" resname="formhandler.pi_flexform.sheet_emailAdminSettings" >
+				<source>Admin E-Mail Settings</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.sheet_emailUserSettings" resname="formhandler.pi_flexform.sheet_emailUserSettings" >
+				<source>User E-Mail Settings</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.sheet_miscSettings" resname="formhandler.pi_flexform.sheet_miscSettings" >
+				<source>Other Settings</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.template_file" resname="formhandler.pi_flexform.template_file" >
+				<source>Template File</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.emailRecipient" resname="formhandler.pi_flexform.emailRecipient" >
+				<source>Recipient</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.emailSubject" resname="formhandler.pi_flexform.emailSubject" >
+				<source>Subject</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.emailFrom" resname="formhandler.pi_flexform.emailFrom" >
+				<source>Mail From E-mail</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.emailFromName" resname="formhandler.pi_flexform.emailFromName" >
+				<source>Mail From Name</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.redirectPage" resname="formhandler.pi_flexform.redirectPage" >
+				<source>Redirect Page</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.store_gp" resname="formhandler.pi_flexform.store_gp" >
+				<source>Store data in session when submitting the form</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.mandatoryFields" resname="formhandler.pi_flexform.mandatoryFields" >
+				<source>Mandatory fields (enter names of formular fields seperated by &quot;,&quot;)</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.replyTo" resname="formhandler.pi_flexform.replyTo" >
+				<source>Reply-To E-mail (optional, name of input field)</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.replyToName" resname="formhandler.pi_flexform.replyToName" >
+				<source>Reply-To Name (optional, name of input field)</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.cc" resname="formhandler.pi_flexform.cc" >
+				<source>Send CC E-mail to (optional, name of input field)</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.ccName" resname="formhandler.pi_flexform.ccName" >
+				<source>CC Name</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.bcc" resname="formhandler.pi_flexform.bcc" >
+				<source>Send BCC E-mail to (optional, name of input field)</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.bccName" resname="formhandler.pi_flexform.bccName" >
+				<source>BCC Name</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.emailConfirm" resname="formhandler.pi_flexform.emailConfirm" >
+				<source>Send E-mail to address entered in form (enter name of form field here)</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.emailConfirmSubject" resname="formhandler.pi_flexform.emailConfirmSubject" >
+				<source>Subject of the mail to the user:</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.template_predefined" resname="formhandler.pi_flexform.template_predefined" >
+				<source>Predefined forms:</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.template_controller" resname="formhandler.pi_flexform.template_controller" >
+				<source>Controller:</source>
+			</trans-unit>
+			<trans-unit id="formhandler.pi_flexform.lang_file" resname="formhandler.pi_flexform.lang_file" >
+				<source>Translation File</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
