@@ -7,7 +7,7 @@
     "require": {
         "typo3/cms-core": "^11.5.0",
         "tecnickcom/tcpdf": "^6.0",
-        "typo3/cms-extbase": "^11.4.0",
+        "typo3/cms-extbase": "^11.5.0",
         "typo3/cms-fluid": "^11.5.0",
         "typo3/cms-frontend": "^11.5.0",
         "parsecsv/php-parsecsv": "^1.2"
