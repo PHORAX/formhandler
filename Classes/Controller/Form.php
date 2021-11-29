@@ -303,7 +303,7 @@ class Form extends AbstractController
                                     'fileMinCount',
                                     'fileMaxSize',
                                     'fileMinSize',
-                                    'fileMaxTotalSize'
+                                    'fileMaxTotalSize',
                                 ];
                                 $merged = array_merge($userSetting, $autoSetting);
                                 $tsConfig['config.']['restrictErrorChecks'] = implode(',', $merged);
@@ -864,7 +864,7 @@ class Form extends AbstractController
             'inserted_tstamp' => null,
             'key_hash' => null,
             'finished' => null,
-            'finishedSteps' => []
+            'finishedSteps' => [],
         ];
         $this->globals->getSession()->setMultiple($values);
         $this->gp = $gp;
@@ -1231,7 +1231,7 @@ class Form extends AbstractController
             'currentStep' => $this->currentStep,
             'totalSteps' => $this->totalSteps,
             'lastStep' => $this->lastStep,
-            'templateSuffix' => $this->settings['templateSuffix']
+            'templateSuffix' => $this->settings['templateSuffix'],
         ];
         $this->globals->getSession()->setMultiple($values);
         $this->globals->setFormValuesPrefix($this->formValuesPrefix);

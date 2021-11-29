@@ -3,6 +3,7 @@
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
 use ThinkopenAt\Captcha\Utility;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
  *                                                                        *

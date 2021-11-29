@@ -110,7 +110,7 @@ class Csv extends AbstractGenerator
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [
-            'action' => 'csv'
+            'action' => 'csv',
         ];
         $params = [];
         if ($prefix) {

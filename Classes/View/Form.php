@@ -212,7 +212,7 @@ class Form extends AbstractView
                             if ($fieldName) {
                                 $markers = [
                                     '###fieldname###' => $fieldName,
-                                    '###formValuesPrefix###' => $this->globals->getFormValuesPrefix()
+                                    '###formValuesPrefix###' => $this->globals->getFormValuesPrefix(),
                                 ];
                                 foreach ($params as $paramKey => $paramValue) {
                                     $markers['###param' . (++$paramKey) . '###'] = $paramValue;
@@ -352,7 +352,7 @@ class Form extends AbstractView
     {
         $markers = [
             '###FORM_STARTBLOCK###' => $this->globals->getSession()->get('startblock'),
-            '###FORM_ENDBLOCK###' => $this->globals->getSession()->get('endblock')
+            '###FORM_ENDBLOCK###' => $this->globals->getSession()->get('endblock'),
         ];
         $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
     }

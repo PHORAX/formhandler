@@ -50,7 +50,7 @@ class JQuery extends AbstractAjaxHandler
         $this->validationStatusClasses = [
             'base' => 'formhandler-validation-status',
             'valid' => 'form-valid',
-            'invalid' => 'form-invalid'
+            'invalid' => 'form-invalid',
         ];
         if (is_array($this->settings['validationStatusClasses.'])) {
             if ($this->settings['validationStatusClasses.']['base']) {
@@ -166,7 +166,7 @@ class JQuery extends AbstractAjaxHandler
         $params = [
             'eID' => 'formhandler-removefile',
             'field' => $field,
-            'uploadedFileName' => $uploadedFileName
+            'uploadedFileName' => $uploadedFileName,
         ];
         $url = $this->utilityFuncs->getAjaxUrl($params);
         return sprintf($this->templates['aRemoveLink'], $url, $text);

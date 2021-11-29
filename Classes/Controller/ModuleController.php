@@ -9,8 +9,8 @@ use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Domain\Model\Demand;
 use Typoheads\Formhandler\Domain\Model\LogData;
-use Typoheads\Formhandler\Generator\BackendCsv;
 use Typoheads\Formhandler\Domain\Repository\LogDataRepository;
+use Typoheads\Formhandler\Generator\BackendCsv;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -61,7 +61,6 @@ class ModuleController extends ActionController
     {
         $this->logDataRepository = $logDataRepository;
     }
-
 
     /**
      * @var \TYPO3\CMS\Core\Page\PageRenderer
@@ -154,7 +153,7 @@ class ModuleController extends ActionController
                     [
                         'logDataUids' => $logDataUids,
                         'fields' => $fields,
-                        'filetype' => $filetype
+                        'filetype' => $filetype,
                     ]
                 );
             }
@@ -164,16 +163,16 @@ class ModuleController extends ActionController
                 'global' => [
                     'pid',
                     'ip',
-                    'submission_date'
+                    'submission_date',
                 ],
                 'system' => [
                     'randomID',
                     'removeFile',
                     'removeFileField',
                     'submitField',
-                    'submitted'
+                    'submitted',
                 ],
-                'custom' => []
+                'custom' => [],
             ];
             foreach ($logDataRows as $logDataRow) {
                 $params = unserialize($logDataRow->getParams());
@@ -216,7 +215,7 @@ class ModuleController extends ActionController
                     'pid' => $logDataRow->getPid(),
                     'ip' => $logDataRow->getIp(),
                     'crdate' => $logDataRow->getCrdate(),
-                    'params' => unserialize($logDataRow->getParams())
+                    'params' => unserialize($logDataRow->getParams()),
                 ];
             }
             if ($filetype === 'pdf') {

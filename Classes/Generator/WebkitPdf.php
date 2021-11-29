@@ -98,10 +98,10 @@ class WebkitPdf extends AbstractGenerator
         $params = [
             'tx_webkitpdf_pi1' => [
                 'urls' => [
-                    $this->url
-                ]
+                    $this->url,
+                ],
             ],
-            'no_cache' => 1
+            'no_cache' => 1,
         ];
         return $this->cObj->getTypolink($text, $this->settings['pid'], $params);
     }
@@ -113,7 +113,7 @@ class WebkitPdf extends AbstractGenerator
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [
-            'action' => 'show'
+            'action' => 'show',
         ];
         $params = [];
         if ($prefix) {

@@ -53,7 +53,7 @@ class DifferentDB extends DB
             'host' => $this->utilityFuncs->getSingle($settings, 'host'),
             'port' => $this->utilityFuncs->getSingle($settings, 'port'),
             'driver' => $this->utilityFuncs->getSingle($settings, 'driver') ?: 'mysqli',
-            'initCommands' => $this->utilityFuncs->getSingle($settings, 'setDBinit')
+            'initCommands' => $this->utilityFuncs->getSingle($settings, 'setDBinit'),
         ];
 
         $connectionName = uniqid('formhandler_');

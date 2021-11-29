@@ -19,7 +19,7 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['formhandler-ajaxsubmit'] = 'EX
 if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['TYPO3\\CMS\\Scheduler\\Task\\TableGarbageCollectionTask']['options']['tables']['tx_formhandler_log'])) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['TYPO3\\CMS\\Scheduler\\Task\\TableGarbageCollectionTask']['options']['tables']['tx_formhandler_log'] = [
         'dateField' => 'tstamp',
-        'expirePeriod' => 180
+        'expirePeriod' => 180,
     ];
 }
 
@@ -35,7 +35,7 @@ $iconRegistry->registerIcon(
 if (!isset($GLOBALS['TYPO3_CONF_VARS']['LOG']['Typoheads']['Formhandler']['writerConfiguration'])) {
     $GLOBALS['TYPO3_CONF_VARS']['LOG']['Typoheads']['Formhandler']['writerConfiguration'] = [
         \TYPO3\CMS\Core\Log\LogLevel::ERROR => [
-            \TYPO3\CMS\Core\Log\Writer\SyslogWriter::class => []
+            \TYPO3\CMS\Core\Log\Writer\SyslogWriter::class => [],
         ],
     ];
 }

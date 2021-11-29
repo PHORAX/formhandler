@@ -7,7 +7,6 @@ use Rector\Core\ValueObject\PhpVersion;
 use Rector\PostRector\Rector\NameImportingPostRector;
 use Ssch\TYPO3Rector\Configuration\Typo3Option;
 use Ssch\TYPO3Rector\Rector\Composer\ExtensionComposerRector;
-use Ssch\TYPO3Rector\Rector\v9\v0\InjectAnnotationRector;
 use Ssch\TYPO3Rector\Set\Typo3SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -62,8 +61,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/Configuration/TCA/*',
             __DIR__ . '/ext_emconf.php',
             __DIR__ . '/ext_localconf.php',
-            __DIR__ . '/ext_tables.php'
-        ]
+            __DIR__ . '/ext_tables.php',
+        ],
     ]);
 
     // If you have trouble that rector cannot run because some TYPO3 constants are not defined add an additional constants file

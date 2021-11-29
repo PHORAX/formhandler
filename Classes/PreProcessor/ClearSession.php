@@ -35,7 +35,7 @@ class ClearSession extends AbstractPreProcessor
     public function process()
     {
         $sessionKeysToRemove = [
-            'finisher-storegp'
+            'finisher-storegp',
         ];
         if ($this->settings['sessionKeysToRemove']) {
             $sessionKeysToRemove = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'sessionKeysToRemove'));

@@ -7,16 +7,16 @@ return [
         'tableName' => 'tx_formhandler_log',
         'properties' => [
             'crdate' => [
-                'fieldname' => 'crdate'
+                'fieldname' => 'crdate',
             ],
             'isSpam' => [
-                'fieldname' => 'isSpam'
+                'fieldname' => 'isSpam',
             ],
             'params' => [
-                'fieldname' => 'params'
+                'fieldname' => 'params',
             ],
             'ip' => [
-                'fieldname' => 'ip'
+                'fieldname' => 'ip',
             ],
         ],
     ],
@@ -24,8 +24,8 @@ return [
         'tableName' => 'tx_formhandler_log',
         'properties' => [
             'isSpam' => [
-                'fieldName' => 'is_spam'
-            ]
-        ]
-    ]
+                'fieldName' => 'is_spam',
+            ],
+        ],
+    ],
 ];
