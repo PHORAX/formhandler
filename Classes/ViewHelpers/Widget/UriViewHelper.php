@@ -49,8 +49,8 @@ class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\UriViewHelper
         $additionalParams = [
             'tx_formhandler_web_formhandlerlog' => [
                 'demand' => $_POST['tx_formhandler_web_formhandlerlog']['demand'],
-                'show' => $_POST['tx_formhandler_web_formhandlerlog']['show']
-            ]
+                'show' => $_POST['tx_formhandler_web_formhandlerlog']['show'],
+            ],
         ];
         $queryParameters = array_merge($queryParameters, $additionalParams);
         return $uriBuilder->reset()

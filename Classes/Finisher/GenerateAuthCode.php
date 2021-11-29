@@ -37,7 +37,7 @@ class GenerateAuthCode extends AbstractFinisher
             $firstInsertInfo = [
                 'table' => $this->utilityFuncs->getSingle($this->settings, 'table'),
                 'uidField' => $uidField,
-                'uid' => $this->utilityFuncs->getSingle($this->settings, 'uid')
+                'uid' => $this->utilityFuncs->getSingle($this->settings, 'uid'),
             ];
         } elseif (is_array($this->gp['saveDB'])) {
             if (isset($this->settings['table'])) {
@@ -110,7 +110,7 @@ class GenerateAuthCode extends AbstractFinisher
                     'additionalParams' => GeneralUtility::implodeArrayForUrl('', $paramsArray),
                     'returnLast' => 'url',
                     'useCacheHash' => 1,
-                    'forceAbsoluteUrl' => 1
+                    'forceAbsoluteUrl' => 1,
                 ];
 
                 $url = $this->cObj->typoLink_URL($linkConf);

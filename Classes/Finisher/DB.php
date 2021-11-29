@@ -117,7 +117,7 @@ class DB extends AbstractFinisher
                 $info = [
                     'table' => $this->table,
                     'uid' => $this->gp['inserted_uid'],
-                    'uidField' => $this->key
+                    'uidField' => $this->key,
                 ];
                 array_push($this->gp['saveDB'], $info);
             } else {
@@ -125,7 +125,7 @@ class DB extends AbstractFinisher
                 $info = [
                     'table' => $this->table,
                     'uid' => $uid,
-                    'uidField' => $this->key
+                    'uidField' => $this->key,
                 ];
                 array_push($this->gp['saveDB'], $info);
             }

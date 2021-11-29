@@ -3,6 +3,7 @@
 namespace Typoheads\Formhandler\Utility;
 
 use TYPO3\CMS\Core\Http\ApplicationType;
+
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
 *                                                                        *
@@ -60,11 +61,11 @@ class TemplateTCPDF extends \TCPDF
             $text = str_ireplace(
                 [
                     '###PDF_PAGE_NUMBER###',
-                    '###PDF_TOTAL_PAGES###'
+                    '###PDF_TOTAL_PAGES###',
                 ],
                 [
                     $this->PageNo(),
-                    $this->numpages
+                    $this->numpages,
                 ],
                 $headerText
             );
@@ -87,11 +88,11 @@ class TemplateTCPDF extends \TCPDF
             $footerText = str_ireplace(
                 [
                     '###PDF_PAGE_NUMBER###',
-                    '###PDF_TOTAL_PAGES###'
+                    '###PDF_TOTAL_PAGES###',
                 ],
                 [
                     $this->getAliasNumPage(),
-                    $this->getAliasNbPages()
+                    $this->getAliasNbPages(),
                 ],
                 $footerText
             );

@@ -50,7 +50,7 @@ class PrintVersion extends AbstractGenerator
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [
-            'action' => 'show'
+            'action' => 'show',
         ];
         $params = [];
         if ($prefix) {

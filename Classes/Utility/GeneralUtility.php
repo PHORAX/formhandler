@@ -2,7 +2,6 @@
 
 namespace Typoheads\Formhandler\Utility;
 
-use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\Random;
@@ -10,6 +9,7 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
@@ -1049,7 +1049,7 @@ class GeneralUtility implements SingletonInterface
             'L' => \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id'),
             'randomID' => Globals::getRandomID(),
             'field' => $field,
-            'uploadedFileName' => $uploadedFileName
+            'uploadedFileName' => $uploadedFileName,
         ];
         $params = array_merge($params, $specialParams);
         return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'index.php?' . \TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);

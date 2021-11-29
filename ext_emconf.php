@@ -14,5 +14,5 @@ $EM_CONF['formhandler'] = [
     'depends' => [
       'typo3' => '11.5.0-11.99.99',
     ],
-  ]
+  ],
 ];

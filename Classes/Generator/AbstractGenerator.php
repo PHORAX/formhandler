@@ -50,7 +50,7 @@ abstract class AbstractGenerator extends AbstractComponent
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [
             'tstamp' => $this->globals->getSession()->get('inserted_tstamp'),
-            'hash' => $this->globals->getSession()->get('unique_hash')
+            'hash' => $this->globals->getSession()->get('unique_hash'),
         ];
         $params = [];
         if ($prefix) {

@@ -182,7 +182,7 @@ class LoadDB extends AbstractPreProcessor
                         'uploaded_path' => Environment::getPublicPath() . '/' . $uploadPath,
                         'uploaded_folder' => $uploadPath,
                         'uploaded_url' => $uploadedUrl,
-                        'size' => filesize($file)
+                        'size' => filesize($file),
                     ];
                 }
                 $this->globals->getSession()->set('files', $this->files);

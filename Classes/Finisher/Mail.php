@@ -565,7 +565,7 @@ class Mail extends AbstractFinisher
             'deleteGeneratedFiles',
             'htmlEmailAsAttachment',
             'plain.',
-            'html.'
+            'html.',
         ];
 
         $emailSettings[$type] = $this->parseEmailSettingsByType($emailSettings[$type . '.'], $type, $options);

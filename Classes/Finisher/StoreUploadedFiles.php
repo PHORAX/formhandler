@@ -95,7 +95,7 @@ class StoreUploadedFiles extends AbstractFinisher
                                 'copy_file',
                                 [
                                     ($file['uploaded_path'] . $file['uploaded_name']),
-                                    ($uploadPath . $newFilename)
+                                    ($uploadPath . $newFilename),
                                 ]
                             );
                             copy(($file['uploaded_path'] . $file['uploaded_name']), ($uploadPath . $newFilename));

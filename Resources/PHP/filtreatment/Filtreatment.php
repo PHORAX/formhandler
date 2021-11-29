@@ -200,7 +200,7 @@ class Filtreatment
                 "javascript\s*:"	=> '',
                 "Redirect\s+302"	=> '',
                 '<!--'			=> '&lt;!--',
-                '-->'			=> '--&gt;'
+                '-->'			=> '--&gt;',
         ];
 
         foreach ($bad as $key => $val) {

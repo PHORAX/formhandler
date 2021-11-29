@@ -98,7 +98,7 @@ class TcPdf extends AbstractGenerator
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [
-            'action' => 'pdf'
+            'action' => 'pdf',
         ];
         $params = [];
         if ($prefix) {

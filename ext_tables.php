@@ -10,15 +10,14 @@ if (TYPO3_MODE === 'BE') {
         'log',
         'bottom',
         [
-            \Typoheads\Formhandler\Controller\ModuleController::class => 'index, view, selectFields, export'
+            \Typoheads\Formhandler\Controller\ModuleController::class => 'index, view, selectFields, export',
         ],
         [
             'access' => 'user,group',
             'icon' => 'EXT:formhandler/Resources/Public/Icons/moduleicon.gif',
-            'labels' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_mod.xlf'
+            'labels' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_mod.xlf',
         ]
     );
-
 }
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_formhandler_log');
 // REGISTER ICONS FOR USE IN BACKEND WIZARD
