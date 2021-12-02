@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 use Typoheads\Formhandler\Controller\Dispatcher;
