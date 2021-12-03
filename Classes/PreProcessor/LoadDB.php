@@ -75,7 +75,7 @@ class LoadDB extends AbstractPreProcessor
         $this->data = $this->loadDB($this->settings['select.']);
 
         foreach ($this->settings as $step => $stepSettings) {
-            $step = preg_replace('/\.$/', '', $step);
+            $step = (int)preg_replace('/\.$/', '', $step);
 
             if ($step !== 'select') {
                 if ((int)$step === 1) {

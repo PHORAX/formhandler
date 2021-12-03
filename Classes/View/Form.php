@@ -489,7 +489,7 @@ class Form extends AbstractView
 				<input type="hidden" name="' . session_name() . '" value="' . session_id() . '" />
 			';
         }
-        $currentStepFromSession = $this->globals->getSession()->get('currentStep');
+        $currentStepFromSession = (int)$this->globals->getSession()->get('currentStep');
         $hiddenActionFieldName = 'step-';
         $prefix = $this->globals->getFormValuesPrefix();
         if ($prefix) {
@@ -548,7 +548,7 @@ class Form extends AbstractView
         }
         $previousStep = $currentStepFromSession - 1;
         if ($allowStepJumps && $this->globals->getSession()->get('lastStep') < $currentStepFromSession) {
-            $previousStep = $this->globals->getSession()->get('lastStep');
+            $previousStep = (int)$this->globals->getSession()->get('lastStep');
         }
         if ($previousStep < 1) {
             $previousStep = 1;

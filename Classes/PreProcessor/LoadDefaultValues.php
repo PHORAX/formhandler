@@ -48,7 +48,7 @@ class LoadDefaultValues extends AbstractPreProcessor
     public function process(): array
     {
         foreach ($this->settings as $step => $stepSettings) {
-            $step = preg_replace('/\.$/', '', $step);
+            $step = (int)preg_replace('/\.$/', '', $step);
 
             if ($step == 1) {
                 $this->loadDefaultValuesToGP($stepSettings);
