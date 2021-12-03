@@ -1180,7 +1180,7 @@ class Form extends AbstractController
      */
     protected function isFormSubmitted(): bool
     {
-        $submitted = $this->gp['submitted'];
+        $submitted = (bool)$this->gp['submitted'];
         if ($submitted) {
             foreach ($this->gp as $key => $value) {
                 if (substr($key, 0, 5) === 'step-') {

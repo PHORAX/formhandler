@@ -68,7 +68,7 @@ class JQuery extends AbstractAjaxHandler
         $autoDisableSubmitButton = $this->utilityFuncs->getSingle($this->settings, 'autoDisableSubmitButton');
 
         $this->jsPosition = trim($this->utilityFuncs->getSingle($this->settings, 'jsPosition'));
-        $isAjaxSubmit = (int)($this->utilityFuncs->getSingle($this->settings, 'ajaxSubmit'));
+        $isAjaxSubmit = (bool)($this->utilityFuncs->getSingle($this->settings, 'ajaxSubmit'));
 
         $submitButtonSelector = $this->utilityFuncs->getSingle($this->settings, 'submitButtonSelector');
         if (strlen(trim($submitButtonSelector)) === 0) {
