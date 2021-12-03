@@ -441,6 +441,7 @@ class GeneralUtility implements SingletonInterface
      */
     public static function dateToTimestamp(string $date, string $format = 'Y-m-d'): int
     {
+        $timestamp = 0;
         if (strlen(trim($date)) > 0) {
             if (version_compare(PHP_VERSION, '5.3.0') < 0) {
 
@@ -464,7 +465,6 @@ class GeneralUtility implements SingletonInterface
                     $timestamp = $dateObj->getTimestamp();
                 } else {
                     self::debugMessage('Error parsing the date. Supported formats: http://www.php.net/manual/en/datetime.createfromformat.php', [], 3, ['format' => $format, 'date' => $date]);
-                    $timestamp = 0;
                 }
             }
         }
@@ -949,7 +949,7 @@ class GeneralUtility implements SingletonInterface
     public static function convertBytes(string $value): int
     {
         if (is_numeric($value)) {
-            return $value;
+            return (int)$value;
         }
         $value_length = strlen($value);
         $qty = substr($value, 0, $value_length - 1);

@@ -27,6 +27,7 @@ abstract class AbstractErrorCheck extends AbstractComponent
 
     public function process(): array
     {
+        return [];
     }
 
     public function setFormFieldName(string $name)

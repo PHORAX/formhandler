@@ -504,7 +504,7 @@ class DB extends AbstractFinisher
                 $uid = $this->gp['inserted_uid'];
             }
         }
-        return $uid;
+        return (int)$uid;
     }
 
     protected function getConnection(): Connection

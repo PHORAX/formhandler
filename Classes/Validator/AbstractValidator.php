@@ -33,6 +33,6 @@ abstract class AbstractValidator extends AbstractComponent
 
     public function process(): array
     {
-        return;
+        return [];
     }
 }

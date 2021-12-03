@@ -51,6 +51,7 @@ class SetLanguage extends AbstractFinisher
      */
     public function validateConfig(): bool
     {
+        $found = true;
         $settings = $this->globals->getSettings();
         if (is_array($settings['finishers.'])) {
             $found = false;

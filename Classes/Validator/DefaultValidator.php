@@ -275,5 +275,6 @@ class DefaultValidator extends AbstractValidator
                 }
             }
         }
+        return true;
     }
 }

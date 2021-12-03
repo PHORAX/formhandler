@@ -27,6 +27,7 @@ class PdfGenerator extends AbstractGenerator
      */
     public function process(): array
     {
+        return [];
     }
 
     /* (non-PHPdoc)

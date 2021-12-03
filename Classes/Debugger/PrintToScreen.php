@@ -71,5 +71,7 @@ class PrintToScreen extends AbstractDebugger
         if (!$this->settings['severityWrap.']['3']) {
             $this->settings['severityWrap.']['3'] = '<span style="color:#FF2800;">|</span>';
         }
+
+        return true;
     }
 }

@@ -33,6 +33,7 @@ abstract class AbstractDebugger extends AbstractComponent
     public function process(): array
     {
         //Not available for this type of component
+        return [];
     }
 
     /**
