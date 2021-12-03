@@ -22,14 +22,14 @@ use Typoheads\Formhandler\Component\AbstractComponent;
  */
 abstract class AbstractErrorCheck extends AbstractComponent
 {
-    protected $formFieldName;
-    protected $mandatoryParameters = [];
+    protected string $formFieldName = '';
+    protected array $mandatoryParameters = [];
 
-    public function process()
+    public function process(): array
     {
     }
 
-    public function setFormFieldName($name)
+    public function setFormFieldName(string $name)
     {
         $this->formFieldName = $name;
     }
@@ -39,7 +39,7 @@ abstract class AbstractErrorCheck extends AbstractComponent
      *
      * @return string If the check failed, the string contains the name of the failed check plus the parameters and values.
      */
-    abstract public function check();
+    abstract public function check(): string;
 
     /**
      * Sets the suitable string for the checkFailed message parsed in view.
@@ -47,7 +47,7 @@ abstract class AbstractErrorCheck extends AbstractComponent
      * @param array $check The parsed check settings
      * @return string The check failed string
      */
-    protected function getCheckFailed()
+    protected function getCheckFailed(): string
     {
         $parts = explode('\\', get_class($this));
         $checkFailed = lcfirst(array_pop($parts));
@@ -61,7 +61,7 @@ abstract class AbstractErrorCheck extends AbstractComponent
         return $checkFailed;
     }
 
-    public function validateConfig()
+    public function validateConfig(): bool
     {
         $valid = true;
         if (!$this->formFieldName) {

@@ -34,7 +34,7 @@ class Redirect extends AbstractFinisher
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
 
         //read redirect page
@@ -53,7 +53,7 @@ class Redirect extends AbstractFinisher
      * @param array The GET/POST values
      * @param array The TypoScript configuration
      */
-    public function init($gp, $tsConfig)
+    public function init(array $gp, array $tsConfig): void
     {
         $this->gp = $gp;
         $this->settings = $tsConfig;

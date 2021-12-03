@@ -41,7 +41,7 @@ class SubmittedOK extends AbstractFinisher
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
 
         //read template file

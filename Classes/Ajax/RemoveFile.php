@@ -28,47 +28,47 @@ class RemoveFile
     /**
      * @var string
      */
-    private $fieldName;
+    private string $fieldName = '';
 
     /**
      * @var string
      */
-    private $uploadedFileName;
+    private string $uploadedFileName = '';
 
     /**
      * @var Manager
      */
-    private $componentManager;
+    private Manager $componentManager;
 
     /**
      * @var Globals
      */
-    private $globals;
+    private Globals $globals;
 
     /**
      * @var int
      */
-    private $id;
+    private int $id = 0;
 
     /**
      * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
-    private $utilityFuncs;
+    private \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs;
 
     /**
      * @var array
      */
-    private $settings;
+    private array $settings = [];
 
     /**
      * @var array
      */
-    private $langFiles;
+    private array $langFiles = [];
 
     /**
      * Main method of the class.
      */
-    public function main()
+    public function main(): void
     {
         $this->init();
         $content = '';
@@ -129,7 +129,7 @@ class RemoveFile
     /**
      * Initialize the class. Read GET parameters
      */
-    protected function init()
+    protected function init(): void
     {
         $this->fieldName = htmlspecialchars($_GET['field']);
         $this->uploadedFileName = htmlspecialchars($_GET['uploadedFileName']);

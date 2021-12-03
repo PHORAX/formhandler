@@ -27,8 +27,8 @@ abstract class AbstractMailer extends AbstractComponent
     /**
      * Not needed for this type of component
      */
-    public function process()
+    public function process(): array 
     {
-        return;
+        return [];
     }
 }

@@ -28,21 +28,21 @@ class TemplateTCPDF extends \TCPDF
      *
      * @var string
      */
-    protected $sysLangFile;
+    protected string $sysLangFile = '';
 
     /**
      * Text for the header
      *
      * @var string
      */
-    protected $headerText;
+    protected string $headerText = '';
 
     /**
      * Text for the footer
      *
      * @var string
      */
-    protected $footerText;
+    protected string $footerText = '';
 
     public function __construct()
     {
@@ -53,7 +53,7 @@ class TemplateTCPDF extends \TCPDF
     /**
      * Generates the header of the page
      */
-    public function Header()
+    public function Header(): void
     {
         $headerText = $this->getHeaderText();
         if (strlen($headerText) > 0) {
@@ -77,7 +77,7 @@ class TemplateTCPDF extends \TCPDF
     /**
      * Generates the footer
      */
-    public function Footer()
+    public function Footer(): void
     {
 
         //Position at 1.5 cm from bottom
@@ -113,7 +113,7 @@ class TemplateTCPDF extends \TCPDF
      * @param string $key The key
      * @return string The translation
      */
-    private function getLL($key)
+    private function getLL(string $key): string
     {
         global $LANG;
         if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
@@ -130,7 +130,7 @@ class TemplateTCPDF extends \TCPDF
      *
      * @param string $s The string to set as PDF Header Text
      */
-    public function setHeaderText($s)
+    public function setHeaderText(string $s): void
     {
         $this->headerText = $s;
     }
@@ -140,7 +140,7 @@ class TemplateTCPDF extends \TCPDF
      *
      * @param string $s The string to set as PDF Header Text
      */
-    public function setFooterText($s)
+    public function setFooterText(string $s): void
     {
         $this->footerText = $s;
     }
@@ -150,7 +150,7 @@ class TemplateTCPDF extends \TCPDF
      *
      * @return string
      */
-    public function getHeaderText()
+    public function getHeaderText(): string
     {
         return $this->headerText;
     }
@@ -160,7 +160,7 @@ class TemplateTCPDF extends \TCPDF
      *
      * @return string
      */
-    public function getFooterText()
+    public function getFooterText(): string
     {
         return $this->footerText;
     }

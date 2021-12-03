@@ -28,12 +28,12 @@ abstract class AbstractSession extends AbstractClass
      *
      * @var bool
      */
-    protected $started = false;
+    protected bool $started = false;
 
     /**
      * Starts a new session
      */
-    public function start()
+    public function start(): void
     {
         if ((int)($this->utilityFuncs->getSingle($this->settings, 'disableCookies')) === 1) {
             ini_set('session.use_only_cookies', 'off');
@@ -54,14 +54,14 @@ abstract class AbstractSession extends AbstractClass
      * @param string $key The key
      * @param string $value The value to set
      */
-    abstract public function set($key, $value);
+    abstract public function set(string $key, string $value): void;
 
     /**
      * Sets multiple keys at once
      *
      * @param array $values key value pairs
      */
-    abstract public function setMultiple($values);
+    abstract public function setMultiple(array $values): void;
 
     /**
      * Get the value of the given key
@@ -69,21 +69,21 @@ abstract class AbstractSession extends AbstractClass
      * @param string $key The key
      * @return string The value
      */
-    abstract public function get($key);
+    abstract public function get(string $key): string;
 
     /**
      * Checks if a session exists
      *
      * @return bool
      */
-    abstract public function exists();
+    abstract public function exists(): bool;
 
     /**
      * Resets all session values
      */
-    abstract public function reset();
+    abstract public function reset(): void;
 
-    protected function getOldSessionThreshold()
+    protected function getOldSessionThreshold(): int
     {
         $threshold = $this->utilityFuncs->getTimestamp(1, 'hours');
 
@@ -102,7 +102,7 @@ abstract class AbstractSession extends AbstractClass
      * @param array $gp GET and POST variable array
      * @param array $settings Typoscript configuration for the component (component.1.config.*)
      */
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         $this->gp = $gp;
         $this->settings = $settings;

@@ -29,7 +29,7 @@ abstract class AbstractGenerator extends AbstractComponent
      * @param array $linkGP The GET parameters to set
      * @return string The link
      */
-    public function getLink($linkGP = [])
+    public function getLink(array $linkGP = []): string
     {
         $text = $this->getLinkText();
 
@@ -46,7 +46,7 @@ abstract class AbstractGenerator extends AbstractComponent
      *
      * @return array The default parameters
      */
-    protected function getDefaultLinkParams()
+    protected function getDefaultLinkParams(): array
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [
@@ -79,14 +79,14 @@ abstract class AbstractGenerator extends AbstractComponent
      * @param array $linkGP The link parameters set before.
      * @return array The parameters
      */
-    abstract protected function getComponentLinkParams($linkGP);
+    abstract protected function getComponentLinkParams(array $linkGP): array;
 
     /**
      * Returns the link text.
      *
      * @return string The link text
      */
-    protected function getLinkText()
+    protected function getLinkText(): string
     {
         $text = $this->utilityFuncs->getSingle($this->settings, 'linkText');
         if (strlen($text) === 0) {
@@ -100,7 +100,7 @@ abstract class AbstractGenerator extends AbstractComponent
      *
      * @return string The link target
      */
-    protected function getLinkTarget()
+    protected function getLinkTarget(): string
     {
         $target = $this->utilityFuncs->getSingle($this->settings, 'linkTarget');
         if (strlen($target) === 0) {

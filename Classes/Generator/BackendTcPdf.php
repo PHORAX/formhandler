@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Generator;
 
 use Typoheads\Formhandler\Component\AbstractComponent;
+use Typoheads\Formhandler\Utility\TemplateTCPDF;
 
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
@@ -27,11 +28,11 @@ class BackendTcPdf extends AbstractComponent
     /**
      * The internal PDF object
      *
-     * @var Tx_Formhandler_Template_TCPDF
+     * @var TemplateTCPDF
      */
-    protected $pdf;
+    protected TemplateTCPDF $pdf;
 
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         parent::init($gp, $settings);
         $fileName = $this->utilityFuncs->getSingle($this->settings, 'fileName');
@@ -65,7 +66,7 @@ class BackendTcPdf extends AbstractComponent
         $this->settings['font'] = $font;
     }
 
-    public function process()
+    public function process(): array
     {
         $records = $this->settings['records'];
         $exportFields = $this->settings['exportFields'];
@@ -182,7 +183,7 @@ class BackendTcPdf extends AbstractComponent
      *
      * @param string $templateCode The template code
      */
-    public function setTemplateCode($templateCode)
+    public function setTemplateCode(string $templateCode): void
     {
         $this->templateCode = $templateCode;
     }

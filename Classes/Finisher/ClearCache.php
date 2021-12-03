@@ -42,7 +42,7 @@ class ClearCache extends AbstractFinisher
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         $pidList = $this->utilityFuncs->getSingle($this->settings, 'pidList');
         if (empty($pidList)) {

@@ -22,7 +22,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  */
 class JmRecaptcha extends AbstractErrorCheck
 {
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
         if (ExtensionManagementUtility::isLoaded('jm_recaptcha')) {

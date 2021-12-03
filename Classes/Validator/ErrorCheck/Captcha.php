@@ -22,7 +22,7 @@ use ThinkopenAt\Captcha\Utility;
  */
 class Captcha extends AbstractErrorCheck
 {
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
 

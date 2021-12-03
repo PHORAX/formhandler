@@ -27,7 +27,7 @@ class TranslateFields extends AbstractInterceptor
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         $this->langFiles = $this->globals->getLangFiles();
         if (is_array($this->settings['translateFields.'])) {
@@ -48,7 +48,7 @@ class TranslateFields extends AbstractInterceptor
      * @param array $options The TS setting for the translation
      * @return string The translated message
      */
-    protected function translateFields($options)
+    protected function translateFields(array $options): string
     {
         $key = $this->utilityFuncs->getSingle($options, 'langKey');
         $field = $this->utilityFuncs->getSingle($options, 'field');

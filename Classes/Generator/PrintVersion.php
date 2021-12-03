@@ -25,14 +25,14 @@ class PrintVersion extends AbstractGenerator
     /**
      * Unused
      */
-    public function process()
+    public function process(): array 
     {
     }
 
     /* (non-PHPdoc)
      * @see Classes/Generator/AbstractGenerator#getLinkText()
     */
-    protected function getLinkText()
+    protected function getLinkText(): string
     {
         $text = $this->utilityFuncs->getSingle($this->settings, 'linkText');
         if (strlen($text) == 0) {
@@ -47,7 +47,7 @@ class PrintVersion extends AbstractGenerator
     /* (non-PHPdoc)
      * @see Classes/Generator/AbstractGenerator#getComponentLinkParams($linkGP)
     */
-    protected function getComponentLinkParams($linkGP)
+    protected function getComponentLinkParams(array $linkGP): array
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [

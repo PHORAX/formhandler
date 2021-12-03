@@ -31,7 +31,7 @@ class SubmittedOK extends Form
      *
      * @return string Template with replaced markers
      */
-    protected function fillDefaultMarkers()
+    protected function fillDefaultMarkers(): void
     {
         parent::fillDefaultMarkers();
         $params = [];

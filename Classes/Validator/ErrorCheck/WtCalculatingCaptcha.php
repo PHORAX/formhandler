@@ -23,7 +23,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class WtCalculatingCaptcha extends AbstractErrorCheck
 {
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
         if (ExtensionManagementUtility::isLoaded('wt_calculating_captcha')) {

@@ -29,9 +29,9 @@ abstract class AbstractValidator extends AbstractComponent
      * @param array $errors Reference to the errors array to store the errors occurred
      * @return bool
      */
-    abstract public function validate(&$errors);
+    abstract public function validate(array &$errors): bool;
 
-    public function process()
+    public function process(): array
     {
         return;
     }

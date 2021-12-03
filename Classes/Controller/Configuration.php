@@ -38,17 +38,17 @@ class Configuration implements \ArrayAccess
      *
      * @var array
      */
-    protected $setup;
+    protected array $setup = [];
 
     /**
      * @var Globals
      */
-    private $globals;
+    private Globals $globals;
 
     /**
      * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
-    private $utilityFuncs;
+    private \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs;
 
     /**
      * The constructor reading the TS setup into the according attribute
@@ -73,7 +73,7 @@ class Configuration implements \ArrayAccess
      *
      * @param array|null $setup
      */
-    public function merge($setup)
+    public function merge(?array $setup)
     {
         if (isset($setup) && is_array($setup)) {
             $settings = $this->setup['settings.'];
@@ -82,22 +82,22 @@ class Configuration implements \ArrayAccess
         }
     }
 
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->setup['settings.'][$offset];
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->setup['settings.'][$offset] = $value;
     }
 
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->setup['settings.'][$offset]);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         $this->setup['settings.'][$offset] = null;
     }
@@ -107,7 +107,7 @@ class Configuration implements \ArrayAccess
      *
      * @return array The settings
      */
-    public function getSettings()
+    public function getSettings(): array
     {
         return isset($this->setup['settings.']) ? $this->setup['settings.'] : null;
     }
@@ -117,7 +117,7 @@ class Configuration implements \ArrayAccess
      *
      * @return array The config
      */
-    public function getSourcesConfiguration()
+    public function getSourcesConfiguration(): array
     {
         return isset($this->setup['sources.']) ? $this->setup['sources.'] : null;
     }
@@ -127,7 +127,7 @@ class Configuration implements \ArrayAccess
      *
      * @return string
      */
-    public function getPackageKey()
+    public function getPackageKey(): string
     {
         return self::PACKAGE_KEY;
     }
@@ -137,7 +137,7 @@ class Configuration implements \ArrayAccess
      *
      * @return string
      */
-    public function getPackageKeyLowercase()
+    public function getPackageKeyLowercase(): string
     {
         return strtolower($this->getPackageKey());
     }
@@ -147,7 +147,7 @@ class Configuration implements \ArrayAccess
      *
      * @return string
      */
-    public function getPrefixedPackageKey()
+    public function getPrefixedPackageKey(): string
     {
         return 'Tx_' . self::PACKAGE_KEY . "_pi1";
     }
@@ -157,7 +157,7 @@ class Configuration implements \ArrayAccess
      *
      * @return string
      */
-    public function getPrefixedPackageKeyLowercase()
+    public function getPrefixedPackageKeyLowercase(): string
     {
         return strtolower($this->getPrefixedPackageKey());
     }

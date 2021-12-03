@@ -25,7 +25,7 @@ class File extends AbstractGenerator
     /**
      * Renders the XML file.
      */
-    public function process()
+    public function process(): array
     {
         $view = $this->componentManager->getComponent('Typoheads\Formhandler\View\File');
         $this->filename = false;
@@ -87,7 +87,7 @@ class File extends AbstractGenerator
         exit;
     }
 
-    protected function getComponentLinkParams($linkGP)
+    protected function getComponentLinkParams(array $linkGP): array
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = ['action' => 'file'];

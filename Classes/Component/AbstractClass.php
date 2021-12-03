@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Component;
 
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use Typoheads\Formhandler\Controller\Configuration;
 use Typoheads\Formhandler\Utility\GeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
+use Typoheads\Formhandler\Component\Manager;
 
 /*                                                                       *
  * This script is part of the TYPO3 project - inspiring people to share!  *
@@ -32,45 +34,45 @@ abstract class AbstractClass
      *
      * @var \Typoheads\Formhandler\Component\Manager
      */
-    protected $componentManager;
+    protected Manager $componentManager;
 
     /**
      * The global Formhandler configuration
      *
      * @var \Typoheads\Formhandler\Controller\Configuration
      */
-    protected $configuration;
+    protected Configuration $configuration;
 
     /**
      * The global Formhandler values
      *
      * @var \Typoheads\Formhandler\Utility\Globals
      */
-    protected $globals;
+    protected Globals $globals;
 
     /**
      * The Formhandler utility methods
      *
      * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
-    protected $utilityFuncs;
+    protected GeneralUtility $utilityFuncs;
 
     /**
      * The cObj
      *
      * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
-    protected $cObj;
+    protected ContentObjectRenderer $cObj;
 
     /**
      * @var array
      */
-    protected $settings;
+    protected array $settings = [];
 
     /**
      * @var array
      */
-    protected $validationStatusClasses;
+    protected array $validationStatusClasses = [];
 
     /**
      * The constructor for an interceptor setting the component manager and the configuration.

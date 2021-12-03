@@ -31,7 +31,7 @@ class Url extends AbstractErrorCheck
      * @param array &$gp The current GET/POST parameters
      * @return string The error string
      */
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
 

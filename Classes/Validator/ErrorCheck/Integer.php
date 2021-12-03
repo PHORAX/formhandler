@@ -21,7 +21,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class Integer extends AbstractErrorCheck
 {
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
         if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {

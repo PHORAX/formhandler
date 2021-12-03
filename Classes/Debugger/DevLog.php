@@ -27,7 +27,7 @@ class DevLog extends AbstractDebugger
     /**
      * Inserts the messages to the devlog
      */
-    public function outputDebugLog()
+    public function outputDebugLog(): void
     {
         foreach ($this->debugLog as $section => $logData) {
             foreach ($logData as $messageData) {

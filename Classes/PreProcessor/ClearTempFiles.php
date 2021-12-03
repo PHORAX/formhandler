@@ -38,7 +38,7 @@ class ClearTempFiles extends AbstractPreProcessor
      * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         $olderThanValue = $this->utilityFuncs->getSingle($this->settings['clearTempFilesOlderThan.'], 'value');
         $olderThanUnit = $this->utilityFuncs->getSingle($this->settings['clearTempFilesOlderThan.'], 'unit');
@@ -55,7 +55,7 @@ class ClearTempFiles extends AbstractPreProcessor
      * @param int $olderThanValue Delete files older than this value.
      * @param string $olderThanUnit The unit for $olderThan. May be seconds|minutes|hours|days
      */
-    protected function clearTempFiles($olderThanValue, $olderThanUnit)
+    protected function clearTempFiles(int $olderThanValue, string $olderThanUnit): void
     {
         if (!$olderThanValue) {
             return;

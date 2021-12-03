@@ -30,7 +30,7 @@ class GenerateAuthCode extends AbstractFinisher
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         $firstInsertInfo = [];
         if ($this->utilityFuncs->getSingle($this->settings, 'uid')) {
@@ -127,7 +127,7 @@ class GenerateAuthCode extends AbstractFinisher
      * @param array The submitted form data
      * @return string The auth code
      */
-    protected function generateAuthCode($row)
+    protected function generateAuthCode(array $row): string
     {
         return GeneralUtility::hmac(serialize($row), 'formhandler');
     }

@@ -43,12 +43,12 @@ class AutoDB extends DB
      * @todo Make it protected var in Tx_Formhandler_AbstractFinisher
      * @var string
      */
-    public $settings;
+    public string $settings = '';
 
     /**
      * @var string Attributes for new db fields
      */
-    protected $newFieldsSqlAttribs = 'text';
+    protected string $newFieldsSqlAttribs = 'text';
 
     /**
      * Initialize the component
@@ -56,7 +56,7 @@ class AutoDB extends DB
      * @param array $gp
      * @param array $settings
      */
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         if (!is_array($settings['fields.'])) {
             $settings['fields.'] = [];
@@ -71,7 +71,7 @@ class AutoDB extends DB
     /* (non-PHPdoc)
      * @see Classes/Finisher/Tx_Formhandler_Finisher_DB#parseFields()
      */
-    protected function parseFields()
+    protected function parseFields(): array
     {
         $doAutoCreate = (int)($this->utilityFuncs->getSingle($this->settings, 'newFieldsSqlAttribs'));
         if ($doAutoCreate === 1 && GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('backend.user', 'isLoggedIn')) {
@@ -102,7 +102,7 @@ class AutoDB extends DB
      *
      * @return array
      */
-    protected function getFormFieldNames()
+    protected function getFormFieldNames(): array
     {
         $pattern = '/\<(?=input|select|textarea)[^\>]*name=("|\')([^"\']*)\1/i';
 
@@ -117,7 +117,7 @@ class AutoDB extends DB
      *
      * @return array
      */
-    protected function getFormFields()
+    protected function getFormFields(): array
     {
         $invokePrefix = strlen($this->globals->getFormValuesPrefix()) > 0;
         $prefix = $this->globals->getFormValuesPrefix();
@@ -140,7 +140,7 @@ class AutoDB extends DB
      * field (uid). Then it syncs the DB-fields with the fields found in the form
      * with help of template parser
      */
-    protected function createTable()
+    protected function createTable(): void
     {
         $fields = $this->getFormFields();
         $excludeFields = trim($this->utilityFuncs->getSingle($this->settings, 'excludeFields'));

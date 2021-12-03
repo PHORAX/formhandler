@@ -32,7 +32,7 @@ class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\UriViewHelper
      * @param array $arguments
      * @return string the Widget URI
      */
-    protected static function getWidgetUri(RenderingContextInterface $renderingContext, array $arguments)
+    protected static function getWidgetUri(RenderingContextInterface $renderingContext, array $arguments): string
     {
         $controllerContext = $renderingContext->getControllerContext();
         $uriBuilder = $controllerContext->getUriBuilder();

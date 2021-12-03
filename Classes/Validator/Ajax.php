@@ -26,9 +26,9 @@ class Ajax extends AbstractValidator
      *
      * @var array
      */
-    protected $validators;
+    protected array $validators;
 
-    public function validate(&$errors)
+    public function validate(array &$errors): bool
     {
 
         //Nothing to do here
@@ -41,7 +41,7 @@ class Ajax extends AbstractValidator
      * @param array &$errors Reference to the errors array to store the errors occurred
      * @return bool
      */
-    public function validateAjax($field, $gp, &$errors)
+    public function validateAjax(string $field, array $gp, array &$errors): bool
     {
         $this->loadConfig();
         if ($this->validators) {
@@ -158,7 +158,7 @@ class Ajax extends AbstractValidator
         return empty($errors);
     }
 
-    public function loadConfig()
+    public function loadConfig(): void
     {
         $tsConfig = $this->globals->getSession()->get('settings');
         $this->settings = [];

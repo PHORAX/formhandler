@@ -29,7 +29,7 @@ class DB extends AbstractLogger
      *
      * @return array
      */
-    public function process()
+    public function process(): array
     {
 
         //set params
@@ -115,7 +115,7 @@ class DB extends AbstractLogger
         return $this->gp;
     }
 
-    protected function parseFieldOrder($order, $orderedFields = [])
+    protected function parseFieldOrder(array $order, array $orderedFields = []): array
     {
         foreach ($order as $fieldName) {
             if (strpos($fieldName, '|') !== false) {
@@ -128,7 +128,7 @@ class DB extends AbstractLogger
         return $orderedFields;
     }
 
-    protected function createDeep($array, $items)
+    protected function createDeep(array $array, array $items): array
     {
         if (count($items) > 0) {
             $item = array_shift($items);
@@ -140,7 +140,7 @@ class DB extends AbstractLogger
         return $array;
     }
 
-    protected function sortFields($params, $order, $sortedParams = [])
+    protected function sortFields(array $params, array $order, array$sortedParams = []): array
     {
         foreach ($order as $fieldName => $subItems) {
             if (isset($params[$fieldName])) {

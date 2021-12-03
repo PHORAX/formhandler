@@ -27,60 +27,60 @@ class LogData extends AbstractEntity
      * @var int
      * @TYPO3\CMS\Extbase\Annotation\Validate(validator="TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator")
      */
-    protected $crdate = 0;
+    protected int $crdate = 0;
 
     /**
      * @var string
      */
-    protected $ip = '';
+    protected string $ip = '';
 
     /**
      * @var string
      * @TYPO3\CMS\Extbase\Annotation\Validate(validator="TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator")
      */
-    protected $params = '';
+    protected string $params = '';
 
     /**
      * @var bool
      */
-    protected $isSpam = 0;
+    protected bool $isSpam = false;
 
-    public function getCrdate()
+    public function getCrdate(): int
     {
         return $this->crdate;
     }
 
-    public function setCrdate($crdate)
+    public function setCrdate(int $crdate): void
     {
-        $this->crdate = (int)$crdate;
+        $this->crdate = $crdate;
     }
 
-    public function getIp()
+    public function getIp(): string
     {
         return $this->ip;
     }
 
-    public function setIp($ip)
+    public function setIp(string $ip): void
     {
         $this->ip = $ip;
     }
 
-    public function getParams()
+    public function getParams(): string
     {
         return $this->params;
     }
 
-    public function setParams($params)
+    public function setParams(string $params): void
     {
         $this->params = $params;
     }
 
-    public function getIsSpam()
+    public function getIsSpam(): bool
     {
         return $this->isSpam;
     }
 
-    public function setIsSpam($isSpam)
+    public function setIsSpam(bool $isSpam): void
     {
         $this->isSpam = $isSpam;
     }

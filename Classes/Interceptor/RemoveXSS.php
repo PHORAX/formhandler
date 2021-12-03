@@ -28,7 +28,7 @@ class RemoveXSS extends AbstractInterceptor
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         $this->removeChars = [];
 
@@ -67,7 +67,7 @@ class RemoveXSS extends AbstractInterceptor
      * @param array $values The GET/POST parameters
      * @return array The sanitized GET/POST parameters
      */
-    public function sanitizeValues($values)
+    public function sanitizeValues(array $values): array
     {
         if (!is_array($values)) {
             return [];
@@ -132,7 +132,7 @@ class RemoveXSS extends AbstractInterceptor
      * @param string
      * @return bool is UTF-8
      */
-    protected function isUTF8($str)
+    protected function isUTF8(string $str): bool
     {
         $len = strlen($str);
         for ($i = 0; $i < $len; $i++) {
@@ -173,7 +173,7 @@ class RemoveXSS extends AbstractInterceptor
     /* (non-PHPdoc)
      * @see Classes/Component/\Typoheads\Formhandler\Component\AbstractComponent#init($gp, $settings)
     */
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         parent::init($gp, $settings);
         $this->doNotSanitizeFields = [];

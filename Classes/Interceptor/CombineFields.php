@@ -27,7 +27,7 @@ class CombineFields extends AbstractInterceptor
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         if (is_array($this->settings['combineFields.'])) {
             foreach ($this->settings['combineFields.'] as $newField => $options) {
@@ -47,7 +47,7 @@ class CombineFields extends AbstractInterceptor
      * @param array $options TS settings how to perform the combination
      * @return string The combined value
      */
-    protected function combineFields($options)
+    protected function combineFields(array $options): string
     {
         $separator = ' ';
         if (isset($options['separator'])) {

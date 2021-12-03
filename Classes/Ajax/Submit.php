@@ -30,19 +30,19 @@ class Submit
     /**
      * @var array
      */
-    private $settings;
+    private array $settings =[];
 
     /**
      * @var \Typoheads\Formhandler\Component\Manager
      */
-    private $componentManager;
+    private Manager $componentManager;
 
     /**
      * Main method of the class.
      *
      * @return string The HTML list of remaining files to be displayed in the form
      */
-    public function main()
+    public function main(): void
     {
         $this->init();
 
@@ -58,7 +58,7 @@ class Submit
     /**
      * Initialize the class. Read GET parameters
      */
-    protected function init()
+    protected function init(): void
     {
         $id = (int)($_GET['pid'] ?? $_GET['id'] ?? 0);
 

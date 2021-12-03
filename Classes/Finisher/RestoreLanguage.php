@@ -28,7 +28,7 @@ class RestoreLanguage extends AbstractFinisher
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         if ($this->globals->getSession()->get('originalLanguage') !== null) {
             $lang = $this->globals->getSession()->get('originalLanguage');

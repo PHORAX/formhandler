@@ -22,7 +22,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Email extends AbstractErrorCheck
 {
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
 

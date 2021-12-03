@@ -25,14 +25,14 @@ class PdfGenerator extends AbstractGenerator
     /**
      * Renders the PDF.
      */
-    public function process()
+    public function process(): array
     {
     }
 
     /* (non-PHPdoc)
      * @see Classes/Generator/AbstractGenerator#getComponentLinkParams($linkGP)
     */
-    protected function getComponentLinkParams($linkGP)
+    protected function getComponentLinkParams(array $linkGP): array 
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [

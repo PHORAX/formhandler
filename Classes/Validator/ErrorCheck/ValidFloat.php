@@ -21,7 +21,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class ValidFloat extends AbstractErrorCheck
 {
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
 

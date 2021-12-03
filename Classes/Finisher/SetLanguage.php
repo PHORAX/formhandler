@@ -28,7 +28,7 @@ class SetLanguage extends AbstractFinisher
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         if ($this->globals->getSession()->get('originalLanguage') === null) {
             $this->globals->getSession()->set('originalLanguage', $GLOBALS['TSFE']->lang);
@@ -49,7 +49,7 @@ class SetLanguage extends AbstractFinisher
      * Method to define whether the config is valid or not. If no, display a warning on the frontend.
      * The default value is true. This up to the finisher to overload this method
      */
-    public function validateConfig()
+    public function validateConfig(): bool
     {
         $settings = $this->globals->getSettings();
         if (is_array($settings['finishers.'])) {

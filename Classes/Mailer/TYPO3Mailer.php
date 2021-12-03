@@ -29,7 +29,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
      *
      * @var \TYPO3\CMS\Core\Mail\MailMessage
      */
-    protected $emailObj;
+    protected \TYPO3\CMS\Core\Mail\MailMessage $emailObj;
 
     /**
      * The html part of the message
@@ -66,7 +66,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_Formhandler_MailerInterface#send()
     */
-    public function send($recipients)
+    public function send(array $recipients): bool
     {
         if (!empty($recipients)) {
             $this->emailObj->setTo($recipients);
@@ -84,7 +84,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#setHTML()
     */
-    public function setHTML($html)
+    public function setHTML(string $html): void
     {
         if (!isset($this->htmlMimePart)) {
             $this->htmlMimePart = \Swift_MimePart::newInstance($html, 'text/html');
@@ -101,7 +101,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#setPlain()
     */
-    public function setPlain($plain)
+    public function setPlain(string $plain): void
     {
         if (!isset($this->plainMimePart)) {
             $this->plainMimePart = \Swift_MimePart::newInstance($plain, 'text/plain');
@@ -118,7 +118,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#setSubject()
     */
-    public function setSubject($value)
+    public function setSubject(string $value): void
     {
         $this->emailObj->setSubject($value);
     }
@@ -132,7 +132,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
      * @param string $email
      * @param string $name
      */
-    public function setSender($email, $name)
+    public function setSender(string $email, string $name): void
     {
         if (!empty($email)) {
             $this->emailObj->setFrom($email, $name);
@@ -142,7 +142,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#setReplyTo()
     */
-    public function setReplyTo($email, $name)
+    public function setReplyTo(string $email, string $name): void
     {
         if (!empty($email)) {
             $this->emailObj->setReplyTo($email, $name);
@@ -152,7 +152,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#addCc()
     */
-    public function addCc($email, $name)
+    public function addCc(string $email, string $name): void
     {
         $this->emailObj->addCc($email, $name);
     }
@@ -160,7 +160,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#addBcc()
     */
-    public function addBcc($email, $name)
+    public function addBcc(string $email, string $name): void
     {
         $this->emailObj->addBcc($email, $name);
     }
@@ -168,7 +168,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#setReturnPath()
     */
-    public function setReturnPath($value)
+    public function setReturnPath(string $value): void
     {
         $this->emailObj->setReturnPath($value);
     }
@@ -176,7 +176,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#addHeader()
     */
-    public function addHeader($value)
+    public function addHeader(string $value): void
     {
         //@TODO: Find a good way to make headers configurable
     }
@@ -184,7 +184,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#addAttachment()
     */
-    public function addAttachment($value)
+    public function addAttachment(string $value): void
     {
         $this->emailObj->attachFromPath($value);
     }
@@ -192,7 +192,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getHTML()
     */
-    public function getHTML()
+    public function getHTML(): string
     {
         if (isset($this->htmlMimePart)) {
             return $this->htmlMimePart->getBody();
@@ -203,7 +203,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getPlain()
     */
-    public function getPlain()
+    public function getPlain(): string
     {
         if (isset($this->plainMimePart)) {
             return $this->plainMimePart->getBody();
@@ -214,7 +214,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getSubject()
     */
-    public function getSubject()
+    public function getSubject(): string
     {
         return $this->emailObj->getSubject();
     }
@@ -222,7 +222,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getSender()
     */
-    public function getSender()
+    public function getSender(): array
     {
         return $this->emailObj->getFrom();
     }
@@ -230,7 +230,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getReplyTo()
     */
-    public function getReplyTo()
+    public function getReplyTo(): array
     {
         return $this->emailObj->getReplyTo();
     }
@@ -238,7 +238,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getCc()
     */
-    public function getCc()
+    public function getCc(): array
     {
         $ccArray = $this->emailObj->getCc();
         $ccConcat = [];
@@ -253,7 +253,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getBcc()
     */
-    public function getBcc()
+    public function getBcc(): array
     {
         $bccArray = $this->emailObj->getBcc();
         $bccConcat = [];
@@ -268,12 +268,12 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getReturnPath()
     */
-    public function getReturnPath()
+    public function getReturnPath(): ?\Symfony\Component\Mime\Address
     {
         return $this->emailObj->getReturnPath();
     }
 
-    public function embed($image)
+    public function embed(string $image): \Symfony\Component\Mime\Email
     {
         return $this->emailObj->embedFromPath($image);
     }

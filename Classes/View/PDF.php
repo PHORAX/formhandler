@@ -30,7 +30,7 @@ class PDF extends Form
      * @param array $errors The errors occurred in validation
      * @return string content
      */
-    public function render($gp, $errors)
+    public function render(array $gp, array $errors): string
     {
         $this->gp = $gp;
         $this->settings = $this->parseSettings();
@@ -43,7 +43,7 @@ class PDF extends Form
      *
      * @return array The markers
      */
-    protected function sanitizeMarkers($markers)
+    protected function sanitizeMarkers(array $markers): array
     {
         $componentSettings = $this->getComponentSettings();
         $checkBinaryCrLf = $componentSettings['checkBinaryCrLf'];
@@ -61,7 +61,7 @@ class PDF extends Form
         return $markers;
     }
 
-    protected function fillValueMarkers()
+    protected function fillValueMarkers(): void
     {
         $this->disableEncodingFields = [];
         if ($this->settings['disableEncodingFields']) {

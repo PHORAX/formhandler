@@ -21,7 +21,7 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface
      * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $parentObject Parent content object
      * @return string Further processed $content
      */
-    public function stdWrapPreProcess($content, array $configuration, ContentObjectRenderer &$parentObject)
+    public function stdWrapPreProcess($content, array $configuration, ContentObjectRenderer &$parentObject): string
     {
         if (isset($configuration['sanitize']) && (int)($configuration['sanitize']) === 1) {
             $globals = GeneralUtility::makeInstance(Globals::class);
@@ -47,7 +47,7 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface
      * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $parentObject Parent content object
      * @return string Further processed $content
      */
-    public function stdWrapOverride($content, array $configuration, ContentObjectRenderer &$parentObject)
+    public function stdWrapOverride($content, array $configuration, ContentObjectRenderer &$parentObject): string
     {
         return $content;
     }
@@ -60,7 +60,7 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface
      * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $parentObject Parent content object
      * @return string Further processed $content
      */
-    public function stdWrapProcess($content, array $configuration, ContentObjectRenderer &$parentObject)
+    public function stdWrapProcess($content, array $configuration, ContentObjectRenderer &$parentObject): string
     {
         return $content;
     }
@@ -73,7 +73,7 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface
      * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $parentObject Parent content object
      * @return string Further processed $content
      */
-    public function stdWrapPostProcess($content, array $configuration, ContentObjectRenderer &$parentObject)
+    public function stdWrapPostProcess($content, array $configuration, ContentObjectRenderer &$parentObject): string
     {
         if (isset($configuration['sanitize']) && (int)($configuration['sanitize']) === 1) {
             $_GET = $this->originalGET;

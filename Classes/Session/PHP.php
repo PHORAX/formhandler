@@ -25,7 +25,7 @@ class PHP extends AbstractSession
     /* (non-PHPdoc)
      * @see Classes/Session/Tx_Formhandler_AbstractSession#set()
     */
-    public function set($key, $value)
+    public function set(string $key, string $value): void
     {
         $this->start();
         $data = $_SESSION['formhandler'];
@@ -39,7 +39,7 @@ class PHP extends AbstractSession
     /* (non-PHPdoc)
      * @see Classes/Session/Tx_Formhandler_AbstractSession#setMultiple()
     */
-    public function setMultiple($values)
+    public function setMultiple(array $values): void
     {
         if (is_array($values) && !empty($values)) {
             $this->start();
@@ -57,7 +57,7 @@ class PHP extends AbstractSession
     /* (non-PHPdoc)
      * @see Classes/Session/Tx_Formhandler_AbstractSession#get()
     */
-    public function get($key)
+    public function get(string $key): string
     {
         $this->start();
         $data = $_SESSION['formhandler'];
@@ -70,7 +70,7 @@ class PHP extends AbstractSession
     /* (non-PHPdoc)
      * @see Classes/Session/Tx_Formhandler_AbstractSession#exists()
     */
-    public function exists()
+    public function exists(): bool
     {
         $this->start();
         $data = $_SESSION['formhandler'];
@@ -80,13 +80,13 @@ class PHP extends AbstractSession
     /* (non-PHPdoc)
      * @see Classes/Session/Tx_Formhandler_AbstractSession#reset()
     */
-    public function reset()
+    public function reset(): void
     {
         $this->start();
         unset($_SESSION['formhandler'][$this->globals->getRandomID()]);
     }
 
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         parent::init($gp, $settings);
 

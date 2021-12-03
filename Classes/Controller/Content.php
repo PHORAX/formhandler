@@ -26,12 +26,12 @@ class Content
      *
      * @var string
      */
-    protected $content;
+    protected string $content = '';
 
     /**
      * The constructor settings the internal attribute "content"
      */
-    public function __construct($content)
+    public function __construct(string $content)
     {
         $this->setContent($content);
     }
@@ -41,7 +41,7 @@ class Content
      *
      * @param string $content
      */
-    public function setContent($content)
+    public function setContent(string $content)
     {
         $this->content = $content;
     }
@@ -51,7 +51,7 @@ class Content
      *
      * @return string The content
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -61,7 +61,7 @@ class Content
      *
      * @return string The content
      */
-    public function toString()
+    public function toString(): string
     {
         return $this->content;
     }

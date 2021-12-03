@@ -75,7 +75,7 @@ class Mail extends AbstractFinisher
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
 
         //send emails
@@ -87,7 +87,7 @@ class Mail extends AbstractFinisher
         return $this->gp;
     }
 
-    protected function initMailer($type)
+    protected function initMailer(string $type): void
     {
         //init mailer object
         $globalSettings = $this->globals->getSettings();
@@ -127,7 +127,7 @@ class Mail extends AbstractFinisher
      * @param string $suffix plain/html
      * @return string The template code
      */
-    protected function parseTemplate($mode, $suffix)
+    protected function parseTemplate(string $mode, string $suffix): string
     {
         $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
         if (!$viewClass) {
@@ -164,7 +164,7 @@ class Mail extends AbstractFinisher
      *
      * @param string $type (admin|user)
      */
-    protected function sendMail($type)
+    protected function sendMail(string $type)
     {
         $doSend = true;
         if ((int)($this->utilityFuncs->getSingle($this->settings[$type], 'disable')) === 1) {
@@ -356,7 +356,7 @@ class Mail extends AbstractFinisher
      * @param string $sep
      * @return array
      */
-    protected function explodeList($list, $sep = ',')
+    protected function explodeList(array|string $list, string $sep = ','): array
     {
         if (!is_array($list)) {
             $items = GeneralUtility::trimExplode($sep, $list);
@@ -380,7 +380,7 @@ class Mail extends AbstractFinisher
      * @param string $value
      * @return string
      */
-    protected function parseSettingValue($value)
+    protected function parseSettingValue(string $value): string
     {
         if (isset($this->gp[$value])) {
             $parsed = $this->gp[$value];
@@ -399,7 +399,7 @@ class Mail extends AbstractFinisher
      * @param string $key The key to parse in the settings array
      * @return string
      */
-    protected function parseValue($settings, $type, $key)
+    protected function parseValue(array $settings, string $type, string $key): string
     {
         if (isset($this->emailSettings[$type][$key])) {
             $parsed = $this->parseSettingValue($this->emailSettings[$type][$key]);
@@ -421,7 +421,7 @@ class Mail extends AbstractFinisher
      * @param string $key The key to parse in the settings array
      * @return string|array
      */
-    protected function parseList($settings, $type, $key)
+    protected function parseList(array $settings, string $type, string $key): array|string
     {
         if (isset($this->emailSettings[$type][$key])) {
             $parsed = $this->explodeList($this->emailSettings[$type][$key]);
@@ -441,7 +441,7 @@ class Mail extends AbstractFinisher
      * @param string $key The key to parse in the settings array
      * @return string
      */
-    protected function parseFilesList($settings, $type, $key)
+    protected function parseFilesList(array $settings, string $type, string $key): array
     {
         $files = [];
         if (isset($settings[$key . '.']) && is_array($settings[$key . '.'])) {
@@ -474,7 +474,7 @@ class Mail extends AbstractFinisher
      * @param array $settings The settings array containing the mail settings
      * @return array
      */
-    protected function parseEmbedFilesList($settings)
+    protected function parseEmbedFilesList(array $settings): array
     {
         $cids = [];
         if (isset($settings['embedFiles.']) && is_array($settings['embedFiles.'])) {
@@ -501,7 +501,7 @@ class Mail extends AbstractFinisher
      *
      * @param array &$settings The E-Mail settings
      */
-    protected function fillLangMarkersInSettings(&$settings)
+    protected function fillLangMarkersInSettings(array &$settings): void
     {
         foreach ($settings as &$value) {
             if (isset($value) && is_array($value)) {
@@ -520,7 +520,7 @@ class Mail extends AbstractFinisher
      *
      * @return array The settings
      */
-    protected function getSettings()
+    protected function getSettings(): array
     {
         return $this->configuration->getSettings();
     }
@@ -531,7 +531,7 @@ class Mail extends AbstractFinisher
      * @param array The GET/POST values
      * @param array The TypoScript configuration
      */
-    public function init($gp, $tsConfig)
+    public function init(array $gp, array $tsConfig): void
     {
         $this->gp = $gp;
         $this->settings = $tsConfig;
@@ -543,7 +543,7 @@ class Mail extends AbstractFinisher
      * @param array The TypoScript configuration
      * @return array The parsed email settings
      */
-    protected function parseEmailSettings($tsConfig, $type)
+    protected function parseEmailSettings(array $tsConfig, string $type): array
     {
         $emailSettings = $tsConfig;
         $options = [
@@ -582,7 +582,7 @@ class Mail extends AbstractFinisher
      * @param array $optionsToParse Array containing all option names to parse.
      * @return array The parsed email settings
      */
-    protected function parseEmailSettingsByType($currentSettings, $type, $optionsToParse = [])
+    protected function parseEmailSettingsByType(array $currentSettings, string $type, array $optionsToParse = []): array
     {
         $typeUpper = strtoupper($type);
         $section = 'sEMAIL' . $typeUpper;

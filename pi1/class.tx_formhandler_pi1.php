@@ -31,9 +31,9 @@ use Typoheads\Formhandler\Controller\Dispatcher;
  */
 class tx_formhandler_pi1 extends AbstractPlugin
 {
-    public $prefixId = 'tx_formhandler_pi1';
-    public $scriptRelPath = 'pi1/class.tx_formhandler_pi1.php';
-    public $extKey = 'formhandler';
+    public string $prefixId = 'tx_formhandler_pi1';
+    public string $scriptRelPath = 'pi1/class.tx_formhandler_pi1.php';
+    public string $extKey = 'formhandler';
 
     /**
      * The main method of the PlugIn
@@ -42,7 +42,7 @@ class tx_formhandler_pi1 extends AbstractPlugin
      * @param    array $conf : The PlugIn configuration
      * @return    The content that is displayed on the website
      */
-    public function main($content, $conf)
+    public function main(string $content, array $conf): string
     {
         $dispatcher = new Dispatcher();
         $dispatcher->cObj = &$this->cObj;

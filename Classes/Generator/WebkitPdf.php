@@ -30,7 +30,7 @@ class WebkitPdf extends AbstractGenerator
      *
      * @return mixed
      */
-    public function process()
+    public function process(): array
     {
         if (ExtensionManagementUtility::isLoaded('webkitpdf')) {
             $linkGP = [];
@@ -62,7 +62,7 @@ class WebkitPdf extends AbstractGenerator
      *
      * @return array $conf
      */
-    protected function readWebkitPdfConf()
+    protected function readWebkitPdfConf(): array
     {
         $sysPageObj = GeneralUtility::makeInstance(PageRepository::class);
 
@@ -87,7 +87,7 @@ class WebkitPdf extends AbstractGenerator
     /* (non-PHPdoc)
      * @see Classes/Generator/Tx_Formhandler_AbstractGenerator#getLink($linkGP)
     */
-    public function getLink($linkGP = [])
+    public function getLink(array $linkGP = []): string
     {
         $params = $this->getDefaultLinkParams();
         $componentParams = $this->getComponentLinkParams($linkGP);
@@ -110,7 +110,7 @@ class WebkitPdf extends AbstractGenerator
     /* (non-PHPdoc)
      * @see Classes/Generator/Tx_Formhandler_AbstractGenerator#getComponentLinkParams($linkGP)
     */
-    protected function getComponentLinkParams($linkGP)
+    protected function getComponentLinkParams(array $linkGP): array
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [
@@ -128,7 +128,7 @@ class WebkitPdf extends AbstractGenerator
     /* (non-PHPdoc)
      * @see Classes/Generator/Tx_Formhandler_AbstractGenerator#getLinkText()
     */
-    protected function getLinkText()
+    protected function getLinkText(): string
     {
         $config = $this->readWebkitPdfConf();
         $text = $this->utilityFuncs->getSingle($config, 'linkText');

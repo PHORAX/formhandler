@@ -21,7 +21,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class FileRequired extends AbstractErrorCheck
 {
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
         $sessionFiles = $this->globals->getSession()->get('files');

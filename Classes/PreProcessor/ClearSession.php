@@ -33,7 +33,7 @@ class ClearSession extends AbstractPreProcessor
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         $sessionKeysToRemove = [
             'finisher-storegp',

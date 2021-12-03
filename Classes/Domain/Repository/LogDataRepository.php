@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Domain\Repository;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Typoheads\Formhandler\Domain\Model\Demand;
 
@@ -27,7 +30,7 @@ class LogDataRepository extends Repository
     /**
      * Initializes the repository.
      */
-    public function initializeObject()
+    public function initializeObject(): void
     {
         /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
         $querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
@@ -40,7 +43,7 @@ class LogDataRepository extends Repository
      *
      * @param string String containing uids
      */
-    public function findByUids($uids)
+    public function findByUids(string $uids): array|QueryResultInterface
     {
         $uidArray = explode(',', $uids);
         $query = $this->createQuery();
@@ -55,7 +58,7 @@ class LogDataRepository extends Repository
         )->execute();
     }
 
-    public function findDemanded(Demand $demand = null)
+    public function findDemanded(?Demand $demand = null): array|QueryResultInterface
     {
         $query = $this->createQuery();
         $constraints = [$query->equals('deleted', 0)];

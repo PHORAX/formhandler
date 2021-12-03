@@ -22,13 +22,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ContainsNone extends AbstractErrorCheck
 {
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         parent::init($gp, $settings);
         $this->mandatoryParameters = ['words'];
     }
 
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
         $formValue = trim($this->gp[$this->formFieldName]);

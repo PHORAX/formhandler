@@ -23,9 +23,9 @@ class Csv extends AbstractGenerator
     /**
      * Renders the CSV.
      *
-     * @return mixed
+     * @return array
      */
-    public function process()
+    public function process(): array
     {
         $params = $this->gp;
         $exportParams = $this->utilityFuncs->getSingle($this->settings, 'exportParams');
@@ -107,7 +107,7 @@ class Csv extends AbstractGenerator
     /* (non-PHPdoc)
      * @see Classes/Generator/Tx_Formhandler_AbstractGenerator#getComponentLinkParams($linkGP)
     */
-    protected function getComponentLinkParams($linkGP)
+    protected function getComponentLinkParams(array $linkGP): array
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [

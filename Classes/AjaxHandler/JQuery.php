@@ -30,7 +30,7 @@ class JQuery extends AbstractAjaxHandler
     /**
      * @var array
      */
-    protected $templates = [
+    protected array $templates = [
         'spanLoading'=>'<span class="loading" id="loading_%s" style="display:none">%s</span>',
         'spanResult'=>'<span id="result_%s" class="formhandler-ajax-validation-result">%s</span>',
         'aRemoveLink'=>'<a class="formhandler_removelink" href="%s">%s</a>',
@@ -41,12 +41,12 @@ class JQuery extends AbstractAjaxHandler
      *
      * @var string
      */
-    protected $jsPosition;
+    protected string $jsPosition = '';
 
     /**
      * Initialize AJAX stuff
      */
-    public function initAjax()
+    public function initAjax(): void
     {
         $this->validationStatusClasses = [
             'base' => 'formhandler-validation-status',
@@ -112,7 +112,7 @@ class JQuery extends AbstractAjaxHandler
      *
      * @param array &$markers Reference to the marker array
      */
-    public function fillAjaxMarkers(&$markers)
+    public function fillAjaxMarkers(array &$markers): void
     {
         $settings = $this->globals->getSession()->get('settings');
         $ajaxSubmit = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmit');
@@ -162,7 +162,7 @@ class JQuery extends AbstractAjaxHandler
      * @param string $uploadedFileName The name of the file to be deleted
      * @return string
      */
-    public function getFileRemovalLink($text, $field, $uploadedFileName)
+    public function getFileRemovalLink(string $text, string $field, string $uploadedFileName): string
     {
         $params = [
             'eID' => 'formhandler-removefile',
@@ -173,7 +173,7 @@ class JQuery extends AbstractAjaxHandler
         return sprintf($this->templates['aRemoveLink'], $url, $text);
     }
 
-    protected function addJS($js, $key = '', $doAppend = true)
+    protected function addJS(string $js, string $key = '', bool $doAppend = true)
     {
         if ($this->jsPosition === 'inline') {
             $GLOBALS['TSFE']->content .= $js;
@@ -201,7 +201,7 @@ class JQuery extends AbstractAjaxHandler
      *
      * @return string
      */
-    protected function getJavascriptFormInit($formSelector, $submitButtonSelector, $isAjaxSubmit, $autoDisableSubmitButton, $validateFields)
+    protected function getJavascriptFormInit(string $formSelector, string $submitButtonSelector, bool $isAjaxSubmit, bool $autoDisableSubmitButton, array $validateFields): string
     {
         return '(function( $ ) {
                     $(function() {

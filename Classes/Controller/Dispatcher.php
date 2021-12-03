@@ -34,21 +34,21 @@ class Dispatcher extends AbstractPlugin
      *
      * @var \Typoheads\Formhandler\Component\Manager
      */
-    protected $componentManager;
+    protected Manager $componentManager;
 
     /**
      * The global Formhandler values
      *
      * @var \Typoheads\Formhandler\Utility\Globals
      */
-    protected $globals;
+    protected Globals $globals;
 
     /**
      * The Formhandler utility functions
      *
      * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
-    protected $utilityFuncs;
+    protected \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs;
 
     /**
      * Main method of the dispatcher. This method is called as a user function.
@@ -57,7 +57,7 @@ class Dispatcher extends AbstractPlugin
      * @param string|null $content
      * @param array $setup The TypoScript config
      */
-    public function main($content, $setup)
+    public function main(?string $content, array $setup): string
     {
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);
         $this->globals = GeneralUtility::makeInstance(Globals::class);
@@ -94,13 +94,13 @@ class Dispatcher extends AbstractPlugin
              * 1. Default controller
              * 2. TypoScript
              */
-            $controller = '\Typoheads\Formhandler\Controller\Form';
+            $controllerClass = '\Typoheads\Formhandler\Controller\Form';
             if (isset($setup['controller'])) {
-                $controller = $setup['controller'];
+                $controllerClass = $setup['controller'];
             }
 
-            /** @var \Typoheads\Formhandler\Controller\AbstractController $controller */
-            $controller = $this->componentManager->getComponent($controller);
+            /** @var \Typoheads\Formhandler\Controller\Form $controller */
+            $controller = $this->componentManager->getComponent($controllerClass);
 
             if (isset($content)) {
                 $controller->setContent($this->componentManager->getComponent($this->utilityFuncs->prepareClassName('Typoheads\Formhandler\Controller\Content'), $content));

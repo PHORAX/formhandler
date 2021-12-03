@@ -45,7 +45,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class LoadDefaultValues extends AbstractPreProcessor
 {
-    public function process()
+    public function process(): array
     {
         foreach ($this->settings as $step => $stepSettings) {
             $step = preg_replace('/\.$/', '', $step);
@@ -65,7 +65,7 @@ class LoadDefaultValues extends AbstractPreProcessor
      *
      * @param array $settings
      */
-    public function loadDefaultValuesToGP($settings)
+    public function loadDefaultValuesToGP(array $settings): void
     {
         if (is_array($settings)) {
             $this->setDefaultValues($settings, $this->gp);
@@ -78,7 +78,7 @@ class LoadDefaultValues extends AbstractPreProcessor
      * @param array $settings
      * @param int $step
      */
-    private function loadDefaultValuesToSession($settings, $step)
+    private function loadDefaultValuesToSession(array $settings, int $step): void
     {
         if (is_array($settings) && $step) {
             $values = $this->globals->getSession()->get('values');
@@ -93,7 +93,7 @@ class LoadDefaultValues extends AbstractPreProcessor
      * @param array $fields
      * @param array &$currentLevelGP
      */
-    protected function setDefaultValues($fields, &$currentLevelGP)
+    protected function setDefaultValues(array $fields, array &$currentLevelGP): void
     {
         $firstLevelFields = array_keys($fields);
         if (is_array($firstLevelFields)) {

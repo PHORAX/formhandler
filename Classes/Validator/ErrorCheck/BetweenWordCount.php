@@ -21,13 +21,13 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class BetweenWordCount extends AbstractErrorCheck
 {
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         parent::init($gp, $settings);
         $this->mandatoryParameters = ['minValue', 'maxValue'];
     }
 
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
         $min = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'minValue'));

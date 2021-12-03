@@ -21,7 +21,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class Required extends AbstractErrorCheck
 {
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
         if (is_array($this->gp[$this->formFieldName])) {

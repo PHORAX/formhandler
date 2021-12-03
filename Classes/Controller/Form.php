@@ -31,84 +31,84 @@ class Form extends AbstractController
      *
      * @var array
      */
-    protected $gp;
+    protected array $gp = [];
 
     /**
      * Contains all errors occurred while validation
      *
      * @var array
      */
-    protected $errors;
+    protected array $errors = [];
 
     /**
      * Holds the prefix value of all parameters of this form.
      *
      * @var string
      */
-    protected $formValuesPrefix;
+    protected string $formValuesPrefix = '';
 
     /**
      * Flag indicating if the form got submitted
      *
      * @var bool
      */
-    protected $submitted;
+    protected bool $submitted = false;
 
     /**
      * The settings array
      *
      * @var array
      */
-    protected $settings;
+    protected array $settings = [];
 
     /**
      * Flag indicating if debug mode is on
      *
      * @var bool
      */
-    protected $debugMode;
+    protected bool $debugMode = false;
 
     /**
      * The view object
      *
-     * @var misc
+     * @var mixed
      */
-    protected $view;
+    protected mixed $view;
 
     /**
      * The current step of the form
      *
      * @var int
      */
-    protected $currentStep;
+    protected int $currentStep = 0;
 
     /**
      * The last step of the form
      *
      * @var int
      */
-    protected $lastStep;
+    protected int $lastStep = 0;
 
     /**
      * Total steps of the form
      *
      * @var int
      */
-    protected $totalSteps;
+    protected int $totalSteps = 0;
 
     /**
      * Flag indicating if form is finished (no more steps)
      *
      * @var bool
      */
-    protected $finished;
+    protected bool $finished = false;
 
     /**
      * Main method of the form handler.
      *
      * @return rendered view
      */
-    public function process()
+    public function process(): string
     {
         $this->init();
         $this->storeFileNamesInGP();
@@ -151,7 +151,7 @@ class Form extends AbstractController
      * @param string $action The action to perform. This must equal "show" for a print version or an action defined in the config of Finisher_SubmittedOK
      * @return string The generated content
      */
-    protected function processAction($action)
+    protected function processAction(string $action): string
     {
         $content = '';
         $gp = $_GET;
@@ -224,7 +224,7 @@ class Form extends AbstractController
      *
      * @return string The generated content
      */
-    protected function processSubmitted()
+    protected function processSubmitted(): string
     {
 
         /*
@@ -377,7 +377,7 @@ class Form extends AbstractController
     /**
      * Validate if the error checks have all been set correctly.
      */
-    protected function validateErrorCheckConfig()
+    protected function validateErrorCheckConfig(): void
     {
         if (isset($_FILES) && is_array($_FILES) && !empty($_FILES)) {
 
@@ -430,7 +430,7 @@ class Form extends AbstractController
      *
      * @return Rendered form
      */
-    protected function processNotValid()
+    protected function processNotValid(): string
     {
         $this->gp['formErrors'] = $this->errors;
         $this->globals->setGP($this->gp);
@@ -470,7 +470,7 @@ class Form extends AbstractController
      *
      * @return mixed Output of a Finisher
      */
-    protected function processFinished()
+    protected function processFinished(): mixed
     {
 
         //If skipView is set, call preProcessors and initInterceptors here
@@ -541,7 +541,7 @@ class Form extends AbstractController
      *
      * @return Rendered form
      */
-    protected function processNotSubmitted()
+    protected function processNotSubmitted(): string
     {
         $this->loadSettingsForStep($this->currentStep);
         $this->parseConditions();
@@ -577,7 +577,7 @@ class Form extends AbstractController
     /**
      * Stores file names of uploaded files into the internal GET/POST parameters storage ($this->gp) so that they can be used later on in "value markers", userFuncs, ...
      */
-    protected function storeFileNamesInGP()
+    protected function storeFileNamesInGP(): void
     {
 
         //put file names into $this->gp
@@ -606,7 +606,7 @@ class Form extends AbstractController
      * @param array $conf The configuration of the component set in TS
      * @return array The initial configuration plus the default configuration
      */
-    protected function addDefaultComponentConfig($conf)
+    protected function addDefaultComponentConfig(array $conf): array
     {
         if (!$conf['langFiles']) {
             $conf['langFiles'] = $this->langFiles;
@@ -619,7 +619,7 @@ class Form extends AbstractController
     /**
      * Adds a mandatory component to the classes array
      */
-    protected function addFormhandlerClass(&$classesArray, $className)
+    protected function addFormhandlerClass(array &$classesArray, string $className): void
     {
         if (!isset($classesArray) && !is_array($classesArray)) {
 
@@ -645,7 +645,7 @@ class Form extends AbstractController
     /**
      * Removes files from the internal file storage
      */
-    protected function processFileRemoval()
+    protected function processFileRemoval(): void
     {
         if ($this->gp['removeFile']) {
             $filename = $this->gp['removeFile'];
@@ -693,7 +693,7 @@ class Form extends AbstractController
      * Processes uploaded files, moves them to a temporary upload folder, renames them if they already exist and
      * stores the information in user session
      */
-    protected function processFiles()
+    protected function processFiles(): void
     {
         $sessionFiles = $this->globals->getSession()->get('files');
         $tempFiles = $sessionFiles;
@@ -814,7 +814,7 @@ class Form extends AbstractController
      *
      * @param array &$settings Reference to the settings array to get information about checkboxes and radiobuttons.
      */
-    protected function storeGPinSession()
+    protected function storeGPinSession(): void
     {
         if ($this->currentStep > $this->lastStep) {
             $this->loadSettingsForStep($this->lastStep);
@@ -851,7 +851,7 @@ class Form extends AbstractController
     /**
      * Resets the values in session to have a clean form
      */
-    protected function reset($gp = [])
+    protected function reset(array $gp = [])
     {
         $values = [
             'creationTstamp' => time(),
@@ -877,7 +877,7 @@ class Form extends AbstractController
     /**
      * Searches for current step and sets $this->currentStep according
      */
-    protected function findCurrentStep()
+    protected function findCurrentStep(): void
     {
         if (isset($this->gp) && is_array($this->gp)) {
             $action = 'reload';
@@ -952,7 +952,7 @@ class Form extends AbstractController
      * Validates the Formhandler config.
      * E.g. If email addresses were set in flexform then Finisher_Mail must exist in the TS configuration.
      */
-    public function validateConfig()
+    public function validateConfig(): void
     {
         $options = [
             ['to_email', 'sEMAILADMIN', 'finishers', $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\Mail')],
@@ -990,7 +990,7 @@ class Form extends AbstractController
      *
      * @param array $settings The settings of this form
      */
-    protected function parseConditionsBlock($settings)
+    protected function parseConditionsBlock(array $settings)
     {
         foreach ($settings['if.'] as $idx => $conditionSettings) {
             $conditions = $conditionSettings['conditions.'];
@@ -1024,7 +1024,7 @@ class Form extends AbstractController
     /**
      * Method to parse all conditions set in the TS setting "if"
      */
-    protected function parseConditions()
+    protected function parseConditions(): void
     {
 
         //parse global conditions
@@ -1049,7 +1049,7 @@ class Form extends AbstractController
      * Init method for the controller.
      * This method sets internal values, initializes the ajax handler and the session.
      */
-    protected function init()
+    protected function init(): void
     {
         $this->settings = $this->getSettings();
         $this->formValuesPrefix = $this->utilityFuncs->getSingle($this->settings, 'formValuesPrefix');
@@ -1178,7 +1178,7 @@ class Form extends AbstractController
      *
      * @return bool
      */
-    protected function isFormSubmitted()
+    protected function isFormSubmitted(): bool
     {
         $submitted = $this->gp['submitted'];
         if ($submitted) {
@@ -1199,7 +1199,7 @@ class Form extends AbstractController
      *
      * @param int The current step
      */
-    protected function setViewSubpart($step)
+    protected function setViewSubpart(int $step)
     {
         $this->finished = false;
 
@@ -1223,7 +1223,7 @@ class Form extends AbstractController
     /**
      * Stores some settings of the form into the session
      */
-    protected function storeSettingsInSession()
+    protected function storeSettingsInSession(): void
     {
         $values = [
             'formValuesPrefix' => $this->formValuesPrefix,
@@ -1244,7 +1244,7 @@ class Form extends AbstractController
      *
      * @param int $step The step to load the settings for
      */
-    protected function loadSettingsForStep($step)
+    protected function loadSettingsForStep(int $step): void
     {
 
         //merge settings with specific settings for current step
@@ -1257,7 +1257,7 @@ class Form extends AbstractController
     /**
      * Sets the current and last step of the form
      */
-    protected function getStepInformation()
+    protected function getStepInformation(): void
     {
         $this->findCurrentStep();
 
@@ -1298,7 +1298,7 @@ class Form extends AbstractController
     /**
      * Merges the current GET/POST parameters with the stored ones in SESSION
      */
-    protected function mergeGPWithSession()
+    protected function mergeGPWithSession(): void
     {
         if (!is_array($this->gp)) {
             $this->gp = [];
@@ -1327,7 +1327,7 @@ class Form extends AbstractController
      * @param array $classesArray : the configuration array
      * @return mixed
      */
-    protected function runClasses($classesArray)
+    protected function runClasses(array $classesArray): mixed
     {
         if (isset($classesArray) && is_array($classesArray) && (int)($this->utilityFuncs->getSingle($classesArray, 'disable')) !== 1) {
             ksort($classesArray);
@@ -1368,7 +1368,7 @@ class Form extends AbstractController
     /**
      * Read stylesheet file(s) set in TypoScript. If set add to header data
      */
-    protected function addCSS()
+    protected function addCSS(): void
     {
         $cssFiles = $this->utilityFuncs->parseResourceFiles($this->settings, 'cssFile');
         foreach ($cssFiles as $idx => $fileOptions) {
@@ -1393,7 +1393,7 @@ class Form extends AbstractController
     /**
      * Read JavaScript file(s) set in TypoScript. If set add to header data
      */
-    protected function addJS()
+    protected function addJS(): void
     {
         $jsFiles = $this->utilityFuncs->parseResourceFiles($this->settings, 'jsFile');
         foreach ($jsFiles as $idx => $fileOptions) {
@@ -1416,7 +1416,7 @@ class Form extends AbstractController
     /**
      * Read JavaScript file(s) set in TypoScript. If set add to footer data
      */
-    protected function addJSFooter()
+    protected function addJSFooter(): void
     {
         $jsFiles = $this->utilityFuncs->parseResourceFiles($this->settings, 'jsFileFooter');
         foreach ($jsFiles as $idx => $fileOptions) {
@@ -1442,7 +1442,7 @@ class Form extends AbstractController
      * @param $validArr Array with the return values of each validator
      * @return bool
      */
-    protected function isValid($validArr)
+    protected function isValid(array $validArr): bool
     {
         $valid = true;
         if (is_array($validArr)) {
@@ -1461,7 +1461,7 @@ class Form extends AbstractController
      *
      * @return array
      */
-    protected function handleCheckBoxFields()
+    protected function handleCheckBoxFields(): array
     {
         $newGP = $this->utilityFuncs->getMergedGP();
 
@@ -1489,7 +1489,7 @@ class Form extends AbstractController
     /**
      * Initializes the debuggers set in TS.
      */
-    protected function initializeDebuggers()
+    protected function initializeDebuggers(): void
     {
         $this->addFormhandlerClass($this->settings['debuggers.'], 'Typoheads\\Formhandler\\Debugger\\PrintToScreen');
 

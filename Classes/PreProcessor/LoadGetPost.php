@@ -28,7 +28,7 @@ class LoadGetPost extends AbstractPreProcessor
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         $loadedGP = $this->loadGP();
         $this->gp = array_merge($loadedGP, $this->gp);
@@ -40,7 +40,7 @@ class LoadGetPost extends AbstractPreProcessor
      *
      * @return array The loaded parameters
      */
-    protected function loadGP()
+    protected function loadGP(): array
     {
         $gp = array_merge(GeneralUtility::_GET(), GeneralUtility::_POST());
         $formValuesPrefix = $this->globals->getFormValuesPrefix();

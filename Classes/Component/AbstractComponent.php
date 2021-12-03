@@ -29,14 +29,14 @@ abstract class AbstractComponent extends AbstractClass
      *
      * @var array
      */
-    protected $gp;
+    protected array $gp = [];
 
     /**
      * Settings
      *
      * @var array
      */
-    protected $settings;
+    protected array $settings = [];
 
     /**
      * Initialize the class variables
@@ -44,7 +44,7 @@ abstract class AbstractComponent extends AbstractClass
      * @param array $gp GET and POST variable array
      * @param array $settings Typoscript configuration for the component (component.1.config.*)
      */
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         $this->gp = $gp;
         $this->settings = $settings;
@@ -55,9 +55,9 @@ abstract class AbstractComponent extends AbstractClass
      *
      * @return array The probably modified GET/POST parameters
      */
-    abstract public function process();
+    abstract public function process(): array;
 
-    public function validateConfig()
+    public function validateConfig(): bool
     {
         return true;
     }

@@ -68,33 +68,33 @@ class DB extends AbstractFinisher
      *
      * @var string
      */
-    protected $table;
+    protected string $table = '';
 
     /**
      * The field in the table holding the primary key.
      *
      * @var string
      */
-    protected $key;
+    protected string $key = '';
 
     /**
      * A flag to indicate if to insert the record or to update an existing one
      *
      * @var bool
      */
-    protected $doUpdate;
+    protected bool $doUpdate = false;
 
     /**
      * @var Connection
      */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * The main method called by the controller
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         $this->utilityFuncs->debugMessage('data_stored');
 
@@ -150,7 +150,7 @@ class DB extends AbstractFinisher
      * @param array &$queryFields Array holding the query fields
      * @return bool Success flag
      */
-    protected function save(&$queryFields)
+    protected function save(array &$queryFields): bool
     {
         //insert
         if (!$this->doUpdate) {
@@ -168,7 +168,7 @@ class DB extends AbstractFinisher
         return $isSuccess;
     }
 
-    protected function doesRecordExist($uid, $andWhere)
+    protected function doesRecordExist(int $uid, string $andWhere): bool
     {
         if (!$uid) {
             return false;
@@ -196,7 +196,7 @@ class DB extends AbstractFinisher
         return false;
     }
 
-    protected function doInsert($queryFields)
+    protected function doInsert(array $queryFields): bool
     {
         $queryBuilder = $this->getConnection()->createQueryBuilder();
         $queryBuilder->insert($this->table);
@@ -215,7 +215,7 @@ class DB extends AbstractFinisher
         return true;
     }
 
-    protected function doUpdate($uid, $queryFields, $andWhere)
+    protected function doUpdate(int $uid, array $queryFields, string $andWhere): bool
     {
         $queryBuilder = $this->getConnection()->createQueryBuilder();
         $queryBuilder->getRestrictions()->removeAll();
@@ -249,7 +249,7 @@ class DB extends AbstractFinisher
     /**
      * Inits the finisher mapping settings values to internal attributes.
      */
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         parent::init($gp, $settings);
 
@@ -293,7 +293,7 @@ class DB extends AbstractFinisher
      *
      * @return array The query fields
      */
-    protected function parseFields()
+    protected function parseFields(): array
     {
         $queryFields = [];
 
@@ -470,7 +470,7 @@ class DB extends AbstractFinisher
      * @return string list of filenames
      * @param string $fieldname
      */
-    protected function getFileList($files, $fieldname)
+    protected function getFileList(array $files, string $fieldname): string
     {
         $filenames = [];
         foreach ($files[$fieldname] as $idx => $file) {
@@ -483,7 +483,7 @@ class DB extends AbstractFinisher
      * Returns the last inserted UID
      * @return int UID
      */
-    protected function getInsertedUid()
+    protected function getInsertedUid(): int
     {
         return (int)$this->getConnection()->lastInsertId();
     }
@@ -492,7 +492,7 @@ class DB extends AbstractFinisher
      * Returns current UID to use for updating the DB.
      * @return int UID
      */
-    protected function getUpdateUid()
+    protected function getUpdateUid(): int
     {
         $uid = $this->utilityFuncs->getSingle($this->settings, 'key_value');
         $disableFallback = ((int)($this->utilityFuncs->getSingle($this->settings, 'disableUpdateUidFallback')) === 1);
@@ -507,7 +507,7 @@ class DB extends AbstractFinisher
         return $uid;
     }
 
-    protected function getConnection()
+    protected function getConnection(): Connection
     {
         if (!$this->connection) {
             $this->connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($this->table);

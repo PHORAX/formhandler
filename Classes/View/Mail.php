@@ -31,7 +31,7 @@ class Mail extends Form
      * @param array $errors In this class the second param is used to pass information about the email mode (HTML|PLAIN)
      * @return string content
      */
-    public function render($gp, $errors)
+    public function render(array $gp, array $errors): string
     {
         $this->currentMailSettings = $errors;
         $content = '';
@@ -42,12 +42,19 @@ class Mail extends Form
         return $content;
     }
 
+    /**
+     * Wraps the input string in a <div> tag with the class attribute set to the prefixId.
+     * All content returned from your plugins should be returned through this function so all content from your plugin is encapsulated in a <div>-tag nicely identifying the content of your plugin.
+     *
+     * @param string $str HTML content to wrap in the div-tags with the "main class" of the plugin
+     * @return string HTML content wrapped, ready to return to the parent object.
+     */
     public function pi_wrapInBaseClass($content)
     {
         return $content;
     }
 
-    protected function fillEmbedMarkers()
+    protected function fillEmbedMarkers(): void
     {
         $componentSettings = $this->getComponentSettings();
         $mailSettings = $componentSettings[$this->currentMailSettings['mode']];
@@ -60,7 +67,7 @@ class Mail extends Form
         }
     }
 
-    protected function fillValueMarkers()
+    protected function fillValueMarkers(): void
     {
         $componentSettings = $this->getComponentSettings();
         if ($componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'] . '.']['arrayValueSeparator']) {
@@ -99,7 +106,7 @@ class Mail extends Form
      *
      * @return array The markers
      */
-    protected function sanitizeMarkers($markers)
+    protected function sanitizeMarkers(array $markers): array 
     {
         $componentSettings = $this->getComponentSettings();
         $checkBinaryCrLf = $componentSettings['checkBinaryCrLf'];

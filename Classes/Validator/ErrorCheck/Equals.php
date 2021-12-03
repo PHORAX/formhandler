@@ -21,13 +21,13 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  */
 class Equals extends AbstractErrorCheck
 {
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         parent::init($gp, $settings);
         $this->mandatoryParameters = ['word'];
     }
 
-    public function check()
+    public function check(): string
     {
         $checkFailed = '';
         $formValue = trim($this->gp[$this->formFieldName]);

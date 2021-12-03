@@ -32,7 +32,7 @@ class Validate
     /**
      * @var array
      */
-    protected $templates = [
+    protected array $templates = [
         'spanSuccess' => '<span class="success">%s</span>',
         'spanError' => '<span class="error">%s</span>',
     ];
@@ -40,24 +40,24 @@ class Validate
     /**
      * @var Manager
      */
-    private $componentManager;
+    private Manager $componentManager;
 
     /**
      * @var array
      */
-    private $settings;
+    private array $settings = [];
 
     /**
      * @var int
      */
-    private $id;
+    private int $id = 0;
 
     /**
      * Main method of the class.
      *
      * @return string The HTML list of remaining files to be displayed in the form
      */
-    public function main()
+    public function main(): void
     {
         $this->init();
         $field = htmlspecialchars(GeneralUtility::_GP('field'));
@@ -109,7 +109,7 @@ class Validate
     /**
      * Initialize the class. Read GET parameters
      */
-    protected function init()
+    protected function init(): void
     {
         if (isset($_GET['pid'])) {
             $this->id = (int)($_GET['pid']);
@@ -127,7 +127,7 @@ class Validate
      * @param string $content The raw content
      * @return AjaxValidation The view class
      */
-    protected function initView($content)
+    protected function initView(string $content): AjaxValidation
     {
         $viewClass = '\Typoheads\Formhandler\View\AjaxValidation';
         $view = $this->componentManager->getComponent($viewClass);

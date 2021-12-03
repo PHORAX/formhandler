@@ -28,7 +28,7 @@ class ParseValues extends AbstractInterceptor
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
 
         //parse as float
@@ -44,7 +44,7 @@ class ParseValues extends AbstractInterceptor
      *
      * @param array $fields
      */
-    protected function parseFloats($fields)
+    protected function parseFloats(array $fields): void
     {
         if (is_array($fields)) {
             foreach ($fields as $idx => $field) {
@@ -63,7 +63,7 @@ class ParseValues extends AbstractInterceptor
      * @return float
      * @param string $value formated float
      */
-    protected function getFloat($value)
+    protected function getFloat(string $value): float
     {
         return (float)(preg_replace('#^([-]*[0-9\.,\' ]+?)((\.|,){1}([0-9-]{1,2}))*$#e', "str_replace(array('.', ',', \"'\", ' '), '', '\\1') . '.\\4'", $value));
     }

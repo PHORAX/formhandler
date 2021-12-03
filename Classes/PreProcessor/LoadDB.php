@@ -58,19 +58,19 @@ class LoadDB extends AbstractPreProcessor
     /**
      * @var array $data as associative array. Row data from DB.
      */
-    protected $data;
+    protected array $data;
 
     /**
      * @var array $files as associative array.
      */
-    protected $files;
+    protected array $files;
 
     /**
      * Main method called by the controller
      *
      * @return array GP
      */
-    public function process()
+    public function process(): array
     {
         $this->data = $this->loadDB($this->settings['select.']);
 
@@ -94,7 +94,7 @@ class LoadDB extends AbstractPreProcessor
      *
      * @param array $settings
      */
-    protected function loadDBToGP($settings)
+    protected function loadDBToGP(array $settings): void
     {
         if (is_array($settings)) {
             $arrKeys = array_keys($settings);
@@ -113,7 +113,7 @@ class LoadDB extends AbstractPreProcessor
      * @param array $settings
      * @param int $step
      */
-    protected function loadDBToSession($settings, $step)
+    protected function loadDBToSession(array $settings, int $step): void
     {
         session_start();
         if (is_array($settings) && $step) {
@@ -127,7 +127,7 @@ class LoadDB extends AbstractPreProcessor
         }
     }
 
-    protected function parseValue($fieldname, $settings)
+    protected function parseValue(string $fieldname, array $settings): string
     {
         $value = null;
         //pre process the field value.
@@ -198,7 +198,7 @@ class LoadDB extends AbstractPreProcessor
      * @return array of row data
      * @param array $settings
      */
-    protected function loadDB($settings)
+    protected function loadDB(array $settings): array
     {
         $table = $this->utilityFuncs->getSingle($settings, 'table');
         $sql = $this->getQuery($table, $settings);
@@ -222,7 +222,7 @@ class LoadDB extends AbstractPreProcessor
      * @param array $conf
      * @return string
      */
-    protected function getQuery($table, $conf)
+    protected function getQuery(string $table, array $conf): string
     {
         //map the old TypoScript setting "limit" to "begin" and "max".
         $limit = $this->utilityFuncs->getSingle($conf, 'limit');

@@ -29,35 +29,35 @@ abstract class AbstractController extends AbstractClass
      *
      * @var Content
      */
-    protected $content;
+    protected Content $content;
 
     /**
      * The key of a possibly selected predefined form
      *
      * @var string
      */
-    protected $predefined;
+    protected string $predefined = '';
 
     /**
      * The template file to be used. Only if template file was defined via plugin record
      *
      * @var string
      */
-    protected $templateFile;
+    protected string $templateFile = '';
 
     /**
      * Array of configured translation files
      *
      * @var array
      */
-    protected $langFiles;
+    protected array $langFiles = [];
 
     /**
      * Sets the content attribute of the controller
      *
      * @param Content $content
      */
-    public function setContent($content)
+    public function setContent(Content $content): void
     {
         $this->content = $content;
     }
@@ -67,7 +67,7 @@ abstract class AbstractController extends AbstractClass
      *
      * @return Content
      */
-    public function getContent()
+    public function getContent(): Content
     {
         return $this->content;
     }
@@ -77,7 +77,7 @@ abstract class AbstractController extends AbstractClass
      *
      * @param string $key
      */
-    public function setPredefined($key)
+    public function setPredefined(string $key): void
     {
         $this->predefined = $key;
     }
@@ -87,7 +87,7 @@ abstract class AbstractController extends AbstractClass
      *
      * @param array $langFiles
      */
-    public function setLangFiles($langFiles)
+    public function setLangFiles(array $langFiles): void
     {
         $this->langFiles = $langFiles;
     }
@@ -96,7 +96,7 @@ abstract class AbstractController extends AbstractClass
      * Sets the template file attribute to $template
      * @param string $template
      */
-    public function setTemplateFile($template)
+    public function setTemplateFile(string $template): void
     {
         $this->templateFile = $template;
     }
@@ -106,7 +106,7 @@ abstract class AbstractController extends AbstractClass
      *
      * @return array The settings
      */
-    public function getSettings()
+    public function getSettings(): array
     {
         $settings = $this->configuration->getSettings();
         if ($this->predefined && is_array($settings['predef.'][$this->predefined])) {

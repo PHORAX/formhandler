@@ -24,7 +24,7 @@ class TcPdf extends AbstractGenerator
     /**
      * @return mixed
      */
-    public function process()
+    public function process(): array
     {
         $this->pdf = $this->componentManager->getComponent('\Typoheads\Formhandler\Utility\TemplateTCPDF');
 
@@ -95,7 +95,7 @@ class TcPdf extends AbstractGenerator
     /* (non-PHPdoc)
      * @see Classes/Generator/Tx_Formhandler_AbstractGenerator#getComponentLinkParams($linkGP)
     */
-    protected function getComponentLinkParams($linkGP)
+    protected function getComponentLinkParams(array $linkGP): array
     {
         $prefix = $this->globals->getFormValuesPrefix();
         $tempParams = [

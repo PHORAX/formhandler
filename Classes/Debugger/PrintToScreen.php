@@ -26,7 +26,7 @@ class PrintToScreen extends AbstractDebugger
     /**
      * Prints the messages to the screen
      */
-    public function outputDebugLog()
+    public function outputDebugLog(): void
     {
         $out = '';
         if (!$this->globals->isAjaxMode()) {
@@ -51,7 +51,7 @@ class PrintToScreen extends AbstractDebugger
     /**
      * Sets default config for the debugger.
      */
-    public function validateConfig()
+    public function validateConfig(): bool
     {
         if (!$this->settings['sectionWrap']) {
             $this->settings['sectionWrap'] = '<div style="border:1px solid #ccc; padding:7px; background:#dedede;">|</div>';

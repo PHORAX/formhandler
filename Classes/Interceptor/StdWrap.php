@@ -50,7 +50,7 @@ class StdWrap extends AbstractInterceptor
      *
      * @return array Modified GET/POST parameters, possibly with new fields added
      */
-    public function process()
+    public function process(): array
     {
         if (is_array($this->settings['fieldConf.'])) {
             $fieldConf = $this->settings['fieldConf.'];

@@ -5,7 +5,7 @@ namespace Typoheads\Formhandler\View;
 
 class File extends Form
 {
-    public function render($gp, $errors)
+    public function render(array $gp, array $errors): string
     {
         $this->settings['disableWrapInBaseClass'] = 1;
         $content = parent::render($gp, []);

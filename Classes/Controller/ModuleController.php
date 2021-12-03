@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
@@ -33,27 +34,27 @@ class ModuleController extends ActionController
      *
      * @var array
      */
-    protected $gp;
+    protected array $gp;
 
     /**
      * The Formhandler component manager
      *
      * @var \Typoheads\Formhandler\Component\Manager
      */
-    protected $componentManager;
+    protected Manager $componentManager;
 
     /**
      * The Formhandler utility funcs
      *
      * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
-    protected $utilityFuncs;
+    protected \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs;
 
     /**
      * @var LogDataRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    protected $logDataRepository;
+    protected LogDataRepository $logDataRepository;
 
     /**
      * @param LogDataRepository $logDataRepository
@@ -66,12 +67,12 @@ class ModuleController extends ActionController
     /**
      * @var \TYPO3\CMS\Core\Page\PageRenderer
      */
-    protected $pageRenderer;
+    protected PageRenderer $pageRenderer;
 
     /**
      * init all actions
      */
-    public function initializeAction()
+    public function initializeAction(): void
     {
         $this->id = (int)($_GET['id'] ?? 0);
 
@@ -142,7 +143,7 @@ class ModuleController extends ActionController
      * @param string uids to export
      * @param string export file type (PDF || CSV)
      */
-    public function selectFieldsAction($logDataUids = null, $filetype = '')
+    public function selectFieldsAction(?string $logDataUids = null, string $filetype = '')
     {
         if ($logDataUids !== null) {
             if (isset($this->settings[$filetype]['config']['fields'])) {
@@ -206,7 +207,7 @@ class ModuleController extends ActionController
      * @param array fields to export
      * @param string export file type (PDF || CSV)
      */
-    public function exportAction($logDataUids = null, array $fields = [], $filetype = ''): ResponseInterface
+    public function exportAction(?string $logDataUids = null, array $fields = [], string$filetype = ''): ResponseInterface
     {
         if ($logDataUids !== null && !empty($fields)) {
             $logDataRows = $this->logDataRepository->findByUids($logDataUids);

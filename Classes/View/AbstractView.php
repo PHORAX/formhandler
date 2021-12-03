@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\View;
 
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Controller\Configuration;
@@ -34,98 +35,100 @@ abstract class AbstractView extends AbstractPlugin
      *
      * @var string
      */
-    public $prefixId = 'Tx_Formhandler';
+    public string $prefixId = 'Tx_Formhandler';
 
     /**
      * The extension key
      *
      * @var string
      */
-    public $extKey = 'formhandler';
+    public string $extKey = 'formhandler';
 
     /**
      * The cObj for link generation in FE
      *
      * @var tslib_cObj
      */
-    public $cObj;
+    public ContentObjectRenderer $cObj;
 
     /**
      * @var \TYPO3\CMS\Core\Service\MarkerBasedTemplateService
      */
-    protected $markerBasedTemplateService;
+    protected MarkerBasedTemplateService $markerBasedTemplateService;
 
     /**
      * The piVars
      *
      * @var array
      */
-    public $piVars;
+    public array $piVars = [];
 
     /**
      * The Formhandler component manager
      *
      * @var \Typoheads\Formhandler\Component\Manager
      */
-    protected $componentManager;
+    protected Manager $componentManager;
 
     /**
      * The global Formhandler configuration
      *
      * @var \Typoheads\Formhandler\Controller\Configuration
      */
-    protected $configuration;
+    protected Configuration $configuration;
 
     /**
      * The global Formhandler values
      *
      * @var \Typoheads\Formhandler\Utility\Globals
      */
-    protected $globals;
+    protected Globals $globals;
 
     /**
      * The Formhandler utility methods
      *
      * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
-    protected $utilityFuncs;
+    protected GeneralUtility $utilityFuncs;
 
     /**
      * The model of the view
      *
      * @var misc
      */
-    protected $model;
+    protected mixed $model;
 
     /**
      * The subparts array
      *
      * @var array
      */
-    protected $subparts;
+    protected array $subparts = [];
 
     /**
      * The template code
      *
      * @var string
      */
-    protected $template;
+    protected string $template = '';
 
     /**
      * An array of translation file names
      *
      * @var array
      */
-    protected $langFiles;
+    protected array $langFiles = [];
 
     /**
      * The get/post parameters
      *
      * @var array
      */
-    protected $gp;
+    protected array $gp = [];
 
-    protected $componentSettings;
+    protected array $settings = [];
+
+    protected array $componentSettings = [];
 
     /**
      * The constructor for a view setting the component manager and the configuration.
@@ -155,7 +158,7 @@ abstract class AbstractView extends AbstractPlugin
      *
      * @param array $langFiles The files array
      */
-    public function setLangFiles($langFiles)
+    public function setLangFiles(array $langFiles): void
     {
         $this->langFiles = $langFiles;
     }
@@ -163,19 +166,19 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * Sets the settings
      *
-     * @param string $settings The settings
+     * @param array $settings The settings
      */
-    public function setSettings($settings)
+    public function setSettings(array $settings): void
     {
         $this->settings = $settings;
     }
 
-    public function setComponentSettings($settings)
+    public function setComponentSettings(array $settings): void
     {
         $this->componentSettings = $settings;
     }
 
-    public function getComponentSettings()
+    public function getComponentSettings(): array
     {
         if (!is_array($this->componentSettings)) {
             $this->componentSettings = [];
@@ -188,7 +191,7 @@ abstract class AbstractView extends AbstractPlugin
      *
      * @param string $key The key of the predefined form
      */
-    public function setPredefined($key)
+    public function setPredefined(string $key): void
     {
         $this->predefined = $key;
     }
@@ -198,7 +201,7 @@ abstract class AbstractView extends AbstractPlugin
      *
      * @param misc $model
      */
-    public function setModel($model)
+    public function setModel(mixed $model): void
     {
         $this->model = $model;
     }
@@ -208,7 +211,7 @@ abstract class AbstractView extends AbstractPlugin
      *
      * @return misc $model
      */
-    public function getModel()
+    public function getModel(): mixed
     {
         return $this->model;
     }
@@ -220,7 +223,7 @@ abstract class AbstractView extends AbstractPlugin
      * @param string $templateName Name of a subpart containing the template code to work with
      * @param bool $forceTemplate Not needed
      */
-    public function setTemplate($templateCode, $templateName, $forceTemplate = false)
+    public function setTemplate(string $templateCode, string $templateName, bool $forceTemplate = false): void
     {
         $this->subparts['template'] = $this->markerBasedTemplateService->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
         $this->subparts['item'] = $this->markerBasedTemplateService->getSubpart($this->subparts['template'], '###ITEM###');
@@ -231,7 +234,7 @@ abstract class AbstractView extends AbstractPlugin
      *
      * @return bool
      */
-    public function hasTemplate()
+    public function hasTemplate(): bool
     {
         return !empty($this->subparts['template']);
     }
@@ -244,14 +247,14 @@ abstract class AbstractView extends AbstractPlugin
      * @return rendered view
      * @abstract
      */
-    abstract public function render($gp, $errors);
+    abstract public function render(array $gp, array $errors): string;
 
     /**
      * Overwrite this method to extend the initialization of the View
      *
      * @author Jochen Rau
      */
-    protected function initializeView()
+    protected function initializeView(): void
     {
     }
 
@@ -262,7 +265,7 @@ abstract class AbstractView extends AbstractPlugin
      * @return string Parsed string
      * @author Jochen Rau
      */
-    protected function getUpperCase($camelCase)
+    protected function getUpperCase(string $camelCase): string
     {
         return strtoupper(preg_replace('/\p{Lu}+(?!\p{Ll})|\p{Lu}/u', '_$0', $camelCase));
     }

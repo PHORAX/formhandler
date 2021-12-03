@@ -41,7 +41,7 @@ class StoreUploadedFiles extends AbstractFinisher
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         if ($this->settings['finishedUploadFolder'] || is_array($this->settings['finishedUploadFolder.'])) {
 
@@ -69,7 +69,7 @@ class StoreUploadedFiles extends AbstractFinisher
      * plugin.Tx_Formhandler.settings.finishers.1.config.renameScheme = [filename]_[md5]_[time]
      * </code>
      */
-    protected function moveUploadedFiles()
+    protected function moveUploadedFiles(): void
     {
         $sessionFiles = $this->globals->getSession()->get('files');
         if (is_array($sessionFiles) && !empty($sessionFiles)) {
@@ -127,7 +127,7 @@ class StoreUploadedFiles extends AbstractFinisher
      * @param string The current field name
      * @return string The new path
      **/
-    protected function getNewFolderPath($field)
+    protected function getNewFolderPath(string $field): string
     {
         if (is_array($this->settings['finishedUploadFolder.']) && isset($this->settings['finishedUploadFolder.'][$field])) {
             $newFolder = $this->utilityFuncs->getSingle($this->settings['finishedUploadFolder.'], $field);
@@ -160,7 +160,7 @@ class StoreUploadedFiles extends AbstractFinisher
      * @param string The current field
      * @return string The new filename
      **/
-    protected function getNewFilename($oldName, $field)
+    protected function getNewFilename(string $oldName, string $field): string
     {
         $fileparts = explode('.', $oldName);
         $fileext = '.' . $fileparts[count($fileparts) - 1];
@@ -186,7 +186,7 @@ class StoreUploadedFiles extends AbstractFinisher
         return $newFilename;
     }
 
-    protected function replaceSchemeMarkers($str)
+    protected function replaceSchemeMarkers(string $str): string
     {
         $replacedStr = $str;
         if (is_array($this->settings['schemeMarkers.'])) {

@@ -23,14 +23,14 @@ use Typoheads\Formhandler\Component\AbstractComponent;
  */
 abstract class AbstractDebugger extends AbstractComponent
 {
-    protected $debugLog = [];
+    protected array $debugLog = [];
 
     /**
      * The main method called by the controller
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         //Not available for this type of component
     }
@@ -42,7 +42,7 @@ abstract class AbstractDebugger extends AbstractComponent
      * @param int $severity The severity of the message (1,2,3)
      * @param array $data Additional data to log
      */
-    public function addToDebugLog($message = '', $severity = 1, array $data = [])
+    public function addToDebugLog(string $message = '', int $severity = 1, array $data = [])
     {
         $trace = debug_backtrace();
         $section = '';
@@ -66,5 +66,5 @@ abstract class AbstractDebugger extends AbstractComponent
      *
      * @return void/mixed
      */
-    abstract public function outputDebugLog();
+    abstract public function outputDebugLog(): mixed;
 }

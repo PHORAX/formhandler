@@ -28,11 +28,11 @@ class BackendCsv extends AbstractComponent
     /**
      * The internal CSV object
      *
-     * @var export2CSV
+     * @var Csv
      */
-    protected $csv;
+    protected Csv $csv;
 
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         parent::init($gp, $settings);
         $fileName = $this->utilityFuncs->getSingle($this->settings, 'fileName');
@@ -67,7 +67,7 @@ class BackendCsv extends AbstractComponent
      * @param array $exportParams A list of fields to export. If not set all fields are exported
      * @see Tx_Formhandler_Controller_Backend::generateCSV()
      */
-    public function process()
+    public function process(): array
     {
         $records = $this->settings['records'];
         $exportParams = $this->settings['exportFields'];
@@ -140,7 +140,7 @@ class BackendCsv extends AbstractComponent
      *
      * @return array The sorted array
      */
-    private function sortArrayByArray($array, $orderArray)
+    private function sortArrayByArray(array $array, array $orderArray): array
     {
         $ordered = [];
         foreach ($orderArray as $idx => $key) {
@@ -157,7 +157,7 @@ class BackendCsv extends AbstractComponent
      *
      * @return string Charset
      */
-    private function getInputCharset()
+    private function getInputCharset(): string
     {
         if (is_object($GLOBALS['LANG']) && $GLOBALS['LANG']->charSet) {
             $charset = $GLOBALS['LANG']->charSet;

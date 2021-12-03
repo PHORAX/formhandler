@@ -32,7 +32,7 @@ class StoreGP extends AbstractFinisher
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
 
         //store in Session for further use by other plugins
@@ -47,7 +47,7 @@ class StoreGP extends AbstractFinisher
     /**
      * Stores the GP in session.
      */
-    protected function storeUserGPinSession()
+    protected function storeUserGPinSession(): void
     {
         $sessionKey = 'finisher-storegp';
         if ($this->settings['sessionKey']) {
@@ -62,7 +62,7 @@ class StoreGP extends AbstractFinisher
      * Stores $this->gp parameters in SESSION
      * actually only needed for finisher_submittedok
      */
-    protected function updateSession()
+    protected function updateSession(): void
     {
         $newValues = [];
 

@@ -30,7 +30,7 @@ class DevLog extends AbstractLogger
      *
      * @return array
      */
-    public function process()
+    public function process(): array
     {
         $message = 'Form on page ' . $GLOBALS['TSFE']->id . ' was submitted!';
         $severity = LogLevel::INFO;

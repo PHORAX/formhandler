@@ -56,14 +56,14 @@ class IPBlocking extends AbstractInterceptor
      *
      * @var string
      */
-    protected $logTable = 'tx_formhandler_log';
+    protected string $logTable = 'tx_formhandler_log';
 
     /**
      * The main method called by the controller
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         $ipTimebaseValue = $this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'value');
         $ipTimebaseUnit = $this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'unit');
@@ -92,7 +92,7 @@ class IPBlocking extends AbstractInterceptor
      * @param int maximum amount of submissions in given time base.
      * @param bool add IP address to where clause
      */
-    private function check($value, $unit, $maxValue, $addIPToWhere = true)
+    private function check(int $value, string $unit, int $maxValue, bool $addIPToWhere = true): void
     {
         $timestamp = $this->utilityFuncs->getTimestamp($value, $unit);
 
@@ -171,7 +171,7 @@ class IPBlocking extends AbstractInterceptor
      * @param string (ip|global) Defines the message sent
      * @param array The select rows of log table
      */
-    private function sendReport($type, $rows)
+    private function sendReport(string $type, array $rows): void
     {
         $email = $this->utilityFuncs->getSingle($this->settings['report.'], 'email');
         $email = GeneralUtility::trimExplode(',', $email);

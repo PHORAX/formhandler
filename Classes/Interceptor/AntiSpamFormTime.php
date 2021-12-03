@@ -41,7 +41,7 @@ class AntiSpamFormTime extends AbstractInterceptor
      *
      * @return array The probably modified GET/POST parameters
      */
-    public function process()
+    public function process(): array
     {
         $isSpam = $this->doCheck();
         if ($isSpam) {
@@ -83,7 +83,7 @@ class AntiSpamFormTime extends AbstractInterceptor
      *
      * @return bool
      */
-    protected function doCheck()
+    protected function doCheck(): bool
     {
         $value = $this->utilityFuncs->getSingle($this->settings['minTime.'], 'value');
         $unit = $this->utilityFuncs->getSingle($this->settings['minTime.'], 'unit');

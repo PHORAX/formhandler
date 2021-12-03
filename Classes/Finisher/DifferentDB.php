@@ -43,7 +43,7 @@ class DifferentDB extends DB
      *
      * @see \Typoheads\Formhandler\Finisher\DB::init
      */
-    public function init($gp, $settings)
+    public function init(array $gp, array $settings): void
     {
         //read settings
         $connectionParams = [

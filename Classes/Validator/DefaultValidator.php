@@ -41,8 +41,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DefaultValidator extends AbstractValidator
 {
-    protected $restrictErrorChecks = [];
-    protected $disableErrorCheckFields = [];
+    protected array $restrictErrorChecks = [];
+    protected array $disableErrorCheckFields = [];
 
     /**
      * Method to set GET/POST for this class and load the configuration
@@ -50,7 +50,7 @@ class DefaultValidator extends AbstractValidator
      * @param array The GET/POST values
      * @param array The TypoScript configuration
      */
-    public function init($gp, $tsConfig)
+    public function init(array $gp, array $tsConfig): void
     {
         $this->settings = $tsConfig;
 
@@ -76,7 +76,7 @@ class DefaultValidator extends AbstractValidator
      * @param array &$errors Reference to the errors array to store the errors occurred
      * @return bool
      */
-    public function validate(&$errors)
+    public function validate(array &$errors): bool
     {
 
         //no config? validation returns true
@@ -169,7 +169,7 @@ class DefaultValidator extends AbstractValidator
      * @param string $rootField
      * @return array The error array
      */
-    protected function validateRecursive($errors, $gp, $fieldConf, $rootField = null)
+    protected function validateRecursive(array $errors, array $gp, array $fieldConf, ?string $rootField = null): array
     {
         //foreach configured form field
         foreach ($fieldConf as $key => $fieldSettings) {
@@ -264,7 +264,7 @@ class DefaultValidator extends AbstractValidator
         return $errors;
     }
 
-    public function validateConfig()
+    public function validateConfig(): bool
     {
         if (is_array($this->settings['fieldConf.'])) {
             $fieldConf = $this->settings['fieldConf.'];

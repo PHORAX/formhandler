@@ -36,14 +36,14 @@ class Manager implements SingletonInterface
      *
      * @var \Typoheads\Formhandler\Utility\Globals
      */
-    protected $globals;
+    protected Globals $globals;
 
     /**
      * The global Formhandler values
      *
      * @var \Typoheads\Formhandler\Utility\GeneralUtility
      */
-    protected $utilityFuncs;
+    protected \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs;
 
     public function __construct()
     {
@@ -59,7 +59,7 @@ class Manager implements SingletonInterface
      * @author Robert Lemke <robert@typo3.org>
      * @author adapted for TYPO3v4 by Jochen Rau <jochen.rau@typoplanet.de>
      */
-    public function getComponent($componentName)
+    public function getComponent(string $componentName): mixed
     {
         $componentName = $this->utilityFuncs->prepareClassName($componentName);
         //Avoid component manager creating multiple instances of itself

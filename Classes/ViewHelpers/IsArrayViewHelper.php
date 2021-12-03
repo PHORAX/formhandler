@@ -27,7 +27,7 @@ class IsArrayViewHelper extends IfViewHelper
      * @param RenderingContextInterface $renderingContext
      * @return bool
      */
-    public static function verdict(array $arguments, RenderingContextInterface $renderingContext)
+    public static function verdict(array $arguments, RenderingContextInterface $renderingContext): bool
     {
         return isset($arguments['condition']) && is_array($arguments['condition']);
     }
