@@ -157,7 +157,7 @@ class GeneralUtility implements SingletonInterface
     {
 
         //template file was not set in flexform, search TypoScript for setting
-        if (!$templateFile) {
+        if (empty($templateFile)) {
             if (!$settings['templateFile'] && !$settings['templateFile.']) {
                 return '';
             }
@@ -215,7 +215,7 @@ class GeneralUtility implements SingletonInterface
     {
 
         //language file was not set in flexform, search TypoScript for setting
-        if (!$langFiles) {
+        if (empty($langFiles)) {
             $langFiles = [];
             if (isset($settings['langFile']) && !isset($settings['langFile.'])) {
                 array_push($langFiles, self::resolveRelPathFromSiteRoot($settings['langFile']));
@@ -1010,7 +1010,7 @@ class GeneralUtility implements SingletonInterface
         $keys = explode('|', $keyString);
         $numberOfLevels = count($keys);
         $rootKey = trim($keys[0]);
-        $value = isset($source) ? $source[$rootKey] : $GLOBALS[$rootKey];
+        $value = isset($source[$rootKey]) ? $source[$rootKey] : $GLOBALS[$rootKey];
 
         for ($i = 1; $i < $numberOfLevels && isset($value); $i++) {
             $currentKey = trim($keys[$i]);
