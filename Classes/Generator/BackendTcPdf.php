@@ -175,7 +175,7 @@ class BackendTcPdf extends AbstractComponent
         }
 
         $this->pdf->Output($this->settings['fileName'], 'D');
-        exit;
+        exit();
     }
 
     /**

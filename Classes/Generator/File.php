@@ -84,7 +84,7 @@ class File extends AbstractGenerator
         header('Content-type: ' . $contentType);
         header('Content-Disposition: attachment; filename="' . $this->filenameOnly . '"');
         echo $content;
-        exit;
+        exit();
     }
 
     protected function getComponentLinkParams(array $linkGP): array
