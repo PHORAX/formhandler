@@ -1048,8 +1048,6 @@ class GeneralUtility implements SingletonInterface
             'id' => $GLOBALS['TSFE']->id,
             'L' => \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id'),
             'randomID' => Globals::getRandomID(),
-            'field' => $field,
-            'uploadedFileName' => $uploadedFileName,
         ];
         $params = array_merge($params, $specialParams);
         return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'index.php?' . \TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);

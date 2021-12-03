@@ -215,12 +215,12 @@ class IPBlocking extends AbstractInterceptor
         //send e-mails
         $sent = $emailObj->send($email);
         if ($sent) {
-            $this->utilityFuncs->debugMessage('mail_sent', [$mailto]);
+            $this->utilityFuncs->debugMessage('mail_sent', $email);
             $this->utilityFuncs->debugMessage('mail_sender', [$emailObj->from_email]);
             $this->utilityFuncs->debugMessage('mail_subject', [$emailObj->subject]);
             $this->utilityFuncs->debugMessage('mail_message', [], 1, [$message]);
         } else {
-            $this->utilityFuncs->debugMessage('mail_not_sent', [$mailto], 2);
+            $this->utilityFuncs->debugMessage('mail_not_sent', $email, 2);
             $this->utilityFuncs->debugMessage('mail_sender', [$emailObj->from_email]);
             $this->utilityFuncs->debugMessage('mail_subject', [$emailObj->subject]);
             $this->utilityFuncs->debugMessage('mail_message', [], 1, [$message]);
