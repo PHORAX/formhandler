@@ -109,7 +109,7 @@ class Configuration implements \ArrayAccess
      */
     public function getSettings(): array
     {
-        return isset($this->setup['settings.']) ? $this->setup['settings.'] : null;
+        return isset($this->setup['settings.']) ? (is_array($this->setup['settings.'])? $this->setup['settings.']: []) : [];
     }
 
     /**
@@ -119,7 +119,7 @@ class Configuration implements \ArrayAccess
      */
     public function getSourcesConfiguration(): array
     {
-        return isset($this->setup['sources.']) ? $this->setup['sources.'] : null;
+        return isset($this->setup['sources.']) ? (is_array($this->setup['sources.'])? $this->setup['sources.']: []) : [];
     }
 
     /**
