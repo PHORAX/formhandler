@@ -1005,6 +1005,7 @@ class Form extends AbstractController
             }
             $finalCondition = '(' . implode(' || ', $orConditions) . ')';
 
+            $evaluation = false;
             eval('$evaluation = ' . $finalCondition . ';');
 
             if ($evaluation) {
@@ -1445,9 +1446,9 @@ class Form extends AbstractController
     protected function isValid(array $validArr): bool
     {
         $valid = true;
-            foreach ($validArr as $idx => $item) {
-                if (!$item) {
-                    $valid = false;
+        foreach ($validArr as $idx => $item) {
+            if (!$item) {
+                $valid = false;
             }
         }
         return $valid;
