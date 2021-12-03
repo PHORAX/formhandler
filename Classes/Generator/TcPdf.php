@@ -53,9 +53,9 @@ class TcPdf extends AbstractGenerator
 
         $this->formhandlerSettings = $this->globals->getSettings();
         $suffix = $this->formhandlerSettings['templateSuffix'];
-        $this->templateCode = $this->utilityFuncs->readTemplateFile(false, $this->formhandlerSettings);
+        $this->templateCode = $this->utilityFuncs->readTemplateFile('', $this->formhandlerSettings);
         if ($this->settings['templateFile']) {
-            $this->templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings);
+            $this->templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings);
         }
         if ($suffix) {
             $view->setTemplate($this->templateCode, 'PDF' . $suffix);

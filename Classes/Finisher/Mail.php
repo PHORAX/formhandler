@@ -142,10 +142,10 @@ class Mail extends AbstractFinisher
         $view->setComponentSettings($this->settings);
         $templateCode = $this->globals->getTemplateCode();
         if ($this->settings['templateFile']) {
-            $templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings);
+            $templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings);
         }
         if ($this->settings[$mode]['templateFile']) {
-            $templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings[$mode]);
+            $templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings[$mode]);
         }
 
         $view->setTemplate($templateCode, ('EMAIL_' . strtoupper($mode) . '_' . strtoupper($suffix) . $this->globals->getTemplateSuffix()));

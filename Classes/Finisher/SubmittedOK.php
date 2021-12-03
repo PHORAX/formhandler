@@ -47,7 +47,7 @@ class SubmittedOK extends AbstractFinisher
         //read template file
         $this->templateFile = $this->globals->getTemplateCode();
         if ($this->settings['templateFile']) {
-            $this->templateFile = $this->utilityFuncs->readTemplateFile(false, $this->settings);
+            $this->templateFile = $this->utilityFuncs->readTemplateFile('', $this->settings);
         }
 
         //set view

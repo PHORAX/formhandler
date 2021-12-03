@@ -64,7 +64,7 @@ class AntiSpamFormTime extends AbstractInterceptor
 
             $templateCode = $this->globals->getTemplateCode();
             if ($this->settings['templateFile']) {
-                $templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings);
+                $templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings);
             }
             $view->setTemplate($templateCode, 'ANTISPAM');
             if (!$view->hasTemplate()) {
