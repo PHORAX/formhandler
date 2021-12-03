@@ -173,8 +173,15 @@ class DB extends AbstractFinisher
         if (!$uid) {
             return false;
         }
-        $queryBuilder = $this->getConnection()->createQueryBuilder();
-        $queryBuilder->getRestrictions()->removeAll();
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+
+        $queryBuilder = $connectionPool->getQueryBuilderForTable($this->table);
+        $queryBuilder
+            ->getRestrictions()
+            ->removeAll()
+        ;
+
         $queryBuilder
             ->select($this->key)
             ->from($this->table);
@@ -203,12 +210,12 @@ class DB extends AbstractFinisher
 
         $queryBuilder->values($queryFields);
 
-        $this->utilityFuncs->debugMessage('sql_request', [$queryBuilder->getSQL()]);
+        $query = $queryBuilder->getSQL();
 
-        $stmt = $queryBuilder->execute();
-
-        if (is_object($stmt) && $stmt->errorInfo()) {
-            $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
+        try {
+            $stmt = $queryBuilder->execute();
+        } catch (\Throwable $th) {
+            $this->utilityFuncs->debugMessage('error', [$query], 3);
             return false;
         }
 
@@ -217,8 +224,15 @@ class DB extends AbstractFinisher
 
     protected function doUpdate(int $uid, array $queryFields, string $andWhere): bool
     {
-        $queryBuilder = $this->getConnection()->createQueryBuilder();
-        $queryBuilder->getRestrictions()->removeAll();
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+
+        $queryBuilder = $connectionPool->getQueryBuilderForTable($this->table);
+        $queryBuilder
+            ->getRestrictions()
+            ->removeAll()
+        ;
+
         $queryBuilder->update($this->table);
 
         foreach ($queryFields as $k => $v) {
@@ -236,11 +250,11 @@ class DB extends AbstractFinisher
         }
 
         $query = $queryBuilder->getSQL();
-        $this->utilityFuncs->debugMessage('sql_request', [$query]);
 
-        $stmt = $queryBuilder->execute();
-        if (is_object($stmt) && $stmt->errorInfo()) {
-            $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
+        try {
+            $stmt = $queryBuilder->execute();
+        } catch (\Throwable $th) {
+            $this->utilityFuncs->debugMessage('error', [$query], 3);
             return false;
         }
         return true;
