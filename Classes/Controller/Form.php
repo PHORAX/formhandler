@@ -1445,11 +1445,9 @@ class Form extends AbstractController
     protected function isValid(array $validArr): bool
     {
         $valid = true;
-        if (is_array($validArr)) {
             foreach ($validArr as $idx => $item) {
                 if (!$item) {
                     $valid = false;
-                }
             }
         }
         return $valid;

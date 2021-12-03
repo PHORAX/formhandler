@@ -144,9 +144,6 @@ class Globals implements SingletonInterface
 
     public static function getDebuggers(): array
     {
-        if (!is_array(self::$debuggers)) {
-            self::$debuggers = [];
-        }
         return self::$debuggers;
     }
 
@@ -162,25 +159,16 @@ class Globals implements SingletonInterface
 
     public static function getGP(): array
     {
-        if (!is_array(self::$gp)) {
-            self::$gp = [];
-        }
         return self::$gp;
     }
 
     public static function getLangFiles(): array
     {
-        if (!is_array(self::$langFiles)) {
-            self::$langFiles = [];
-        }
         return self::$langFiles;
     }
 
     public static function getOverrideSettings(): array
     {
-        if (!is_array(self::$overrideSettings)) {
-            self::$overrideSettings = [];
-        }
         return self::$overrideSettings;
     }
 
@@ -201,9 +189,6 @@ class Globals implements SingletonInterface
 
     public static function getSettings(): array
     {
-        if (!is_array(self::$settings)) {
-            self::$settings = [];
-        }
         return self::$settings;
     }
 

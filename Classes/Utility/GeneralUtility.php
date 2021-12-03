@@ -822,11 +822,10 @@ class GeneralUtility implements SingletonInterface
 
     public static function generateRandomID(): string
     {
-        $randomID = md5(
+        return md5(
             Globals::getFormValuesPrefix() .
             \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Random::class)->generateRandomBytes(10)
         );
-        return $randomID;
     }
 
     public static function initializeTSFE(int $pid)
