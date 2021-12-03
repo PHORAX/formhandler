@@ -490,6 +490,8 @@ class Form extends AbstractView
 			';
         }
         $currentStepFromSession = (int)$this->globals->getSession()->get('currentStep');
+        $previousStep = $currentStepFromSession - 1;
+        $nextStep = $currentStepFromSession + 1;
         $hiddenActionFieldName = 'step-';
         $prefix = $this->globals->getFormValuesPrefix();
         if ($prefix) {
@@ -500,7 +502,7 @@ class Form extends AbstractView
 
         // submit name for next page
         $hiddenActionFieldName = ' name="' . str_replace('#action#', 'next', $hiddenActionFieldName) . '" ';
-        $hiddenActionFieldName = str_replace('#step#', $currentStepFromSession + 1, $hiddenActionFieldName);
+        $hiddenActionFieldName = str_replace('#step#', (string)$nextStep, $hiddenActionFieldName);
 
         $markers['###HIDDEN_FIELDS###'] .= '
 			<input type="hidden" ' . $hiddenActionFieldName . ' id="ieHiddenField-' . htmlspecialchars($this->gp['randomID']) . '" value="1" />
@@ -537,7 +539,7 @@ class Form extends AbstractView
 
         // submit name for next page
         $nextName = ' name="' . str_replace('#action#', 'next', $name) . '" ';
-        $nextName = str_replace('#step#', $currentStepFromSession + 1, $nextName);
+        $nextName = str_replace('#step#', (string)$nextStep, $nextName);
         $markers['###submit_nextStep###'] = $nextName;
 
         // submit name for previous page
@@ -546,14 +548,13 @@ class Form extends AbstractView
         if (isset($this->settings['allowStepJumps'])) {
             $allowStepJumps = (bool)$this->utilityFuncs->getSingle($this->settings, 'allowStepJumps');
         }
-        $previousStep = $currentStepFromSession - 1;
         if ($allowStepJumps && $this->globals->getSession()->get('lastStep') < $currentStepFromSession) {
             $previousStep = (int)$this->globals->getSession()->get('lastStep');
         }
         if ($previousStep < 1) {
             $previousStep = 1;
         }
-        $prevName = str_replace('#step#', $previousStep, $prevName);
+        $prevName = str_replace('#step#', (string)$previousStep, $prevName);
         $markers['###submit_prevStep###'] = $prevName;
 
         // submits for next/prev steps with template suffix
@@ -561,7 +562,7 @@ class Form extends AbstractView
         foreach ($allNextSubmits[0] as $nextSubmitSuffix) {
             $nextSubmitSuffix = substr($nextSubmitSuffix, 19, -3);
             $nextName = ' name="' . str_replace('#action#', 'next', $name) . '[' . $nextSubmitSuffix . ']" ';
-            $nextName = str_replace('#step#', $currentStepFromSession + 1, $nextName);
+            $nextName = str_replace('#step#', (string)$nextStep, $nextName);
             $markers['###submit_nextStep_' . $nextSubmitSuffix . '###'] = $nextName;
         }
 
@@ -569,13 +570,13 @@ class Form extends AbstractView
         foreach ($allPrevSubmits[0] as $prevSubmitSuffix) {
             $prevSubmitSuffix = substr($prevSubmitSuffix, 19, -3);
             $prevName = ' name="' . str_replace('#action#', 'prev', $name) . '[' . $prevSubmitSuffix . ']" ';
-            $prevName = str_replace('#step#', $currentStepFromSession + 1, $prevName);
+            $prevName = str_replace('#step#', (string)$nextStep, $prevName);
             $markers['###submit_prevStep_' . $prevSubmitSuffix . '###'] = $prevName;
         }
 
         // submit name for reloading the same page/step
         $reloadName = ' name="' . str_replace('#action#', 'reload', $name) . '" ';
-        $reloadName = str_replace('#step#', $currentStepFromSession, $reloadName);
+        $reloadName = str_replace('#step#', (string)$currentStepFromSession, $reloadName);
         $markers['###submit_reload###'] = $reloadName;
 
         preg_match_all('/###submit_step_([^#])+?###/Ssm', $this->template, $allJumpToStepSubmits);
@@ -586,15 +587,15 @@ class Form extends AbstractView
                 $action = 'prev';
             }
             $submitName = ' name="' . str_replace('#action#', $action, $name) . '" ';
-            $submitName = str_replace('#step#', $step, $submitName);
+            $submitName = str_replace('#step#', (string)$step, $submitName);
             $markers['###submit_step_' . $step . '###'] = $submitName;
         }
 
         // step bar
         $prevName = str_replace('#action#', 'prev', $name);
-        $prevName = str_replace('#step#', $currentStepFromSession - 1, $prevName);
+        $prevName = str_replace('#step#', (string)$previousStep, $prevName);
         $nextName = str_replace('#action#', 'next', $name);
-        $nextName = str_replace('#step#', $currentStepFromSession + 1, $nextName);
+        $nextName = str_replace('#step#', (string)$nextStep, $nextName);
         $markers['###step_bar###'] = $this->createStepBar(
             $currentStepFromSession,
             $this->globals->getSession()->get('totalSteps'),

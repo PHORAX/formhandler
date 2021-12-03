@@ -174,7 +174,7 @@ class StoreUploadedFiles extends AbstractFinisher
         $newFilename = $namingScheme;
         $newFilename = str_replace('[filename]', $filename, $newFilename);
         $newFilename = str_replace('[field]', $field, $newFilename);
-        $newFilename = str_replace('[time]', time(), $newFilename);
+        $newFilename = str_replace('[time]', (string)time(), $newFilename);
         $newFilename = str_replace('[md5]', md5($filename), $newFilename);
         $newFilename = str_replace('[pid]', $GLOBALS['TSFE']->id, $newFilename);
         $newFilename = $this->replaceSchemeMarkers($newFilename);
