@@ -64,13 +64,6 @@ abstract class AbstractView extends AbstractPlugin
     protected GeneralUtility $utilityFuncs;
 
     /**
-     * The model of the view
-     *
-     * @var misc
-     */
-    protected mixed $model = null;
-
-    /**
      * The subparts array
      *
      * @var array
@@ -173,26 +166,6 @@ abstract class AbstractView extends AbstractPlugin
     public function setPredefined(string $key): void
     {
         $this->predefined = $key;
-    }
-
-    /**
-     * Sets the model of the view
-     *
-     * @param misc $model
-     */
-    public function setModel(mixed $model): void
-    {
-        $this->model = $model;
-    }
-
-    /**
-     * Returns the model of the view
-     *
-     * @return misc $model
-     */
-    public function getModel(): mixed
-    {
-        return $this->model;
     }
 
     /**
