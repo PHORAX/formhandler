@@ -29,7 +29,7 @@ class PHP extends AbstractSession
     {
         $this->start();
         $data = $_SESSION['formhandler'];
-        if (!is_array($data[$this->globals->getRandomID()])) {
+        if (!isset($data[$this->globals->getRandomID()]) || !is_array($data[$this->globals->getRandomID()])) {
             $data[$this->globals->getRandomID()] = [];
         }
         $data[$this->globals->getRandomID()][$key] = $value;
@@ -44,7 +44,7 @@ class PHP extends AbstractSession
         if (is_array($values) && !empty($values)) {
             $this->start();
             $data = $_SESSION['formhandler'];
-            if (!is_array($data[$this->globals->getRandomID()])) {
+            if (!isset($data[$this->globals->getRandomID()]) || !is_array($data[$this->globals->getRandomID()])) {
                 $data[$this->globals->getRandomID()] = [];
             }
             foreach ($values as $key => $value) {
@@ -61,10 +61,10 @@ class PHP extends AbstractSession
     {
         $this->start();
         $data = $_SESSION['formhandler'];
-        if (!is_array($data[$this->globals->getRandomID()])) {
+        if (!isset($data[$this->globals->getRandomID()]) || !is_array($data[$this->globals->getRandomID()])) {
             $data[$this->globals->getRandomID()] = [];
         }
-        return $data[$this->globals->getRandomID()][$key];
+        return ($data[$this->globals->getRandomID()][$key] ?? null);
     }
 
     /* (non-PHPdoc)
@@ -74,7 +74,7 @@ class PHP extends AbstractSession
     {
         $this->start();
         $data = $_SESSION['formhandler'];
-        return is_array($data[$this->globals->getRandomID()]);
+        return isset($data[$this->globals->getRandomID()]) && is_array($data[$this->globals->getRandomID()]);
     }
 
     /* (non-PHPdoc)
@@ -83,14 +83,16 @@ class PHP extends AbstractSession
     public function reset(): void
     {
         $this->start();
-        unset($_SESSION['formhandler'][$this->globals->getRandomID()]);
+        if (isset($_SESSION['formhandler'][$this->globals->getRandomID()])) {
+            unset($_SESSION['formhandler'][$this->globals->getRandomID()]);
+        }
     }
 
     public function init(array $gp, array $settings): void
     {
-        parent::init($gp, $settings);
-
-        if (is_array($_SESSION['formhandler'])) {
+      parent::init($gp, $settings);
+      
+      if (isset($_SESSION) && is_array($_SESSION['formhandler'])) {
             foreach ($_SESSION['formhandler'] as $hashedID => $sesData) {
                 $threshold = $this->getOldSessionThreshold();
                 if (!$this->gp['submitted'] && $this->globals->getFormValuesPrefix() === $sesData['formValuesPrefix'] && $sesData['creationTstamp'] < $threshold) {

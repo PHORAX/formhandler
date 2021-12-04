@@ -163,7 +163,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function getHTML(): string
     {
-        return $this->emailObj->getHtmlBody();
+        return $this->emailObj->getHtmlBody() ?? '';
     }
 
     /* (non-PHPdoc)
@@ -171,7 +171,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function getPlain(): string
     {
-        return $this->emailObj->getTextBody();
+        return $this->emailObj->getTextBody() ?? '';
     }
 
     /* (non-PHPdoc)

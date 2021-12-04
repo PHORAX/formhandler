@@ -70,12 +70,16 @@ class Mail extends Form
     protected function fillValueMarkers(): void
     {
         $componentSettings = $this->getComponentSettings();
-        if ($componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'] . '.']['arrayValueSeparator']) {
+        if (
+          isset($componentSettings[$this->currentMailSettings['mode']]) &&
+          isset($componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'] . '.']) &&
+          isset($componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'] . '.']['arrayValueSeparator']) &&
+          $componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'] . '.']['arrayValueSeparator']) {
             $this->settings['arrayValueSeparator'] = $componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'] . '.']['arrayValueSeparator'];
             $this->settings['arrayValueSeparator.'] = $componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'] . '.']['arrayValueSeparator.'];
         }
         $this->disableEncodingFields = [];
-        if ($this->settings['disableEncodingFields']) {
+        if (isset($this->settings['disableEncodingFields'])) {
             $this->disableEncodingFields = explode(',', $this->utilityFuncs->getSingle($this->settings, 'disableEncodingFields'));
         }
 

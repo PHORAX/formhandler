@@ -46,13 +46,13 @@ class SubmittedOK extends AbstractFinisher
 
         //read template file
         $this->templateFile = $this->globals->getTemplateCode();
-        if ($this->settings['templateFile']) {
+        if (isset($this->settings['templateFile'])) {
             $this->templateFile = $this->utilityFuncs->readTemplateFile('', $this->settings);
         }
 
         //set view
         $viewClass = '\Typoheads\Formhandler\View\SubmittedOK';
-        if ($this->settings['view']) {
+        if (isset($this->settings['view'])) {
             $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
         }
         $viewClass = $this->utilityFuncs->prepareClassName($viewClass);

@@ -35,7 +35,7 @@ abstract class AbstractSession extends AbstractClass
      */
     public function start(): void
     {
-        if ((int)($this->utilityFuncs->getSingle($this->settings, 'disableCookies')) === 1) {
+        if (isset($this->settings) && !empty($this->settings) && (int)($this->utilityFuncs->getSingle($this->settings, 'disableCookies')) === 1) {
             ini_set('session.use_only_cookies', 'off');
             ini_set('session.use_cookies', '0');
         }

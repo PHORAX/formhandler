@@ -91,16 +91,16 @@ class Mail extends AbstractFinisher
     {
         //init mailer object
         $globalSettings = $this->globals->getSettings();
-        if (is_array($this->settings['mailer.'])) {
+        if (isset($this->settings['mailer.']) && is_array($this->settings['mailer.'])) {
             $emailClass = $this->utilityFuncs->getPreparedClassName($this->settings['mailer.'], 'Mailer\TYPO3Mailer');
-        } elseif (is_array($globalSettings['mailer.'])) {
+        } elseif (isset($globalSettings['mailer.']) && is_array($globalSettings['mailer.'])) {
             $emailClass = $this->utilityFuncs->getPreparedClassName($globalSettings['mailer.'], 'Mailer\TYPO3Mailer');
         } else {
             $emailClass = $this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Mailer\\TYPO3Mailer');
         }
 
         $this->emailObj = $this->componentManager->getComponent($emailClass);
-        $this->emailObj->init($this->gp, $this->settings['mailer.']['config.']);
+        $this->emailObj->init($this->gp, ($this->settings['mailer.']?? [])['config.']?? []);
 
         $this->settings = $this->parseEmailSettings($this->settings, $type);
 
@@ -141,10 +141,10 @@ class Mail extends AbstractFinisher
         $view->setPredefined($this->predefined);
         $view->setComponentSettings($this->settings);
         $templateCode = $this->globals->getTemplateCode();
-        if ($this->settings['templateFile']) {
+        if (isset($this->settings['templateFile'])) {
             $templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings);
         }
-        if ($this->settings[$mode]['templateFile']) {
+        if (isset($this->settings[$mode]['templateFile'])) {
             $templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings[$mode]);
         }
 
@@ -254,19 +254,21 @@ class Mail extends AbstractFinisher
             $returnPath = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
         }
 
-        $this->emailObj->setReturnPath($returnPath);
+        if (strlen(trim($returnPath)) > 0) {
+          $this->emailObj->setReturnPath($returnPath);
+        }
 
-        if ($mailSettings['email_header']) {
+        if (isset($mailSettings['email_header'])) {
             $this->emailObj->addHeader($mailSettings['header']);
         }
 
-        if (strlen(trim($template['plain'])) > 0) {
+        if (isset($template['plain']) && strlen(trim($template['plain'])) > 0) {
             $this->emailObj->setPlain($template['plain']);
         } else {
-            $this->emailObj->setPlain(null);
+            $this->emailObj->setPlain('');
         }
 
-        if (strlen(trim($template['html'])) > 0) {
+        if (isset($template['html']) && strlen(trim($template['html'])) > 0) {
             if ($mailSettings['htmlEmailAsAttachment']) {
                 $prefix = 'formhandler_';
                 if (isset($mailSettings['filePrefix.']['html'])) {
@@ -298,7 +300,7 @@ class Mail extends AbstractFinisher
                 $this->utilityFuncs->debugMessage('attachment_not_found', [$attachment], 2);
             }
         }
-        if ($mailSettings['attachGeneratedFiles']) {
+        if (isset($mailSettings['attachGeneratedFiles'])) {
             $files = GeneralUtility::trimExplode(',', $mailSettings['attachGeneratedFiles']);
             $this->utilityFuncs->debugMessage('adding_generated_files', [], 1, $files);
             foreach ($files as $file) {
@@ -336,12 +338,12 @@ class Mail extends AbstractFinisher
             $this->utilityFuncs->debugMessage('mail_not_sent', [implode(',', $recipients)], 2);
         }
         $this->utilityFuncs->debugMailContent($this->emailObj);
-        if ($tmphtml) {
+        if (isset($tmphtml)) {
             unlink($tmphtml);
         }
 
         // delete generated files
-        if ($mailSettings['deleteGeneratedFiles'] && $mailSettings['attachGeneratedFiles']) {
+        if (isset($mailSettings['deleteGeneratedFiles']) && (bool)$mailSettings['deleteGeneratedFiles'] && isset($mailSettings['attachGeneratedFiles']) && (bool)$mailSettings['attachGeneratedFiles']) {
             $files = GeneralUtility::trimExplode(',', $mailSettings['attachGeneratedFiles']);
             foreach ($files as $file) {
                 unlink($file);
@@ -407,7 +409,7 @@ class Mail extends AbstractFinisher
             $settings[$key . '.']['gp'] = $this->gp;
             $parsed = $this->utilityFuncs->getSingle($settings, $key);
         } else {
-            $parsed = $this->parseSettingValue($settings[$key]);
+            $parsed = $this->parseSettingValue($settings[$key] ?? '');
         }
         return $parsed;
     }
@@ -428,7 +430,7 @@ class Mail extends AbstractFinisher
         } elseif (isset($settings[$key . '.']) && is_array($settings[$key . '.'])) {
             $parsed = $parsed = $this->explodeList($this->utilityFuncs->getSingle($settings, $key));
         } else {
-            $parsed = $this->explodeList($settings[$key]);
+            $parsed = $this->explodeList($settings[$key] ?? []);
         }
         return $parsed;
     }
@@ -447,7 +449,7 @@ class Mail extends AbstractFinisher
         if (isset($settings[$key . '.']) && is_array($settings[$key . '.'])) {
             $files = $this->utilityFuncs->getSingle($settings, $key);
             $files = GeneralUtility::trimExplode(',', $files);
-        } elseif ($settings[$key]) {
+        } elseif (isset($settings[$key])) {
             $files = GeneralUtility::trimExplode(',', $settings[$key]);
         }
         $parsed = [];
@@ -569,7 +571,7 @@ class Mail extends AbstractFinisher
             'html.',
         ];
 
-        $emailSettings[$type] = $this->parseEmailSettingsByType($emailSettings[$type . '.'], $type, $options);
+        $emailSettings[$type] = $this->parseEmailSettingsByType($emailSettings[$type . '.'] ?? [], $type, $options);
 
         return $emailSettings;
     }
@@ -640,7 +642,7 @@ class Mail extends AbstractFinisher
                             }
                             unset($currentSettings['attachGeneratedFiles.']);
                             $currentSettings['attachGeneratedFiles'] = $emailSettings['attachGeneratedFiles'];
-                        } elseif ($currentSettings['attachGeneratedFiles']) {
+                        } elseif (isset($currentSettings['attachGeneratedFiles'])) {
                             $emailSettings['attachGeneratedFiles'] = $currentSettings['attachGeneratedFiles'];
                         }
                         break;

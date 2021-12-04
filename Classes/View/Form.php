@@ -54,7 +54,7 @@ class Form extends AbstractView
         $this->gp = $gp;
 
         //set template
-        $this->template = $this->subparts['template'];
+        $this->template = $this->subparts['template'] ?? '';
         if (strlen($this->template) === 0) {
             $this->utilityFuncs->throwException('no_template_file');
         }
@@ -67,7 +67,7 @@ class Form extends AbstractView
         }
 
         //fill Typoscript markers
-        if (is_array($this->settings['markers.'])) {
+        if (isset($this->settings['markers.']) && is_array($this->settings['markers.'])) {
             $this->fillTypoScriptMarkers();
         }
 
@@ -84,25 +84,25 @@ class Form extends AbstractView
             }
         }
 
-        if ($this->globals->getAjaxHandler()) {
+        if ($this->globals->getAjaxHandler() != null) {
             $markers = [];
             $this->globals->getAjaxHandler()->fillAjaxMarkers($markers);
             $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
         }
 
         //fill Typoscript markers
-        if (is_array($this->settings['markers.'])) {
+        if (isset($this->settings['markers.']) && is_array($this->settings['markers.'])) {
             $this->fillTypoScriptMarkers();
         }
 
         $this->substituteConditionalSubparts('has_translation');
-        if (!$this->gp['submitted']) {
+        if (!isset($this->gp['submitted']) || !$this->gp['submitted']) {
             $this->storeStartEndBlock();
         } elseif ((int)($this->globals->getSession()->get('currentStep')) !== 1) {
             $this->fillStartEndBlock();
         }
 
-        if ((int)($this->settings['fillValueMarkersBeforeLangMarkers']) === 1) {
+        if ((int)($this->settings['fillValueMarkersBeforeLangMarkers'] ?? 0) === 1) {
 
             //fill value_[fieldname] markers
             $this->fillValueMarkers();
@@ -120,7 +120,7 @@ class Form extends AbstractView
         //fill default markers
         $this->fillDefaultMarkers();
 
-        if ((int)($this->settings['fillValueMarkersBeforeLangMarkers']) !== 1) {
+        if ((int)($this->settings['fillValueMarkersBeforeLangMarkers'] ?? 0) !== 1) {
 
             //fill value_[fieldname] markers
             $this->fillValueMarkers();
@@ -141,18 +141,23 @@ class Form extends AbstractView
         $this->fillLangMarkers();
 
         //fill Typoscript markers
-        if (is_array($this->settings['markers.'])) {
+        if (isset($this->settings['markers.']) && is_array($this->settings['markers.'])) {
             $this->fillTypoScriptMarkers();
         }
 
         //remove markers that were not substituted
         $content = $this->utilityFuncs->removeUnfilledMarkers($this->template);
 
-        if (is_array($this->settings['stdWrap.'])) {
+        if (isset($this->settings['stdWrap.']) && is_array($this->settings['stdWrap.'])) {
             $content = $this->cObj->stdWrap($content, $this->settings['stdWrap.']);
         }
-        if ((int)($this->settings['disableWrapInBaseClass']) !== 1) {
-            $content = $this->pi_wrapInBaseClass($content);
+        if ((int)($this->settings['disableWrapInBaseClass'] ?? 0) !== 1) {
+
+          if ( !isset($this->frontendController->config['config']['disablePrefixComment']) ) {
+            $this->frontendController->config['config']['disablePrefixComment'] = true;
+          }
+          
+          $content = $this->pi_wrapInBaseClass($content);
         }
         return $content;
     }
@@ -421,7 +426,7 @@ class Form extends AbstractView
         $markers['###TIMESTAMP###'] = time();
 
         //Calculate timestamp only once to prevent false positives when a small error in the form gets corrected fast.
-        if (strlen(trim($this->gp['formtime']))) {
+        if (strlen(trim($this->gp['formtime'] ?? ''))) {
             $markers['###TIMESTAMP###'] = htmlspecialchars($this->gp['formtime']);
         }
         $markers['###RANDOM_ID###'] = htmlspecialchars($this->gp['randomID']);
@@ -477,13 +482,13 @@ class Form extends AbstractView
         if ($this->globals->getFormValuesPrefix()) {
             $name = $this->globals->getFormValuesPrefix() . '[formToken]';
         }
-        if ($this->gp['formToken']) {
+        if (isset($this->gp['formToken'])) {
             $markers['###HIDDEN_FIELDS###'] .= '
 				<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($this->gp['formToken']) . '" />
 			';
         }
 
-        if (is_array($this->settings['session.'])
+        if (isset($this->settings['session.']) && is_array($this->settings['session.'])
             && (int)($this->utilityFuncs->getSingle($this->settings['session.']['config.'], 'disableCookies')) === 1
             && (int)(ini_get('session.use_trans_sid')) === 0
         ) {
@@ -517,7 +522,7 @@ class Form extends AbstractView
 
         $markers['###formValuesPrefix###'] = $this->globals->getFormValuesPrefix();
 
-        if ($this->gp['generated_authCode']) {
+        if (isset($this->gp['generated_authCode'])) {
             $markers['###auth_code###'] = htmlspecialchars($this->gp['generated_authCode']);
         }
 
@@ -733,7 +738,7 @@ class Form extends AbstractView
         $requiredMarker = $this->utilityFuncs->getSingle($settings, 'requiredMarker');
 
         //parse validation settings
-        if (is_array($settings['validators.'])) {
+        if (isset($settings['validators.']) && is_array($settings['validators.'])) {
             if ((int)($this->utilityFuncs->getSingle($settings['validators.'], 'disable')) === 0) {
                 foreach ($settings['validators.'] as $key => $validatorSettings) {
                     if ((int)($this->utilityFuncs->getSingle($validatorSettings, 'disable')) === 0) {
@@ -827,7 +832,7 @@ class Form extends AbstractView
                     if (!$uploadedFileName) {
                         $uploadedFileName = $fileInfo['name'];
                     }
-                    if ($this->globals->getAjaxHandler() && $settings['files.']['enableAjaxFileRemoval']) {
+                    if ($this->globals->getAjaxHandler() != null && $settings['files.']['enableAjaxFileRemoval']) {
                         $link = $this->globals->getAjaxHandler()->getFileRemovalLink($text, $field, $uploadedFileName);
                     } elseif ($settings['files.']['enableFileRemoval']) {
                         $submitName = 'step-' . (string)$this->globals->getSession()->get('currentStep') . '-reload';
@@ -968,7 +973,7 @@ class Form extends AbstractView
     {
         $markers = [];
         foreach ($this->gp as $field => $value) {
-            if (!isset($errors[$field])) {
+            if (!isset($errors[$field]) && isset($this->settings['isSuccessMarker.'])) {
                 if ($this->settings['isSuccessMarker.'][$field]) {
                     $successMessage = $this->utilityFuncs->getSingle($this->settings['isSuccessMarker.'], $field);
                 } elseif (strlen($temp = trim($this->utilityFuncs->getTranslatedMessage($this->langFiles, 'is_success_' . $field))) > 0) {
@@ -1092,7 +1097,7 @@ class Form extends AbstractView
     protected function fillValueMarkers(): void
     {
         $this->disableEncodingFields = [];
-        if ((bool)$this->settings['disableEncodingFields']) {
+        if (isset($this->settings['disableEncodingFields']) && (bool)$this->settings['disableEncodingFields']) {
             $this->disableEncodingFields = explode(',', $this->utilityFuncs->getSingle($this->settings, 'disableEncodingFields'));
         }
         $markers = $this->getValueMarkers($this->gp);
@@ -1225,7 +1230,7 @@ class Form extends AbstractView
 
         //colors
         $bgcolor = '#EAEAEA';
-        $bgcolor = $this->settings['stepbar_color'] ? $this->settings['stepbar_color'] : $bgcolor;
+        $bgcolor = isset($this->settings['stepbar_color']) ? $this->settings['stepbar_color'] : $bgcolor;
 
         $nrcolor = \Typoheads\Formhandler\Utility\GeneralUtility::modifyHTMLcolor($bgcolor, 30, 30, 30);
         $errorbgcolor = '#dd7777';
@@ -1283,7 +1288,7 @@ class Form extends AbstractView
         $content = '<div class="' . $classes . '" >' . $content . '</div>';
 
         //add default css to page
-        if ($this->settings['useDefaultStepBarStyles']) {
+        if (isset($this->settings['useDefaultStepBarStyles']) && (bool)$this->settings['useDefaultStepBarStyles']) {
             $css = implode("\n", $css);
             $css = TSpagegen::inline2TempFile($css, 'css');
             if (version_compare(GeneralUtility::makeInstance(Typo3Version::class)->getVersion(), '4.3.0') >= 0) {

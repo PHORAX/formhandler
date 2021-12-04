@@ -42,9 +42,7 @@ class ClearTempFiles extends AbstractPreProcessor
     {
         $olderThanValue = (int)$this->utilityFuncs->getSingle($this->settings['clearTempFilesOlderThan.'], 'value');
         $olderThanUnit = $this->utilityFuncs->getSingle($this->settings['clearTempFilesOlderThan.'], 'unit');
-        if (strlen($olderThanValue) > 0 && is_numeric($olderThanValue)) {
-            $this->clearTempFiles($olderThanValue, $olderThanUnit);
-        }
+        $this->clearTempFiles($olderThanValue, $olderThanUnit);
         return $this->gp;
     }
 

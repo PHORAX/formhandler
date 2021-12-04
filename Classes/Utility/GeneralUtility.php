@@ -45,7 +45,7 @@ class GeneralUtility implements SingletonInterface
         $gp = array_merge(\TYPO3\CMS\Core\Utility\GeneralUtility::_GET(), \TYPO3\CMS\Core\Utility\GeneralUtility::_POST());
         $prefix = Globals::getFormValuesPrefix();
         if ($prefix) {
-            if (is_array($gp[$prefix])) {
+            if (isset($gp[$prefix])) {
                 $gp = $gp[$prefix];
             } else {
                 $gp = [];
@@ -155,6 +155,10 @@ class GeneralUtility implements SingletonInterface
      */
     public static function readTemplateFile(string $templateFile = '', array &$settings): string
     {
+        $templateCode= '';
+        if(!isset($settings)) {
+            return $templateCode;
+        }
 
         //template file was not set in flexform, search TypoScript for setting
         if (empty($templateFile)) {
@@ -256,18 +260,22 @@ class GeneralUtility implements SingletonInterface
 
     public static function getSingle(array|string $arr, string $key): string
     {
-        if (!is_array($arr)) {
+        if (isset($arr) && !is_array($arr)) {
             return $arr;
         }
-        if (!is_array($arr[$key . '.'])) {
+        if (isset($arr[$key . '.']) && !is_array($arr[$key . '.'])) {
             return $arr[$key];
         }
         if (!isset($arr[$key . '.']['sanitize'])) {
             $arr[$key . '.']['sanitize'] = 1;
         }
-        if (!self::isValidCObject($arr[$key])) {
+        if (isset($arr[$key]) && !self::isValidCObject($arr[$key])) {
             return $arr[$key];
         }
+        if(!isset($arr[$key]) || !isset($arr[$key . '.'])){
+          return'';
+        }
+
         return Globals::getCObj()->cObjGetSingle($arr[$key], $arr[$key . '.']);
     }
 
@@ -285,10 +293,10 @@ class GeneralUtility implements SingletonInterface
         ;
     }
 
-    public static function getPreparedClassName(array $settingsArray, string $defaultClassName = '')
+    public static function getPreparedClassName(?array $settingsArray, string $defaultClassName = '')
     {
         $className = $defaultClassName;
-        if (is_array($settingsArray) && $settingsArray['class']) {
+        if (isset($settingsArray) && is_array($settingsArray) && $settingsArray['class']) {
             $className = self::getSingle($settingsArray, 'class');
         }
         return self::prepareClassName($className);
@@ -427,10 +435,10 @@ class GeneralUtility implements SingletonInterface
                     }
                 }
             } else {
-                $tempArr = $tempArr[$v];
+                $tempArr = $tempArr[$v] ?? [];
             }
         }
-        return $tempArr[$value];
+        return $tempArr[$value] ?? '';
     }
 
     /**
@@ -600,7 +608,7 @@ class GeneralUtility implements SingletonInterface
 
         self::debugMessage('mail_cc', [], 1, (array)$emailObj->getCc());
         self::debugMessage('mail_bcc', [], 1, (array)$emailObj->getBcc());
-        self::debugMessage('mail_returnpath', [], 1, [$emailObj->returnPath]);
+        self::debugMessage('mail_returnpath', [], 1, [$emailObj->returnPath ?? '']);
         self::debugMessage('mail_plain', [], 1, [$emailObj->getPlain()]);
         self::debugMessage('mail_html', [], 1, [$emailObj->getHTML()]);
     }
@@ -924,12 +932,16 @@ class GeneralUtility implements SingletonInterface
     public static function recursiveHtmlSpecialChars(array|string $values): array|string
     {
         if (is_array($values)) {
-            foreach ($values as &$value) {
-                if (is_array($value)) {
-                    $value = self::recursiveHtmlSpecialChars($value);
-                } else {
-                    $value = htmlspecialchars($value);
-                }
+            if(empty($values)) {
+              $values = "";
+            }else {
+              foreach ($values as &$value) {
+                  if (is_array($value)) {
+                      $value = self::recursiveHtmlSpecialChars($value);
+                  } else {
+                      $value = htmlspecialchars(serialize($value));
+                  }
+              }
             }
         } else {
             $values = htmlspecialchars($values);
@@ -1102,9 +1114,9 @@ class GeneralUtility implements SingletonInterface
 
     public static function parseResourceFiles(array $settings, string $key): array
     {
-        $resourceFile = $settings[$key];
+        $resourceFile = $settings[$key] ?? '';
         $resourceFiles = [];
-        if (!self::isValidCObject($resourceFile) && $settings[$key . '.']) {
+        if (!self::isValidCObject($resourceFile) && isset($settings[$key . '.']) && is_array($settings[$key . '.'])) {
             foreach ($settings[$key . '.'] as $idx => $file) {
                 if (strpos($idx, '.') === false) {
                     $file = self::getSingle($settings[$key . '.'], $idx);
