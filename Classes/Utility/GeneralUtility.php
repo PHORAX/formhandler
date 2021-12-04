@@ -379,7 +379,7 @@ class GeneralUtility implements SingletonInterface
                     $additionalParams[$key] = $value;
                 }
             } else {
-                $additionalParams = $settings['additionalParams.'];
+                $additionalParams = (array)$settings['additionalParams.'];
             }
             self::doRedirect($redirectPage, $correctRedirectUrl, $additionalParams, $headerStatusCode);
             exit();
