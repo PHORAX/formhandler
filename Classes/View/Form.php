@@ -38,7 +38,7 @@ class Form extends AbstractView
      *
      * @var array
      */
-    protected array $disableEncodingFields;
+    protected array $disableEncodingFields = [];
 
     /**
      * Main method called by the controller.
