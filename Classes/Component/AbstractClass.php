@@ -65,6 +65,13 @@ abstract class AbstractClass
     protected ContentObjectRenderer $cObj;
 
     /**
+     * The predefined
+     *
+     * @var string
+     */
+    protected string $predefined = '';
+
+    /**
      * @var array
      */
     protected array $settings = [];

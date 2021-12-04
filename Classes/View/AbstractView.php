@@ -113,6 +113,13 @@ abstract class AbstractView extends AbstractPlugin
     protected string $template = '';
 
     /**
+     * The predefined
+     *
+     * @var string
+     */
+    protected string $predefined = '';
+
+    /**
      * An array of translation file names
      *
      * @var array

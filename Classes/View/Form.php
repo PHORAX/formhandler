@@ -26,6 +26,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Form extends AbstractView
 {
 
+   /**
+     * The template code
+     *
+     * @var array
+     */
+    protected array $masterTemplates = [];
+
     /**
      * An array of fields to do not encode for output
      *
