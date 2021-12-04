@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Utility;
 
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
+use Typoheads\Formhandler\Session\AbstractSession;
 
 /*                                                                        *
 * This script is part of the TYPO3 project - inspiring people to share!  *
@@ -22,9 +25,9 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class Globals implements SingletonInterface
 {
-    protected static mixed $ajaxHandler;
+    protected static ?AbstractAjaxHandler $ajaxHandler = null;
     protected static bool $ajaxMode = false;
-    protected static mixed $cObj;
+    protected static ?ContentObjectRenderer $cObj = null;
     protected static array $debuggers = [];
     protected static string $formID = '';
     protected static string $formValuesPrefix= '';
@@ -33,7 +36,7 @@ class Globals implements SingletonInterface
     protected static array $overrideSettings = [];
     protected static string $predef = '';
     protected static string $randomID = '';
-    protected static mixed $session;
+    protected static ?AbstractSession $session = null;
     protected static array $settings = [];
     protected static bool $submitted = false;
     protected static string $templateCode = '';
@@ -49,12 +52,12 @@ class Globals implements SingletonInterface
         return self::$ajaxMode;
     }
 
-    public static function setAjaxHandler(mixed $ajaxHandler): void
+    public static function setAjaxHandler(?AbstractAjaxHandler $ajaxHandler): void
     {
         self::$ajaxHandler = $ajaxHandler;
     }
 
-    public static function setCObj(mixed $cObj): void
+    public static function setCObj(?ContentObjectRenderer $cObj): void
     {
         self::$cObj = $cObj;
     }
@@ -107,7 +110,7 @@ class Globals implements SingletonInterface
         self::$randomID = $randomID;
     }
 
-    public static function setSession(mixed $session): void
+    public static function setSession(?AbstractSession $session): void
     {
         self::$session = $session;
     }
@@ -132,12 +135,12 @@ class Globals implements SingletonInterface
         self::$templateSuffix = $templateSuffix;
     }
 
-    public static function getAjaxHandler(): mixed
+    public static function getAjaxHandler(): ?AbstractAjaxHandler
     {
-        return self::$ajaxHandler;
+      return self::$ajaxHandler;
     }
 
-    public static function getCObj(): mixed
+    public static function getCObj(): ?ContentObjectRenderer
     {
         return self::$cObj;
     }
@@ -182,7 +185,7 @@ class Globals implements SingletonInterface
         return self::$randomID;
     }
 
-    public static function getSession(): mixed
+    public static function getSession(): ?AbstractSession
     {
         return self::$session;
     }

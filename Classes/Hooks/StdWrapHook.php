@@ -49,7 +49,7 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface
      */
     public function stdWrapOverride($content, array $configuration, ContentObjectRenderer &$parentObject): string
     {
-        return $content;
+        return (string) $content;
     }
 
     /**

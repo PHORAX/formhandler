@@ -127,13 +127,13 @@ class Dispatcher extends AbstractPlugin
             if (!$result) {
                 $result = '<div style="color:red; font-weight: bold">' . $this->utilityFuncs->getExceptionMessage('fe-exception') . '</div>';
             }
-            if ($this->globals->getSession() && $this->globals->getSession()->get('debug')) {
+            if ($this->globals->getSession() != null && (bool)$this->globals->getSession()->get('debug')) {
                 $result = '<div style="color:red; font-weight: bold">' . $e->getMessage() . '</div>';
                 $result .= '<div style="color:red; font-weight: bold">File: ' . $e->getFile() . '(' . $e->getLine() . ')</div>';
                 $result .= '<div style="color:red; font-weight: bold">' . $e->getTraceAsString() . '</div>';
             }
         }
-        if ($this->globals->getSession() && $this->globals->getSession()->get('debug')) {
+        if ($this->globals->getSession() != null && (bool)$this->globals->getSession()->get('debug')) {
             $debuggers = $this->globals->getDebuggers();
             foreach ($debuggers as $idx => $debugger) {
                 $debugger->outputDebugLog();

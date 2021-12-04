@@ -24,7 +24,7 @@ class TYPO3 extends AbstractSession
     /* (non-PHPdoc)
      * @see Classes/Session/Tx_Formhandler_AbstractSession#set()
     */
-    public function set(string $key, string $value): void
+    public function set(string $key, mixed $value): void
     {
         $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
         if (!is_array($data[$this->globals->getRandomID()])) {
@@ -58,7 +58,7 @@ class TYPO3 extends AbstractSession
     /* (non-PHPdoc)
      * @see Classes/Session/Tx_Formhandler_AbstractSession#get()
     */
-    public function get(string $key): string
+    public function get(string $key): mixed
     {
         $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
         if (!is_array($data[$this->globals->getRandomID()])) {

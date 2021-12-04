@@ -52,9 +52,9 @@ abstract class AbstractSession extends AbstractClass
      * Sets a key
      *
      * @param string $key The key
-     * @param string $value The value to set
+     * @param mixed $value The value to set
      */
-    abstract public function set(string $key, string $value): void;
+    abstract public function set(string $key, mixed $value): void;
 
     /**
      * Sets multiple keys at once
@@ -67,9 +67,9 @@ abstract class AbstractSession extends AbstractClass
      * Get the value of the given key
      *
      * @param string $key The key
-     * @return string The value
+     * @return mixed The value
      */
-    abstract public function get(string $key): string;
+    abstract public function get(string $key): mixed;
 
     /**
      * Checks if a session exists
@@ -88,7 +88,7 @@ abstract class AbstractSession extends AbstractClass
         $threshold = $this->utilityFuncs->getTimestamp(1, 'hours');
 
         if ($this->settings['clearSessionsOlderThan.']['value']) {
-            $thresholdValue = $this->utilityFuncs->getSingle($this->settings['clearSessionsOlderThan.'], 'value');
+            $thresholdValue = (int)$this->utilityFuncs->getSingle($this->settings['clearSessionsOlderThan.'], 'value');
             $thresholdUnit = $this->utilityFuncs->getSingle($this->settings['clearSessionsOlderThan.'], 'unit');
 
             $threshold = $this->utilityFuncs->getTimestamp($thresholdValue, $thresholdUnit);

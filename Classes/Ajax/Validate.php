@@ -65,12 +65,12 @@ class Validate
             $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
             Globals::setCObj($GLOBALS['TSFE']->cObj);
             Globals::setRandomID($randomID);
-            if (!Globals::getSession()) {
+            if (Globals::getSession() == null) {
                 $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
                 $sessionClass = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($ts['session.'], 'Session\PHP');
                 Globals::setSession($this->componentManager->getComponent($sessionClass));
             }
-            $this->settings = Globals::getSession()->get('settings');
+            $this->settings = (array)Globals::getSession()->get('settings');
             Globals::setFormValuesPrefix(\Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings, 'formValuesPrefix'));
             $gp = \Typoheads\Formhandler\Utility\GeneralUtility::getMergedGP();
             $validator = $this->componentManager->getComponent('\Typoheads\Formhandler\Validator\Ajax');

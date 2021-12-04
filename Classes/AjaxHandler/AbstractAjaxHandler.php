@@ -47,7 +47,7 @@ abstract class AbstractAjaxHandler extends AbstractClass
      *
      * @param array &$markers Reference to the marker array
      */
-    abstract public function fillAjaxMarkers(array &$markers);
+    abstract public function fillAjaxMarkers(array &$markers): void;
 
     /**
      * Method called by the view to get an AJAX based file removal link.
@@ -56,5 +56,5 @@ abstract class AbstractAjaxHandler extends AbstractClass
      * @param string $field The field name of the form field
      * @param string $uploadedFileName The name of the file to be deleted
      */
-    abstract public function getFileRemovalLink(string $text, string $field, string $uploadedFileName);
+    abstract public function getFileRemovalLink(string $text, string $field, string $uploadedFileName): string;
 }

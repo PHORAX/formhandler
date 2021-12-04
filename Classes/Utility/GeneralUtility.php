@@ -360,8 +360,8 @@ class GeneralUtility implements SingletonInterface
         }
 
         if (strlen($redirectPage) > 0) {
-            $correctRedirectUrl = self::getSingle($settings, 'correctRedirectUrl');
-            $headerStatusCode = self::getSingle($settings, 'headerStatusCode');
+            $correctRedirectUrl = (bool)self::getSingle($settings, 'correctRedirectUrl');
+            $headerStatusCode = (string)self::getSingle($settings, 'headerStatusCode');
             if (isset($settings['additionalParams']) && isset($settings['additionalParams.'])) {
                 $additionalParamsString = self::getSingle($settings, 'additionalParams');
                 $additionalParamsKeysAndValues = explode('&', $additionalParamsString);
@@ -713,7 +713,7 @@ class GeneralUtility implements SingletonInterface
         $uploadFolder = '/uploads/formhandler/tmp/';
 
         //if temp upload folder set in TypoScript, take that setting
-        $settings = Globals::getSession()->get('settings');
+        $settings = (array)Globals::getSession()->get('settings');
         if (strlen($fieldName) > 0 && $settings['files.']['uploadFolder.'][$fieldName]) {
             $uploadFolder = self::getSingle($settings['files.']['uploadFolder.'], $fieldName);
         } elseif ($settings['files.']['uploadFolder.']['default']) {
@@ -746,7 +746,7 @@ class GeneralUtility implements SingletonInterface
         $defaultUploadFolder = '/uploads/formhandler/tmp/';
 
         //if temp upload folder set in TypoScript, take that setting
-        $settings = Globals::getSession()->get('settings');
+        $settings = (array)Globals::getSession()->get('settings');
 
         if (is_array($settings['files.']['uploadFolder.'])) {
             foreach ($settings['files.']['uploadFolder.'] as $fieldName => $folderSettings) {
@@ -921,7 +921,7 @@ class GeneralUtility implements SingletonInterface
         return $fileName;
     }
 
-    public static function recursiveHtmlSpecialChars(array $values): string
+    public static function recursiveHtmlSpecialChars(array|string $values): array|string
     {
         if (is_array($values)) {
             foreach ($values as &$value) {

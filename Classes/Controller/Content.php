@@ -31,9 +31,11 @@ class Content
     /**
      * The constructor settings the internal attribute "content"
      */
-    public function __construct(string $content)
+    public function __construct(mixed $content)
     {
-        $this->setContent($content);
+        if(is_string($content)) {
+          $this->setContent($content);
+        }
     }
 
     /**

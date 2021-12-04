@@ -26,7 +26,7 @@ class PrintToScreen extends AbstractDebugger
     /**
      * Prints the messages to the screen
      */
-    public function outputDebugLog(): void
+    public function outputDebugLog(): mixed
     {
         $out = '';
         if (!$this->globals->isAjaxMode()) {

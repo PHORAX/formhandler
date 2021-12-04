@@ -365,7 +365,7 @@ class Form extends AbstractView
      */
     protected function parseSettings(): array
     {
-        return $this->globals->getSession()->get('settings');
+        return (array)$this->globals->getSession()->get('settings');
     }
 
     /**
@@ -548,7 +548,7 @@ class Form extends AbstractView
         if (isset($this->settings['allowStepJumps'])) {
             $allowStepJumps = (bool)$this->utilityFuncs->getSingle($this->settings, 'allowStepJumps');
         }
-        if ($allowStepJumps && $this->globals->getSession()->get('lastStep') < $currentStepFromSession) {
+        if ($allowStepJumps && (int)$this->globals->getSession()->get('lastStep') < $currentStepFromSession) {
             $previousStep = (int)$this->globals->getSession()->get('lastStep');
         }
         if ($previousStep < 1) {
@@ -598,7 +598,7 @@ class Form extends AbstractView
         $nextName = str_replace('#step#', (string)$nextStep, $nextName);
         $markers['###step_bar###'] = $this->createStepBar(
             $currentStepFromSession,
-            $this->globals->getSession()->get('totalSteps'),
+            (int)$this->globals->getSession()->get('totalSteps'),
             $prevName,
             $nextName
         );
@@ -717,7 +717,7 @@ class Form extends AbstractView
             }
         }
 
-        $sessionFiles = $this->globals->getSession()->get('files');
+        $sessionFiles = (array)$this->globals->getSession()->get('files');
 
         $requiredSign = $this->utilityFuncs->getSingle($settings, 'requiredSign');
         if (strlen($requiredSign) === 0) {
@@ -823,7 +823,7 @@ class Form extends AbstractView
                     if ($this->globals->getAjaxHandler() && $settings['files.']['enableAjaxFileRemoval']) {
                         $link = $this->globals->getAjaxHandler()->getFileRemovalLink($text, $field, $uploadedFileName);
                     } elseif ($settings['files.']['enableFileRemoval']) {
-                        $submitName = 'step-' . $this->globals->getSession()->get('currentStep') . '-reload';
+                        $submitName = 'step-' . (string)$this->globals->getSession()->get('currentStep') . '-reload';
                         if ($this->globals->getFormValuesPrefix()) {
                             $submitName = $this->globals->getFormValuesPrefix() . '[' . $submitName . ']';
                         }
@@ -1085,7 +1085,7 @@ class Form extends AbstractView
     protected function fillValueMarkers(): void
     {
         $this->disableEncodingFields = [];
-        if ($this->settings['disableEncodingFields']) {
+        if ((bool)$this->settings['disableEncodingFields']) {
             $this->disableEncodingFields = explode(',', $this->utilityFuncs->getSingle($this->settings, 'disableEncodingFields'));
         }
         $markers = $this->getValueMarkers($this->gp);
@@ -1122,11 +1122,10 @@ class Form extends AbstractView
                     $level--;
                 } elseif ($doEncode) {
                     if (!in_array($k, $this->disableEncodingFields)) {
-                        $v = htmlspecialchars($v);
+                      $v = htmlspecialchars((string)$v);
                     }
                 }
-                $v = trim($v);
-                $markers['###' . $currPrefix . '###'] = $v;
+                $markers['###' . $currPrefix . '###'] = trim((string)$v);
                 $markers['###' . strtoupper($currPrefix) . '###'] = $markers['###' . $currPrefix . '###'];
             }
         }
@@ -1158,7 +1157,7 @@ class Form extends AbstractView
                     }
                     $level--;
                 } else {
-                    $v = htmlspecialchars($v);
+                    $v = htmlspecialchars((string)$v);
                     $markers['###' . $currPrefix . '_' . $v . '###'] = $activeString;
                     $markers['###' . strtoupper($currPrefix) . '###'] = $markers['###' . $currPrefix . '_' . $v . '###'];
                 }

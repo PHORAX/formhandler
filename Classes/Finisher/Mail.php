@@ -134,7 +134,7 @@ class Mail extends AbstractFinisher
             $viewClass = '\\Typoheads\\Formhandler\\View\\Mail';
         }
 
-        /* @var $view Tx_Formhandler_AbstractView */
+        /** @var \Typoheads\Formhandler\View\AbstractView $view  */
         $view = $this->componentManager->getComponent($viewClass);
 
         $view->setLangFiles($this->globals->getLangFiles());
@@ -451,7 +451,7 @@ class Mail extends AbstractFinisher
             $files = GeneralUtility::trimExplode(',', $settings[$key]);
         }
         $parsed = [];
-        $sessionFiles = $this->globals->getSession()->get('files');
+        $sessionFiles = (array)$this->globals->getSession()->get('files');
         foreach ($files as $idx => $file) {
             if (isset($sessionFiles[$file])) {
                 foreach ($sessionFiles[$file] as $subIdx => $uploadedFile) {

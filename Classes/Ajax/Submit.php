@@ -6,6 +6,7 @@ namespace Typoheads\Formhandler\Ajax;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\Globals;
 
@@ -85,17 +86,19 @@ class Submit
         $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
         Globals::setRandomID($randomID);
         Globals::setAjaxMode(true);
-        if (!Globals::getSession()) {
+        if (Globals::getSession() == null) {
             $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
             $sessionClass = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($ts['session.'], 'Session\PHP');
             Globals::setSession($this->componentManager->getComponent($sessionClass));
         }
 
-        $this->settings = Globals::getSession()->get('settings');
+        $this->settings = (array)Globals::getSession()->get('settings');
 
         //init ajax
         if ($this->settings['ajax.']) {
             $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\JQuery');
+
+            /** @var AbstractAjaxHandler $ajaxHandler */
             $ajaxHandler = $this->componentManager->getComponent($class);
             Globals::setAjaxHandler($ajaxHandler);
 

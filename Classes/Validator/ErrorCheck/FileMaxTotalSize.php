@@ -30,9 +30,9 @@ class FileMaxTotalSize extends AbstractErrorCheck
         $maxSize = $this->utilityFuncs->getSingle($this->settings['params'], 'maxTotalSize');
         $size = 0;
 
-        // first we check earlier uploaded files
-        $olderFiles = $this->globals->getSession()->get('files');
-        foreach ((array)$olderFiles[$this->formFieldName] as $olderFile) {
+        // first we check earlier uploaded files        
+        $olderFiles = (array)$this->globals->getSession()->get('files');
+        foreach ($olderFiles[$this->formFieldName] as $olderFile) {
             $size += (int)($olderFile['size']);
         }
 

@@ -359,7 +359,7 @@ class DB extends AbstractFinisher
                     }
 
                     //process uploaded files
-                    $files = $this->globals->getSession()->get('files');
+                    $files = (array)$this->globals->getSession()->get('files');
                     if (isset($files[$fieldname]) && is_array($files[$fieldname])) {
                         $fieldValue = $this->getFileList($files, $fieldname);
                     }
@@ -387,7 +387,7 @@ class DB extends AbstractFinisher
                             } else {
                                 $info = '[uploaded_name]';
                             }
-                            $files = $this->globals->getSession()->get('files');
+                            $files = (array)$this->globals->getSession()->get('files');
                             if (isset($files[$field]) && is_array($files[$field])) {
                                 foreach ($files[$field] as $idx => $file) {
                                     $infoString = $info;

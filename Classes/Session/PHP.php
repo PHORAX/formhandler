@@ -25,7 +25,7 @@ class PHP extends AbstractSession
     /* (non-PHPdoc)
      * @see Classes/Session/Tx_Formhandler_AbstractSession#set()
     */
-    public function set(string $key, string $value): void
+    public function set(string $key, mixed $value): void
     {
         $this->start();
         $data = $_SESSION['formhandler'];
@@ -57,7 +57,7 @@ class PHP extends AbstractSession
     /* (non-PHPdoc)
      * @see Classes/Session/Tx_Formhandler_AbstractSession#get()
     */
-    public function get(string $key): string
+    public function get(string $key): mixed
     {
         $this->start();
         $data = $_SESSION['formhandler'];

@@ -65,7 +65,7 @@ class JQuery extends AbstractAjaxHandler
             }
         }
 
-        $autoDisableSubmitButton = $this->utilityFuncs->getSingle($this->settings, 'autoDisableSubmitButton');
+        $autoDisableSubmitButton = (bool)$this->utilityFuncs->getSingle($this->settings, 'autoDisableSubmitButton');
 
         $this->jsPosition = trim($this->utilityFuncs->getSingle($this->settings, 'jsPosition'));
         $isAjaxSubmit = (bool)($this->utilityFuncs->getSingle($this->settings, 'ajaxSubmit'));
@@ -76,7 +76,7 @@ class JQuery extends AbstractAjaxHandler
         }
         $submitButtonSelector = str_replace('"', '\"', $submitButtonSelector);
 
-        $globalSettings = $this->globals->getSession()->get('settings');
+        $globalSettings = (array)$this->globals->getSession()->get('settings');
         $validateFields = [];
         if (is_array($globalSettings['validators.']) && (int)($this->utilityFuncs->getSingle($globalSettings['validators.'], 'disable')) !== 1) {
             foreach ($globalSettings['validators.'] as $key => $validatorSettings) {
@@ -114,7 +114,7 @@ class JQuery extends AbstractAjaxHandler
      */
     public function fillAjaxMarkers(array &$markers): void
     {
-        $settings = $this->globals->getSession()->get('settings');
+        $settings = (array)$this->globals->getSession()->get('settings');
         $ajaxSubmit = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmit');
         if ((int)$ajaxSubmit === 1) {
             $ajaxSubmitLoader = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmitLoader');

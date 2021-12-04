@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Ajax;
 
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\Globals;
 
@@ -75,7 +78,7 @@ class RemoveFile
         $field = null;
 
         if ($this->fieldName) {
-            $sessionFiles = $this->globals->getSession()->get('files');
+            $sessionFiles = (array)$this->globals->getSession()->get('files');
             if (is_array($sessionFiles)) {
                 foreach ($sessionFiles as $field => $files) {
                     if (!strcmp($field, $this->fieldName)) {
@@ -119,7 +122,11 @@ class RemoveFile
                 $view->setSettings($this->settings);
                 $view->fillFileMarkers($markers);
                 $langMarkers = $this->utilityFuncs->getFilledLangMarkers($markers['###' . $this->fieldName . '_uploadedFiles###'], $this->langFiles);
-                $markers['###' . $this->fieldName . '_uploadedFiles###'] = $this->globals->getCObj()->substituteMarkerArray($markers['###' . $this->fieldName . '_uploadedFiles###'], $langMarkers);
+
+                /** @var MarkerBasedTemplateService $templateService */
+                $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+
+                $markers['###' . $this->fieldName . '_uploadedFiles###'] = trim($templateService->substituteMarkerArray($markers['###' . $this->fieldName . '_uploadedFiles###'], $langMarkers));
                 $content = $markers['###' . $this->fieldName . '_uploadedFiles###'];
             }
         }
@@ -147,18 +154,20 @@ class RemoveFile
         $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
         $this->globals->setRandomID($randomID);
 
-        if (!$this->globals->getSession()) {
+        if ($this->globals->getSession() == null) {
             $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
             $sessionClass = $this->utilityFuncs->getPreparedClassName($ts['session.'], 'Session\\PHP');
             $this->globals->setSession($this->componentManager->getComponent($sessionClass));
         }
 
-        $this->settings = $this->globals->getSession()->get('settings');
+        $this->settings = (array)$this->globals->getSession()->get('settings');
         $this->langFiles = $this->utilityFuncs->readLanguageFiles([], $this->settings);
 
         //init ajax
         if ($this->settings['ajax.']) {
             $class = $this->utilityFuncs->getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\\JQuery');
+
+            /** @var AbstractAjaxHandler $ajaxHandler */
             $ajaxHandler = $this->componentManager->getComponent($class);
             $this->globals->setAjaxHandler($ajaxHandler);
 

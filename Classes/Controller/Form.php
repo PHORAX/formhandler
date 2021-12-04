@@ -6,6 +6,7 @@ namespace Typoheads\Formhandler\Controller;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
 
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
@@ -359,7 +360,7 @@ class Form extends AbstractController
 
             //if no more steps
             if ($this->finished) {
-                return $this->processFinished();
+                return current($this->processFinished());
             }
             return $this->view->render($this->gp, $this->errors);
         }
@@ -436,7 +437,7 @@ class Form extends AbstractController
         $this->globals->setGP($this->gp);
 
         //stay on current step
-        if ($this->lastStep < $this->globals->getSession()->get('currentStep')) {
+        if ($this->lastStep < (int)$this->globals->getSession()->get('currentStep')) {
             $this->globals->getSession()->set('currentStep', $this->lastStep);
             $this->currentStep = $this->lastStep;
         }
@@ -823,7 +824,7 @@ class Form extends AbstractController
         if ($this->currentStep > $this->lastStep) {
             $this->loadSettingsForStep($this->currentStep);
         }
-        $data = $this->globals->getSession()->get('values');
+        $data = (array)$this->globals->getSession()->get('values');
 
         $checkBoxFields = $this->utilityFuncs->getSingle($this->settings, 'checkBoxFields');
         $checkBoxFields = GeneralUtility::trimExplode(',', $checkBoxFields);
@@ -1034,7 +1035,7 @@ class Form extends AbstractController
         }
 
         //parse conditions for each of the previous steps
-        $endStep = $this->globals->getSession()->get('currentStep');
+        $endStep = (int)$this->globals->getSession()->get('currentStep');
         $step = 1;
 
         while ($step <= $endStep) {
@@ -1086,7 +1087,7 @@ class Form extends AbstractController
             $temp = GeneralUtility::_GP($this->globals->getFormValuesPrefix());
             $action = $temp['action'];
         }
-        if ($this->globals->getSession()->get('finished') && !$action) {
+        if ((bool)$this->globals->getSession()->get('finished') && !$action) {
             $this->globals->getSession()->reset();
             unset($_GET[$this->globals->getFormValuesPrefix()]);
             unset($_GET['id']);
@@ -1099,7 +1100,7 @@ class Form extends AbstractController
 
         $this->getStepInformation();
 
-        $currentStepFromSession = $this->globals->getSession()->get('currentStep');
+        $currentStepFromSession = (int)$this->globals->getSession()->get('currentStep');
         $prevStep = $currentStepFromSession;
         if ((int)$prevStep !== (int)$currentStepFromSession) {
             $this->currentStep = 1;
@@ -1163,6 +1164,8 @@ class Form extends AbstractController
         if ($this->settings['ajax.']) {
             $class = $this->utilityFuncs->getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\JQuery');
             $this->utilityFuncs->debugMessage('using_ajax', [$class]);
+
+            /** @var AbstractAjaxHandler $ajaxHandler */
             $ajaxHandler = $this->componentManager->getComponent($class);
             $this->globals->setAjaxHandler($ajaxHandler);
 
@@ -1262,8 +1265,8 @@ class Form extends AbstractController
     {
         $this->findCurrentStep();
 
-        $this->lastStep = $this->globals->getSession()->get('currentStep');
-        if (!$this->lastStep) {
+        $this->lastStep = (int)$this->globals->getSession()->get('currentStep');
+        if ($this->lastStep == 0) {
             $this->lastStep = 1;
         }
 
@@ -1288,7 +1291,7 @@ class Form extends AbstractController
         }
         sort($subparts);
         $countSubparts = count($subparts);
-        $this->totalSteps = $subparts[$countSubparts - 1];
+        $this->totalSteps = (int)$subparts[$countSubparts - 1];
         if ($this->totalSteps > $countSubparts) {
             $this->utilityFuncs->debugMessage('subparts_missing', [implode(', ', $subparts)], 2);
         } else {

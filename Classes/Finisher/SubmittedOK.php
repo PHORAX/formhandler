@@ -56,6 +56,8 @@ class SubmittedOK extends AbstractFinisher
             $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
         }
         $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
+
+        /** @var \Typoheads\Formhandler\View\SubmittedOK $view */
         $view = $this->componentManager->getComponent($viewClass);
 
         //show TEMPLATE_SUBMITTEDOK
@@ -67,8 +69,8 @@ class SubmittedOK extends AbstractFinisher
             }
         }
 
-        $view->setSettings($this->globals->getSession()->get('settings'));
+        $view->setSettings((array)$this->globals->getSession()->get('settings'));
         $view->setComponentSettings($this->settings);
-        return $view->render($this->gp, []);
+        return [$view->render($this->gp, [])];
     }
 }

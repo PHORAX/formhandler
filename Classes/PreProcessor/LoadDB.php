@@ -117,7 +117,7 @@ class LoadDB extends AbstractPreProcessor
     {
         session_start();
         if (is_array($settings) && $step) {
-            $values = $this->globals->getSession()->get('values');
+            $values = (array)$this->globals->getSession()->get('values');
             $arrKeys = array_keys($settings);
             foreach ($arrKeys as $idx => $fieldname) {
                 $fieldname = preg_replace('/\.$/', '', $fieldname);

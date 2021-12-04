@@ -85,11 +85,11 @@ class AntiSpamFormTime extends AbstractInterceptor
      */
     protected function doCheck(): bool
     {
-        $value = $this->utilityFuncs->getSingle($this->settings['minTime.'], 'value');
+        $value = (int)$this->utilityFuncs->getSingle($this->settings['minTime.'], 'value');
         $unit = $this->utilityFuncs->getSingle($this->settings['minTime.'], 'unit');
         $minTime = $this->utilityFuncs->convertToSeconds($value, $unit);
 
-        $value = $this->utilityFuncs->getSingle($this->settings['maxTime.'], 'value');
+        $value = (int)$this->utilityFuncs->getSingle($this->settings['maxTime.'], 'value');
         $unit = $this->utilityFuncs->getSingle($this->settings['maxTime.'], 'unit');
         $maxTime = $this->utilityFuncs->convertToSeconds($value, $unit);
         $spam = false;

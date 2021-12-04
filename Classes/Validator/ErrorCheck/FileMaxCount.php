@@ -31,8 +31,8 @@ class FileMaxCount extends AbstractErrorCheck
     {
         $checkFailed = '';
 
-        $files = $this->globals->getSession()->get('files');
-        $settings = $this->globals->getSession()->get('settings');
+        $files = (array)$this->globals->getSession()->get('files');
+        $settings = (array)$this->globals->getSession()->get('settings');
         $currentStep = (int)($this->globals->getSession()->get('currentStep'));
         $lastStep = (int)($this->globals->getSession()->get('lastStep'));
         $maxCount = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'maxCount'));
