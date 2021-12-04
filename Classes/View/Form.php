@@ -1289,12 +1289,15 @@ class Form extends AbstractView
 
         //add default css to page
         if (isset($this->settings['useDefaultStepBarStyles']) && (bool)$this->settings['useDefaultStepBarStyles']) {
+            // TODO: Need replacement
+            /*
             $css = implode("\n", $css);
             $css = TSpagegen::inline2TempFile($css, 'css');
             if (version_compare(GeneralUtility::makeInstance(Typo3Version::class)->getVersion(), '4.3.0') >= 0) {
                 $css = '<link rel="stylesheet" type="text/css" href="' . htmlspecialchars($css) . '" />';
             }
             $GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_' . $classprefix] .= $css;
+            */
         }
         return $content;
     }
