@@ -31,37 +31,9 @@ abstract class AbstractView extends AbstractPlugin
 {
 
     /**
-     * The prefix id
-     *
-     * @var string
-     */
-    public string $prefixId = 'Tx_Formhandler';
-
-    /**
-     * The extension key
-     *
-     * @var string
-     */
-    public string $extKey = 'formhandler';
-
-    /**
-     * The cObj for link generation in FE
-     *
-     * @var tslib_cObj
-     */
-    public ContentObjectRenderer $cObj;
-
-    /**
      * @var \TYPO3\CMS\Core\Service\MarkerBasedTemplateService
      */
     protected MarkerBasedTemplateService $markerBasedTemplateService;
-
-    /**
-     * The piVars
-     *
-     * @var array
-     */
-    public array $piVars = [];
 
     /**
      * The Formhandler component manager
@@ -96,7 +68,7 @@ abstract class AbstractView extends AbstractPlugin
      *
      * @var misc
      */
-    protected mixed $model;
+    protected mixed $model = null;
 
     /**
      * The subparts array
