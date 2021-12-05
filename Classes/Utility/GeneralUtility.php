@@ -162,7 +162,7 @@ class GeneralUtility implements SingletonInterface
 
         //template file was not set in flexform, search TypoScript for setting
         if (!isset($templateFile) || empty($templateFile)) {
-            if (!$settings['templateFile'] && !$settings['templateFile.']) {
+            if (!isset($settings['templateFile']) && !isset($settings['templateFile.'])) {
                 return '';
             }
             $templateFile = $settings['templateFile'];

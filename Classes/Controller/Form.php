@@ -1309,6 +1309,10 @@ class Form extends AbstractController
         }
         sort($subparts);
         $countSubparts = count($subparts);
+        if ($countSubparts==0){
+            $this->utilityFuncs->debugMessage('subparts_missing', [implode(', ', $subparts)], 2);
+            return;
+        }
         $this->totalSteps = (int)$subparts[$countSubparts - 1];
         if ($this->totalSteps > $countSubparts) {
             $this->utilityFuncs->debugMessage('subparts_missing', [implode(', ', $subparts)], 2);
