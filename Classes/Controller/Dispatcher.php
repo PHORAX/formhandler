@@ -4,6 +4,7 @@ namespace Typoheads\Formhandler\Controller;
 
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\Globals;
@@ -80,7 +81,7 @@ class Dispatcher extends AbstractPlugin
 
             $this->globals->setCObj($this->cObj);
             $this->globals->getCObj()->setCurrentVal($predef);
-            if ($setup['usePredef']) {
+            if (isset($setup['usePredef'])) {
                 $predef = $this->utilityFuncs->getSingle($setup, 'usePredef');
             }
 
@@ -93,7 +94,7 @@ class Dispatcher extends AbstractPlugin
              * 2. TypoScript
              */
             $controller = '\Typoheads\Formhandler\Controller\Form';
-            if ($setup['controller']) {
+            if (isset($setup['controller'])) {
                 $controller = $setup['controller'];
             }
 
@@ -115,6 +116,7 @@ class Dispatcher extends AbstractPlugin
 
             $result = $controller->process();
         } catch (\Exception $e) {
+            DebuggerUtility::var_dump($e);
             GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->error(
                 $e->getFile() . '(' . $e->getLine() . ')' . ' ' . $e->getMessage(),
                 ['formhandler']
