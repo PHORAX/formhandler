@@ -53,7 +53,7 @@ class JQuery extends AbstractAjaxHandler
             'valid' => 'form-valid',
             'invalid' => 'form-invalid',
         ];
-        if (is_array($this->settings['validationStatusClasses.'])) {
+        if (isset($this->settings['validationStatusClasses.']) && is_array($this->settings['validationStatusClasses.'])) {
             if ($this->settings['validationStatusClasses.']['base']) {
                 $this->validationStatusClasses['base'] = $this->utilityFuncs->getSingle($this->settings['validationStatusClasses.'], 'base');
             }
@@ -78,9 +78,9 @@ class JQuery extends AbstractAjaxHandler
 
         $globalSettings = (array)$this->globals->getSession()->get('settings');
         $validateFields = [];
-        if (is_array($globalSettings['validators.']) && (int)($this->utilityFuncs->getSingle($globalSettings['validators.'], 'disable')) !== 1) {
+        if (isset($globalSettings['validators.']) && is_array($globalSettings['validators.']) && (int)($this->utilityFuncs->getSingle($globalSettings['validators.'], 'disable')) !== 1) {
             foreach ($globalSettings['validators.'] as $key => $validatorSettings) {
-                if (is_array($validatorSettings['config.']['fieldConf.']) && (int)($this->utilityFuncs->getSingle($validatorSettings['config.'], 'disable')) !== 1) {
+                if (isset($validatorSettings['config.']['fieldConf.']) && is_array($validatorSettings['config.']['fieldConf.']) && (int)($this->utilityFuncs->getSingle($validatorSettings['config.'], 'disable')) !== 1) {
                     foreach ($validatorSettings['config.']['fieldConf.'] as $fieldName => $fieldSettings) {
                         $replacedFieldName = str_replace('.', '', $fieldName);
                         $fieldName = $replacedFieldName;
@@ -141,9 +141,9 @@ class JQuery extends AbstractAjaxHandler
             $loadingImg = '<img src="' . $loadingImg . '" alt="loading" />';
         }
 
-        if (is_array($settings['validators.']) && (int)($this->utilityFuncs->getSingle($settings['validators.'], 'disable')) !== 1) {
+        if (isset($settings['validators.']) && is_array($settings['validators.']) && (int)($this->utilityFuncs->getSingle($settings['validators.'], 'disable')) !== 1) {
             foreach ($settings['validators.'] as $key => $validatorSettings) {
-                if (is_array($validatorSettings['config.']['fieldConf.']) && (int)($this->utilityFuncs->getSingle($validatorSettings['config.'], 'disable')) !== 1) {
+                if (isset($validatorSettings['config.']['fieldConf.']) && is_array($validatorSettings['config.']['fieldConf.']) && (int)($this->utilityFuncs->getSingle($validatorSettings['config.'], 'disable')) !== 1) {
                     foreach ($validatorSettings['config.']['fieldConf.'] as $fieldname => $fieldSettings) {
                         $replacedFieldname = str_replace('.', '', $fieldname);
                         $markers['###validate_' . $replacedFieldname . '###'] = sprintf($this->templates['spanLoading'], $replacedFieldname, $loadingImg);

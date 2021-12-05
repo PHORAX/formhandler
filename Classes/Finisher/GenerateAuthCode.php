@@ -40,7 +40,7 @@ class GenerateAuthCode extends AbstractFinisher
                 'uidField' => $uidField,
                 'uid' => $this->utilityFuncs->getSingle($this->settings, 'uid'),
             ];
-        } elseif (is_array($this->gp['saveDB'])) {
+        } elseif (isset($this->gp['saveDB']) && is_array($this->gp['saveDB'])) {
             if (isset($this->settings['table'])) {
                 $table = $this->utilityFuncs->getSingle($this->settings, 'table');
                 foreach ($this->gp['saveDB'] as $idx => $insertInfo) {

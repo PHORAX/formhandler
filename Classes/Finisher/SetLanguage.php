@@ -53,7 +53,7 @@ class SetLanguage extends AbstractFinisher
     {
         $found = true;
         $settings = $this->globals->getSettings();
-        if (is_array($settings['finishers.'])) {
+        if (isset($settings['finishers.']) && is_array($settings['finishers.'])) {
             $found = false;
             foreach ($settings['finishers.'] as $finisherConfig) {
                 $currentFinisherClass = $this->utilityFuncs->getPreparedClassName($finisherConfig);

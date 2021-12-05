@@ -896,7 +896,7 @@ class Form extends AbstractView
                 $markers['###' . $field . '_uploadedFiles###'] = $this->utilityFuncs->wrap($markers['###' . $field . '_uploadedFiles###'], $settings['singleFileMarkerTemplate.'], 'totalWrap');
                 $markers['###' . $field . '_uploadedFiles###'] = '<div id="Tx_Formhandler_UploadedFiles_' . $field . '">' . $markers['###' . $field . '_uploadedFiles###'] . '</div>';
             }
-            $markers['###total_uploadedFiles###'] = $this->utilityFuncs->wrap($markers['###total_uploadedFiles###'], $settings['totalFilesMarkerTemplate.'], 'totalWrap');
+            $markers['###total_uploadedFiles###'] = $this->utilityFuncs->wrap($markers['###total_uploadedFiles###'] ?? '', $settings['totalFilesMarkerTemplate.'] ?? [], 'totalWrap');
             $markers['###TOTAL_UPLOADEDFILES###'] = $markers['###total_uploadedFiles###'];
             $markers['###total_uploadedfiles###'] = $markers['###total_uploadedFiles###'];
         }

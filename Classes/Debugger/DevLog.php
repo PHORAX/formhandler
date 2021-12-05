@@ -33,7 +33,7 @@ class DevLog extends AbstractDebugger
             foreach ($logData as $messageData) {
                 $message = $section . ': ' . $messageData['message'];
                 $data = false;
-                if (is_array($messageData['data'])) {
+                if (isset($messageData['data']) && is_array($messageData['data'])) {
                     $data = $messageData['data'];
                 }
                 GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->debug($message, $data);

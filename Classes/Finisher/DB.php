@@ -104,7 +104,7 @@ class DB extends AbstractFinisher
         //query the database
         $isSuccess = $this->save($queryFields);
 
-        if (!is_array($this->gp['saveDB'])) {
+        if (!isset($this->gp['saveDB']) || !is_array($this->gp['saveDB'])) {
             $this->gp['saveDB'] = [];
         }
 
@@ -274,7 +274,7 @@ class DB extends AbstractFinisher
             return;
         }
 
-        if (!is_array($this->settings['fields.'])) {
+        if (!isset($this->settings['fields.']) || !is_array($this->settings['fields.'])) {
             $this->utilityFuncs->throwException('no_fields', '\\Typoheads\\Formhandler\\Finisher\\DB');
             return;
         }
@@ -448,7 +448,7 @@ class DB extends AbstractFinisher
                             break;
                         case 'inserted_uid':
                             $table = $this->utilityFuncs->getSingle($options['special.'], 'table');
-                            if (is_array($this->gp['saveDB'])) {
+                            if (isset($this->gp['saveDB']) && is_array($this->gp['saveDB'])) {
                                 foreach ($this->gp['saveDB'] as $idx => $info) {
                                     if ($info['table'] === $table) {
                                         $fieldValue = $info['uid'];

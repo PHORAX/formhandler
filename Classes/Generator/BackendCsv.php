@@ -76,7 +76,7 @@ class BackendCsv extends AbstractComponent
 
         //build data array
         foreach ($records as $idx => $record) {
-            if (!is_array($record['params'])) {
+            if (!isset($record['params']) || !is_array($record['params'])) {
                 $record['params'] = [];
             }
             foreach ($record['params'] as $subIdx => &$param) {

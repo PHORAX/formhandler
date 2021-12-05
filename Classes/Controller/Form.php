@@ -159,13 +159,13 @@ class Form extends AbstractController
         if ($this->globals->getFormValuesPrefix()) {
             $gp = GeneralUtility::_GP($this->globals->getFormValuesPrefix());
         }
-        if (is_array($this->settings['finishers.'])) {
+        if (isset($this->settings['finishers.']) && is_array($this->settings['finishers.'])) {
             $finisherConf = [];
 
             foreach ($this->settings['finishers.'] as $key => $config) {
                 if (strpos($key, '.') !== false) {
                     $className = $this->utilityFuncs->getPreparedClassName($config);
-                    if ($className === $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK') && is_array($config['config.'])) {
+                    if ($className === $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK') && isset($config['config.']) && is_array($config['config.'])) {
                         $finisherConf = $config['config.'];
                     }
                 }
@@ -1007,8 +1007,11 @@ class Form extends AbstractController
      *
      * @param array $settings The settings of this form
      */
-    protected function parseConditionsBlock(array $settings)
+    protected function parseConditionsBlock(array $settings): void
     {
+        if (!isset($settings['if.'])) {
+            return;
+        }
         foreach ($settings['if.'] as $idx => $conditionSettings) {
             $conditions = $conditionSettings['conditions.'];
             $orConditions = [];
@@ -1319,13 +1322,7 @@ class Form extends AbstractController
      */
     protected function mergeGPWithSession(): void
     {
-        if (!is_array($this->gp)) {
-            $this->gp = [];
-        }
-        $values = $this->globals->getSession()->get('values');
-        if (!is_array($values)) {
-            $values = [];
-        }
+        $values = (array)$this->globals->getSession()->get('values');
 
         $maxStep = $this->currentStep;
         foreach ($values as $step => &$params) {
@@ -1494,7 +1491,7 @@ class Form extends AbstractController
 
                 //Insert default checkbox values
                 } elseif (!isset($newGP[$field]) && $this->lastStep < $this->currentStep) {
-                    if (is_array($this->settings['checkBoxUncheckedValue.']) && isset($this->settings['checkBoxUncheckedValue.'][$field])) {
+                    if (isset($this->settings['checkBoxUncheckedValue.']) && is_array($this->settings['checkBoxUncheckedValue.']) && isset($this->settings['checkBoxUncheckedValue.'][$field])) {
                         $this->gp[$field] = $newGP[$field] = $this->utilityFuncs->getSingle($this->settings['checkBoxUncheckedValue.'], $field);
                     } elseif (isset($this->settings['checkBoxUncheckedValue'])) {
                         $this->gp[$field] = $newGP[$field] = $this->utilityFuncs->getSingle($this->settings, 'checkBoxUncheckedValue');

@@ -60,10 +60,10 @@ abstract class AbstractGenerator extends AbstractComponent
             $params = $tempParams;
         }
 
-        if (is_array($this->settings['additionalParams.'])) {
+        if (isset($this->settings['additionalParams.']) && is_array($this->settings['additionalParams.'])) {
             foreach ($this->settings['additionalParams.'] as $param => $value) {
                 if (false === strpos($param, '.')) {
-                    if (is_array($this->settings['additionalParams.'][$param . '.'])) {
+                    if (isset($this->settings['additionalParams.'][$param . '.']) && is_array($this->settings['additionalParams.'][$param . '.'])) {
                         $value = $this->utilityFuncs->getSingle($this->settings['additionalParams.'], $param);
                     }
                     $params[$param] = $value;

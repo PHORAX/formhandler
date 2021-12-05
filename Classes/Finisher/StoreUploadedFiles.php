@@ -43,7 +43,7 @@ class StoreUploadedFiles extends AbstractFinisher
      */
     public function process(): array
     {
-        if ($this->settings['finishedUploadFolder'] || is_array($this->settings['finishedUploadFolder.'])) {
+        if (isset($this->settings['finishedUploadFolder']) || (isset($this->settings['finishedUploadFolder.']) && is_array($this->settings['finishedUploadFolder.']))) {
 
             //move the uploaded files
             $this->moveUploadedFiles();
@@ -107,7 +107,7 @@ class StoreUploadedFiles extends AbstractFinisher
                             $sessionFiles[$field][$key]['uploaded_name'] = $newFilename;
                             $sessionFiles[$field][$key]['uploaded_folder'] = $newFolder;
                             $sessionFiles[$field][$key]['uploaded_url'] = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $newFolder . $newFilename;
-                            if (!is_array($this->gp[$field])) {
+                            if (!isset($this->gp[$field]) || !is_array($this->gp[$field])) {
                                 $this->gp[$field] = [];
                             }
                             array_push($this->gp[$field], $newFilename);
@@ -129,7 +129,7 @@ class StoreUploadedFiles extends AbstractFinisher
      **/
     protected function getNewFolderPath(string $field): string
     {
-        if (is_array($this->settings['finishedUploadFolder.']) && isset($this->settings['finishedUploadFolder.'][$field])) {
+        if (isset($this->settings['finishedUploadFolder.']) && is_array($this->settings['finishedUploadFolder.']) && isset($this->settings['finishedUploadFolder.'][$field])) {
             $newFolder = $this->utilityFuncs->getSingle($this->settings['finishedUploadFolder.'], $field);
         } else {
             $newFolder = $this->utilityFuncs->getSingle($this->settings, 'finishedUploadFolder');
@@ -189,7 +189,7 @@ class StoreUploadedFiles extends AbstractFinisher
     protected function replaceSchemeMarkers(string $str): string
     {
         $replacedStr = $str;
-        if (is_array($this->settings['schemeMarkers.'])) {
+        if (isset($this->settings['schemeMarkers.']) && is_array($this->settings['schemeMarkers.'])) {
             foreach ($this->settings['schemeMarkers.'] as $markerName => $options) {
                 if (!(strpos($markerName, '.') > 0)) {
                     $value = $options;

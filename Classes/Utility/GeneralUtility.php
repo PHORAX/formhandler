@@ -153,7 +153,7 @@ class GeneralUtility implements SingletonInterface
      * @param $settings The formhandler settings
      * @return string
      */
-    public static function readTemplateFile(string $templateFile = '', array &$settings): string
+    public static function readTemplateFile(string $templateFile, array &$settings): string
     {
         $templateCode= '';
         if(!isset($settings)) {
@@ -161,7 +161,7 @@ class GeneralUtility implements SingletonInterface
         }
 
         //template file was not set in flexform, search TypoScript for setting
-        if (empty($templateFile)) {
+        if (!isset($templateFile) || empty($templateFile)) {
             if (!$settings['templateFile'] && !$settings['templateFile.']) {
                 return '';
             }
@@ -1046,9 +1046,9 @@ class GeneralUtility implements SingletonInterface
     {
         $wrappedString = $str;
         Globals::getCObj()->setCurrentVal($wrappedString);
-        if (is_array($settingsArray[$key . '.'])) {
+        if (isset($settingsArray[$key . '.']) && is_array($settingsArray[$key . '.'])) {
             $wrappedString = Globals::getCObj()->stdWrap($str, $settingsArray[$key . '.']);
-        } elseif (strlen($settingsArray[$key]) > 0) {
+        } elseif (isset($settingsArray[$key]) && strlen($settingsArray[$key]) > 0) {
             $wrappedString = Globals::getCObj()->wrap($str, $settingsArray[$key]);
         }
         return $wrappedString;

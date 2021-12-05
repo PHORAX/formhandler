@@ -58,7 +58,7 @@ class AutoDB extends DB
      */
     public function init(array $gp, array $settings): void
     {
-        if (!is_array($settings['fields.'])) {
+        if (!isset($settings['fields.']) || !is_array($settings['fields.'])) {
             $settings['fields.'] = [];
         }
         $this->settings = $settings;
