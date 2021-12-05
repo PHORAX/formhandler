@@ -20,13 +20,17 @@
                             </label>
                             <config>
                                 <type>group</type>
-                                <internal_type>folder</internal_type>
-                                <allowed>tmpl,html,htm</allowed>
+                                <internal_type>db</internal_type>
+                                <allowed>sys_file</allowed>
                                 <max_size>500</max_size>
                                 <minitems>0</minitems>
                                 <maxitems>1</maxitems>
                                 <size>1</size>
                                 <selectedListStyle>Width:180px</selectedListStyle>
+                                <appearance>
+                                  <elementBrowserType>file</elementBrowserType>
+                                  <elementBrowserAllowed>tmpl,html,htm</elementBrowserAllowed>
+                                </appearance>
                             </config>
                         </TCEforms>
                     </template_file>
@@ -37,12 +41,16 @@
                             </label>
                             <config>
                                 <type>group</type>
-                                <internal_type>folder</internal_type>
-                                <allowed>php,xml</allowed>
+                                <internal_type>db</internal_type>
+                                <allowed>sys_file</allowed>
                                 <max_size>500</max_size>
                                 <minitems>0</minitems>
                                 <maxitems>1</maxitems>
                                 <size>1</size>
+                                <appearance>
+                                  <elementBrowserType>file</elementBrowserType>
+                                  <elementBrowserAllowed>php,xml</elementBrowserAllowed>
+                                </appearance>
                             </config>
                         </TCEforms>
                     </lang_file>
@@ -54,7 +62,7 @@
                             <config>
                                 <type>select</type>
                                 <renderType>selectSingle</renderType>
-                                <itemsProcFunc>Typoheads\Formhandler\Utility\TcaUtility->addFields_predefined</itemsProcFunc>
+                                <itemsProcFunc>Typoheads\Formhandler\TcaFormElement\PredefinedForm->addItems</itemsProcFunc>
                                 <maxitems>1</maxitems>
                                 <size>1</size>
                                 <multiple>0</multiple>
@@ -65,7 +73,7 @@
                         <TCEforms>
                             <config>
                                 <type>user</type>
-                                <userFunc>Typoheads\Formhandler\Utility\TcaUtility->addFields_predefinedJS</userFunc>
+                                <renderType>predefinedJs</renderType>
                             </config>
                         </TCEforms>
                     </predefinedJS>
