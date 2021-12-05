@@ -72,7 +72,7 @@ class ModuleController extends ActionController
      */
     public function initializeAction()
     {
-        $this->id = (int)($_GET['id']);
+        $this->id = (int)($_GET['id'] ?? 0);
 
         $this->gp = $this->request->getArguments();
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);
@@ -117,7 +117,7 @@ class ModuleController extends ActionController
         $this->view->assign('demand', $demand);
         $this->view->assign('logDataRows', $logDataRows);
         $this->view->assign('settings', $this->settings);
-        if (!$this->gp['show']) {
+        if (!isset($this->gp['show'])) {
             $this->gp['show'] = 10;
         }
         $this->view->assign('showItems', $this->gp['show']);
@@ -144,7 +144,7 @@ class ModuleController extends ActionController
     public function selectFieldsAction($logDataUids = null, $filetype = '')
     {
         if ($logDataUids !== null) {
-            if ($this->settings[$filetype]['config']['fields']) {
+            if (isset($this->settings[$filetype]['config']['fields'])) {
                 $fields = GeneralUtility::trimExplode(',', $this->settings[$filetype]['config']['fields']);
                 $this->redirect(
                     'export',
@@ -205,7 +205,7 @@ class ModuleController extends ActionController
      * @param array fields to export
      * @param string export file type (PDF || CSV)
      */
-    public function exportAction($logDataUids = null, array $fields, $filetype = ''): ResponseInterface
+    public function exportAction($logDataUids = null, array $fields = [], $filetype = ''): ResponseInterface
     {
         if ($logDataUids !== null && !empty($fields)) {
             $logDataRows = $this->logDataRepository->findByUids($logDataUids);
