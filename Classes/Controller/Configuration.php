@@ -57,7 +57,7 @@ class Configuration implements \ArrayAccess
         if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
             $this->globals = GeneralUtility::makeInstance(Globals::class);
             $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
-            $this->setup = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->getPrefixedPackageKey() . '.'];
+            $this->setup = ($GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->getPrefixedPackageKeyLowercase() . '.'] ?? null);
             if (!is_array($this->setup)) {
                 $this->utilityFuncs->throwException('missing_config');
             }
@@ -108,7 +108,7 @@ class Configuration implements \ArrayAccess
      */
     public function getSettings()
     {
-        return $this->setup['settings.'];
+        return isset($this->setup['settings.']) ? $this->setup['settings.'] : null;
     }
 
     /**
@@ -118,7 +118,7 @@ class Configuration implements \ArrayAccess
      */
     public function getSourcesConfiguration()
     {
-        return $this->setup['sources.'];
+        return isset($this->setup['sources.']) ? $this->setup['sources.'] : null;
     }
 
     /**
@@ -138,7 +138,7 @@ class Configuration implements \ArrayAccess
      */
     public function getPackageKeyLowercase()
     {
-        return strtolower(self::PACKAGE_KEY);
+        return strtolower($this->getPackageKey());
     }
 
     /**
@@ -148,7 +148,7 @@ class Configuration implements \ArrayAccess
      */
     public function getPrefixedPackageKey()
     {
-        return 'Tx_' . self::PACKAGE_KEY;
+        return 'Tx_' . self::PACKAGE_KEY . "_pi1";
     }
 
     /**
@@ -158,6 +158,6 @@ class Configuration implements \ArrayAccess
      */
     public function getPrefixedPackageKeyLowercase()
     {
-        return strtolower('Tx_' . self::PACKAGE_KEY);
+        return strtolower($this->getPrefixedPackageKey());
     }
 }
