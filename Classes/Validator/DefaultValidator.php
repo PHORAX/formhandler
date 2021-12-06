@@ -274,6 +274,8 @@ class DefaultValidator extends AbstractValidator
                     $this->utilityFuncs->throwException('errorcheck_not_found', $fieldName);
                 }
             }
+        } else {
+            $this->utilityFuncs->throwException('errorcheck_not_found', 'fieldConf');
         }
         return true;
     }
