@@ -196,7 +196,7 @@ class DefaultValidator extends AbstractValidator
 
             //set required to first position if set
             foreach ($fieldSettings['errorCheck.'] as $checkKey => $check) {
-                if (!strstr($checkKey, '.')) {
+                if (!strstr((string)$checkKey, '.')) {
                     if (!strcmp($check, 'required') || !strcmp($check, 'file_required')) {
                         $errorChecks[$counter]['check'] = $check;
                         unset($fieldSettings['errorCheck.'][$checkKey]);
@@ -207,7 +207,7 @@ class DefaultValidator extends AbstractValidator
 
             //set other errorChecks
             foreach ($fieldSettings['errorCheck.'] as $checkKey => $check) {
-                if (!strstr($checkKey, '.') && strlen(trim($check)) > 0) {
+                if (!strstr((string)$checkKey, '.') && strlen(trim($check)) > 0) {
                     $errorChecks[$counter]['check'] = $check;
                     if (isset($fieldSettings['errorCheck.'][$checkKey . '.']) && is_array($fieldSettings['errorCheck.'][$checkKey . '.'])) {
                         $errorChecks[$counter]['params'] = $fieldSettings['errorCheck.'][$checkKey . '.'];

@@ -227,7 +227,7 @@ class GeneralUtility implements SingletonInterface
                 array_push($langFiles, self::getSingle($settings, 'langFile'));
             } elseif (isset($settings['langFile.']) && is_array($settings['langFile.'])) {
                 foreach ($settings['langFile.'] as $key => $langFile) {
-                    if (false === strpos($key, '.')) {
+                    if (false === strpos((string)$key, '.')) {
                         if (is_array($settings['langFile.'][$key . '.'])) {
                             array_push($langFiles, self::getSingle($settings['langFile.'], $key));
                         } else {
@@ -258,7 +258,7 @@ class GeneralUtility implements SingletonInterface
         return $message;
     }
 
-    public static function getSingle(array|string $arr, string $key): string
+    public static function getSingle(array|string $arr, string|int $key): string
     {
         if (isset($arr) && !is_array($arr)) {
             return $arr;
