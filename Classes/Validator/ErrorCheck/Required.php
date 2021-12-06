@@ -24,7 +24,7 @@ class Required extends AbstractErrorCheck
     public function check(): string
     {
         $checkFailed = '';
-        if (is_array($this->gp[$this->formFieldName])) {
+        if (isset($this->gp[$this->formFieldName]) && is_array($this->gp[$this->formFieldName])) {
             if (empty($this->gp[$this->formFieldName])) {
                 $checkFailed = $this->getCheckFailed();
             }

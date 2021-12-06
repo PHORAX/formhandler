@@ -300,7 +300,7 @@ class Form extends AbstractController
                         if ((int)($this->utilityFuncs->getSingle($tsConfig, 'disable')) !== 1) {
                             $validator = $this->componentManager->getComponent($className);
                             if ($this->currentStep === $this->lastStep) {
-                                $restrictErrorChecks = $this->utilityFuncs->getSingle($tsConfig['config.'], 'restrictErrorChecks');
+                                $restrictErrorChecks = $this->utilityFuncs->getSingle($tsConfig['config.'] ?? [], 'restrictErrorChecks');
                                 $userSetting = empty($restrictErrorChecks) ? [] : GeneralUtility::trimExplode(',', $restrictErrorChecks);
                                 $autoSetting = [
                                     'fileAllowedTypes',
@@ -315,7 +315,7 @@ class Form extends AbstractController
                                 $tsConfig['config.']['restrictErrorChecks'] = implode(',', $merged);
                                 unset($tsConfig['config.']['restrictErrorChecks.']);
                             }
-                            $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.']);
+                            $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.'] ?? []);
                             $validator->init($this->gp, $tsConfig['config.']);
                             $validator->validateConfig();
                             $res = $validator->validate($this->errors);

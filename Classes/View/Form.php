@@ -942,7 +942,7 @@ class Form extends AbstractView
     {
         $markers = [];
         foreach ($errors as $field => $types) {
-            if ($this->settings['isErrorMarker.'][$field]) {
+            if (isset($this->settings['isErrorMarker.'][$field])) {
                 $errorMessage = $this->utilityFuncs->getSingle($this->settings['isErrorMarker.'], $field);
             } elseif (strlen($temp = trim($this->utilityFuncs->getTranslatedMessage($this->langFiles, 'is_error_' . $field))) > 0) {
                 $errorMessage = $temp;
@@ -953,7 +953,7 @@ class Form extends AbstractView
             }
             $markers['###is_error_' . $field . '###'] = $errorMessage;
         }
-        if ($this->settings['isErrorMarker.']['global']) {
+        if (isset($this->settings['isErrorMarker.']['global'])) {
             $errorMessage = $this->utilityFuncs->getSingle($this->settings['isErrorMarker.'], 'global');
         } elseif (strlen($temp = trim($this->utilityFuncs->getTranslatedMessage($this->langFiles, 'is_error'))) > 0) {
             $errorMessage = $temp;
@@ -1029,7 +1029,7 @@ class Form extends AbstractView
                 }
                 if ($errorMessage) {
                     $errorMessage = str_replace(['###fieldname###', '###FIELDNAME###'], $field, $errorMessage);
-                    if (is_array($values)) {
+                    if (isset($values) && is_array($values)) {
                         foreach ($values as $key => $value) {
                             $errorMessage = str_replace('###' . $key . '###', $value, $errorMessage);
                         }
@@ -1061,7 +1061,8 @@ class Form extends AbstractView
 
             //list settings
             $errorMessage = $this->utilityFuncs->wrap($errorMessage, $this->settings['errorListTemplate.'], 'singleWrap');
-            $markers['###ERROR###'] .= $errorMessage;
+
+            $markers['###ERROR###'] = ($markers['###ERROR###'] ?? '').$errorMessage;
         }
         $markers['###ERROR###'] = $this->utilityFuncs->wrap($markers['###ERROR###'], $this->settings['errorListTemplate.'], 'totalWrap');
         $langMarkers = $this->utilityFuncs->getFilledLangMarkers($markers['###ERROR###'], $this->langFiles);

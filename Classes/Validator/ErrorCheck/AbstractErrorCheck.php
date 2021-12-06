@@ -52,7 +52,7 @@ abstract class AbstractErrorCheck extends AbstractComponent
     {
         $parts = explode('\\', get_class($this));
         $checkFailed = lcfirst(array_pop($parts));
-        if (is_array($this->settings['params'])) {
+        if (isset($this->settings['params']) && is_array($this->settings['params'])) {
             $checkFailed .= ';';
             foreach ($this->settings['params'] as $key => $value) {
                 $checkFailed .= $key . '::' . $this->utilityFuncs->getSingle($this->settings['params'], $key) . ';';
@@ -70,7 +70,7 @@ abstract class AbstractErrorCheck extends AbstractComponent
         }
 
         if (!empty($this->mandatoryParameters)) {
-            if (!$this->settings['params']) {
+            if (!isset($this->settings['params'])) {
                 $this->utilityFuncs->throwException('error_checks_parameters_missing', $this->settings['check'], implode(',', $this->mandatoryParameters));
             }
             foreach ($this->mandatoryParameters as $param) {

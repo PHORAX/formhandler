@@ -114,9 +114,9 @@ class DefaultValidator extends AbstractValidator
             $errors = $this->validateRecursive($errors, $this->gp, (array)$this->settings['fieldConf.']);
         }
 
-        if ($this->settings['messageLimit'] > 0 || is_array($this->settings['messageLimit.'])) {
+        if ((isset($this->settings['messageLimit']) && (int)$this->settings['messageLimit'] > 0) || (isset($this->settings['messageLimit.']) && is_array($this->settings['messageLimit.'])) ) {
             $limit = (int)$this->settings['messageLimit'];
-            $limits = (array)$this->settings['messageLimit.'];
+            $limits = (array)($this->settings['messageLimit.'] ?? []);
 
             foreach ($errors as $field => $messages) {
                 if (isset($limits[$field]) && $limits[$field] > 0) {
@@ -209,7 +209,7 @@ class DefaultValidator extends AbstractValidator
             foreach ($fieldSettings['errorCheck.'] as $checkKey => $check) {
                 if (!strstr($checkKey, '.') && strlen(trim($check)) > 0) {
                     $errorChecks[$counter]['check'] = $check;
-                    if (is_array($fieldSettings['errorCheck.'][$checkKey . '.'])) {
+                    if (isset($fieldSettings['errorCheck.'][$checkKey . '.']) && is_array($fieldSettings['errorCheck.'][$checkKey . '.'])) {
                         $errorChecks[$counter]['params'] = $fieldSettings['errorCheck.'][$checkKey . '.'];
                     }
                     $counter++;
@@ -238,7 +238,7 @@ class DefaultValidator extends AbstractValidator
                     $errorCheckObject = $this->componentManager->getComponent($check['check']);
                     $fullClassName = $check['check'];
                 }
-                if (!$errorCheckObject) {
+                if (!isset($errorCheckObject)) {
                     $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
                 }
                 if (empty($this->restrictErrorChecks) || in_array($check['check'], $this->restrictErrorChecks)) {
@@ -248,7 +248,7 @@ class DefaultValidator extends AbstractValidator
                     if ($errorCheckObject->validateConfig()) {
                         $checkFailed = $errorCheckObject->check();
                         if (strlen($checkFailed) > 0) {
-                            if (!is_array($errors[$errorFieldName])) {
+                            if (!isset($errors[$errorFieldName]) || !is_array($errors[$errorFieldName])) {
                                 $errors[$errorFieldName] = [];
                             }
                             $errors[$errorFieldName][] = $checkFailed;
@@ -266,7 +266,7 @@ class DefaultValidator extends AbstractValidator
 
     public function validateConfig(): bool
     {
-        if (is_array($this->settings['fieldConf.'])) {
+        if (isset($this->settings['fieldConf.']) && is_array($this->settings['fieldConf.'])) {
             $fieldConf = $this->settings['fieldConf.'];
             foreach ($fieldConf as $key => $fieldSettings) {
                 $fieldName = trim($key, '.');
