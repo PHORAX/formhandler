@@ -1128,18 +1128,16 @@ class Form extends AbstractView
                 if (is_array($v)) {
                     $level++;
                     $markers = array_merge($markers, $this->getValueMarkers($v, $level, $currPrefix));
-                    if ($doEncode) {
-                        $v = $this->utilityFuncs->recursiveHtmlSpecialChars($v);
-                    }
-                    $v = implode($arrayValueSeparator, $v);
                     $level--;
-                } elseif ($doEncode) {
-                    if (!in_array($k, $this->disableEncodingFields)) {
-                      $v = htmlspecialchars((string)$v);
+                } else {
+                    if ($doEncode) {
+                        if (!in_array($k, $this->disableEncodingFields)) {
+                          $v = htmlspecialchars((string)$v);
+                        }
                     }
+                    $markers['###' . $currPrefix . '###'] = trim((string)$v);
+                    $markers['###' . strtoupper($currPrefix) . '###'] = $markers['###' . $currPrefix . '###'];
                 }
-                $markers['###' . $currPrefix . '###'] = trim((string)$v);
-                $markers['###' . strtoupper($currPrefix) . '###'] = $markers['###' . $currPrefix . '###'];
             }
         }
         return $markers;
@@ -1163,11 +1161,6 @@ class Form extends AbstractView
                 if (is_array($v)) {
                     $level++;
                     $markers = array_merge($markers, $this->getSelectedMarkers($v, $level, $currPrefix));
-                    foreach ($v as $arrayValue) {
-                        $arrayValue = $this->utilityFuncs->recursiveHtmlSpecialChars($arrayValue);
-                        $markers['###' . $currPrefix . '_' . $arrayValue . '###'] = $activeString;
-                        $markers['###' . strtoupper($currPrefix) . '###'] = $markers['###' . $currPrefix . '_' . $arrayValue . '###'];
-                    }
                     $level--;
                 } else {
                     $v = htmlspecialchars((string)$v);
