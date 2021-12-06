@@ -656,6 +656,17 @@ class GeneralUtility implements SingletonInterface
             $parts = explode(':', $path[0]);
             $path[0] = ExtensionManagementUtility::extPath($parts[1]);
         }
+        if (strpos($path[0], 'typo3conf') === 0) {
+            unset($path[0]);
+            unset($path[1]);
+            $path[2] = ExtensionManagementUtility::extPath($path[2]);
+        }
+        if (strpos($path[1], 'typo3conf') === 0) {
+            unset($path[0]);
+            unset($path[1]);
+            unset($path[2]);
+            $path[3] = ExtensionManagementUtility::extPath($path[3]);
+        }
         $path = implode('/', $path);
         $path = str_replace('//', '/', $path);
         return $path;
