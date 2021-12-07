@@ -45,6 +45,8 @@ class Redirect extends AbstractFinisher
         $this->globals->getSession()->reset();
 
         $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
+
+        return [''];
     }
 
     /**
