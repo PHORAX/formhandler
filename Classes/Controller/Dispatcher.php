@@ -116,8 +116,11 @@ class Dispatcher extends AbstractPlugin
             }
 
             $result = $controller->process();
-        } catch (\Exception $e) {
-            DebuggerUtility::var_dump($e);
+        } catch (\Exception $e) {            
+            $settings = $this->globals->getSettings();
+            if (isset($settings) && is_array($settings) && isset($settings['debug']) && (bool)$settings['debug']){
+                DebuggerUtility::var_dump($e);
+            }
             GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->error(
                 $e->getFile() . '(' . $e->getLine() . ')' . ' ' . $e->getMessage(),
                 ['formhandler']
