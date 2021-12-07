@@ -35,7 +35,7 @@ class Mail extends Form
     {
         $this->currentMailSettings = $errors;
         $content = '';
-        if ($this->subparts['template']) {
+        if (strlen($this->subparts['template'] ?? '') > 0) {
             $this->settings = $this->globals->getSettings();
             $content = parent::render($gp, []);
         }
@@ -113,7 +113,7 @@ class Mail extends Form
     protected function sanitizeMarkers(array $markers): array 
     {
         $componentSettings = $this->getComponentSettings();
-        $checkBinaryCrLf = $componentSettings['checkBinaryCrLf'];
+        $checkBinaryCrLf = $componentSettings['checkBinaryCrLf'] ?? '';
         if (strlen($checkBinaryCrLf) > 0) {
             $paramsToCheck = GeneralUtility::trimExplode(',', $checkBinaryCrLf);
             foreach ($markers as $markerName => &$value) {

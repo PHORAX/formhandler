@@ -269,7 +269,7 @@ class Mail extends AbstractFinisher
         }
 
         if (isset($template['html']) && strlen(trim($template['html'])) > 0) {
-            if ($mailSettings['htmlEmailAsAttachment']) {
+            if (isset($mailSettings['htmlEmailAsAttachment']) && (bool)$mailSettings['htmlEmailAsAttachment']) {
                 $prefix = 'formhandler_';
                 if (isset($mailSettings['filePrefix.']['html'])) {
                     $prefix = $mailSettings['filePrefix.']['html'];
@@ -290,14 +290,16 @@ class Mail extends AbstractFinisher
             }
         }
 
-        if (!is_array($mailSettings['attachment'])) {
-            $mailSettings['attachment'] = GeneralUtility::trimExplode(',', $mailSettings['attachment']);
-        }
-        foreach ($mailSettings['attachment'] as $idx => $attachment) {
-            if (strlen($attachment) > 0 && @file_exists($attachment)) {
-                $this->emailObj->addAttachment($attachment);
-            } else {
-                $this->utilityFuncs->debugMessage('attachment_not_found', [$attachment], 2);
+        if (isset($mailSettings['attachment'])) {
+            if (!is_array($mailSettings['attachment'])) {
+                $mailSettings['attachment'] = GeneralUtility::trimExplode(',', $mailSettings['attachment']);
+            }
+            foreach ($mailSettings['attachment'] as $idx => $attachment) {
+                if (strlen($attachment) > 0 && @file_exists($attachment)) {
+                    $this->emailObj->addAttachment($attachment);
+                } else {
+                    $this->utilityFuncs->debugMessage('attachment_not_found', [$attachment], 2);
+                }
             }
         }
         if (isset($mailSettings['attachGeneratedFiles'])) {
