@@ -165,20 +165,29 @@ class GeneralUtility implements SingletonInterface
             if (!isset($settings['templateFile']) && !isset($settings['templateFile.'])) {
                 return '';
             }
-            $templateFile = $settings['templateFile'];
+            $templateFile = $settings['templateFile'] ?? '';
 
             if (isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
-                $templateFile = self::getSingle($settings, 'templateFile');
-                if (self::isTemplateFilePath($templateFile)) {
-                    $templateFile = self::resolvePath($templateFile);
-                    if (!@file_exists($templateFile)) {
-                        self::throwException('template_file_not_found', $templateFile);
-                    }
-                    $templateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile);
-                } else {
 
-                    //The setting "templateFile" was a cObject which returned HTML content. Just use that as template code.
-                    $templateCode = $templateFile;
+                foreach ($settings['templateFile.'] as $key => $template) {
+
+                    if (isset($settings['templateFile.'][$key.'.']) && is_array($settings['templateFile.'][$key.'.'])) {
+                        $templateFile = self::getSingle($settings['templateFile.'][$key.'.'], 'value');
+                    } else {
+                        $templateFile = self::getSingle($settings['templateFile.'][$key], 'value');
+                    }
+
+                    if (self::isTemplateFilePath($templateFile)) {
+                        $templateFile = self::resolvePath($templateFile);
+                        if (!@file_exists($templateFile)) {
+                            self::throwException('template_file_not_found', $templateFile);
+                        }
+                        $templateCode .= \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile)."\n\n";
+                    } else {
+                        
+                        //The setting "templateFile" was a cObject which returned HTML content. Just use that as template code.
+                        $templateCode .= $templateFile."\n\n";
+                    }
                 }
             } else {
                 $templateFile = self::resolvePath($templateFile);
