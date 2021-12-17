@@ -36,7 +36,7 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface
                 $_POST = array_merge($_POST, $globals->getGP());
             }
         }
-        return $content;
+        return (string) $content;
     }
 
     /**
@@ -62,7 +62,7 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface
      */
     public function stdWrapProcess($content, array $configuration, ContentObjectRenderer &$parentObject): string
     {
-        return $content;
+        return (string) $content;
     }
 
     /**
@@ -79,6 +79,6 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface
             $_GET = $this->originalGET;
             $_POST = $this->originalPOST;
         }
-        return $content;
+        return (string) $content;
     }
 }
