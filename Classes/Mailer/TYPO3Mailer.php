@@ -196,7 +196,6 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     {
         return $this->emailObj->getReplyTo();
     }
-
     /* (non-PHPdoc)
      * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getCc()
     */
@@ -205,8 +204,8 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
         $ccArray = $this->emailObj->getCc();
         $ccConcat = [];
         if (is_array($ccArray)) {
-            foreach ($ccArray as $email => $name) {
-                $ccConcat[] = $name . ' <' . $email . '>';
+            foreach ($ccArray as $cc) {
+                $ccConcat[] = $cc->getName() . ' <' . $cc->getName() . '>';
             }
         }
         return $ccConcat;
@@ -217,11 +216,12 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
     */
     public function getBcc()
     {
+
         $bccArray = $this->emailObj->getBcc();
         $bccConcat = [];
         if (is_array($bccArray)) {
-            foreach ($bccArray as $email => $name) {
-                $bccConcat[] = $name . ' <' . $email . '>';
+            foreach ($bccArray as $bcc) {
+                $bccConcat[] = $bcc->getName() . ' <' . $bcc->getAddress() . '>';
             }
         }
         return $bccConcat;
