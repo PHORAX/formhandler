@@ -16,6 +16,7 @@ return [
             'exclude' => 1,
             'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tx_formhandler_log.submission_date',
             'config' => [
+                'readOnly' => true,
                 'type' => 'input',
                 'size' => '10',
                 'eval' => 'datetime',
@@ -27,6 +28,7 @@ return [
         'ip' => [
             'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tx_formhandler_log.ip',
             'config' => [
+                'readOnly' => true,
                 'type' => 'input',
             ],
         ],
@@ -34,14 +36,16 @@ return [
             'exclude' => 1,
             'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tx_formhandler_log.params',
             'config' => [
+                'readOnly' => true,
                 'type' => 'user',
-                'userFunc' => 'Typoheads\Formhandler\Utility\TcaUtility->getParams',
+                'renderType' => 'submittedValues',
             ],
         ],
         'is_spam' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tx_formhandler_log.is_spam',
             'config' => [
+                'readOnly' => true,
                 'type' => 'check',
             ],
         ],

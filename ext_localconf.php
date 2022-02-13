@@ -23,6 +23,18 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['T
     ];
 }
 
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1638437365] = [
+    'nodeName' => 'predefinedJs',
+    'priority' => 40,
+    'class' => \Typoheads\Formhandler\TcaFormElement\PredefinedJs::class,
+];
+
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1638582370] = [
+    'nodeName' => 'submittedValues',
+    'priority' => 40,
+    'class' => \Typoheads\Formhandler\TcaFormElement\SubmittedValues::class,
+];
+
 $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
     \TYPO3\CMS\Core\Imaging\IconRegistry::class
 );
