@@ -4,13 +4,29 @@
     "description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
     "homepage": "https://github.com/PHORAX/formhandler",
     "license": "GPL-2.0-or-later",
+    "repositories": [
+        {
+            "type": "github",
+            "url": "https://github.com/einpraegsam/captcha.git"
+        },
+        {
+            "type": "github",
+            "url": "https://github.com/mblaschke/TYPO3-jm-recaptcha.git"
+        }
+    ],
     "require": {
-        "typo3/cms-core": "^11.5.0",
+        "typo3/cms-core": "^11.5",
         "tecnickcom/tcpdf": "^6.0",
-        "typo3/cms-extbase": "^11.5.0",
-        "typo3/cms-fluid": "^11.5.0",
-        "typo3/cms-frontend": "^11.5.0",
+        "typo3/cms-extbase": "^11.5",
+        "typo3/cms-fluid": "^11.5",
+        "typo3/cms-frontend": "^11.5",
         "parsecsv/php-parsecsv": "^1.2"
+    },
+    "require-dev": {
+        "typo3/cms-backend": "^11.5",
+        "thinkopenat/captcha": "^2.0",
+        "symfony/mailer": "5.3.4",
+        "mblaschke/jm-recaptcha": "^1.5"
     },
     "autoload": {
         "psr-4": {
