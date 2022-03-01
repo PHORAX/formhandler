@@ -87,7 +87,7 @@ abstract class AbstractSession extends AbstractClass
     {
         $threshold = $this->utilityFuncs->getTimestamp(1, 'hours');
 
-        if ($this->settings['clearSessionsOlderThan.']['value']) {
+        if (isset($this->settings['clearSessionsOlderThan.'], $this->settings['clearSessionsOlderThan.']['value'])) {
             $thresholdValue = (int)$this->utilityFuncs->getSingle($this->settings['clearSessionsOlderThan.'], 'value');
             $thresholdUnit = $this->utilityFuncs->getSingle($this->settings['clearSessionsOlderThan.'], 'unit');
 
