@@ -95,7 +95,7 @@ class PHP extends AbstractSession
         if (isset($_SESSION['formhandler']) && is_array($_SESSION['formhandler'])) {
             foreach ($_SESSION['formhandler'] as $hashedID => $sesData) {
                 $threshold = $this->getOldSessionThreshold();
-                if (!$this->gp['submitted'] && $this->globals->getFormValuesPrefix() === $sesData['formValuesPrefix'] && $sesData['creationTstamp'] < $threshold) {
+                if ((!isset($this->gp['submitted']) || !$this->gp['submitted']) && $this->globals->getFormValuesPrefix() === $sesData['formValuesPrefix'] && $sesData['creationTstamp'] < $threshold) {
                     unset($_SESSION['formhandler'][$hashedID]);
                 }
             }
