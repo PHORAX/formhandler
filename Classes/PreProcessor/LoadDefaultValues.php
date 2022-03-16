@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\PreProcessor;
 
+use JAKOTA\LueftnerTheme\Utillity\DebuggerUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /*                                                                        *
@@ -78,7 +79,7 @@ class LoadDefaultValues extends AbstractPreProcessor
      * @param array $settings
      * @param int $step
      */
-    private function loadDefaultValuesToSession(array $settings, int $step): void
+    private function loadDefaultValuesToSession(mixed $settings, int $step): void
     {
         if (is_array($settings) && $step) {
             $values = (array)$this->globals->getSession()->get('values');
