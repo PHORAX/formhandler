@@ -408,7 +408,7 @@ class GeneralUtility implements SingletonInterface
      */
     public static function pi_getFFvalue(array $T3FlexForm_array, string $fieldName, string $sheet = 'sDEF', string $lang = 'lDEF', string $value = 'vDEF'): string
     {
-        if (is_array($T3FlexForm_array)) {
+        if (is_array($T3FlexForm_array) && isset($T3FlexForm_array['data'][$sheet][$lang])) {
             $sheetArray = $T3FlexForm_array['data'][$sheet][$lang];
         } else {
             $sheetArray = '';
