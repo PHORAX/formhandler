@@ -83,6 +83,8 @@ class LoadDefaultValues extends AbstractPreProcessor
     {
         if (is_array($settings) && $step) {
             $values = (array)$this->globals->getSession()->get('values');
+            // TODO Error with default values at step 2
+
             $this->setDefaultValues($settings, $values[$step]);
             $this->globals->getSession()->set('values', $values);
         }
@@ -104,7 +106,7 @@ class LoadDefaultValues extends AbstractPreProcessor
                     $this->setDefaultValues($fields[$fieldName . '.'], $currentLevelGP[$fieldName]);
                 } elseif (!isset($currentLevelGP[$fieldName])) {
                     $currentLevelGP[$fieldName] = $this->utilityFuncs->getSingle($fields[$fieldName . '.'], 'defaultValue');
-                    if ($fields[$fieldName . '.']['defaultValue.']['separator']) {
+                    if (!empty($fields[$fieldName . '.']['defaultValue.']['separator'])) {
                         $separator = $this->utilityFuncs->getSingle($fields[$fieldName . '.']['defaultValue.'], 'separator');
                         $currentLevelGP[$fieldName] = GeneralUtility::trimExplode($separator, $currentLevelGP[$fieldName]);
                     }
