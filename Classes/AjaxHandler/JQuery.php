@@ -178,13 +178,13 @@ class JQuery extends AbstractAjaxHandler
         if ($this->jsPosition === 'inline') {
             $GLOBALS['TSFE']->content .= $js;
         } elseif ($this->jsPosition === 'footer') {
-            if ($doAppend) {
+            if ($doAppend && array_key_exists('Tx_Formhandler_AjaxHandler_Jquery_' . $key, $GLOBALS['TSFE']->additionalFooterData)) {
                 $GLOBALS['TSFE']->additionalFooterData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] .= $js;
             } else {
                 $GLOBALS['TSFE']->additionalFooterData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] = $js;
             }
         } else {
-            if ($doAppend) {
+            if ($doAppend && array_key_exists('Tx_Formhandler_AjaxHandler_Jquery_' . $key, $GLOBALS['TSFE']->additionalHeaderData)) {
                 $GLOBALS['TSFE']->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] .= $js;
             } else {
                 $GLOBALS['TSFE']->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] = $js;
