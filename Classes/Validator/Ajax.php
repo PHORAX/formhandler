@@ -88,7 +88,7 @@ class Ajax extends AbstractValidator
 
                 //set required to first position if set
                 foreach ($fieldSettings['errorCheck.'] as $key => $check) {
-                    if (!strstr($key, '.') && strlen(trim($check)) > 0) {
+                    if (!strstr(strval($key), '.') && strlen(trim($check)) > 0) {
                         if (!strcmp($check, 'required') || !strcmp($check, 'file_required')) {
                             $errorChecks[$counter]['check'] = $check;
                             unset($fieldSettings['errorCheck.'][$key]);
@@ -99,9 +99,9 @@ class Ajax extends AbstractValidator
 
                 //set other errorChecks
                 foreach ($fieldSettings['errorCheck.'] as $key => $check) {
-                    if (!strstr($key, '.')) {
+                    if (!strstr(strval($key), '.')) {
                         $errorChecks[$counter]['check'] = $check;
-                        if (is_array($fieldSettings['errorCheck.'][$key . '.'])) {
+                        if (is_array($fieldSettings['errorCheck.'][$key . '.'] ?? null)) {
                             $errorChecks[$counter]['params'] = $fieldSettings['errorCheck.'][$key . '.'];
                         }
                         $counter++;
