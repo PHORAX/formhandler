@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Ajax;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -55,19 +58,22 @@ class Validate
     /**
      * Main method of the class.
      *
-     * @return string The HTML list of remaining files to be displayed in the form
+     * @param ResponseInterface $response
+     *
+     * @return ResponseInterface
      */
-    public function main(): void
+    public function main(ServerRequestInterface $request): ResponseInterface
     {
-        $this->init();
+        $content = '';
+        $this->init($request);
         $field = htmlspecialchars(GeneralUtility::_GP('field'));
         if ($field) {
             $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
             Globals::setCObj($GLOBALS['TSFE']->cObj);
             Globals::setRandomID($randomID);
             if (Globals::getSession() == null) {
-                $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
-                $sessionClass = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($ts['session.'], 'Session\PHP');
+                $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_formhandler_pi1.']['settings.'];
+                $sessionClass = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName(isset($ts['session.']) ? $ts['session.'] : null, 'Session\PHP');
                 Globals::setSession($this->componentManager->getComponent($sessionClass));
             }
             $this->settings = (array)Globals::getSession()->get('settings');
@@ -82,9 +88,7 @@ class Validate
                 if (strlen($content) === 0) {
                     $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/ok.png' . '" />';
                 } else {
-                    $gp = [
-                        $_GET['field'] => $_GET['value'],
-                    ];
+                    $gp[$_GET['field']] = $_GET['value'] ?? '';
                     $view = $this->initView($content);
                     $content = $view->render($gp, $errors);
                 }
@@ -95,22 +99,24 @@ class Validate
                     $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/notok.png' . '" />';
                 } else {
                     $view = $this->initView($content);
-                    $gp = [
-                        $_GET['field'] => $_GET['value'],
-                    ];
+                    $gp[$_GET['field']] = $_GET['value'] ?? '';
                     $content = $view->render($gp, $errors);
                 }
                 $content = sprintf($this->templates['spanError'], $content);
             }
-            print $content;
+            
         }
+
+        return new HtmlResponse($content, 200);
     }
 
     /**
      * Initialize the class. Read GET parameters
      */
-    protected function init(): void
+    protected function init(ServerRequestInterface $request): void
     {
+        $GLOBALS['TYPO3_REQUEST'] = $request;
+
         if (isset($_GET['pid'])) {
             $this->id = (int)($_GET['pid']);
         } else {
@@ -118,14 +124,14 @@ class Validate
         }
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);
         Globals::setAjaxMode(true);
-        \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($this->id);
+        \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($request);
     }
 
     /**
      * Initialize the AJAX validation view.
      *
      * @param string $content The raw content
-     * @return AjaxValidation The view class
+     * @return AjaxValidation The view class  
      */
     protected function initView(string $content): AjaxValidation
     {

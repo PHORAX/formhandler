@@ -3,14 +3,21 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Utility;
 
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\Random;
+use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Site\Entity\SiteInterface;
+use TYPO3\CMS\Core\Site\SiteFinder;
+use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
@@ -856,23 +863,30 @@ class GeneralUtility implements SingletonInterface
         );
     }
 
-    public static function initializeTSFE(int $pid)
-    {
-        // create object instances:
-        $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pid, 0, true);
-        $GLOBALS['TSFE']->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\TemplateService');
-        $GLOBALS['TSFE']->tmpl->init();
-        $GLOBALS['TSFE']->fe_user->fetchGroupData();
-
-        // Get the page
-        $GLOBALS['TSFE']->fetch_the_id();
-        $GLOBALS['TSFE']->getConfigArray();
-        if (is_array($GLOBALS['TSFE']->tmpl->setup['includeLibs.'])) {
-            $GLOBALS['TSFE']->includeLibraries($GLOBALS['TSFE']->tmpl->setup['includeLibs.']);
+    public static function initializeTSFE(ServerRequestInterface $request) {
+        $site = $request->getAttribute('site');
+        if (!($site instanceof SiteInterface)) {
+          $sites = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(SiteFinder::class)->getAllSites();
+          $site = reset($sites);
         }
-        $GLOBALS['TSFE']->settingLanguage();
-        $GLOBALS['TSFE']->newCObj();
-    }
+        $language = $request->getAttribute('language') ?? $site->getDefaultLanguage();
+        $pageArguments = $request->getAttribute('routing') ?? new PageArguments(0, '0', []);
+    
+        // create object instances:
+        $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+          TypoScriptFrontendController::class,
+          \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class),
+          $site,
+          $language,
+          $pageArguments,
+          \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(FrontendUserAuthentication::class)
+        );
+        $GLOBALS['TSFE']->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TemplateService::class);
+        $GLOBALS['TSFE']->determineId($request);
+    
+        $GLOBALS['TSFE']->getConfigArray();
+        $GLOBALS['TSFE']->newCObj($request);
+      }
 
     /**
      * Returns a debug message according to given key
