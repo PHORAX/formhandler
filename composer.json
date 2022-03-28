@@ -12,6 +12,10 @@
         {
             "type": "github",
             "url": "https://github.com/mblaschke/TYPO3-jm-recaptcha.git"
+        },
+        {
+          "type": "git",
+          "url": "https://github.com/tlueder/phpstan-typo3.git"
         }
     ],
     "require": {
@@ -26,7 +30,9 @@
         "typo3/cms-backend": "^11.5",
         "thinkopenat/captcha": "^2.0",
         "symfony/mailer": "5.3.4",
-        "mblaschke/jm-recaptcha": "^1.5"
+        "mblaschke/jm-recaptcha": "^1.5",
+        "phpstan/phpstan": "^1.3",
+        "saschaegerer/phpstan-typo3": "dev-Fix-ObjectStorage-int"
     },
     "autoload": {
         "psr-4": {
@@ -42,6 +48,12 @@
     "extra": {
         "typo3/cms": {
             "extension-key": "formhandler"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true
         }
     }
 }
