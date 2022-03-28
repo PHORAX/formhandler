@@ -55,7 +55,7 @@ class Configuration implements \ArrayAccess
      */
     public function __construct()
     {
-        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
+        if (!isset($GLOBALS['TYPO3_REQUEST']) || ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
             $this->globals = GeneralUtility::makeInstance(Globals::class);
             $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
             $this->setup = ($GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->getPrefixedPackageKeyLowercase() . '.'] ?? null);
