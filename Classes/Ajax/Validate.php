@@ -90,7 +90,7 @@ class Validate
                 if (strlen($content) === 0) {
                     $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/ok.png' . '" />';
                 } else {
-                    $gp[$_GET['field']] = $_GET['value'];
+                    $gp[$_GET['field']] = $_GET['value'] ?? '';
                     $view = $this->initView($content);
                     $content = $view->render($gp, $errors);
                 }
@@ -101,7 +101,7 @@ class Validate
                     $content = '<img src="' . PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')) . 'Resources/Public/Images/notok.png' . '" />';
                 } else {
                     $view = $this->initView($content);
-                    $gp[$_GET['field']] = $_GET['value'];
+                    $gp[$_GET['field']] = $_GET['value'] ?? '';
                     $content = $view->render($gp, $errors);
                 }
                 $content = sprintf($this->templates['spanError'], $content);

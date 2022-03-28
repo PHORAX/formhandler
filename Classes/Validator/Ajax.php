@@ -143,7 +143,7 @@ class Ajax extends AbstractValidator
                         if ($errorCheckObject->validateConfig()) {
                             $checkFailed = $errorCheckObject->check();
                             if (strlen($checkFailed) > 0) {
-                                if (!is_array($errors[$field])) {
+                                if (!is_array($errors[$field]?? null)) {
                                     $errors[$field] = [];
                                 }
                                 $errors[$field][] = $checkFailed;
