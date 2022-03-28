@@ -886,18 +886,6 @@ class GeneralUtility implements SingletonInterface
     
         $GLOBALS['TSFE']->getConfigArray();
         $GLOBALS['TSFE']->newCObj($request);
-
-    
-        // $GLOBALS['TSFE']->sys_page = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRepository::class);
-    
-        // // Get the page
-        // $GLOBALS['TSFE']->fetch_the_id();
-        // $GLOBALS['TSFE']->getConfigArray();
-        // if (is_array($GLOBALS['TSFE']->tmpl->setup['includeLibs.'])) {
-        //   $GLOBALS['TSFE']->includeLibraries($GLOBALS['TSFE']->tmpl->setup['includeLibs.']);
-        // }
-        // $GLOBALS['TSFE']->settingLanguage();
-        // $GLOBALS['TSFE']->newCObj();
       }
 
     /**
