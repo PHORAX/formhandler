@@ -111,6 +111,8 @@ class Validate
      */
     protected function init(): void
     {
+        $GLOBALS['TYPO3_REQUEST'] = $request;
+
         if (isset($_GET['pid'])) {
             $this->id = (int)($_GET['pid']);
         } else {
