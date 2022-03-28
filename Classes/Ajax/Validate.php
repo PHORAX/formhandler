@@ -12,8 +12,6 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\Globals;
 use Typoheads\Formhandler\View\AjaxValidation;
-use TYPO3\CMS\Core\Http\Response;
-
 
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
@@ -66,7 +64,7 @@ class Validate
      */
     public function main(ServerRequestInterface $request): ResponseInterface
     {
-      
+        $content = '';
         $this->init($request);
         $field = htmlspecialchars(GeneralUtility::_GP('field'));
         if ($field) {
@@ -109,9 +107,7 @@ class Validate
             
         }
 
-        return $response->getBody()->write($content)
-          ->withStatus(200)
-        ;
+        return new HtmlResponse($content, 200);
     }
 
     /**
