@@ -1,11 +1,11 @@
 <?php
 
-//liste der Regeln: https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/doc/rules/index.rst
+// liste der Regeln: https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/doc/rules/index.rst
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('vendor')
-    ->exclude('Vendor')
-    ->ignoreVCSIgnored(true)
+  ->exclude('vendor')
+  ->exclude('Vendor')
+  ->ignoreVCSIgnored(true)
 ;
 
 return (new PhpCsFixer\Config())

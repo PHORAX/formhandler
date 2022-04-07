@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Finisher;
@@ -9,20 +10,21 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        */
 /**
- * This finisher stores the submitted values into a table in the TYPO3 database according to the configuration
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ */
+
+/**
+ * This finisher stores the submitted values into a table in the TYPO3 database according to the configuration.
  *
  * Example configuration:
  *
@@ -60,311 +62,327 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * finishers.1.config.fields.imagecaption.special = ip
  * </code>
  */
-class DB extends AbstractFinisher
-{
+class DB extends AbstractFinisher {
+  protected Connection $connection;
 
-    /**
-     * The name of the table to put the values into.
-     *
-     * @var string
-     */
-    protected string $table = '';
+  /**
+   * A flag to indicate if to insert the record or to update an existing one.
+   */
+  protected bool $doUpdate = false;
 
-    /**
-     * The field in the table holding the primary key.
-     *
-     * @var string
-     */
-    protected string $key = '';
+  /**
+   * The field in the table holding the primary key.
+   */
+  protected string $key = '';
 
-    /**
-     * A flag to indicate if to insert the record or to update an existing one
-     *
-     * @var bool
-     */
-    protected bool $doUpdate = false;
+  /**
+   * The name of the table to put the values into.
+   */
+  protected string $table = '';
 
-    /**
-     * @var Connection
-     */
-    protected Connection $connection;
+  /**
+   * Inits the finisher mapping settings values to internal attributes.
+   */
+  public function init(array $gp, array $settings): void {
+    parent::init($gp, $settings);
 
-    /**
-     * The main method called by the controller
-     *
-     * @return array The probably modified GET/POST parameters
-     */
-    public function process(): array
-    {
-        $this->utilityFuncs->debugMessage('data_stored');
+    // set table
+    $this->table = $this->utilityFuncs->getSingle($this->settings, 'table');
+    if (!$this->table) {
+      $this->utilityFuncs->throwException('no_table', '\\Typoheads\\Formhandler\\Finisher\\DB');
 
-        //set fields to insert/update
-        $queryFields = $this->parseFields();
-
-        //query the database
-        $isSuccess = $this->save($queryFields);
-
-        if (!isset($this->gp['saveDB']) || !is_array($this->gp['saveDB'])) {
-            $this->gp['saveDB'] = [];
-        }
-
-        //Store info in GP only if the query was successful
-        if ($isSuccess) {
-
-            //Get DB info, including UID
-            if (!$this->doUpdate) {
-                $this->gp['inserted_uid'] = $this->getInsertedUid();
-                $this->gp[$this->table . '_inserted_uid'] = $this->gp['inserted_uid'];
-                $info = [
-                    'table' => $this->table,
-                    'uid' => $this->gp['inserted_uid'],
-                    'uidField' => $this->key,
-                ];
-                array_push($this->gp['saveDB'], $info);
-            } else {
-                $uid = $this->getUpdateUid();
-                $info = [
-                    'table' => $this->table,
-                    'uid' => $uid,
-                    'uidField' => $this->key,
-                ];
-                array_push($this->gp['saveDB'], $info);
-            }
-
-            //Insert the data written to DB into GP array
-            $dataKeyName = $this->table;
-            $dataKeyIndex = 1;
-            while (isset($this->gp['saveDB'][$dataKeyName])) {
-                $dataKeyIndex++;
-                $dataKeyName = $this->table . '_' . $dataKeyIndex;
-            }
-            $this->gp['saveDB'][$dataKeyName] = $queryFields;
-        }
-
-        return $this->gp;
+      return;
     }
 
-    /**
-     * Method to query the database making an insert or update statement using the given fields.
-     *
-     * @param array &$queryFields Array holding the query fields
-     * @return bool Success flag
-     */
-    protected function save(array &$queryFields): bool
-    {
-        //insert
-        if (!$this->doUpdate) {
-            $isSuccess = $this->doInsert($queryFields);
-        }
-        //update
-        else {
-            //check if uid of record to update is in GP
-            $uid = $this->getUpdateUid();
+    if (!isset($this->settings['fields.']) || !is_array($this->settings['fields.'])) {
+      $this->utilityFuncs->throwException('no_fields', '\\Typoheads\\Formhandler\\Finisher\\DB');
 
-            $andWhere = $this->utilityFuncs->getSingle($this->settings, 'andWhere');
-            $isSuccess = $this->doUpdate($uid, $queryFields, $andWhere);
-        }
-
-        return $isSuccess;
+      return;
     }
 
-    protected function doesRecordExist(int $uid, string $andWhere): bool
-    {
-        if (!$uid) {
-            return false;
-        }
-        /** @var ConnectionPool $connectionPool */
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+    // set primary key field
+    $this->key = $this->utilityFuncs->getSingle($this->settings, 'key');
+    if (0 === strlen($this->key)) {
+      $this->key = 'uid';
+    }
 
-        $queryBuilder = $connectionPool->getQueryBuilderForTable($this->table);
-        $queryBuilder
-            ->getRestrictions()
-            ->removeAll()
+    // check whether to update or to insert a record
+    $this->doUpdate = false;
+    if (1 === (int) ($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert'))) {
+            // check if uid of record to update is in GP
+      $uid = $this->getUpdateUid();
+
+      $andWhere = $this->utilityFuncs->getSingle($this->settings, 'andWhere');
+      $recordExists = $this->doesRecordExist($uid, $andWhere);
+      if ($recordExists) {
+        $this->doUpdate = true;
+      } elseif (1 !== (int) ($this->utilityFuncs->getSingle($this->settings, 'insertIfNoUpdatePossible'))) {
+        $this->utilityFuncs->debugMessage('no_update_possible', [], 2);
+      }
+    }
+  }
+
+  /**
+   * The main method called by the controller.
+   *
+   * @return array The probably modified GET/POST parameters
+   */
+  public function process(): array {
+    $this->utilityFuncs->debugMessage('data_stored');
+
+    // set fields to insert/update
+    $queryFields = $this->parseFields();
+
+    // query the database
+    $isSuccess = $this->save($queryFields);
+
+    if (!isset($this->gp['saveDB']) || !is_array($this->gp['saveDB'])) {
+      $this->gp['saveDB'] = [];
+    }
+
+    // Store info in GP only if the query was successful
+    if ($isSuccess) {
+            // Get DB info, including UID
+      if (!$this->doUpdate) {
+        $this->gp['inserted_uid'] = $this->getInsertedUid();
+        $this->gp[$this->table.'_inserted_uid'] = $this->gp['inserted_uid'];
+        $info = [
+          'table' => $this->table,
+          'uid' => $this->gp['inserted_uid'],
+          'uidField' => $this->key,
+        ];
+        array_push($this->gp['saveDB'], $info);
+      } else {
+        $uid = $this->getUpdateUid();
+        $info = [
+          'table' => $this->table,
+          'uid' => $uid,
+          'uidField' => $this->key,
+        ];
+        array_push($this->gp['saveDB'], $info);
+      }
+
+      // Insert the data written to DB into GP array
+      $dataKeyName = $this->table;
+      $dataKeyIndex = 1;
+      while (isset($this->gp['saveDB'][$dataKeyName])) {
+        ++$dataKeyIndex;
+        $dataKeyName = $this->table.'_'.$dataKeyIndex;
+      }
+      $this->gp['saveDB'][$dataKeyName] = $queryFields;
+    }
+
+    return $this->gp;
+  }
+
+  protected function doesRecordExist(int $uid, string $andWhere): bool {
+    if (!$uid) {
+      return false;
+    }
+
+    /** @var ConnectionPool $connectionPool */
+    $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+
+    $queryBuilder = $connectionPool->getQueryBuilderForTable($this->table);
+    $queryBuilder
+      ->getRestrictions()
+      ->removeAll()
         ;
 
-        $queryBuilder
-            ->select($this->key)
-            ->from($this->table);
+    $queryBuilder
+      ->select($this->key)
+      ->from($this->table)
+    ;
 
-        $queryBuilder->where(
-            $queryBuilder->expr()->eq($this->key, $queryBuilder->createNamedParameter($uid))
-        );
+    $queryBuilder->where(
+      $queryBuilder->expr()->eq($this->key, $queryBuilder->createNamedParameter($uid))
+    );
 
-        $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
-        $andWhere = QueryHelper::stripLogicalOperatorPrefix($andWhere);
-        if (!empty($andWhere)) {
-            $queryBuilder->andWhere($andWhere);
-        }
-
-        $row = $queryBuilder->execute()->fetch();
-        if (is_array($row)) {
-            return true;
-        }
-        return false;
+    $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
+    $andWhere = QueryHelper::stripLogicalOperatorPrefix($andWhere);
+    if (!empty($andWhere)) {
+      $queryBuilder->andWhere($andWhere);
     }
 
-    protected function doInsert(array $queryFields): bool
-    {
-        $queryBuilder = $this->getConnection()->createQueryBuilder();
-        $queryBuilder->insert($this->table);
-
-        $queryBuilder->values($queryFields);
-
-        $query = $queryBuilder->getSQL();
-
-        try {
-            $stmt = $queryBuilder->execute();
-        } catch (\Throwable $th) {
-            $this->utilityFuncs->debugMessage('error', [$query], 3);
-            return false;
-        }
-
-        return true;
+    $row = $queryBuilder->execute()->fetch();
+    if (is_array($row)) {
+      return true;
     }
 
-    protected function doUpdate(int $uid, array $queryFields, string $andWhere): bool
-    {
-        /** @var ConnectionPool $connectionPool */
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+    return false;
+  }
 
-        $queryBuilder = $connectionPool->getQueryBuilderForTable($this->table);
-        $queryBuilder
-            ->getRestrictions()
-            ->removeAll()
+  protected function doInsert(array $queryFields): bool {
+    $queryBuilder = $this->getConnection()->createQueryBuilder();
+    $queryBuilder->insert($this->table);
+
+    $queryBuilder->values($queryFields);
+
+    $query = $queryBuilder->getSQL();
+
+    try {
+      $stmt = $queryBuilder->execute();
+    } catch (\Throwable $th) {
+      $this->utilityFuncs->debugMessage('error', [$query], 3);
+
+      return false;
+    }
+
+    return true;
+  }
+
+  protected function doUpdate(int $uid, array $queryFields, string $andWhere): bool {
+    /** @var ConnectionPool $connectionPool */
+    $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+
+    $queryBuilder = $connectionPool->getQueryBuilderForTable($this->table);
+    $queryBuilder
+      ->getRestrictions()
+      ->removeAll()
         ;
 
-        $queryBuilder->update($this->table);
+    $queryBuilder->update($this->table);
 
-        foreach ($queryFields as $k => $v) {
-            $queryBuilder->set($k, $v);
-        }
-
-        $queryBuilder->where(
-            $queryBuilder->expr()->eq($this->key, $queryBuilder->createNamedParameter($uid))
-        );
-
-        $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
-        $andWhere = QueryHelper::stripLogicalOperatorPrefix($andWhere);
-        if (!empty($andWhere)) {
-            $queryBuilder->andWhere($andWhere);
-        }
-
-        $query = $queryBuilder->getSQL();
-
-        try {
-            $stmt = $queryBuilder->execute();
-        } catch (\Throwable $th) {
-            $this->utilityFuncs->debugMessage('error', [$query], 3);
-            return false;
-        }
-        return true;
+    foreach ($queryFields as $k => $v) {
+      $queryBuilder->set($k, $v);
     }
 
-    /**
-     * Inits the finisher mapping settings values to internal attributes.
-     */
-    public function init(array $gp, array $settings): void
-    {
-        parent::init($gp, $settings);
+    $queryBuilder->where(
+      $queryBuilder->expr()->eq($this->key, $queryBuilder->createNamedParameter($uid))
+    );
 
-        //set table
-        $this->table = $this->utilityFuncs->getSingle($this->settings, 'table');
-        if (!$this->table) {
-            $this->utilityFuncs->throwException('no_table', '\\Typoheads\\Formhandler\\Finisher\\DB');
-            return;
-        }
+    $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
+    $andWhere = QueryHelper::stripLogicalOperatorPrefix($andWhere);
+    if (!empty($andWhere)) {
+      $queryBuilder->andWhere($andWhere);
+    }
 
-        if (!isset($this->settings['fields.']) || !is_array($this->settings['fields.'])) {
-            $this->utilityFuncs->throwException('no_fields', '\\Typoheads\\Formhandler\\Finisher\\DB');
-            return;
-        }
+    $query = $queryBuilder->getSQL();
 
-        //set primary key field
-        $this->key = $this->utilityFuncs->getSingle($this->settings, 'key');
-        if (strlen($this->key) === 0) {
-            $this->key = 'uid';
-        }
+    try {
+      $stmt = $queryBuilder->execute();
+    } catch (\Throwable $th) {
+      $this->utilityFuncs->debugMessage('error', [$query], 3);
 
-        //check whether to update or to insert a record
-        $this->doUpdate = false;
-        if ((int)($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert')) === 1) {
+      return false;
+    }
 
-            //check if uid of record to update is in GP
-            $uid = $this->getUpdateUid();
+    return true;
+  }
 
-            $andWhere = $this->utilityFuncs->getSingle($this->settings, 'andWhere');
-            $recordExists = $this->doesRecordExist($uid, $andWhere);
-            if ($recordExists) {
-                $this->doUpdate = true;
-            } elseif ((int)($this->utilityFuncs->getSingle($this->settings, 'insertIfNoUpdatePossible')) !== 1) {
-                $this->utilityFuncs->debugMessage('no_update_possible', [], 2);
+  protected function getConnection(): Connection {
+    if (!$this->connection) {
+      $this->connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($this->table);
+    }
+
+    return $this->connection;
+  }
+
+  /**
+   * returns a list of uploaded files from given field.
+   *
+   * @return string list of filenames
+   */
+  protected function getFileList(array $files, string $fieldname): string {
+    $filenames = [];
+    foreach ($files[$fieldname] as $idx => $file) {
+      array_push($filenames, $file['uploaded_name']);
+    }
+
+    return implode(',', $filenames);
+  }
+
+  /**
+   * Returns the last inserted UID.
+   *
+   * @return int UID
+   */
+  protected function getInsertedUid(): int {
+    return (int) $this->getConnection()->lastInsertId();
+  }
+
+  /**
+   * Returns current UID to use for updating the DB.
+   *
+   * @return int UID
+   */
+  protected function getUpdateUid(): int {
+    $uid = $this->utilityFuncs->getSingle($this->settings, 'key_value');
+    $disableFallback = (1 === (int) ($this->utilityFuncs->getSingle($this->settings, 'disableUpdateUidFallback')));
+    if (!$disableFallback) {
+      if (!$uid) {
+        $uid = $this->gp[$this->key];
+      }
+      if (!$uid) {
+        $uid = $this->gp['inserted_uid'];
+      }
+    }
+
+    return (int) $uid;
+  }
+
+  /**
+   * Parses mapping settings and builds an array holding the query fields information.
+   *
+   * @return array The query fields
+   */
+  protected function parseFields(): array {
+    $queryFields = [];
+
+    // parse mapping
+    foreach ($this->settings['fields.'] as $fieldname => $options) {
+      $fieldname = str_replace('.', '', $fieldname);
+      if (isset($options) && is_array($options)) {
+        if (!isset($options['special'])) {
+          $mapping = $options['mapping'];
+
+          // if no mapping default to the name of the form field
+          if (!$mapping) {
+            $mapping = $fieldname;
+          }
+
+          $fieldValue = $this->utilityFuncs->getGlobal($mapping, $this->gp);
+
+          // pre process the field value. e.g. to format a date
+          if (isset($options['preProcessing.']) && is_array($options['preProcessing.'])) {
+            if (!isset($options['preProcessing.']['value'])) {
+              $options['preProcessing.']['value'] = $fieldValue;
             }
-        }
-    }
+            $fieldValue = $this->utilityFuncs->getSingle($options, 'preProcessing');
+          }
 
-    /**
-     * Parses mapping settings and builds an array holding the query fields information.
-     *
-     * @return array The query fields
-     */
-    protected function parseFields(): array
-    {
-        $queryFields = [];
+          if (isset($options['mapping.']) && is_array($options['mapping.'])) {
+            if (!isset($options['mapping.']['value'])) {
+              $options['mapping.']['value'] = $fieldValue;
+            }
+            $fieldValue = $this->utilityFuncs->getSingle($options, 'mapping');
+          }
 
-        //parse mapping
-        foreach ($this->settings['fields.'] as $fieldname => $options) {
-            $fieldname = str_replace('.', '', $fieldname);
-            if (isset($options) && is_array($options)) {
-                if (!isset($options['special'])) {
-                    $mapping = $options['mapping'];
+          // process empty value handling
+          if (isset($options['ifIsEmpty']) && 0 === strlen($fieldValue)) {
+            $fieldValue = $this->utilityFuncs->getSingle($options, 'ifIsEmpty');
+          }
 
-                    //if no mapping default to the name of the form field
-                    if (!$mapping) {
-                        $mapping = $fieldname;
-                    }
+          if (1 === (int) ($this->utilityFuncs->getSingle($options, 'zeroIfEmpty')) && 0 === strlen($fieldValue)) {
+            $fieldValue = 0;
+          }
 
-                    $fieldValue = $this->utilityFuncs->getGlobal($mapping, $this->gp);
+          // process array handling
+          if (is_array($fieldValue)) {
+            $separator = ',';
+            if ($options['separator']) {
+              $separator = $this->utilityFuncs->getSingle($options, 'separator');
+            }
+            $fieldValue = implode($separator, $fieldValue);
+          }
 
-                    //pre process the field value. e.g. to format a date
-                    if (isset($options['preProcessing.']) && is_array($options['preProcessing.'])) {
-                        if (!isset($options['preProcessing.']['value'])) {
-                            $options['preProcessing.']['value'] = $fieldValue;
-                        }
-                        $fieldValue = $this->utilityFuncs->getSingle($options, 'preProcessing');
-                    }
-
-                    if (isset($options['mapping.']) && is_array($options['mapping.'])) {
-                        if (!isset($options['mapping.']['value'])) {
-                            $options['mapping.']['value'] = $fieldValue;
-                        }
-                        $fieldValue = $this->utilityFuncs->getSingle($options, 'mapping');
-                    }
-
-                    //process empty value handling
-                    if (isset($options['ifIsEmpty']) && strlen($fieldValue) === 0) {
-                        $fieldValue = $this->utilityFuncs->getSingle($options, 'ifIsEmpty');
-                    }
-
-                    if ((int)($this->utilityFuncs->getSingle($options, 'zeroIfEmpty')) === 1 && strlen($fieldValue) === 0) {
-                        $fieldValue = 0;
-                    }
-
-                    //process array handling
-                    if (is_array($fieldValue)) {
-                        $separator = ',';
-                        if ($options['separator']) {
-                            $separator = $this->utilityFuncs->getSingle($options, 'separator');
-                        }
-                        $fieldValue = implode($separator, $fieldValue);
-                    }
-
-                    //process uploaded files
-                    $files = (array)$this->globals->getSession()->get('files');
-                    if (isset($files[$fieldname]) && is_array($files[$fieldname])) {
-                        $fieldValue = $this->getFileList($files, $fieldname);
-                    }
-                } else {
-                    switch ($options['special']) {
+          // process uploaded files
+          $files = (array) $this->globals->getSession()->get('files');
+          if (isset($files[$fieldname]) && is_array($files[$fieldname])) {
+            $fieldValue = $this->getFileList($files, $fieldname);
+          }
+        } else {
+          switch ($options['special']) {
                         case 'saltedpassword':
                             $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
 
@@ -372,160 +390,150 @@ class DB extends AbstractFinisher
                             $encryptedPassword = $hashInstance->getHashedPassword($this->gp[$field]);
 
                             $fieldValue = $encryptedPassword;
+
                             break;
+
                         case 'files':
                             $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
                             if (isset($options['special.']['separator'])) {
-                                $separator = $this->utilityFuncs->getSingle($options['special.'], 'separator');
+                              $separator = $this->utilityFuncs->getSingle($options['special.'], 'separator');
                             } else {
-                                $separator = ',';
+                              $separator = ',';
                             }
 
                             $filesArray = [];
                             if (isset($options['special.']['info'])) {
-                                $info = $this->utilityFuncs->getSingle($options['special.'], 'info');
+                              $info = $this->utilityFuncs->getSingle($options['special.'], 'info');
                             } else {
-                                $info = '[uploaded_name]';
+                              $info = '[uploaded_name]';
                             }
-                            $files = (array)$this->globals->getSession()->get('files');
+                            $files = (array) $this->globals->getSession()->get('files');
                             if (isset($files[$field]) && is_array($files[$field])) {
-                                foreach ($files[$field] as $idx => $file) {
-                                    $infoString = $info;
-                                    foreach ($file as $infoKey => $infoValue) {
-                                        $infoString = str_replace('[' . $infoKey . ']', $infoValue, $infoString);
-                                    }
-                                    array_push($filesArray, $infoString);
+                              foreach ($files[$field] as $idx => $file) {
+                                $infoString = $info;
+                                foreach ($file as $infoKey => $infoValue) {
+                                  $infoString = str_replace('['.$infoKey.']', $infoValue, $infoString);
                                 }
+                                array_push($filesArray, $infoString);
+                              }
                             }
                             if (isset($options['special.']['index'])) {
-                                $index = $this->utilityFuncs->getSingle($options['special.'], 'index');
-                                if (isset($filesArray[$index])) {
-                                    $fieldValue = $filesArray[$index];
-                                }
+                              $index = $this->utilityFuncs->getSingle($options['special.'], 'index');
+                              if (isset($filesArray[$index])) {
+                                $fieldValue = $filesArray[$index];
+                              }
                             } else {
-                                $fieldValue = implode($separator, $filesArray);
+                              $fieldValue = implode($separator, $filesArray);
                             }
+
                             break;
+
                         case 'date':
                             $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
                             $date = $this->gp[$field];
                             $dateFormat = 'Y-m-d';
                             if ($options['special.']['dateFormat']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
+                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
                             } elseif ($options['special.']['format']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
+                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
                             }
                             $fieldValue = $this->utilityFuncs->dateToTimestamp($date, $dateFormat);
+
                             break;
+
                         case 'datetime':
                             if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-                                $this->utilityFuncs->throwException('error_datetime');
+                              $this->utilityFuncs->throwException('error_datetime');
                             }
                             $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
                             $date = $this->gp[$field];
                             $dateFormat = 'Y-m-d H:i:s';
                             if ($options['special.']['dateFormat']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
+                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
                             } elseif ($options['special.']['format']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
+                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
                             }
                             $fieldValue = $this->utilityFuncs->dateToTimestamp($date, $dateFormat);
+
                             break;
+
                         case 'sub_datetime':
                             $dateFormat = 'Y-m-d H:i:s';
                             if ($options['special.']['dateFormat']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
+                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
                             } elseif ($options['special.']['format']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
+                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
                             }
                             $fieldValue = date($dateFormat, time());
+
                             break;
+
                         case 'sub_tstamp':
                             $fieldValue = time();
+
                             break;
+
                         case 'ip':
                             $fieldValue = GeneralUtility::getIndpEnv('REMOTE_ADDR');
+
                             break;
+
                         case 'inserted_uid':
                             $table = $this->utilityFuncs->getSingle($options['special.'], 'table');
                             if (isset($this->gp['saveDB']) && is_array($this->gp['saveDB'])) {
-                                foreach ($this->gp['saveDB'] as $idx => $info) {
-                                    if ($info['table'] === $table) {
-                                        $fieldValue = $info['uid'];
-                                    }
+                              foreach ($this->gp['saveDB'] as $idx => $info) {
+                                if ($info['table'] === $table) {
+                                  $fieldValue = $info['uid'];
                                 }
+                              }
                             }
+
                             break;
                     }
-                }
-            } else {
-                $fieldValue = $options;
-            }
-
-            //post process the field value after formhandler did it's magic.
-            if (isset($options['postProcessing.']) && is_array($options['postProcessing.'])) {
-                if (!isset($options['postProcessing.']['value'])) {
-                    $options['postProcessing.']['value'] = $fieldValue;
-                }
-                $fieldValue = $this->utilityFuncs->getSingle($options, 'postProcessing');
-            }
-
-            $queryFields[$fieldname] = $fieldValue;
-
-            if ((int)($this->utilityFuncs->getSingle($options, 'nullIfEmpty')) === 1 && strlen($queryFields[$fieldname]) == 0) {
-                unset($queryFields[$fieldname]);
-            }
         }
-        return $queryFields;
-    }
+      } else {
+        $fieldValue = $options;
+      }
 
-    /**
-     * returns a list of uploaded files from given field.
-     * @return string list of filenames
-     * @param string $fieldname
-     */
-    protected function getFileList(array $files, string $fieldname): string
-    {
-        $filenames = [];
-        foreach ($files[$fieldname] as $idx => $file) {
-            array_push($filenames, $file['uploaded_name']);
+      // post process the field value after formhandler did it's magic.
+      if (isset($options['postProcessing.']) && is_array($options['postProcessing.'])) {
+        if (!isset($options['postProcessing.']['value'])) {
+          $options['postProcessing.']['value'] = $fieldValue;
         }
-        return implode(',', $filenames);
+        $fieldValue = $this->utilityFuncs->getSingle($options, 'postProcessing');
+      }
+
+      $queryFields[$fieldname] = $fieldValue;
+
+      if (1 === (int) ($this->utilityFuncs->getSingle($options, 'nullIfEmpty')) && 0 == strlen($queryFields[$fieldname])) {
+        unset($queryFields[$fieldname]);
+      }
     }
 
-    /**
-     * Returns the last inserted UID
-     * @return int UID
-     */
-    protected function getInsertedUid(): int
-    {
-        return (int)$this->getConnection()->lastInsertId();
+    return $queryFields;
+  }
+
+  /**
+   * Method to query the database making an insert or update statement using the given fields.
+   *
+   * @param array &$queryFields Array holding the query fields
+   *
+   * @return bool Success flag
+   */
+  protected function save(array &$queryFields): bool {
+    // insert
+    if (!$this->doUpdate) {
+      $isSuccess = $this->doInsert($queryFields);
+    }
+    // update
+    else {
+      // check if uid of record to update is in GP
+      $uid = $this->getUpdateUid();
+
+      $andWhere = $this->utilityFuncs->getSingle($this->settings, 'andWhere');
+      $isSuccess = $this->doUpdate($uid, $queryFields, $andWhere);
     }
 
-    /**
-     * Returns current UID to use for updating the DB.
-     * @return int UID
-     */
-    protected function getUpdateUid(): int
-    {
-        $uid = $this->utilityFuncs->getSingle($this->settings, 'key_value');
-        $disableFallback = ((int)($this->utilityFuncs->getSingle($this->settings, 'disableUpdateUidFallback')) === 1);
-        if (!$disableFallback) {
-            if (!$uid) {
-                $uid = $this->gp[$this->key];
-            }
-            if (!$uid) {
-                $uid = $this->gp['inserted_uid'];
-            }
-        }
-        return (int)$uid;
-    }
-
-    protected function getConnection(): Connection
-    {
-        if (!$this->connection) {
-            $this->connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($this->table);
-        }
-        return $this->connection;
-    }
+    return $isSuccess;
+  }
 }
