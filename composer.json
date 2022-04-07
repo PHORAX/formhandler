@@ -1,8 +1,8 @@
 {
-  "name": "phorax/formhandler",
+  "name": "jakota/formhandler",
   "type": "typo3-cms-extension",
   "description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
-  "homepage": "https://github.com/PHORAX/formhandler",
+  "homepage": "https://gitlab.com/jakota/intern/composer_extensions/formhandler",
   "license": "GPL-2.0-or-later",
   "repositories": [
     {
