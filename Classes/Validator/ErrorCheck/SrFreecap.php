@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
+use SJBR\SrFreecap\PiBaseApi;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -28,8 +29,10 @@ class SrFreecap extends AbstractErrorCheck {
     $checkFailed = '';
     if (ExtensionManagementUtility::isLoaded('sr_freecap')) {
       require_once ExtensionManagementUtility::extPath('sr_freecap').'pi2/class.tx_srfreecap_pi2.php';
-      $this->freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
-      if (!$this->freeCap->checkWord($this->gp[$this->formFieldName])) {
+
+      /** @var PiBaseApi $freeCap */
+      $freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
+      if (!$freeCap->checkWord($this->gp[$this->formFieldName])) {
         $checkFailed = $this->getCheckFailed();
       }
     }
