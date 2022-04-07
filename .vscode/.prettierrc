@@ -1,0 +1,33 @@
+{
+  "printWidth": 80,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "useTabs": false,
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": "*.js",
+      "options": {
+        "printWidth": 100
+      }
+    },
+    {
+      "files": "*.json",
+      "options": {
+        "printWidth": 500
+      }
+    },
+    {
+      "files": "*.{yaml,yml}",
+      "options": {
+        "printWidth": 500
+      }
+    },
+    {
+      "files": "*.html",
+      "options": {
+        "printWidth": 500
+      }
+    }
+  ]
+}

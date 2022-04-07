@@ -1,0 +1,49 @@
+{
+  "skipTerminateQuickPick": true,
+  "skipSwitchToOutput": false,
+  "skipErrorMessage": true,
+  "commands": [
+    {
+      "text": "Docker:Start",
+      "color": "white",
+      "commandType": "exec",
+      "command": "docker-compose up -d",
+      "priority": 2
+    },
+    {
+      "text": "Docker:Stop",
+      "color": "white",
+      "commandType": "exec",
+      "command": "docker-compose down",
+      "priority": 2
+    },
+    {
+      "text": "Docker:Get DB",
+      "color": "white",
+      "commandType": "exec",
+      "command": "docker compose exec -T web php ../bin/console.php pull-db",
+      "priority": 2
+    },
+    {
+      "text": "Docker:Get FS",
+      "color": "white",
+      "commandType": "exec",
+      "command": "docker compose exec -T web php ../bin/console.php pull-fs",
+      "priority": 2
+    },
+    {
+      "text": "Lint:typoscript",
+      "color": "white",
+      "commandType": "exec",
+      "command": "./vendor/bin/typoscript-lint -c ./.vscode/.typoscript-lint.yml",
+      "priority": 2
+    },
+    {
+      "text": "Git:clean up local branches",
+      "color": "white",
+      "commandType": "exec",
+      "command": "git for-each-ref --format '%(refname:short)' refs/heads | grep -v \"master\\|main\\|develop\\|stage\" | grep -v $(git branch --show-current) | xargs git branch -D",
+      "priority": 2
+    }
+  ]
+}
