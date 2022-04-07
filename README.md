@@ -7,4 +7,4 @@ Full documentation: http://www.typo3-formhandler.com
 ## Authors
 
 The full file history with author names can be found at
-https://github.com/PHORAX/formhandler
+https://gitlab.com/jakota/intern/composer_extensions/formhandler
