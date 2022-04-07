@@ -29,7 +29,7 @@ class ParseValues extends AbstractInterceptor {
    * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
-        // parse as float
+    // parse as float
     $parseFloatFields = $this->utilityFuncs->getSingle($this->settings, 'parseFloatFields');
     $fields = GeneralUtility::trimExplode(',', $parseFloatFields, true);
     $this->parseFloats($fields);
@@ -45,7 +45,15 @@ class ParseValues extends AbstractInterceptor {
    * @param string $value formated float
    */
   protected function getFloat(string $value): float {
-    return (float) (preg_replace('#^([-]*[0-9\.,\' ]+?)((\.|,){1}([0-9-]{1,2}))*$#e', "str_replace(array('.', ',', \"'\", ' '), '', '\\1') . '.\\4'", $value));
+    return floatval(
+      preg_replace_callback(
+        '#^([-]*[0-9\.,\' ]+?)((\.|,){1}([0-9-]{1,2}))*$#',
+        function ($matches) {
+          return str_replace(['.', ',', "'", ' '], '', $matches[1]).'.'.$matches[4];
+        },
+        $value
+      )
+    );
   }
 
   /**
