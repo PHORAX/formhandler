@@ -1,0 +1,10 @@
+# Configuration/Services.yaml
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Typoheads\Formhandler\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/*'
