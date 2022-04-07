@@ -3,8 +3,11 @@
 *.iml
 *.ipr
 *.iws
-/.php_cs.cache
-composer.lock
 vendor
 public
-/.php-cs-fixer.cache
+
+# System Files
+.DS_Store
+Thumbs.db
+.cache
+*.secret
