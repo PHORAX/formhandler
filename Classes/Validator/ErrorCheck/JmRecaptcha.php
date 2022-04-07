@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Validator\ErrorCheck;
 
+use tx_jmrecaptcha;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
@@ -27,8 +28,9 @@ class JmRecaptcha extends AbstractErrorCheck {
     $checkFailed = '';
     if (ExtensionManagementUtility::isLoaded('jm_recaptcha')) {
       require_once ExtensionManagementUtility::extPath('jm_recaptcha').'class.tx_jmrecaptcha.php';
-      $this->recaptcha = new \tx_jmrecaptcha();
-      $status = $this->recaptcha->validateReCaptcha();
+
+      $recaptcha = new tx_jmrecaptcha();
+      $status = $recaptcha->validateReCaptcha();
       if (!$status['verified']) {
         $checkFailed = $this->getCheckFailed();
       }
