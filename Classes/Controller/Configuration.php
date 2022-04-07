@@ -1,163 +1,133 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Typoheads\Formhandler\Controller;
 
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
 
-/*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        */
+/**
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ */
 
 /**
- * The configuration of the Formhandler
+ * The configuration of the Formhandler.
  */
-class Configuration implements \ArrayAccess
-{
+class Configuration implements \ArrayAccess {
+  /**
+   * The package key.
+   *
+   * @var string
+   */
+  public const PACKAGE_KEY = 'Formhandler';
 
-    /**
-     * The package key
-     *
-     * @var string
-     */
-    const PACKAGE_KEY = 'Formhandler';
+  /**
+   * The TS setup.
+   */
+  protected array $setup = [];
 
-    /**
-     * The TS setup
-     *
-     * @var array
-     */
-    protected $setup;
+  private Globals $globals;
 
-    /**
-     * @var Globals
-     */
-    private $globals;
+  private \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs;
 
-    /**
-     * @var \Typoheads\Formhandler\Utility\GeneralUtility
-     */
-    private $utilityFuncs;
-
-    /**
-     * The constructor reading the TS setup into the according attribute
-     */
-    public function __construct()
-    {
-        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
-            $this->globals = GeneralUtility::makeInstance(Globals::class);
-            $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
-            $this->setup = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->getPrefixedPackageKey() . '.'];
-            if (!is_array($this->setup)) {
-                $this->utilityFuncs->throwException('missing_config');
-            }
-            if (is_array($this->globals->getOverrideSettings())) {
-                $this->setup = $this->utilityFuncs->mergeConfiguration($this->setup, $this->globals->getOverrideSettings());
-            }
-        }
+  /**
+   * The constructor reading the TS setup into the according attribute.
+   */
+  public function __construct() {
+    if (!isset($GLOBALS['TYPO3_REQUEST']) || ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
+      $this->globals = GeneralUtility::makeInstance(Globals::class);
+      $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
+      $this->setup = ($GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->getPrefixedPackageKeyLowercase().'.'] ?? null);
+      if (!is_array($this->setup)) {
+        $this->utilityFuncs->throwException('missing_config');
+      }
+      if (is_array($this->globals->getOverrideSettings())) {
+        $this->setup = $this->utilityFuncs->mergeConfiguration($this->setup, $this->globals->getOverrideSettings());
+      }
     }
+  }
 
-    /**
-     * Merges the values of $setup with plugin.[xxx].settings
-     *
-     * @param array|null $setup
-     */
-    public function merge($setup)
-    {
-        if (isset($setup) && is_array($setup)) {
-            $settings = $this->setup['settings.'];
-            $settings = $this->utilityFuncs->mergeConfiguration($settings, $setup);
-            $this->setup['settings.'] = $settings;
-        }
-    }
+  /**
+   * Returns the package key.
+   */
+  public function getPackageKey(): string {
+    return self::PACKAGE_KEY;
+  }
 
-    public function offsetGet($offset)
-    {
-        return $this->setup['settings.'][$offset];
-    }
+  /**
+   * Returns the package key in lower case.
+   */
+  public function getPackageKeyLowercase(): string {
+    return strtolower($this->getPackageKey());
+  }
 
-    public function offsetSet($offset, $value)
-    {
-        $this->setup['settings.'][$offset] = $value;
-    }
+  /**
+   * Returns the prefixed package key.
+   */
+  public function getPrefixedPackageKey(): string {
+    return 'Tx_'.self::PACKAGE_KEY.'_pi1';
+  }
 
-    public function offsetExists($offset)
-    {
-        return isset($this->setup['settings.'][$offset]);
-    }
+  /**
+   * Returns the prefixed package key in lower case.
+   */
+  public function getPrefixedPackageKeyLowercase(): string {
+    return strtolower($this->getPrefixedPackageKey());
+  }
 
-    public function offsetUnset($offset)
-    {
-        $this->setup['settings.'][$offset] = null;
-    }
+  /**
+   * Returns the TS settings for formhandler.
+   *
+   * @return array The settings
+   */
+  public function getSettings(): array {
+    return isset($this->setup['settings.']) ? (is_array($this->setup['settings.']) ? $this->setup['settings.'] : []) : [];
+  }
 
-    /**
-     * Returns the TS settings for formhandler.
-     *
-     * @return array The settings
-     */
-    public function getSettings()
-    {
-        return $this->setup['settings.'];
-    }
+  /**
+   * Returns the sources config for formhandler.
+   *
+   * @return array The config
+   */
+  public function getSourcesConfiguration(): array {
+    return isset($this->setup['sources.']) ? (is_array($this->setup['sources.']) ? $this->setup['sources.'] : []) : [];
+  }
 
-    /**
-     * Returns the sources config for formhandler
-     *
-     * @return array The config
-     */
-    public function getSourcesConfiguration()
-    {
-        return $this->setup['sources.'];
+  /**
+   * Merges the values of $setup with plugin.[xxx].settings.
+   */
+  public function merge(?array $setup) {
+    if (isset($setup) && is_array($setup)) {
+      $settings = $this->setup['settings.'];
+      $settings = $this->utilityFuncs->mergeConfiguration($settings, $setup);
+      $this->setup['settings.'] = $settings;
     }
+  }
 
-    /**
-     * Returns the package key
-     *
-     * @return string
-     */
-    public function getPackageKey()
-    {
-        return self::PACKAGE_KEY;
-    }
+  public function offsetExists(mixed $offset): bool {
+    return isset($this->setup['settings.'][$offset]);
+  }
 
-    /**
-     * Returns the package key in lower case
-     *
-     * @return string
-     */
-    public function getPackageKeyLowercase()
-    {
-        return strtolower(self::PACKAGE_KEY);
-    }
+  public function offsetGet(mixed $offset): mixed {
+    return $this->setup['settings.'][$offset];
+  }
 
-    /**
-     * Returns the prefixed package key
-     *
-     * @return string
-     */
-    public function getPrefixedPackageKey()
-    {
-        return 'Tx_' . self::PACKAGE_KEY;
-    }
+  public function offsetSet(mixed $offset, mixed $value): void {
+    $this->setup['settings.'][$offset] = $value;
+  }
 
-    /**
-     * Returns the prefixed package key in lower case
-     *
-     * @return string
-     */
-    public function getPrefixedPackageKeyLowercase()
-    {
-        return strtolower('Tx_' . self::PACKAGE_KEY);
-    }
+  public function offsetUnset(mixed $offset): void {
+    $this->setup['settings.'][$offset] = null;
+  }
 }

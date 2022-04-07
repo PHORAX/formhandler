@@ -1,67 +1,62 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Typoheads\Formhandler\Controller;
 
-/*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        */
+/**
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ */
+
 /**
  * Content to be parsed.
  */
-class Content
-{
+class Content {
+  /**
+   * The actual content.
+   */
+  protected string $content = '';
 
-    /**
-     * The actual content
-     *
-     * @var string
-     */
-    protected $content;
-
-    /**
-     * The constructor settings the internal attribute "content"
-     */
-    public function __construct($content)
-    {
-        $this->setContent($content);
+  /**
+   * The constructor settings the internal attribute "content".
+   */
+  public function __construct(mixed $content) {
+    if (is_string($content)) {
+      $this->setContent($content);
     }
+  }
 
-    /**
-     * Sets the internal attribute "content"
-     *
-     * @param string $content
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
+  /**
+   * Returns the internal attribute "content".
+   *
+   * @return string The content
+   */
+  public function getContent(): string {
+    return $this->content;
+  }
 
-    /**
-     * Returns the internal attribute "content"
-     *
-     * @return string The content
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
+  /**
+   * Sets the internal attribute "content".
+   */
+  public function setContent(string $content) {
+    $this->content = $content;
+  }
 
-    /**
-     * Actually only returns the internal attribute "content"
-     *
-     * @return string The content
-     */
-    public function toString()
-    {
-        return $this->content;
-    }
+  /**
+   * Actually only returns the internal attribute "content".
+   *
+   * @return string The content
+   */
+  public function toString(): string {
+    return $this->content;
+  }
 }

@@ -1,223 +1,195 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Typoheads\Formhandler\Utility;
 
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
+use Typoheads\Formhandler\Session\AbstractSession;
 
-/*                                                                        *
-* This script is part of the TYPO3 project - inspiring people to share!  *
-*                                                                        *
-* TYPO3 is free software; you can redistribute it and/or modify it under *
-* the terms of the GNU General Public License version 2 as published by  *
-* the Free Software Foundation.                                          *
-*                                                                        *
-* This script is distributed in the hope that it will be useful, but     *
-* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
-* TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
-* Public License for more details.                                       *
-*                                                                        */
 /**
- * A helper class for Formhandler to store global values
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  */
-class Globals implements SingletonInterface
-{
-    protected static $ajaxHandler;
-    protected static $ajaxMode;
-    protected static $cObj;
-    protected static $debuggers;
-    protected static $formID;
-    protected static $formValuesPrefix;
-    protected static $gp;
-    protected static $langFiles;
-    protected static $overrideSettings;
-    protected static $predef;
-    protected static $randomID;
-    protected static $session;
-    protected static $settings;
-    protected static $submitted;
-    protected static $templateCode;
-    protected static $templateSuffix;
 
-    public static function setAjaxMode($mode)
-    {
-        self::$ajaxMode = $mode;
-    }
+/**
+ * A helper class for Formhandler to store global values.
+ */
+class Globals implements SingletonInterface {
+  protected static ?AbstractAjaxHandler $ajaxHandler = null;
 
-    public static function isAjaxMode()
-    {
-        return self::$ajaxMode;
-    }
+  protected static bool $ajaxMode = false;
 
-    public static function setAjaxHandler($ajaxHandler)
-    {
-        self::$ajaxHandler = $ajaxHandler;
-    }
+  protected static ?ContentObjectRenderer $cObj = null;
 
-    public static function setCObj($cObj)
-    {
-        self::$cObj = $cObj;
-    }
+  protected static array $debuggers = [];
 
-    public static function setDebuggers($debuggers)
-    {
-        self::$debuggers = $debuggers;
-    }
+  protected static string $formID = '';
 
-    public static function addDebugger($debugger)
-    {
-        if (!is_array(self::$debuggers)) {
-            self::$debuggers = [];
-        }
-        self::$debuggers[] = $debugger;
-    }
+  protected static string $formValuesPrefix = '';
 
-    public static function setFormID($formID)
-    {
-        self::$formID = $formID;
-    }
+  protected static array $gp = [];
 
-    public static function setFormValuesPrefix($formValuesPrefix)
-    {
-        self::$formValuesPrefix = $formValuesPrefix;
-    }
+  protected static array $langFiles = [];
 
-    public static function setGP($gp)
-    {
-        self::$gp = $gp;
-    }
+  protected static array $overrideSettings = [];
 
-    public static function setLangFiles($langFiles)
-    {
-        self::$langFiles = $langFiles;
-    }
+  protected static string $predef = '';
 
-    public static function setOverrideSettings($overrideSettings)
-    {
-        self::$overrideSettings = $overrideSettings;
-    }
+  protected static string $randomID = '';
 
-    public static function setPredef($predef)
-    {
-        self::$predef = $predef;
-    }
+  protected static ?AbstractSession $session = null;
 
-    public static function setRandomID($randomID)
-    {
-        self::$randomID = $randomID;
-    }
+  protected static array $settings = [];
 
-    public static function setSession($session)
-    {
-        self::$session = $session;
-    }
+  protected static bool $submitted = false;
 
-    public static function setSettings($settings)
-    {
-        self::$settings = $settings;
-    }
+  protected static string $templateCode = '';
 
-    public static function setSubmitted($submitted)
-    {
-        self::$submitted = $submitted;
-    }
+  protected static string $templateSuffix = '';
 
-    public static function setTemplateCode($templateCode)
-    {
-        self::$templateCode = $templateCode;
+  public static function addDebugger(mixed $debugger) {
+    if (!is_array(self::$debuggers)) {
+      self::$debuggers = [];
     }
+    self::$debuggers[] = $debugger;
+  }
 
-    public static function setTemplateSuffix($templateSuffix)
-    {
-        self::$templateSuffix = $templateSuffix;
-    }
+  public static function getAjaxHandler(): ?AbstractAjaxHandler {
+    return self::$ajaxHandler;
+  }
 
-    public static function getAjaxHandler()
-    {
-        return self::$ajaxHandler;
-    }
+  public static function getCObj(): ?ContentObjectRenderer {
+    return self::$cObj;
+  }
 
-    public static function getCObj()
-    {
-        return self::$cObj;
-    }
+  public static function getDebuggers(): array {
+    return self::$debuggers;
+  }
 
-    public static function getDebuggers()
-    {
-        if (!is_array(self::$debuggers)) {
-            self::$debuggers = [];
-        }
-        return self::$debuggers;
-    }
+  public static function getFormID(): string {
+    return self::$formID;
+  }
 
-    public static function getFormID()
-    {
-        return self::$formID;
-    }
+  public static function getFormValuesPrefix(): string {
+    return self::$formValuesPrefix;
+  }
 
-    public static function getFormValuesPrefix()
-    {
-        return self::$formValuesPrefix;
-    }
+  public static function getGP(): array {
+    return self::$gp;
+  }
 
-    public static function getGP()
-    {
-        if (!is_array(self::$gp)) {
-            self::$gp = [];
-        }
-        return self::$gp;
-    }
+  public static function getLangFiles(): array {
+    return self::$langFiles;
+  }
 
-    public static function getLangFiles()
-    {
-        if (!is_array(self::$langFiles)) {
-            self::$langFiles = [];
-        }
-        return self::$langFiles;
-    }
+  public static function getOverrideSettings(): array {
+    return self::$overrideSettings;
+  }
 
-    public static function getOverrideSettings()
-    {
-        if (!is_array(self::$overrideSettings)) {
-            self::$overrideSettings = [];
-        }
-        return self::$overrideSettings;
-    }
+  public static function getPredef(): string {
+    return self::$predef;
+  }
 
-    public static function getPredef()
-    {
-        return self::$predef;
-    }
+  public static function getRandomID(): string {
+    return self::$randomID;
+  }
 
-    public static function getRandomID()
-    {
-        return self::$randomID;
-    }
+  public static function getSession(): ?AbstractSession {
+    return self::$session;
+  }
 
-    public static function getSession()
-    {
-        return self::$session;
-    }
+  public static function getSettings(): array {
+    return self::$settings;
+  }
 
-    public static function getSettings()
-    {
-        if (!is_array(self::$settings)) {
-            self::$settings = [];
-        }
-        return self::$settings;
-    }
+  public static function getTemplateCode(): string {
+    return self::$templateCode;
+  }
 
-    public static function isSubmitted()
-    {
-        return self::$submitted;
-    }
+  public static function getTemplateSuffix(): string {
+    return self::$templateSuffix;
+  }
 
-    public static function getTemplateCode()
-    {
-        return self::$templateCode;
-    }
+  public static function isAjaxMode(): bool {
+    return self::$ajaxMode;
+  }
 
-    public static function getTemplateSuffix()
-    {
-        return self::$templateSuffix;
-    }
+  public static function isSubmitted(): bool {
+    return self::$submitted;
+  }
+
+  public static function setAjaxHandler(?AbstractAjaxHandler $ajaxHandler): void {
+    self::$ajaxHandler = $ajaxHandler;
+  }
+
+  public static function setAjaxMode(bool $mode): void {
+    self::$ajaxMode = $mode;
+  }
+
+  public static function setCObj(?ContentObjectRenderer $cObj): void {
+    self::$cObj = $cObj;
+  }
+
+  public static function setDebuggers(array $debuggers): void {
+    self::$debuggers = $debuggers;
+  }
+
+  public static function setFormID(string $formID): void {
+    self::$formID = $formID;
+  }
+
+  public static function setFormValuesPrefix(string $formValuesPrefix): void {
+    self::$formValuesPrefix = $formValuesPrefix;
+  }
+
+  public static function setGP(array $gp): void {
+    self::$gp = $gp;
+  }
+
+  public static function setLangFiles(array $langFiles): void {
+    self::$langFiles = $langFiles;
+  }
+
+  public static function setOverrideSettings(array $overrideSettings): void {
+    self::$overrideSettings = $overrideSettings;
+  }
+
+  public static function setPredef(string $predef): void {
+    self::$predef = $predef;
+  }
+
+  public static function setRandomID(string $randomID): void {
+    self::$randomID = $randomID;
+  }
+
+  public static function setSession(?AbstractSession $session): void {
+    self::$session = $session;
+  }
+
+  public static function setSettings(array $settings): void {
+    self::$settings = $settings;
+  }
+
+  public static function setSubmitted(bool $submitted): void {
+    self::$submitted = $submitted;
+  }
+
+  public static function setTemplateCode(string $templateCode): void {
+    self::$templateCode = $templateCode;
+  }
+
+  public static function setTemplateSuffix(string $templateSuffix): void {
+    self::$templateSuffix = $templateSuffix;
+  }
 }

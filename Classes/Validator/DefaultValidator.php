@@ -1,21 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Typoheads\Formhandler\Validator;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        */
+/**
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ */
+
 /**
  * A default validator for Formhandler providing basic validations.
  *
@@ -38,241 +41,237 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.lastname.errorCheck.2 = minLength
  * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.lastname.errorCheck.2.value = 2
  */
-class DefaultValidator extends AbstractValidator
-{
-    protected $restrictErrorChecks = [];
-    protected $disableErrorCheckFields = [];
+class DefaultValidator extends AbstractValidator {
+  protected array $disableErrorCheckFields = [];
 
-    /**
-     * Method to set GET/POST for this class and load the configuration
-     *
-     * @param array The GET/POST values
-     * @param array The TypoScript configuration
-     */
-    public function init($gp, $tsConfig)
-    {
-        $this->settings = $tsConfig;
+  protected array $restrictErrorChecks = [];
 
-        $flexformValue = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], 'required_fields', 'sMISC');
-        if ($flexformValue) {
-            $fields = GeneralUtility::trimExplode(',', $flexformValue);
-            foreach ($fields as $field) {
-                if (!is_array($this->settings['fieldConf.'][$field . '.']['errorCheck.'])) {
-                    $this->settings['fieldConf.'][$field . '.']['errorCheck.'] = [];
-                }
-                if (!array_search('required', $this->settings['fieldConf.'][$field . '.']['errorCheck.'])) {
-                    array_push($this->settings['fieldConf.'][$field . '.']['errorCheck.'], 'required');
-                }
-            }
+  /**
+   * Method to set GET/POST for this class and load the configuration.
+   *
+   * @param array The GET/POST values
+   * @param array The TypoScript configuration
+   */
+  public function init(array $gp, array $tsConfig): void {
+    $this->settings = $tsConfig;
+
+    $flexformValue = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], 'required_fields', 'sMISC');
+    if ($flexformValue) {
+      $fields = GeneralUtility::trimExplode(',', $flexformValue);
+      foreach ($fields as $field) {
+        if (!is_array($this->settings['fieldConf.'][$field.'.']['errorCheck.'])) {
+          $this->settings['fieldConf.'][$field.'.']['errorCheck.'] = [];
         }
-
-        $this->gp = $gp;
+        if (!array_search('required', $this->settings['fieldConf.'][$field.'.']['errorCheck.'])) {
+          array_push($this->settings['fieldConf.'][$field.'.']['errorCheck.'], 'required');
+        }
+      }
     }
 
-    /**
-     * Validates the submitted values using given settings
-     *
-     * @param array &$errors Reference to the errors array to store the errors occurred
-     * @return bool
-     */
-    public function validate(&$errors)
-    {
+    $this->gp = $gp;
+  }
 
-        //no config? validation returns true
-        if (!is_array($this->settings['fieldConf.'])) {
-            return true;
-        }
-
-        if (isset($this->settings['disableErrorCheckFields.'])) {
-            $this->disableErrorCheckFields = [];
-            foreach ($this->settings['disableErrorCheckFields.'] as $disableCheckField => $checks) {
-                if (!strstr($disableCheckField, '.')) {
-                    $checkString = $this->utilityFuncs->getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
-                    if (strlen(trim($checkString)) > 0) {
-                        $this->disableErrorCheckFields[$disableCheckField] = GeneralUtility::trimExplode(
-                            ',',
-                            $checkString
-                        );
-                    } else {
-                        $this->disableErrorCheckFields[$disableCheckField] = [];
-                    }
-                }
-            }
-        } elseif (isset($this->settings['disableErrorCheckFields'])) {
-            $fields = GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
-            foreach ($fields as $disableCheckField) {
-                $this->disableErrorCheckFields[$disableCheckField] = [];
-            }
-        }
-
-        if (isset($this->settings['restrictErrorChecks'])) {
-            $this->restrictErrorChecks = GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
-        }
-
-        if (!in_array('all', array_keys($this->disableErrorCheckFields))) {
-            $errors = $this->validateRecursive($errors, $this->gp, (array)$this->settings['fieldConf.']);
-        }
-
-        if ($this->settings['messageLimit'] > 0 || is_array($this->settings['messageLimit.'])) {
-            $limit = (int)$this->settings['messageLimit'];
-            $limits = (array)$this->settings['messageLimit.'];
-
-            foreach ($errors as $field => $messages) {
-                if (isset($limits[$field]) && $limits[$field] > 0) {
-                    $errors[$field] = array_slice($messages, -$limits[$field]);
-                } elseif ($limit > 0) {
-                    $errors[$field] = array_slice($messages, -$limit);
-                }
-            }
-        }
-
-        return empty($errors);
+  /**
+   * Validates the submitted values using given settings.
+   *
+   * @param array &$errors Reference to the errors array to store the errors occurred
+   */
+  public function validate(array &$errors): bool {
+        // no config? validation returns true
+    if (!is_array($this->settings['fieldConf.'])) {
+      return true;
     }
 
-    /**
-     * Recursively calls the configured errorChecks. It's possible to setup
-     * errorChecks for each key in multidimensional arrays:
-     *
-     * <code title="errorChecks for arrays">
-     * <input type="text" name="birthdate[day]"/>
-     * <input type="text" name="birthdate[month]"/>
-     * <input type="text" name="birthdate[year]"/>
-     * <input type="text" name="name"/>
-     *
-     * validators.1.config.fieldConf {
-     *   birthdate {
-     *     day.errorCheck {
-     *       1 = betweenValue
-     *       1.minValue = 1
-     *       1.maxValue = 31
-     *     }
-     *     month.errorCheck {
-     *       1 = betweenValue
-     *       1.minValue = 1
-     *       1.maxValue = 12
-     *     }
-     *     year.errorCheck {
-     *       1 = minValue
-     *       1.minValue = 45
-     *     }
-     *   }
-     *   birthdate.errorCheck.1 = maxItems
-     *   birthdate.errorCheck.1.value = 3
-     *   name.errorCheck.1 = required
-     * }
-     * </code>
-     *
-     * @param array $errors
-     * @param array $gp
-     * @param array $fieldConf
-     * @param string $rootField
-     * @return array The error array
-     */
-    protected function validateRecursive($errors, $gp, $fieldConf, $rootField = null)
-    {
-        //foreach configured form field
-        foreach ($fieldConf as $key => $fieldSettings) {
-            $fieldName = trim($key, '.');
-            if (!array_key_exists($fieldName, $gp)) {
-                $this->utilityFuncs->debugMessage('missing_field_for_error_check', [$fieldName], 2);
-            }
+    if (isset($this->settings['disableErrorCheckFields.'])) {
+      $this->disableErrorCheckFields = [];
+      foreach ($this->settings['disableErrorCheckFields.'] as $disableCheckField => $checks) {
+        if (!strstr($disableCheckField, '.')) {
+          $checkString = $this->utilityFuncs->getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
+          if (strlen(trim($checkString)) > 0) {
+            $this->disableErrorCheckFields[$disableCheckField] = GeneralUtility::trimExplode(
+              ',',
+              $checkString
+            );
+          } else {
+            $this->disableErrorCheckFields[$disableCheckField] = [];
+          }
+        }
+      }
+    } elseif (isset($this->settings['disableErrorCheckFields'])) {
+      $fields = GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
+      foreach ($fields as $disableCheckField) {
+        $this->disableErrorCheckFields[$disableCheckField] = [];
+      }
+    }
 
-            $errorFieldName = ($rootField === null) ? $fieldName : $rootField;
+    if (isset($this->settings['restrictErrorChecks'])) {
+      $this->restrictErrorChecks = GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
+    }
 
-            $tempSettings = $fieldSettings;
-            unset($tempSettings['errorCheck.']);
-            if (count($tempSettings)) {
-                // Nested field-confs - do recursion:
-                $errors = $this->validateRecursive($errors, (array)$gp[$fieldName], $tempSettings, $errorFieldName);
-            }
+    if (!in_array('all', array_keys($this->disableErrorCheckFields))) {
+      $errors = $this->validateRecursive($errors, $this->gp, (array) $this->settings['fieldConf.']);
+    }
 
-            if (!is_array($fieldSettings['errorCheck.'])) {
-                continue;
-            }
+    if ((isset($this->settings['messageLimit']) && (int) $this->settings['messageLimit'] > 0) || (isset($this->settings['messageLimit.']) && is_array($this->settings['messageLimit.']))) {
+      $limit = (int) $this->settings['messageLimit'];
+      $limits = (array) ($this->settings['messageLimit.'] ?? []);
 
-            $counter = 0;
-            $errorChecks = [];
+      foreach ($errors as $field => $messages) {
+        if (isset($limits[$field]) && $limits[$field] > 0) {
+          $errors[$field] = array_slice($messages, -$limits[$field]);
+        } elseif ($limit > 0) {
+          $errors[$field] = array_slice($messages, -$limit);
+        }
+      }
+    }
 
-            //set required to first position if set
-            foreach ($fieldSettings['errorCheck.'] as $checkKey => $check) {
-                if (!strstr($checkKey, '.')) {
-                    if (!strcmp($check, 'required') || !strcmp($check, 'file_required')) {
-                        $errorChecks[$counter]['check'] = $check;
-                        unset($fieldSettings['errorCheck.'][$checkKey]);
-                        $counter++;
-                    }
-                }
-            }
+    return empty($errors);
+  }
 
-            //set other errorChecks
-            foreach ($fieldSettings['errorCheck.'] as $checkKey => $check) {
-                if (!strstr($checkKey, '.') && strlen(trim($check)) > 0) {
-                    $errorChecks[$counter]['check'] = $check;
-                    if (is_array($fieldSettings['errorCheck.'][$checkKey . '.'])) {
-                        $errorChecks[$counter]['params'] = $fieldSettings['errorCheck.'][$checkKey . '.'];
-                    }
-                    $counter++;
-                }
-            }
+  public function validateConfig(): bool {
+    if (isset($this->settings['fieldConf.']) && is_array($this->settings['fieldConf.'])) {
+      $fieldConf = $this->settings['fieldConf.'];
+      foreach ($fieldConf as $key => $fieldSettings) {
+        $fieldName = trim($key, '.');
+        if (!isset($fieldSettings['errorCheck.'])) {
+          $this->utilityFuncs->throwException('errorcheck_not_found', $fieldName);
+        }
+      }
+    } else {
+      $this->utilityFuncs->throwException('errorcheck_not_found', 'fieldConf');
+    }
 
-            //foreach error checks
-            foreach ($errorChecks as $check) {
+    return true;
+  }
 
-                //Skip error check if the check is disabled for this field or if all checks are disabled for this field
-                if (!empty($this->disableErrorCheckFields) &&
-                    in_array($errorFieldName, array_keys($this->disableErrorCheckFields)) &&
-                    (
-                        in_array($check['check'], $this->disableErrorCheckFields[$errorFieldName]) ||
-                        empty($this->disableErrorCheckFields[$errorFieldName])
+  /**
+   * Recursively calls the configured errorChecks. It's possible to setup
+   * errorChecks for each key in multidimensional arrays:.
+   *
+   * <code title="errorChecks for arrays">
+   * <input type="text" name="birthdate[day]"/>
+   * <input type="text" name="birthdate[month]"/>
+   * <input type="text" name="birthdate[year]"/>
+   * <input type="text" name="name"/>
+   *
+   * validators.1.config.fieldConf {
+   *   birthdate {
+   *     day.errorCheck {
+   *       1 = betweenValue
+   *       1.minValue = 1
+   *       1.maxValue = 31
+   *     }
+   *     month.errorCheck {
+   *       1 = betweenValue
+   *       1.minValue = 1
+   *       1.maxValue = 12
+   *     }
+   *     year.errorCheck {
+   *       1 = minValue
+   *       1.minValue = 45
+   *     }
+   *   }
+   *   birthdate.errorCheck.1 = maxItems
+   *   birthdate.errorCheck.1.value = 3
+   *   name.errorCheck.1 = required
+   * }
+   * </code>
+   *
+   * @param string $rootField
+   *
+   * @return array The error array
+   */
+  protected function validateRecursive(array $errors, array $gp, array $fieldConf, ?string $rootField = null): array {
+    // foreach configured form field
+    foreach ($fieldConf as $key => $fieldSettings) {
+      $fieldName = trim($key, '.');
+      if (!array_key_exists($fieldName, $gp)) {
+        $this->utilityFuncs->debugMessage('missing_field_for_error_check', [$fieldName], 2);
+      }
+
+      $errorFieldName = (null === $rootField) ? $fieldName : $rootField;
+
+      $tempSettings = $fieldSettings;
+      unset($tempSettings['errorCheck.']);
+      if (count($tempSettings)) {
+        // Nested field-confs - do recursion:
+        $errors = $this->validateRecursive($errors, (array) $gp[$fieldName], $tempSettings, $errorFieldName);
+      }
+
+      if (!is_array($fieldSettings['errorCheck.'])) {
+        continue;
+      }
+
+      $counter = 0;
+      $errorChecks = [];
+
+      // set required to first position if set
+      foreach ($fieldSettings['errorCheck.'] as $checkKey => $check) {
+        if (!strstr((string) $checkKey, '.')) {
+          if (!strcmp($check, 'required') || !strcmp($check, 'file_required')) {
+            $errorChecks[$counter]['check'] = $check;
+            unset($fieldSettings['errorCheck.'][$checkKey]);
+            ++$counter;
+          }
+        }
+      }
+
+      // set other errorChecks
+      foreach ($fieldSettings['errorCheck.'] as $checkKey => $check) {
+        if (!strstr((string) $checkKey, '.') && strlen(trim($check)) > 0) {
+          $errorChecks[$counter]['check'] = $check;
+          if (isset($fieldSettings['errorCheck.'][$checkKey.'.']) && is_array($fieldSettings['errorCheck.'][$checkKey.'.'])) {
+            $errorChecks[$counter]['params'] = $fieldSettings['errorCheck.'][$checkKey.'.'];
+          }
+          ++$counter;
+        }
+      }
+
+      // foreach error checks
+      foreach ($errorChecks as $check) {
+                // Skip error check if the check is disabled for this field or if all checks are disabled for this field
+        if (!empty($this->disableErrorCheckFields)
+                    && in_array($errorFieldName, array_keys($this->disableErrorCheckFields))
+                    && (
+                      in_array($check['check'], $this->disableErrorCheckFields[$errorFieldName])
+                        || empty($this->disableErrorCheckFields[$errorFieldName])
                     )
                 ) {
-                    continue;
-                }
-                $classNameFix = ucfirst($check['check']);
-                if (strpos($classNameFix, 'Tx_') === false && strpos($classNameFix, '\\') === false) {
-                    $errorCheckObject = $this->componentManager->getComponent($this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\' . $classNameFix));
-                    $fullClassName = $this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\' . $classNameFix);
-                } else {
-                    //Look for the whole error check name, maybe it is a custom check like Tx_SomeExt_ErrorCheck_Something
-                    $errorCheckObject = $this->componentManager->getComponent($check['check']);
-                    $fullClassName = $check['check'];
-                }
-                if (!$errorCheckObject) {
-                    $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
-                }
-                if (empty($this->restrictErrorChecks) || in_array($check['check'], $this->restrictErrorChecks)) {
-                    $this->utilityFuncs->debugMessage('calling_class', [$fullClassName]);
-                    $errorCheckObject->init($gp, $check);
-                    $errorCheckObject->setFormFieldName($fieldName);
-                    if ($errorCheckObject->validateConfig()) {
-                        $checkFailed = $errorCheckObject->check();
-                        if (strlen($checkFailed) > 0) {
-                            if (!is_array($errors[$errorFieldName])) {
-                                $errors[$errorFieldName] = [];
-                            }
-                            $errors[$errorFieldName][] = $checkFailed;
-                        }
-                    } else {
-                        $this->utilityFuncs->throwException('Configuration is not valid for class "' . $fullClassName . '"!');
-                    }
-                } else {
-                    $this->utilityFuncs->debugMessage('check_skipped', [$check['check']]);
-                }
-            }
+          continue;
         }
-        return $errors;
+        $classNameFix = ucfirst($check['check']);
+        if (false === strpos($classNameFix, 'Tx_') && false === strpos($classNameFix, '\\')) {
+          $errorCheckObject = $this->componentManager->getComponent($this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix));
+          $fullClassName = $this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix);
+        } else {
+          // Look for the whole error check name, maybe it is a custom check like Tx_SomeExt_ErrorCheck_Something
+          $errorCheckObject = $this->componentManager->getComponent($check['check']);
+          $fullClassName = $check['check'];
+        }
+        if (!isset($errorCheckObject)) {
+          $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
+        }
+        if (empty($this->restrictErrorChecks) || in_array($check['check'], $this->restrictErrorChecks)) {
+          $this->utilityFuncs->debugMessage('calling_class', [$fullClassName]);
+          $errorCheckObject->init($gp, $check);
+          $errorCheckObject->setFormFieldName($fieldName);
+          if ($errorCheckObject->validateConfig()) {
+            $checkFailed = $errorCheckObject->check();
+            if (strlen($checkFailed) > 0) {
+              if (!isset($errors[$errorFieldName]) || !is_array($errors[$errorFieldName])) {
+                $errors[$errorFieldName] = [];
+              }
+              $errors[$errorFieldName][] = $checkFailed;
+            }
+          } else {
+            $this->utilityFuncs->throwException('Configuration is not valid for class "'.$fullClassName.'"!');
+          }
+        } else {
+          $this->utilityFuncs->debugMessage('check_skipped', [$check['check']]);
+        }
+      }
     }
 
-    public function validateConfig()
-    {
-        if (is_array($this->settings['fieldConf.'])) {
-            $fieldConf = $this->settings['fieldConf.'];
-            foreach ($fieldConf as $key => $fieldSettings) {
-                $fieldName = trim($key, '.');
-                if (!isset($fieldSettings['errorCheck.'])) {
-                    $this->utilityFuncs->throwException('errorcheck_not_found', $fieldName);
-                }
-            }
-        }
-    }
+    return $errors;
+  }
 }

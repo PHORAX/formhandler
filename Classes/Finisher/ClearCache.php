@@ -1,24 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Typoheads\Formhandler\Finisher;
 
-/*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        */
+/**
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ */
 
 /**
  * This finisher clears the cache.
  * If no further configuration is set the current page's cache will be cleared.
- * Alternatively a pidList can be set:
+ * Alternatively a pidList can be set:.
  *
  * Example configuration:
  *
@@ -33,24 +35,22 @@ namespace Typoheads\Formhandler\Finisher;
  * finishers.1.config.pidList.data = GP:someparameter
  * </code>
  */
-class ClearCache extends AbstractFinisher
-{
-
-    /**
-     * The main method called by the controller
-     *
-     * @return array The probably modified GET/POST parameters
-     */
-    public function process()
-    {
-        $pidList = $this->utilityFuncs->getSingle($this->settings, 'pidList');
-        if (empty($pidList)) {
-            $pidList = $GLOBALS['TSFE']->id;
-        }
-
-        $this->utilityFuncs->debugMessage('Clearing Cache', [$pidList]);
-
-        $GLOBALS['TSFE']->clearPageCacheContent_pidList($pidList);
-        return $this->gp;
+class ClearCache extends AbstractFinisher {
+  /**
+   * The main method called by the controller.
+   *
+   * @return array The probably modified GET/POST parameters
+   */
+  public function process(): array {
+    $pidList = $this->utilityFuncs->getSingle($this->settings, 'pidList');
+    if (empty($pidList)) {
+      $pidList = $GLOBALS['TSFE']->id;
     }
+
+    $this->utilityFuncs->debugMessage('Clearing Cache', [$pidList]);
+
+    $GLOBALS['TSFE']->clearPageCacheContent_pidList($pidList);
+
+    return $this->gp;
+  }
 }

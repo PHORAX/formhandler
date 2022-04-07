@@ -1,152 +1,153 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Typoheads\Formhandler\Mailer;
 
-interface MailerInterface
-{
+/**
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ */
+interface MailerInterface {
+  /**
+   * Add an attachment to the email.
+   *
+   * @param string $value The file name
+   */
+  public function addAttachment(string $value): void;
 
-    /**
-     * Sends the email to the given reccipients
-     *
-     * @param array $recipients
-     * @return bool Sent successfully?
-     */
-    public function send($recipients);
+  /**
+   * Add a BCC recipient of the email.
+   *
+   * @param string $email The email address
+   * @param string $name  The name
+   */
+  public function addBcc(string $email, string $name): void;
 
-    /**
-     * Set the HTML content of the email
-     *
-     * @param string $html The HTML content
-     */
-    public function setHTML($html);
+  /**
+   * Add a CC recipient of the email.
+   *
+   * @param string $email The email address
+   * @param string $name  The name
+   */
+  public function addCc(string $email, string $name): void;
 
-    /**
-     * Set the plain text content of the email
-     *
-     * @param string $plain The plain text content
-     */
-    public function setPlain($plain);
+  /**
+   * Add an email header.
+   *
+   * @param string $value The header
+   */
+  public function addHeader(string $value): void;
 
-    /**
-     * Set the subject of the email
-     *
-     * @param string $value The subject
-     */
-    public function setSubject($value);
+  /**
+   * Embeds an image to the email content.
+   *
+   * @param string $image The image path
+   */
+  public function embed(string $image): \Symfony\Component\Mime\Email;
 
-    /**
-     * Set the sender of the email
-     *
-     * @param string $email The email address
-     * @param string $name The name
-     */
-    public function setSender($email, $name);
+  /**
+   * Returns the BCC recipients of the email.
+   */
+  public function getBcc(): array;
 
-    /**
-     * Set the reply to of the email
-     *
-     * @param string $email The email address
-     * @param string $name The name
-     */
-    public function setReplyTo($email, $name);
+  /**
+   * Returns the CC recipients of the email.
+   */
+  public function getCc(): array;
 
-    /**
-     * Add a CC recipient of the email
-     *
-     * @param string $email The email address
-     * @param string $name The name
-     */
-    public function addCc($email, $name);
+  /**
+   * Returns the HTML content of the email.
+   */
+  public function getHTML(): string;
 
-    /**
-     * Add a BCC recipient of the email
-     *
-     * @param string $email The email address
-     * @param string $name The name
-     */
-    public function addBcc($email, $name);
+  /**
+   * Returns the plain text content of the email.
+   */
+  public function getPlain(): string;
 
-    /**
-     * Set the return path of the email
-     *
-     * @param string $value The return path
-     */
-    public function setReturnPath($value);
+  /**
+   * Returns the reply to of the email.
+   *
+   * @return string
+   */
+  public function getReplyTo(): array;
 
-    /**
-     * Add an email header
-     *
-     * @param string $value The header
-     */
-    public function addHeader($value);
+  /**
+   * Returns the return path of the email.
+   *
+   * @return string
+   */
+  public function getReturnPath(): ?\Symfony\Component\Mime\Address;
 
-    /**
-     * Add an attachment to the email
-     *
-     * @param string $value The file name
-     */
-    public function addAttachment($value);
+  /**
+   * Returns the sender of the email.
+   *
+   * @return string
+   */
+  public function getSender(): array;
 
-    /**
-     * Returns the HTML content of the email
-     *
-     * @return string
-     */
-    public function getHTML();
+  /**
+   * Returns the subject of the email.
+   */
+  public function getSubject(): string;
 
-    /**
-     * Returns the plain text content of the email
-     *
-     * @return string
-     */
-    public function getPlain();
+  /**
+   * Sends the email to the given reccipients.
+   *
+   * @return bool Sent successfully?
+   */
+  public function send(array $recipients): bool;
 
-    /**
-     * Returns the subject of the email
-     *
-     * @return string
-     */
-    public function getSubject();
+  /**
+   * Set the HTML content of the email.
+   *
+   * @param string $html The HTML content
+   */
+  public function setHTML(string $html): void;
 
-    /**
-     * Returns the sender of the email
-     *
-     * @return string
-     */
-    public function getSender();
+  /**
+   * Set the plain text content of the email.
+   *
+   * @param string $plain The plain text content
+   */
+  public function setPlain(string $plain): void;
 
-    /**
-     * Returns the reply to of the email
-     *
-     * @return string
-     */
-    public function getReplyTo();
+  /**
+   * Set the reply to of the email.
+   *
+   * @param string $email The email address
+   * @param string $name  The name
+   */
+  public function setReplyTo(string $email, string $name): void;
 
-    /**
-     * Returns the CC recipients of the email
-     *
-     * @return array
-     */
-    public function getCc();
+  /**
+   * Set the return path of the email.
+   *
+   * @param string $value The return path
+   */
+  public function setReturnPath(string $value): void;
 
-    /**
-     * Returns the BCC recipients of the email
-     *
-     * @return array
-     */
-    public function getBcc();
+  /**
+   * Set the sender of the email.
+   *
+   * @param string $email The email address
+   * @param string $name  The name
+   */
+  public function setSender(string $email, string $name): void;
 
-    /**
-     * Returns the return path of the email
-     *
-     * @return string
-     */
-    public function getReturnPath();
-
-    /**
-     * Embeds an image to the email content
-     *
-     * @param string $image The image path
-     */
-    public function embed($image);
+  /**
+   * Set the subject of the email.
+   *
+   * @param string $value The subject
+   */
+  public function setSubject(string $value): void;
 }

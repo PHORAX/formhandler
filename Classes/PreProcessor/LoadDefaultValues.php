@@ -1,21 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Typoheads\Formhandler\PreProcessor;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        */
+/**
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ */
+
 /**
  * This PreProcessor adds the posibility to load default values.
  * Values fot the first step are loaded to $gp values of other steps are stored
@@ -42,72 +45,64 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @author    Johannes Feustel
  */
-class LoadDefaultValues extends AbstractPreProcessor
-{
-    public function process()
-    {
-        foreach ($this->settings as $step => $stepSettings) {
-            $step = preg_replace('/\.$/', '', $step);
+class LoadDefaultValues extends AbstractPreProcessor {
+  /**
+   * adapted from class tx_thmailformplus_pi1
+   * Loads the default values to the GP Array.
+   */
+  public function loadDefaultValuesToGP(array $settings): void {
+    if (is_array($settings)) {
+      $this->setDefaultValues($settings, $this->gp);
+    }
+  }
 
-            if ($step == 1) {
-                $this->loadDefaultValuesToGP($stepSettings);
-            } elseif (is_numeric($step)) {
-                $this->loadDefaultValuesToSession($stepSettings, $step);
-            }
-        }
-        return $this->gp;
+  public function process(): array {
+    foreach ($this->settings as $step => $stepSettings) {
+      $step = (int) preg_replace('/\.$/', '', $step);
+
+      if (1 == $step) {
+        $this->loadDefaultValuesToGP($stepSettings);
+      } elseif (is_numeric($step)) {
+        $this->loadDefaultValuesToSession($stepSettings, $step);
+      }
     }
 
-    /**
-     * adapted from class tx_thmailformplus_pi1
-     * Loads the default values to the GP Array
-     *
-     * @param array $settings
-     */
-    public function loadDefaultValuesToGP($settings)
-    {
-        if (is_array($settings)) {
-            $this->setDefaultValues($settings, $this->gp);
-        }
-    }
+    return $this->gp;
+  }
 
-    /**
-     * loads the Default Setting in the Session. Used only for step 2+.
-     *
-     * @param array $settings
-     * @param int $step
-     */
-    private function loadDefaultValuesToSession($settings, $step)
-    {
-        if (is_array($settings) && $step) {
-            $values = $this->globals->getSession()->get('values');
-            $this->setDefaultValues($settings, $values[$step]);
-            $this->globals->getSession()->set('values', $values);
+  /**
+   * Recursive method to set the GP values.
+   */
+  protected function setDefaultValues(array $fields, array &$currentLevelGP): void {
+    $firstLevelFields = array_keys($fields);
+    if (is_array($firstLevelFields)) {
+      foreach ($firstLevelFields as $idx => $fieldName) {
+        $fieldName = preg_replace('/\.$/', '', $fieldName);
+        if (!isset($fields[$fieldName.'.']['defaultValue']) && is_array($fields[$fieldName.'.'])) {
+          $this->setDefaultValues($fields[$fieldName.'.'], $currentLevelGP[$fieldName]);
+        } elseif (!isset($currentLevelGP[$fieldName])) {
+          $currentLevelGP[$fieldName] = $this->utilityFuncs->getSingle($fields[$fieldName.'.'], 'defaultValue');
+          if (!empty($fields[$fieldName.'.']['defaultValue.']['separator'])) {
+            $separator = $this->utilityFuncs->getSingle($fields[$fieldName.'.']['defaultValue.'], 'separator');
+            $currentLevelGP[$fieldName] = GeneralUtility::trimExplode($separator, $currentLevelGP[$fieldName]);
+          }
         }
+      }
     }
+  }
 
-    /**
-     * Recursive method to set the GP values
-     *
-     * @param array $fields
-     * @param array &$currentLevelGP
-     */
-    protected function setDefaultValues($fields, &$currentLevelGP)
-    {
-        $firstLevelFields = array_keys($fields);
-        if (is_array($firstLevelFields)) {
-            foreach ($firstLevelFields as $idx => $fieldName) {
-                $fieldName = preg_replace('/\.$/', '', $fieldName);
-                if (!isset($fields[$fieldName . '.']['defaultValue']) && is_array($fields[$fieldName . '.'])) {
-                    $this->setDefaultValues($fields[$fieldName . '.'], $currentLevelGP[$fieldName]);
-                } elseif (!isset($currentLevelGP[$fieldName])) {
-                    $currentLevelGP[$fieldName] = $this->utilityFuncs->getSingle($fields[$fieldName . '.'], 'defaultValue');
-                    if ($fields[$fieldName . '.']['defaultValue.']['separator']) {
-                        $separator = $this->utilityFuncs->getSingle($fields[$fieldName . '.']['defaultValue.'], 'separator');
-                        $currentLevelGP[$fieldName] = GeneralUtility::trimExplode($separator, $currentLevelGP[$fieldName]);
-                    }
-                }
-            }
-        }
+  /**
+   * loads the Default Setting in the Session. Used only for step 2+.
+   *
+   * @param array $settings
+   */
+  private function loadDefaultValuesToSession(mixed $settings, int $step): void {
+    if (is_array($settings) && $step) {
+      $values = (array) $this->globals->getSession()->get('values');
+      // TODO Error with default values at step 2
+
+      $this->setDefaultValues($settings, $values[$step]);
+      $this->globals->getSession()->set('values', $values);
     }
+  }
 }

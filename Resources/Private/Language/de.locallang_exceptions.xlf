@@ -1,74 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-11-12T18:13:58Z" product-name="formhandler">
-		<header/>
-		<body>
-			<trans-unit id="fe-exception" resname="fe-exception"  approved="yes">
-				<source>An error has occurred!</source>
-				<target>Ein Fehler ist aufgetreten!</target>
-			</trans-unit>
-			<trans-unit id="extension_required" resname="extension_required"  approved="yes">
-				<source>The extension &quot;%s&quot; is required for %s!</source>
-				<target>Die Extension &quot;%s&quot; wird benötigt für %s!</target>
-			</trans-unit>
-			<trans-unit id="missing_config" resname="missing_config"  approved="yes">
-				<source>No TypoScript config found for Formhandler! Please add the static template or write your own configuration.</source>
-				<target>Keine TypoScript-Konfiguration für Formhandler gefunden! Fügen Sie das statische Template oder Ihre eigene Konfiguration ein.</target>
-			</trans-unit>
-			<trans-unit id="insufficient_config" resname="insufficient_config"  approved="yes">
-				<source>Insufficient config for %s!</source>
-				<target>Unzureichende Konfiguration für %s!</target>
-			</trans-unit>
-			<trans-unit id="error_getmxrr" resname="error_getmxrr"  approved="yes">
-				<source>The PHP version you are using is too low. The error check &quot;emailExists&quot; is not available on your system. Please remove it from your TypoScript configuration.</source>
-				<target>Ihre PHP version ist zu niedrig, um den Error-Check &quot;emailExists&quot; verwenden zu können. Bitte entfernen Sie den Error-Check aus Ihrer TypoScript-Konfiguration.</target>
-			</trans-unit>
-			<trans-unit id="missing_component" resname="missing_component"  approved="yes">
-				<source>Missing %s! The Flexform contains '%s' but typoscript configuration is incomplete. Please add : %s</source>
-				<target>%s fehlt! Flexform beinhaltet '%s',aber die TypoScript-Konfiguration ist unvollständig. Bitte fügen Sie '%s' hinzu!</target>
-			</trans-unit>
-			<trans-unit id="no_config_confirmation" resname="no_config_confirmation"  approved="yes">
-				<source>Missing config for %s! Please provide a '%s' either in the TypoScript configuration or in the Flexfom.</source>
-				<target>Fehlende Konfiguration für %s! Bitte geben Sie '%s' entweder in der TypoScript-Konfiguration oderr im Flexfom ein.</target>
-			</trans-unit>
-			<trans-unit id="no_pdf_template" resname="no_pdf_template"  approved="yes">
-				<source>No template for PDF found! Make sure subpart ###TEMPLATE_PDF### exists in your HTML template file!</source>
-				<target>Kein Template für PDF gefunden! Bitte prüfen Sie ob der Subpart ###TEMPLATE_PDF### im HTML-Template existiert!</target>
-			</trans-unit>
-			<trans-unit id="no_table" resname="no_table"  approved="yes">
-				<source>No table configured for %s!</source>
-				<target>Keine Tabelle konfiguriert für %s!</target>
-			</trans-unit>
-			<trans-unit id="no_driver" resname="no_driver"  approved="yes">
-				<source>No driver configured for %s!</source>
-				<target>Kein Treiber konfiguriert für %s!</target>
-			</trans-unit>
-			<trans-unit id="no_fields" resname="no_fields"  approved="yes">
-				<source>No fields mapping configured for %s! Make sure the block &quot;fields&quot; is defined in TyposScript for this component!</source>
-				<target>Kein Mapping konfiguriert für %s! Fügen Sie im TypoScript &quot;fields&quot; für diese Komponente hinzu</target>
-			</trans-unit>
-			<trans-unit id="no_template" resname="no_template"  approved="yes">
-				<source>No template file found!</source>
-				<target>Keine Templatedatei gefunden!</target>
-			</trans-unit>
-			<trans-unit id="no_template_file" resname="no_template_file"  approved="yes">
-				<source>No template file found. Check your TypoScript setup and/or your plugin settings and make sure you defined a template file!</source>
-				<target>Keine Template-Datei gefunden. Überprüfen Sie die TypoScript-Konfiguration und/oder die Plugineinstellungen und vergewissern Sie sich, dass Sie eine Template-Datei angegeben haben!</target>
-			</trans-unit>
-			<trans-unit id="template_file_not_found" resname="template_file_not_found"  approved="yes">
-				<source>Template file &quot;%s&quot; not found!</source>
-				<target>Template-Datei &quot;%s&quot; nicht gefunden!</target>
-			</trans-unit>
-			<trans-unit id="empty_template_file" resname="empty_template_file"  approved="yes">
-				<source>Template file &quot;%s&quot; is empty!</source>
-				<target>Template-Datei &quot;%s&quot; ist leer!</target>
-			</trans-unit>
-			<trans-unit id="invalid_template_file" resname="invalid_template_file"  approved="yes">
-				<source>Template file &quot;%s&quot; does not contain a subpart ###TEMPLATE_ and therefore is not a valid template!</source>
-				<target>Template-Datei &quot;%s&quot; beinhaltet keinen Subpart ###TEMPLATE_ und ist daher keine valide Template-Datei!</target>
-			</trans-unit>
-			<trans-unit id="classesarray_error" resname="classesarray_error" xml:space="preserve" approved="yes">
-				<source>
+<xliff version="1.2"
+  xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-11-12T18:13:58Z" product-name="formhandler">
+    <header />
+    <body>
+      <trans-unit id="fe-exception" resname="fe-exception" approved="yes">
+        <source>An error has occurred!</source>
+        <target>Ein Fehler ist aufgetreten!</target>
+      </trans-unit>
+      <trans-unit id="extension_required" resname="extension_required" approved="yes">
+        <source>The extension &quot;%s&quot; is required for %s!</source>
+        <target>Die Extension &quot;%s&quot; wird benötigt für %s!</target>
+      </trans-unit>
+      <trans-unit id="missing_config" resname="missing_config" approved="yes">
+        <source>No TypoScript config found for Formhandler! Please add the static template or write your own configuration.</source>
+        <target>Keine TypoScript-Konfiguration für Formhandler gefunden! Fügen Sie das statische Template oder Ihre eigene Konfiguration ein.</target>
+      </trans-unit>
+      <trans-unit id="insufficient_config" resname="insufficient_config" approved="yes">
+        <source>Insufficient config for %s!</source>
+        <target>Unzureichende Konfiguration für %s!</target>
+      </trans-unit>
+      <trans-unit id="error_getmxrr" resname="error_getmxrr" approved="yes">
+        <source>The PHP version you are using is too low. The error check &quot;emailExists&quot; is not available on your system. Please remove it from your TypoScript configuration.</source>
+        <target>Ihre PHP version ist zu niedrig, um den Error-Check &quot;emailExists&quot; verwenden zu können. Bitte entfernen Sie den Error-Check aus Ihrer TypoScript-Konfiguration.</target>
+      </trans-unit>
+      <trans-unit id="missing_component" resname="missing_component" approved="yes">
+        <source>Missing %s! The Flexform contains '%s' but typoscript configuration is incomplete. Please add : %s</source>
+        <target>%s fehlt! Flexform beinhaltet '%s',aber die TypoScript-Konfiguration ist unvollständig. Bitte fügen Sie '%s' hinzu!</target>
+      </trans-unit>
+      <trans-unit id="no_config_confirmation" resname="no_config_confirmation" approved="yes">
+        <source>Missing config for %s! Please provide a '%s' either in the TypoScript configuration or in the Flexfom.</source>
+        <target>Fehlende Konfiguration für %s! Bitte geben Sie '%s' entweder in der TypoScript-Konfiguration oderr im Flexfom ein.</target>
+      </trans-unit>
+      <trans-unit id="no_pdf_template" resname="no_pdf_template" approved="yes">
+        <source>No template for PDF found! Make sure subpart ###TEMPLATE_PDF### exists in your HTML template file!</source>
+        <target>Kein Template für PDF gefunden! Bitte prüfen Sie ob der Subpart ###TEMPLATE_PDF### im HTML-Template existiert!</target>
+      </trans-unit>
+      <trans-unit id="no_table" resname="no_table" approved="yes">
+        <source>No table configured for %s!</source>
+        <target>Keine Tabelle konfiguriert für %s!</target>
+      </trans-unit>
+      <trans-unit id="no_driver" resname="no_driver" approved="yes">
+        <source>No driver configured for %s!</source>
+        <target>Kein Treiber konfiguriert für %s!</target>
+      </trans-unit>
+      <trans-unit id="no_fields" resname="no_fields" approved="yes">
+        <source>No fields mapping configured for %s! Make sure the block &quot;fields&quot; is defined in TyposScript for this component!</source>
+        <target>Kein Mapping konfiguriert für %s! Fügen Sie im TypoScript &quot;fields&quot; für diese Komponente hinzu</target>
+      </trans-unit>
+      <trans-unit id="no_template" resname="no_template" approved="yes">
+        <source>No template file found!</source>
+        <target>Keine Templatedatei gefunden!</target>
+      </trans-unit>
+      <trans-unit id="no_template_file" resname="no_template_file" approved="yes">
+        <source>No template file found. Check your TypoScript setup and/or your plugin settings and make sure you defined a template file!</source>
+        <target>Keine Template-Datei gefunden. Überprüfen Sie die TypoScript-Konfiguration und/oder die Plugineinstellungen und vergewissern Sie sich, dass Sie eine Template-Datei angegeben haben!</target>
+      </trans-unit>
+      <trans-unit id="template_file_not_found" resname="template_file_not_found" approved="yes">
+        <source>Template file &quot;%s&quot; not found!</source>
+        <target>Template-Datei &quot;%s&quot; nicht gefunden!</target>
+      </trans-unit>
+      <trans-unit id="empty_template_file" resname="empty_template_file" approved="yes">
+        <source>Template file &quot;%s&quot; is empty!</source>
+        <target>Template-Datei &quot;%s&quot; ist leer!</target>
+      </trans-unit>
+      <trans-unit id="invalid_template_file" resname="invalid_template_file" approved="yes">
+        <source>Template file &quot;%s&quot; does not contain a subpart ###TEMPLATE_ and therefore is not a valid template!</source>
+        <target>Template-Datei &quot;%s&quot; beinhaltet keinen Subpart ###TEMPLATE_ und ist daher keine valide Template-Datei!</target>
+      </trans-unit>
+      <trans-unit id="classesarray_error" resname="classesarray_error" xml:space="preserve" approved="yes">
+        <source>
 				There is an error in your TypoScript setup! Make sure your setup for initInterceptors, finishers, validators, ... looks like this:&lt;br /&gt;
 				&lt;br /&gt;&lt;pre&gt;
 finishers {
@@ -86,8 +87,8 @@ finishers {
 	}
 }
 				&lt;/pre&gt;
-			</source>
-				<target>
+        </source>
+        <target>
 				Fehler im TypoScript Setup! Stellen Sie sicher, dass Ihr Setup für initInterceptors, finishers, validators, ... diesem Schema entspricht:&lt;br /&gt;
 				&lt;br /&gt;&lt;pre&gt;
 finishers {
@@ -105,56 +106,56 @@ finishers {
 	}
 }
 				&lt;/pre&gt;
-			</target>
-			</trans-unit>
-			<trans-unit id="spam_detected" resname="spam_detected"  approved="yes">
-				<source>Your request seems to be a spamming attempt, so it was blocked! This may have been a mistake by the system. Please try again!</source>
-				<target>Ihre Anfrage wurde als Spamversuch erkannt und deshalb geblockt! Falls dies ein Fehler des Systems war, versuchen Sie es bitte erneut!</target>
-			</trans-unit>
-			<trans-unit id="validateauthcode_invalid_auth_code" resname="validateauthcode_invalid_auth_code"  approved="yes">
-				<source>The auth code is invalid!</source>
-				<target>Der Autorisierungscode ist ungültig!</target>
-			</trans-unit>
-			<trans-unit id="validateauthcode_insufficient_params" resname="validateauthcode_insufficient_params"  approved="yes">
-				<source>Insufficient parameters! Unable to validate the auth code!</source>
-				<target>Unzureichende Parameter! Die Autorisierung konnte nicht durchgeführt werden</target>
-			</trans-unit>
-			<trans-unit id="validateauthcode_no_record_found" resname="validateauthcode_no_record_found"  approved="yes">
-				<source>No matching auth code found!</source>
-				<target>Der Autorisierungscode wurde nicht gefunden! Vielleicht wurde die Autorisierung bereits durchgeführt.</target>
-			</trans-unit>
-			<trans-unit id="validateauthcode_update_failed" resname="validateauthcode_update_failed"  approved="yes">
-				<source>Updating your data failed! Please try again.</source>
-				<target>Die Aktualisierung Ihrer Daten ist fehlgeschlagen! Bitte versuchen Sie es erneut.</target>
-			</trans-unit>
-			<trans-unit id="errorcheck_not_found" resname="errorcheck_not_found"  approved="yes">
-				<source>Configuration is not valid for field &quot;%s&quot;! Fieldname found in section &quot;fieldConf&quot; of Validator_Default, but there is no setting &quot;errorCheck&quot; defined!</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="error_checks_missing" resname="error_checks_missing"  approved="yes">
-				<source>Error check missing! Your setup misses error check &quot;%s&quot; for the field &quot;%s&quot;!</source>
-				<target>Error-Check fehlt! Bitte konfigurieren Sie den Error-Check &quot;%s&quot; für das Feld &quot;%s&quot;!</target>
-			</trans-unit>
-			<trans-unit id="error_checks_form_field_name_missing" resname="error_checks_form_field_name_missing"  approved="yes">
-				<source>Form field name missing for error check &quot;%s&quot;!</source>
-				<target>Name des Formularfelds fehlt für den Error-Check &quot;%s&quot;!</target>
-			</trans-unit>
-			<trans-unit id="error_checks_parameters_missing" resname="error_checks_parameters_missing"  approved="yes">
-				<source>No parameters found for error check &quot;%s&quot; although &quot;%s&quot; is mandatory!</source>
-				<target>Keine Parameter gefunden für Error-Check &quot;%s&quot;, &quot;%s&quot; wird benötigt!</target>
-			</trans-unit>
-			<trans-unit id="error_checks_unsufficient_parameters" resname="error_checks_unsufficient_parameters"  approved="yes">
-				<source>Parameter &quot;%s&quot; for error check &quot;%s&quot; not found although it is mandatory!</source>
-				<target>Parameter &quot;%s&quot; nicht gefunden für Error-Check &quot;%s&quot;!</target>
-			</trans-unit>
-			<trans-unit id="error_check_filemaxsize" resname="error_check_filemaxsize"  approved="yes">
-				<source>The configured &quot;maxSize&quot; (%s) for the field &quot;%s&quot; is bigger than the allowed max upload size configured in php.ini (%s). For more information see: &lt;a target=&quot;_blank&quot; href=&quot;http://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize&quot;&gt;http://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize&lt;/a&gt;!</source>
-				<target>Die konfigurierte &quot;maxSize&quot; (%s) für das Feld &quot;%s&quot; ist größer das die max upload size in der php.ini (%s). Mehr Informationen: &lt;a target=&quot;_blank&quot; href=&quot;http://www.php.net/manual/de/ini.core.php#ini.upload-max-filesize&quot;&gt;http://www.php.net/manual/de/ini.core.php#ini.upload-max-filesize&lt;/a&gt;!</target>
-			</trans-unit>
-			<trans-unit id="db_connection_failed" resname="db_connection_failed"  approved="yes">
-				<source>Database connection failed: %s</source>
-				<target>Datenbank-Verbindung fehlgeschlagen: %s</target>
-			</trans-unit>
-		</body>
-	</file>
+        </target>
+      </trans-unit>
+      <trans-unit id="spam_detected" resname="spam_detected" approved="yes">
+        <source>Your request seems to be a spamming attempt, so it was blocked! This may have been a mistake by the system. Please try again!</source>
+        <target>Ihre Anfrage wurde als Spamversuch erkannt und deshalb geblockt! Falls dies ein Fehler des Systems war, versuchen Sie es bitte erneut!</target>
+      </trans-unit>
+      <trans-unit id="validateauthcode_invalid_auth_code" resname="validateauthcode_invalid_auth_code" approved="yes">
+        <source>The auth code is invalid!</source>
+        <target>Der Autorisierungscode ist ungültig!</target>
+      </trans-unit>
+      <trans-unit id="validateauthcode_insufficient_params" resname="validateauthcode_insufficient_params" approved="yes">
+        <source>Insufficient parameters! Unable to validate the auth code!</source>
+        <target>Unzureichende Parameter! Die Autorisierung konnte nicht durchgeführt werden</target>
+      </trans-unit>
+      <trans-unit id="validateauthcode_no_record_found" resname="validateauthcode_no_record_found" approved="yes">
+        <source>No matching auth code found!</source>
+        <target>Der Autorisierungscode wurde nicht gefunden! Vielleicht wurde die Autorisierung bereits durchgeführt.</target>
+      </trans-unit>
+      <trans-unit id="validateauthcode_update_failed" resname="validateauthcode_update_failed" approved="yes">
+        <source>Updating your data failed! Please try again.</source>
+        <target>Die Aktualisierung Ihrer Daten ist fehlgeschlagen! Bitte versuchen Sie es erneut.</target>
+      </trans-unit>
+      <trans-unit id="errorcheck_not_found" resname="errorcheck_not_found" approved="yes">
+        <source>Configuration is not valid for field &quot;%s&quot;! Fieldname found in section &quot;fieldConf&quot; of Validator_Default, but there is no setting &quot;errorCheck&quot; defined!</source>
+        <target />
+      </trans-unit>
+      <trans-unit id="error_checks_missing" resname="error_checks_missing" approved="yes">
+        <source>Error check missing! Your setup misses error check &quot;%s&quot; for the field &quot;%s&quot;!</source>
+        <target>Error-Check fehlt! Bitte konfigurieren Sie den Error-Check &quot;%s&quot; für das Feld &quot;%s&quot;!</target>
+      </trans-unit>
+      <trans-unit id="error_checks_form_field_name_missing" resname="error_checks_form_field_name_missing" approved="yes">
+        <source>Form field name missing for error check &quot;%s&quot;!</source>
+        <target>Name des Formularfelds fehlt für den Error-Check &quot;%s&quot;!</target>
+      </trans-unit>
+      <trans-unit id="error_checks_parameters_missing" resname="error_checks_parameters_missing" approved="yes">
+        <source>No parameters found for error check &quot;%s&quot; although &quot;%s&quot; is mandatory!</source>
+        <target>Keine Parameter gefunden für Error-Check &quot;%s&quot;, &quot;%s&quot; wird benötigt!</target>
+      </trans-unit>
+      <trans-unit id="error_checks_unsufficient_parameters" resname="error_checks_unsufficient_parameters" approved="yes">
+        <source>Parameter &quot;%s&quot; for error check &quot;%s&quot; not found although it is mandatory!</source>
+        <target>Parameter &quot;%s&quot; nicht gefunden für Error-Check &quot;%s&quot;!</target>
+      </trans-unit>
+      <trans-unit id="error_check_filemaxsize" resname="error_check_filemaxsize" approved="yes">
+        <source>The configured &quot;maxSize&quot; (%s) for the field &quot;%s&quot; is bigger than the allowed max upload size configured in php.ini (%s). For more information see: &lt;a target=&quot;_blank&quot; href=&quot;http://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize&quot;&gt;http://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize&lt;/a&gt;!</source>
+        <target>Die konfigurierte &quot;maxSize&quot; (%s) für das Feld &quot;%s&quot; ist größer das die max upload size in der php.ini (%s). Mehr Informationen: &lt;a target=&quot;_blank&quot; href=&quot;http://www.php.net/manual/de/ini.core.php#ini.upload-max-filesize&quot;&gt;http://www.php.net/manual/de/ini.core.php#ini.upload-max-filesize&lt;/a&gt;!</target>
+      </trans-unit>
+      <trans-unit id="db_connection_failed" resname="db_connection_failed" approved="yes">
+        <source>Database connection failed: %s</source>
+        <target>Datenbank-Verbindung fehlgeschlagen: %s</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

@@ -1,31 +1,59 @@
 {
-    "name": "phorax/formhandler",
-    "type": "typo3-cms-extension",
-    "description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
-    "homepage": "https://github.com/PHORAX/formhandler",
-    "license": "GPL-2.0-or-later",
-    "require": {
-        "typo3/cms-core": "^11.5.0",
-        "tecnickcom/tcpdf": "^6.0",
-        "typo3/cms-extbase": "^11.5.0",
-        "typo3/cms-fluid": "^11.5.0",
-        "typo3/cms-frontend": "^11.5.0",
-        "parsecsv/php-parsecsv": "^1.2"
+  "name": "phorax/formhandler",
+  "type": "typo3-cms-extension",
+  "description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
+  "homepage": "https://github.com/PHORAX/formhandler",
+  "license": "GPL-2.0-or-later",
+  "repositories": [
+    {
+      "type": "github",
+      "url": "https://github.com/einpraegsam/captcha.git"
     },
-    "autoload": {
-        "psr-4": {
-            "Typoheads\\Formhandler\\": "Classes"
-        },
-        "classmap": [
-            "pi1/class.tx_formhandler_pi1.php"
-        ]
+    {
+      "type": "github",
+      "url": "https://github.com/mblaschke/TYPO3-jm-recaptcha.git"
     },
-    "replace": {
-        "typo3-ter/formhandler": "self.version"
-    },
-    "extra": {
-        "typo3/cms": {
-            "extension-key": "formhandler"
-        }
+    {
+      "type": "git",
+      "url": "https://github.com/tlueder/phpstan-typo3.git"
     }
+  ],
+  "require": {
+    "typo3/cms-core": "^11.5",
+    "tecnickcom/tcpdf": "^6.0",
+    "typo3/cms-extbase": "^11.5",
+    "typo3/cms-fluid": "^11.5",
+    "typo3/cms-frontend": "^11.5",
+    "parsecsv/php-parsecsv": "^1.2"
+  },
+  "require-dev": {
+    "typo3/cms-backend": "^11.5",
+    "thinkopenat/captcha": "^2.0",
+    "symfony/mailer": "5.3.4",
+    "mblaschke/jm-recaptcha": "^1.5",
+    "phpstan/phpstan": "^1.3",
+    "saschaegerer/phpstan-typo3": "dev-Fix-ObjectStorage-int"
+  },
+  "autoload": {
+    "psr-4": {
+      "Typoheads\\Formhandler\\": "Classes"
+    },
+    "classmap": [
+      "pi1/class.tx_formhandler_pi1.php"
+    ]
+  },
+  "replace": {
+    "typo3-ter/formhandler": "self.version"
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "formhandler"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true
+    }
+  }
 }

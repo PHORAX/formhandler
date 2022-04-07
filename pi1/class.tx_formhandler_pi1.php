@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 use Typoheads\Formhandler\Controller\Dispatcher;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  (c) 2009 Dev-Team Typoheads <dev@typoheads.at>
@@ -24,27 +26,28 @@ use Typoheads\Formhandler\Controller\Dispatcher;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
+
 /**
  * Plugin 'Formhandler' for the 'formhandler' extension.
  */
-class tx_formhandler_pi1 extends AbstractPlugin
-{
-    public $prefixId = 'tx_formhandler_pi1';
-    public $scriptRelPath = 'pi1/class.tx_formhandler_pi1.php';
-    public $extKey = 'formhandler';
+class tx_formhandler_pi1 extends AbstractPlugin {
+  /**
+   * The main method of the PlugIn.
+   *
+   * @param string $content : The PlugIn content
+   * @param array  $conf    : The PlugIn configuration
+   *
+   * @return The content that is displayed on the website
+   */
+  public function main(string $content, array $conf): string {
+    $this->prefixId = 'tx_formhandler_pi1';
+    $this->scriptRelPath = 'pi1/class.tx_formhandler_pi1.php';
+    $this->extKey = 'formhandler';
 
-    /**
-     * The main method of the PlugIn
-     *
-     * @param    string $content : The PlugIn content
-     * @param    array $conf : The PlugIn configuration
-     * @return    The content that is displayed on the website
-     */
-    public function main($content, $conf)
-    {
-        $dispatcher = new Dispatcher();
-        $dispatcher->cObj = &$this->cObj;
-        return $dispatcher->main($content, $conf);
-    }
+    $dispatcher = new Dispatcher();
+    $dispatcher->cObj = &$this->cObj;
+
+    return $dispatcher->main($content, $conf);
+  }
 }

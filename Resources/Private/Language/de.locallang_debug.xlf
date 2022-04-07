@@ -1,252 +1,253 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-11-12T18:12:42Z" product-name="formhandler">
-		<header/>
-		<body>
-			<trans-unit id="adding_html" resname="adding_html"  approved="yes">
-				<source>Adding HTML:</source>
-				<target>Füge HTML hinzu:</target>
-			</trans-unit>
-			<trans-unit id="adding_generated_files" resname="adding_generated_files"  approved="yes">
-				<source>Adding generated files:</source>
-				<target>Füge generierte Dateien hinzu:</target>
-			</trans-unit>
-			<trans-unit id="alert_mail_not_sent" resname="alert_mail_not_sent"  approved="yes">
-				<source>Mails not sent because a mail has already been sent in defined interval!</source>
-				<target>E-Mails nicht verschickt, da eine Benachrichtigungs-E-Mail für dieses Intervall schon verschickt wurde!</target>
-			</trans-unit>
-			<trans-unit id="attachment_not_found" resname="attachment_not_found"  approved="yes">
-				<source>Attachment not found: %s!</source>
-				<target>Attachment nicht gefunden: %s!</target>
-			</trans-unit>
-			<trans-unit id="calling_class" resname="calling_class"  approved="yes">
-				<source>Calling class &quot;%s&quot;</source>
-				<target>Rufe Klasse &quot;%s&quot; auf!</target>
-			</trans-unit>
-			<trans-unit id="calling_finisher" resname="calling_finisher"  approved="yes">
-				<source>Calling finisher &quot;%s&quot;</source>
-				<target>Rufe Finisher &quot;%s&quot; auf!</target>
-			</trans-unit>
-			<trans-unit id="calling_logger" resname="calling_logger"  approved="yes">
-				<source>Calling logger &quot;%s&quot;</source>
-				<target>Rufe Logger &quot;%s&quot; auf!</target>
-			</trans-unit>
-			<trans-unit id="calling_validator" resname="calling_validator"  approved="yes">
-				<source>Calling validator &quot;%s&quot;</source>
-				<target>Rufe Validator &quot;%s&quot; auf!</target>
-			</trans-unit>
-			<trans-unit id="check_not_found" resname="check_not_found"  approved="yes">
-				<source>Error check &quot;%s&quot; not found!</source>
-				<target>Error check &quot;%s&quot; nicht gefunden!</target>
-			</trans-unit>
-			<trans-unit id="check_skipped" resname="check_skipped"  approved="yes">
-				<source>Skipped error check &quot;%s&quot;!</source>
-				<target>Error check &quot;%s&quot; übersprungen!</target>
-			</trans-unit>
-			<trans-unit id="cleaning_temp_files" resname="cleaning_temp_files"  approved="yes">
-				<source>Cleaning temporary files in folder &quot;%s&quot;!</source>
-				<target>Lösche temporäre Dateien in &quot;%s&quot;!</target>
-			</trans-unit>
-			<trans-unit id="clear_steps" resname="clear_steps"  approved="yes">
-				<source>Clearing steps after form is finished:</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="cleared_session" resname="cleared_session"  approved="yes">
-				<source>Cleared params in session</source>
-				<target>Leere Parameter in der Session</target>
-			</trans-unit>
-			<trans-unit id="cleared_steps" resname="cleared_steps"  approved="yes">
-				<source>Cleared steps:</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="combined" resname="combined"  approved="yes">
-				<source>Combined %s = %s!</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="condition" resname="condition"  approved="yes">
-				<source>Condition was evaluated as %s : %s!</source>
-				<target>Bedingung wurde ausgewertet als %s : %s!</target>
-			</trans-unit>
-			<trans-unit id="copy_file" resname="copy_file"  approved="yes">
-				<source>Copying file &quot;%s&quot; to &quot;%s&quot;!</source>
-				<target>Kopiere Datei &quot;%s&quot; nach &quot;%s&quot;!</target>
-			</trans-unit>
-			<trans-unit id="current_files" resname="current_files"  approved="yes">
-				<source>The current uploaded files are:</source>
-				<target>Aktuell hochgeladene Dateien:</target>
-			</trans-unit>
-			<trans-unit id="current_gp" resname="current_gp"  approved="yes">
-				<source>The current GET/POST params are:</source>
-				<target>Die aktuellen GET/POST-Parameter:</target>
-			</trans-unit>
-			<trans-unit id="current_session_params" resname="current_session_params"  approved="yes">
-				<source>The current values in session are:</source>
-				<target>Die aktuellen Werte in der Session:</target>
-			</trans-unit>
-			<trans-unit id="current_step" resname="current_step"  approved="yes">
-				<source>Current step is: %s</source>
-				<target>Aktueller Step: %s</target>
-			</trans-unit>
-			<trans-unit id="data_stored" resname="data_stored"  approved="yes">
-				<source>Data gets stored!</source>
-				<target>Daten werden gespeichert!</target>
-			</trans-unit>
-			<trans-unit id="deleting_file" resname="deleting_file"  approved="yes">
-				<source>Deleting file &quot;%s&quot;!</source>
-				<target>Lösche Datei &quot;%s&quot;!</target>
-			</trans-unit>
-			<trans-unit id="error" resname="error"  approved="yes">
-				<source>The following error occurred: %s</source>
-				<target>Ein Fehler ist aufgetreten: %s</target>
-			</trans-unit>
-			<trans-unit id="folder_doesnt_exist" resname="folder_doesnt_exist"  approved="yes">
-				<source>Folder &quot;%s&quot; doesn't exist! Trying to create!</source>
-				<target>Verzeichnis &quot;%s&quot; existiert nicht! Formhandler versucht es anzulegen!</target>
-			</trans-unit>
-			<trans-unit id="form_finished" resname="form_finished"  approved="yes">
-				<source>Form is finished!</source>
-				<target>Formular ist beendet!</target>
-			</trans-unit>
-			<trans-unit id="init_values" resname="init_values"  approved="yes">
-				<source>Initial values</source>
-				<target>Initiale Werte</target>
-			</trans-unit>
-			<trans-unit id="invalid_isset" resname="invalid_isset"  approved="yes">
-				<source>&quot;Invalid format of ISSET Marker. Hint: %s</source>
-				<target>Ungültiges Format für ISSET Marker. Tipp: %s</target>
-			</trans-unit>
-			<trans-unit id="last_step" resname="last_step"  approved="yes">
-				<source>Last step was: %s</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="finished_step" resname="finished_step"  approved="yes">
-				<source>Last step in form is: %s</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="logging" resname="logging"  approved="yes">
-				<source>Logging into table &quot;%s&quot; values: %s!</source>
-				<target>Logge in Tabelle &quot;%s&quot; folgende Werte: %s!</target>
-			</trans-unit>
-			<trans-unit id="mail_bcc" resname="mail_bcc"  approved="yes">
-				<source>BCC:</source>
-				<target>BCC:</target>
-			</trans-unit>
-			<trans-unit id="mail_cc" resname="mail_cc"  approved="yes">
-				<source>CC:</source>
-				<target>CC:</target>
-			</trans-unit>
-			<trans-unit id="mail_disabled" resname="mail_disabled"  approved="yes">
-				<source>Skipped %s mail because it is disabled in TypoScript!</source>
-				<target>Überspringe %s E-Mail, weil abgeschalten in TypoScript!</target>
-			</trans-unit>
-			<trans-unit id="mail_html" resname="mail_html"  approved="yes">
-				<source>Message HTML:</source>
-				<target>Nachricht HTML:</target>
-			</trans-unit>
-			<trans-unit id="mail_message" resname="mail_message"  approved="yes">
-				<source>Message:</source>
-				<target>Nachricht:</target>
-			</trans-unit>
-			<trans-unit id="mail_not_sent" resname="mail_not_sent"  approved="yes">
-				<source>Mail NOT sent to: %s</source>
-				<target>E-Mail NICHT verschickt an: %s</target>
-			</trans-unit>
-			<trans-unit id="mail_plain" resname="mail_plain"  approved="yes">
-				<source>Message plain:</source>
-				<target>Nachricht plain:</target>
-			</trans-unit>
-			<trans-unit id="mail_replyto" resname="mail_replyto"  approved="yes">
-				<source>Reply to:</source>
-				<target>Reply to:</target>
-			</trans-unit>
-			<trans-unit id="mail_returnpath" resname="mail_returnpath"  approved="yes">
-				<source>Return path:</source>
-				<target>Return path:</target>
-			</trans-unit>
-			<trans-unit id="mail_sender" resname="mail_sender"  approved="yes">
-				<source>Sender:</source>
-				<target>Absender:</target>
-			</trans-unit>
-			<trans-unit id="mail_sent" resname="mail_sent"  approved="yes">
-				<source>Mail successfully sent to: %s</source>
-				<target>E-Mail verschickt an: %s</target>
-			</trans-unit>
-			<trans-unit id="mail_subject" resname="mail_subject"  approved="yes">
-				<source>Subject: %s</source>
-				<target>Betreff: %s</target>
-			</trans-unit>
-			<trans-unit id="missing_field_for_error_check" resname="missing_field_for_error_check"  approved="yes">
-				<source>Trying to validate a field that doesn't exist: &quot;%s&quot;! Either you forgot to remove an error check or yorgot to add a field to your HTML! Maybe it is just an unset checkbox field! In that case, everything is fine.</source>
-				<target>Validierung eines nicht existenten Feldes: &quot;%s&quot;! Vielleicht haben Sie vergessen einen Error Check zu entfernen oder ein Feld zum HTML hinzuzufügen. Vielleicht ist das Feld aber auch nur eine Checkbox. In diesem Fall ist alles OK.</target>
-			</trans-unit>
-			<trans-unit id="no_submittedok_template" resname="no_submittedok_template"  approved="yes">
-				<source>SubmittedOK template not found! Make sure that the subpart ###TEMPLATE_SUBMITTEDOK### is in your HTML template!</source>
-				<target>SubmittedOK-Template nicht gefunden! Stellen Sie sicher, dass der Subpart ###TEMPLATE_SUBMITTEDOK### im HTML-Template ist!</target>
-			</trans-unit>
-			<trans-unit id="no_error_message" resname="no_error_message"  approved="yes">
-				<source>Could not find error message with key &quot;%s&quot;!</source>
-				<target>Konnte Fehlermeldung mit Key &quot;%s&quot; nicht finden!</target>
-			</trans-unit>
-			<trans-unit id="no_mail_template" resname="no_mail_template"  approved="yes">
-				<source>E-Mail template not found for mode %s and type %s! This mail is skipped!</source>
-				<target>E-Mail-Template für Modus %s und Typ %s nicht gefunden! Diese E-Mail wird übersprungen!</target>
-			</trans-unit>
-			<trans-unit id="no_update_possible" resname="no_update_possible"  approved="yes">
-				<source>UID parameter not found in GP. Cannot make update!</source>
-				<target>UID-Parameter nicht gefunden in GP. Update nicht möglich!</target>
-			</trans-unit>
-			<trans-unit id="redirect_failed" resname="redirect_failed"  approved="yes">
-				<source>Tried to do a redirect to specified page! The redirect may have failed because the debug settings is on!</source>
-				<target>Versuchte eine Weiterleitung zur angegebenen Seite zu machen! Die Weiterleitung ist gescheitert, möglicherweise weil der Debug-Modus aktiviert ist!</target>
-			</trans-unit>
-			<trans-unit id="sql_request" resname="sql_request"  approved="yes">
-				<source>Executing request &quot;%s&quot;;</source>
-				<target>Führe aus: &quot;%s&quot;</target>
-			</trans-unit>
-			<trans-unit id="sql_request_error" resname="sql_request_error"  approved="yes">
-				<source>SQL request failed: %s</source>
-				<target>SQL Ausführung fehlgeschlagen: %s</target>
-			</trans-unit>
-			<trans-unit id="sql_too_many_rows" resname="sql_too_many_rows"  approved="yes">
-				<source>SQL request resulted in %d rows! Only one row is allowed.</source>
-				<target>SQL-Abfrage lieferte %s Ergebnisse. Nur ein Ergebnis ist erlaubt.</target>
-			</trans-unit>
-			<trans-unit id="store_gp" resname="store_gp"  approved="yes">
-				<source>Storing GP in session!</source>
-				<target>Speichere GP in Session!</target>
-			</trans-unit>
-			<trans-unit id="subparts_missing" resname="subparts_missing"  approved="yes">
-				<source>Subparts in template missing! Found: %s</source>
-				<target>Subparts fehlen im Template! Gefunden: %s</target>
-			</trans-unit>
-			<trans-unit id="total_steps" resname="total_steps"  approved="yes">
-				<source>Highest step subpart found in template file (number of steps): %s</source>
-				<target>Höchster Subparts im Template (Anzahl der Steps): %s</target>
-			</trans-unit>
-			<trans-unit id="translated" resname="translated"  approved="yes">
-				<source>Translated %s = %s!</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="using_controller" resname="using_controller"  approved="yes">
-				<source>Using controller &quot;%s&quot;</source>
-				<target>Verwende Controller &quot;%s&quot;</target>
-			</trans-unit>
-			<trans-unit id="using_prefix" resname="using_prefix"  approved="yes">
-				<source>Using prefix for form values: &quot;%s&quot;</source>
-				<target>Verwende Prefix für Formularwerte: &quot;%s&quot;</target>
-			</trans-unit>
-			<trans-unit id="using_subpart" resname="using_subpart"  approved="yes">
-				<source>Using subpart &quot;%s&quot;!</source>
-				<target>Verwende Subpart &quot;%s&quot;!</target>
-			</trans-unit>
-			<trans-unit id="using_view" resname="using_view"  approved="yes">
-				<source>Using view &quot;%s&quot;</source>
-				<target>Verwende View &quot;%s&quot;</target>
-			</trans-unit>
-			<trans-unit id="cacheCmd" resname="cacheCmd"  approved="yes">
-				<source>Clearing cache user cacheCmd &quot;%s&quot;</source>
-				<target>Cache wird gelöscht mit cacheCmd &quot;%s&quot;</target>
-			</trans-unit>
-		</body>
-	</file>
+<xliff version="1.2"
+  xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-11-12T18:12:42Z" product-name="formhandler">
+    <header />
+    <body>
+      <trans-unit id="adding_html" resname="adding_html" approved="yes">
+        <source>Adding HTML:</source>
+        <target>Füge HTML hinzu:</target>
+      </trans-unit>
+      <trans-unit id="adding_generated_files" resname="adding_generated_files" approved="yes">
+        <source>Adding generated files:</source>
+        <target>Füge generierte Dateien hinzu:</target>
+      </trans-unit>
+      <trans-unit id="alert_mail_not_sent" resname="alert_mail_not_sent" approved="yes">
+        <source>Mails not sent because a mail has already been sent in defined interval!</source>
+        <target>E-Mails nicht verschickt, da eine Benachrichtigungs-E-Mail für dieses Intervall schon verschickt wurde!</target>
+      </trans-unit>
+      <trans-unit id="attachment_not_found" resname="attachment_not_found" approved="yes">
+        <source>Attachment not found: %s!</source>
+        <target>Attachment nicht gefunden: %s!</target>
+      </trans-unit>
+      <trans-unit id="calling_class" resname="calling_class" approved="yes">
+        <source>Calling class &quot;%s&quot;</source>
+        <target>Rufe Klasse &quot;%s&quot; auf!</target>
+      </trans-unit>
+      <trans-unit id="calling_finisher" resname="calling_finisher" approved="yes">
+        <source>Calling finisher &quot;%s&quot;</source>
+        <target>Rufe Finisher &quot;%s&quot; auf!</target>
+      </trans-unit>
+      <trans-unit id="calling_logger" resname="calling_logger" approved="yes">
+        <source>Calling logger &quot;%s&quot;</source>
+        <target>Rufe Logger &quot;%s&quot; auf!</target>
+      </trans-unit>
+      <trans-unit id="calling_validator" resname="calling_validator" approved="yes">
+        <source>Calling validator &quot;%s&quot;</source>
+        <target>Rufe Validator &quot;%s&quot; auf!</target>
+      </trans-unit>
+      <trans-unit id="check_not_found" resname="check_not_found" approved="yes">
+        <source>Error check &quot;%s&quot; not found!</source>
+        <target>Error check &quot;%s&quot; nicht gefunden!</target>
+      </trans-unit>
+      <trans-unit id="check_skipped" resname="check_skipped" approved="yes">
+        <source>Skipped error check &quot;%s&quot;!</source>
+        <target>Error check &quot;%s&quot; übersprungen!</target>
+      </trans-unit>
+      <trans-unit id="cleaning_temp_files" resname="cleaning_temp_files" approved="yes">
+        <source>Cleaning temporary files in folder &quot;%s&quot;!</source>
+        <target>Lösche temporäre Dateien in &quot;%s&quot;!</target>
+      </trans-unit>
+      <trans-unit id="clear_steps" resname="clear_steps" approved="yes">
+        <source>Clearing steps after form is finished:</source>
+        <target />
+      </trans-unit>
+      <trans-unit id="cleared_session" resname="cleared_session" approved="yes">
+        <source>Cleared params in session</source>
+        <target>Leere Parameter in der Session</target>
+      </trans-unit>
+      <trans-unit id="cleared_steps" resname="cleared_steps" approved="yes">
+        <source>Cleared steps:</source>
+        <target />
+      </trans-unit>
+      <trans-unit id="combined" resname="combined" approved="yes">
+        <source>Combined %s = %s!</source>
+        <target />
+      </trans-unit>
+      <trans-unit id="condition" resname="condition" approved="yes">
+        <source>Condition was evaluated as %s : %s!</source>
+        <target>Bedingung wurde ausgewertet als %s : %s!</target>
+      </trans-unit>
+      <trans-unit id="copy_file" resname="copy_file" approved="yes">
+        <source>Copying file &quot;%s&quot; to &quot;%s&quot;!</source>
+        <target>Kopiere Datei &quot;%s&quot; nach &quot;%s&quot;!</target>
+      </trans-unit>
+      <trans-unit id="current_files" resname="current_files" approved="yes">
+        <source>The current uploaded files are:</source>
+        <target>Aktuell hochgeladene Dateien:</target>
+      </trans-unit>
+      <trans-unit id="current_gp" resname="current_gp" approved="yes">
+        <source>The current GET/POST params are:</source>
+        <target>Die aktuellen GET/POST-Parameter:</target>
+      </trans-unit>
+      <trans-unit id="current_session_params" resname="current_session_params" approved="yes">
+        <source>The current values in session are:</source>
+        <target>Die aktuellen Werte in der Session:</target>
+      </trans-unit>
+      <trans-unit id="current_step" resname="current_step" approved="yes">
+        <source>Current step is: %s</source>
+        <target>Aktueller Step: %s</target>
+      </trans-unit>
+      <trans-unit id="data_stored" resname="data_stored" approved="yes">
+        <source>Data gets stored!</source>
+        <target>Daten werden gespeichert!</target>
+      </trans-unit>
+      <trans-unit id="deleting_file" resname="deleting_file" approved="yes">
+        <source>Deleting file &quot;%s&quot;!</source>
+        <target>Lösche Datei &quot;%s&quot;!</target>
+      </trans-unit>
+      <trans-unit id="error" resname="error" approved="yes">
+        <source>The following error occurred: %s</source>
+        <target>Ein Fehler ist aufgetreten: %s</target>
+      </trans-unit>
+      <trans-unit id="folder_doesnt_exist" resname="folder_doesnt_exist" approved="yes">
+        <source>Folder &quot;%s&quot; doesn't exist! Trying to create!</source>
+        <target>Verzeichnis &quot;%s&quot; existiert nicht! Formhandler versucht es anzulegen!</target>
+      </trans-unit>
+      <trans-unit id="form_finished" resname="form_finished" approved="yes">
+        <source>Form is finished!</source>
+        <target>Formular ist beendet!</target>
+      </trans-unit>
+      <trans-unit id="init_values" resname="init_values" approved="yes">
+        <source>Initial values</source>
+        <target>Initiale Werte</target>
+      </trans-unit>
+      <trans-unit id="invalid_isset" resname="invalid_isset" approved="yes">
+        <source>&quot;Invalid format of ISSET Marker. Hint: %s</source>
+        <target>Ungültiges Format für ISSET Marker. Tipp: %s</target>
+      </trans-unit>
+      <trans-unit id="last_step" resname="last_step" approved="yes">
+        <source>Last step was: %s</source>
+        <target />
+      </trans-unit>
+      <trans-unit id="finished_step" resname="finished_step" approved="yes">
+        <source>Last step in form is: %s</source>
+        <target />
+      </trans-unit>
+      <trans-unit id="logging" resname="logging" approved="yes">
+        <source>Logging into table &quot;%s&quot; values: %s!</source>
+        <target>Logge in Tabelle &quot;%s&quot; folgende Werte: %s!</target>
+      </trans-unit>
+      <trans-unit id="mail_bcc" resname="mail_bcc" approved="yes">
+        <source>BCC:</source>
+        <target>BCC:</target>
+      </trans-unit>
+      <trans-unit id="mail_cc" resname="mail_cc" approved="yes">
+        <source>CC:</source>
+        <target>CC:</target>
+      </trans-unit>
+      <trans-unit id="mail_disabled" resname="mail_disabled" approved="yes">
+        <source>Skipped %s mail because it is disabled in TypoScript!</source>
+        <target>Überspringe %s E-Mail, weil abgeschalten in TypoScript!</target>
+      </trans-unit>
+      <trans-unit id="mail_html" resname="mail_html" approved="yes">
+        <source>Message HTML:</source>
+        <target>Nachricht HTML:</target>
+      </trans-unit>
+      <trans-unit id="mail_message" resname="mail_message" approved="yes">
+        <source>Message:</source>
+        <target>Nachricht:</target>
+      </trans-unit>
+      <trans-unit id="mail_not_sent" resname="mail_not_sent" approved="yes">
+        <source>Mail NOT sent to: %s</source>
+        <target>E-Mail NICHT verschickt an: %s</target>
+      </trans-unit>
+      <trans-unit id="mail_plain" resname="mail_plain" approved="yes">
+        <source>Message plain:</source>
+        <target>Nachricht plain:</target>
+      </trans-unit>
+      <trans-unit id="mail_replyto" resname="mail_replyto" approved="yes">
+        <source>Reply to:</source>
+        <target>Reply to:</target>
+      </trans-unit>
+      <trans-unit id="mail_returnpath" resname="mail_returnpath" approved="yes">
+        <source>Return path:</source>
+        <target>Return path:</target>
+      </trans-unit>
+      <trans-unit id="mail_sender" resname="mail_sender" approved="yes">
+        <source>Sender:</source>
+        <target>Absender:</target>
+      </trans-unit>
+      <trans-unit id="mail_sent" resname="mail_sent" approved="yes">
+        <source>Mail successfully sent to: %s</source>
+        <target>E-Mail verschickt an: %s</target>
+      </trans-unit>
+      <trans-unit id="mail_subject" resname="mail_subject" approved="yes">
+        <source>Subject: %s</source>
+        <target>Betreff: %s</target>
+      </trans-unit>
+      <trans-unit id="missing_field_for_error_check" resname="missing_field_for_error_check" approved="yes">
+        <source>Trying to validate a field that doesn't exist: &quot;%s&quot;! Either you forgot to remove an error check or yorgot to add a field to your HTML! Maybe it is just an unset checkbox field! In that case, everything is fine.</source>
+        <target>Validierung eines nicht existenten Feldes: &quot;%s&quot;! Vielleicht haben Sie vergessen einen Error Check zu entfernen oder ein Feld zum HTML hinzuzufügen. Vielleicht ist das Feld aber auch nur eine Checkbox. In diesem Fall ist alles OK.</target>
+      </trans-unit>
+      <trans-unit id="no_submittedok_template" resname="no_submittedok_template" approved="yes">
+        <source>SubmittedOK template not found! Make sure that the subpart ###TEMPLATE_SUBMITTEDOK### is in your HTML template!</source>
+        <target>SubmittedOK-Template nicht gefunden! Stellen Sie sicher, dass der Subpart ###TEMPLATE_SUBMITTEDOK### im HTML-Template ist!</target>
+      </trans-unit>
+      <trans-unit id="no_error_message" resname="no_error_message" approved="yes">
+        <source>Could not find error message with key &quot;%s&quot;!</source>
+        <target>Konnte Fehlermeldung mit Key &quot;%s&quot; nicht finden!</target>
+      </trans-unit>
+      <trans-unit id="no_mail_template" resname="no_mail_template" approved="yes">
+        <source>E-Mail template not found for mode %s and type %s! This mail is skipped!</source>
+        <target>E-Mail-Template für Modus %s und Typ %s nicht gefunden! Diese E-Mail wird übersprungen!</target>
+      </trans-unit>
+      <trans-unit id="no_update_possible" resname="no_update_possible" approved="yes">
+        <source>UID parameter not found in GP. Cannot make update!</source>
+        <target>UID-Parameter nicht gefunden in GP. Update nicht möglich!</target>
+      </trans-unit>
+      <trans-unit id="redirect_failed" resname="redirect_failed" approved="yes">
+        <source>Tried to do a redirect to specified page! The redirect may have failed because the debug settings is on!</source>
+        <target>Versuchte eine Weiterleitung zur angegebenen Seite zu machen! Die Weiterleitung ist gescheitert, möglicherweise weil der Debug-Modus aktiviert ist!</target>
+      </trans-unit>
+      <trans-unit id="sql_request" resname="sql_request" approved="yes">
+        <source>Executing request &quot;%s&quot;;</source>
+        <target>Führe aus: &quot;%s&quot;</target>
+      </trans-unit>
+      <trans-unit id="sql_request_error" resname="sql_request_error" approved="yes">
+        <source>SQL request failed: %s</source>
+        <target>SQL Ausführung fehlgeschlagen: %s</target>
+      </trans-unit>
+      <trans-unit id="sql_too_many_rows" resname="sql_too_many_rows" approved="yes">
+        <source>SQL request resulted in %d rows! Only one row is allowed.</source>
+        <target>SQL-Abfrage lieferte %s Ergebnisse. Nur ein Ergebnis ist erlaubt.</target>
+      </trans-unit>
+      <trans-unit id="store_gp" resname="store_gp" approved="yes">
+        <source>Storing GP in session!</source>
+        <target>Speichere GP in Session!</target>
+      </trans-unit>
+      <trans-unit id="subparts_missing" resname="subparts_missing" approved="yes">
+        <source>Subparts in template missing! Found: %s</source>
+        <target>Subparts fehlen im Template! Gefunden: %s</target>
+      </trans-unit>
+      <trans-unit id="total_steps" resname="total_steps" approved="yes">
+        <source>Highest step subpart found in template file (number of steps): %s</source>
+        <target>Höchster Subparts im Template (Anzahl der Steps): %s</target>
+      </trans-unit>
+      <trans-unit id="translated" resname="translated" approved="yes">
+        <source>Translated %s = %s!</source>
+        <target />
+      </trans-unit>
+      <trans-unit id="using_controller" resname="using_controller" approved="yes">
+        <source>Using controller &quot;%s&quot;</source>
+        <target>Verwende Controller &quot;%s&quot;</target>
+      </trans-unit>
+      <trans-unit id="using_prefix" resname="using_prefix" approved="yes">
+        <source>Using prefix for form values: &quot;%s&quot;</source>
+        <target>Verwende Prefix für Formularwerte: &quot;%s&quot;</target>
+      </trans-unit>
+      <trans-unit id="using_subpart" resname="using_subpart" approved="yes">
+        <source>Using subpart &quot;%s&quot;!</source>
+        <target>Verwende Subpart &quot;%s&quot;!</target>
+      </trans-unit>
+      <trans-unit id="using_view" resname="using_view" approved="yes">
+        <source>Using view &quot;%s&quot;</source>
+        <target>Verwende View &quot;%s&quot;</target>
+      </trans-unit>
+      <trans-unit id="cacheCmd" resname="cacheCmd" approved="yes">
+        <source>Clearing cache user cacheCmd &quot;%s&quot;</source>
+        <target>Cache wird gelöscht mit cacheCmd &quot;%s&quot;</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

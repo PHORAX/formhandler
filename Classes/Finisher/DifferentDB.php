@@ -1,22 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Typoheads\Formhandler\Finisher;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        */
+/**
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ */
+
 /**
  * This finisher stores the submitted values into a table in a different database than the TYPO3 database according to the configuration.
  *
@@ -33,34 +36,34 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * </code>
  *
  * Further configuration equals the configuration of Finisher\DB.
+ *
  * @see \Typoheads\Formhandler\Finisher\DB
  */
-class DifferentDB extends DB
-{
-    /**
-     * Inits the finisher mapping settings values to internal attributes.
-     *
-     * @see \Typoheads\Formhandler\Finisher\DB::init
-     */
-    public function init($gp, $settings)
-    {
-        //read settings
-        $connectionParams = [
-            'dbname' => $this->utilityFuncs->getSingle($settings, 'db'),
-            'user' => $this->utilityFuncs->getSingle($settings, 'username'),
-            'password' => $this->utilityFuncs->getSingle($settings, 'password'),
-            'charset' => 'utf8',
-            'host' => $this->utilityFuncs->getSingle($settings, 'host'),
-            'port' => $this->utilityFuncs->getSingle($settings, 'port'),
-            'driver' => $this->utilityFuncs->getSingle($settings, 'driver') ?: 'mysqli',
-            'initCommands' => $this->utilityFuncs->getSingle($settings, 'setDBinit'),
-        ];
+class DifferentDB extends DB {
+  /**
+   * Inits the finisher mapping settings values to internal attributes.
+   *
+   * @see \Typoheads\Formhandler\Finisher\DB::init
+   */
+  public function init(array $gp, array $settings): void {
+    // read settings
+    $connectionParams = [
+      'dbname' => $this->utilityFuncs->getSingle($settings, 'db'),
+      'user' => $this->utilityFuncs->getSingle($settings, 'username'),
+      'password' => $this->utilityFuncs->getSingle($settings, 'password'),
+      'charset' => 'utf8',
+      'host' => $this->utilityFuncs->getSingle($settings, 'host'),
+      'port' => $this->utilityFuncs->getSingle($settings, 'port'),
+      'driver' => $this->utilityFuncs->getSingle($settings, 'driver') ?: 'mysqli',
+      'initCommands' => $this->utilityFuncs->getSingle($settings, 'setDBinit'),
+    ];
 
-        $connectionName = uniqid('formhandler_');
-        $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections'][$connectionName] = $connectionParams;
-        $this->connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionByName($connectionName);
+    $connectionName = uniqid('formhandler_');
+    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections'][$connectionName] = $connectionParams;
+    $this->connection = GeneralUtility::makeInstance(ConnectionPool::class)
+      ->getConnectionByName($connectionName)
+    ;
 
-        parent::init($gp, $settings);
-    }
+    parent::init($gp, $settings);
+  }
 }

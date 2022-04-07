@@ -1,138 +1,103 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Typoheads\Formhandler\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
- */
 /**
- * Demand object for log data
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  */
-class Demand extends AbstractEntity
-{
 
-    /**
-     * @var int
-     */
-    protected $crdate = 0;
+/**
+ * Demand object for log data.
+ */
+class Demand extends AbstractEntity {
+  protected int $crdate = 0;
 
-    /**
-     * @var string
-     */
-    protected $ip = '';
+  /**
+   * Calculated end timestamp.
+   */
+  protected int $endTimestamp = 0;
 
-    /**
-     * @var string
-     */
-    protected $params = '';
+  protected string $ip = '';
 
-    /**
-     * @var bool
-     */
-    protected $isSpam = 0;
+  protected bool $isSpam = false;
 
-    /**
-     * Calculated start timestamp
-     *
-     * @var int
-     */
-    protected $startTimestamp = 0;
+  protected string $params = '';
 
-    /**
-     * Calculated end timestamp
-     *
-     * @var int
-     */
-    protected $endTimestamp = 0;
+  /**
+   * Calculated start timestamp.
+   */
+  protected int $startTimestamp = 0;
 
-    public function getCrdate()
-    {
-        return $this->crdate;
-    }
+  public function getCrdate(): int {
+    return $this->crdate;
+  }
 
-    public function setCrdate($crdate)
-    {
-        $this->crdate = (int)$crdate;
-    }
+  /**
+   * Get calculated end timestamp from query constraints.
+   */
+  public function getEndTimestamp(): int {
+    return $this->endTimestamp;
+  }
 
-    public function getIp()
-    {
-        return $this->ip;
-    }
+  public function getIp(): string {
+    return $this->ip;
+  }
 
-    public function setIp($ip)
-    {
-        $this->ip = $ip;
-    }
+  public function getIsSpam(): bool {
+    return $this->isSpam;
+  }
 
-    public function getParams()
-    {
-        return $this->params;
-    }
+  public function getParams(): string {
+    return $this->params;
+  }
 
-    public function setParams($params)
-    {
-        $this->params = $params;
-    }
+  /**
+   * Get calculated start timestamp from query constraints.
+   */
+  public function getStartTimestamp(): int {
+    return $this->startTimestamp;
+  }
 
-    public function getIsSpam()
-    {
-        return $this->isSpam;
-    }
+  public function setCrdate(int $crdate): void {
+    $this->crdate = $crdate;
+  }
 
-    public function setIsSpam($isSpam)
-    {
-        $this->isSpam = $isSpam;
-    }
+  /**
+   * Set calculated end timestamp from query constraints.
+   */
+  public function setEndTimestamp(int $timestamp): void {
+    $this->endTimestamp = $timestamp;
+  }
 
-    /**
-     * Get calculated start timestamp from query constraints
-     *
-     * @return int
-     */
-    public function getStartTimestamp()
-    {
-        return $this->startTimestamp;
-    }
+  public function setIp(string $ip): void {
+    $this->ip = $ip;
+  }
 
-    /**
-     * Set calculated start timestamp from query constraints
-     *
-     * @param int $timestamp
-     */
-    public function setStartTimestamp($timestamp)
-    {
-        $this->startTimestamp = (int)$timestamp;
-    }
+  public function setIsSpam(bool $isSpam): void {
+    $this->isSpam = $isSpam;
+  }
 
-    /**
-     * Get calculated end timestamp from query constraints
-     *
-     * @return int
-     */
-    public function getEndTimestamp()
-    {
-        return $this->endTimestamp;
-    }
+  public function setParams(string $params): void {
+    $this->params = $params;
+  }
 
-    /**
-     * Set calculated end timestamp from query constraints
-     *
-     * @param int $timestamp
-     */
-    public function setEndTimestamp($timestamp)
-    {
-        $this->endTimestamp = (int)$timestamp;
-    }
+  /**
+   * Set calculated start timestamp from query constraints.
+   */
+  public function setStartTimestamp(int $timestamp): void {
+    $this->startTimestamp = $timestamp;
+  }
 }
