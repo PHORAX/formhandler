@@ -25,36 +25,39 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
     * @return string the Widget URI
     */
    protected static function getWidgetUri(RenderingContextInterface $renderingContext, array $arguments): string {
-     $controllerContext = $renderingContext->getControllerContext();
-     $uriBuilder = $controllerContext->getUriBuilder();
-     $argumentPrefix = $controllerContext->getRequest()->getArgumentPrefix();
-     $parameters = $arguments['arguments'] ?? [];
-     if ($arguments['action'] ?? false) {
-       $parameters['action'] = $arguments['action'];
-     }
-     if (($arguments['format'] ?? '') !== '') {
-       $parameters['format'] = $arguments['format'];
-     }
-     $queryParameters = [$argumentPrefix => $parameters];
+     // TODO: Fix me
 
-     // @todo: how to do this better
-     $additionalParams = [
-       'tx_formhandler_web_formhandlerlog' => [
-         'demand' => $_POST['tx_formhandler_web_formhandlerlog']['demand'],
-         'show' => $_POST['tx_formhandler_web_formhandlerlog']['show'],
-       ],
-     ];
-     $queryParameters = array_merge($queryParameters, $additionalParams);
+     //  $controllerContext = $renderingContext->getControllerContext();
+     //  $uriBuilder = $controllerContext->getUriBuilder();
+     //  $argumentPrefix = $controllerContext->getRequest()->getArgumentPrefix();
+     //  $parameters = $arguments['arguments'] ?? [];
+     //  if ($arguments['action'] ?? false) {
+     //    $parameters['action'] = $arguments['action'];
+     //  }
+     //  if (($arguments['format'] ?? '') !== '') {
+     //    $parameters['format'] = $arguments['format'];
+     //  }
+     //  $queryParameters = [$argumentPrefix => $parameters];
 
-     return $uriBuilder->reset()
-       ->setArguments($queryParameters)
-       ->setSection($arguments['section'])
-       ->setUseCacheHash($arguments['useCacheHash'])
-       ->setAddQueryString(true)
-       ->setAddQueryStringMethod($arguments['addQueryStringMethod'])
-       ->setArgumentsToBeExcludedFromQueryString([$argumentPrefix, 'cHash'])
-       ->setFormat($arguments['format'])
-       ->build()
-     ;
+     //  // @todo: how to do this better
+     //  $additionalParams = [
+     //    'tx_formhandler_web_formhandlerlog' => [
+     //      'demand' => $_POST['tx_formhandler_web_formhandlerlog']['demand'],
+     //      'show' => $_POST['tx_formhandler_web_formhandlerlog']['show'],
+     //    ],
+     //  ];
+     //  $queryParameters = array_merge($queryParameters, $additionalParams);
+
+     //  return $uriBuilder->reset()
+     //    ->setArguments($queryParameters)
+     //    ->setSection($arguments['section'])
+     //    ->setUseCacheHash($arguments['useCacheHash'])
+     //    ->setAddQueryString(true)
+     //    ->setAddQueryStringMethod($arguments['addQueryStringMethod'])
+     //    ->setArgumentsToBeExcludedFromQueryString([$argumentPrefix, 'cHash'])
+     //    ->setFormat($arguments['format'])
+     //    ->build()
+     //  ;
+     return '';
    }
  }
