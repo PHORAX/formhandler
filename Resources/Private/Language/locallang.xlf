@@ -1,227 +1,228 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file  source-language="en" datatype="plaintext" original="messages" date="2021-11-12T18:10:43Z" product-name="formhandler">
-		<header/>
-		<body>
-			<trans-unit id="action.index" resname="action.index" >
-				<source>View log data</source>
-			</trans-unit>
-			<trans-unit id="action.clearLogs" resname="action.clearLogs" >
-				<source>Clear log data</source>
-			</trans-unit>
-			<trans-unit id="headline.index" resname="headline.index" >
-				<source>Log Data</source>
-			</trans-unit>
-			<trans-unit id="headline.clearLogs" resname="headline.clearLogs" >
-				<source>Clear Log Data</source>
-			</trans-unit>
-			<trans-unit id="headline.selectFields" resname="headline.selectFields" >
-				<source>Select the fields to export</source>
-			</trans-unit>
-			<trans-unit id="label.pid" resname="label.pid" >
-				<source>Page ID</source>
-			</trans-unit>
-			<trans-unit id="label.page" resname="label.page" >
-				<source>Page Info</source>
-			</trans-unit>
-			<trans-unit id="label.count" resname="label.count" >
-				<source>Number of logs</source>
-			</trans-unit>
-			<trans-unit id="label.submissionDate" resname="label.submissionDate" >
-				<source>Submission Date</source>
-			</trans-unit>
-			<trans-unit id="label.ip" resname="label.ip" >
-				<source>IP</source>
-			</trans-unit>
-			<trans-unit id="label.detailView" resname="label.detailView" >
-				<source>View</source>
-			</trans-unit>
-			<trans-unit id="label.export" resname="label.export" >
-				<source>Export as</source>
-			</trans-unit>
-			<trans-unit id="label.show" resname="label.show" >
-				<source>Items per page</source>
-			</trans-unit>
-			<trans-unit id="label.submit" resname="label.submit" >
-				<source>Filter</source>
-			</trans-unit>
-			<trans-unit id="label.select-all" resname="label.select-all" >
-				<source>Select all pages</source>
-			</trans-unit>
-			<trans-unit id="label.select-page-from-tree" resname="label.select-page-from-tree" >
-				<source>Please select the page using the page tree.</source>
-			</trans-unit>
-			<trans-unit id="label.start" resname="label.start" >
-				<source>Start</source>
-			</trans-unit>
-			<trans-unit id="label.end" resname="label.end" >
-				<source>End</source>
-			</trans-unit>
-			<trans-unit id="label.params" resname="label.params" >
-				<source>Submitted Values</source>
-			</trans-unit>
-			<trans-unit id="label.data" resname="label.data" >
-				<source>Submission Data</source>
-			</trans-unit>
-			<trans-unit id="label.back" resname="label.back" >
-				<source>Back to list</source>
-			</trans-unit>
-			<trans-unit id="label.delete-all-selected-logs" resname="label.delete-all-selected-logs" >
-				<source>Delete all selected log rows</source>
-			</trans-unit>
-			<trans-unit id="label.select-all-rows" resname="label.select-all-rows" >
-				<source>Select all/Select none</source>
-			</trans-unit>
-			<trans-unit id="message.delete-all-selected-logs" resname="message.delete-all-selected-logs" >
-				<source>Are you sure you want to delete all selected log rows?</source>
-			</trans-unit>
-			<trans-unit id="message.deleted-log-rows" resname="message.deleted-log-rows" >
-				<source>Deleted %d log row(s)!</source>
-			</trans-unit>
-			<trans-unit id="message.deleted-all-logs" resname="message.deleted-all-logs" >
-				<source>Deleted all log rows!</source>
-			</trans-unit>
-			<trans-unit id="message.noRecordsFound" resname="message.noRecordsFound" >
-				<source>No records found</source>
-			</trans-unit>
-			<trans-unit id="button.export" resname="button.export" >
-				<source>Export</source>
-			</trans-unit>
-			<trans-unit id="title" resname="title" >
-				<source>Formhandler</source>
-			</trans-unit>
-			<trans-unit id="no_id" resname="no_id" >
-				<source>Please select a page first!</source>
-			</trans-unit>
-			<trans-unit id="function1" resname="function1" >
-				<source>Log overview</source>
-			</trans-unit>
-			<trans-unit id="function2" resname="function2" >
-				<source>Clear logs</source>
-			</trans-unit>
-			<trans-unit id="function3" resname="function3" >
-				<source>Function #3</source>
-			</trans-unit>
-			<trans-unit id="noLogTable" resname="noLogTable" >
-				<source>Required table 'tx_formhandler_log' not found. Please add the default logger to your Formhandler TypoScript setup.</source>
-			</trans-unit>
-			<trans-unit id="select_export_fields" resname="select_export_fields" >
-				<source>Please select the fields to export:</source>
-			</trans-unit>
-			<trans-unit id="select_all" resname="select_all" >
-				<source>Select all</source>
-			</trans-unit>
-			<trans-unit id="deselect_all" resname="deselect_all" >
-				<source>Deselect all</source>
-			</trans-unit>
-			<trans-unit id="export" resname="export" >
-				<source>Export</source>
-			</trans-unit>
-			<trans-unit id="export_all" resname="export_all" >
-				<source>Export all</source>
-			</trans-unit>
-			<trans-unit id="export_as" resname="export_as" >
-				<source>Export as</source>
-			</trans-unit>
-			<trans-unit id="ip_address" resname="ip_address" >
-				<source>IP address</source>
-			</trans-unit>
-			<trans-unit id="search" resname="search" >
-				<source>Search</source>
-			</trans-unit>
-			<trans-unit id="submission_date" resname="submission_date" >
-				<source>Submission date</source>
-			</trans-unit>
-			<trans-unit id="submitted_values" resname="submitted_values" >
-				<source>Submitted values</source>
-			</trans-unit>
-			<trans-unit id="submission_details" resname="submission_details" >
-				<source>Submission details</source>
-			</trans-unit>
-			<trans-unit id="footer_text" resname="footer_text" >
-				<source>Generated by Formhandler using TCPDF at %s</source>
-			</trans-unit>
-			<trans-unit id="fieldname" resname="fieldname" >
-				<source>Name</source>
-			</trans-unit>
-			<trans-unit id="fieldvalue" resname="fieldvalue" >
-				<source>Entered value</source>
-			</trans-unit>
-			<trans-unit id="page" resname="page" >
-				<source>Page</source>
-			</trans-unit>
-			<trans-unit id="page_id" resname="page_id" >
-				<source>Page ID</source>
-			</trans-unit>
-			<trans-unit id="params" resname="params" >
-				<source>Params</source>
-			</trans-unit>
-			<trans-unit id="back" resname="back" >
-				<source>Back</source>
-			</trans-unit>
-			<trans-unit id="pdf" resname="pdf" >
-				<source>PDF</source>
-			</trans-unit>
-			<trans-unit id="csv" resname="csv" >
-				<source>CSV</source>
-			</trans-unit>
-			<trans-unit id="filter" resname="filter" >
-				<source>Filter</source>
-			</trans-unit>
-			<trans-unit id="pid_label" resname="pid_label" >
-				<source>PID (comma seperated)</source>
-			</trans-unit>
-			<trans-unit id="startdate" resname="startdate" >
-				<source>Start date</source>
-			</trans-unit>
-			<trans-unit id="enddate" resname="enddate" >
-				<source>End date</source>
-			</trans-unit>
-			<trans-unit id="detail_view" resname="detail_view" >
-				<source>Detail view</source>
-			</trans-unit>
-			<trans-unit id="delete_selected" resname="delete_selected" >
-				<source>Delete selected</source>
-			</trans-unit>
-			<trans-unit id="delete_question" resname="delete_question" >
-				<source>Remove selected records?</source>
-			</trans-unit>
-			<trans-unit id="show" resname="show" >
-				<source>Show</source>
-			</trans-unit>
-			<trans-unit id="cal" resname="cal" >
-				<source>Cal</source>
-			</trans-unit>
-			<trans-unit id="no_records" resname="no_records" >
-				<source>No records found!</source>
-			</trans-unit>
-			<trans-unit id="formats_found" resname="formats_found" >
-				<source>%d formats found! Please export them in seperatefiles!</source>
-			</trans-unit>
-			<trans-unit id="crdate" resname="crdate" >
-				<source>Date</source>
-			</trans-unit>
-			<trans-unit id="welcome" resname="welcome" >
-				<source>Welcome to the log of Formhandler!</source>
-			</trans-unit>
-			<trans-unit id="mathguard_question" resname="mathguard_question" >
-				<source> security question, please solve:</source>
-			</trans-unit>
-			<trans-unit id="clear" resname="clear" >
-				<source>Delete</source>
-			</trans-unit>
-			<trans-unit id="clear-logs-message" resname="clear-logs-message" >
-				<source>Do you really want to delete %d logged records? These changes cannot be reverted!</source>
-			</trans-unit>
-			<trans-unit id="no-logs-message" resname="no-logs-message" >
-				<source>Nothing to remove!</source>
-			</trans-unit>
-			<trans-unit id="clear-logs-success-header" resname="clear-logs-success-header" >
-				<source>Success!</source>
-			</trans-unit>
-			<trans-unit id="clear-logs-success-message" resname="clear-logs-success-message" >
-				<source>%d records were removed successfully!</source>
-			</trans-unit>
-		</body>
-	</file>
+<xliff version="1.2"
+  xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="messages" date="2021-11-12T18:10:43Z" product-name="formhandler">
+    <header />
+    <body>
+      <trans-unit id="action.index" resname="action.index">
+        <source>View log data</source>
+      </trans-unit>
+      <trans-unit id="action.clearLogs" resname="action.clearLogs">
+        <source>Clear log data</source>
+      </trans-unit>
+      <trans-unit id="headline.index" resname="headline.index">
+        <source>Log Data</source>
+      </trans-unit>
+      <trans-unit id="headline.clearLogs" resname="headline.clearLogs">
+        <source>Clear Log Data</source>
+      </trans-unit>
+      <trans-unit id="headline.selectFields" resname="headline.selectFields">
+        <source>Select the fields to export</source>
+      </trans-unit>
+      <trans-unit id="label.pid" resname="label.pid">
+        <source>Page ID</source>
+      </trans-unit>
+      <trans-unit id="label.page" resname="label.page">
+        <source>Page Info</source>
+      </trans-unit>
+      <trans-unit id="label.count" resname="label.count">
+        <source>Number of logs</source>
+      </trans-unit>
+      <trans-unit id="label.submissionDate" resname="label.submissionDate">
+        <source>Submission Date</source>
+      </trans-unit>
+      <trans-unit id="label.ip" resname="label.ip">
+        <source>IP</source>
+      </trans-unit>
+      <trans-unit id="label.detailView" resname="label.detailView">
+        <source>View</source>
+      </trans-unit>
+      <trans-unit id="label.export" resname="label.export">
+        <source>Export as</source>
+      </trans-unit>
+      <trans-unit id="label.show" resname="label.show">
+        <source>Items per page</source>
+      </trans-unit>
+      <trans-unit id="label.submit" resname="label.submit">
+        <source>Filter</source>
+      </trans-unit>
+      <trans-unit id="label.select-all" resname="label.select-all">
+        <source>Select all pages</source>
+      </trans-unit>
+      <trans-unit id="label.select-page-from-tree" resname="label.select-page-from-tree">
+        <source>Please select the page using the page tree.</source>
+      </trans-unit>
+      <trans-unit id="label.start" resname="label.start">
+        <source>Start</source>
+      </trans-unit>
+      <trans-unit id="label.end" resname="label.end">
+        <source>End</source>
+      </trans-unit>
+      <trans-unit id="label.params" resname="label.params">
+        <source>Submitted Values</source>
+      </trans-unit>
+      <trans-unit id="label.data" resname="label.data">
+        <source>Submission Data</source>
+      </trans-unit>
+      <trans-unit id="label.back" resname="label.back">
+        <source>Back to list</source>
+      </trans-unit>
+      <trans-unit id="label.delete-all-selected-logs" resname="label.delete-all-selected-logs">
+        <source>Delete all selected log rows</source>
+      </trans-unit>
+      <trans-unit id="label.select-all-rows" resname="label.select-all-rows">
+        <source>Select all/Select none</source>
+      </trans-unit>
+      <trans-unit id="message.delete-all-selected-logs" resname="message.delete-all-selected-logs">
+        <source>Are you sure you want to delete all selected log rows?</source>
+      </trans-unit>
+      <trans-unit id="message.deleted-log-rows" resname="message.deleted-log-rows">
+        <source>Deleted %d log row(s)!</source>
+      </trans-unit>
+      <trans-unit id="message.deleted-all-logs" resname="message.deleted-all-logs">
+        <source>Deleted all log rows!</source>
+      </trans-unit>
+      <trans-unit id="message.noRecordsFound" resname="message.noRecordsFound">
+        <source>No records found</source>
+      </trans-unit>
+      <trans-unit id="button.export" resname="button.export">
+        <source>Export</source>
+      </trans-unit>
+      <trans-unit id="title" resname="title">
+        <source>Formhandler</source>
+      </trans-unit>
+      <trans-unit id="no_id" resname="no_id">
+        <source>Please select a page first!</source>
+      </trans-unit>
+      <trans-unit id="function1" resname="function1">
+        <source>Log overview</source>
+      </trans-unit>
+      <trans-unit id="function2" resname="function2">
+        <source>Clear logs</source>
+      </trans-unit>
+      <trans-unit id="function3" resname="function3">
+        <source>Function #3</source>
+      </trans-unit>
+      <trans-unit id="noLogTable" resname="noLogTable">
+        <source>Required table 'tx_formhandler_log' not found. Please add the default logger to your Formhandler TypoScript setup.</source>
+      </trans-unit>
+      <trans-unit id="select_export_fields" resname="select_export_fields">
+        <source>Please select the fields to export:</source>
+      </trans-unit>
+      <trans-unit id="select_all" resname="select_all">
+        <source>Select all</source>
+      </trans-unit>
+      <trans-unit id="deselect_all" resname="deselect_all">
+        <source>Deselect all</source>
+      </trans-unit>
+      <trans-unit id="export" resname="export">
+        <source>Export</source>
+      </trans-unit>
+      <trans-unit id="export_all" resname="export_all">
+        <source>Export all</source>
+      </trans-unit>
+      <trans-unit id="export_as" resname="export_as">
+        <source>Export as</source>
+      </trans-unit>
+      <trans-unit id="ip_address" resname="ip_address">
+        <source>IP address</source>
+      </trans-unit>
+      <trans-unit id="search" resname="search">
+        <source>Search</source>
+      </trans-unit>
+      <trans-unit id="submission_date" resname="submission_date">
+        <source>Submission date</source>
+      </trans-unit>
+      <trans-unit id="submitted_values" resname="submitted_values">
+        <source>Submitted values</source>
+      </trans-unit>
+      <trans-unit id="submission_details" resname="submission_details">
+        <source>Submission details</source>
+      </trans-unit>
+      <trans-unit id="footer_text" resname="footer_text">
+        <source>Generated by Formhandler using TCPDF at %s</source>
+      </trans-unit>
+      <trans-unit id="fieldname" resname="fieldname">
+        <source>Name</source>
+      </trans-unit>
+      <trans-unit id="fieldvalue" resname="fieldvalue">
+        <source>Entered value</source>
+      </trans-unit>
+      <trans-unit id="page" resname="page">
+        <source>Page</source>
+      </trans-unit>
+      <trans-unit id="page_id" resname="page_id">
+        <source>Page ID</source>
+      </trans-unit>
+      <trans-unit id="params" resname="params">
+        <source>Params</source>
+      </trans-unit>
+      <trans-unit id="back" resname="back">
+        <source>Back</source>
+      </trans-unit>
+      <trans-unit id="pdf" resname="pdf">
+        <source>PDF</source>
+      </trans-unit>
+      <trans-unit id="csv" resname="csv">
+        <source>CSV</source>
+      </trans-unit>
+      <trans-unit id="filter" resname="filter">
+        <source>Filter</source>
+      </trans-unit>
+      <trans-unit id="pid_label" resname="pid_label">
+        <source>PID (comma seperated)</source>
+      </trans-unit>
+      <trans-unit id="startdate" resname="startdate">
+        <source>Start date</source>
+      </trans-unit>
+      <trans-unit id="enddate" resname="enddate">
+        <source>End date</source>
+      </trans-unit>
+      <trans-unit id="detail_view" resname="detail_view">
+        <source>Detail view</source>
+      </trans-unit>
+      <trans-unit id="delete_selected" resname="delete_selected">
+        <source>Delete selected</source>
+      </trans-unit>
+      <trans-unit id="delete_question" resname="delete_question">
+        <source>Remove selected records?</source>
+      </trans-unit>
+      <trans-unit id="show" resname="show">
+        <source>Show</source>
+      </trans-unit>
+      <trans-unit id="cal" resname="cal">
+        <source>Cal</source>
+      </trans-unit>
+      <trans-unit id="no_records" resname="no_records">
+        <source>No records found!</source>
+      </trans-unit>
+      <trans-unit id="formats_found" resname="formats_found">
+        <source>%d formats found! Please export them in seperatefiles!</source>
+      </trans-unit>
+      <trans-unit id="crdate" resname="crdate">
+        <source>Date</source>
+      </trans-unit>
+      <trans-unit id="welcome" resname="welcome">
+        <source>Welcome to the log of Formhandler!</source>
+      </trans-unit>
+      <trans-unit id="mathguard_question" resname="mathguard_question">
+        <source> security question, please solve:</source>
+      </trans-unit>
+      <trans-unit id="clear" resname="clear">
+        <source>Delete</source>
+      </trans-unit>
+      <trans-unit id="clear-logs-message" resname="clear-logs-message">
+        <source>Do you really want to delete %d logged records? These changes cannot be reverted!</source>
+      </trans-unit>
+      <trans-unit id="no-logs-message" resname="no-logs-message">
+        <source>Nothing to remove!</source>
+      </trans-unit>
+      <trans-unit id="clear-logs-success-header" resname="clear-logs-success-header">
+        <source>Success!</source>
+      </trans-unit>
+      <trans-unit id="clear-logs-success-message" resname="clear-logs-success-message">
+        <source>%d records were removed successfully!</source>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

@@ -1,89 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="messages" date="2021-11-12T18:11:43Z" product-name="formhandler">
-		<header/>
-		<body>
-			<trans-unit id="wizard_pi1.title" resname="wizard_pi1.title" >
-				<source>Formhandler</source>
-			</trans-unit>
-			<trans-unit id="tt_content.list_type_pi1" resname="tt_content.list_type_pi1" >
-				<source>Formhandler</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main" resname="tx_formhandler_main" >
-				<source>Formhandler</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.email_to" resname="tx_formhandler_main.email_to" >
-				<source>send formular field to this email</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.email_subject" resname="tx_formhandler_main.email_subject" >
-				<source>subject of email</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.email_sender" resname="tx_formhandler_main.email_sender" >
-				<source>email sender (email from)</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.email_redirect" resname="tx_formhandler_main.email_redirect" >
-				<source>redirect to this page (only if all &quot;have-to&quot; fields are filled out)</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.email_requiredfields" resname="tx_formhandler_main.email_requiredfields" >
-				<source>these fields have to be filled out (enter name of formular field seperated by &quot;,&quot;)</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.email_htmltemplate" resname="tx_formhandler_main.email_htmltemplate" >
-				<source>HTML-Template with formular fields in it</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.email_html_as_attachment" resname="tx_formhandler_main.email_html_as_attachment" >
-				<source>send out html version of the output (if any) as an attachment instead of alternative to text</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.email_sendtouser" resname="tx_formhandler_main.email_sendtouser" >
-				<source>optional: Send a confirmation email to user. Specify the input-field name where the user fills out his/her emailadress:</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.email_subject_user" resname="tx_formhandler_main.email_subject_user" >
-				<source>Subject of the mail to the user:</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.email_replyto" resname="tx_formhandler_main.email_replyto" >
-				<source>use the value of this submitted form-field as reply-to (optional, name of input field)</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.tx_formhandler_maxrows" resname="tx_formhandler_main.tx_formhandler_maxrows" >
-				<source>Maximum number of rows (records) per page (zero = unlimited) in LIST-view</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_main.tx_formhandler_singlepid" resname="tx_formhandler_main.tx_formhandler_singlepid" >
-				<source>Id of the related page for the single data display</source>
-			</trans-unit>
-			<trans-unit id="tt_content.tx_formhandler_contenttype.I.0" resname="tt_content.tx_formhandler_contenttype.I.0" >
-				<source>list</source>
-			</trans-unit>
-			<trans-unit id="tt_content.tx_formhandler_contenttype.I.1" resname="tt_content.tx_formhandler_contenttype.I.1" >
-				<source>single</source>
-			</trans-unit>
-			<trans-unit id="tt_content.tx_formhandler_contenttype" resname="tt_content.tx_formhandler_contenttype" >
-				<source>Type of data display</source>
-			</trans-unit>
-			<trans-unit id="be_missing_config" resname="be_missing_config" >
-				<source>No forms predefined</source>
-			</trans-unit>
-			<trans-unit id="be_please_select" resname="be_please_select" >
-				<source>Choose a predefined form</source>
-			</trans-unit>
-			<trans-unit id="tt_content.pi1_plus_wiz_description" resname="tt_content.pi1_plus_wiz_description" >
-				<source>Advanced form system with many typoscript options which bring a lot of flexibiliy.</source>
-			</trans-unit>
-			<trans-unit id="be_defined_by_TS" resname="be_defined_by_TS" >
-				<source>Defined by TypoScript</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_log" resname="tx_formhandler_log" >
-				<source>Formhandler log entry</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_log.submission_date" resname="tx_formhandler_log.submission_date" >
-				<source>Submission date</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_log.ip" resname="tx_formhandler_log.ip" >
-				<source>IP address</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_log.params" resname="tx_formhandler_log.params" >
-				<source>Submitted values</source>
-			</trans-unit>
-			<trans-unit id="tx_formhandler_log.is_spam" resname="tx_formhandler_log.is_spam" >
-				<source>Considered as SPAM</source>
-			</trans-unit>
-		</body>
-	</file>
+<xliff version="1.2"
+  xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="messages" date="2021-11-12T18:11:43Z" product-name="formhandler">
+    <header />
+    <body>
+      <trans-unit id="wizard_pi1.title" resname="wizard_pi1.title">
+        <source>Formhandler</source>
+      </trans-unit>
+      <trans-unit id="tt_content.list_type_pi1" resname="tt_content.list_type_pi1">
+        <source>Formhandler</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main" resname="tx_formhandler_main">
+        <source>Formhandler</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.email_to" resname="tx_formhandler_main.email_to">
+        <source>send formular field to this email</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.email_subject" resname="tx_formhandler_main.email_subject">
+        <source>subject of email</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.email_sender" resname="tx_formhandler_main.email_sender">
+        <source>email sender (email from)</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.email_redirect" resname="tx_formhandler_main.email_redirect">
+        <source>redirect to this page (only if all &quot;have-to&quot; fields are filled out)</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.email_requiredfields" resname="tx_formhandler_main.email_requiredfields">
+        <source>these fields have to be filled out (enter name of formular field seperated by &quot;,&quot;)</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.email_htmltemplate" resname="tx_formhandler_main.email_htmltemplate">
+        <source>HTML-Template with formular fields in it</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.email_html_as_attachment" resname="tx_formhandler_main.email_html_as_attachment">
+        <source>send out html version of the output (if any) as an attachment instead of alternative to text</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.email_sendtouser" resname="tx_formhandler_main.email_sendtouser">
+        <source>optional: Send a confirmation email to user. Specify the input-field name where the user fills out his/her emailadress:</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.email_subject_user" resname="tx_formhandler_main.email_subject_user">
+        <source>Subject of the mail to the user:</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.email_replyto" resname="tx_formhandler_main.email_replyto">
+        <source>use the value of this submitted form-field as reply-to (optional, name of input field)</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.tx_formhandler_maxrows" resname="tx_formhandler_main.tx_formhandler_maxrows">
+        <source>Maximum number of rows (records) per page (zero = unlimited) in LIST-view</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_main.tx_formhandler_singlepid" resname="tx_formhandler_main.tx_formhandler_singlepid">
+        <source>Id of the related page for the single data display</source>
+      </trans-unit>
+      <trans-unit id="tt_content.tx_formhandler_contenttype.I.0" resname="tt_content.tx_formhandler_contenttype.I.0">
+        <source>list</source>
+      </trans-unit>
+      <trans-unit id="tt_content.tx_formhandler_contenttype.I.1" resname="tt_content.tx_formhandler_contenttype.I.1">
+        <source>single</source>
+      </trans-unit>
+      <trans-unit id="tt_content.tx_formhandler_contenttype" resname="tt_content.tx_formhandler_contenttype">
+        <source>Type of data display</source>
+      </trans-unit>
+      <trans-unit id="be_missing_config" resname="be_missing_config">
+        <source>No forms predefined</source>
+      </trans-unit>
+      <trans-unit id="be_please_select" resname="be_please_select">
+        <source>Choose a predefined form</source>
+      </trans-unit>
+      <trans-unit id="tt_content.pi1_plus_wiz_description" resname="tt_content.pi1_plus_wiz_description">
+        <source>Advanced form system with many typoscript options which bring a lot of flexibiliy.</source>
+      </trans-unit>
+      <trans-unit id="be_defined_by_TS" resname="be_defined_by_TS">
+        <source>Defined by TypoScript</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_log" resname="tx_formhandler_log">
+        <source>Formhandler log entry</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_log.submission_date" resname="tx_formhandler_log.submission_date">
+        <source>Submission date</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_log.ip" resname="tx_formhandler_log.ip">
+        <source>IP address</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_log.params" resname="tx_formhandler_log.params">
+        <source>Submitted values</source>
+      </trans-unit>
+      <trans-unit id="tx_formhandler_log.is_spam" resname="tx_formhandler_log.is_spam">
+        <source>Considered as SPAM</source>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

@@ -1,0 +1,3 @@
+{
+  "recommendations": ["junstyle.php-cs-fixer", "esbenp.prettier-vscode", "stylelint.vscode-stylelint", "liximomo.sftp", "gruntfuggly.todo-tree", "bmewburn.vscode-intelephense-client", "benjaminkott.typo3-typoscript", "donjayamanne.githistory", "davidanson.vscode-markdownlint", "ritwickdey.live-sass", "dotjoshjohnson.xml", "mrmlnc.vscode-scss", "gsppvo.vscode-commandbar"]
+}

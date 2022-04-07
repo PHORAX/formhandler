@@ -1,20 +1,21 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Interceptor;
 
-/*                                                                        *
- * This script is part of the TYPO3 project - inspiring people to share!  *
- *                                                                        *
- * TYPO3 is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License version 2 as published by  *
- * the Free Software Foundation.                                          *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        */
+/**
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ */
 
 /**
  * Spam protection for the form withouth Captcha.
@@ -33,75 +34,74 @@ namespace Typoheads\Formhandler\Interceptor;
  * saveInterceptors.1.config.maxTime.value = 5
  * saveInterceptors.1.config.maxTime.unit = minutes
  */
-class AntiSpamFormTime extends AbstractInterceptor
-{
+class AntiSpamFormTime extends AbstractInterceptor {
+  /**
+   * The main method called by the controller.
+   *
+   * @return array The probably modified GET/POST parameters
+   */
+  public function process(): array {
+    $isSpam = $this->doCheck();
+    if ($isSpam) {
+      $this->log(true);
+      if ($this->settings['redirectPage']) {
+        $this->globals->getSession()->reset();
+        $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
 
-    /**
-     * The main method called by the controller
-     *
-     * @return array The probably modified GET/POST parameters
-     */
-    public function process(): array
-    {
-        $isSpam = $this->doCheck();
-        if ($isSpam) {
-            $this->log(true);
-            if ($this->settings['redirectPage']) {
-                $this->globals->getSession()->reset();
-                $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
-                return 'Lousy spammer!';
-            }
+        return 'Lousy spammer!';
+      }
 
-            //set view
-            $viewClass = '\Typoheads\Formhandler\View\AntiSpam';
-            if ($this->settings['view']) {
-                $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
-            }
-            $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
-            $view = $this->componentManager->getComponent($viewClass);
-            $view->setLangFiles($this->globals->getLangFiles());
-            $view->setPredefined($this->predefined);
+      // set view
+      $viewClass = '\Typoheads\Formhandler\View\AntiSpam';
+      if ($this->settings['view']) {
+        $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
+      }
+      $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
+      $view = $this->componentManager->getComponent($viewClass);
+      $view->setLangFiles($this->globals->getLangFiles());
+      $view->setPredefined($this->predefined);
 
-            $templateCode = $this->globals->getTemplateCode();
-            if ($this->settings['templateFile']) {
-                $templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings);
-            }
-            $view->setTemplate($templateCode, 'ANTISPAM');
-            if (!$view->hasTemplate()) {
-                $this->utilityFuncs->throwException('spam_detected');
-                return 'Lousy spammer!';
-            }
-            $content = $view->render($this->gp, []);
-            $this->globals->getSession()->reset();
-            return $content;
-        }
-        return $this->gp;
+      $templateCode = $this->globals->getTemplateCode();
+      if ($this->settings['templateFile']) {
+        $templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings);
+      }
+      $view->setTemplate($templateCode, 'ANTISPAM');
+      if (!$view->hasTemplate()) {
+        $this->utilityFuncs->throwException('spam_detected');
+
+        return 'Lousy spammer!';
+      }
+      $content = $view->render($this->gp, []);
+      $this->globals->getSession()->reset();
+
+      return $content;
     }
 
-    /**
-     * Performs checks if the submitted form should be treated as Spam.
-     *
-     * @return bool
-     */
-    protected function doCheck(): bool
-    {
-        $value = (int)$this->utilityFuncs->getSingle($this->settings['minTime.'], 'value');
-        $unit = $this->utilityFuncs->getSingle($this->settings['minTime.'], 'unit');
-        $minTime = $this->utilityFuncs->convertToSeconds($value, $unit);
+    return $this->gp;
+  }
 
-        $value = (int)$this->utilityFuncs->getSingle($this->settings['maxTime.'], 'value');
-        $unit = $this->utilityFuncs->getSingle($this->settings['maxTime.'], 'unit');
-        $maxTime = $this->utilityFuncs->convertToSeconds($value, $unit);
-        $spam = false;
-        if (!isset($this->gp['formtime']) ||
-            !is_numeric($this->gp['formtime'])
+  /**
+   * Performs checks if the submitted form should be treated as Spam.
+   */
+  protected function doCheck(): bool {
+    $value = (int) $this->utilityFuncs->getSingle($this->settings['minTime.'], 'value');
+    $unit = $this->utilityFuncs->getSingle($this->settings['minTime.'], 'unit');
+    $minTime = $this->utilityFuncs->convertToSeconds($value, $unit);
+
+    $value = (int) $this->utilityFuncs->getSingle($this->settings['maxTime.'], 'value');
+    $unit = $this->utilityFuncs->getSingle($this->settings['maxTime.'], 'unit');
+    $maxTime = $this->utilityFuncs->convertToSeconds($value, $unit);
+    $spam = false;
+    if (!isset($this->gp['formtime'])
+            || !is_numeric($this->gp['formtime'])
         ) {
-            $spam = true;
-        } elseif ($minTime && time() - (int)($this->gp['formtime']) < $minTime) {
-            $spam = true;
-        } elseif ($maxTime && time() - (int)($this->gp['formtime']) > $maxTime) {
-            $spam = true;
-        }
-        return $spam;
+      $spam = true;
+    } elseif ($minTime && time() - (int) ($this->gp['formtime']) < $minTime) {
+      $spam = true;
+    } elseif ($maxTime && time() - (int) ($this->gp['formtime']) > $maxTime) {
+      $spam = true;
     }
+
+    return $spam;
+  }
 }

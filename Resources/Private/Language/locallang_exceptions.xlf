@@ -1,58 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="messages" date="2021-11-12T18:13:58Z" product-name="formhandler">
-		<header/>
-		<body>
-			<trans-unit id="fe-exception" resname="fe-exception" >
-				<source>An error has occurred!</source>
-			</trans-unit>
-			<trans-unit id="extension_required" resname="extension_required" >
-				<source>The extension &quot;%s&quot; is required for %s!</source>
-			</trans-unit>
-			<trans-unit id="missing_config" resname="missing_config" >
-				<source>No TypoScript config found for Formhandler! Please add the static template or write your own configuration.</source>
-			</trans-unit>
-			<trans-unit id="insufficient_config" resname="insufficient_config" >
-				<source>Insufficient config for %s!</source>
-			</trans-unit>
-			<trans-unit id="error_getmxrr" resname="error_getmxrr" >
-				<source>The PHP version you are using is too low. The error check &quot;emailExists&quot; is not available on your system. Please remove it from your TypoScript configuration.</source>
-			</trans-unit>
-			<trans-unit id="missing_component" resname="missing_component" >
-				<source>Missing %s! The Flexform contains '%s' but typoscript configuration is incomplete. Please add : %s</source>
-			</trans-unit>
-			<trans-unit id="no_config_confirmation" resname="no_config_confirmation" >
-				<source>Missing config for %s! Please provide a '%s' either in the TypoScript configuration or in the Flexfom.</source>
-			</trans-unit>
-			<trans-unit id="no_pdf_template" resname="no_pdf_template" >
-				<source>No template for PDF found! Make sure subpart ###TEMPLATE_PDF### exists in your HTML template file!</source>
-			</trans-unit>
-			<trans-unit id="no_table" resname="no_table" >
-				<source>No table configured for %s!</source>
-			</trans-unit>
-			<trans-unit id="no_driver" resname="no_driver" >
-				<source>No driver configured for %s!</source>
-			</trans-unit>
-			<trans-unit id="no_fields" resname="no_fields" >
-				<source>No fields mapping configured for %s! Make sure the block &quot;fields&quot; is defined in TyposScript for this component!</source>
-			</trans-unit>
-			<trans-unit id="no_template" resname="no_template" >
-				<source>No template file found!</source>
-			</trans-unit>
-			<trans-unit id="no_template_file" resname="no_template_file" >
-				<source>No template file found. Check your TypoScript setup and/or your plugin settings and make sure you defined a template file!</source>
-			</trans-unit>
-			<trans-unit id="template_file_not_found" resname="template_file_not_found" >
-				<source>Template file &quot;%s&quot; not found!</source>
-			</trans-unit>
-			<trans-unit id="empty_template_file" resname="empty_template_file" >
-				<source>Template file &quot;%s&quot; is empty!</source>
-			</trans-unit>
-			<trans-unit id="invalid_template_file" resname="invalid_template_file" >
-				<source>Template file &quot;%s&quot; does not contain a subpart ###TEMPLATE_ and therefore is not a valid template!</source>
-			</trans-unit>
-			<trans-unit id="classesarray_error" resname="classesarray_error" xml:space="preserve">
-				<source>
+<xliff version="1.2"
+  xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="messages" date="2021-11-12T18:13:58Z" product-name="formhandler">
+    <header />
+    <body>
+      <trans-unit id="fe-exception" resname="fe-exception">
+        <source>An error has occurred!</source>
+      </trans-unit>
+      <trans-unit id="extension_required" resname="extension_required">
+        <source>The extension &quot;%s&quot; is required for %s!</source>
+      </trans-unit>
+      <trans-unit id="missing_config" resname="missing_config">
+        <source>No TypoScript config found for Formhandler! Please add the static template or write your own configuration.</source>
+      </trans-unit>
+      <trans-unit id="insufficient_config" resname="insufficient_config">
+        <source>Insufficient config for %s!</source>
+      </trans-unit>
+      <trans-unit id="error_getmxrr" resname="error_getmxrr">
+        <source>The PHP version you are using is too low. The error check &quot;emailExists&quot; is not available on your system. Please remove it from your TypoScript configuration.</source>
+      </trans-unit>
+      <trans-unit id="missing_component" resname="missing_component">
+        <source>Missing %s! The Flexform contains '%s' but typoscript configuration is incomplete. Please add : %s</source>
+      </trans-unit>
+      <trans-unit id="no_config_confirmation" resname="no_config_confirmation">
+        <source>Missing config for %s! Please provide a '%s' either in the TypoScript configuration or in the Flexfom.</source>
+      </trans-unit>
+      <trans-unit id="no_pdf_template" resname="no_pdf_template">
+        <source>No template for PDF found! Make sure subpart ###TEMPLATE_PDF### exists in your HTML template file!</source>
+      </trans-unit>
+      <trans-unit id="no_table" resname="no_table">
+        <source>No table configured for %s!</source>
+      </trans-unit>
+      <trans-unit id="no_driver" resname="no_driver">
+        <source>No driver configured for %s!</source>
+      </trans-unit>
+      <trans-unit id="no_fields" resname="no_fields">
+        <source>No fields mapping configured for %s! Make sure the block &quot;fields&quot; is defined in TyposScript for this component!</source>
+      </trans-unit>
+      <trans-unit id="no_template" resname="no_template">
+        <source>No template file found!</source>
+      </trans-unit>
+      <trans-unit id="no_template_file" resname="no_template_file">
+        <source>No template file found. Check your TypoScript setup and/or your plugin settings and make sure you defined a template file!</source>
+      </trans-unit>
+      <trans-unit id="template_file_not_found" resname="template_file_not_found">
+        <source>Template file &quot;%s&quot; not found!</source>
+      </trans-unit>
+      <trans-unit id="empty_template_file" resname="empty_template_file">
+        <source>Template file &quot;%s&quot; is empty!</source>
+      </trans-unit>
+      <trans-unit id="invalid_template_file" resname="invalid_template_file">
+        <source>Template file &quot;%s&quot; does not contain a subpart ###TEMPLATE_ and therefore is not a valid template!</source>
+      </trans-unit>
+      <trans-unit id="classesarray_error" resname="classesarray_error" xml:space="preserve">
+        <source>
 				There is an error in your TypoScript setup! Make sure your setup for initInterceptors, finishers, validators, ... looks like this:&lt;br /&gt;
 				&lt;br /&gt;&lt;pre&gt;
 finishers {
@@ -70,44 +71,44 @@ finishers {
 	}
 }
 				&lt;/pre&gt;
-			</source>
-			</trans-unit>
-			<trans-unit id="spam_detected" resname="spam_detected" >
-				<source>Your request seems to be a spamming attempt, so it was blocked! This may have been a mistake by the system. Please try again!</source>
-			</trans-unit>
-			<trans-unit id="validateauthcode_invalid_auth_code" resname="validateauthcode_invalid_auth_code" >
-				<source>The auth code is invalid!</source>
-			</trans-unit>
-			<trans-unit id="validateauthcode_insufficient_params" resname="validateauthcode_insufficient_params" >
-				<source>Insufficient parameters! Unable to validate the auth code!</source>
-			</trans-unit>
-			<trans-unit id="validateauthcode_no_record_found" resname="validateauthcode_no_record_found" >
-				<source>No matching auth code found!</source>
-			</trans-unit>
-			<trans-unit id="validateauthcode_update_failed" resname="validateauthcode_update_failed" >
-				<source>Updating your data failed! Please try again.</source>
-			</trans-unit>
-			<trans-unit id="errorcheck_not_found" resname="errorcheck_not_found" >
-				<source>Configuration is not valid for field &quot;%s&quot;! Fieldname found in section &quot;fieldConf&quot; of Validator_Default, but there is no setting &quot;errorCheck&quot; defined!</source>
-			</trans-unit>
-			<trans-unit id="error_checks_missing" resname="error_checks_missing" >
-				<source>Error check missing! Your setup misses error check &quot;%s&quot; for the field &quot;%s&quot;!</source>
-			</trans-unit>
-			<trans-unit id="error_checks_form_field_name_missing" resname="error_checks_form_field_name_missing" >
-				<source>Form field name missing for error check &quot;%s&quot;!</source>
-			</trans-unit>
-			<trans-unit id="error_checks_parameters_missing" resname="error_checks_parameters_missing" >
-				<source>No parameters found for error check &quot;%s&quot; although &quot;%s&quot; is mandatory!</source>
-			</trans-unit>
-			<trans-unit id="error_checks_unsufficient_parameters" resname="error_checks_unsufficient_parameters" >
-				<source>Parameter &quot;%s&quot; for error check &quot;%s&quot; not found although it is mandatory!</source>
-			</trans-unit>
-			<trans-unit id="error_check_filemaxsize" resname="error_check_filemaxsize" >
-				<source>The configured &quot;maxSize&quot; (%s) for the field &quot;%s&quot; is bigger than the allowed max upload size configured in php.ini (%s). For more information see: &lt;a target=&quot;_blank&quot; href=&quot;http://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize&quot;&gt;http://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize&lt;/a&gt;!</source>
-			</trans-unit>
-			<trans-unit id="db_connection_failed" resname="db_connection_failed" >
-				<source>Database connection failed: %s</source>
-			</trans-unit>
-		</body>
-	</file>
+        </source>
+      </trans-unit>
+      <trans-unit id="spam_detected" resname="spam_detected">
+        <source>Your request seems to be a spamming attempt, so it was blocked! This may have been a mistake by the system. Please try again!</source>
+      </trans-unit>
+      <trans-unit id="validateauthcode_invalid_auth_code" resname="validateauthcode_invalid_auth_code">
+        <source>The auth code is invalid!</source>
+      </trans-unit>
+      <trans-unit id="validateauthcode_insufficient_params" resname="validateauthcode_insufficient_params">
+        <source>Insufficient parameters! Unable to validate the auth code!</source>
+      </trans-unit>
+      <trans-unit id="validateauthcode_no_record_found" resname="validateauthcode_no_record_found">
+        <source>No matching auth code found!</source>
+      </trans-unit>
+      <trans-unit id="validateauthcode_update_failed" resname="validateauthcode_update_failed">
+        <source>Updating your data failed! Please try again.</source>
+      </trans-unit>
+      <trans-unit id="errorcheck_not_found" resname="errorcheck_not_found">
+        <source>Configuration is not valid for field &quot;%s&quot;! Fieldname found in section &quot;fieldConf&quot; of Validator_Default, but there is no setting &quot;errorCheck&quot; defined!</source>
+      </trans-unit>
+      <trans-unit id="error_checks_missing" resname="error_checks_missing">
+        <source>Error check missing! Your setup misses error check &quot;%s&quot; for the field &quot;%s&quot;!</source>
+      </trans-unit>
+      <trans-unit id="error_checks_form_field_name_missing" resname="error_checks_form_field_name_missing">
+        <source>Form field name missing for error check &quot;%s&quot;!</source>
+      </trans-unit>
+      <trans-unit id="error_checks_parameters_missing" resname="error_checks_parameters_missing">
+        <source>No parameters found for error check &quot;%s&quot; although &quot;%s&quot; is mandatory!</source>
+      </trans-unit>
+      <trans-unit id="error_checks_unsufficient_parameters" resname="error_checks_unsufficient_parameters">
+        <source>Parameter &quot;%s&quot; for error check &quot;%s&quot; not found although it is mandatory!</source>
+      </trans-unit>
+      <trans-unit id="error_check_filemaxsize" resname="error_check_filemaxsize">
+        <source>The configured &quot;maxSize&quot; (%s) for the field &quot;%s&quot; is bigger than the allowed max upload size configured in php.ini (%s). For more information see: &lt;a target=&quot;_blank&quot; href=&quot;http://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize&quot;&gt;http://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize&lt;/a&gt;!</source>
+      </trans-unit>
+      <trans-unit id="db_connection_failed" resname="db_connection_failed">
+        <source>Database connection failed: %s</source>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
