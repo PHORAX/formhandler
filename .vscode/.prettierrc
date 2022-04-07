@@ -6,12 +6,6 @@
   "endOfLine": "lf",
   "overrides": [
     {
-      "files": "*.js",
-      "options": {
-        "printWidth": 100
-      }
-    },
-    {
       "files": "*.json",
       "options": {
         "printWidth": 500
@@ -21,6 +15,12 @@
       "files": "*.{yaml,yml}",
       "options": {
         "printWidth": 500
+      }
+    },
+    {
+      "files": "*.js",
+      "options": {
+        "printWidth": 100
       }
     },
     {
