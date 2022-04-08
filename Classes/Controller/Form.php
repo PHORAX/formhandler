@@ -825,7 +825,7 @@ class Form extends AbstractController {
     $sessionFiles = $this->globals->getSession()->get('files');
     $tempFiles = $sessionFiles;
 
-    if (isset($_FILES) && is_array($_FILES) && !empty($_FILES)) {
+    if (!empty($_FILES)) {
       $uploadedFilesWithSameNameAction = $this->utilityFuncs->getSingle($this->settings['files.'], 'uploadedFilesWithSameName');
       if (!$uploadedFilesWithSameNameAction) {
         $uploadedFilesWithSameNameAction = 'ignore';
@@ -1279,7 +1279,7 @@ class Form extends AbstractController {
    * @param array $classesArray : the configuration array
    */
   protected function runClasses(array $classesArray): mixed {
-    if (isset($classesArray) && is_array($classesArray) && 1 !== (int) ($this->utilityFuncs->getSingle($classesArray, 'disable'))) {
+    if (1 !== (int) ($this->utilityFuncs->getSingle($classesArray, 'disable'))) {
       ksort($classesArray);
 
       // Load language files everytime before running a component. They may have been changed by previous components
@@ -1422,7 +1422,7 @@ class Form extends AbstractController {
    * Validate if the error checks have all been set correctly.
    */
   protected function validateErrorCheckConfig(): void {
-    if (isset($_FILES) && is_array($_FILES) && !empty($_FILES)) {
+    if (!empty($_FILES)) {
       // for all file properties
       foreach ($_FILES as $sthg => $files) {
         // if a file upload field exists
