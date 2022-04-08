@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\View;
 
+use SJBR\SrFreecap\PiBaseApi;
 use ThinkopenAt\Captcha\Utility;
+use tx_jmrecaptcha;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -32,6 +34,11 @@ class Form extends AbstractView {
   protected array $disableEncodingFields = [];
 
   /**
+   * An array of errors.
+   */
+  protected array $errors = [];
+
+  /**
    * The template code.
    */
   protected array $masterTemplates = [];
@@ -56,6 +63,7 @@ class Form extends AbstractView {
 
     $flexformValue = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? [], 'required_fields', 'sMISC');
     if ($flexformValue) {
+      $index = 1;
       $fields = GeneralUtility::trimExplode(',', $flexformValue);
       if (is_array($settings['validators.'])) {
         // Searches the index of Tx_Formhandler_Validator_Default
@@ -65,8 +73,6 @@ class Form extends AbstractView {
             break;
           }
         }
-      } else {
-        $index = 1;
       }
 
       // Adds the value.
@@ -498,30 +504,17 @@ class Form extends AbstractView {
     }
     if (stristr($this->template, '###SR_FREECAP_IMAGE###') && ExtensionManagementUtility::isLoaded('sr_freecap')) {
       require_once ExtensionManagementUtility::extPath('sr_freecap').'pi2/class.tx_srfreecap_pi2.php';
-      $this->freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
-      $markers = array_merge($markers, $this->freeCap->makeCaptcha());
+
+      /** @var PiBaseApi $freeCap */
+      $freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
+      $markers = array_merge($markers, $freeCap->makeCaptcha());
     }
     if (stristr($this->template, '###RECAPTCHA###') && ExtensionManagementUtility::isLoaded('jm_recaptcha')) {
       require_once ExtensionManagementUtility::extPath('jm_recaptcha').'class.tx_jmrecaptcha.php';
-      $this->recaptcha = new \tx_jmrecaptcha();
-      $markers['###RECAPTCHA###'] = $this->recaptcha->getReCaptcha();
+
+      $recaptcha = new tx_jmrecaptcha();
+      $markers['###RECAPTCHA###'] = $recaptcha->getReCaptcha();
       $markers['###recaptcha###'] = $markers['###RECAPTCHA###'];
-    }
-
-    if (stristr($this->template, '###WT_CALCULATING_CAPTCHA###') && ExtensionManagementUtility::isLoaded('wt_calculating_captcha')) {
-      require_once ExtensionManagementUtility::extPath('wt_calculating_captcha').'class.tx_wtcalculatingcaptcha.php';
-
-      $captcha = GeneralUtility::makeInstance('tx_wtcalculatingcaptcha');
-      $markers['###WT_CALCULATING_CAPTCHA###'] = $captcha->generateCaptcha();
-      $markers['###wt_calculating_captcha###'] = $markers['###WT_CALCULATING_CAPTCHA###'];
-    }
-
-    if (stristr($this->template, '###MATHGUARD###') && ExtensionManagementUtility::isLoaded('mathguard')) {
-      require_once ExtensionManagementUtility::extPath('mathguard').'class.tx_mathguard.php';
-
-      $captcha = GeneralUtility::makeInstance('tx_mathguard');
-      $markers['###MATHGUARD###'] = $captcha->getCaptcha();
-      $markers['###mathguard###'] = $markers['###MATHGUARD###'];
     }
   }
 
@@ -716,7 +709,7 @@ class Form extends AbstractView {
     foreach ($allJumpToStepSubmits[0] as $idx => $allJumpToStepSubmit) {
       $step = (int) ($allJumpToStepSubmits[1][$idx]);
       $action = 'next';
-      if ($step < $this->currentStep) {
+      if ($step < $currentStepFromSession) {
         $action = 'prev';
       }
       $submitName = ' name="'.str_replace('#action#', $action, $name).'" ';
@@ -856,6 +849,7 @@ class Form extends AbstractView {
    */
   protected function fillIsErrorMarkers(array $errors): void {
     $markers = [];
+    $errorMessage = '';
     foreach ($errors as $field => $types) {
       if (isset($this->settings['isErrorMarker.'][$field])) {
         $errorMessage = $this->utilityFuncs->getSingle($this->settings['isErrorMarker.'], $field);
@@ -884,6 +878,7 @@ class Form extends AbstractView {
    */
   protected function fillIsSuccessMarkers(array $errors): void {
     $markers = [];
+    $successMessage = '';
     foreach ($this->gp as $field => $value) {
       if (!isset($errors[$field]) && isset($this->settings['isSuccessMarker.'])) {
         if ($this->settings['isSuccessMarker.'][$field]) {
@@ -1234,6 +1229,7 @@ class Form extends AbstractView {
         $count = 0;
 
         foreach ($conditions as $condition) {
+          $conditionResult = '';
           if ('||' === $condition || '&&' === $condition) {
             $operator = $condition;
           } else {
