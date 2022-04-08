@@ -52,10 +52,8 @@ abstract class AbstractDebugger extends AbstractComponent {
   /**
    * Called if all messages were added to the internal message storage.
    * The component decides how to output the messages.
-   *
-   * @return void/mixed
    */
-  abstract public function outputDebugLog(): mixed;
+  abstract public function outputDebugLog(): void;
 
   /**
    * The main method called by the controller.

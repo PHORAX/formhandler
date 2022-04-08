@@ -63,17 +63,17 @@ class IPBlocking extends AbstractInterceptor {
    * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
-    $ipTimebaseValue = $this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'value');
+    $ipTimebaseValue = intval($this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'value'));
     $ipTimebaseUnit = $this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'unit');
-    $ipMaxValue = $this->utilityFuncs->getSingle($this->settings['ip.'], 'threshold');
+    $ipMaxValue = intval($this->utilityFuncs->getSingle($this->settings['ip.'], 'threshold'));
 
     if ($ipTimebaseValue && $ipTimebaseUnit && $ipMaxValue) {
       $this->check($ipTimebaseValue, $ipTimebaseUnit, $ipMaxValue, true);
     }
 
-    $globalTimebaseValue = $this->utilityFuncs->getSingle($this->settings['global.']['timebase.'], 'value');
+    $globalTimebaseValue = intval($this->utilityFuncs->getSingle($this->settings['global.']['timebase.'], 'value'));
     $globalTimebaseUnit = $this->utilityFuncs->getSingle($this->settings['global.']['timebase.'], 'unit');
-    $globalMaxValue = $this->utilityFuncs->getSingle($this->settings['global.'], 'threshold');
+    $globalMaxValue = intval($this->utilityFuncs->getSingle($this->settings['global.'], 'threshold'));
 
     if ($globalTimebaseValue && $globalTimebaseUnit && $globalMaxValue) {
       $this->check($globalTimebaseValue, $globalTimebaseUnit, $globalMaxValue, false);
@@ -93,7 +93,10 @@ class IPBlocking extends AbstractInterceptor {
   private function check(int $value, string $unit, int $maxValue, bool $addIPToWhere = true): void {
     $timestamp = $this->utilityFuncs->getTimestamp($value, $unit);
 
-    $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->logTable);
+    /** @var ConnectionPool $connectionPool */
+    $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+    $queryBuilder = $connectionPool->getQueryBuilderForTable($this->logTable);
+
     $queryBuilder->getRestrictions()->removeAll();
     $queryBuilder
       ->select('uid', 'ip', 'crdate', 'params')
@@ -108,7 +111,7 @@ class IPBlocking extends AbstractInterceptor {
         $queryBuilder->expr()->eq('ip', $queryBuilder->createNamedParameter(GeneralUtility::getIndpEnv('REMOTE_ADDR')))
       );
     }
-    $stmt = $queryBuilder->execute();
+    $stmt = $queryBuilder->executeQuery();
     if ($stmt && $stmt->rowCount() >= $maxValue) {
       $this->log(true);
       $message = 'You are not allowed to send more mails because the form got submitted too many times ';
@@ -117,15 +120,13 @@ class IPBlocking extends AbstractInterceptor {
       }
       $message .= 'in the last '.$value.' '.$unit.'!';
       if ($this->settings['report.']['email']) {
-        $rows = $stmt->fetchAll();
-        $intervalValue = $this->utilityFuncs->getSingle($this->settings['report.']['interval.'], 'value');
+        $rows = $stmt->fetchAllAssociative();
+        $intervalValue = intval($this->utilityFuncs->getSingle($this->settings['report.']['interval.'], 'value'));
         $intervalUnit = $this->utilityFuncs->getSingle($this->settings['report.']['interval.'], 'unit');
         $send = false;
         if ($intervalUnit && $intervalValue) {
           $intervalTstamp = $this->utilityFuncs->getTimestamp($intervalValue, $intervalUnit);
-          $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable($this->logTable)
-          ;
+          $queryBuilder = $connectionPool->getQueryBuilderForTable($this->logTable);
           $queryBuilder->getRestrictions()->removeAll();
           $queryBuilder
             ->count('*')
@@ -141,7 +142,7 @@ class IPBlocking extends AbstractInterceptor {
               $queryBuilder->expr()->eq('ip', $queryBuilder->createNamedParameter(GeneralUtility::getIndpEnv('REMOTE_ADDR')))
             );
           }
-          if ($queryBuilder->execute()->fetchColumn() > 0) {
+          if ($queryBuilder->executeQuery()->fetchOne() > 0) {
             $send = true;
           }
         } else {

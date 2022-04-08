@@ -39,7 +39,8 @@ class FileMaxCount extends AbstractErrorCheck {
             && $currentStep === $lastStep
         ) {
       $found = false;
-      foreach ($_FILES as $idx => $info) {
+      $info = [];
+      foreach ($_FILES as $info) {
         if (isset($info['name'][$this->formFieldName])) {
           if (!is_array($info['name'][$this->formFieldName])) {
             $info['name'][$this->formFieldName] = [$info['name'][$this->formFieldName]];

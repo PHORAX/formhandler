@@ -17,6 +17,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  * Public License for more details.
  */
 
+use Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
@@ -34,9 +35,10 @@ class IsInDBTable extends AbstractErrorCheck {
       $checkField = $this->utilityFuncs->getSingle($this->settings['params'], 'field');
       $additionalWhere = $this->utilityFuncs->getSingle($this->settings['params'], 'additionalWhere');
       if (!empty($checkTable) && !empty($checkField)) {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-          ->getQueryBuilderForTable($checkTable)
-        ;
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $queryBuilder = $connectionPool->getQueryBuilderForTable($checkTable);
+
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         $queryBuilder
           ->select($checkField)
@@ -55,11 +57,13 @@ class IsInDBTable extends AbstractErrorCheck {
           $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
         }
 
-        $stmt = $queryBuilder->execute();
-        if ($stmt && 0 === $stmt->rowCount()) {
-          $checkFailed = $this->getCheckFailed();
-        } elseif (!$stmt) {
-          $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
+        try {
+          $stmt = $queryBuilder->executeQuery();
+          if (0 === $stmt->rowCount()) {
+            $checkFailed = $this->getCheckFailed();
+          }
+        } catch (Exception $th) {
+          $this->utilityFuncs->debugMessage('error', [$th->getMessage()], 3);
         }
       }
     }

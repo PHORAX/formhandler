@@ -55,16 +55,18 @@ class ValidateAuthCode extends AbstractPreProcessor {
           $this->utilityFuncs->throwException('validateauthcode_insufficient_params');
         }
 
-        $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
-        $queryBuilder = $conn->createQueryBuilder();
+        /** @var ConnectionPool ConnectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $connection = $connectionPool->getConnectionForTable($table);
+        $queryBuilder = $connection->createQueryBuilder();
 
         // Check if table is valid
-        if (!$conn->getSchemaManager()->tablesExist([$table])) {
+        if (!$connection->getSchemaManager()->tablesExist([$table])) {
           $this->utilityFuncs->throwException('validateauthcode_insufficient_params');
         }
 
         // Check if uidField is valid
-        $tableColumns = $conn->getSchemaManager()->listTableColumns($table);
+        $tableColumns = $connection->getSchemaManager()->listTableColumns($table);
         $existingFields = [];
         foreach ($tableColumns as $column) {
           $existingFields[] = strtolower($column->getName());
@@ -108,15 +110,16 @@ class ValidateAuthCode extends AbstractPreProcessor {
         $query = $queryBuilder->getSQL();
         $this->utilityFuncs->debugMessage('sql_request', [$query]);
 
-        $stmt = $queryBuilder->execute();
-        if ($stmt->errorInfo()) {
-          $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
+        try {
+          $stmt = $queryBuilder->executeQuery();
+        } catch (\Exception $exception) {
+          $this->utilityFuncs->debugMessage('error', [$exception->getMessage()], 3);
         }
         if (!$stmt || 0 === $stmt->rowCount()) {
           $this->utilityFuncs->throwException('validateauthcode_no_record_found');
         }
 
-        $row = $stmt->fetch();
+        $row = $stmt->fetchAssociative();
         $this->utilityFuncs->debugMessage('Selected row: ', [], 1, $row);
 
         $localAuthCode = GeneralUtility::hmac(serialize($row), 'formhandler');
@@ -129,7 +132,7 @@ class ValidateAuthCode extends AbstractPreProcessor {
         if (isset($this->settings['activeStatusValue'])) {
           $activeStatusValue = $this->utilityFuncs->getSingle($this->settings, 'activeStatusValue');
         }
-        $conn->update($table, [$hiddenField => $activeStatusValue], [$uidField => $uid]);
+        $connection->update($table, [$hiddenField => $activeStatusValue], [$uidField => $uid]);
 
         $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
       } catch (\Exception $e) {

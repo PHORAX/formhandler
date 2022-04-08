@@ -17,5 +17,8 @@ parameters:
   paths:
     - %currentWorkingDirectory%/Classes/
 
+  scanFiles:
+      - public/typo3conf/ext/jm_recaptcha/class.tx_jmrecaptcha.php
+
   excludePaths:
       - rector.php

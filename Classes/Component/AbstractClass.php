@@ -48,10 +48,18 @@ abstract class AbstractClass {
   protected Globals $globals;
 
   /**
+   * The GET/POST parameters.
+   */
+  protected array $gp = [];
+
+  /**
    * The predefined.
    */
   protected string $predefined = '';
 
+  /**
+   * Settings.
+   */
   protected array $settings = [];
 
   /**

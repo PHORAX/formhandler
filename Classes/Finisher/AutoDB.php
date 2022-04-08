@@ -43,7 +43,7 @@ class AutoDB extends DB {
    *
    * @todo Make it protected var in Tx_Formhandler_AbstractFinisher
    */
-  public string $settings = '';
+  public array $settings = [];
 
   /**
    * @var string Attributes for new db fields

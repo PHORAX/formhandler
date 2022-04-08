@@ -120,7 +120,7 @@ abstract class AbstractView extends AbstractPlugin {
    * @param array $gp     The get/post parameters
    * @param array $errors An array with errors occurred whilest validation
    *
-   * @return rendered view
+   * @return string rendered view
    */
   abstract public function render(array $gp, array $errors): string;
 

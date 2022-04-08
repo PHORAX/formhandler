@@ -109,7 +109,7 @@ class DB extends AbstractFinisher {
     // check whether to update or to insert a record
     $this->doUpdate = false;
     if (1 === (int) ($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert'))) {
-            // check if uid of record to update is in GP
+      // check if uid of record to update is in GP
       $uid = $this->getUpdateUid();
 
       $andWhere = $this->utilityFuncs->getSingle($this->settings, 'andWhere');
@@ -142,7 +142,7 @@ class DB extends AbstractFinisher {
 
     // Store info in GP only if the query was successful
     if ($isSuccess) {
-            // Get DB info, including UID
+      // Get DB info, including UID
       if (!$this->doUpdate) {
         $this->gp['inserted_uid'] = $this->getInsertedUid();
         $this->gp[$this->table.'_inserted_uid'] = $this->gp['inserted_uid'];
@@ -204,7 +204,7 @@ class DB extends AbstractFinisher {
       $queryBuilder->andWhere($andWhere);
     }
 
-    $row = $queryBuilder->execute()->fetch();
+    $row = $queryBuilder->executeQuery()->fetchAssociative();
     if (is_array($row)) {
       return true;
     }
@@ -272,7 +272,9 @@ class DB extends AbstractFinisher {
 
   protected function getConnection(): Connection {
     if (!$this->connection) {
-      $this->connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($this->table);
+      /** @var ConnectionPool $connectionPool */
+      $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+      $this->connection = $connectionPool->getConnectionForTable($this->table);
     }
 
     return $this->connection;

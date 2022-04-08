@@ -23,16 +23,6 @@ namespace Typoheads\Formhandler\Component;
  */
 abstract class AbstractComponent extends AbstractClass {
   /**
-   * The GET/POST parameters.
-   */
-  protected array $gp = [];
-
-  /**
-   * Settings.
-   */
-  protected array $settings = [];
-
-  /**
    * Initialize the class variables.
    *
    * @param array $gp       GET and POST variable array
