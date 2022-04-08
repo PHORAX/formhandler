@@ -46,14 +46,22 @@ class Dispatcher extends AbstractPlugin {
   /**
    * Main method of the dispatcher. This method is called as a user function.
    *
-   * @param array $setup The TypoScript config
+   * @param array<int|string, mixed> $setup The TypoScript config
    *
    * @return string rendered view
    */
   public function main(?string $content, array $setup): string {
-    $this->componentManager = GeneralUtility::makeInstance(Manager::class);
-    $this->globals = GeneralUtility::makeInstance(Globals::class);
-    $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
+    /** @var Manager $componentManager */
+    $componentManager = GeneralUtility::makeInstance(Manager::class);
+    $this->componentManager = $componentManager;
+
+    /** @var Globals $globals */
+    $globals = GeneralUtility::makeInstance(Globals::class);
+    $this->globals = $globals;
+
+    /** @var \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs */
+    $utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
+    $this->utilityFuncs = $utilityFuncs;
 
     try {
       // init flexform
@@ -110,7 +118,7 @@ class Dispatcher extends AbstractPlugin {
       $result = $controller->process();
     } catch (\Exception $e) {
       $settings = $this->globals->getSettings();
-      if (isset($settings) && is_array($settings) && isset($settings['debug']) && (bool) $settings['debug']) {
+      if (isset($settings['debug']) && (bool) $settings['debug']) {
         DebuggerUtility::var_dump($e);
       }
       GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->error(
