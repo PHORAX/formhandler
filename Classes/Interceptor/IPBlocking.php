@@ -63,17 +63,17 @@ class IPBlocking extends AbstractInterceptor {
    * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
-    $ipTimebaseValue = $this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'value');
+    $ipTimebaseValue = intval($this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'value'));
     $ipTimebaseUnit = $this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'unit');
-    $ipMaxValue = $this->utilityFuncs->getSingle($this->settings['ip.'], 'threshold');
+    $ipMaxValue = intval($this->utilityFuncs->getSingle($this->settings['ip.'], 'threshold'));
 
     if ($ipTimebaseValue && $ipTimebaseUnit && $ipMaxValue) {
       $this->check($ipTimebaseValue, $ipTimebaseUnit, $ipMaxValue, true);
     }
 
-    $globalTimebaseValue = $this->utilityFuncs->getSingle($this->settings['global.']['timebase.'], 'value');
+    $globalTimebaseValue = intval($this->utilityFuncs->getSingle($this->settings['global.']['timebase.'], 'value'));
     $globalTimebaseUnit = $this->utilityFuncs->getSingle($this->settings['global.']['timebase.'], 'unit');
-    $globalMaxValue = $this->utilityFuncs->getSingle($this->settings['global.'], 'threshold');
+    $globalMaxValue = intval($this->utilityFuncs->getSingle($this->settings['global.'], 'threshold'));
 
     if ($globalTimebaseValue && $globalTimebaseUnit && $globalMaxValue) {
       $this->check($globalTimebaseValue, $globalTimebaseUnit, $globalMaxValue, false);
@@ -121,6 +121,7 @@ class IPBlocking extends AbstractInterceptor {
       $message .= 'in the last '.$value.' '.$unit.'!';
       if ($this->settings['report.']['email']) {
         $rows = $stmt->fetchAllAssociative();
+        $intervalValue = intval($this->utilityFuncs->getSingle($this->settings['report.']['interval.'], 'value'));
         $intervalUnit = $this->utilityFuncs->getSingle($this->settings['report.']['interval.'], 'unit');
         $send = false;
         if ($intervalUnit && $intervalValue) {
