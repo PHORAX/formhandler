@@ -5,6 +5,7 @@
 *.iws
 vendor
 public
+/composer.lock
 
 # System Files
 .DS_Store
