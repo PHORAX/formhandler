@@ -198,7 +198,6 @@ class Mail extends AbstractFinisher {
    * @return array The parsed email settings
    */
   protected function parseEmailSettings(array $tsConfig, string $type): array {
-    $emailSettings = $tsConfig;
     $options = [
       'disable',
       'checkBinaryCfLr',
@@ -225,9 +224,7 @@ class Mail extends AbstractFinisher {
       'html.',
     ];
 
-    $emailSettings[$type] = $this->parseEmailSettingsByType($emailSettings[$type.'.'] ?? [], $type, $options);
-
-    return $emailSettings;
+    return $this->parseEmailSettingsByType($tsConfig[$type.'.'] ?? [], $type, $options);
   }
 
   /**
