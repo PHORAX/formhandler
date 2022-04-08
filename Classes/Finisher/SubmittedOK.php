@@ -41,10 +41,10 @@ class SubmittedOK extends AbstractFinisher {
    * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
-        // read template file
-    $this->templateFile = $this->globals->getTemplateCode();
+    // read template file
+    $this->template = $this->globals->getTemplateCode();
     if (isset($this->settings['templateFile'])) {
-      $this->templateFile = $this->utilityFuncs->readTemplateFile('', $this->settings);
+      $this->template = $this->utilityFuncs->readTemplateFile('', $this->settings);
     }
 
     // set view
@@ -58,9 +58,9 @@ class SubmittedOK extends AbstractFinisher {
     $view = $this->componentManager->getComponent($viewClass);
 
     // show TEMPLATE_SUBMITTEDOK
-    $view->setTemplate($this->templateFile, ('SUBMITTEDOK'.$this->globals->getTemplateSuffix()));
+    $view->setTemplate($this->template, ('SUBMITTEDOK'.$this->globals->getTemplateSuffix()));
     if (!$view->hasTemplate()) {
-      $view->setTemplate($this->templateFile, 'SUBMITTEDOK');
+      $view->setTemplate($this->template, 'SUBMITTEDOK');
       if (!$view->hasTemplate()) {
         $this->utilityFuncs->debugMessage('no_submittedok_template', [], 3);
       }
