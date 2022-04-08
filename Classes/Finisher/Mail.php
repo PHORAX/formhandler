@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Finisher;
 
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Mailer\TYPO3Mailer;
 
@@ -128,13 +129,16 @@ class Mail extends AbstractFinisher {
    * @param array &$settings The E-Mail settings
    */
   protected function fillLangMarkersInSettings(array &$settings): void {
+    /** @var MarkerBasedTemplateService $templateService */
+    $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+
     foreach ($settings as &$value) {
       if (isset($value) && is_array($value)) {
         $this->fillLangMarkersInSettings($value);
       } else {
         $langMarkers = $this->utilityFuncs->getFilledLangMarkers($value, $this->globals->getLangFiles());
         if (!empty($langMarkers)) {
-          $value = $this->markerBasedTemplateService->substituteMarkerArray($value, $langMarkers);
+          $value = $templateService->substituteMarkerArray($value, $langMarkers);
         }
       }
     }
