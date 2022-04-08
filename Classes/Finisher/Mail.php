@@ -74,6 +74,8 @@ use Typoheads\Formhandler\Mailer\TYPO3Mailer;
 class Mail extends AbstractFinisher {
   private TYPO3Mailer $emailObj;
 
+  private array $emailSettings = [];
+
   /**
    * Method to set GET/POST for this class and load the configuration.
    *
@@ -91,7 +93,7 @@ class Mail extends AbstractFinisher {
    * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
-        // send emails
+    // send emails
     $this->initMailer('admin');
     $this->sendMail('admin');
     $this->initMailer('user');
@@ -170,7 +172,7 @@ class Mail extends AbstractFinisher {
     $this->emailObj = $emailObj;
     $this->emailObj->init($this->gp, ($this->settings['mailer.'] ?? [])['config.'] ?? []);
 
-    $this->settings = $this->parseEmailSettings($this->settings, $type);
+    $this->emailSettings = $this->parseEmailSettings($this->settings, $type);
 
     // Defines default values
     $defaultOptions = [
