@@ -1008,6 +1008,8 @@ class Form extends AbstractController {
       }
       $this->globals->getSession()->set('finished', true);
     }
+
+    return null;
   }
 
   /**
