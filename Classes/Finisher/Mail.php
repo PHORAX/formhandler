@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Finisher;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Mailer\TYPO3Mailer;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -70,6 +71,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * </code>
  */
 class Mail extends AbstractFinisher {
+  private TYPO3Mailer $emailObj;
+
   /**
    * Method to set GET/POST for this class and load the configuration.
    *
@@ -157,7 +160,10 @@ class Mail extends AbstractFinisher {
       $emailClass = $this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Mailer\\TYPO3Mailer');
     }
 
-    $this->emailObj = $this->componentManager->getComponent($emailClass);
+    /** @var TYPO3Mailer $emailObj */
+    $emailObj = $this->componentManager->getComponent($emailClass);
+
+    $this->emailObj = $emailObj;
     $this->emailObj->init($this->gp, ($this->settings['mailer.'] ?? [])['config.'] ?? []);
 
     $this->settings = $this->parseEmailSettings($this->settings, $type);
