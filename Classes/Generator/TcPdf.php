@@ -71,6 +71,7 @@ class TcPdf extends AbstractGenerator {
     $content = $view->render($this->gp, []);
 
     $pdf->writeHTML($content);
+    $returns = boolval($this->settings['returnFileName']);
 
     if (false !== $this->filename) {
       $pdf->Output($this->filename, 'F');
