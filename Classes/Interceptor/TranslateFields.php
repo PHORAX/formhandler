@@ -21,6 +21,8 @@ namespace Typoheads\Formhandler\Interceptor;
  * Combines values entered in form field and stores it in a new entry in $this->gp.
  */
 class TranslateFields extends AbstractInterceptor {
+  private array $langFiles = [];
+
   /**
    * The main method called by the controller.
    *

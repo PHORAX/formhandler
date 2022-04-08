@@ -63,6 +63,11 @@ abstract class AbstractClass {
   protected array $settings = [];
 
   /**
+   * The template code.
+   */
+  protected string $template = '';
+
+  /**
    * The Formhandler utility methods.
    */
   protected GeneralUtility $utilityFuncs;

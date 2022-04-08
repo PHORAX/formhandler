@@ -84,7 +84,7 @@ class Form extends AbstractController {
   /**
    * Main method of the form handler.
    *
-   * @return rendered view
+   * @return string rendered view
    */
   public function process(): string {
     $this->init();
@@ -270,6 +270,8 @@ class Form extends AbstractController {
    * Searches for current step and sets $this->currentStep according.
    */
   protected function findCurrentStep(): void {
+    $action = '';
+    $step = 0;
     if (isset($this->gp) && is_array($this->gp)) {
       $action = 'reload';
       $keys = array_keys($this->gp);
@@ -291,31 +293,31 @@ class Form extends AbstractController {
     $stepInSession = max((int) ($this->globals->getSession()->get('currentStep')), 1);
 
     switch ($action) {
-            case 'prev':
-            case 'next':
-                if ($step > $stepInSession) {
-                  if ($allowStepJumps) {
-                    $this->currentStep = $step;
-                  } else {
-                    $this->currentStep = $stepInSession + 1;
-                  }
-                } elseif ($step < $stepInSession) {
-                  if ($allowStepJumps) {
-                    $this->currentStep = $step;
-                  } else {
-                    $this->currentStep = $stepInSession - 1;
-                  }
-                } else {
-                  $this->currentStep = $step;
-                }
-
-                break;
-
-            default:
-                $this->currentStep = $stepInSession;
-
-                break;
+      case 'prev':
+      case 'next':
+        if ($step > $stepInSession) {
+          if ($allowStepJumps) {
+            $this->currentStep = $step;
+          } else {
+            $this->currentStep = $stepInSession + 1;
+          }
+        } elseif ($step < $stepInSession) {
+          if ($allowStepJumps) {
+            $this->currentStep = $step;
+          } else {
+            $this->currentStep = $stepInSession - 1;
+          }
+        } else {
+          $this->currentStep = $step;
         }
+
+        break;
+
+      default:
+        $this->currentStep = $stepInSession;
+
+        break;
+    }
     if ($this->currentStep < 1) {
       $this->currentStep = 1;
     }
@@ -725,10 +727,12 @@ class Form extends AbstractController {
       $tstamp = (int) $gp['tstamp'];
       $hash = $gp['hash'];
       if ($tstamp && false === strpos($hash, ' ')) {
-        $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tx_formhandler_log');
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $conn = $connectionPool->getConnectionForTable('tx_formhandler_log');
         $stmt = $conn->select(['params'], 'tx_formhandler_log', ['tstamp' => $tstamp, 'unique_hash' => $hash]);
         if (1 === $stmt->rowCount()) {
-          $row = $stmt->fetch();
+          $row = $stmt->fetchAssociative();
           $params = unserialize($row['params']);
         }
       }
@@ -821,7 +825,7 @@ class Form extends AbstractController {
     $sessionFiles = $this->globals->getSession()->get('files');
     $tempFiles = $sessionFiles;
 
-    if (isset($_FILES) && is_array($_FILES) && !empty($_FILES)) {
+    if (!empty($_FILES)) {
       $uploadedFilesWithSameNameAction = $this->utilityFuncs->getSingle($this->settings['files.'], 'uploadedFilesWithSameName');
       if (!$uploadedFilesWithSameNameAction) {
         $uploadedFilesWithSameNameAction = 'ignore';
@@ -1004,12 +1008,14 @@ class Form extends AbstractController {
       }
       $this->globals->getSession()->set('finished', true);
     }
+
+    return null;
   }
 
   /**
    * Process a form which has not been submitted.
    *
-   * @return Rendered form
+   * @return string Rendered form
    */
   protected function processNotSubmitted(): string {
     $this->loadSettingsForStep($this->currentStep);
@@ -1049,7 +1055,7 @@ class Form extends AbstractController {
   /**
    * Process a form containing errors.
    *
-   * @return Rendered form
+   * @return string Rendered form
    */
   protected function processNotValid(): string {
     $this->gp['formErrors'] = $this->errors;
@@ -1275,7 +1281,7 @@ class Form extends AbstractController {
    * @param array $classesArray : the configuration array
    */
   protected function runClasses(array $classesArray): mixed {
-    if (isset($classesArray) && is_array($classesArray) && 1 !== (int) ($this->utilityFuncs->getSingle($classesArray, 'disable'))) {
+    if (1 !== (int) ($this->utilityFuncs->getSingle($classesArray, 'disable'))) {
       ksort($classesArray);
 
       // Load language files everytime before running a component. They may have been changed by previous components
@@ -1418,7 +1424,7 @@ class Form extends AbstractController {
    * Validate if the error checks have all been set correctly.
    */
   protected function validateErrorCheckConfig(): void {
-    if (isset($_FILES) && is_array($_FILES) && !empty($_FILES)) {
+    if (!empty($_FILES)) {
       // for all file properties
       foreach ($_FILES as $sthg => $files) {
         // if a file upload field exists

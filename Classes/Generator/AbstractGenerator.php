@@ -23,6 +23,14 @@ use Typoheads\Formhandler\Component\AbstractComponent;
  * Abstract generator class for Formhandler.
  */
 abstract class AbstractGenerator extends AbstractComponent {
+  protected string $filename = '';
+
+  protected string $filenameOnly = '';
+
+  protected array $formhandlerSettings = [];
+
+  protected string $outputPath = '';
+
   /**
    * Returns the link with the right action set to be used in Finisher_SubmittedOK.
    *

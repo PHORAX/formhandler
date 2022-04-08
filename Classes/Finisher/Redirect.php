@@ -50,9 +50,9 @@ class Redirect extends AbstractFinisher {
    * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
-        // read redirect page
+    // read redirect page
     $redirectPage = $this->utilityFuncs->getSingle($this->settings, 'redirectPage');
-    if (!isset($redirectPage)) {
+    if (empty($redirectPage)) {
       return $this->gp;
     }
     $this->globals->getSession()->reset();

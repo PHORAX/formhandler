@@ -334,7 +334,8 @@ class DB extends AbstractFinisher {
     // parse mapping
     foreach ($this->settings['fields.'] as $fieldname => $options) {
       $fieldname = str_replace('.', '', $fieldname);
-      if (isset($options) && is_array($options)) {
+      $fieldValue = '';
+      if (is_array($options)) {
         if (!isset($options['special'])) {
           $mapping = $options['mapping'];
 

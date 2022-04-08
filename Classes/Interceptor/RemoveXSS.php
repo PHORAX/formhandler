@@ -23,12 +23,15 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * An interceptor doing XSS checking on GET/POST parameters.
  */
 class RemoveXSS extends AbstractInterceptor {
+  private array $doNotSanitizeFields = [];
+
+  private array $removeChars = [];
+
   /* (non-PHPdoc)
    * @see Classes/Component/\Typoheads\Formhandler\Component\AbstractComponent#init($gp, $settings)
   */
   public function init(array $gp, array $settings): void {
     parent::init($gp, $settings);
-    $this->doNotSanitizeFields = [];
     if (isset($this->settings['doNotSanitizeFields']) && (bool) $this->settings['doNotSanitizeFields']) {
       $this->doNotSanitizeFields = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'doNotSanitizeFields'));
     }
@@ -40,8 +43,6 @@ class RemoveXSS extends AbstractInterceptor {
    * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
-    $this->removeChars = [];
-
     // search for a global setting for character removal
     $globalSetting = ($this->settings['fieldConf.'] ?? [])['global.'] ?? [];
     if (isset($globalSetting['removeChars'])) {
@@ -57,12 +58,12 @@ class RemoveXSS extends AbstractInterceptor {
           $sep = $this->utilityFuncs->getSingle($globalSetting, 'separator');
         }
       } else {
-                // user entered a comma seperated list
+        // user entered a comma seperated list
         $list = $globalSetting['removeChars'];
       }
       $this->removeChars = GeneralUtility::trimExplode($sep, $list);
     } elseif (1 === (int) ($this->utilityFuncs->getSingle($globalSetting['removeChars.'] ?? [], 'disable'))) {
-            // user disabled removal globally
+      // user disabled removal globally
       $this->removeChars = [];
     }
     $this->gp = $this->sanitizeValues($this->gp);
@@ -82,6 +83,7 @@ class RemoveXSS extends AbstractInterceptor {
       return [];
     }
 
+    $sanitizedArray = [];
     foreach ($values as $key => $value) {
       if (!in_array($key, $this->doNotSanitizeFields) && is_array($value)) {
         $sanitizedArray[$key] = $this->sanitizeValues($value);
@@ -103,12 +105,12 @@ class RemoveXSS extends AbstractInterceptor {
               $sep = $this->utilityFuncs->getSingle($fieldSetting, 'separator');
             }
           } else {
-                        // user entered a comma seperated list
+            // user entered a comma seperated list
             $list = $fieldSetting['removeChars'];
           }
           $removeChars = GeneralUtility::trimExplode($sep, $list);
         } elseif (1 === (int) ($this->utilityFuncs->getSingle($fieldSetting['removeChars.'] ?? [], 'disable'))) {
-                    // user disabled removal for this field
+          // user disabled removal for this field
           $removeChars = [];
         }
 

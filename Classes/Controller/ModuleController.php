@@ -50,6 +50,8 @@ class ModuleController extends ActionController {
    */
   protected \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs;
 
+  private int $id = 0;
+
   /**
    * Exports given rows as file.
    *

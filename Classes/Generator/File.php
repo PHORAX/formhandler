@@ -44,15 +44,15 @@ class File extends AbstractGenerator {
 
     $this->formhandlerSettings = $this->globals->getSettings();
     $suffix = $this->formhandlerSettings['templateSuffix'];
-    $this->templateCode = $this->utilityFuncs->readTemplateFile('', $this->formhandlerSettings);
+    $this->template = $this->utilityFuncs->readTemplateFile('', $this->formhandlerSettings);
     if ($this->settings['templateFile']) {
-      $this->templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings);
+      $this->template = $this->utilityFuncs->readTemplateFile('', $this->settings);
     }
     if ($suffix) {
-      $view->setTemplate($this->templateCode, 'FILE'.$suffix);
+      $view->setTemplate($this->template, 'FILE'.$suffix);
     }
     if (!$view->hasTemplate()) {
-      $view->setTemplate($this->templateCode, 'FILE');
+      $view->setTemplate($this->template, 'FILE');
     }
     if (!$view->hasTemplate()) {
       $this->utilityFuncs->throwException('No FILE template found');
@@ -72,7 +72,7 @@ class File extends AbstractGenerator {
       fclose($fp);
       $downloadpath = $this->filename;
       if ($returns) {
-        return $downloadpath;
+        return [$downloadpath];
       }
       $downloadpath = str_replace($this->utilityFuncs->getDocumentRoot(), '', $downloadpath);
       header('Content-type: '.$contentType);

@@ -26,11 +26,6 @@ use Typoheads\Formhandler\Utility\TemplateTCPDF;
  * @uses Tx_Formhandler_Template_TCPDF
  */
 class BackendTcPdf extends AbstractComponent {
-  /**
-   * The internal PDF object.
-   */
-  protected TemplateTCPDF $pdf;
-
   public function init(array $gp, array $settings): void {
     parent::init($gp, $settings);
     $fileName = $this->utilityFuncs->getSingle($this->settings, 'fileName');
@@ -69,12 +64,15 @@ class BackendTcPdf extends AbstractComponent {
     $exportFields = $this->settings['exportFields'];
 
     // init pdf object
-    $this->pdf = $this->componentManager->getComponent('Typoheads\Formhandler\Utility\TemplateTCPDF');
-    $this->pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 
-    $this->pdf->SetFont($this->settings['font'], '', $this->settings['fontSize']);
-    $this->pdf->SetHeaderFont([$this->settings['font'], '', $this->settings['fontSizeHeader']]);
-    $this->pdf->SetFooterFont([$this->settings['font'], '', $this->settings['fontSizeFooter']]);
+    /** @var TemplateTCPDF $pdf */
+    $pdf = $this->componentManager->getComponent('Typoheads\Formhandler\Utility\TemplateTCPDF');
+
+    $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
+
+    $pdf->SetFont($this->settings['font'], '', $this->settings['fontSize']);
+    $pdf->SetHeaderFont([$this->settings['font'], '', $this->settings['fontSizeHeader']]);
+    $pdf->SetFooterFont([$this->settings['font'], '', $this->settings['fontSizeFooter']]);
 
     $addedOneRecord = false;
 
@@ -93,33 +91,33 @@ class BackendTcPdf extends AbstractComponent {
       }
       if ($valid) {
         $addedOneRecord = true;
-        $this->pdf->AddPage();
+        $pdf->AddPage();
         $standardWidth = 100;
         $nameWidth = 70;
         $valueWidth = 70;
         $feedWidth = 30;
 
         if (0 == count($exportFields) || in_array('pid', $exportFields)) {
-          $this->pdf->Cell($standardWidth, '15', 'Page-ID:', 0, 0);
-          $this->pdf->Cell($standardWidth, '15', $data['pid'], 0, 1);
+          $pdf->Cell($standardWidth, '15', 'Page-ID:', 0, 0);
+          $pdf->Cell($standardWidth, '15', $data['pid'], 0, 1);
         }
         if (0 == count($exportFields) || in_array('submission_date', $exportFields)) {
-          $this->pdf->Cell($standardWidth, '15', 'Submission date:', 0, 0);
-          $this->pdf->Cell($standardWidth, '15', date('d.m.Y H:i:s', $data['crdate']), 0, 1);
+          $pdf->Cell($standardWidth, '15', 'Submission date:', 0, 0);
+          $pdf->Cell($standardWidth, '15', date('d.m.Y H:i:s', $data['crdate']), 0, 1);
         }
         if (0 == count($exportFields) || in_array('ip', $exportFields)) {
-          $this->pdf->Cell($standardWidth, '15', 'IP address:', 0, 0);
-          $this->pdf->Cell($standardWidth, '15', $data['ip'], 0, 1);
+          $pdf->Cell($standardWidth, '15', 'IP address:', 0, 0);
+          $pdf->Cell($standardWidth, '15', $data['ip'], 0, 1);
         }
 
-        $this->pdf->Cell($standardWidth, '15', 'Submitted values:', 0, 1);
-        $this->pdf->SetLineWidth(.3);
-        $this->pdf->Cell($feedWidth);
-        $this->pdf->SetFillColor(255, 255, 255);
-        $this->pdf->Cell($nameWidth, '6', 'Name', 'B', 0, 'C', true);
-        $this->pdf->Cell($valueWidth, '6', 'Value', 'B', 0, 'C', true);
-        $this->pdf->Ln();
-        $this->pdf->SetFillColor(200, 200, 200);
+        $pdf->Cell($standardWidth, '15', 'Submitted values:', 0, 1);
+        $pdf->SetLineWidth(.3);
+        $pdf->Cell($feedWidth);
+        $pdf->SetFillColor(255, 255, 255);
+        $pdf->Cell($nameWidth, '6', 'Name', 'B', 0, 'C', true);
+        $pdf->Cell($valueWidth, '6', 'Value', 'B', 0, 'C', true);
+        $pdf->Ln();
+        $pdf->SetFillColor(200, 200, 200);
         $fill = false;
 
         if (0 == count($exportFields)) {
@@ -129,35 +127,35 @@ class BackendTcPdf extends AbstractComponent {
           if (isset($data['params'][$key])) {
             $value = $data['params'][$key];
             if (is_array($value)) {
-              $this->pdf->Cell($feedWidth);
-              $this->pdf->Cell($nameWidth, '6', $key, 0, 0, 'L', $fill);
+              $pdf->Cell($feedWidth);
+              $pdf->Cell($nameWidth, '6', $key, 0, 0, 'L', $fill);
               $arrayValue = array_shift($value);
               if (false === strpos($arrayValue, "\n") && false === strpos($arrayValue, "\r") && strlen($arrayValue) < $valueWidth - 40) {
-                $this->pdf->Cell($valueWidth, '6', $arrayValue, 0, 0, 'L', $fill);
+                $pdf->Cell($valueWidth, '6', $arrayValue, 0, 0, 'L', $fill);
               } else {
-                $this->pdf->MultiCell($valueWidth, '6', $arrayValue, 0, 0, 'L', $fill);
+                $pdf->MultiCell($valueWidth, '6', $arrayValue, 0, 0, 'L', $fill);
               }
-              $this->pdf->Ln();
+              $pdf->Ln();
               foreach ($value as $v) {
-                $this->pdf->Cell($feedWidth);
-                $this->pdf->Cell($nameWidth, '6', '', 0, 0, 'L', $fill);
+                $pdf->Cell($feedWidth);
+                $pdf->Cell($nameWidth, '6', '', 0, 0, 'L', $fill);
                 if (false === strpos($v, "\n") && false === strpos($v, "\r") && strlen($v) < $valueWidth - 40) {
-                  $this->pdf->Cell($valueWidth, '6', $v, 0, 0, 'L', $fill);
+                  $pdf->Cell($valueWidth, '6', $v, 0, 0, 'L', $fill);
                 } else {
-                  $this->pdf->MultiCell($valueWidth, '6', $v, 0, 0, 'L', $fill);
+                  $pdf->MultiCell($valueWidth, '6', $v, 0, 0, 'L', $fill);
                 }
-                $this->pdf->Ln();
+                $pdf->Ln();
               }
               $fill = !$fill;
             } else {
-              $this->pdf->Cell($feedWidth);
-              $this->pdf->Cell($nameWidth, '6', $key, 0, 0, 'L', $fill);
+              $pdf->Cell($feedWidth);
+              $pdf->Cell($nameWidth, '6', $key, 0, 0, 'L', $fill);
               if (false === strpos($value, "\n") && false === strpos($value, "\r") && strlen($value) < $valueWidth - 40) {
-                $this->pdf->Cell($valueWidth, '6', $value, 0, 0, 'L', $fill);
+                $pdf->Cell($valueWidth, '6', $value, 0, 0, 'L', $fill);
               } else {
-                $this->pdf->MultiCell($valueWidth, '6', $value, 0, 0, 'L', $fill);
+                $pdf->MultiCell($valueWidth, '6', $value, 0, 0, 'L', $fill);
               }
-              $this->pdf->Ln();
+              $pdf->Ln();
               $fill = !$fill;
             }
           }
@@ -167,11 +165,11 @@ class BackendTcPdf extends AbstractComponent {
 
     // if no valid record was found, render an error message
     if (!$addedOneRecord) {
-      $this->pdf->AddPage();
-      $this->pdf->Cell(300, 100, 'No valid records found! Try to select more fields to export!', 0, 0, 'L');
+      $pdf->AddPage();
+      $pdf->Cell(300, 100, 'No valid records found! Try to select more fields to export!', 0, 0, 'L');
     }
 
-    $this->pdf->Output($this->settings['fileName'], 'D');
+    $pdf->Output($this->settings['fileName'], 'D');
 
     exit();
   }
@@ -179,9 +177,9 @@ class BackendTcPdf extends AbstractComponent {
   /**
    * Sets the template code for the PDF.
    *
-   * @param string $templateCode The template code
+   * @param string $template The template code
    */
-  public function setTemplateCode(string $templateCode): void {
-    $this->templateCode = $templateCode;
+  public function setTemplateCode(string $template): void {
+    $this->template = $template;
   }
 }

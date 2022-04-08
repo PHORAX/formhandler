@@ -61,13 +61,16 @@ class GenerateAuthCode extends AbstractFinisher {
     $uidField = $firstInsertInfo['uidField'] ?: 'uid';
 
     if ($table && $uid) {
-      $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+      /** @var ConnectionPool $connectionPool */
+      $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+
+      $conn = $connectionPool->getConnectionForTable($table);
 
       $selectFields = '*';
       if ($this->settings['selectFields']) {
         $selectFields = $this->utilityFuncs->getSingle($this->settings, 'selectFields');
       }
-      $row = $conn->select(explode(',', $selectFields), $table, [$uidField => $uid])->fetch();
+      $row = $conn->select(explode(',', $selectFields), $table, [$uidField => $uid])->fetchAssociative();
       if (!empty($row)) {
         $authCode = $this->generateAuthCode($row);
         $this->gp['generated_authCode'] = $authCode;

@@ -84,7 +84,7 @@ class GeneralUtility implements SingletonInterface {
    * @return array The filled language markers
    */
   public static function convertToRelativePath(string $absPath): string {
-        // C:/xampp/htdocs/typo3/index.php
+    // C:/xampp/htdocs/typo3/index.php
     $scriptPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME');
 
     // C:/xampp/htdocs/typo3/
@@ -140,7 +140,7 @@ class GeneralUtility implements SingletonInterface {
     $timestamp = 0;
     if (strlen(trim($date)) > 0) {
       if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-                // find out separator
+        // find out separator
         preg_match('/^[d|m|y]*(.)[d|m|y]*/i', $format, $res);
         $sep = $res[1];
 
@@ -272,7 +272,7 @@ class GeneralUtility implements SingletonInterface {
    * @param bool  $correctRedirectUrl replace &amp; with & in URL
    */
   public static function doRedirect(mixed $redirect, bool $correctRedirectUrl, array $additionalParams = [], string $headerStatusCode = ''): void {
-        // these parameters have to be added to the redirect url
+    // these parameters have to be added to the redirect url
     $addParams = [];
     if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L')) {
       $addParams['L'] = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L');
@@ -613,7 +613,7 @@ class GeneralUtility implements SingletonInterface {
   }
 
   public static function getSingle(array|string $arr, string|int $key): string {
-    if (isset($arr) && !is_array($arr)) {
+    if (!is_array($arr)) {
       return $arr;
     }
     if (isset($arr[$key.'.']) && !is_array($arr[$key.'.'])) {
@@ -674,7 +674,7 @@ class GeneralUtility implements SingletonInterface {
    * The default upload folder is: '/uploads/formhandler/tmp/'
    */
   public static function getTempUploadFolder(string $fieldName = ''): string {
-        // set default upload folder
+    // set default upload folder
     $uploadFolder = '/uploads/formhandler/tmp/';
 
     // if temp upload folder set in TypoScript, take that setting
@@ -993,7 +993,7 @@ class GeneralUtility implements SingletonInterface {
    * Read language file set in flexform or TypoScript, read the file's path to $this->langFile.
    */
   public static function readLanguageFiles(array $langFiles, array &$settings): array {
-        // language file was not set in flexform, search TypoScript for setting
+    // language file was not set in flexform, search TypoScript for setting
     if (empty($langFiles)) {
       $langFiles = [];
       if (isset($settings['langFile']) && !isset($settings['langFile.'])) {
@@ -1026,12 +1026,9 @@ class GeneralUtility implements SingletonInterface {
    */
   public static function readTemplateFile(string $templateFile, array &$settings): string {
     $templateCode = '';
-    if (!isset($settings)) {
-      return $templateCode;
-    }
 
     // template file was not set in flexform, search TypoScript for setting
-    if (!isset($templateFile) || empty($templateFile)) {
+    if (empty($templateFile)) {
       if (!isset($settings['templateFile']) && !isset($settings['templateFile.'])) {
         return '';
       }
@@ -1052,7 +1049,7 @@ class GeneralUtility implements SingletonInterface {
             }
             $templateCode .= \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile)."\n\n";
           } else {
-                        // The setting "templateFile" was a cObject which returned HTML content. Just use that as template code.
+            // The setting "templateFile" was a cObject which returned HTML content. Just use that as template code.
             $templateCode .= $templateFile."\n\n";
           }
         }
