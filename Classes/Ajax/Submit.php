@@ -61,7 +61,10 @@ class Submit {
     \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($request);
 
     $elementUID = (int) $_GET['uid'];
-    $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+
+    /** @var ConnectionPool $connectionPool */
+    $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+    $queryBuilder = $connectionPool->getQueryBuilderForTable('tt_content');
     $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
     $row = $queryBuilder
       ->select('*')
@@ -69,8 +72,8 @@ class Submit {
       ->where(
         $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($elementUID, \PDO::PARAM_INT))
       )
-      ->execute()
-      ->fetch()
+      ->executeQuery()
+      ->fetchAssociative()
     ;
     if (!empty($row)) {
       $GLOBALS['TSFE']->cObj->data = $row;
