@@ -24,7 +24,7 @@
     "typo3/cms-extbase": "^11.5",
     "typo3/cms-fluid": "^11.5",
     "typo3/cms-frontend": "^11.5",
-    "parsecsv/php-parsecsv": "^1.2"
+    "parsecsv/php-parsecsv": "^1.3"
   },
   "require-dev": {
     "typo3/cms-backend": "^11.5",
