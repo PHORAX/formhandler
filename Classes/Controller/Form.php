@@ -1013,7 +1013,7 @@ class Form extends AbstractController {
   /**
    * Process a form which has not been submitted.
    *
-   * @return Rendered form
+   * @return string Rendered form
    */
   protected function processNotSubmitted(): string {
     $this->loadSettingsForStep($this->currentStep);
@@ -1053,7 +1053,7 @@ class Form extends AbstractController {
   /**
    * Process a form containing errors.
    *
-   * @return Rendered form
+   * @return string Rendered form
    */
   protected function processNotValid(): string {
     $this->gp['formErrors'] = $this->errors;
