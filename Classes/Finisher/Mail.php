@@ -200,8 +200,9 @@ class Mail extends AbstractFinisher {
   protected function parseEmailSettings(array $tsConfig, string $type): array {
     $emailSettings = $tsConfig;
     $options = [
+      'disable',
+      'header',
       'filePrefix',
-      'to_email',
       'subject',
       'sender_email',
       'sender_name',
@@ -211,6 +212,7 @@ class Mail extends AbstractFinisher {
       'cc_name',
       'bcc_email',
       'bcc_name',
+      'to_email',
       'to_name',
       'return_path',
       'attachment',
@@ -260,6 +262,8 @@ class Mail extends AbstractFinisher {
 
                         break;
 
+                    case 'disable':
+                    case 'header':
                     case 'subject':
                     case 'sender_name':
                     case 'replyto_name':
