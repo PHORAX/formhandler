@@ -83,6 +83,7 @@ class RemoveXSS extends AbstractInterceptor {
       return [];
     }
 
+    $sanitizedArray = [];
     foreach ($values as $key => $value) {
       if (!in_array($key, $this->doNotSanitizeFields) && is_array($value)) {
         $sanitizedArray[$key] = $this->sanitizeValues($value);
