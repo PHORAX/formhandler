@@ -119,11 +119,15 @@ class LoadDB extends AbstractPreProcessor {
   protected function loadDB(array $settings): array {
     $table = $this->utilityFuncs->getSingle($settings, 'table');
     $sql = $this->getQuery($table, $settings);
-    $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+
+    /** @var ConnectionPool $connectionPool */
+    $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+
+    $connection = $connectionPool->getConnectionForTable($table);
     $this->utilityFuncs->debugMessage($sql);
     $stmt = $connection->executeQuery($sql);
 
-    $rows = $stmt->fetchAll();
+    $rows = $stmt->fetchAllAssociative();
     $rowCount = count($rows);
     if (1 === $rowCount) {
       return reset($rows);

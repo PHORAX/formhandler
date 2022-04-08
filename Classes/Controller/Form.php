@@ -725,10 +725,12 @@ class Form extends AbstractController {
       $tstamp = (int) $gp['tstamp'];
       $hash = $gp['hash'];
       if ($tstamp && false === strpos($hash, ' ')) {
-        $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tx_formhandler_log');
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $conn = $connectionPool->getConnectionForTable('tx_formhandler_log');
         $stmt = $conn->select(['params'], 'tx_formhandler_log', ['tstamp' => $tstamp, 'unique_hash' => $hash]);
         if (1 === $stmt->rowCount()) {
-          $row = $stmt->fetch();
+          $row = $stmt->fetchAssociative();
           $params = unserialize($row['params']);
         }
       }

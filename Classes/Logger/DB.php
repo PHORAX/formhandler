@@ -28,7 +28,7 @@ class DB extends AbstractLogger {
    * Logs the given values.
    */
   public function process(): array {
-        // set params
+    // set params
     $table = 'tx_formhandler_log';
 
     $doDisableIPlog = $this->utilityFuncs->getSingle($this->settings, 'disableIPlog');
@@ -85,9 +85,9 @@ class DB extends AbstractLogger {
     }
 
     // query the database
-    $conn = GeneralUtility::makeInstance(ConnectionPool::class)
-      ->getConnectionForTable($table)
-    ;
+    /** @var ConnectionPool $connectionPool */
+    $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+    $conn = $connectionPool->getConnectionForTable($table);
 
     $conn->insert($table, $fields);
     $insertedUID = (int) $conn->lastInsertId($table);
