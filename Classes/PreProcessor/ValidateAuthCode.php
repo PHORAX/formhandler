@@ -107,11 +107,10 @@ class ValidateAuthCode extends AbstractPreProcessor {
           $queryBuilder->expr()->eq($hiddenField, $queryBuilder->createNamedParameter($hiddenStatusValue, \PDO::PARAM_INT))
         );
 
-        $query = $queryBuilder->getSQL();
-        $this->utilityFuncs->debugMessage('sql_request', [$query]);
+        $this->utilityFuncs->debugMessage('sql_request', [$queryBuilder->getSQL()]);
 
         $stmt = $queryBuilder->executeQuery();
-        if (!$stmt || 0 === $stmt->rowCount()) {
+        if (0 === $stmt->rowCount()) {
           $this->utilityFuncs->throwException('validateauthcode_no_record_found');
         }
 
