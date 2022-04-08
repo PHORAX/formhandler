@@ -201,6 +201,7 @@ class Mail extends AbstractFinisher {
     $emailSettings = $tsConfig;
     $options = [
       'disable',
+      'checkBinaryCfLr',
       'header',
       'filePrefix',
       'subject',
@@ -263,6 +264,7 @@ class Mail extends AbstractFinisher {
                         break;
 
                     case 'disable':
+                    case 'checkBinaryCfLr':
                     case 'header':
                     case 'subject':
                     case 'sender_name':
