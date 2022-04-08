@@ -270,6 +270,7 @@ class Form extends AbstractController {
    * Searches for current step and sets $this->currentStep according.
    */
   protected function findCurrentStep(): void {
+    $action = '';
     if (isset($this->gp) && is_array($this->gp)) {
       $action = 'reload';
       $keys = array_keys($this->gp);
@@ -291,31 +292,31 @@ class Form extends AbstractController {
     $stepInSession = max((int) ($this->globals->getSession()->get('currentStep')), 1);
 
     switch ($action) {
-            case 'prev':
-            case 'next':
-                if ($step > $stepInSession) {
-                  if ($allowStepJumps) {
-                    $this->currentStep = $step;
-                  } else {
-                    $this->currentStep = $stepInSession + 1;
-                  }
-                } elseif ($step < $stepInSession) {
-                  if ($allowStepJumps) {
-                    $this->currentStep = $step;
-                  } else {
-                    $this->currentStep = $stepInSession - 1;
-                  }
-                } else {
-                  $this->currentStep = $step;
-                }
-
-                break;
-
-            default:
-                $this->currentStep = $stepInSession;
-
-                break;
+      case 'prev':
+      case 'next':
+        if ($step > $stepInSession) {
+          if ($allowStepJumps) {
+            $this->currentStep = $step;
+          } else {
+            $this->currentStep = $stepInSession + 1;
+          }
+        } elseif ($step < $stepInSession) {
+          if ($allowStepJumps) {
+            $this->currentStep = $step;
+          } else {
+            $this->currentStep = $stepInSession - 1;
+          }
+        } else {
+          $this->currentStep = $step;
         }
+
+        break;
+
+      default:
+        $this->currentStep = $stepInSession;
+
+        break;
+    }
     if ($this->currentStep < 1) {
       $this->currentStep = 1;
     }
