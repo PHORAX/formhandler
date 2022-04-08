@@ -25,13 +25,14 @@ class TcPdf extends AbstractGenerator {
    * @return mixed
    */
   public function process(): array {
-    $this->pdf = $this->componentManager->getComponent('\Typoheads\Formhandler\Utility\TemplateTCPDF');
+    /** @var TemplateTCPDF $pdf */
+    $pdf = $this->componentManager->getComponent('\Typoheads\Formhandler\Utility\TemplateTCPDF');
 
-    $this->pdf->setHeaderText($this->utilityFuncs->getSingle($this->settings, 'headerText'));
-    $this->pdf->setFooterText($this->utilityFuncs->getSingle($this->settings, 'footerText'));
+    $pdf->setHeaderText($this->utilityFuncs->getSingle($this->settings, 'headerText'));
+    $pdf->setFooterText($this->utilityFuncs->getSingle($this->settings, 'footerText'));
 
-    $this->pdf->AddPage();
-    $this->pdf->SetFont('Helvetica', '', 12);
+    $pdf->AddPage();
+    $pdf->SetFont('Helvetica', '', 12);
     $view = $this->componentManager->getComponent('\Typoheads\Formhandler\View\PDF');
     $this->filename = false;
     if (1 === (int) ($this->settings['storeInTempFile'])) {
@@ -69,11 +70,10 @@ class TcPdf extends AbstractGenerator {
     $view->setComponentSettings($this->settings);
     $content = $view->render($this->gp, []);
 
-    $this->pdf->writeHTML($content);
-    $returns = $this->settings['returnFileName'];
+    $pdf->writeHTML($content);
 
     if (false !== $this->filename) {
-      $this->pdf->Output($this->filename, 'F');
+      $pdf->Output($this->filename, 'F');
 
       $downloadpath = $this->filename;
       if ($returns) {
@@ -88,7 +88,7 @@ class TcPdf extends AbstractGenerator {
     if ($this->settings['outputFileName']) {
       $fileName = $this->utilityFuncs->getSingle($this->settings, 'outputFileName');
     }
-    $this->pdf->Output($fileName, 'D');
+    $pdf->Output($fileName, 'D');
 
     exit;
   }
