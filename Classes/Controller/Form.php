@@ -84,7 +84,7 @@ class Form extends AbstractController {
   /**
    * Main method of the form handler.
    *
-   * @return rendered view
+   * @return string rendered view
    */
   public function process(): string {
     $this->init();
