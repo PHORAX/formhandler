@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Generator;
 
+use Typoheads\Formhandler\Utility\TemplateTCPDF;
+
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
  *
