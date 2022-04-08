@@ -467,7 +467,7 @@ class Mail extends AbstractFinisher {
 
     $view->setLangFiles($this->globals->getLangFiles());
     $view->setPredefined($this->predefined);
-    $view->setComponentSettings($this->settings);
+    $view->setComponentSettings($this->emailSettings);
     $templateCode = $this->globals->getTemplateCode();
     if (isset($this->settings['templateFile'])) {
       $templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings);
