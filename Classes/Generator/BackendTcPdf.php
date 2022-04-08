@@ -177,9 +177,9 @@ class BackendTcPdf extends AbstractComponent {
   /**
    * Sets the template code for the PDF.
    *
-   * @param string $templateCode The template code
+   * @param string $template The template code
    */
-  public function setTemplateCode(string $templateCode): void {
-    $this->templateCode = $templateCode;
+  public function setTemplateCode(string $template): void {
+    $this->template = $template;
   }
 }
