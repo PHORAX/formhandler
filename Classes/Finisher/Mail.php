@@ -241,7 +241,7 @@ class Mail extends AbstractFinisher {
   protected function parseEmailSettingsByType(array $currentSettings, string $type, array $optionsToParse = []): array {
     $typeUpper = strtoupper($type);
     $section = 'sEMAIL'.$typeUpper;
-    $emailSettings = $currentSettings;
+    $emailSettings = [];
     foreach ($optionsToParse as $idx => $option) {
       $value = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], $option, $section);
       if (strlen($value) > 0) {
