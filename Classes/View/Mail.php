@@ -58,8 +58,7 @@ class Mail extends Form {
   }
 
   protected function fillEmbedMarkers(): void {
-    $componentSettings = $this->getComponentSettings();
-    $mailSettings = $componentSettings[$this->currentMailSettings['mode']];
+    $mailSettings = $this->getComponentSettings();
     if (isset($mailSettings['embedFiles']) && is_array($mailSettings['embedFiles'])) {
       $markers = [];
       foreach ($mailSettings['embedFiles'] as $key => $cid) {
@@ -70,12 +69,12 @@ class Mail extends Form {
   }
 
   protected function fillValueMarkers(): void {
-    $componentSettings = $this->getComponentSettings();
+    $mailSettings = $this->getComponentSettings();
     if (
-          isset($componentSettings[$this->currentMailSettings['mode']], $componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'].'.'], $componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'].'.']['arrayValueSeparator'])
-          && $componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'].'.']['arrayValueSeparator']) {
-      $this->settings['arrayValueSeparator'] = $componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'].'.']['arrayValueSeparator'];
-      $this->settings['arrayValueSeparator.'] = $componentSettings[$this->currentMailSettings['mode']][$this->currentMailSettings['suffix'].'.']['arrayValueSeparator.'];
+          isset($mailSettings[$this->currentMailSettings['suffix'].'.'], $mailSettings[$this->currentMailSettings['suffix'].'.']['arrayValueSeparator'])
+          && $mailSettings[$this->currentMailSettings['suffix'].'.']['arrayValueSeparator']) {
+      $this->settings['arrayValueSeparator'] = $mailSettings[$this->currentMailSettings['suffix'].'.']['arrayValueSeparator'];
+      $this->settings['arrayValueSeparator.'] = $mailSettings[$this->currentMailSettings['suffix'].'.']['arrayValueSeparator.'];
     }
     $this->disableEncodingFields = [];
     if (isset($this->settings['disableEncodingFields'])) {
