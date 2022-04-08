@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Generator;
 
+use parseCSV;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -41,7 +42,7 @@ class Csv extends AbstractGenerator {
     }
 
     // create new parseCSV object.
-    $csv = new \parseCSV();
+    $csv = new parseCSV();
 
     // parseCSV expects data to be a two dimensional array
     $data = [$params];
