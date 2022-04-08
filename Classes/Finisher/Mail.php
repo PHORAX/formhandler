@@ -424,8 +424,8 @@ class Mail extends AbstractFinisher {
    * @param string $key      The key to parse in the settings array
    */
   protected function parseList(array $settings, string $type, string $key): array|string {
-    if (isset($this->emailSettings[$type][$key])) {
-      $parsed = $this->explodeList($this->emailSettings[$type][$key]);
+    if (isset($settings[$type][$key])) {
+      $parsed = $this->explodeList($settings[$type][$key]);
     } elseif (isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
       $parsed = $parsed = $this->explodeList($this->utilityFuncs->getSingle($settings, $key));
     } else {
@@ -496,8 +496,8 @@ class Mail extends AbstractFinisher {
    * @param string $key      The key to parse in the settings array
    */
   protected function parseValue(array $settings, string $type, string $key): string {
-    if (isset($this->emailSettings[$type][$key])) {
-      $parsed = $this->parseSettingValue($this->emailSettings[$type][$key]);
+    if (isset($settings[$type][$key])) {
+      $parsed = $this->parseSettingValue($settings[$type][$key]);
     } elseif (isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
       $settings[$key.'.']['gp'] = $this->gp;
       $parsed = $this->utilityFuncs->getSingle($settings, $key);
