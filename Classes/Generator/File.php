@@ -72,7 +72,7 @@ class File extends AbstractGenerator {
       fclose($fp);
       $downloadpath = $this->filename;
       if ($returns) {
-        return $downloadpath;
+        return [$downloadpath];
       }
       $downloadpath = str_replace($this->utilityFuncs->getDocumentRoot(), '', $downloadpath);
       header('Content-type: '.$contentType);
