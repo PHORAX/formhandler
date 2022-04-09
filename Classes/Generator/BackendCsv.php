@@ -116,7 +116,7 @@ class BackendCsv extends AbstractComponent {
     $data = $dataSorted;
 
     // create new parseCSV object.
-    $csv = new Csv(null, null, null, []);
+    $csv = new Csv();
     $csv->delimiter = $csv->output_delimiter = $this->settings['delimiter'];
     $csv->enclosure = $this->settings['enclosure'];
     $csv->input_encoding = strtolower($this->getInputCharset());
