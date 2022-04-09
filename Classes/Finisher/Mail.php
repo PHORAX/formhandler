@@ -656,7 +656,7 @@ class Mail extends AbstractFinisher {
     }
 
     // parse max count of mails to send
-    $max = $this->utilityFuncs->getSingle($this->settings, 'limitMailsToUser');
+    $max = intval($this->utilityFuncs->getSingle($this->settings, 'limitMailsToUser'));
     if (!$max) {
       $max = 2;
     }

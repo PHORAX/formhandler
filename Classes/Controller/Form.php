@@ -288,9 +288,9 @@ class Form extends AbstractController {
 
     $allowStepJumps = false;
     if (isset($this->settings['allowStepJumps'])) {
-      $allowStepJumps = (bool) $this->utilityFuncs->getSingle($this->settings, 'allowStepJumps');
+      $allowStepJumps = boolval($this->utilityFuncs->getSingle($this->settings, 'allowStepJumps'));
     }
-    $stepInSession = max((int) ($this->globals->getSession()->get('currentStep')), 1);
+    $stepInSession = max(intval($this->globals->getSession()->get('currentStep')), 1);
 
     switch ($action) {
       case 'prev':
@@ -321,14 +321,11 @@ class Form extends AbstractController {
     if ($this->currentStep < 1) {
       $this->currentStep = 1;
     }
-    if (!$this->currentStep) {
-      $this->currentStep = 1;
-    }
 
     $isValidStep = true;
     $disableStepCheck = false;
     if (isset($this->settings['disableStepCheck'])) {
-      $disableStepCheck = (bool) $this->utilityFuncs->getSingle($this->settings, 'disableStepCheck');
+      $disableStepCheck = boolval($this->utilityFuncs->getSingle($this->settings, 'disableStepCheck'));
     }
     if (!$disableStepCheck) {
       for ($i = 1; $i < $this->currentStep - 1; ++$i) {
@@ -673,7 +670,7 @@ class Form extends AbstractController {
       foreach ($conditions as $subIdx => $andConditions) {
         $results = [];
         foreach ($andConditions as $subSubIdx => $andCondition) {
-          $result = $this->utilityFuncs->getConditionResult($andCondition, $this->gp);
+          $result = strval($this->utilityFuncs->getConditionResult($andCondition, $this->gp));
           $results[] = ($result ? 'TRUE' : 'FALSE');
         }
         $orConditions[] = '('.implode(' && ', $results).')';
@@ -683,6 +680,7 @@ class Form extends AbstractController {
       $evaluation = false;
       eval('$evaluation = '.$finalCondition.';');
 
+      // @phpstan-ignore-next-line
       if ($evaluation) {
         $newSettings = $conditionSettings['isTrue.'];
         if (is_array($newSettings)) {
@@ -1437,9 +1435,9 @@ class Form extends AbstractController {
             if (count($files['tmp_name'][$field]) > 0) {
               $hasAllowedTypesCheck = false;
               if (isset($this->settings['validators.'])
-                                && is_array($this->settings['validators.'])
-                                && 1 !== (int) ($this->utilityFuncs->getSingle($this->settings['validators.'], 'disable'))
-                            ) {
+                  && is_array($this->settings['validators.'])
+                  && 1 !== intval($this->utilityFuncs->getSingle($this->settings['validators.'], 'disable'))
+              ) {
                 foreach ($this->settings['validators.'] as $idx => $tsConfig) {
                   if ($tsConfig['config.']['fieldConf.'][$field.'.']['errorCheck.']) {
                     foreach ($tsConfig['config.']['fieldConf.'][$field.'.']['errorCheck.'] as $errorCheck) {
@@ -1452,9 +1450,7 @@ class Form extends AbstractController {
               }
               if (!$hasAllowedTypesCheck) {
                 $missingChecks = [];
-                if (!$hasAllowedTypesCheck) {
-                  $missingChecks[] = 'fileAllowedTypes';
-                }
+                $missingChecks[] = 'fileAllowedTypes';
                 $this->utilityFuncs->throwException('error_checks_missing', implode(',', $missingChecks), $field);
               }
             }

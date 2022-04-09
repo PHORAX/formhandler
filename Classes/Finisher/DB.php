@@ -63,7 +63,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * </code>
  */
 class DB extends AbstractFinisher {
-  protected Connection $connection;
+  protected ?Connection $connection = null;
 
   /**
    * A flag to indicate if to insert the record or to update an existing one.
@@ -271,7 +271,7 @@ class DB extends AbstractFinisher {
   }
 
   protected function getConnection(): Connection {
-    if (!$this->connection) {
+    if (null === $this->connection) {
       /** @var ConnectionPool $connectionPool */
       $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
       $this->connection = $connectionPool->getConnectionForTable($this->table);
@@ -386,113 +386,113 @@ class DB extends AbstractFinisher {
           }
         } else {
           switch ($options['special']) {
-                        case 'saltedpassword':
-                            $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
+            case 'saltedpassword':
+              $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
 
-                            $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
-                            $encryptedPassword = $hashInstance->getHashedPassword($this->gp[$field]);
+              $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
+              $encryptedPassword = $hashInstance->getHashedPassword($this->gp[$field]);
 
-                            $fieldValue = $encryptedPassword;
+              $fieldValue = $encryptedPassword;
 
-                            break;
+              break;
 
-                        case 'files':
-                            $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
-                            if (isset($options['special.']['separator'])) {
-                              $separator = $this->utilityFuncs->getSingle($options['special.'], 'separator');
-                            } else {
-                              $separator = ',';
-                            }
+            case 'files':
+              $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
+              if (isset($options['special.']['separator'])) {
+                $separator = $this->utilityFuncs->getSingle($options['special.'], 'separator');
+              } else {
+                $separator = ',';
+              }
 
-                            $filesArray = [];
-                            if (isset($options['special.']['info'])) {
-                              $info = $this->utilityFuncs->getSingle($options['special.'], 'info');
-                            } else {
-                              $info = '[uploaded_name]';
-                            }
-                            $files = (array) $this->globals->getSession()->get('files');
-                            if (isset($files[$field]) && is_array($files[$field])) {
-                              foreach ($files[$field] as $idx => $file) {
-                                $infoString = $info;
-                                foreach ($file as $infoKey => $infoValue) {
-                                  $infoString = str_replace('['.$infoKey.']', $infoValue, $infoString);
-                                }
-                                array_push($filesArray, $infoString);
-                              }
-                            }
-                            if (isset($options['special.']['index'])) {
-                              $index = $this->utilityFuncs->getSingle($options['special.'], 'index');
-                              if (isset($filesArray[$index])) {
-                                $fieldValue = $filesArray[$index];
-                              }
-                            } else {
-                              $fieldValue = implode($separator, $filesArray);
-                            }
+              $filesArray = [];
+              if (isset($options['special.']['info'])) {
+                $info = $this->utilityFuncs->getSingle($options['special.'], 'info');
+              } else {
+                $info = '[uploaded_name]';
+              }
+              $files = (array) $this->globals->getSession()->get('files');
+              if (isset($files[$field]) && is_array($files[$field])) {
+                foreach ($files[$field] as $idx => $file) {
+                  $infoString = $info;
+                  foreach ($file as $infoKey => $infoValue) {
+                    $infoString = str_replace('['.$infoKey.']', $infoValue, $infoString);
+                  }
+                  array_push($filesArray, $infoString);
+                }
+              }
+              if (isset($options['special.']['index'])) {
+                $index = $this->utilityFuncs->getSingle($options['special.'], 'index');
+                if (isset($filesArray[$index])) {
+                  $fieldValue = $filesArray[$index];
+                }
+              } else {
+                $fieldValue = implode($separator, $filesArray);
+              }
 
-                            break;
+              break;
 
-                        case 'date':
-                            $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
-                            $date = $this->gp[$field];
-                            $dateFormat = 'Y-m-d';
-                            if ($options['special.']['dateFormat']) {
-                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
-                            } elseif ($options['special.']['format']) {
-                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
-                            }
-                            $fieldValue = $this->utilityFuncs->dateToTimestamp($date, $dateFormat);
+            case 'date':
+              $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
+              $date = $this->gp[$field];
+              $dateFormat = 'Y-m-d';
+              if ($options['special.']['dateFormat']) {
+                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
+              } elseif ($options['special.']['format']) {
+                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
+              }
+              $fieldValue = $this->utilityFuncs->dateToTimestamp($date, $dateFormat);
 
-                            break;
+              break;
 
-                        case 'datetime':
-                            if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-                              $this->utilityFuncs->throwException('error_datetime');
-                            }
-                            $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
-                            $date = $this->gp[$field];
-                            $dateFormat = 'Y-m-d H:i:s';
-                            if ($options['special.']['dateFormat']) {
-                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
-                            } elseif ($options['special.']['format']) {
-                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
-                            }
-                            $fieldValue = $this->utilityFuncs->dateToTimestamp($date, $dateFormat);
+            case 'datetime':
+              if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+                $this->utilityFuncs->throwException('error_datetime');
+              }
+              $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
+              $date = $this->gp[$field];
+              $dateFormat = 'Y-m-d H:i:s';
+              if ($options['special.']['dateFormat']) {
+                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
+              } elseif ($options['special.']['format']) {
+                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
+              }
+              $fieldValue = $this->utilityFuncs->dateToTimestamp($date, $dateFormat);
 
-                            break;
+              break;
 
-                        case 'sub_datetime':
-                            $dateFormat = 'Y-m-d H:i:s';
-                            if ($options['special.']['dateFormat']) {
-                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
-                            } elseif ($options['special.']['format']) {
-                              $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
-                            }
-                            $fieldValue = date($dateFormat, time());
+            case 'sub_datetime':
+              $dateFormat = 'Y-m-d H:i:s';
+              if ($options['special.']['dateFormat']) {
+                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
+              } elseif ($options['special.']['format']) {
+                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
+              }
+              $fieldValue = date($dateFormat, time());
 
-                            break;
+              break;
 
-                        case 'sub_tstamp':
-                            $fieldValue = time();
+            case 'sub_tstamp':
+              $fieldValue = time();
 
-                            break;
+              break;
 
-                        case 'ip':
-                            $fieldValue = GeneralUtility::getIndpEnv('REMOTE_ADDR');
+            case 'ip':
+              $fieldValue = GeneralUtility::getIndpEnv('REMOTE_ADDR');
 
-                            break;
+              break;
 
-                        case 'inserted_uid':
-                            $table = $this->utilityFuncs->getSingle($options['special.'], 'table');
-                            if (isset($this->gp['saveDB']) && is_array($this->gp['saveDB'])) {
-                              foreach ($this->gp['saveDB'] as $idx => $info) {
-                                if ($info['table'] === $table) {
-                                  $fieldValue = $info['uid'];
-                                }
-                              }
-                            }
+            case 'inserted_uid':
+              $table = $this->utilityFuncs->getSingle($options['special.'], 'table');
+              if (isset($this->gp['saveDB']) && is_array($this->gp['saveDB'])) {
+                foreach ($this->gp['saveDB'] as $idx => $info) {
+                  if ($info['table'] === $table) {
+                    $fieldValue = $info['uid'];
+                  }
+                }
+              }
 
-                            break;
-                    }
+              break;
+          }
         }
       } else {
         $fieldValue = $options;

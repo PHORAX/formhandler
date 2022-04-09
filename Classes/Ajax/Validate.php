@@ -38,8 +38,6 @@ class Validate {
 
   private Manager $componentManager;
 
-  private int $id = 0;
-
   private array $settings = [];
 
   /**
@@ -97,11 +95,6 @@ class Validate {
   protected function init(ServerRequestInterface $request): void {
     $GLOBALS['TYPO3_REQUEST'] = $request;
 
-    if (isset($_GET['pid'])) {
-      $this->id = (int) ($_GET['pid']);
-    } else {
-      $this->id = (int) ($_GET['id']);
-    }
     $this->componentManager = GeneralUtility::makeInstance(Manager::class);
     Globals::setAjaxMode(true);
     \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($request);
