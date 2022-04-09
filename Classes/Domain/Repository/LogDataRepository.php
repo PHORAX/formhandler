@@ -67,7 +67,7 @@ class LogDataRepository extends Repository {
         $constraints[] = $query->lessThan('tstamp', $demand->getEndTimestamp());
       }
     }
-    if (count($constraints) > 0) {
+    if (count($constraints) > 1) {
       $query->matching($query->logicalAnd($constraints));
 
       return $query->execute();
