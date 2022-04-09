@@ -33,7 +33,7 @@ class TcPdf extends AbstractGenerator {
     $pdf->AddPage();
     $pdf->SetFont('Helvetica', '', 12);
     $view = $this->componentManager->getComponent('\Typoheads\Formhandler\View\PDF');
-    $this->filename = false;
+    $this->filename = '';
     if (1 === (int) ($this->settings['storeInTempFile'])) {
       $this->outputPath = $this->utilityFuncs->getDocumentRoot();
       if ($this->settings['customTempOutputPath']) {
@@ -72,7 +72,7 @@ class TcPdf extends AbstractGenerator {
     $pdf->writeHTML($content);
     $returns = boolval($this->settings['returnFileName']);
 
-    if (false !== $this->filename) {
+    if (!empty($this->filename)) {
       $pdf->Output($this->filename, 'F');
 
       $downloadpath = $this->filename;
