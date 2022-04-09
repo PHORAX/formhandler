@@ -48,7 +48,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
         $this->globals->getSession()->reset();
         $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
 
-        return 'Lousy spammer!';
+        return ['Lousy spammer!'];
       }
 
       // set view
@@ -69,7 +69,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
       if (!$view->hasTemplate()) {
         $this->utilityFuncs->throwException('spam_detected');
 
-        return 'Lousy spammer!';
+        return ['Lousy spammer!'];
       }
       $content = $view->render($this->gp, []);
       $this->globals->getSession()->reset();

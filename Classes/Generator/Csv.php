@@ -85,7 +85,7 @@ class Csv extends AbstractGenerator {
       $filename = $outputPath.$this->settings['filePrefix'].$this->utilityFuncs->generateHash().'.csv';
       $csv->save($filename, $data, false, $fields);
       if (1 === (int) ($this->settings['returnFileName'])) {
-        return $filename;
+        return [$filename];
       }
       if (!is_array($this->gp['generator-csv-generated-files'])) {
         $this->gp['generator-csv-generated-files'] = [];
