@@ -109,6 +109,8 @@ class Validate {
    */
   protected function initView(string $content): AjaxValidation {
     $viewClass = '\Typoheads\Formhandler\View\AjaxValidation';
+
+    /** @var AjaxValidation $view */
     $view = $this->componentManager->getComponent($viewClass);
     $view->setLangFiles(\Typoheads\Formhandler\Utility\GeneralUtility::readLanguageFiles([], $this->settings));
     $view->setSettings($this->settings);
