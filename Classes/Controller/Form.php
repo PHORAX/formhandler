@@ -680,6 +680,7 @@ class Form extends AbstractController {
       $evaluation = false;
       eval('$evaluation = '.$finalCondition.';');
 
+      // @phpstan-ignore-next-line
       if ($evaluation) {
         $newSettings = $conditionSettings['isTrue.'];
         if (is_array($newSettings)) {
@@ -1434,9 +1435,9 @@ class Form extends AbstractController {
             if (count($files['tmp_name'][$field]) > 0) {
               $hasAllowedTypesCheck = false;
               if (isset($this->settings['validators.'])
-                                && is_array($this->settings['validators.'])
+                  && is_array($this->settings['validators.'])
                   && 1 !== intval($this->utilityFuncs->getSingle($this->settings['validators.'], 'disable'))
-                            ) {
+              ) {
                 foreach ($this->settings['validators.'] as $idx => $tsConfig) {
                   if ($tsConfig['config.']['fieldConf.'][$field.'.']['errorCheck.']) {
                     foreach ($tsConfig['config.']['fieldConf.'][$field.'.']['errorCheck.'] as $errorCheck) {
@@ -1449,7 +1450,7 @@ class Form extends AbstractController {
               }
               if (!$hasAllowedTypesCheck) {
                 $missingChecks = [];
-                  $missingChecks[] = 'fileAllowedTypes';
+                $missingChecks[] = 'fileAllowedTypes';
                 $this->utilityFuncs->throwException('error_checks_missing', implode(',', $missingChecks), $field);
               }
             }
