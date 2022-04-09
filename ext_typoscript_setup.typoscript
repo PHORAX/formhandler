@@ -1,25 +1,25 @@
 module.tx_formhandler {
-	view.widget.TYPO3\CMS\Fluid\ViewHelpers\Be\Widget\PaginateViewHelper.templateRootPath = EXT:formhandler/Resources/Private/Templates/
-	settings {
-	    forceDelete = 0
-		pdf {
-			class = Typoheads\Formhandler\Generator\BackendTcPdf
-			config {
-				font = FreeSans
-				fontSize = 12
-				fontSizeHeader = 8
-				fontSizeFooter = 8
-				fileName = formhandler.pdf
-			}
-		}
-		csv {
-			class = Typoheads\Formhandler\Generator\BackendCsv
-			config {
-				encoding = utf-8
-				delimiter = ,
-				enclosure = "
-				fileName = formhandler.csv
-			}
-		}
-	}
+  view.widget.TYPO3\CMS\Fluid\ViewHelpers\Be\Widget\PaginateViewHelper.templateRootPath = EXT:formhandler/Resources/Private/Templates/
+  settings {
+    forceDelete = 0
+    pdf {
+      class = Typoheads\Formhandler\Generator\BackendTcPdf
+      config {
+        font = FreeSans
+        fontSize = 12
+        fontSizeHeader = 8
+        fontSizeFooter = 8
+        fileName = formhandler.pdf
+      }
+    }
+    csv {
+      class = Typoheads\Formhandler\Generator\BackendCsv
+      config {
+        encoding = utf-8
+        delimiter = ,
+        enclosure = "
+        fileName = formhandler.csv
+      }
+    }
+  }
 }
