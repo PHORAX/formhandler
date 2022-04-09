@@ -149,7 +149,7 @@ class ModuleController extends ActionController {
       $propertyMappingConfiguration->allowAllProperties();
       $propertyMappingConfiguration->setTypeConverterOption(
         'TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter',
-        PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
+        strval(PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED),
         true
       );
     }

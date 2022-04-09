@@ -98,24 +98,24 @@ class BackendTcPdf extends AbstractComponent {
         $feedWidth = 30;
 
         if (0 == count($exportFields) || in_array('pid', $exportFields)) {
-          $pdf->Cell($standardWidth, '15', 'Page-ID:', 0, 0);
-          $pdf->Cell($standardWidth, '15', $data['pid'], 0, 1);
+          $pdf->Cell($standardWidth, 15.0, 'Page-ID:', 0, 0);
+          $pdf->Cell($standardWidth, 15.0, $data['pid'], 0, 1);
         }
         if (0 == count($exportFields) || in_array('submission_date', $exportFields)) {
-          $pdf->Cell($standardWidth, '15', 'Submission date:', 0, 0);
-          $pdf->Cell($standardWidth, '15', date('d.m.Y H:i:s', $data['crdate']), 0, 1);
+          $pdf->Cell($standardWidth, 15.0, 'Submission date:', 0, 0);
+          $pdf->Cell($standardWidth, 15.0, date('d.m.Y H:i:s', $data['crdate']), 0, 1);
         }
         if (0 == count($exportFields) || in_array('ip', $exportFields)) {
-          $pdf->Cell($standardWidth, '15', 'IP address:', 0, 0);
-          $pdf->Cell($standardWidth, '15', $data['ip'], 0, 1);
+          $pdf->Cell($standardWidth, 15.0, 'IP address:', 0, 0);
+          $pdf->Cell($standardWidth, 15.0, $data['ip'], 0, 1);
         }
 
-        $pdf->Cell($standardWidth, '15', 'Submitted values:', 0, 1);
+        $pdf->Cell($standardWidth, 15.0, 'Submitted values:', 0, 1);
         $pdf->SetLineWidth(.3);
         $pdf->Cell($feedWidth);
         $pdf->SetFillColor(255, 255, 255);
-        $pdf->Cell($nameWidth, '6', 'Name', 'B', 0, 'C', true);
-        $pdf->Cell($valueWidth, '6', 'Value', 'B', 0, 'C', true);
+        $pdf->Cell($nameWidth, 6.0, 'Name', 'B', 0, 'C', true);
+        $pdf->Cell($valueWidth, 6.0, 'Value', 'B', 0, 'C', true);
         $pdf->Ln();
         $pdf->SetFillColor(200, 200, 200);
         $fill = false;
@@ -128,32 +128,32 @@ class BackendTcPdf extends AbstractComponent {
             $value = $data['params'][$key];
             if (is_array($value)) {
               $pdf->Cell($feedWidth);
-              $pdf->Cell($nameWidth, '6', $key, 0, 0, 'L', $fill);
+              $pdf->Cell($nameWidth, 6.0, $key, 0, 0, 'L', $fill);
               $arrayValue = array_shift($value);
               if (false === strpos($arrayValue, "\n") && false === strpos($arrayValue, "\r") && strlen($arrayValue) < $valueWidth - 40) {
-                $pdf->Cell($valueWidth, '6', $arrayValue, 0, 0, 'L', $fill);
+                $pdf->Cell($valueWidth, 6.0, $arrayValue, 0, 0, 'L', $fill);
               } else {
-                $pdf->MultiCell($valueWidth, '6', $arrayValue, 0, 0, 'L', $fill);
+                $pdf->MultiCell($valueWidth, 6.0, $arrayValue, 0, 'L', $fill, 0);
               }
               $pdf->Ln();
               foreach ($value as $v) {
                 $pdf->Cell($feedWidth);
-                $pdf->Cell($nameWidth, '6', '', 0, 0, 'L', $fill);
+                $pdf->Cell($nameWidth, 6.0, '', 0, 0, 'L', $fill);
                 if (false === strpos($v, "\n") && false === strpos($v, "\r") && strlen($v) < $valueWidth - 40) {
-                  $pdf->Cell($valueWidth, '6', $v, 0, 0, 'L', $fill);
+                  $pdf->Cell($valueWidth, 6.0, $v, 0, 0, 'L', $fill);
                 } else {
-                  $pdf->MultiCell($valueWidth, '6', $v, 0, 0, 'L', $fill);
+                  $pdf->MultiCell($valueWidth, 6.0, $v, 0, 'L', $fill, 0);
                 }
                 $pdf->Ln();
               }
               $fill = !$fill;
             } else {
               $pdf->Cell($feedWidth);
-              $pdf->Cell($nameWidth, '6', $key, 0, 0, 'L', $fill);
+              $pdf->Cell($nameWidth, 6.0, $key, 0, 0, 'L', $fill);
               if (false === strpos($value, "\n") && false === strpos($value, "\r") && strlen($value) < $valueWidth - 40) {
-                $pdf->Cell($valueWidth, '6', $value, 0, 0, 'L', $fill);
+                $pdf->Cell($valueWidth, 6.0, $value, 0, 0, 'L', $fill);
               } else {
-                $pdf->MultiCell($valueWidth, '6', $value, 0, 0, 'L', $fill);
+                $pdf->MultiCell($valueWidth, 6.0, $value, 0, 'L', $fill, 0);
               }
               $pdf->Ln();
               $fill = !$fill;

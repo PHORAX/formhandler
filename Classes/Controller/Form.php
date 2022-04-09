@@ -945,10 +945,10 @@ class Form extends AbstractController {
       }
 
       // run init interceptors
-      if (!isset($this->settings['initInterceptors.'])) {
+      if (!isset($this->settings['initInterceptors.']) || !is_array($this->settings['initInterceptors.'])) {
         $this->settings['initInterceptors.'] = [];
       }
-      $this->addFormhandlerClass($this->settings['initInterceptors.'] ?? [], 'Interceptor\\RemoveXSS');
+      $this->addFormhandlerClass($this->settings['initInterceptors.'], 'Interceptor\\RemoveXSS');
       $output = $this->runClasses($this->settings['initInterceptors.']);
       if (null != $output && strlen($output) > 0) {
         return $output;
@@ -957,7 +957,7 @@ class Form extends AbstractController {
     $this->storeSettingsInSession();
 
     // run save interceptors
-    if (!isset($this->settings['saveInterceptors.'])) {
+    if (!isset($this->settings['saveInterceptors.']) || !is_array($this->settings['saveInterceptors.'])) {
       $this->settings['saveInterceptors.'] = [];
     }
     $this->addFormhandlerClass($this->settings['saveInterceptors.'], 'Interceptor\\RemoveXSS');
@@ -967,7 +967,7 @@ class Form extends AbstractController {
     }
 
     // run loggers
-    if (!isset($this->settings['loggers.'])) {
+    if (!isset($this->settings['loggers.']) || !is_array($this->settings['loggers.'])) {
       $this->settings['loggers.'] = [];
     }
     $this->addFormhandlerClass($this->settings['loggers.'], 'Logger_DB');

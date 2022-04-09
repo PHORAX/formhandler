@@ -406,18 +406,18 @@ class DB extends AbstractFinisher {
 
               $filesArray = [];
               if (isset($options['special.']['info'])) {
-                $info = $this->utilityFuncs->getSingle($options['special.'], 'info');
+                $info = strval($this->utilityFuncs->getSingle($options['special.'], 'info'));
               } else {
                 $info = '[uploaded_name]';
               }
               $files = (array) $this->globals->getSession()->get('files');
               if (isset($files[$field]) && is_array($files[$field])) {
-                foreach ($files[$field] as $idx => $file) {
+                foreach ($files[$field] as $file) {
                   $infoString = $info;
                   foreach ($file as $infoKey => $infoValue) {
                     $infoString = str_replace('['.$infoKey.']', $infoValue, $infoString);
                   }
-                  array_push($filesArray, $infoString);
+                  $filesArray[] = $infoString;
                 }
               }
               if (isset($options['special.']['index'])) {

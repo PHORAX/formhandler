@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Ajax;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
@@ -34,8 +37,6 @@ class RemoveFile {
 
   private Globals $globals;
 
-  private int $id = 0;
-
   private array $langFiles = [];
 
   private array $settings = [];
@@ -47,8 +48,8 @@ class RemoveFile {
   /**
    * Main method of the class.
    */
-  public function main(): void {
-    $this->init();
+  public function main(ServerRequestInterface $request): ResponseInterface {
+    $this->init($request);
     $content = '';
     $field = null;
 
@@ -106,25 +107,30 @@ class RemoveFile {
         $content = $markers['###'.$this->fieldName.'_uploadedFiles###'];
       }
     }
-    echo $content;
+
+    return new HtmlResponse($content, 200);
   }
 
   /**
    * Initialize the class. Read GET parameters.
    */
-  protected function init(): void {
+  protected function init(ServerRequestInterface $request): void {
     $this->fieldName = htmlspecialchars($_GET['field']);
     $this->uploadedFileName = htmlspecialchars($_GET['uploadedFileName']);
-    if (isset($_GET['pid'])) {
-      $this->id = (int) ($_GET['pid']);
-    } else {
-      $this->id = (int) ($_GET['id']);
-    }
 
-    $this->componentManager = GeneralUtility::makeInstance(Manager::class);
-    $this->globals = GeneralUtility::makeInstance(Globals::class);
-    $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
-    $this->utilityFuncs->initializeTSFE($this->id);
+    /** @var Manager $componentManager */
+    $componentManager = GeneralUtility::makeInstance(Manager::class);
+    $this->componentManager = $componentManager;
+
+    /** @var Globals $globals */
+    $globals = GeneralUtility::makeInstance(Globals::class);
+    $this->globals = $globals;
+
+    /** @var \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs */
+    $utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
+    $this->utilityFuncs = $utilityFuncs;
+    $this->utilityFuncs->initializeTSFE($request);
+
     $this->globals->setCObj($GLOBALS['TSFE']->cObj);
     $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
     $this->globals->setRandomID($randomID);

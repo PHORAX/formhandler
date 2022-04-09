@@ -47,7 +47,7 @@ class PredefinedForm {
 
     // Parse all forms
     foreach ($ts['plugin.']['tx_formhandler_pi1.']['settings.']['predef.'] as $key => $form) {
-            // Check if form has a name
+      // Check if form has a name
       if (!is_array($form) || !isset($form['name'])) {
         continue;
       }
@@ -89,8 +89,9 @@ class PredefinedForm {
    * @return array The TypoScript setup
    */
   private function loadTS(int $pageUid): array {
-    /** @var RootlineUtility $rootLine */
-    $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
+    /** @var RootlineUtility $rootlineUtility */
+    $rootlineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid);
+    $rootLine = $rootlineUtility->get();
 
     /** @var ExtendedTemplateService $TSObj */
     $TSObj = GeneralUtility::makeInstance(ExtendedTemplateService::class);

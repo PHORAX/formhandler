@@ -33,7 +33,7 @@ class SubmittedValues extends AbstractFormElement {
     $attributes = [
       'id' => $fieldId,
       'name' => htmlspecialchars($parameterArray['itemFormElName']),
-      'size' => 30,
+      'size' => '30',
       'data-formengine-input-name' => htmlspecialchars($parameterArray['itemFormElName']),
     ];
 

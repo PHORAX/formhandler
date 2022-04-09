@@ -243,14 +243,14 @@ class GeneralUtility implements SingletonInterface {
     if ($settings['files.']['search']) {
       $search = self::getSingle($settings['files.'], 'search');
       if ($settings['files.']['search.']['separator']) {
-        $separator = self::getSingle($settings['files.']['search.'], 'separator');
+        $separator = strval(self::getSingle($settings['files.']['search.'], 'separator'));
       }
       $search = explode($separator, $search);
     }
     if ($settings['files.']['replace']) {
       $replace = self::getSingle($settings['files.'], 'replace');
       if ($settings['files.']['replace.']['separator']) {
-        $separator = self::getSingle($settings['files.']['replace.'], 'separator');
+        $separator = strval(self::getSingle($settings['files.']['replace.'], 'separator'));
       }
       $replace = explode($separator, $replace);
     }
