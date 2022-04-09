@@ -670,7 +670,7 @@ class Form extends AbstractController {
       foreach ($conditions as $subIdx => $andConditions) {
         $results = [];
         foreach ($andConditions as $subSubIdx => $andCondition) {
-          $result = $this->utilityFuncs->getConditionResult($andCondition, $this->gp);
+          $result = strval($this->utilityFuncs->getConditionResult($andCondition, $this->gp));
           $results[] = ($result ? 'TRUE' : 'FALSE');
         }
         $orConditions[] = '('.implode(' && ', $results).')';
