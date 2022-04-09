@@ -412,12 +412,12 @@ class DB extends AbstractFinisher {
               }
               $files = (array) $this->globals->getSession()->get('files');
               if (isset($files[$field]) && is_array($files[$field])) {
-                foreach ($files[$field] as $idx => $file) {
+                foreach ($files[$field] as $file) {
                   $infoString = $info;
                   foreach ($file as $infoKey => $infoValue) {
                     $infoString = str_replace('['.$infoKey.']', $infoValue, $infoString);
                   }
-                  array_push($filesArray, $infoString);
+                  $filesArray[] = $infoString;
                 }
               }
               if (isset($options['special.']['index'])) {
