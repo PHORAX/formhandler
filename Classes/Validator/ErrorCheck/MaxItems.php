@@ -25,7 +25,7 @@ class MaxItems extends AbstractErrorCheck {
     $checkFailed = '';
 
     if (isset($this->gp[$this->formFieldName])) {
-      $value = $this->utilityFuncs->getSingle($this->settings['params'], 'value');
+      $value = intval($this->utilityFuncs->getSingle($this->settings['params'], 'value'));
       $removeEmptyValues = $this->utilityFuncs->getSingle($this->settings['params'], 'removeEmptyValues');
       if (is_array($this->gp[$this->formFieldName])) {
         $valuesArray = $this->gp[$this->formFieldName];

@@ -290,7 +290,7 @@ class Form extends AbstractController {
     if (isset($this->settings['allowStepJumps'])) {
       $allowStepJumps = (bool) $this->utilityFuncs->getSingle($this->settings, 'allowStepJumps');
     }
-    $stepInSession = max((int) ($this->globals->getSession()->get('currentStep')), 1);
+    $stepInSession = max(intval($this->globals->getSession()->get('currentStep')), 1);
 
     switch ($action) {
       case 'prev':
@@ -1438,7 +1438,7 @@ class Form extends AbstractController {
               $hasAllowedTypesCheck = false;
               if (isset($this->settings['validators.'])
                                 && is_array($this->settings['validators.'])
-                                && 1 !== (int) ($this->utilityFuncs->getSingle($this->settings['validators.'], 'disable'))
+                  && 1 !== intval($this->utilityFuncs->getSingle($this->settings['validators.'], 'disable'))
                             ) {
                 foreach ($this->settings['validators.'] as $idx => $tsConfig) {
                   if ($tsConfig['config.']['fieldConf.'][$field.'.']['errorCheck.']) {
