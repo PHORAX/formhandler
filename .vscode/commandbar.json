@@ -4,31 +4,10 @@
   "skipErrorMessage": true,
   "commands": [
     {
-      "text": "Docker:Start",
+      "text": "Lint:PHPStan",
       "color": "white",
       "commandType": "exec",
-      "command": "docker-compose up -d",
-      "priority": 2
-    },
-    {
-      "text": "Docker:Stop",
-      "color": "white",
-      "commandType": "exec",
-      "command": "docker-compose down",
-      "priority": 2
-    },
-    {
-      "text": "Docker:Get DB",
-      "color": "white",
-      "commandType": "exec",
-      "command": "docker compose exec -T web php ../bin/console.php pull-db",
-      "priority": 2
-    },
-    {
-      "text": "Docker:Get FS",
-      "color": "white",
-      "commandType": "exec",
-      "command": "docker compose exec -T web php ../bin/console.php pull-fs",
+      "command": "php -d memory_limit=512M vendor/bin/phpstan analyse -c phpstan.neon",
       "priority": 2
     },
     {
