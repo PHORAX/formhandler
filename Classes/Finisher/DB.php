@@ -406,7 +406,7 @@ class DB extends AbstractFinisher {
 
               $filesArray = [];
               if (isset($options['special.']['info'])) {
-                $info = $this->utilityFuncs->getSingle($options['special.'], 'info');
+                $info = strval($this->utilityFuncs->getSingle($options['special.'], 'info'));
               } else {
                 $info = '[uploaded_name]';
               }
