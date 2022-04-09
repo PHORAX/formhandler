@@ -9,6 +9,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\Globals;
+use Typoheads\Formhandler\View\Form;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -91,6 +92,8 @@ class RemoveFile {
       // Add the content to or Result Box: #formResult
       if (null !== $field && is_array($sessionFiles) && !empty($sessionFiles[$field])) {
         $markers = [];
+
+        /** @var Form $view */
         $view = $this->componentManager->getComponent('View\\Form');
         $view->setSettings($this->settings);
         $view->fillFileMarkers($markers);
