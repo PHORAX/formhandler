@@ -32,8 +32,8 @@ class Redirect extends AbstractFinisher {
   /**
    * Method to set GET/POST for this class and load the configuration.
    *
-   * @param array The GET/POST values
-   * @param array The TypoScript configuration
+   * @param array $gp       The GET/POST values
+   * @param array $tsConfig The TypoScript configuration
    */
   public function init(array $gp, array $tsConfig): void {
     $this->gp = $gp;

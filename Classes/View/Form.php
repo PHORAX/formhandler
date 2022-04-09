@@ -1209,8 +1209,6 @@ class Form extends AbstractView {
    *
    * @author  Arno Dudek <webmaster@adgrafik.at>
    * @author  Reinhard Führicht <rf@typoheads.at>
-   *
-   * @return string substituted HTML content
    */
   protected function substituteConditionalSubparts(string $type): void {
     $type = strtolower($type);

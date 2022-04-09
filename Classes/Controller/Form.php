@@ -591,7 +591,7 @@ class Form extends AbstractController {
   /**
    * Find out if submitted form was valid. If one of the values in the given array $valid is false the submission was not valid.
    *
-   * @param $validArr Array with the return values of each validator
+   * @param array $validArr Array with the return values of each validator
    */
   protected function isValid(array $validArr): bool {
     $valid = true;
@@ -1320,7 +1320,7 @@ class Form extends AbstractController {
   /**
    * Sets the template of the view.
    *
-   * @param int The current step
+   * @param int $step The current step
    */
   protected function setViewSubpart(int $step) {
     $this->finished = false;
@@ -1366,8 +1366,6 @@ class Form extends AbstractController {
 
   /**
    * Stores the current GET/POST parameters in SESSION.
-   *
-   * @param array &$settings Reference to the settings array to get information about checkboxes and radiobuttons
    */
   protected function storeGPinSession(): void {
     if ($this->currentStep > $this->lastStep) {

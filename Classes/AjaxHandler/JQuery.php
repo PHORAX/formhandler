@@ -185,13 +185,6 @@ class JQuery extends AbstractAjaxHandler {
     }
   }
 
-  /**
-   * @param $formSelector
-   * @param $submitButtonSelector
-   * @param $isAjaxSubmit
-   * @param $autoDisableSubmitButton
-   * @param $validateFields
-   */
   protected function getJavascriptFormInit(string $formSelector, string $submitButtonSelector, bool $isAjaxSubmit, bool $autoDisableSubmitButton, array $validateFields): string {
     return '(function( $ ) {
                     $(function() {

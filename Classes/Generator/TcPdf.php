@@ -23,9 +23,6 @@ use Typoheads\Formhandler\Utility\TemplateTCPDF;
  * PDF generator class for Formhandler using TCPDF.
  */
 class TcPdf extends AbstractGenerator {
-  /**
-   * @return mixed
-   */
   public function process(): array {
     /** @var TemplateTCPDF $pdf */
     $pdf = $this->componentManager->getComponent('\Typoheads\Formhandler\Utility\TemplateTCPDF');

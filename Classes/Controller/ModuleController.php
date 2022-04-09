@@ -55,9 +55,9 @@ class ModuleController extends ActionController {
   /**
    * Exports given rows as file.
    *
-   * @param string uids to export
-   * @param array fields to export
-   * @param string export file type (PDF || CSV)
+   * @param ?string $logDataUids uids to export
+   * @param array   $fields      fields to export
+   * @param string  $filetype    export file type (PDF || CSV)
    */
   public function exportAction(?string $logDataUids = null, array $fields = [], string $filetype = ''): ResponseInterface {
     if (null !== $logDataUids && !empty($fields)) {
@@ -164,8 +164,8 @@ class ModuleController extends ActionController {
   /**
    * Displays fields selector.
    *
-   * @param string uids to export
-   * @param string export file type (PDF || CSV)
+   * @param ?string $logDataUids uids to export
+   * @param string  $filetype    export file type (PDF || CSV)
    */
   public function selectFieldsAction(?string $logDataUids = null, string $filetype = '') {
     if (null !== $logDataUids) {

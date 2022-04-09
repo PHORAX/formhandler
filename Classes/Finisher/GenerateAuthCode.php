@@ -128,7 +128,7 @@ class GenerateAuthCode extends AbstractFinisher {
   /**
    * Return a hash value to send by email as an auth code.
    *
-   * @param array The submitted form data
+   * @param array $row The submitted form data
    *
    * @return string The auth code
    */

@@ -49,8 +49,8 @@ class DefaultValidator extends AbstractValidator {
   /**
    * Method to set GET/POST for this class and load the configuration.
    *
-   * @param array The GET/POST values
-   * @param array The TypoScript configuration
+   * @param array $gp       The GET/POST values
+   * @param array $tsConfig The TypoScript configuration
    */
   public function init(array $gp, array $tsConfig): void {
     $this->settings = $tsConfig;
@@ -77,7 +77,7 @@ class DefaultValidator extends AbstractValidator {
    * @param array &$errors Reference to the errors array to store the errors occurred
    */
   public function validate(array &$errors): bool {
-        // no config? validation returns true
+    // no config? validation returns true
     if (!is_array($this->settings['fieldConf.'])) {
       return true;
     }
@@ -229,7 +229,7 @@ class DefaultValidator extends AbstractValidator {
 
       // foreach error checks
       foreach ($errorChecks as $check) {
-                // Skip error check if the check is disabled for this field or if all checks are disabled for this field
+        // Skip error check if the check is disabled for this field or if all checks are disabled for this field
         if (!empty($this->disableErrorCheckFields)
                     && in_array($errorFieldName, array_keys($this->disableErrorCheckFields))
                     && (

@@ -26,10 +26,6 @@ class Url extends AbstractErrorCheck {
   /**
    * Validates that a specified field has valid url syntax.
    *
-   * @param array  &$check The TypoScript settings for this error check
-   * @param string $name   The field name
-   * @param array  &$gp    The current GET/POST parameters
-   *
    * @return string The error string
    */
   public function check(): string {

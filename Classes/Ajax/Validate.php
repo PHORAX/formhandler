@@ -44,8 +44,6 @@ class Validate {
 
   /**
    * Main method of the class.
-   *
-   * @param ResponseInterface $response
    */
   public function main(ServerRequestInterface $request): ResponseInterface {
     $content = '';

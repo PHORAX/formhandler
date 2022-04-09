@@ -29,9 +29,6 @@ class ValidateAuthCode extends AbstractPreProcessor {
   /**
    * The main method called by the controller.
    *
-   * @param array $gp       The GET/POST parameters
-   * @param array $settings The defined TypoScript settings for the finisher
-   *
    * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
