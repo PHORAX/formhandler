@@ -612,7 +612,7 @@ class GeneralUtility implements SingletonInterface {
     return self::prepareClassName($className);
   }
 
-  public static function getSingle(array|string $arr, string|int $key): string {
+  public static function getSingle(array|string $arr, string|int $key): array|bool|float|int|string {
     if (!is_array($arr)) {
       return $arr;
     }
@@ -872,9 +872,6 @@ class GeneralUtility implements SingletonInterface {
       $returnValue = Globals::getcObj()->getData($data, $values);
     } else {
       $returnValue = $operand;
-    }
-    if (null === $returnValue) {
-      $returnValue = '';
     }
 
     return $returnValue;
