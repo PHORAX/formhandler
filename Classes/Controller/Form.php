@@ -948,7 +948,7 @@ class Form extends AbstractController {
       if (!isset($this->settings['initInterceptors.']) || !is_array($this->settings['initInterceptors.'])) {
         $this->settings['initInterceptors.'] = [];
       }
-      $this->addFormhandlerClass($this->settings['initInterceptors.'] ?? [], 'Interceptor\\RemoveXSS');
+      $this->addFormhandlerClass($this->settings['initInterceptors.'], 'Interceptor\\RemoveXSS');
       $output = $this->runClasses($this->settings['initInterceptors.']);
       if (null != $output && strlen($output) > 0) {
         return $output;
