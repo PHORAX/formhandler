@@ -28,6 +28,7 @@ class Date extends AbstractErrorCheck {
       $pattern = $this->utilityFuncs->getSingle($this->settings['params'], 'pattern');
 
       try {
+        // @phpstan-ignore-next-line
         \DateTime::createFromFormat($pattern, $this->gp[$this->formFieldName]);
         $status = \DateTime::getLastErrors();
         if ((isset($status['warning_count']) && (int) ($status['warning_count']) > 0)
