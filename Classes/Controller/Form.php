@@ -288,7 +288,7 @@ class Form extends AbstractController {
 
     $allowStepJumps = false;
     if (isset($this->settings['allowStepJumps'])) {
-      $allowStepJumps = (bool) $this->utilityFuncs->getSingle($this->settings, 'allowStepJumps');
+      $allowStepJumps = boolval($this->utilityFuncs->getSingle($this->settings, 'allowStepJumps'));
     }
     $stepInSession = max(intval($this->globals->getSession()->get('currentStep')), 1);
 
@@ -325,7 +325,7 @@ class Form extends AbstractController {
     $isValidStep = true;
     $disableStepCheck = false;
     if (isset($this->settings['disableStepCheck'])) {
-      $disableStepCheck = (bool) $this->utilityFuncs->getSingle($this->settings, 'disableStepCheck');
+      $disableStepCheck = boolval($this->utilityFuncs->getSingle($this->settings, 'disableStepCheck'));
     }
     if (!$disableStepCheck) {
       for ($i = 1; $i < $this->currentStep - 1; ++$i) {
