@@ -321,9 +321,6 @@ class Form extends AbstractController {
     if ($this->currentStep < 1) {
       $this->currentStep = 1;
     }
-    if (!$this->currentStep) {
-      $this->currentStep = 1;
-    }
 
     $isValidStep = true;
     $disableStepCheck = false;
@@ -1452,9 +1449,7 @@ class Form extends AbstractController {
               }
               if (!$hasAllowedTypesCheck) {
                 $missingChecks = [];
-                if (!$hasAllowedTypesCheck) {
                   $missingChecks[] = 'fileAllowedTypes';
-                }
                 $this->utilityFuncs->throwException('error_checks_missing', implode(',', $missingChecks), $field);
               }
             }

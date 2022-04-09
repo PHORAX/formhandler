@@ -112,7 +112,7 @@ class IPBlocking extends AbstractInterceptor {
       );
     }
     $stmt = $queryBuilder->executeQuery();
-    if ($stmt && $stmt->rowCount() >= $maxValue) {
+    if ($stmt->rowCount() >= $maxValue) {
       $this->log(true);
       $message = 'You are not allowed to send more mails because the form got submitted too many times ';
       if ($addIPToWhere) {
