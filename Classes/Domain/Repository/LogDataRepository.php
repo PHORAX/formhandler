@@ -30,7 +30,7 @@ class LogDataRepository extends Repository {
   /**
    * Find by multiple uids using, seperated string.
    *
-   * @param string String containing uids
+   * @param string $uids String containing uids
    */
   public function findByUids(string $uids): array|QueryResultInterface {
     $uidArray = explode(',', $uids);

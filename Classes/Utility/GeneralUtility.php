@@ -78,10 +78,9 @@ class GeneralUtility implements SingletonInterface {
    * IN : C:/xampp/htdocs/typo3/fileadmin/file.html
    * OUT : fileadmin/file.html
    *
-   * @param string $template The template code
-   * @param string $langFile The path to the language file
+   * @param string $absPath The absolute path
    *
-   * @return array The filled language markers
+   * @return string The relative path
    */
   public static function convertToRelativePath(string $absPath): string {
     // C:/xampp/htdocs/typo3/index.php
@@ -96,8 +95,8 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Parses given value and unit and returns the seconds.
    *
-   * @param int Timebase value
-   * @param string Timebase unit (seconds|minutes|hours|days)
+   * @param int    $value Timebase value
+   * @param string $unit  Timebase unit (seconds|minutes|hours|days)
    *
    * @return int The seconds
    */
@@ -132,7 +131,8 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Converts a date to a UNIX timestamp.
    *
-   * @param array $options The TS settings of the "special" section
+   * @param string $date   The date to convert
+   * @param string $format The format the date has
    *
    * @return int The timestamp
    */
@@ -222,7 +222,7 @@ class GeneralUtility implements SingletonInterface {
    * plugin.Tx_Formhandler.settings.files.replace = ae,oe,ue
    * </code>
    *
-   * @param string The file name
+   * @param string $fileName The file name
    *
    * @return string The replaced file name
    */
@@ -498,7 +498,7 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Returns a debug message according to given key.
    *
-   * @param string The key in translation file
+   * @param string $key The key in translation file
    */
   public static function getDebugMessage(string $key): string {
     return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_debug.xlf:'.$key));
@@ -514,7 +514,7 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Returns an exception message according to given key.
    *
-   * @param string The key in translation file
+   * @param string $key The key in translation file
    */
   public static function getExceptionMessage(string $key): string {
     return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_exceptions.xlf:'.$key));
@@ -523,8 +523,8 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Finds and fills language markers in given template code.
    *
-   * @param string $template The template code
-   * @param string $langFile The path to the language file
+   * @param string &$template The template code
+   * @param array  $langFiles The path to the language file
    *
    * @return array The filled language markers
    */
@@ -553,8 +553,8 @@ class GeneralUtility implements SingletonInterface {
    *
    * Changed to be able to return an array and not only scalar values.
    *
-   * @param string Global var key, eg. "HTTP_GET_VAR" or "HTTP_GET_VARS|id" to get the GET parameter "id" back.
-   * @param array alternative array than $GLOBAL to get variables from
+   * @param string $keyString Global var key, eg. "HTTP_GET_VAR" or "HTTP_GET_VARS|id" to get the GET parameter "id" back.
+   * @param array  $source    alternative array than $GLOBAL to get variables from
    *
    * @return mixed Whatever value. If none, then blank string.
    */
@@ -635,8 +635,8 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Returns the first subpart encapsulated in the marker, $marker (possibly present in $content as a HTML comment).
    *
-   * @param    string    Content with subpart wrapped in fx. "###CONTENT_PART###" inside.
-   * @param    string    Marker string, eg. "###CONTENT_PART###"
+   * @param string $content Content with subpart wrapped in fx. "###CONTENT_PART###" inside.
+   * @param string $marker  Marker string, eg. "###CONTENT_PART###"
    */
   public static function getSubpart(string $content, string $marker): string {
     $start = strpos($content, $marker);
@@ -701,8 +701,8 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Parses given value and unit and creates a timestamp now-timebase.
    *
-   * @param int Timebase value
-   * @param string Timebase unit (seconds|minutes|hours|days)
+   * @param int    $value Timebase value
+   * @param string $unit  Timebase unit (seconds|minutes|hours|days)
    *
    * @return int The timestamp
    */
@@ -811,8 +811,8 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Merges 2 configuration arrays.
    *
-   * @param array The base settings
-   * @param array the settings overriding the base settings
+   * @param array $settings    The base settings
+   * @param array $newSettings the settings overriding the base settings
    *
    * @return array The merged settings
    */
@@ -903,11 +903,11 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Return value from somewhere inside a FlexForm structure.
    *
-   * @param    array        FlexForm data
-   * @param    string        Field name to extract. Can be given like "test/el/2/test/el/field_templateObject" where each part will dig a level deeper in the FlexForm data.
-   * @param    string        Sheet pointer, eg. "sDEF"
-   * @param    string        Language pointer, eg. "lDEF"
-   * @param    string        Value pointer, eg. "vDEF"
+   * @param array  $T3FlexForm_array FlexForm data
+   * @param string $fieldName        Field name to extract. Can be given like "test/el/2/test/el/field_templateObject" where each part will dig a level deeper in the FlexForm data.
+   * @param string $sheet            Sheet pointer, eg. "sDEF"
+   * @param string $lang             Language pointer, eg. "lDEF"
+   * @param string $value            Value pointer, eg. "vDEF"
    *
    * @return string the content
    */
@@ -927,11 +927,11 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Returns part of $sheetArray pointed to by the keys in $fieldNameArray.
    *
-   * @param    array        Multidimensiona array, typically FlexForm contents
-   * @param    array        Array where each value points to a key in the FlexForms content - the input array will have the value returned pointed to by these keys. All integer keys will not take their integer counterparts, but rather traverse the current position in the array an return element number X (whether this is right behavior is not settled yet...)
-   * @param    string        Value for outermost key, typ. "vDEF" depending on language.
+   * @param array  $sheetArray   Multidimensiona array, typically FlexForm contents
+   * @param array  $fieldNameArr Array where each value points to a key in the FlexForms content - the input array will have the value returned pointed to by these keys. All integer keys will not take their integer counterparts, but rather traverse the current position in the array an return element number X (whether this is right behavior is not settled yet...)
+   * @param string $value        Value for outermost key, typ. "vDEF" depending on language.
    *
-   * @return mixed The value, typ. string.
+   * @return string The value, typ. string.
    *
    * @see pi_getFFvalue()
    */
@@ -1022,7 +1022,8 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Read template file set in flexform or TypoScript, read the file's contents to $this->templateFile.
    *
-   * @param $settings The formhandler settings
+   * @param string $templateFile The template file name
+   * @param array  &$settings    The formhandler settings
    */
   public static function readTemplateFile(string $templateFile, array &$settings): string {
     $templateCode = '';
@@ -1116,7 +1117,7 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Substitutes EXT: with extension path in a file path.
    *
-   * @param string The path
+   * @param string $path The path
    *
    * @return string The resolved path
    */
@@ -1144,7 +1145,7 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Substitutes EXT: with extension path in a file path and returns the relative path.
    *
-   * @param string The path
+   * @param string $path The path
    *
    * @return string The resolved path
    */
@@ -1162,7 +1163,7 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Substitutes EXT: with extension path in a file path and returns the relative path from site root.
    *
-   * @param string The path
+   * @param string $path The path
    *
    * @return string The resolved path
    */
@@ -1190,6 +1191,8 @@ class GeneralUtility implements SingletonInterface {
    * uploads/temp                --> /uploads/temp/
    * uploads/temp/file.ext    --> /uploads/temp/file.ext
    *
+   * @param string $path The path
+   *
    * @return string Sanitized path
    */
   public static function sanitizePath(string $path): string {
@@ -1210,9 +1213,6 @@ class GeneralUtility implements SingletonInterface {
    * copied from class tslib_content.
    *
    * Substitutes markers in given template string with data of marker array
-   *
-   * @param    string
-   * @param    array
    */
   public static function substituteMarkerArray(string $content, array $markContentArray): string {
     if (is_array($markContentArray)) {

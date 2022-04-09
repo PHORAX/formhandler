@@ -79,8 +79,8 @@ class Mail extends AbstractFinisher {
   /**
    * Method to set GET/POST for this class and load the configuration.
    *
-   * @param array The GET/POST values
-   * @param array The TypoScript configuration
+   * @param array $gp       The GET/POST values
+   * @param array $tsConfig The TypoScript configuration
    */
   public function init(array $gp, array $tsConfig): void {
     $this->gp = $gp;
@@ -193,7 +193,8 @@ class Mail extends AbstractFinisher {
   /**
    * Parses the email settings in flexform and stores them in an array.
    *
-   * @param array The TypoScript configuration
+   * @param array  $tsConfig The TypoScript configuration
+   * @param string $type     (admin|user)
    *
    * @return array The parsed email settings
    */
@@ -249,101 +250,101 @@ class Mail extends AbstractFinisher {
         }
       } else {
         switch ($option) {
-                    case 'to_email':
-                    case 'to_name':
-                    case 'sender_email':
-                    case 'replyto_email':
-                    case 'cc_email':
-                    case 'bcc_email':
-                    case 'return_path':
-                        $emailSettings[$option] = $this->parseList($currentSettings, $type, $option);
+          case 'to_email':
+          case 'to_name':
+          case 'sender_email':
+          case 'replyto_email':
+          case 'cc_email':
+          case 'bcc_email':
+          case 'return_path':
+            $emailSettings[$option] = $this->parseList($currentSettings, $type, $option);
 
-                        break;
+            break;
 
-                    case 'disable':
-                    case 'checkBinaryCfLr':
-                    case 'header':
-                    case 'subject':
-                    case 'sender_name':
-                    case 'replyto_name':
-                    case 'cc_name':
-                    case 'bcc_name':
-                        $emailSettings[$option] = $this->parseValue($currentSettings, $type, $option);
+          case 'disable':
+          case 'checkBinaryCfLr':
+          case 'header':
+          case 'subject':
+          case 'sender_name':
+          case 'replyto_name':
+          case 'cc_name':
+          case 'bcc_name':
+            $emailSettings[$option] = $this->parseValue($currentSettings, $type, $option);
 
-                        break;
+            break;
 
-                    case 'attachment':
-                        $emailSettings[$option] = $this->parseFilesList($currentSettings, $type, $option);
+          case 'attachment':
+            $emailSettings[$option] = $this->parseFilesList($currentSettings, $type, $option);
 
-                        break;
+            break;
 
-                    case 'embedFiles':
-                        $emailSettings[$option] = $this->parseEmbedFilesList($currentSettings);
+          case 'embedFiles':
+            $emailSettings[$option] = $this->parseEmbedFilesList($currentSettings);
 
-                        break;
+            break;
 
-                    case 'attachPDF':
-                    case 'attachGeneratedFiles':
-                        if (isset($currentSettings['attachGeneratedFiles.']) && is_array($currentSettings['attachGeneratedFiles.'])) {
-                          foreach ($currentSettings['attachGeneratedFiles.'] as $options) {
-                            $generatorClass = $this->utilityFuncs->getPreparedClassName($options);
-                            if ($generatorClass) {
-                              $generator = $this->componentManager->getComponent($generatorClass);
-                              $generator->init($this->gp, $options['config.']);
-                              $generator->getLink([]);
-                              $file = $generator->process();
-                              $emailSettings['attachGeneratedFiles'] .= $file.',';
-                            }
-                          }
-                          if (',' === substr($emailSettings['attachGeneratedFiles'], strlen($emailSettings['attachGeneratedFiles']) - 1)) {
-                            $emailSettings['attachGeneratedFiles'] = substr($emailSettings['attachGeneratedFiles'], 0, strlen($emailSettings['attachGeneratedFiles']) - 1);
-                          }
-                          unset($currentSettings['attachGeneratedFiles.']);
-                          $currentSettings['attachGeneratedFiles'] = $emailSettings['attachGeneratedFiles'];
-                        } elseif (isset($currentSettings['attachGeneratedFiles'])) {
-                          $emailSettings['attachGeneratedFiles'] = $currentSettings['attachGeneratedFiles'];
-                        }
-
-                        break;
-
-                    case 'htmlEmailAsAttachment':
-                        $htmlEmailAsAttachment = $this->utilityFuncs->getSingle($currentSettings, 'htmlEmailAsAttachment');
-                        if (1 === (int) $htmlEmailAsAttachment) {
-                          $emailSettings['htmlEmailAsAttachment'] = 1;
-                        }
-
-                        break;
-
-                    case 'deleteGeneratedFiles':
-                        $htmlEmailAsAttachment = $this->utilityFuncs->getSingle($currentSettings, 'deleteGeneratedFiles');
-                        if (1 === (int) $htmlEmailAsAttachment) {
-                          $emailSettings['deleteGeneratedFiles'] = 1;
-                        }
-
-                        break;
-
-                    case 'filePrefix':
-                        $filePrefix = $this->utilityFuncs->getSingle($currentSettings, 'filePrefix');
-                        if (strlen($filePrefix) > 0) {
-                          $emailSettings['filePrefix'] = $filePrefix;
-                        }
-
-                        break;
-
-                    case 'plain.':
-                        if (isset($currentSettings['plain.'])) {
-                          $emailSettings['plain.'] = $currentSettings['plain.'];
-                        }
-
-                        break;
-
-                    case 'html.':
-                        if (isset($currentSettings['html.'])) {
-                          $emailSettings['html.'] = $currentSettings['html.'];
-                        }
-
-                        break;
+          case 'attachPDF':
+          case 'attachGeneratedFiles':
+            if (isset($currentSettings['attachGeneratedFiles.']) && is_array($currentSettings['attachGeneratedFiles.'])) {
+              foreach ($currentSettings['attachGeneratedFiles.'] as $options) {
+                $generatorClass = $this->utilityFuncs->getPreparedClassName($options);
+                if ($generatorClass) {
+                  $generator = $this->componentManager->getComponent($generatorClass);
+                  $generator->init($this->gp, $options['config.']);
+                  $generator->getLink([]);
+                  $file = $generator->process();
+                  $emailSettings['attachGeneratedFiles'] .= $file.',';
                 }
+              }
+              if (',' === substr($emailSettings['attachGeneratedFiles'], strlen($emailSettings['attachGeneratedFiles']) - 1)) {
+                $emailSettings['attachGeneratedFiles'] = substr($emailSettings['attachGeneratedFiles'], 0, strlen($emailSettings['attachGeneratedFiles']) - 1);
+              }
+              unset($currentSettings['attachGeneratedFiles.']);
+              $currentSettings['attachGeneratedFiles'] = $emailSettings['attachGeneratedFiles'];
+            } elseif (isset($currentSettings['attachGeneratedFiles'])) {
+              $emailSettings['attachGeneratedFiles'] = $currentSettings['attachGeneratedFiles'];
+            }
+
+            break;
+
+          case 'htmlEmailAsAttachment':
+            $htmlEmailAsAttachment = $this->utilityFuncs->getSingle($currentSettings, 'htmlEmailAsAttachment');
+            if (1 === (int) $htmlEmailAsAttachment) {
+              $emailSettings['htmlEmailAsAttachment'] = 1;
+            }
+
+            break;
+
+          case 'deleteGeneratedFiles':
+            $htmlEmailAsAttachment = $this->utilityFuncs->getSingle($currentSettings, 'deleteGeneratedFiles');
+            if (1 === (int) $htmlEmailAsAttachment) {
+              $emailSettings['deleteGeneratedFiles'] = 1;
+            }
+
+            break;
+
+          case 'filePrefix':
+            $filePrefix = $this->utilityFuncs->getSingle($currentSettings, 'filePrefix');
+            if (strlen($filePrefix) > 0) {
+              $emailSettings['filePrefix'] = $filePrefix;
+            }
+
+            break;
+
+          case 'plain.':
+            if (isset($currentSettings['plain.'])) {
+              $emailSettings['plain.'] = $currentSettings['plain.'];
+            }
+
+            break;
+
+          case 'html.':
+            if (isset($currentSettings['html.'])) {
+              $emailSettings['html.'] = $currentSettings['html.'];
+            }
+
+            break;
+        }
       }
     }
     $this->fillLangMarkersInSettings($emailSettings);
@@ -384,8 +385,6 @@ class Mail extends AbstractFinisher {
    * @param array  $settings The settings array containing the mail settings
    * @param string $type     admin|user
    * @param string $key      The key to parse in the settings array
-   *
-   * @return string
    */
   protected function parseFilesList(array $settings, string $type, string $key): array {
     $files = [];

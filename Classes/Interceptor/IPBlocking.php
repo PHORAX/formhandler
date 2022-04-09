@@ -85,10 +85,10 @@ class IPBlocking extends AbstractInterceptor {
   /**
    * Checks if the form got submitted too often and throws Exception if true.
    *
-   * @param int Timebase value
-   * @param string Timebase unit (seconds|minutes|hours|days)
-   * @param int maximum amount of submissions in given time base
-   * @param bool add IP address to where clause
+   * @param int    $value        Timebase value
+   * @param string $unit         Timebase unit (seconds|minutes|hours|days)
+   * @param int    $maxValue     maximum amount of submissions in given time base
+   * @param bool   $addIPToWhere add IP address to where clause
    */
   private function check(int $value, string $unit, int $maxValue, bool $addIPToWhere = true): void {
     $timestamp = $this->utilityFuncs->getTimestamp($value, $unit);
@@ -169,8 +169,8 @@ class IPBlocking extends AbstractInterceptor {
   /**
    * Sends a report mail to recipients set in TypoScript.
    *
-   * @param string (ip|global) Defines the message sent
-   * @param array The select rows of log table
+   * @param string $type (ip|global) Defines the message sent
+   * @param array  $rows The select rows of log table
    */
   private function sendReport(string $type, array $rows): void {
     $email = $this->utilityFuncs->getSingle($this->settings['report.'], 'email');

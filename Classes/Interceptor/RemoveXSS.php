@@ -140,8 +140,6 @@ class RemoveXSS extends AbstractInterceptor {
    *
    * @author hmdker <hmdker(at)gmail(dot)com>
    *
-   * @param string
-   *
    * @return bool is UTF-8
    */
   protected function isUTF8(string $str): bool {

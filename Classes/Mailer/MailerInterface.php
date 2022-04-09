@@ -76,22 +76,16 @@ interface MailerInterface {
 
   /**
    * Returns the reply to of the email.
-   *
-   * @return string
    */
   public function getReplyTo(): array;
 
   /**
    * Returns the return path of the email.
-   *
-   * @return string
    */
   public function getReturnPath(): ?\Symfony\Component\Mime\Address;
 
   /**
    * Returns the sender of the email.
-   *
-   * @return string
    */
   public function getSender(): array;
 
@@ -109,15 +103,11 @@ interface MailerInterface {
 
   /**
    * Set the HTML content of the email.
-   *
-   * @param string $html The HTML content
    */
   public function setHTML(string $html): void;
 
   /**
    * Set the plain text content of the email.
-   *
-   * @param string $plain The plain text content
    */
   public function setPlain(string $plain): void;
 

@@ -43,7 +43,7 @@ class StoreUploadedFiles extends AbstractFinisher {
    */
   public function process(): array {
     if (isset($this->settings['finishedUploadFolder']) || (isset($this->settings['finishedUploadFolder.']) && is_array($this->settings['finishedUploadFolder.']))) {
-            // move the uploaded files
+      // move the uploaded files
       $this->moveUploadedFiles();
     }
 
@@ -53,8 +53,8 @@ class StoreUploadedFiles extends AbstractFinisher {
   /**
    * Generates a new filename for an uploaded file using settings in TypoScript.
    *
-   * @param string The current filename
-   * @param string The current field
+   * @param string $oldName The current filename
+   * @param string $field   The current field
    *
    * @return string The new filename
    */
@@ -87,7 +87,7 @@ class StoreUploadedFiles extends AbstractFinisher {
   /**
    * Builds the path to the final upload folder depending on the current field processed.
    *
-   * @param string The current field name
+   * @param string $field The current field name
    *
    * @return string The new path
    */

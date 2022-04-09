@@ -65,8 +65,6 @@ abstract class AbstractErrorCheck extends AbstractComponent {
   /**
    * Sets the suitable string for the checkFailed message parsed in view.
    *
-   * @param array $check The parsed check settings
-   *
    * @return string The check failed string
    */
   protected function getCheckFailed(): string {

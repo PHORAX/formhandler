@@ -61,9 +61,6 @@ class BackendCsv extends AbstractComponent {
   /**
    * Function to generate a CSV file from submitted form values. This function is called by Tx_Formhandler_Controller_Backend.
    *
-   * @param array $records      The records to export to CSV
-   * @param array $exportParams A list of fields to export. If not set all fields are exported
-   *
    * @see Tx_Formhandler_Controller_Backend::generateCSV()
    */
   public function process(): array {
@@ -95,7 +92,7 @@ class BackendCsv extends AbstractComponent {
     }
     if (count($exportParams) > 0) {
       foreach ($data as $idx => &$params) {
-                // fill missing fields with empty value
+        // fill missing fields with empty value
         foreach ($exportParams as $key => $exportParam) {
           if (!array_key_exists($exportParam, $params)) {
             $params[$exportParam] = '';

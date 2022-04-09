@@ -29,8 +29,7 @@ class Mail extends Form {
    * Wraps the input string in a <div> tag with the class attribute set to the prefixId.
    * All content returned from your plugins should be returned through this function so all content from your plugin is encapsulated in a <div>-tag nicely identifying the content of your plugin.
    *
-   * @param string $str     HTML content to wrap in the div-tags with the "main class" of the plugin
-   * @param mixed  $content
+   * @param string $content HTML content to wrap in the div-tags with the "main class" of the plugin
    *
    * @return string HTML content wrapped, ready to return to the parent object
    */

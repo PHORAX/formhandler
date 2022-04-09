@@ -27,8 +27,6 @@ class SubmittedOK extends Form {
    * ###PRINT_LINK###
    * ###PDF_LINK###
    * ###CSV_LINK###
-   *
-   * @return string Template with replaced markers
    */
   protected function fillDefaultMarkers(): void {
     parent::fillDefaultMarkers();
