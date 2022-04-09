@@ -67,5 +67,6 @@
   "prettier.configPath": "./.vscode/.prettierrc",
   "stylelint.snippet": ["css", "less", "postcss", "scss"],
   "stylelint.validate": ["css", "html", "javascript", "javascriptreact", "less", "markdown", "postcss", "sass", "scss", "source.css.styled", "source.markdown.math", "styled-css", "sugarss", "svelte", "typescript", "typescriptreact", "vue", "vue-html", "vue-postcss", "xml", "xsl"],
-  "xmlTools.enforcePrettySelfClosingTagOnFormat": true
+  "xmlTools.enforcePrettySelfClosingTagOnFormat": true,
+  "diffEditor.ignoreTrimWhitespace": false
 }
