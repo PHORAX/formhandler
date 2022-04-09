@@ -47,25 +47,25 @@ class GeneralUtility implements SingletonInterface {
       return (int) $value;
     }
     $value_length = strlen($value);
-    $qty = substr($value, 0, $value_length - 1);
+    $qty = intval(substr($value, 0, $value_length - 1));
     $unit = strtolower(substr($value, $value_length - 1));
 
     switch ($unit) {
-                case 'k':
-                    $qty *= 1024;
+      case 'k':
+        $qty *= 1024;
 
-                    break;
+        break;
 
-                case 'm':
-                    $qty *= 1048576;
+      case 'm':
+        $qty *= 1048576;
 
-                    break;
+        break;
 
-                case 'g':
-                    $qty *= 1073741824;
+      case 'g':
+        $qty *= 1073741824;
 
-                    break;
-            }
+        break;
+    }
 
     return $qty;
   }
@@ -104,26 +104,26 @@ class GeneralUtility implements SingletonInterface {
     $convertedValue = 0;
 
     switch ($unit) {
-            case 'days':
-                $convertedValue = $value * 24 * 60 * 60;
+      case 'days':
+        $convertedValue = $value * 24 * 60 * 60;
 
-                break;
+        break;
 
-            case 'hours':
-                $convertedValue = $value * 60 * 60;
+      case 'hours':
+        $convertedValue = $value * 60 * 60;
 
-                break;
+        break;
 
-            case 'minutes':
-                $convertedValue = $value * 60;
+      case 'minutes':
+        $convertedValue = $value * 60;
 
-                break;
+        break;
 
-            case 'seconds':
-                $convertedValue = $value;
+      case 'seconds':
+        $convertedValue = $value;
 
-                break;
-        }
+        break;
+    }
 
     return $convertedValue;
   }
@@ -153,7 +153,7 @@ class GeneralUtility implements SingletonInterface {
         $pos3 = strpos($pattern, 'y');
 
         $dateParts = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $date);
-        $timestamp = mktime(0, 0, 0, $dateParts[$pos2], $dateParts[$pos1], $dateParts[$pos3]);
+        $timestamp = mktime(0, 0, 0, intval($dateParts[$pos2]), intval($dateParts[$pos1]), intval($dateParts[$pos3]));
       } else {
         $dateObj = \DateTime::createFromFormat($format, $date);
         if ($dateObj) {
@@ -558,7 +558,7 @@ class GeneralUtility implements SingletonInterface {
    *
    * @return mixed Whatever value. If none, then blank string.
    */
-  public static function getGlobal(string $keyString, array $source = []): string {
+  public static function getGlobal(string $keyString, array $source = []): mixed {
     $keys = explode('|', $keyString);
     $numberOfLevels = count($keys);
     $rootKey = trim($keys[0]);
@@ -710,31 +710,31 @@ class GeneralUtility implements SingletonInterface {
     $now = time();
 
     switch ($unit) {
-            case 'days':
-                $convertedValue = $value * 24 * 60 * 60;
+      case 'days':
+        $convertedValue = $value * 24 * 60 * 60;
 
-                break;
+        break;
 
-            case 'hours':
-                $convertedValue = $value * 60 * 60;
+      case 'hours':
+        $convertedValue = $value * 60 * 60;
 
-                break;
+        break;
 
-            case 'minutes':
-                $convertedValue = $value * 60;
+      case 'minutes':
+        $convertedValue = $value * 60;
 
-                break;
+        break;
 
-            case 'seconds':
-                $convertedValue = $value;
+      case 'seconds':
+        $convertedValue = $value;
 
-                break;
+        break;
 
-            default:
-                $convertedValue = $value;
+      default:
+        $convertedValue = $value;
 
-                break;
-        }
+        break;
+      }
 
     return $now - $convertedValue;
   }
