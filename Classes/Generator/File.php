@@ -26,7 +26,7 @@ class File extends AbstractGenerator {
    */
   public function process(): array {
     $view = $this->componentManager->getComponent('Typoheads\Formhandler\View\File');
-    $this->filename = false;
+    $this->filename = '';
     if (1 === (int) ($this->settings['storeInTempFile'])) {
       $this->outputPath = $this->utilityFuncs->getDocumentRoot();
       if ($this->settings['customTempOutputPath']) {
@@ -66,7 +66,7 @@ class File extends AbstractGenerator {
     if (!$contentType) {
       $contentType = 'text/plain';
     }
-    if (false !== $this->filename) {
+    if (!empty($this->filename)) {
       $fp = fopen($this->filename, 'w');
       fwrite($fp, $content);
       fclose($fp);
