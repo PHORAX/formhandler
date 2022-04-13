@@ -25,7 +25,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ContainsOne extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $formValue = trim($this->gp[$this->formFieldName]);
+    $formValue = trim($this->gp[$this->formFieldName] ?? '');
 
     if (strlen($formValue) > 0) {
       $checkValue = $this->utilityFuncs->getSingle($this->settings['params'], 'words');
@@ -39,7 +39,7 @@ class ContainsOne extends AbstractErrorCheck {
         }
       }
       if (!$found) {
-                // remove userfunc settings and only store comma seperated words
+        // remove userfunc settings and only store comma seperated words
         $this->settings['params']['words'] = implode(',', $checkValue);
         unset($this->settings['params']['words.']);
         $checkFailed = $this->getCheckFailed();
