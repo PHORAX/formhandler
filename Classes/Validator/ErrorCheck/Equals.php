@@ -23,7 +23,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 class Equals extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $formValue = trim($this->gp[$this->formFieldName]);
+    $formValue = trim($this->gp[$this->formFieldName] ?? '');
 
     if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
       $checkValue = $this->utilityFuncs->getSingle($this->settings['params'], 'word');

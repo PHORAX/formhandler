@@ -25,7 +25,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ContainsOnly extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $formValue = trim($this->gp[$this->formFieldName]);
+    $formValue = trim($this->gp[$this->formFieldName] ?? '');
 
     if (strlen($formValue) > 0) {
       $checkValue = $this->utilityFuncs->getSingle($this->settings['params'], 'words');
