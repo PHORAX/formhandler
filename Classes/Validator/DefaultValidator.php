@@ -82,31 +82,9 @@ class DefaultValidator extends AbstractValidator {
       return true;
     }
 
-    if (isset($this->settings['disableErrorCheckFields.'])) {
-      $this->disableErrorCheckFields = [];
-      foreach ($this->settings['disableErrorCheckFields.'] as $disableCheckField => $checks) {
-        if (!strstr($disableCheckField, '.')) {
-          $checkString = $this->utilityFuncs->getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
-          if (strlen(trim($checkString)) > 0) {
-            $this->disableErrorCheckFields[$disableCheckField] = GeneralUtility::trimExplode(
-              ',',
-              $checkString
-            );
-          } else {
-            $this->disableErrorCheckFields[$disableCheckField] = [];
-          }
-        }
-      }
-    } elseif (isset($this->settings['disableErrorCheckFields'])) {
-      $fields = GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
-      foreach ($fields as $disableCheckField) {
-        $this->disableErrorCheckFields[$disableCheckField] = [];
-      }
-    }
+    $this->disableErrorCheckFields = $this->getDisableErrorCheckFields();
 
-    if (isset($this->settings['restrictErrorChecks'])) {
-      $this->restrictErrorChecks = GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
-    }
+    $this->restrictErrorChecks = $this->getRestrictedErrorChecks();
 
     if (!in_array('all', array_keys($this->disableErrorCheckFields))) {
       $errors = $this->validateRecursive($errors, $this->gp, (array) $this->settings['fieldConf.']);
