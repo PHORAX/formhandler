@@ -53,32 +53,9 @@ class Ajax extends AbstractValidator {
       }
     }
     if (is_array($this->settings['fieldConf.'])) {
-      $disableErrorCheckFields = [];
-      if (isset($this->settings['disableErrorCheckFields.'])) {
-        foreach ($this->settings['disableErrorCheckFields.'] as $disableCheckField => $checks) {
-          if (!strstr($disableCheckField, '.')) {
-            $checkString = $this->utilityFuncs->getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
-            if (strlen(trim($checkString)) > 0) {
-              $disableErrorCheckFields[$disableCheckField] = GeneralUtility::trimExplode(
-                ',',
-                $checkString
-              );
-            } else {
-              $disableErrorCheckFields[$disableCheckField] = [];
-            }
-          }
-        }
-      } elseif (isset($this->settings['disableErrorCheckFields'])) {
-        $fields = GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
-        foreach ($fields as $disableCheckField) {
-          $disableErrorCheckFields[$disableCheckField] = [];
-        }
-      }
+      $disableErrorCheckFields = $this->getDisableErrorCheckFields();
+      $restrictErrorChecks = $this->getRestrictedErrorChecks();
 
-      $restrictErrorChecks = [];
-      if (isset($this->settings['restrictErrorChecks'])) {
-        $restrictErrorChecks = GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
-      }
 
       $fieldSettings = $this->settings['fieldConf.'][$field.'.'];
 
