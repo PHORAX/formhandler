@@ -173,7 +173,7 @@ class DefaultValidator extends AbstractValidator {
       unset($tempSettings['errorCheck.']);
       if (count($tempSettings)) {
         // Nested field-confs - do recursion:
-        $errors = $this->validateRecursive($errors, (array) $gp[$fieldName], $tempSettings, $errorFieldName);
+        $errors[$fieldName] = $this->validateRecursive([], (array) $gp[$fieldName], $tempSettings, $fieldName);
       }
 
       if (!is_array($fieldSettings['errorCheck.'])) {
@@ -209,12 +209,12 @@ class DefaultValidator extends AbstractValidator {
       foreach ($errorChecks as $check) {
         // Skip error check if the check is disabled for this field or if all checks are disabled for this field
         if (!empty($this->disableErrorCheckFields)
-                    && in_array($errorFieldName, array_keys($this->disableErrorCheckFields))
-                    && (
-                      in_array($check['check'], $this->disableErrorCheckFields[$errorFieldName])
-                        || empty($this->disableErrorCheckFields[$errorFieldName])
-                    )
-                ) {
+            && in_array($errorFieldName, array_keys($this->disableErrorCheckFields))
+            && (
+              in_array($check['check'], $this->disableErrorCheckFields[$errorFieldName])
+                || empty($this->disableErrorCheckFields[$errorFieldName])
+            )
+        ) {
           continue;
         }
         $classNameFix = ucfirst($check['check']);
@@ -236,10 +236,10 @@ class DefaultValidator extends AbstractValidator {
           if ($errorCheckObject->validateConfig()) {
             $checkFailed = $errorCheckObject->check();
             if (strlen($checkFailed) > 0) {
-              if (!isset($errors[$errorFieldName]) || !is_array($errors[$errorFieldName])) {
-                $errors[$errorFieldName] = [];
+              if (!isset($errors[$fieldName]) || !is_array($errors[$fieldName])) {
+                $errors[$fieldName] = [];
               }
-              $errors[$errorFieldName][] = $checkFailed;
+              $errors[$fieldName][] = $checkFailed;
             }
           } else {
             $this->utilityFuncs->throwException('Configuration is not valid for class "'.$fullClassName.'"!');
