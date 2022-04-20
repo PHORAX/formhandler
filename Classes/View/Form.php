@@ -102,7 +102,7 @@ class Form extends AbstractView {
             if (is_array($validatorSettings['config.']) && is_array($validatorSettings['config.']['fieldConf.'])) {
               foreach ($validatorSettings['config.']['fieldConf.'] as $fieldname => $fieldSettings) {
                 $replacedFieldname = str_replace('.', '', $fieldname);
-                if (is_array($fieldSettings['errorCheck.'])) {
+                if (is_array($fieldSettings['errorCheck.'] ?? null)) {
                   foreach ($fieldSettings['errorCheck.'] as $key => $check) {
                     switch ($check) {
                       case 'fileMinSize':
@@ -1125,7 +1125,7 @@ class Form extends AbstractView {
       foreach ($this->settings['masterTemplateFile.'] as $key => $masterTemplate) {
         $key = strval($key);
         if (false === strpos($key, '.')) {
-          if (is_array($this->settings['masterTemplateFile.'][$key.'.'])) {
+          if (is_array($this->settings['masterTemplateFile.'][$key.'.'] ?? null)) {
             array_push(
               $this->masterTemplates,
               $this->utilityFuncs->resolveRelPathFromSiteRoot($this->utilityFuncs->getSingle($this->settings['masterTemplateFile.'], $key))
