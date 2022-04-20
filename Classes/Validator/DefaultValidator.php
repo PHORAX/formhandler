@@ -173,10 +173,10 @@ class DefaultValidator extends AbstractValidator {
       unset($tempSettings['errorCheck.']);
       if (count($tempSettings)) {
         // Nested field-confs - do recursion:
-        $errors[$fieldName] = $this->validateRecursive([], (array) $gp[$fieldName], $tempSettings, $fieldName);
+        $errors[$fieldName] = $this->validateRecursive([], (array) ($gp[$fieldName] ?? []), $tempSettings, $fieldName);
       }
 
-      if (!is_array($fieldSettings['errorCheck.'])) {
+      if (!is_array($fieldSettings['errorCheck.'] ?? null)) {
         continue;
       }
 
