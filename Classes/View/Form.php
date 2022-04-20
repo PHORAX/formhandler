@@ -1123,6 +1123,7 @@ class Form extends AbstractView {
       );
     } elseif (isset($this->settings['masterTemplateFile.']) && is_array($this->settings['masterTemplateFile.'])) {
       foreach ($this->settings['masterTemplateFile.'] as $key => $masterTemplate) {
+        $key = strval($key);
         if (false === strpos($key, '.')) {
           if (is_array($this->settings['masterTemplateFile.'][$key.'.'])) {
             array_push(
