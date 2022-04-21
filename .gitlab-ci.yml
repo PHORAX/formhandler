@@ -1,0 +1,11 @@
+stages:
+  - code-analysis
+
+code-analysis:
+  image: registry.gitlab.com/jakota/root/docker-images/composer-deployment:latest
+  stage: code-analysis
+  script:
+    - composer install --prefer-dist --no-progress --no-interaction --no-scripts
+    - php -d memory_limit=512M vendor/bin/phpstan analyse -c phpstan.neon
+  only:
+    - merge_requests
