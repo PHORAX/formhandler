@@ -97,11 +97,10 @@ class JQuery extends AbstractAjaxHandler {
    */
   public function getFileRemovalLink(string $text, string $field, string $uploadedFileName): string {
     $params = [
-      'eID' => 'formhandler-removefile',
       'field' => $field,
       'uploadedFileName' => $uploadedFileName,
     ];
-    $url = $this->utilityFuncs->getAjaxUrl($params);
+    $url = $this->utilityFuncs->getAjaxUrl('formhandler/removefile/', $params);
 
     return sprintf($this->templates['aRemoveLink'], $url, $text);
   }

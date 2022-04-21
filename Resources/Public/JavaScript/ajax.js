@@ -104,9 +104,7 @@
         formhandlerDiv.find(settings.submitButtonSelector).attr('disabled', 'disabled');
         var form = $(this);
         var url =
-          '/index.php?eID=formhandler-ajaxsubmit&id=' +
-          settings.pageID +
-          '&randomID=' +
+          '/formhandler/ajaxsubmit/?randomID=' +
           settings.randomID +
           '&uid=' +
           settings.contentID +
