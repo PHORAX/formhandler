@@ -32,10 +32,9 @@ class AjaxMiddleware implements MiddlewareInterface {
     $this->request = $request;
     $this->handler = $handler;
 
-    // Cruise endpoints
-    $this->get('/formhandler/', \Typoheads\Formhandler\Ajax\Validate::class.'::main');
-    $this->get('/formhandler/removefile/', \Typoheads\Formhandler\Ajax\RemoveFile::class.'::main');
-    $this->get('/formhandler/ajaxsubmit/', \Typoheads\Formhandler\Ajax\Submit::class.'::main');
+    $this->get('/formhandler/', \Closure::fromCallable(\Typoheads\Formhandler\Ajax\Validate::class.'::main'));
+    $this->get('/formhandler/removefile/', \Closure::fromCallable(\Typoheads\Formhandler\Ajax\RemoveFile::class.'::main'));
+    $this->get('/formhandler/ajaxsubmit/', \Closure::fromCallable(\Typoheads\Formhandler\Ajax\Submit::class.'::main'));
 
     return $this->handleRequests();
   }
