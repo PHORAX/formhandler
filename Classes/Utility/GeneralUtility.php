@@ -770,7 +770,10 @@ class GeneralUtility implements SingletonInterface {
       $site = reset($sites);
     }
     $language = $request->getAttribute('language') ?? $site->getDefaultLanguage();
-    $pageArguments = $request->getAttribute('routing') ?? new PageArguments(0, '0', []);
+    $queryParams = $request->getQueryParams();
+    $pageId = ($queryParams['id'] ?? $request->getParsedBody()['id'] ?? 0);
+    $pageType = ($queryParams['type'] ?? $request->getParsedBody()['type'] ?? 0);
+    $pageArguments = new PageArguments(intval($pageId), strval($pageType), [], $queryParams);
 
     // create object instances:
     $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
