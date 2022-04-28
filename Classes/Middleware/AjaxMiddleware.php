@@ -9,6 +9,10 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Ajax\RemoveFile;
+use Typoheads\Formhandler\Ajax\Submit;
+use Typoheads\Formhandler\Ajax\Validate;
 
 class AjaxMiddleware implements MiddlewareInterface {
   protected RequestHandlerInterface $handler;
@@ -32,9 +36,9 @@ class AjaxMiddleware implements MiddlewareInterface {
     $this->request = $request;
     $this->handler = $handler;
 
-    $this->get('/formhandler/', \Closure::fromCallable(\Typoheads\Formhandler\Ajax\Validate::class.'::main'));
-    $this->get('/formhandler/removefile/', \Closure::fromCallable(\Typoheads\Formhandler\Ajax\RemoveFile::class.'::main'));
-    $this->get('/formhandler/ajaxsubmit/', \Closure::fromCallable(\Typoheads\Formhandler\Ajax\Submit::class.'::main'));
+    $this->post('/formhandler/', \Closure::fromCallable([$this, 'validate']));
+    $this->post('/formhandler/removefile/', \Closure::fromCallable([$this, 'removeFile']));
+    $this->post('/formhandler/ajaxsubmit/', \Closure::fromCallable([$this, 'submit']));
 
     return $this->handleRequests();
   }
@@ -124,5 +128,47 @@ class AjaxMiddleware implements MiddlewareInterface {
 
   protected function post(string $path, callable $callable): void {
     $this->checkRequest($path, $callable, 'POST');
+  }
+
+  /**
+   * @param array<string, mixed> $queryParams
+   * @param array<string, mixed> $pathParams
+   * @param array<string, mixed> $requestBody
+   */
+  private function removeFile(array $queryParams, array $pathParams, array $requestBody): ResponseInterface {
+    /** @var RemoveFile $removeFile */
+    $removeFile = GeneralUtility::makeInstance(
+      RemoveFile::class,
+    );
+
+    return $removeFile->main($this->request);
+  }
+
+  /**
+   * @param array<string, mixed> $queryParams
+   * @param array<string, mixed> $pathParams
+   * @param array<string, mixed> $requestBody
+   */
+  private function submit(array $queryParams, array $pathParams, array $requestBody): ResponseInterface {
+    /** @var Submit $submit */
+    $submit = GeneralUtility::makeInstance(
+      Submit::class,
+    );
+
+    return $submit->main($this->request);
+  }
+
+  /**
+   * @param array<string, mixed> $queryParams
+   * @param array<string, mixed> $pathParams
+   * @param array<string, mixed> $requestBody
+   */
+  private function validate(array $queryParams, array $pathParams, array $requestBody): ResponseInterface {
+    /** @var Validate $validate */
+    $validate = GeneralUtility::makeInstance(
+      Validate::class,
+    );
+
+    return $validate->main($this->request);
   }
 }
