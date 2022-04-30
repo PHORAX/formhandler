@@ -9,7 +9,6 @@ use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
-use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\Globals;
 use Typoheads\Formhandler\View\AjaxValidation;
 
@@ -36,10 +35,6 @@ class Validate extends AbstractAjax {
     'spanSuccess' => '<span class="success">%s</span>',
     'spanError' => '<span class="error">%s</span>',
   ];
-
-  private Manager $componentManager;
-
-  private array $settings = [];
 
   /**
    * Main method of the class.
