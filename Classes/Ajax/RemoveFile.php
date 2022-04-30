@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Ajax;
 
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
-use Typoheads\Formhandler\Component\Manager;
-use Typoheads\Formhandler\Utility\Globals;
 use Typoheads\Formhandler\View\Form;
 
 /**
@@ -29,27 +26,35 @@ use Typoheads\Formhandler\View\Form;
 
 /**
  * A class removing uploaded files. This class is called via AJAX.
+ *
+ * @abstract
  */
-class RemoveFile {
-  private Manager $componentManager;
-
+class RemoveFile extends AbstractAjax {
   private string $fieldName = '';
-
-  private Globals $globals;
 
   private array $langFiles = [];
 
-  private array $settings = [];
-
   private string $uploadedFileName = '';
-
-  private \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs;
 
   /**
    * Main method of the class.
    */
-  public function main(ServerRequestInterface $request): ResponseInterface {
-    $this->init($request);
+  public function main(): ResponseInterface {
+    $this->fieldName = htmlspecialchars($_GET['field']);
+    $this->uploadedFileName = htmlspecialchars($_GET['uploadedFileName']);
+    $this->langFiles = $this->utilityFuncs->readLanguageFiles([], $this->settings);
+    // init ajax
+    if ($this->settings['ajax.']) {
+      $class = $this->utilityFuncs->getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\\JQuery');
+
+      /** @var AbstractAjaxHandler $ajaxHandler */
+      $ajaxHandler = $this->componentManager->getComponent($class);
+      $this->globals->setAjaxHandler($ajaxHandler);
+
+      $ajaxHandler->init($this->settings['ajax.']['config.']);
+      $ajaxHandler->initAjax();
+    }
+
     $content = '';
     $field = null;
 
@@ -109,51 +114,5 @@ class RemoveFile {
     }
 
     return new HtmlResponse($content, 200);
-  }
-
-  /**
-   * Initialize the class. Read GET parameters.
-   */
-  protected function init(ServerRequestInterface $request): void {
-    $this->fieldName = htmlspecialchars($_GET['field']);
-    $this->uploadedFileName = htmlspecialchars($_GET['uploadedFileName']);
-
-    /** @var Manager $componentManager */
-    $componentManager = GeneralUtility::makeInstance(Manager::class);
-    $this->componentManager = $componentManager;
-
-    /** @var Globals $globals */
-    $globals = GeneralUtility::makeInstance(Globals::class);
-    $this->globals = $globals;
-
-    /** @var \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs */
-    $utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
-    $this->utilityFuncs = $utilityFuncs;
-    $this->utilityFuncs->initializeTSFE($request);
-
-    $this->globals->setCObj($GLOBALS['TSFE']->cObj);
-    $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
-    $this->globals->setRandomID($randomID);
-
-    if (null == $this->globals->getSession()) {
-      $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
-      $sessionClass = $this->utilityFuncs->getPreparedClassName($ts['session.'], 'Session\\PHP');
-      $this->globals->setSession($this->componentManager->getComponent($sessionClass));
-    }
-
-    $this->settings = (array) $this->globals->getSession()->get('settings');
-    $this->langFiles = $this->utilityFuncs->readLanguageFiles([], $this->settings);
-
-    // init ajax
-    if ($this->settings['ajax.']) {
-      $class = $this->utilityFuncs->getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\\JQuery');
-
-      /** @var AbstractAjaxHandler $ajaxHandler */
-      $ajaxHandler = $this->componentManager->getComponent($class);
-      $this->globals->setAjaxHandler($ajaxHandler);
-
-      $ajaxHandler->init($this->settings['ajax.']['config.']);
-      $ajaxHandler->initAjax();
-    }
   }
 }

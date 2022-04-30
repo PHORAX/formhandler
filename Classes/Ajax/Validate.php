@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Ajax;
 
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -29,8 +28,10 @@ use Typoheads\Formhandler\View\AjaxValidation;
 
 /**
  * A class validating a field via AJAX.
+ *
+ * @abstract
  */
-class Validate {
+class Validate extends AbstractAjax {
   protected array $templates = [
     'spanSuccess' => '<span class="success">%s</span>',
     'spanError' => '<span class="error">%s</span>',
@@ -43,9 +44,8 @@ class Validate {
   /**
    * Main method of the class.
    */
-  public function main(ServerRequestInterface $request): ResponseInterface {
+  public function main(): ResponseInterface {
     $content = '';
-    $this->init($request);
     $field = htmlspecialchars(GeneralUtility::_GP('field'));
     if ($field) {
       $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
@@ -87,17 +87,6 @@ class Validate {
     }
 
     return new HtmlResponse($content, 200);
-  }
-
-  /**
-   * Initialize the class. Read GET parameters.
-   */
-  protected function init(ServerRequestInterface $request): void {
-    $GLOBALS['TYPO3_REQUEST'] = $request;
-
-    $this->componentManager = GeneralUtility::makeInstance(Manager::class);
-    Globals::setAjaxMode(true);
-    \Typoheads\Formhandler\Utility\GeneralUtility::initializeTSFE($request);
   }
 
   /**
