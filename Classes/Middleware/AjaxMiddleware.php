@@ -9,10 +9,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Typoheads\Formhandler\Ajax\RemoveFile;
-use Typoheads\Formhandler\Ajax\Submit;
-use Typoheads\Formhandler\Ajax\Validate;
+use Typoheads\Formhandler\Ajax\AbstractAjax;
+use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Utility\Globals;
 
 class AjaxMiddleware implements MiddlewareInterface {
   protected RequestHandlerInterface $handler;
@@ -32,13 +34,24 @@ class AjaxMiddleware implements MiddlewareInterface {
 
   protected ResponseFactoryInterface $responseFactory;
 
+  private Manager $componentManager;
+
+  /**
+   * The global Formhandler values.
+   */
+  private Globals $globals;
+
+  private array $settings = [];
+
+  private \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs;
+
   public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
     $this->request = $request;
     $this->handler = $handler;
 
     $this->post('/formhandler/', \Closure::fromCallable([$this, 'validate']));
     $this->post('/formhandler/removefile/', \Closure::fromCallable([$this, 'removeFile']));
-    $this->post('/formhandler/ajaxsubmit/', \Closure::fromCallable([$this, 'submit']));
+    $this->post('/formhandler/ajaxsubmit', \Closure::fromCallable([$this, 'submit']));
 
     return $this->handleRequests();
   }
@@ -131,15 +144,76 @@ class AjaxMiddleware implements MiddlewareInterface {
   }
 
   /**
+   * Initialize the class. Read GET parameters.
+   */
+  private function init(): void {
+    $GLOBALS['TYPO3_REQUEST'] = $this->request;
+
+    $id = (int) ($_GET['pid'] ?? $_GET['id'] ?? 0);
+
+    $this->componentManager = GeneralUtility::makeInstance(Manager::class);
+
+    /** @var \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs */
+    $utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
+    $this->utilityFuncs = $utilityFuncs;
+    $this->utilityFuncs->initializeTSFE($this->request);
+
+    $elementUID = (int) $_GET['uid'];
+
+    /** @var ConnectionPool $connectionPool */
+    $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+    $queryBuilder = $connectionPool->getQueryBuilderForTable('tt_content');
+    $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
+    $row = $queryBuilder
+      ->select('*')
+      ->from('tt_content')
+      ->where(
+        $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($elementUID, \PDO::PARAM_INT))
+      )
+      ->executeQuery()
+      ->fetchAssociative()
+    ;
+    if (!empty($row)) {
+      $GLOBALS['TSFE']->cObj->data = $row;
+      $GLOBALS['TSFE']->cObj->current = 'tt_content_'.$elementUID;
+    }
+
+    /** @var Globals $globals */
+    $globals = GeneralUtility::makeInstance(Globals::class);
+    $this->globals = $globals;
+
+    $this->globals->setCObj($GLOBALS['TSFE']->cObj);
+    $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
+    $this->globals->setRandomID($randomID);
+    $this->globals->setAjaxMode(true);
+    if (null == $this->globals->getSession()) {
+      $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'] ?? [];
+      $sessionClass = $this->utilityFuncs->getPreparedClassName(isset($ts['session.']) ? $ts['session.'] : null, 'Session\PHP');
+      $this->globals->setSession($this->componentManager->getComponent($sessionClass));
+    }
+
+    $this->settings = (array) $this->globals->getSession()->get('settings');
+  }
+
+  /**
    * @param array<string, mixed> $queryParams
    * @param array<string, mixed> $pathParams
    * @param array<string, mixed> $requestBody
    */
   private function removeFile(array $queryParams, array $pathParams, array $requestBody): ResponseInterface {
-    /** @var RemoveFile $removeFile */
-    $removeFile = GeneralUtility::makeInstance(
-      RemoveFile::class,
-    );
+    $this->init();
+
+    // init ajax
+    $className = null;
+    if (isset($this->settings['ajax.']) && is_array($this->settings['ajax.']) && isset($this->settings['ajax.']['removeFile.']) && is_array($this->settings['ajax.']['removeFile.'])) {
+      $className = $this->settings['ajax.']['removeFile.'];
+    }
+
+    $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($className, 'Ajax\RemoveFile');
+
+    /** @var AbstractAjax $submit */
+    $removeFile = $this->componentManager->getComponent($class);
+    $removeFile->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
 
     return $removeFile->main($this->request);
   }
@@ -150,12 +224,21 @@ class AjaxMiddleware implements MiddlewareInterface {
    * @param array<string, mixed> $requestBody
    */
   private function submit(array $queryParams, array $pathParams, array $requestBody): ResponseInterface {
-    /** @var Submit $submit */
-    $submit = GeneralUtility::makeInstance(
-      Submit::class,
-    );
+    $this->init();
 
-    return $submit->main($this->request);
+    // init ajax
+    $className = null;
+    if (isset($this->settings['ajax.']) && is_array($this->settings['ajax.']) && isset($this->settings['ajax.']['submit.']) && is_array($this->settings['ajax.']['submit.'])) {
+      $className = $this->settings['ajax.']['submit.'];
+    }
+
+    $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($className, 'Ajax\Submit');
+
+    /** @var AbstractAjax $submit */
+    $submit = $this->componentManager->getComponent($class);
+    $submit->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
+
+    return $submit->main();
   }
 
   /**
@@ -164,10 +247,19 @@ class AjaxMiddleware implements MiddlewareInterface {
    * @param array<string, mixed> $requestBody
    */
   private function validate(array $queryParams, array $pathParams, array $requestBody): ResponseInterface {
-    /** @var Validate $validate */
-    $validate = GeneralUtility::makeInstance(
-      Validate::class,
-    );
+    $this->init();
+
+    // init ajax
+    $className = null;
+    if (isset($this->settings['ajax.']) && is_array($this->settings['ajax.']) && isset($this->settings['ajax.']['validate.']) && is_array($this->settings['ajax.']['validate.'])) {
+      $className = $this->settings['ajax.']['validate.'];
+    }
+
+    $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($className, 'Ajax\Validate');
+
+    /** @var AbstractAjax $submit */
+    $validate = $this->componentManager->getComponent($class);
+    $validate->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
 
     return $validate->main($this->request);
   }
