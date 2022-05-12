@@ -33,6 +33,7 @@ abstract class AbstractView extends AbstractPlugin {
    */
   protected Manager $componentManager;
 
+  /** @var array<string, mixed> */
   protected array $componentSettings = [];
 
   /**
@@ -47,11 +48,15 @@ abstract class AbstractView extends AbstractPlugin {
 
   /**
    * The get/post parameters.
+   *
+   * @var array<string, mixed>
    */
   protected array $gp = [];
 
   /**
    * An array of translation file names.
+   *
+   * @var array<string, mixed>
    */
   protected array $langFiles = [];
 
@@ -62,10 +67,13 @@ abstract class AbstractView extends AbstractPlugin {
    */
   protected string $predefined = '';
 
+  /** @var array<string, mixed> */
   protected array $settings = [];
 
   /**
    * The subparts array.
+   *
+   * @var array<string, mixed>
    */
   protected array $subparts = [];
 
@@ -99,11 +107,10 @@ abstract class AbstractView extends AbstractPlugin {
     $this->initializeView();
   }
 
+  /**
+   * @return array<string, mixed>
+   */
   public function getComponentSettings(): array {
-    if (!is_array($this->componentSettings)) {
-      $this->componentSettings = [];
-    }
-
     return $this->componentSettings;
   }
 
@@ -117,13 +124,16 @@ abstract class AbstractView extends AbstractPlugin {
   /**
    * This method performs the rendering of the view.
    *
-   * @param array $gp     The get/post parameters
-   * @param array $errors An array with errors occurred whilest validation
+   * @param array<string, mixed> $gp     The get/post parameters
+   * @param array<string, mixed> $errors An array with errors occurred whilest validation
    *
    * @return string rendered view
    */
   abstract public function render(array $gp, array $errors): string;
 
+  /**
+   * @param array<string, mixed> $settings
+   */
   public function setComponentSettings(array $settings): void {
     $this->componentSettings = $settings;
   }
@@ -131,7 +141,7 @@ abstract class AbstractView extends AbstractPlugin {
   /**
    * Sets the internal attribute "langFiles".
    *
-   * @param array $langFiles The files array
+   * @param array<string, mixed> $langFiles The files array
    */
   public function setLangFiles(array $langFiles): void {
     $this->langFiles = $langFiles;
@@ -149,7 +159,7 @@ abstract class AbstractView extends AbstractPlugin {
   /**
    * Sets the settings.
    *
-   * @param array $settings The settings
+   * @param array<string, mixed> $settings The settings
    */
   public function setSettings(array $settings): void {
     $this->settings = $settings;

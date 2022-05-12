@@ -28,7 +28,7 @@ class Equals extends AbstractErrorCheck {
     if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
       $checkValue = $this->utilityFuncs->getSingle($this->settings['params'], 'word');
       if (strcasecmp($formValue, $checkValue)) {
-                // remove userfunc settings
+        // remove userfunc settings
         unset($this->settings['params']['word.']);
         $checkFailed = $this->getCheckFailed();
       }
@@ -37,6 +37,10 @@ class Equals extends AbstractErrorCheck {
     return $checkFailed;
   }
 
+  /**
+   * @param array<string, mixed> $gp       The get/post parameters
+   * @param array<string, mixed> $settings An array with settings
+   */
   public function init(array $gp, array $settings): void {
     parent::init($gp, $settings);
     $this->mandatoryParameters = ['word'];

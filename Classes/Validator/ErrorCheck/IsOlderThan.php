@@ -38,14 +38,18 @@ class IsOlderThan extends AbstractErrorCheck {
     return $checkFailed;
   }
 
+  /**
+   * @param array<string, mixed> $gp       The get/post parameters
+   * @param array<string, mixed> $settings An array with settings
+   */
   public function init(array $gp, array $settings): void {
     parent::init($gp, $settings);
     $this->mandatoryParameters = ['dateFormat', 'years'];
   }
 
-  protected function getDateDifference($timestamp) {
+  protected function getDateDifference(int $timestamp): int {
     $now = time();
-    $years = date('Y', $now) - date('Y', $timestamp);
+    $years = intval(date('Y', $now)) - intval(date('Y', $timestamp));
 
     // get months of dates
     $monthsTimestamp = date('n', $timestamp);

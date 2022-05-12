@@ -26,8 +26,8 @@ class PDF extends Form {
   /**
    * Main method called by the controller.
    *
-   * @param array $gp     The current GET/POST parameters
-   * @param array $errors The errors occurred in validation
+   * @param array<string, mixed> $gp     The current GET/POST parameters
+   * @param array<string, mixed> $errors The errors occurred in validation
    *
    * @return string content
    */
@@ -57,7 +57,9 @@ class PDF extends Form {
   /**
    * Sanitizes GET/POST parameters by processing the 'checkBinaryCrLf' setting in TypoScript.
    *
-   * @return array The markers
+   * @param array<string, mixed> $markers
+   *
+   * @return array<string, mixed> The markers
    */
   protected function sanitizeMarkers(array $markers): array {
     $componentSettings = $this->getComponentSettings();

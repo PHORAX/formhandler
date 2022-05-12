@@ -42,15 +42,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.lastname.errorCheck.2.value = 2
  */
 class DefaultValidator extends AbstractValidator {
+  /** @var array<string, mixed> */
   protected array $disableErrorCheckFields = [];
 
+  /** @var string[] */
   protected array $restrictErrorChecks = [];
 
   /**
    * Method to set GET/POST for this class and load the configuration.
    *
-   * @param array $gp       The GET/POST values
-   * @param array $tsConfig The TypoScript configuration
+   * @param array<string, mixed> $gp       The GET/POST values
+   * @param array<string, mixed> $tsConfig The TypoScript configuration
    */
   public function init(array $gp, array $tsConfig): void {
     $this->settings = $tsConfig;
@@ -74,7 +76,7 @@ class DefaultValidator extends AbstractValidator {
   /**
    * Validates the submitted values using given settings.
    *
-   * @param array &$errors Reference to the errors array to store the errors occurred
+   * @param array<string, mixed> &$errors Reference to the errors array to store the errors occurred
    */
   public function validate(array &$errors): bool {
     // no config? validation returns true
@@ -155,9 +157,11 @@ class DefaultValidator extends AbstractValidator {
    * }
    * </code>
    *
-   * @param string $rootField
+   * @param array<string, mixed> $errors
+   * @param array<string, mixed> $gp        The GET/POST values
+   * @param array<string, mixed> $fieldConf
    *
-   * @return array The error array
+   * @return array<string, mixed> The error array
    */
   protected function validateRecursive(array $errors, array $gp, array $fieldConf, ?string $rootField = null): array {
     // foreach configured form field
