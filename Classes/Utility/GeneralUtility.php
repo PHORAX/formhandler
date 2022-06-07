@@ -779,7 +779,7 @@ class GeneralUtility implements SingletonInterface {
       $site,
       $language,
       $pageArguments,
-      \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(FrontendUserAuthentication::class)
+      $request->getAttribute('frontend.user') ?? \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(FrontendUserAuthentication::class)
     );
     $GLOBALS['TSFE']->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TemplateService::class);
     $GLOBALS['TSFE']->determineId($request);
