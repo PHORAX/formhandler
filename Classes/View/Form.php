@@ -506,7 +506,7 @@ class Form extends AbstractView {
       require_once ExtensionManagementUtility::extPath('sr_freecap').'pi2/class.tx_srfreecap_pi2.php';
 
       /** @var PiBaseApi $freeCap */
-      $freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
+      $freeCap = GeneralUtility::makeInstance(PiBaseApi::class);
       $markers = array_merge($markers, $freeCap->makeCaptcha());
     }
     if (stristr($this->template, '###RECAPTCHA###') && ExtensionManagementUtility::isLoaded('jm_recaptcha')) {
