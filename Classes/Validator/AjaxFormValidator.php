@@ -14,10 +14,17 @@ class AjaxFormValidator extends AbstractValidator {
     }
   }
 
+  /**
+   * @param array<string, mixed> $errors
+   */
   public function validate(array &$errors): bool {
     return false;
   }
 
+  /**
+   * @param array<string, mixed> $gp
+   * @param array<string, mixed> $errors
+   */
   public function validateAjax(array $gp, array &$errors): bool {
     $this->gp = $gp;
     $this->loadConfig();
@@ -43,6 +50,13 @@ class AjaxFormValidator extends AbstractValidator {
     return empty($errors);
   }
 
+  /**
+   * @param array<string, mixed> $gp
+   * @param array<string, mixed> $errors
+   * @param array<string, mixed> $fieldConfig
+   *
+   * @return array<string, mixed>
+   */
   protected function validateRecursive(array $errors, array $gp, array $fieldConfig, ?string $rootField = null, string $fieldPath = ''): array {
     foreach ($fieldConfig as $key => $fieldSettings) {
       $fieldName = trim($key, '.');

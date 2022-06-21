@@ -37,6 +37,9 @@ abstract class AbstractValidator extends AbstractComponent {
    */
   protected array $validators;
 
+  /**
+   * @return array<string, mixed>
+   */
   public function process(): array {
     return [];
   }
@@ -44,11 +47,16 @@ abstract class AbstractValidator extends AbstractComponent {
   /**
    * Validates the submitted values using given settings.
    *
-   * @param array $errors Reference to the errors array to store the errors occurred
+   * @param array<string, mixed> $errors Reference to the errors array to store the errors occurred
    */
   abstract public function validate(array &$errors): bool;
 
-  protected function getDisableErrorCheckFields($disableErrorCheckFields = []) {
+  /**
+   * @param array<string, string|string[]> $disableErrorCheckFields
+   *
+   * @return array<string, string|string[]>
+   */
+  protected function getDisableErrorCheckFields($disableErrorCheckFields = []): array {
     if (isset($this->settings['disableErrorCheckFields.'])) {
       foreach ($this->settings['disableErrorCheckFields.'] as $disableCheckField => $checks) {
         if (!strstr($disableCheckField, '.')) {
@@ -73,7 +81,10 @@ abstract class AbstractValidator extends AbstractComponent {
     return $disableErrorCheckFields;
   }
 
-  protected function getRestrictedErrorChecks() {
+  /**
+   * @return string[]
+   */
+  protected function getRestrictedErrorChecks(): array {
     $restrictErrorChecks = [];
     if (isset($this->settings['restrictErrorChecks'])) {
       $restrictErrorChecks = GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
