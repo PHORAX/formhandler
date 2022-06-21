@@ -35,6 +35,8 @@ class ModuleController extends ActionController {
 
   /**
    * The request arguments.
+   *
+   * @var array<string, mixed>
    */
   protected array $gp;
 
@@ -55,9 +57,9 @@ class ModuleController extends ActionController {
   /**
    * Exports given rows as file.
    *
-   * @param ?string $logDataUids uids to export
-   * @param array   $fields      fields to export
-   * @param string  $filetype    export file type (PDF || CSV)
+   * @param ?string              $logDataUids uids to export
+   * @param array<string, mixed> $fields      fields to export
+   * @param string               $filetype    export file type (PDF || CSV)
    */
   public function exportAction(?string $logDataUids = null, array $fields = [], string $filetype = ''): ResponseInterface {
     if (null !== $logDataUids && !empty($fields)) {
@@ -157,7 +159,7 @@ class ModuleController extends ActionController {
         // $propertyMappingConfiguration->allowProperties('firstname');
   }
 
-  public function injectLogDataRepository(LogDataRepository $logDataRepository) {
+  public function injectLogDataRepository(LogDataRepository $logDataRepository): void {
     $this->logDataRepository = $logDataRepository;
   }
 
@@ -167,7 +169,7 @@ class ModuleController extends ActionController {
    * @param ?string $logDataUids uids to export
    * @param string  $filetype    export file type (PDF || CSV)
    */
-  public function selectFieldsAction(?string $logDataUids = null, string $filetype = '') {
+  public function selectFieldsAction(?string $logDataUids = null, string $filetype = ''): void {
     if (null !== $logDataUids) {
       if (isset($this->settings[$filetype]['config']['fields'])) {
         $fields = GeneralUtility::trimExplode(',', $this->settings[$filetype]['config']['fields']);

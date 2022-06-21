@@ -30,6 +30,8 @@ abstract class AbstractController extends AbstractClass {
 
   /**
    * Array of configured translation files.
+   *
+   * @var array<int, null|string>
    */
   protected array $langFiles = [];
 
@@ -53,7 +55,7 @@ abstract class AbstractController extends AbstractClass {
   /**
    * Returns the right settings for the formhandler (Checks if predefined form was selected).
    *
-   * @return array The settings
+   * @return array<string, mixed> The settings
    */
   public function getSettings(): array {
     $settings = $this->configuration->getSettings();
@@ -75,6 +77,8 @@ abstract class AbstractController extends AbstractClass {
 
   /**
    * Sets the internal attribute "langFile".
+   *
+   * @param array<int, null|string> $langFiles
    */
   public function setLangFiles(array $langFiles): void {
     $this->langFiles = $langFiles;

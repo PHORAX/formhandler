@@ -38,6 +38,8 @@ class Form extends AbstractController {
 
   /**
    * Contains all errors occurred while validation.
+   *
+   * @var array<string, mixed>
    */
   protected array $errors = [];
 
@@ -53,6 +55,8 @@ class Form extends AbstractController {
 
   /**
    * The current GET/POST parameters of the form.
+   *
+   * @var array<string, mixed>
    */
   protected array $gp = [];
 
@@ -63,6 +67,8 @@ class Form extends AbstractController {
 
   /**
    * The settings array.
+   *
+   * @var array<string, mixed>
    */
   protected array $settings = [];
 
@@ -185,9 +191,9 @@ class Form extends AbstractController {
   /**
    * Adds default configuration for every Formhandler component to the given configuration array.
    *
-   * @param array $conf The configuration of the component set in TS
+   * @param array<string, mixed> $conf The configuration of the component set in TS
    *
-   * @return array The initial configuration plus the default configuration
+   * @return array<string, mixed> The initial configuration plus the default configuration
    */
   protected function addDefaultComponentConfig(array $conf): array {
     if (!isset($conf['langFiles'])) {
@@ -201,6 +207,8 @@ class Form extends AbstractController {
 
   /**
    * Adds a mandatory component to the classes array.
+   *
+   * @param array<string, mixed> $classesArray
    */
   protected function addFormhandlerClass(array &$classesArray, string $className): void {
     if (0 == count($classesArray)) {
@@ -390,6 +398,8 @@ class Form extends AbstractController {
   /**
    * Checks if there are checkbox fields configured for this step.
    * If found, Formhandler sets the correct value of the field(s).
+   *
+   * @return array<string, mixed>
    */
   protected function handleCheckBoxFields(): array {
     $newGP = $this->utilityFuncs->getMergedGP();
@@ -588,7 +598,7 @@ class Form extends AbstractController {
   /**
    * Find out if submitted form was valid. If one of the values in the given array $valid is false the submission was not valid.
    *
-   * @param array $validArr Array with the return values of each validator
+   * @param array<int, mixed> $validArr Array with the return values of each validator
    */
   protected function isValid(array $validArr): bool {
     $valid = true;
@@ -1210,8 +1220,10 @@ class Form extends AbstractController {
 
   /**
    * Resets the values in session to have a clean form.
+   *
+   * @param array<string, mixed> $gp
    */
-  protected function reset(array $gp = []) {
+  protected function reset(array $gp = []): void {
     $values = [
       'creationTstamp' => time(),
       'values' => null,
@@ -1236,7 +1248,7 @@ class Form extends AbstractController {
   /**
    * Runs the class by calling process() method.
    *
-   * @param array $classesArray : the configuration array
+   * @param array<string, mixed> $classesArray : the configuration array
    */
   protected function runClasses(array $classesArray): mixed {
     if (1 !== (int) ($this->utilityFuncs->getSingle($classesArray, 'disable'))) {
@@ -1280,7 +1292,7 @@ class Form extends AbstractController {
    *
    * @param int $step The current step
    */
-  protected function setViewSubpart(int $step) {
+  protected function setViewSubpart(int $step): void {
     $this->finished = false;
 
     if (1 === (int) ($this->utilityFuncs->getSingle($this->settings, 'skipView'))) {
