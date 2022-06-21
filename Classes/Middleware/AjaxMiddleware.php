@@ -215,7 +215,7 @@ class AjaxMiddleware implements MiddlewareInterface {
     $removeFile = $this->componentManager->getComponent($class);
     $removeFile->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
 
-    return $removeFile->main($this->request);
+    return $removeFile->main();
   }
 
   /**
@@ -261,6 +261,6 @@ class AjaxMiddleware implements MiddlewareInterface {
     $validate = $this->componentManager->getComponent($class);
     $validate->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
 
-    return $validate->main($this->request);
+    return $validate->main();
   }
 }
