@@ -211,7 +211,7 @@ class AjaxMiddleware implements MiddlewareInterface {
 
     $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($className, 'Ajax\RemoveFile');
 
-    /** @var AbstractAjax $submit */
+    /** @var AbstractAjax $removeFile */
     $removeFile = $this->componentManager->getComponent($class);
     $removeFile->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
 
@@ -257,7 +257,7 @@ class AjaxMiddleware implements MiddlewareInterface {
 
     $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($className, 'Ajax\Validate');
 
-    /** @var AbstractAjax $submit */
+    /** @var AbstractAjax $validate */
     $validate = $this->componentManager->getComponent($class);
     $validate->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
 
