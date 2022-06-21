@@ -42,7 +42,7 @@ class Globals implements SingletonInterface {
   /** @var array<string, mixed> */
   protected static array $gp = [];
 
-  /** @var array<string, mixed> */
+  /** @var string[] */
   protected static array $langFiles = [];
 
   /** @var array<string, mixed> */
@@ -101,7 +101,7 @@ class Globals implements SingletonInterface {
   }
 
   /**
-   * @return array<string, mixed>
+   * @return string[]
    */
   public static function getLangFiles(): array {
     return self::$langFiles;
@@ -184,7 +184,7 @@ class Globals implements SingletonInterface {
   }
 
   /**
-   * @param array<string, mixed> $langFiles
+   * @param string[] $langFiles
    */
   public static function setLangFiles(array $langFiles): void {
     self::$langFiles = $langFiles;
