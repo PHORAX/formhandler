@@ -366,7 +366,7 @@ class GeneralUtility implements SingletonInterface {
     );
   }
 
-  public static function getAjaxUrl(array $specialParams) {
+  public static function getAjaxUrl(string $path, array $specialParams) {
     $params = [
       'id' => $GLOBALS['TSFE']->id,
       'L' => \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id'),
@@ -374,7 +374,7 @@ class GeneralUtility implements SingletonInterface {
     ];
     $params = array_merge($params, $specialParams);
 
-    return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH').'index.php?'.\TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);
+    return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH').$path.'?'.\TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);
   }
 
   /**
@@ -562,7 +562,7 @@ class GeneralUtility implements SingletonInterface {
     $keys = explode('|', $keyString);
     $numberOfLevels = count($keys);
     $rootKey = trim($keys[0]);
-    $value = isset($source[$rootKey]) ? $source[$rootKey] : $GLOBALS[$rootKey];
+    $value = isset($source[$rootKey]) ? $source[$rootKey] : $GLOBALS[$rootKey] ?? '';
 
     for ($i = 1; $i < $numberOfLevels && isset($value); ++$i) {
       $currentKey = trim($keys[$i]);
@@ -770,7 +770,10 @@ class GeneralUtility implements SingletonInterface {
       $site = reset($sites);
     }
     $language = $request->getAttribute('language') ?? $site->getDefaultLanguage();
-    $pageArguments = $request->getAttribute('routing') ?? new PageArguments(0, '0', []);
+    $queryParams = $request->getQueryParams();
+    $pageId = ($queryParams['id'] ?? $request->getParsedBody()['id'] ?? 0);
+    $pageType = ($queryParams['type'] ?? $request->getParsedBody()['type'] ?? 0);
+    $pageArguments = new PageArguments(intval($pageId), strval($pageType), [], $queryParams);
 
     // create object instances:
     $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
@@ -860,6 +863,49 @@ class GeneralUtility implements SingletonInterface {
   }
 
   /**
+   * Method to parse a conditions block of the TS setting "if".
+   *
+   * @param array $settings The settings of this form
+   * @param array $gp       The GET and POST vars
+   */
+  public static function parseConditionsBlock(array $settings, array $gp): array {
+    if (!isset($settings['if.'])) {
+      return $settings;
+    }
+    foreach ($settings['if.'] as $idx => $conditionSettings) {
+      $conditions = $conditionSettings['conditions.'];
+      $orConditions = [];
+      foreach ($conditions as $subIdx => $andConditions) {
+        $results = [];
+        foreach ($andConditions as $subSubIdx => $andCondition) {
+          $result = strval(self::getConditionResult($andCondition, $gp));
+          $results[] = ($result ? 'TRUE' : 'FALSE');
+        }
+        $orConditions[] = '('.implode(' && ', $results).')';
+      }
+      $finalCondition = '('.implode(' || ', $orConditions).')';
+
+      $evaluation = false;
+      eval('$evaluation = '.$finalCondition.';');
+
+      // @phpstan-ignore-next-line
+      if ($evaluation) {
+        $newSettings = $conditionSettings['isTrue.'] ?? '';
+        if (is_array($newSettings)) {
+          $settings = self::mergeConfiguration($settings, $newSettings);
+        }
+      } else {
+        $newSettings = $conditionSettings['else.'] ?? '';
+        if (is_array($newSettings)) {
+          $settings = self::mergeConfiguration($settings, $newSettings);
+        }
+      }
+    }
+
+    return $settings;
+  }
+
+  /**
    * Interprets a string. If it starts with a { like {field:fieldname}
    * it calls TYPO3 getData function and returns its value, otherwise returns the string.
    *
@@ -867,7 +913,7 @@ class GeneralUtility implements SingletonInterface {
    * @param array  $values  The GET/POST values
    */
   public static function parseOperand(string $operand, array $values): string {
-    if ('{' == $operand[0]) {
+    if (!empty($operand) && '{' == $operand[0]) {
       $data = trim($operand, '{}');
       $returnValue = Globals::getcObj()->getData($data, $values);
     } else {

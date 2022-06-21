@@ -763,6 +763,12 @@ class Form extends AbstractView {
         $types = [$types];
       }
       foreach ($types as $idx => $type) {
+        if (is_array($type)) {
+          $this->fillErrorMarkers($type);
+
+          continue;
+        }
+
         $temp = GeneralUtility::trimExplode(';', $type);
         $type = array_shift($temp);
         foreach ($temp as $subIdx => $item) {
