@@ -5,15 +5,6 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Validator;
 
 class AjaxFormValidator extends AbstractValidator {
-  protected array $disableErrorCheckFields = [];
-
-  protected array $restrictErrorChecks = [];
-
-  /**
-   * Array holding the configured validators.
-   */
-  protected array $validators;
-
   public function loadConfig(): void {
     $tsConfig = $this->utilityFuncs->parseConditionsBlock((array) $this->globals->getSession()->get('settings'), $this->gp);
     $this->settings = [];

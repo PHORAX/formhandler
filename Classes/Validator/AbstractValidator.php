@@ -24,6 +24,19 @@ use Typoheads\Formhandler\Component\AbstractComponent;
  * Abstract class for validators for Formhandler.
  */
 abstract class AbstractValidator extends AbstractComponent {
+  /** @var array<string, string|string[]> */
+  protected array $disableErrorCheckFields = [];
+
+  /** @var string[] */
+  protected array $restrictErrorChecks = [];
+
+  /**
+   * Array holding the configured validators.
+   *
+   * @var array<string, mixed>
+   */
+  protected array $validators;
+
   public function process(): array {
     return [];
   }

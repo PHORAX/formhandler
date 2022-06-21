@@ -42,12 +42,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.lastname.errorCheck.2.value = 2
  */
 class DefaultValidator extends AbstractValidator {
-  /** @var array<string, mixed> */
-  protected array $disableErrorCheckFields = [];
-
-  /** @var string[] */
-  protected array $restrictErrorChecks = [];
-
   /**
    * Method to set GET/POST for this class and load the configuration.
    *

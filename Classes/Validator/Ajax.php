@@ -17,11 +17,6 @@ namespace Typoheads\Formhandler\Validator;
  * Public License for more details.
  */
 class Ajax extends AbstractValidator {
-  /**
-   * Array holding the configured validators.
-   */
-  protected array $validators;
-
   public function loadConfig(): void {
     $tsConfig = $this->utilityFuncs->parseConditionsBlock((array) $this->globals->getSession()->get('settings'), $this->gp);
     $this->settings = [];
