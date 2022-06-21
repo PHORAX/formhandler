@@ -34,6 +34,7 @@ class JQuery extends AbstractAjaxHandler {
    */
   protected string $jsPosition = '';
 
+  /** @var array<string, string> */
   protected array $templates = [
     'spanLoading' => '<span class="loading" id="loading_%s" style="display:none">%s</span>',
     'spanResult' => '<span id="result_%s" class="formhandler-ajax-validation-result">%s</span>',
@@ -45,7 +46,7 @@ class JQuery extends AbstractAjaxHandler {
    *
    * The view passes the marker array by reference.
    *
-   * @param array &$markers Reference to the marker array
+   * @param array<string, mixed> &$markers Reference to the marker array
    */
   public function fillAjaxMarkers(array &$markers): void {
     $settings = (array) $this->globals->getSession()->get('settings');
@@ -166,7 +167,7 @@ class JQuery extends AbstractAjaxHandler {
     }
   }
 
-  protected function addJS(string $js, string $key = '', bool $doAppend = true) {
+  protected function addJS(string $js, string $key = '', bool $doAppend = true): void {
     if ('inline' === $this->jsPosition) {
       $GLOBALS['TSFE']->content .= $js;
     } elseif ('footer' === $this->jsPosition) {
@@ -184,6 +185,9 @@ class JQuery extends AbstractAjaxHandler {
     }
   }
 
+  /**
+   * @param array<int, string> $validateFields
+   */
   protected function getJavascriptFormInit(string $formSelector, string $submitButtonSelector, bool $isAjaxSubmit, bool $autoDisableSubmitButton, array $validateFields): string {
     return '(function( $ ) {
                     $(function() {
