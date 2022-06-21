@@ -31,6 +31,7 @@ use Typoheads\Formhandler\View\AjaxValidation;
  * @abstract
  */
 class Validate extends AbstractAjax {
+  /** @var array<string, string> */
   protected array $templates = [
     'spanSuccess' => '<span class="success">%s</span>',
     'spanError' => '<span class="error">%s</span>',

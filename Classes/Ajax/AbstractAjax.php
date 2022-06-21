@@ -30,9 +30,9 @@ abstract class AbstractAjax extends AbstractClass {
   /**
    * Initialize the AjaxHandler.
    *
-   * @param array $settings The settings of the Ajax class
+   * @param array<string, mixed> $settings The settings of the Ajax class
    */
-  public function init(Manager $componentManager, Globals $globals, array $settings, GeneralUtility $utilityFuncs) {
+  public function init(Manager $componentManager, Globals $globals, array $settings, GeneralUtility $utilityFuncs): void {
     $this->componentManager = $componentManager;
     $this->globals = $globals;
     $this->settings = $settings;
