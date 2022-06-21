@@ -414,83 +414,83 @@ class GeneralUtility implements SingletonInterface {
     $conditionResult = false;
 
     switch ($conditionOperator) {
-            case '!=':
-                $value = self::parseOperand($valueConditions[2], $gp);
-                $conditionResult = self::getGlobal($fieldName, $gp) != $value;
+      case '!=':
+        $value = self::parseOperand($valueConditions[2], $gp);
+        $conditionResult = self::getGlobal($fieldName, $gp) != $value;
 
-                break;
+        break;
 
-            case '^=':
-                $value = self::parseOperand($valueConditions[2], $gp);
-                $conditionResult = 0 === strpos(self::getGlobal($fieldName, $gp), $value);
+      case '^=':
+        $value = self::parseOperand($valueConditions[2], $gp);
+        $conditionResult = 0 === strpos(self::getGlobal($fieldName, $gp), $value);
 
-                break;
+        break;
 
-            case '$=':
-                $gpValue = self::getGlobal($fieldName, $gp);
-                $gpValue = substr($gpValue, -strlen($valueConditions[2]));
-                $checkValue = self::parseOperand($valueConditions[2], $gp);
-                $conditionResult = (0 === strcmp($checkValue, $gpValue));
+      case '$=':
+        $gpValue = self::getGlobal($fieldName, $gp);
+        $gpValue = substr($gpValue, -strlen($valueConditions[2]));
+        $checkValue = self::parseOperand($valueConditions[2], $gp);
+        $conditionResult = (0 === strcmp($checkValue, $gpValue));
 
-                break;
+        break;
 
-            case '~=':
-                $value = self::parseOperand($valueConditions[2], $gp);
-                $gpValue = self::getGlobal($fieldName, $gp);
-                if (is_array($gpValue)) {
-                  $conditionResult = in_array($value, $gpValue);
-                } else {
-                  $conditionResult = false !== strpos(self::getGlobal($fieldName, $gp), $value);
-                }
-
-                break;
-
-            case '=':
-                $value = self::parseOperand($valueConditions[2], $gp);
-                $conditionResult = self::getGlobal($fieldName, $gp) == $value;
-
-                break;
-
-            case '>':
-                $value = self::getGlobal($fieldName, $gp);
-                if (is_numeric($value)) {
-                  $conditionResult = (float) $value > (float) (self::parseOperand($valueConditions[2], $gp));
-                }
-
-                break;
-
-            case '<':
-                $value = self::getGlobal($fieldName, $gp);
-                if (is_numeric($value)) {
-                  $conditionResult = (float) $value < (float) (self::parseOperand($valueConditions[2], $gp));
-                }
-
-                break;
-
-            case '>=':
-                $value = self::getGlobal($fieldName, $gp);
-                if (is_numeric($value)) {
-                  $conditionResult = (float) $value >= (float) (self::parseOperand($valueConditions[2], $gp));
-                }
-
-                break;
-
-            case '<=':
-                $value = self::getGlobal($fieldName, $gp);
-                if (is_numeric($value)) {
-                  $conditionResult = (float) $value <= (float) (self::parseOperand($valueConditions[2], $gp));
-                }
-
-                break;
-
-            default:
-                $value = self::getGlobal($fieldName, $gp);
-                if (is_array($value)) {
-                  $conditionResult = (count($value) > 0);
-                } else {
-                  $conditionResult = strlen(trim($value)) > 0;
-                }
+      case '~=':
+        $value = self::parseOperand($valueConditions[2], $gp);
+        $gpValue = self::getGlobal($fieldName, $gp);
+        if (is_array($gpValue)) {
+          $conditionResult = in_array($value, $gpValue);
+        } else {
+          $conditionResult = false !== strpos(self::getGlobal($fieldName, $gp), $value);
         }
+
+        break;
+
+      case '=':
+        $value = self::parseOperand($valueConditions[2], $gp);
+        $conditionResult = self::getGlobal($fieldName, $gp) == $value;
+
+        break;
+
+      case '>':
+        $value = self::getGlobal($fieldName, $gp);
+        if (is_numeric($value)) {
+          $conditionResult = (float) $value > (float) (self::parseOperand($valueConditions[2], $gp));
+        }
+
+        break;
+
+      case '<':
+        $value = self::getGlobal($fieldName, $gp);
+        if (is_numeric($value)) {
+          $conditionResult = (float) $value < (float) (self::parseOperand($valueConditions[2], $gp));
+        }
+
+        break;
+
+      case '>=':
+        $value = self::getGlobal($fieldName, $gp);
+        if (is_numeric($value)) {
+          $conditionResult = (float) $value >= (float) (self::parseOperand($valueConditions[2], $gp));
+        }
+
+        break;
+
+      case '<=':
+        $value = self::getGlobal($fieldName, $gp);
+        if (is_numeric($value)) {
+          $conditionResult = (float) $value <= (float) (self::parseOperand($valueConditions[2], $gp));
+        }
+
+        break;
+
+      default:
+        $value = self::getGlobal($fieldName, $gp);
+        if (is_array($value)) {
+          $conditionResult = (count($value) > 0);
+        } else {
+          $conditionResult = strlen(trim($value)) > 0;
+        }
+    }
 
     return $conditionResult;
   }
@@ -800,15 +800,15 @@ class GeneralUtility implements SingletonInterface {
 
   public static function isValidCObject(string $str): bool {
     return
-            'CASE' === $str || 'CLEARGIF' === $str || 'COA' === $str || 'COA_INT' === $str
-            || 'COLUMNS' === $str || 'CONTENT' === $str || 'CTABLE' === $str || 'EDITPANEL' === $str
-            || 'FILE' === $str || 'FILES' === $str || 'FLUIDTEMPLATE' === $str || 'FORM' === $str
-            || 'HMENU' === $str || 'HRULER' === $str || 'HTML' === $str || 'IMAGE' === $str
-            || 'IMG_RESOURCE' === $str || 'IMGTEXT' === $str || 'LOAD_REGISTER' === $str || 'MEDIA' === $str
-            || 'MULTIMEDIA' === $str || 'OTABLE' === $str || 'QTOBJECT' === $str || 'RECORDS' === $str
-            || 'RESTORE_REGISTER' === $str || 'SEARCHRESULT' === $str || 'SVG' === $str || 'SWFOBJECT' === $str
-            || 'TEMPLATE' === $str || 'TEXT' === $str || 'USER' === $str || 'USER_INT' === $str
-        ;
+      'CASE' === $str || 'CLEARGIF' === $str || 'COA' === $str || 'COA_INT' === $str
+      || 'COLUMNS' === $str || 'CONTENT' === $str || 'CTABLE' === $str || 'EDITPANEL' === $str
+      || 'FILE' === $str || 'FILES' === $str || 'FLUIDTEMPLATE' === $str || 'FORM' === $str
+      || 'HMENU' === $str || 'HRULER' === $str || 'HTML' === $str || 'IMAGE' === $str
+      || 'IMG_RESOURCE' === $str || 'IMGTEXT' === $str || 'LOAD_REGISTER' === $str || 'MEDIA' === $str
+      || 'MULTIMEDIA' === $str || 'OTABLE' === $str || 'QTOBJECT' === $str || 'RECORDS' === $str
+      || 'RESTORE_REGISTER' === $str || 'SEARCHRESULT' === $str || 'SVG' === $str || 'SWFOBJECT' === $str
+      || 'TEMPLATE' === $str || 'TEXT' === $str || 'USER' === $str || 'USER_INT' === $str
+    ;
   }
 
   /**
