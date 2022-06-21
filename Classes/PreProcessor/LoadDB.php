@@ -55,19 +55,19 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class LoadDB extends AbstractPreProcessor {
   /**
-   * @var array as associative array. Row data from DB.
+   * @var array<int, array<string, mixed>> as associative array. Row data from DB.
    */
   protected array $data;
 
   /**
-   * @var array as associative array
+   * @var array<string, mixed> as associative array
    */
   protected array $files;
 
   /**
    * Main method called by the controller.
    *
-   * @return array GP
+   * @return array<string, mixed> GP
    */
   public function process(): array {
     $this->data = $this->loadDB($this->settings['select.']);
@@ -87,6 +87,9 @@ class LoadDB extends AbstractPreProcessor {
     return $this->gp;
   }
 
+  /**
+   * @param array<string, mixed> $conf
+   */
   protected function getQuery(string $table, array $conf): string {
     // map the old TypoScript setting "limit" to "begin" and "max".
     $limit = $this->utilityFuncs->getSingle($conf, 'limit');
@@ -114,7 +117,9 @@ class LoadDB extends AbstractPreProcessor {
   /**
    * Loads data from DB.
    *
-   * @return array of row data
+   * @param array<string, mixed> $settings
+   *
+   * @return array<int, array<string, mixed>> of row data
    */
   protected function loadDB(array $settings): array {
     $table = $this->utilityFuncs->getSingle($settings, 'table');
@@ -130,7 +135,7 @@ class LoadDB extends AbstractPreProcessor {
     $rows = $stmt->fetchAllAssociative();
     $rowCount = count($rows);
     if (1 === $rowCount) {
-      return reset($rows);
+      return $rows;
     }
     if ($rowCount > 0) {
       $this->utilityFuncs->debugMessage('sql_too_many_rows', [$rowCount], 3);
@@ -141,6 +146,8 @@ class LoadDB extends AbstractPreProcessor {
 
   /**
    * Loads data from DB intto the GP Array.
+   *
+   * @param array<string, mixed> $settings
    */
   protected function loadDBToGP(array $settings): void {
     if (is_array($settings)) {
@@ -156,6 +163,8 @@ class LoadDB extends AbstractPreProcessor {
 
   /**
    * Loads DB data into the Session. Used only for step 2+.
+   *
+   * @param array<string, mixed> $settings
    */
   protected function loadDBToSession(array $settings, int $step): void {
     session_start();
@@ -170,6 +179,9 @@ class LoadDB extends AbstractPreProcessor {
     }
   }
 
+  /**
+   * @param array<string, mixed> $settings
+   */
   protected function parseValue(string $fieldname, array $settings): string {
     $value = null;
     // pre process the field value.
