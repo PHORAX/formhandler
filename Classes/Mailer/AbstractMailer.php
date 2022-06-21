@@ -25,6 +25,8 @@ use Typoheads\Formhandler\Component\AbstractComponent;
 abstract class AbstractMailer extends AbstractComponent {
   /**
    * Not needed for this type of component.
+   *
+   * @return array<string, mixed>
    */
   public function process(): array {
     return [];
