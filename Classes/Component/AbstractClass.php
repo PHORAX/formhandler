@@ -77,7 +77,7 @@ abstract class AbstractClass {
   protected GeneralUtility $utilityFuncs;
 
   /**
-      * @var array<int, string>
+   * @var array<string, mixed>
    */
   protected array $validationStatusClasses = [];
 
