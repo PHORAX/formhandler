@@ -51,7 +51,7 @@ class AjaxMiddleware implements MiddlewareInterface {
 
     $this->post('/formhandler/', \Closure::fromCallable([$this, 'validate']));
     $this->post('/formhandler/removefile/', \Closure::fromCallable([$this, 'removeFile']));
-    $this->post('/formhandler/ajaxsubmit', \Closure::fromCallable([$this, 'submit']));
+    $this->post('/formhandler/ajaxsubmit/', \Closure::fromCallable([$this, 'submit']));
 
     return $this->handleRequests();
   }
