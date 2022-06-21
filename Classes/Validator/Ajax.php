@@ -23,7 +23,7 @@ class Ajax extends AbstractValidator {
   protected array $validators;
 
   public function loadConfig(): void {
-    $tsConfig = $this->parseConditionsBlock((array) $this->globals->getSession()->get('settings'));
+    $tsConfig = $this->utilityFuncs->parseConditionsBlock((array) $this->globals->getSession()->get('settings'), $this->gp);
     $this->settings = [];
     $this->validators = $tsConfig['validators.'];
     if ($tsConfig['ajax.']) {

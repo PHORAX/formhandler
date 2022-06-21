@@ -863,6 +863,49 @@ class GeneralUtility implements SingletonInterface {
   }
 
   /**
+   * Method to parse a conditions block of the TS setting "if".
+   *
+   * @param array $settings The settings of this form
+   * @param array $gp       The GET and POST vars
+   */
+  public static function parseConditionsBlock(array $settings, array $gp): array {
+    if (!isset($settings['if.'])) {
+      return $settings;
+    }
+    foreach ($settings['if.'] as $idx => $conditionSettings) {
+      $conditions = $conditionSettings['conditions.'];
+      $orConditions = [];
+      foreach ($conditions as $subIdx => $andConditions) {
+        $results = [];
+        foreach ($andConditions as $subSubIdx => $andCondition) {
+          $result = strval(self::getConditionResult($andCondition, $gp));
+          $results[] = ($result ? 'TRUE' : 'FALSE');
+        }
+        $orConditions[] = '('.implode(' && ', $results).')';
+      }
+      $finalCondition = '('.implode(' || ', $orConditions).')';
+
+      $evaluation = false;
+      eval('$evaluation = '.$finalCondition.';');
+
+      // @phpstan-ignore-next-line
+      if ($evaluation) {
+        $newSettings = $conditionSettings['isTrue.'] ?? '';
+        if (is_array($newSettings)) {
+          $settings = self::mergeConfiguration($settings, $newSettings);
+        }
+      } else {
+        $newSettings = $conditionSettings['else.'] ?? '';
+        if (is_array($newSettings)) {
+          $settings = self::mergeConfiguration($settings, $newSettings);
+        }
+      }
+    }
+
+    return $settings;
+  }
+
+  /**
    * Interprets a string. If it starts with a { like {field:fieldname}
    * it calls TYPO3 getData function and returns its value, otherwise returns the string.
    *

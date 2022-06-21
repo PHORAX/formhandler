@@ -639,7 +639,7 @@ class Form extends AbstractController {
   protected function parseConditions(): void {
     // parse global conditions
     if (isset($this->settings['if.']) && is_array($this->settings['if.'])) {
-      $this->parseConditionsBlock($this->settings);
+      $this->settings = $this->utilityFuncs->parseConditionsBlock($this->settings, $this->gp);
     }
 
     // parse conditions for each of the previous steps
@@ -649,49 +649,9 @@ class Form extends AbstractController {
     while ($step <= $endStep) {
       $stepSettings = $this->settings[$step.'.'] ?? [];
       if (isset($stepSettings['if.']) && is_array($stepSettings['if.'])) {
-        $this->parseConditionsBlock($stepSettings);
+        $this->settings = $this->utilityFuncs->parseConditionsBlock($stepSettings, $this->gp);
       }
       ++$step;
-    }
-  }
-
-  /**
-   * Method to parse a conditions block of the TS setting "if".
-   *
-   * @param array $settings The settings of this form
-   */
-  protected function parseConditionsBlock(array $settings): void {
-    if (!isset($settings['if.'])) {
-      return;
-    }
-    foreach ($settings['if.'] as $idx => $conditionSettings) {
-      $conditions = $conditionSettings['conditions.'];
-      $orConditions = [];
-      foreach ($conditions as $subIdx => $andConditions) {
-        $results = [];
-        foreach ($andConditions as $subSubIdx => $andCondition) {
-          $result = strval($this->utilityFuncs->getConditionResult($andCondition, $this->gp));
-          $results[] = ($result ? 'TRUE' : 'FALSE');
-        }
-        $orConditions[] = '('.implode(' && ', $results).')';
-      }
-      $finalCondition = '('.implode(' || ', $orConditions).')';
-
-      $evaluation = false;
-      eval('$evaluation = '.$finalCondition.';');
-
-      // @phpstan-ignore-next-line
-      if ($evaluation) {
-        $newSettings = $conditionSettings['isTrue.'];
-        if (is_array($newSettings)) {
-          $this->settings = $this->utilityFuncs->mergeConfiguration($this->settings, $newSettings);
-        }
-      } else {
-        $newSettings = $conditionSettings['else.'];
-        if (is_array($newSettings)) {
-          $this->settings = $this->utilityFuncs->mergeConfiguration($this->settings, $newSettings);
-        }
-      }
     }
   }
 
