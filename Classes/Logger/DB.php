@@ -112,6 +112,12 @@ class DB extends AbstractLogger {
     return $this->gp;
   }
 
+  /**
+   * @param array<string, mixed> $array
+   * @param string[]             $items
+   *
+   * @return array<int|string, mixed>
+   */
   protected function createDeep(array $array, array $items): array {
     if (count($items) > 0) {
       $item = array_shift($items);
@@ -124,6 +130,12 @@ class DB extends AbstractLogger {
     return $array;
   }
 
+  /**
+   * @param string[]             $order
+   * @param array<string, mixed> $orderedFields
+   *
+   * @return array<string, mixed>
+   */
   protected function parseFieldOrder(array $order, array $orderedFields = []): array {
     foreach ($order as $fieldName) {
       if (false !== strpos($fieldName, '|')) {
@@ -137,6 +149,13 @@ class DB extends AbstractLogger {
     return $orderedFields;
   }
 
+  /**
+   * @param array<string, mixed> $params
+   * @param array<string, mixed> $order
+   * @param array<string, mixed> $sortedParams
+   *
+   * @return array<string, mixed>
+   */
   protected function sortFields(array $params, array $order, array $sortedParams = []): array {
     foreach ($order as $fieldName => $subItems) {
       if (isset($params[$fieldName])) {
