@@ -45,8 +45,8 @@ abstract class AbstractSession extends AbstractClass {
   /**
    * Initialize the class variables.
    *
-   * @param array $gp       GET and POST variable array
-   * @param array $settings Typoscript configuration for the component (component.1.config.*)
+   * @param array<string, mixed> $gp       GET and POST variable array
+   * @param array<string, mixed> $settings Typoscript configuration for the component (component.1.config.*)
    */
   public function init(array $gp, array $settings): void {
     $this->gp = $gp;
@@ -69,7 +69,7 @@ abstract class AbstractSession extends AbstractClass {
   /**
    * Sets multiple keys at once.
    *
-   * @param array $values key value pairs
+   * @param array<string, mixed> $values key value pairs
    */
   abstract public function setMultiple(array $values): void;
 
