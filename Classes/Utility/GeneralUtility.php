@@ -870,7 +870,7 @@ class GeneralUtility implements SingletonInterface {
    * @param array  $values  The GET/POST values
    */
   public static function parseOperand(string $operand, array $values): string {
-    if ('{' == $operand[0]) {
+    if (!empty($operand) && '{' == $operand[0]) {
       $data = trim($operand, '{}');
       $returnValue = Globals::getcObj()->getData($data, $values);
     } else {
