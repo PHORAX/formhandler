@@ -41,6 +41,7 @@ class AjaxMiddleware implements MiddlewareInterface {
    */
   private Globals $globals;
 
+  /** @var array<string, mixed> */
   private array $settings = [];
 
   private \Typoheads\Formhandler\Utility\GeneralUtility $utilityFuncs;
