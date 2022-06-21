@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Validator;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
  *
@@ -25,7 +23,7 @@ class Ajax extends AbstractValidator {
   protected array $validators;
 
   public function loadConfig(): void {
-    $tsConfig = (array) $this->globals->getSession()->get('settings');
+    $tsConfig = $this->parseConditionsBlock((array) $this->globals->getSession()->get('settings'));
     $this->settings = [];
     $this->validators = $tsConfig['validators.'];
     if ($tsConfig['ajax.']) {
@@ -34,7 +32,7 @@ class Ajax extends AbstractValidator {
   }
 
   public function validate(array &$errors): bool {
-        // Nothing to do here
+    // Nothing to do here
     return true;
   }
 
@@ -55,7 +53,6 @@ class Ajax extends AbstractValidator {
     if (is_array($this->settings['fieldConf.'])) {
       $disableErrorCheckFields = $this->getDisableErrorCheckFields();
       $restrictErrorChecks = $this->getRestrictedErrorChecks();
-
 
       $fieldSettings = $this->settings['fieldConf.'][$field.'.'];
 
@@ -88,7 +85,7 @@ class Ajax extends AbstractValidator {
 
         // foreach error checks
         foreach ($errorChecks as $idx => $check) {
-                    // Skip error check if the check is disabled for this field or if all checks are disabled for this field
+          // Skip error check if the check is disabled for this field or if all checks are disabled for this field
           if (!empty($disableErrorCheckFields)
                         && in_array('all', array_keys($disableErrorCheckFields))
                         || (

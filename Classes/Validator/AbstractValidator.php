@@ -68,4 +68,47 @@ abstract class AbstractValidator extends AbstractComponent {
 
     return $restrictErrorChecks;
   }
+
+  /**
+   * Method to parse a conditions block of the TS setting "if".
+   *
+   * @param array $settings The settings of this form
+   */
+  protected function parseConditionsBlock(array $settings): array {
+    if (!isset($settings['if.'])) {
+      return $settings;
+    }
+    foreach ($settings['if.'] as $idx => $conditionSettings) {
+      $conditions = $conditionSettings['conditions.'];
+      $orConditions = [];
+      foreach ($conditions as $subIdx => $andConditions) {
+        $results = [];
+        foreach ($andConditions as $subSubIdx => $andCondition) {
+          $result = strval($this->utilityFuncs->getConditionResult($andCondition, $this->gp));
+          $results[] = ($result ? 'TRUE' : 'FALSE');
+        }
+        $orConditions[] = '('.implode(' && ', $results).')';
+      }
+      $finalCondition = '('.implode(' || ', $orConditions).')';
+
+      $evaluation = false;
+      eval('$evaluation = '.$finalCondition.';');
+
+      // @phpstan-ignore-next-line
+      if ($evaluation) {
+        $newSettings = $conditionSettings['isTrue.'];
+        if (is_array($newSettings)) {
+          $settings = $this->utilityFuncs->mergeConfiguration($settings, $newSettings);
+        }
+      } else {
+        $newSettings = $conditionSettings['else.'] ?? '';
+        if (is_array($newSettings)) {
+          $settings = $this->utilityFuncs->mergeConfiguration($settings, $newSettings);
+          // test
+        }
+      }
+    }
+
+    return $settings;
+  }
 }
