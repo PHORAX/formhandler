@@ -20,7 +20,10 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * Public License for more details.
  */
 class PredefinedJs extends AbstractFormElement {
-  public function render() {
+  /**
+   * @return array<string, mixed>
+   */
+  public function render(): array {
     $uid = null;
     $divId = $this->data['tabAndInlineStack'][0][1];
     $newRecord = ('new' == $this->data['command']);

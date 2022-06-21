@@ -167,7 +167,7 @@ class GeneralUtility implements SingletonInterface {
     return $timestamp;
   }
 
-  public static function debugMailContent(mixed $emailObj) {
+  public static function debugMailContent(mixed $emailObj): void {
     self::debugMessage('mail_subject', [$emailObj->getSubject()]);
 
     $sender = $emailObj->getSender();
@@ -193,12 +193,12 @@ class GeneralUtility implements SingletonInterface {
    * Method to log a debug message.
    * The message will be handled by one or more configured "Debuggers".
    *
-   * @param string $key        The message or key in language file (locallang_debug.xlf)
-   * @param array  $printfArgs if the messsage contains placeholders for usage with printf, pass the replacement values in this array
-   * @param int    $severity   The severity of the message. Valid values are 1,2 and 3 (1= info, 2 = warning, 3 = error)
-   * @param array  $data       Additional debug data (e.g. the array of GET/POST values)
+   * @param string                   $key        The message or key in language file (locallang_debug.xlf)
+   * @param array<int, mixed>        $printfArgs if the messsage contains placeholders for usage with printf, pass the replacement values in this array
+   * @param int                      $severity   The severity of the message. Valid values are 1,2 and 3 (1= info, 2 = warning, 3 = error)
+   * @param array<int|string, mixed> $data       Additional debug data (e.g. the array of GET/POST values)
    */
-  public static function debugMessage(string $key, array $printfArgs = [], int $severity = 1, array $data = []) {
+  public static function debugMessage(string $key, array $printfArgs = [], int $severity = 1, array $data = []): void {
     $severity = (int) $severity;
     $message = self::getDebugMessage($key);
     if (0 == strlen($message)) {
@@ -268,8 +268,9 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Redirects to a specified page or URL.
    *
-   * @param mixed $redirect           Page id or URL to redirect to
-   * @param bool  $correctRedirectUrl replace &amp; with & in URL
+   * @param mixed                $redirect           Page id or URL to redirect to
+   * @param bool                 $correctRedirectUrl replace &amp; with & in URL
+   * @param array<string, mixed> $additionalParams
    */
   public static function doRedirect(mixed $redirect, bool $correctRedirectUrl, array $additionalParams = [], string $headerStatusCode = ''): void {
     // these parameters have to be added to the redirect url
@@ -316,11 +317,11 @@ class GeneralUtility implements SingletonInterface {
    * Redirects to a specified page or URL.
    * The redirect url, additional params and other settings are taken from the given settings array.
    *
-   * @param array  $settings            Array containing the redirect settings
-   * @param array  $gp                  Array with GET/POST parameters
-   * @param string $redirectPageSetting name of the Typoscript setting which holds the redirect page
+   * @param array<string, mixed> $settings            Array containing the redirect settings
+   * @param array<string, mixed> $gp                  Array with GET/POST parameters
+   * @param string               $redirectPageSetting name of the Typoscript setting which holds the redirect page
    */
-  public static function doRedirectBasedOnSettings(array $settings, array $gp, string $redirectPageSetting = 'redirectPage') {
+  public static function doRedirectBasedOnSettings(array $settings, array $gp, string $redirectPageSetting = 'redirectPage'): void {
     $redirectPage = self::getSingle($settings, $redirectPageSetting);
 
     // Allow "redirectPage" to be the value of a form field
@@ -366,7 +367,10 @@ class GeneralUtility implements SingletonInterface {
     );
   }
 
-  public static function getAjaxUrl(string $path, array $specialParams) {
+  /**
+   * @param array<string, mixed> $specialParams
+   */
+  public static function getAjaxUrl(string $path, array $specialParams): string {
     $params = [
       'id' => $GLOBALS['TSFE']->id,
       'L' => \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id'),
@@ -380,6 +384,8 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Searches for upload folders set in TypoScript setup.
    * Returns all upload folders as array.
+   *
+   * @return string[]
    */
   public static function getAllTempUploadFolders(): array {
     $uploadFolders = [];
@@ -406,6 +412,9 @@ class GeneralUtility implements SingletonInterface {
     return $uploadFolders;
   }
 
+  /**
+   * @param array<string, mixed> $gp Array with GET/POST parameters
+   */
   public static function getConditionResult(string $condition, array $gp): bool {
     $valueConditions = preg_split('/\s*(!=|\^=|\$=|~=|>=|<=|=|<|>)\s*/', $condition, -1, PREG_SPLIT_DELIM_CAPTURE);
 
@@ -523,10 +532,10 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Finds and fills language markers in given template code.
    *
-   * @param string &$template The template code
-   * @param array  $langFiles The path to the language file
+   * @param string   &$template The template code
+   * @param string[] $langFiles The path to the language file
    *
-   * @return array The filled language markers
+   * @return array<string, string> The filled language markers
    */
   public static function getFilledLangMarkers(string &$template, array $langFiles): array {
     $langMarkers = [];
@@ -534,7 +543,7 @@ class GeneralUtility implements SingletonInterface {
       $aLLMarkerList = [];
       preg_match_all('/###LLL:.+?###/Ssm', $template, $aLLMarkerList);
 
-      foreach ($aLLMarkerList[0] as $idx => $LLMarker) {
+      foreach ($aLLMarkerList[0] as $LLMarker) {
         $llKey = substr($LLMarker, 7, strlen($LLMarker) - 10);
         $marker = $llKey;
         $message = '';
@@ -553,8 +562,8 @@ class GeneralUtility implements SingletonInterface {
    *
    * Changed to be able to return an array and not only scalar values.
    *
-   * @param string $keyString Global var key, eg. "HTTP_GET_VAR" or "HTTP_GET_VARS|id" to get the GET parameter "id" back.
-   * @param array  $source    alternative array than $GLOBAL to get variables from
+   * @param string               $keyString Global var key, eg. "HTTP_GET_VAR" or "HTTP_GET_VARS|id" to get the GET parameter "id" back.
+   * @param array<string, mixed> $source    alternative array than $GLOBAL to get variables from
    *
    * @return mixed Whatever value. If none, then blank string.
    */
@@ -584,6 +593,9 @@ class GeneralUtility implements SingletonInterface {
     return $value;
   }
 
+  /**
+   * @return array<string, mixed>
+   */
   public static function getMergedGP(): array {
     $gp = array_merge(\TYPO3\CMS\Core\Utility\GeneralUtility::_GET(), \TYPO3\CMS\Core\Utility\GeneralUtility::_POST());
     $prefix = Globals::getFormValuesPrefix();
@@ -603,7 +615,10 @@ class GeneralUtility implements SingletonInterface {
     return $gp;
   }
 
-  public static function getPreparedClassName(?array $settingsArray, string $defaultClassName = '') {
+  /**
+   * @param array<string, mixed> $settingsArray
+   */
+  public static function getPreparedClassName(?array $settingsArray, string $defaultClassName = ''): string {
     $className = $defaultClassName;
     if (isset($settingsArray) && is_array($settingsArray) && $settingsArray['class']) {
       $className = self::getSingle($settingsArray, 'class');
@@ -612,7 +627,12 @@ class GeneralUtility implements SingletonInterface {
     return self::prepareClassName($className);
   }
 
-  public static function getSingle(array|string $arr, string|int $key): array|bool|float|int|string {
+  /**
+   * @param array<string, mixed>|string $arr
+   *
+   * @return array<string, mixed>|string
+   */
+  public static function getSingle(array|string $arr, string|int $key): array|string {
     if (!is_array($arr)) {
       return $arr;
     }
@@ -739,15 +759,14 @@ class GeneralUtility implements SingletonInterface {
     return $now - $convertedValue;
   }
 
-  public static function getTranslatedMessage(array|string $langFiles, string $key) {
+  /**
+   * @param string[] $langFiles The formhandler lang files
+   */
+  public static function getTranslatedMessage(array $langFiles, string $key): string {
     $message = '';
-    if (!is_array($langFiles)) {
-      $message = trim($GLOBALS['TSFE']->sL('LLL:'.$langFiles.':'.$key));
-    } else {
-      foreach ($langFiles as $idx => $langFile) {
-        if (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key))) > 0) {
-          $message = trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key));
-        }
+    foreach ($langFiles as $langFile) {
+      if (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key))) > 0) {
+        $message = trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key));
       }
     }
 
@@ -763,7 +782,7 @@ class GeneralUtility implements SingletonInterface {
     return str_replace('/index.php', '', $path);
   }
 
-  public static function initializeTSFE(ServerRequestInterface $request) {
+  public static function initializeTSFE(ServerRequestInterface $request): void {
     $site = $request->getAttribute('site');
     if (!($site instanceof SiteInterface)) {
       $sites = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(SiteFinder::class)->getAllSites();
@@ -814,10 +833,10 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Merges 2 configuration arrays.
    *
-   * @param array $settings    The base settings
-   * @param array $newSettings the settings overriding the base settings
+   * @param array<string, mixed> $settings    The base settings
+   * @param array<string, mixed> $newSettings the settings overriding the base settings
    *
-   * @return array The merged settings
+   * @return array<string, mixed> The merged settings
    */
   public static function mergeConfiguration(array $settings, array $newSettings): array {
     ArrayUtility::mergeRecursiveWithOverrule($settings, $newSettings);
@@ -865,8 +884,10 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Method to parse a conditions block of the TS setting "if".
    *
-   * @param array $settings The settings of this form
-   * @param array $gp       The GET and POST vars
+   * @param array<string, mixed> $settings The settings of this form
+   * @param array<string, mixed> $gp       The GET and POST vars
+   *
+   * @return array<string, mixed>
    */
   public static function parseConditionsBlock(array $settings, array $gp): array {
     if (!isset($settings['if.'])) {
@@ -909,8 +930,8 @@ class GeneralUtility implements SingletonInterface {
    * Interprets a string. If it starts with a { like {field:fieldname}
    * it calls TYPO3 getData function and returns its value, otherwise returns the string.
    *
-   * @param string $operand The operand to be interpreted
-   * @param array  $values  The GET/POST values
+   * @param string               $operand The operand to be interpreted
+   * @param array<string, mixed> $values  The GET/POST values
    */
   public static function parseOperand(string $operand, array $values): string {
     if (!empty($operand) && '{' == $operand[0]) {
@@ -923,6 +944,11 @@ class GeneralUtility implements SingletonInterface {
     return $returnValue;
   }
 
+  /**
+   * @param array<string, mixed> $settings The formhandler settings
+   *
+   * @return mixed[]
+   */
   public static function parseResourceFiles(array $settings, string $key): array {
     $resourceFile = $settings[$key] ?? '';
     $resourceFiles = [];
@@ -946,11 +972,11 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Return value from somewhere inside a FlexForm structure.
    *
-   * @param array  $T3FlexForm_array FlexForm data
-   * @param string $fieldName        Field name to extract. Can be given like "test/el/2/test/el/field_templateObject" where each part will dig a level deeper in the FlexForm data.
-   * @param string $sheet            Sheet pointer, eg. "sDEF"
-   * @param string $lang             Language pointer, eg. "lDEF"
-   * @param string $value            Value pointer, eg. "vDEF"
+   * @param array<string, mixed> $T3FlexForm_array FlexForm data
+   * @param string               $fieldName        Field name to extract. Can be given like "test/el/2/test/el/field_templateObject" where each part will dig a level deeper in the FlexForm data.
+   * @param string               $sheet            Sheet pointer, eg. "sDEF"
+   * @param string               $lang             Language pointer, eg. "lDEF"
+   * @param string               $value            Value pointer, eg. "vDEF"
    *
    * @return string the content
    */
@@ -970,9 +996,9 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Returns part of $sheetArray pointed to by the keys in $fieldNameArray.
    *
-   * @param array  $sheetArray   Multidimensiona array, typically FlexForm contents
-   * @param array  $fieldNameArr Array where each value points to a key in the FlexForms content - the input array will have the value returned pointed to by these keys. All integer keys will not take their integer counterparts, but rather traverse the current position in the array an return element number X (whether this is right behavior is not settled yet...)
-   * @param string $value        Value for outermost key, typ. "vDEF" depending on language.
+   * @param array<string, mixed> $sheetArray   Multidimensiona array, typically FlexForm contents
+   * @param array<string, mixed> $fieldNameArr Array where each value points to a key in the FlexForms content - the input array will have the value returned pointed to by these keys. All integer keys will not take their integer counterparts, but rather traverse the current position in the array an return element number X (whether this is right behavior is not settled yet...)
+   * @param string               $value        Value for outermost key, typ. "vDEF" depending on language.
    *
    * @return string The value, typ. string.
    *
@@ -1034,6 +1060,11 @@ class GeneralUtility implements SingletonInterface {
 
   /**
    * Read language file set in flexform or TypoScript, read the file's path to $this->langFile.
+   *
+   * @param string[]             $langFiles The formhandler lang files
+   * @param array<string, mixed> &$settings The formhandler settings
+   *
+   * @return string[]
    */
   public static function readLanguageFiles(array $langFiles, array &$settings): array {
     // language file was not set in flexform, search TypoScript for setting
@@ -1055,7 +1086,7 @@ class GeneralUtility implements SingletonInterface {
         }
       }
     }
-    foreach ($langFiles as $idx => &$langFile) {
+    foreach ($langFiles as &$langFile) {
       $langFile = self::convertToRelativePath($langFile);
     }
 
@@ -1065,8 +1096,8 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Read template file set in flexform or TypoScript, read the file's contents to $this->templateFile.
    *
-   * @param string $templateFile The template file name
-   * @param array  &$settings    The formhandler settings
+   * @param string               $templateFile The template file name
+   * @param array<string, mixed> &$settings    The formhandler settings
    */
   public static function readTemplateFile(string $templateFile, array &$settings): string {
     $templateCode = '';
@@ -1126,6 +1157,11 @@ class GeneralUtility implements SingletonInterface {
     return $templateCode;
   }
 
+  /**
+   * @param array<int|string, mixed>|string $values
+   *
+   * @return array<int|string, mixed>|string
+   */
   public static function recursiveHtmlSpecialChars(array|string $values): array|string {
     if (is_array($values)) {
       if (empty($values)) {
@@ -1256,13 +1292,13 @@ class GeneralUtility implements SingletonInterface {
    * copied from class tslib_content.
    *
    * Substitutes markers in given template string with data of marker array
+   *
+   * @param array<string, string> $markContentArray
    */
   public static function substituteMarkerArray(string $content, array $markContentArray): string {
-    if (is_array($markContentArray)) {
-      reset($markContentArray);
-      foreach ($markContentArray as $marker => $markContent) {
-        $content = str_replace($marker, $markContent, $content);
-      }
+    reset($markContentArray);
+    foreach ($markContentArray as $marker => $markContent) {
+      $content = str_replace($marker, $markContent, $content);
     }
 
     return $content;
@@ -1273,7 +1309,7 @@ class GeneralUtility implements SingletonInterface {
    *
    * @param string $key Key in language file
    */
-  public static function throwException(string $key) {
+  public static function throwException(string $key): void {
     $message = self::getExceptionMessage($key);
     if (0 == strlen($message)) {
       throw new \Exception($key);
@@ -1287,6 +1323,9 @@ class GeneralUtility implements SingletonInterface {
     throw new \Exception($message);
   }
 
+  /**
+   * @param array<string, mixed> $settingsArray
+   */
   public static function wrap(string $str, array $settingsArray, string $key): string {
     $wrappedString = $str;
     Globals::getCObj()->setCurrentVal($wrappedString);

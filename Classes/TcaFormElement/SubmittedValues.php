@@ -21,6 +21,9 @@ use TYPO3\CMS\Core\Utility\StringUtility;
  * Public License for more details.
  */
 class SubmittedValues extends AbstractFormElement {
+  /**
+   * @return array<string, mixed>
+   */
   public function render(): array {
     $parameterArray = $this->data['parameterArray'];
 
