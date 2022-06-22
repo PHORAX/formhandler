@@ -16,25 +16,14 @@ class AjaxFormValidator extends AbstractValidator {
     }
   }
 
-  /**
-   * @param array<string, mixed> $errors
-   */
   public function validate(array &$errors): bool {
     return true;
   }
 
-  /**
-   * @param array<string, mixed> $gp
-   * @param array<string, mixed> $errors
-   */
   public function validateAjax(string $field, array $gp, array &$errors): bool {
     return true;
   }
 
-  /**
-   * @param array<string, mixed> $gp
-   * @param array<string, mixed> $errors
-   */
   public function validateAjaxForm(array $gp, array &$errors): bool {
     $this->gp = $gp;
     $this->loadConfig();

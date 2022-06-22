@@ -28,9 +28,6 @@ class Ajax extends AbstractValidator {
     }
   }
 
-  /**
-   * @param array<string, mixed> &$errors
-   */
   public function validate(array &$errors): bool {
     // Nothing to do here
     return true;
@@ -38,9 +35,6 @@ class Ajax extends AbstractValidator {
 
   /**
    * Validates the submitted values using given settings.
-   *
-   * @param array<string, mixed> $gp
-   * @param array<string, mixed> &$errors Reference to the errors array to store the errors occurred
    */
   public function validateAjax(string $field, array $gp, array &$errors): bool {
     $this->loadConfig();
@@ -136,10 +130,6 @@ class Ajax extends AbstractValidator {
     return empty($errors);
   }
 
-  /**
-   * @param array<string, mixed> $gp
-   * @param array<string, mixed> $errors
-   */
   public function validateAjaxForm(array $gp, array &$errors): bool {
     return true;
   }

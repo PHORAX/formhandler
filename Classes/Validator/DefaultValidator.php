@@ -70,8 +70,6 @@ class DefaultValidator extends AbstractValidator {
 
   /**
    * Validates the submitted values using given settings.
-   *
-   * @param array<string, mixed> &$errors Reference to the errors array to store the errors occurred
    */
   public function validate(array &$errors): bool {
     // no config? validation returns true
@@ -105,19 +103,12 @@ class DefaultValidator extends AbstractValidator {
 
   /**
    * Validates the submitted values using given settings.
-   *
-   * @param array<string, mixed> $gp
-   * @param array<string, mixed> &$errors Reference to the errors array to store the errors occurred
    */
   public function validateAjax(string $field, array $gp, array &$errors): bool {
     // Nothing to do here
     return true;
   }
 
-  /**
-   * @param array<string, mixed> $gp
-   * @param array<string, mixed> $errors
-   */
   public function validateAjaxForm(array $gp, array &$errors): bool {
     return true;
   }

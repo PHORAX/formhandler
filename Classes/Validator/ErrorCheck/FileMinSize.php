@@ -48,10 +48,6 @@ class FileMinSize extends AbstractErrorCheck {
     return $checkFailed;
   }
 
-  /**
-   * @param array<string, mixed> $gp       The get/post parameters
-   * @param array<string, mixed> $settings An array with settings
-   */
   public function init(array $gp, array $settings): void {
     parent::init($gp, $settings);
     $this->mandatoryParameters = ['minSize'];
