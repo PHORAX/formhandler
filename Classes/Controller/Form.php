@@ -9,6 +9,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
 use Typoheads\Formhandler\Debugger\AbstractDebugger;
+use Typoheads\Formhandler\Finisher\AbstractFinisher;
 use Typoheads\Formhandler\Session\AbstractSession;
 use Typoheads\Formhandler\Validator\AbstractValidator;
 use Typoheads\Formhandler\View\AbstractView;
