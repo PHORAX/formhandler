@@ -23,8 +23,6 @@ namespace Typoheads\Formhandler\Interceptor;
 class CombineFields extends AbstractInterceptor {
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
     if (is_array($this->settings['combineFields.'])) {
@@ -43,7 +41,7 @@ class CombineFields extends AbstractInterceptor {
   /**
    * Combines two or more field values.
    *
-   * @param array $options TS settings how to perform the combination
+   * @param array<string, mixed> $options TS settings how to perform the combination
    *
    * @return string The combined value
    */

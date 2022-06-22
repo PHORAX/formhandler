@@ -39,8 +39,6 @@ use Typoheads\Formhandler\View\AbstractView;
 class AntiSpamFormTime extends AbstractInterceptor {
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
     $isSpam = $this->doCheck();
@@ -50,7 +48,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
         $this->globals->getSession()->reset();
         $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
 
-        return ['Lousy spammer!'];
+        return [];
       }
 
       // set view
@@ -73,7 +71,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
       if (!$view->hasTemplate()) {
         $this->utilityFuncs->throwException('spam_detected');
 
-        return ['Lousy spammer!'];
+        return [];
       }
       $content = $view->render($this->gp, []);
       $this->globals->getSession()->reset();

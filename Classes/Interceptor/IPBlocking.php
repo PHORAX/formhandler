@@ -60,8 +60,6 @@ class IPBlocking extends AbstractInterceptor {
 
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
     $ipTimebaseValue = intval($this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'value'));
@@ -170,8 +168,8 @@ class IPBlocking extends AbstractInterceptor {
   /**
    * Sends a report mail to recipients set in TypoScript.
    *
-   * @param string $type (ip|global) Defines the message sent
-   * @param array  $rows The select rows of log table
+   * @param string                           $type (ip|global) Defines the message sent
+   * @param array<int, array<string, mixed>> $rows The select rows of log table
    */
   private function sendReport(string $type, array $rows): void {
     $email = $this->utilityFuncs->getSingle($this->settings['report.'], 'email');
@@ -219,13 +217,13 @@ class IPBlocking extends AbstractInterceptor {
     $sent = $emailObj->send($email);
     if ($sent) {
       $this->utilityFuncs->debugMessage('mail_sent', $email);
-      $this->utilityFuncs->debugMessage('mail_sender', [$emailObj->from_email]);
-      $this->utilityFuncs->debugMessage('mail_subject', [$emailObj->subject]);
+      $this->utilityFuncs->debugMessage('mail_sender', [$sender]);
+      $this->utilityFuncs->debugMessage('mail_subject', [$subject]);
       $this->utilityFuncs->debugMessage('mail_message', [], 1, [$message]);
     } else {
       $this->utilityFuncs->debugMessage('mail_not_sent', $email, 2);
-      $this->utilityFuncs->debugMessage('mail_sender', [$emailObj->from_email]);
-      $this->utilityFuncs->debugMessage('mail_subject', [$emailObj->subject]);
+      $this->utilityFuncs->debugMessage('mail_sender', [$sender]);
+      $this->utilityFuncs->debugMessage('mail_subject', [$subject]);
       $this->utilityFuncs->debugMessage('mail_message', [], 1, [$message]);
     }
   }

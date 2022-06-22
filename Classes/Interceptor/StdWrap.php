@@ -46,8 +46,6 @@ namespace Typoheads\Formhandler\Interceptor;
 class StdWrap extends AbstractInterceptor {
   /**
    * Process fields.
-   *
-   * @return array Modified GET/POST parameters, possibly with new fields added
    */
   public function process(): array {
     if (is_array($this->settings['fieldConf.'])) {
