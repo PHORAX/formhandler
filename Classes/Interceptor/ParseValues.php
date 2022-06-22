@@ -26,7 +26,7 @@ class ParseValues extends AbstractInterceptor {
   /**
    * The main method called by the controller.
    */
-  public function process(): array {
+  public function process(): array|string {
     // parse as float
     $parseFloatFields = $this->utilityFuncs->getSingle($this->settings, 'parseFloatFields');
     $fields = GeneralUtility::trimExplode(',', $parseFloatFields, true);

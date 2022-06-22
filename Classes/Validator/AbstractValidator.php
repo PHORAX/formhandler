@@ -37,10 +37,7 @@ abstract class AbstractValidator extends AbstractComponent {
    */
   protected array $validators;
 
-  /**
-   * @return array<string, mixed>
-   */
-  public function process(): array {
+  public function process(): array|string {
     return [];
   }
 

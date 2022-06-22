@@ -58,7 +58,7 @@ class LoadDefaultValues extends AbstractPreProcessor {
     }
   }
 
-  public function process(): array {
+  public function process(): array|string {
     foreach ($this->settings as $step => $stepSettings) {
       $step = (int) preg_replace('/\.$/', '', $step);
 

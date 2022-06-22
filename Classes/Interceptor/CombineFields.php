@@ -24,7 +24,7 @@ class CombineFields extends AbstractInterceptor {
   /**
    * The main method called by the controller.
    */
-  public function process(): array {
+  public function process(): array|string {
     if (is_array($this->settings['combineFields.'])) {
       foreach ($this->settings['combineFields.'] as $newField => $options) {
         $newField = str_replace('.', '', $newField);

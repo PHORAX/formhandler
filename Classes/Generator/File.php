@@ -26,7 +26,7 @@ class File extends AbstractGenerator {
   /**
    * Renders the XML file.
    */
-  public function process(): array {
+  public function process(): array|string {
     /** @var AbstractView $view */
     $view = $this->componentManager->getComponent('Typoheads\Formhandler\View\File');
     $this->filename = '';
@@ -75,7 +75,7 @@ class File extends AbstractGenerator {
       fclose($fp);
       $downloadpath = $this->filename;
       if ($returns) {
-        return [$downloadpath];
+        return $downloadpath;
       }
       $downloadpath = str_replace($this->utilityFuncs->getDocumentRoot(), '', $downloadpath);
       header('Content-type: '.$contentType);

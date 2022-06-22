@@ -39,7 +39,7 @@ class StoreUploadedFiles extends AbstractFinisher {
   /**
    * The main method called by the controller.
    */
-  public function process(): array {
+  public function process(): array|string {
     if (isset($this->settings['finishedUploadFolder']) || (isset($this->settings['finishedUploadFolder.']) && is_array($this->settings['finishedUploadFolder.']))) {
       // move the uploaded files
       $this->moveUploadedFiles();

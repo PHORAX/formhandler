@@ -61,7 +61,7 @@ class IPBlocking extends AbstractInterceptor {
   /**
    * The main method called by the controller.
    */
-  public function process(): array {
+  public function process(): array|string {
     $ipTimebaseValue = intval($this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'value'));
     $ipTimebaseUnit = $this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'unit');
     $ipMaxValue = intval($this->utilityFuncs->getSingle($this->settings['ip.'], 'threshold'));

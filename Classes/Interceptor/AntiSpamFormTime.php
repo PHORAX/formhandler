@@ -40,7 +40,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
   /**
    * The main method called by the controller.
    */
-  public function process(): array {
+  public function process(): array|string {
     $isSpam = $this->doCheck();
     if ($isSpam) {
       $this->log(true);
@@ -48,7 +48,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
         $this->globals->getSession()->reset();
         $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
 
-        return [];
+        return 'Lousy spammer!';
       }
 
       // set view
@@ -71,7 +71,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
       if (!$view->hasTemplate()) {
         $this->utilityFuncs->throwException('spam_detected');
 
-        return [];
+        return 'Lousy spammer!';
       }
       $content = $view->render($this->gp, []);
       $this->globals->getSession()->reset();

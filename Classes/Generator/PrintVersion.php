@@ -24,7 +24,7 @@ class PrintVersion extends AbstractGenerator {
   /**
    * Unused.
    */
-  public function process(): array {
+  public function process(): array|string {
     return [];
   }
 

@@ -40,7 +40,7 @@ class SubmittedOK extends AbstractFinisher {
   /**
    * The main method called by the controller.
    */
-  public function process(): array {
+  public function process(): array|string {
     // read template file
     $this->template = $this->globals->getTemplateCode();
     if (isset($this->settings['templateFile'])) {
@@ -69,6 +69,6 @@ class SubmittedOK extends AbstractFinisher {
     $view->setSettings((array) $this->globals->getSession()->get('settings'));
     $view->setComponentSettings($this->settings);
 
-    return [$view->render($this->gp, [])];
+    return $view->render($this->gp, []);
   }
 }

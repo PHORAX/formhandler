@@ -24,7 +24,7 @@ use Typoheads\Formhandler\View\AbstractView;
  * PDF generator class for Formhandler using TCPDF.
  */
 class TcPdf extends AbstractGenerator {
-  public function process(): array {
+  public function process(): array|string {
     /** @var TemplateTCPDF $pdf */
     $pdf = $this->componentManager->getComponent('\Typoheads\Formhandler\Utility\TemplateTCPDF');
 
@@ -80,7 +80,7 @@ class TcPdf extends AbstractGenerator {
 
       $downloadpath = $this->filename;
       if ($returns) {
-        return [$downloadpath];
+        return $downloadpath;
       }
       $downloadpath = str_replace($this->utilityFuncs->getDocumentRoot(), '', $downloadpath);
       header('Location: '.$downloadpath);

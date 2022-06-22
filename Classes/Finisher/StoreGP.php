@@ -29,7 +29,7 @@ class StoreGP extends AbstractFinisher {
   /**
    * The main method called by the controller.
    */
-  public function process(): array {
+  public function process(): array|string {
     // store in Session for further use by other plugins
     $this->storeUserGPinSession();
 

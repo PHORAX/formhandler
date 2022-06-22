@@ -25,7 +25,7 @@ class SetLanguage extends AbstractFinisher {
   /**
    * The main method called by the controller.
    */
-  public function process(): array {
+  public function process(): array|string {
     if (null === $this->globals->getSession()->get('originalLanguage')) {
       $this->globals->getSession()->set('originalLanguage', $GLOBALS['TSFE']->lang);
     }

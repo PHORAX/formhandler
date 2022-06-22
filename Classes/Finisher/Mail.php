@@ -89,7 +89,7 @@ class Mail extends AbstractFinisher {
   /**
    * The main method called by the controller.
    */
-  public function process(): array {
+  public function process(): array|string {
     // send emails
     $this->initMailer('admin');
     $this->sendMail('admin');

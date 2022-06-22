@@ -24,7 +24,7 @@ class PdfGenerator extends AbstractGenerator {
   /**
    * Renders the PDF.
    */
-  public function process(): array {
+  public function process(): array|string {
     return [];
   }
 

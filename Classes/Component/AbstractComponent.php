@@ -36,9 +36,9 @@ abstract class AbstractComponent extends AbstractClass {
   /**
    * The main method called by the controller.
    *
-   * @return array<string, mixed> The probably modified GET/POST parameters
+   * @return array<string, mixed>|string The probably modified GET/POST parameters
    */
-  abstract public function process(): array;
+  abstract public function process(): array|string;
 
   public function validateConfig(): bool {
     return true;
