@@ -31,7 +31,7 @@ abstract class AbstractController extends AbstractClass {
   /**
    * Array of configured translation files.
    *
-   * @var array<int, null|string>
+   * @var string[]
    */
   protected array $langFiles = [];
 

@@ -56,7 +56,7 @@ abstract class AbstractView extends AbstractPlugin {
   /**
    * An array of translation file names.
    *
-   * @var array<string, mixed>
+   * @var string[]
    */
   protected array $langFiles = [];
 
@@ -141,7 +141,7 @@ abstract class AbstractView extends AbstractPlugin {
   /**
    * Sets the internal attribute "langFiles".
    *
-   * @param array<string, mixed> $langFiles The files array
+   * @param string[] $langFiles The files array
    */
   public function setLangFiles(array $langFiles): void {
     $this->langFiles = $langFiles;
