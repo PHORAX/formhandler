@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Validator;
 
+use Typoheads\Formhandler\Validator\ErrorCheck\AbstractErrorCheck;
+
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
  *
@@ -100,10 +102,12 @@ class Ajax extends AbstractValidator {
 
           $classNameFix = ucfirst($check['check']);
           if (false === strpos($classNameFix, 'Tx_')) {
+            /** @var AbstractErrorCheck $errorCheckObject */
             $errorCheckObject = $this->componentManager->getComponent('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix);
             $fullClassName = '\\Typoheads\\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix;
           } else {
             // Look for the whole error check name, maybe it is a custom check like Tx_SomeExt_ErrorCheck_Something
+            /** @var AbstractErrorCheck $errorCheckObject */
             $errorCheckObject = $this->componentManager->getComponent($check['check']);
             $fullClassName = $check['check'];
           }
@@ -130,5 +134,13 @@ class Ajax extends AbstractValidator {
     }
 
     return empty($errors);
+  }
+
+  /**
+   * @param array<string, mixed> $gp
+   * @param array<string, mixed> $errors
+   */
+  public function validateAjaxForm(array $gp, array &$errors): bool {
+    return true;
   }
 }

@@ -52,6 +52,20 @@ abstract class AbstractValidator extends AbstractComponent {
   abstract public function validate(array &$errors): bool;
 
   /**
+   * Validates the submitted values using given settings.
+   *
+   * @param array<string, mixed> $gp
+   * @param array<string, mixed> &$errors Reference to the errors array to store the errors occurred
+   */
+  abstract public function validateAjax(string $field, array $gp, array &$errors): bool;
+
+  /**
+   * @param array<string, mixed> $gp
+   * @param array<string, mixed> $errors
+   */
+  abstract public function validateAjaxForm(array $gp, array &$errors): bool;
+
+  /**
    * @param array<string, string|string[]> $disableErrorCheckFields
    *
    * @return array<string, string|string[]>

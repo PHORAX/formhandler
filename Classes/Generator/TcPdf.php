@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Generator;
 
 use Typoheads\Formhandler\Utility\TemplateTCPDF;
+use Typoheads\Formhandler\View\AbstractView;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -32,6 +33,8 @@ class TcPdf extends AbstractGenerator {
 
     $pdf->AddPage();
     $pdf->SetFont('Helvetica', '', 12);
+
+    /** @var AbstractView $view */
     $view = $this->componentManager->getComponent('\Typoheads\Formhandler\View\PDF');
     $this->filename = '';
     if (1 === (int) ($this->settings['storeInTempFile'])) {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Interceptor;
 
+use Typoheads\Formhandler\View\AbstractView;
+
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
  *
@@ -57,6 +59,8 @@ class AntiSpamFormTime extends AbstractInterceptor {
         $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
       }
       $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
+
+      /** @var AbstractView $view */
       $view = $this->componentManager->getComponent($viewClass);
       $view->setLangFiles($this->globals->getLangFiles());
       $view->setPredefined($this->predefined);

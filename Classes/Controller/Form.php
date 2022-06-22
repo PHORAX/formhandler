@@ -8,6 +8,10 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
+use Typoheads\Formhandler\Debugger\AbstractDebugger;
+use Typoheads\Formhandler\Session\AbstractSession;
+use Typoheads\Formhandler\Validator\AbstractValidator;
+use Typoheads\Formhandler\View\AbstractView;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -85,7 +89,7 @@ class Form extends AbstractController {
   /**
    * The view object.
    */
-  protected mixed $view;
+  protected AbstractView $view;
 
   /**
    * Main method of the form handler.
@@ -455,6 +459,8 @@ class Form extends AbstractController {
     $this->globals->setRandomID($randomID);
 
     $sessionClass = $this->utilityFuncs->getPreparedClassName(isset($this->settings['session.']) ? $this->settings['session.'] : null, 'Session\PHP');
+
+    /** @var AbstractSession $session */
     $session = $this->componentManager->getComponent($sessionClass);
     $session->init($this->gp, isset($this->settings['session.']['config.']) ? $this->settings['session.']['config.'] : []);
     $session->start();
@@ -533,7 +539,11 @@ class Form extends AbstractController {
     $this->addJSFooter();
 
     $this->utilityFuncs->debugMessage('current_session_params', [], 1, (array) ($this->globals->getSession()->get('values') ?: []));
-    $this->view = $this->componentManager->getComponent($viewClass);
+
+    /** @var AbstractView $view */
+    $view = $this->componentManager->getComponent($viewClass);
+
+    $this->view = $view;
     $this->view->setLangFiles($this->langFiles);
     $this->view->setSettings($this->settings);
 
@@ -569,6 +579,8 @@ class Form extends AbstractController {
     foreach ($this->settings['debuggers.'] as $idx => $options) {
       if (1 !== (int) ($this->utilityFuncs->getSingle($options, 'disable'))) {
         $debuggerClass = $this->utilityFuncs->getPreparedClassName($options);
+
+        /** @var AbstractDebugger $debugger */
         $debugger = $this->componentManager->getComponent($debuggerClass);
         $debugger->init($this->gp, $options['config.']);
         $debugger->validateConfig();
@@ -715,6 +727,8 @@ class Form extends AbstractController {
       } elseif ('show' === $action) {
         // "show" makes it possible that Finisher_SubmittedOK show its output again
         $class = $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK');
+
+        /** @var AbstractFinisher $object */
         $object = $this->componentManager->getComponent($class);
         unset($finisherConf['actions.']);
         $object->init($params, $finisherConf);
@@ -723,12 +737,16 @@ class Form extends AbstractController {
         $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action.'.']);
         if ($class) {
           // Makes it possible to make your own Generator class show output
+
+          /** @var AbstractFinisher $object */
           $object = $this->componentManager->getComponent($class);
           $object->init($params, $finisherConf['actions.'][$action.'.']['config.']);
           $content = $object->process();
         } else {
           // Makes it possible that Finisher_SubmittedOK show its output again
           $class = $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK');
+
+          /** @var AbstractFinisher $object */
           $object = $this->componentManager->getComponent($class);
           unset($finisherConf['actions.']);
           $object->init($params, $finisherConf);
@@ -955,6 +973,7 @@ class Form extends AbstractController {
           $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
           if (is_array($tsConfig) && strlen($className) > 0) {
             if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
+              /** @var AbstractFinisher $finisher */
               $finisher = $this->componentManager->getComponent($className);
               $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.'] ?? []);
               $finisher->init($this->gp, $tsConfig['config.']);
@@ -1135,6 +1154,7 @@ class Form extends AbstractController {
           $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
           if (is_array($tsConfig) && strlen($className) > 0) {
             if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
+              /** @var AbstractValidator $validator */
               $validator = $this->componentManager->getComponent($className);
               if ($this->currentStep === $this->lastStep) {
                 $restrictErrorChecks = $this->utilityFuncs->getSingle($tsConfig['config.'] ?? [], 'restrictErrorChecks');
@@ -1263,6 +1283,8 @@ class Form extends AbstractController {
           if (is_array($tsConfig) && strlen($className) > 0) {
             if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
               $this->utilityFuncs->debugMessage('calling_class', [$className]);
+
+              /** @var AbstractValidator $obj */
               $obj = $this->componentManager->getComponent($className);
               $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.'] ?? []);
               $obj->init($this->gp, $tsConfig['config.']);

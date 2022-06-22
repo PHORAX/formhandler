@@ -7,6 +7,7 @@ namespace Typoheads\Formhandler\Finisher;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Mailer\TYPO3Mailer;
+use Typoheads\Formhandler\View\AbstractView;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -460,7 +461,7 @@ class Mail extends AbstractFinisher {
       $viewClass = '\\Typoheads\\Formhandler\\View\\Mail';
     }
 
-    /** @var \Typoheads\Formhandler\View\AbstractView $view */
+    /** @var AbstractView $view */
     $view = $this->componentManager->getComponent($viewClass);
 
     $view->setLangFiles($this->globals->getLangFiles());

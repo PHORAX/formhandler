@@ -13,6 +13,7 @@ use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Domain\Model\Demand;
 use Typoheads\Formhandler\Domain\Model\LogData;
 use Typoheads\Formhandler\Domain\Repository\LogDataRepository;
+use Typoheads\Formhandler\Generator\AbstractGenerator;
 use Typoheads\Formhandler\Generator\BackendCsv;
 
 /**
@@ -79,6 +80,7 @@ class ModuleController extends ActionController {
           '\Typoheads\Formhandler\Generator\BackendTcPdf'
         );
 
+        /** @var AbstractGenerator $generator */
         $generator = $this->componentManager->getComponent($className);
         $this->settings['pdf']['config']['records'] = $convertedLogDataRows;
         $this->settings['pdf']['config']['exportFields'] = $fields;
@@ -90,6 +92,7 @@ class ModuleController extends ActionController {
           BackendCsv::class
         );
 
+        /** @var AbstractGenerator $generator */
         $generator = $this->componentManager->getComponent($className);
         $this->settings['csv']['config']['records'] = $convertedLogDataRows;
         $this->settings['csv']['config']['exportFields'] = $fields;

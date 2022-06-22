@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Validator;
 
+use Typoheads\Formhandler\Validator\ErrorCheck\AbstractErrorCheck;
+
 class AjaxFormValidator extends AbstractValidator {
   public function loadConfig(): void {
     $tsConfig = $this->utilityFuncs->parseConditionsBlock((array) $this->globals->getSession()->get('settings'), $this->gp);
@@ -18,14 +20,22 @@ class AjaxFormValidator extends AbstractValidator {
    * @param array<string, mixed> $errors
    */
   public function validate(array &$errors): bool {
-    return false;
+    return true;
   }
 
   /**
    * @param array<string, mixed> $gp
    * @param array<string, mixed> $errors
    */
-  public function validateAjax(array $gp, array &$errors): bool {
+  public function validateAjax(string $field, array $gp, array &$errors): bool {
+    return true;
+  }
+
+  /**
+   * @param array<string, mixed> $gp
+   * @param array<string, mixed> $errors
+   */
+  public function validateAjaxForm(array $gp, array &$errors): bool {
     $this->gp = $gp;
     $this->loadConfig();
     if ($this->validators) {
@@ -120,10 +130,12 @@ class AjaxFormValidator extends AbstractValidator {
         }
         $classNameFix = ucfirst($check['check']);
         if (false === strpos($classNameFix, 'Tx_') && false === strpos($classNameFix, '\\')) {
+          /** @var AbstractErrorCheck $errorCheckObject */
           $errorCheckObject = $this->componentManager->getComponent($this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix));
           $fullClassName = $this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix);
         } else {
           // Look for the whole error check name, maybe it is a custom check like Tx_SomeExt_ErrorCheck_Something
+          /** @var AbstractErrorCheck $errorCheckObject */
           $errorCheckObject = $this->componentManager->getComponent($check['check']);
           $fullClassName = $check['check'];
         }

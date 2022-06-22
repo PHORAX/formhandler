@@ -6,6 +6,7 @@ namespace Typoheads\Formhandler\Interceptor;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Mailer\TYPO3Mailer;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -204,6 +205,8 @@ class IPBlocking extends AbstractInterceptor {
 
     // init mailer object
     $emailClass = $this->utilityFuncs->getPreparedClassName($this->settings['mailer.'], 'Mailer\HtmlMail');
+
+    /** @var TYPO3Mailer $emailObj */
     $emailObj = $this->componentManager->getComponent($emailClass);
     $emailObj->init($this->gp, []);
 
