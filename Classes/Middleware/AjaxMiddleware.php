@@ -198,6 +198,7 @@ class AjaxMiddleware implements MiddlewareInterface {
     }
 
     $this->settings = (array) $this->globals->getSession()->get('settings');
+    $this->globals->setLangFiles(\Typoheads\Formhandler\Utility\GeneralUtility::readLanguageFiles([], $this->settings));
   }
 
   /**
