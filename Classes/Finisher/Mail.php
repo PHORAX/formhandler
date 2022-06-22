@@ -74,10 +74,10 @@ use Typoheads\Formhandler\View\AbstractView;
  * </code>
  */
 class Mail extends AbstractFinisher {
-  private TYPO3Mailer $emailObj;
-
   /** @var array<string, mixed> */
-  private array $emailSettings = [];
+  protected array $emailSettings = [];
+
+  private TYPO3Mailer $emailObj;
 
   /**
    * Method to set GET/POST for this class and load the configuration.
@@ -223,6 +223,7 @@ class Mail extends AbstractFinisher {
       'htmlEmailAsAttachment',
       'plain.',
       'html.',
+      'templateFile',
     ];
 
     return $this->parseEmailSettingsByType($tsConfig[$type.'.'] ?? [], $type, $options);
@@ -269,6 +270,7 @@ class Mail extends AbstractFinisher {
           case 'replyto_name':
           case 'cc_name':
           case 'bcc_name':
+          case 'templateFile':
             $emailSettings[$option] = $this->parseValue($currentSettings, $type, $option);
 
             break;
