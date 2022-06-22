@@ -27,8 +27,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class GenerateAuthCode extends AbstractFinisher {
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
     $firstInsertInfo = [];
@@ -128,7 +126,7 @@ class GenerateAuthCode extends AbstractFinisher {
   /**
    * Return a hash value to send by email as an auth code.
    *
-   * @param array $row The submitted form data
+   * @param array<string, mixed> $row The submitted form data
    *
    * @return string The auth code
    */

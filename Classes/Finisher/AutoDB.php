@@ -39,13 +39,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class AutoDB extends DB {
   /**
-   * The name of the table to put the values into.
-   *
-   * @todo Make it protected var in Tx_Formhandler_AbstractFinisher
-   */
-  public array $settings = [];
-
-  /**
    * @var string Attributes for new db fields
    */
   protected string $newFieldsSqlAttribs = 'text';
@@ -119,6 +112,8 @@ class AutoDB extends DB {
   /**
    * Retrieve the fieldnames registered by the fluid form (those include
    * the prefix if set).
+   *
+   * @return array<int, string>
    */
   protected function getFormFieldNames(): array {
     $pattern = '/\<(?=input|select|textarea)[^\>]*name=("|\')([^"\']*)\1/i';
@@ -131,6 +126,8 @@ class AutoDB extends DB {
 
   /**
    * Gets the top level fields from the formFieldNames (@see getFormFieldNames).
+   *
+   * @return array<string, string>
    */
   protected function getFormFields(): array {
     $invokePrefix = strlen($this->globals->getFormValuesPrefix()) > 0;

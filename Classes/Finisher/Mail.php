@@ -75,13 +75,11 @@ use Typoheads\Formhandler\View\AbstractView;
 class Mail extends AbstractFinisher {
   private TYPO3Mailer $emailObj;
 
+  /** @var array<string, mixed> */
   private array $emailSettings = [];
 
   /**
    * Method to set GET/POST for this class and load the configuration.
-   *
-   * @param array $gp       The GET/POST values
-   * @param array $tsConfig The TypoScript configuration
    */
   public function init(array $gp, array $tsConfig): void {
     $this->gp = $gp;
@@ -90,8 +88,6 @@ class Mail extends AbstractFinisher {
 
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
     // send emails
@@ -106,7 +102,9 @@ class Mail extends AbstractFinisher {
   /**
    * Explodes the given list seperated by $sep. Substitutes values with according value in GET/POST, if set.
    *
-   * @param string $list
+   * @param array<string, mixed>|string $list
+   *
+   * @return array<string, mixed>
    */
   protected function explodeList(array|string $list, string $sep = ','): array {
     if (!is_array($list)) {
@@ -129,7 +127,7 @@ class Mail extends AbstractFinisher {
   /**
    * Substitutes markers like ###LLL:langKey### in given TypoScript settings array.
    *
-   * @param array &$settings The E-Mail settings
+   * @param array<string, mixed> &$settings The E-Mail settings
    */
   protected function fillLangMarkersInSettings(array &$settings): void {
     /** @var MarkerBasedTemplateService $templateService */
@@ -150,7 +148,7 @@ class Mail extends AbstractFinisher {
   /**
    * Fetches the global TypoScript settings of the Formhandler.
    *
-   * @return array The settings
+   * @return array<string, mixed> The settings
    */
   protected function getSettings(): array {
     return $this->configuration->getSettings();
@@ -194,10 +192,10 @@ class Mail extends AbstractFinisher {
   /**
    * Parses the email settings in flexform and stores them in an array.
    *
-   * @param array  $tsConfig The TypoScript configuration
-   * @param string $type     (admin|user)
+   * @param array<string, mixed> $tsConfig The TypoScript configuration
+   * @param string               $type     (admin|user)
    *
-   * @return array The parsed email settings
+   * @return array<string, mixed> The parsed email settings
    */
   protected function parseEmailSettings(array $tsConfig, string $type): array {
     $options = [
@@ -232,11 +230,11 @@ class Mail extends AbstractFinisher {
   /**
    * Parses the email settings in flexform of a specific type (admin|user].
    *
-   * @param array  $currentSettings The current settings array containing the settings made via TypoScript
-   * @param string $type            (admin|user)
-   * @param array  $optionsToParse  array containing all option names to parse
+   * @param array<string, mixed> $currentSettings The current settings array containing the settings made via TypoScript
+   * @param string               $type            (admin|user)
+   * @param array<int, mixed>    $optionsToParse  array containing all option names to parse
    *
-   * @return array The parsed email settings
+   * @return array<string, mixed> The parsed email settings
    */
   protected function parseEmailSettingsByType(array $currentSettings, string $type, array $optionsToParse = []): array {
     $typeUpper = strtoupper($type);
@@ -356,7 +354,9 @@ class Mail extends AbstractFinisher {
   /**
    * Parses a list of file names or field names set in TypoScript to embed in the mail.
    *
-   * @param array $settings The settings array containing the mail settings
+   * @param array<string, mixed> $settings The settings array containing the mail settings
+   *
+   * @return array<string, mixed>
    */
   protected function parseEmbedFilesList(array $settings): array {
     $cids = [];
@@ -383,9 +383,11 @@ class Mail extends AbstractFinisher {
   /**
    * Parses a list of file names or field names set in TypoScript and overrides it with setting in plugin record if set.
    *
-   * @param array  $settings The settings array containing the mail settings
-   * @param string $type     admin|user
-   * @param string $key      The key to parse in the settings array
+   * @param array<string, mixed> $settings The settings array containing the mail settings
+   * @param string               $type     admin|user
+   * @param string               $key      The key to parse in the settings array
+   *
+   * @return array<int, string>
    */
   protected function parseFilesList(array $settings, string $type, string $key): array {
     $files = [];
@@ -418,15 +420,17 @@ class Mail extends AbstractFinisher {
    * Parses a setting in TypoScript and overrides it with setting in plugin record if set.
    * The settings contains a list of values or a TS object.
    *
-   * @param array  $settings The settings array containing the mail settings
-   * @param string $type     admin|user
-   * @param string $key      The key to parse in the settings array
+   * @param array<string, mixed> $settings The settings array containing the mail settings
+   * @param string               $type     admin|user
+   * @param string               $key      The key to parse in the settings array
+   *
+   * @return array<string, mixed>
    */
-  protected function parseList(array $settings, string $type, string $key): array|string {
+  protected function parseList(array $settings, string $type, string $key): array {
     if (isset($settings[$type][$key])) {
       $parsed = $this->explodeList($settings[$type][$key]);
     } elseif (isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
-      $parsed = $parsed = $this->explodeList($this->utilityFuncs->getSingle($settings, $key));
+      $parsed = $this->explodeList($this->utilityFuncs->getSingle($settings, $key));
     } else {
       $parsed = $this->explodeList($settings[$key] ?? []);
     }
@@ -490,9 +494,9 @@ class Mail extends AbstractFinisher {
    * Parses a setting in TypoScript and overrides it with setting in plugin record if set.
    * The settings contains a single value or a TS object.
    *
-   * @param array  $settings The settings array containing the mail settings
-   * @param string $type     admin|user
-   * @param string $key      The key to parse in the settings array
+   * @param array<string, mixed> $settings The settings array containing the mail settings
+   * @param string               $type     admin|user
+   * @param string               $key      The key to parse in the settings array
    */
   protected function parseValue(array $settings, string $type, string $key): string {
     if (isset($settings[$type][$key])) {
@@ -512,7 +516,7 @@ class Mail extends AbstractFinisher {
    *
    * @param string $type (admin|user)
    */
-  protected function sendMail(string $type) {
+  protected function sendMail(string $type): void {
     $doSend = true;
     if (1 === (int) ($this->utilityFuncs->getSingle($this->emailSettings, 'disable'))) {
       $this->utilityFuncs->debugMessage('mail_disabled', [$type]);

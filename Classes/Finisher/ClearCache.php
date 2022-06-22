@@ -38,8 +38,6 @@ namespace Typoheads\Formhandler\Finisher;
 class ClearCache extends AbstractFinisher {
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
     $pidList = $this->utilityFuncs->getSingle($this->settings, 'pidList');

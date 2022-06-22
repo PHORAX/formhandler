@@ -39,8 +39,6 @@ use Typoheads\Formhandler\View\AbstractView;
 class SubmittedOK extends AbstractFinisher {
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
   public function process(): array {
     // read template file
