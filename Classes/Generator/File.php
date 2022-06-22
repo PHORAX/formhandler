@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Generator;
 
+use Typoheads\Formhandler\View\AbstractView;
+
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
  *
@@ -24,8 +26,9 @@ class File extends AbstractGenerator {
   /**
    * Renders the XML file.
    */
-  public function process(): array {
-    $view = $this->componentManager->getComponent('Typoheads\Formhandler\View\File');
+  public function process(): array|string {
+    /** @var AbstractView $view */
+    $view = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'View\File'));
     $this->filename = '';
     if (1 === (int) ($this->settings['storeInTempFile'])) {
       $this->outputPath = $this->utilityFuncs->getDocumentRoot();
@@ -72,7 +75,7 @@ class File extends AbstractGenerator {
       fclose($fp);
       $downloadpath = $this->filename;
       if ($returns) {
-        return [$downloadpath];
+        return $downloadpath;
       }
       $downloadpath = str_replace($this->utilityFuncs->getDocumentRoot(), '', $downloadpath);
       header('Content-type: '.$contentType);
@@ -87,6 +90,11 @@ class File extends AbstractGenerator {
     exit();
   }
 
+  /**
+   * @param array<string, mixed> $linkGP
+   *
+   * @return array<string, mixed>
+   */
   protected function getComponentLinkParams(array $linkGP): array {
     $prefix = $this->globals->getFormValuesPrefix();
     $tempParams = ['action' => 'file'];

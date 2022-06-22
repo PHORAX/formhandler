@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Validator;
 
+use Typoheads\Formhandler\Validator\ErrorCheck\AbstractErrorCheck;
+
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
  *
@@ -17,11 +19,6 @@ namespace Typoheads\Formhandler\Validator;
  * Public License for more details.
  */
 class Ajax extends AbstractValidator {
-  /**
-   * Array holding the configured validators.
-   */
-  protected array $validators;
-
   public function loadConfig(): void {
     $tsConfig = $this->utilityFuncs->parseConditionsBlock((array) $this->globals->getSession()->get('settings'), $this->gp);
     $this->settings = [];
@@ -38,8 +35,6 @@ class Ajax extends AbstractValidator {
 
   /**
    * Validates the submitted values using given settings.
-   *
-   * @param array &$errors Reference to the errors array to store the errors occurred
    */
   public function validateAjax(string $field, array $gp, array &$errors): bool {
     $this->loadConfig();
@@ -101,14 +96,16 @@ class Ajax extends AbstractValidator {
 
           $classNameFix = ucfirst($check['check']);
           if (false === strpos($classNameFix, 'Tx_')) {
+            /** @var ?AbstractErrorCheck $errorCheckObject */
             $errorCheckObject = $this->componentManager->getComponent('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix);
             $fullClassName = '\\Typoheads\\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix;
           } else {
             // Look for the whole error check name, maybe it is a custom check like Tx_SomeExt_ErrorCheck_Something
+            /** @var ?AbstractErrorCheck $errorCheckObject */
             $errorCheckObject = $this->componentManager->getComponent($check['check']);
             $fullClassName = $check['check'];
           }
-          if (!$errorCheckObject) {
+          if (isset($errorCheckObject)) {
             $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
           }
           if (empty($restrictErrorChecks) || in_array($check['check'], $restrictErrorChecks)) {
@@ -131,5 +128,9 @@ class Ajax extends AbstractValidator {
     }
 
     return empty($errors);
+  }
+
+  public function validateAjaxForm(array $gp, array &$errors): bool {
+    return true;
   }
 }

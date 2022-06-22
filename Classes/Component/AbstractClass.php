@@ -49,6 +49,8 @@ abstract class AbstractClass {
 
   /**
    * The GET/POST parameters.
+   *
+   * @var array<string, mixed>
    */
   protected array $gp = [];
 
@@ -59,6 +61,8 @@ abstract class AbstractClass {
 
   /**
    * Settings.
+   *
+   * @var array<string, mixed>
    */
   protected array $settings = [];
 
@@ -72,6 +76,9 @@ abstract class AbstractClass {
    */
   protected GeneralUtility $utilityFuncs;
 
+  /**
+   * @var array<string, mixed>
+   */
   protected array $validationStatusClasses = [];
 
   /**

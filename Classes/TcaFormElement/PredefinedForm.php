@@ -23,6 +23,8 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 class PredefinedForm {
   /**
    * Add predefined forms item list.
+   *
+   * @param array<string, mixed> &$params
    */
   public function addItems(array &$params): void {
     $ts = $this->loadTS($params['flexParentDatabaseRow']['pid']);
@@ -86,7 +88,7 @@ class PredefinedForm {
   /**
    * Loads the TypoScript for the given page id.
    *
-   * @return array The TypoScript setup
+   * @return array<string, mixed> The TypoScript setup
    */
   private function loadTS(int $pageUid): array {
     /** @var RootlineUtility $rootlineUtility */

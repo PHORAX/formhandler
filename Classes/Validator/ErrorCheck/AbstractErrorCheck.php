@@ -25,6 +25,7 @@ use Typoheads\Formhandler\Component\AbstractComponent;
 abstract class AbstractErrorCheck extends AbstractComponent {
   protected string $formFieldName = '';
 
+  /** @var string[] */
   protected array $mandatoryParameters = [];
 
   /**
@@ -34,11 +35,11 @@ abstract class AbstractErrorCheck extends AbstractComponent {
    */
   abstract public function check(): string;
 
-  public function process(): array {
+  public function process(): array|string {
     return [];
   }
 
-  public function setFormFieldName(string $name) {
+  public function setFormFieldName(string $name): void {
     $this->formFieldName = $name;
   }
 

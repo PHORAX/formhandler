@@ -124,10 +124,8 @@ class DB extends AbstractFinisher {
 
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
-  public function process(): array {
+  public function process(): array|string {
     $this->utilityFuncs->debugMessage('data_stored');
 
     // set fields to insert/update
@@ -212,6 +210,9 @@ class DB extends AbstractFinisher {
     return false;
   }
 
+  /**
+   * @param array<string, string> $queryFields
+   */
   protected function doInsert(array $queryFields): bool {
     $queryBuilder = $this->getConnection()->createQueryBuilder();
     $queryBuilder->insert($this->table);
@@ -231,6 +232,9 @@ class DB extends AbstractFinisher {
     return true;
   }
 
+  /**
+   * @param array<string, string> $queryFields
+   */
   protected function doUpdate(int $uid, array $queryFields, string $andWhere): bool {
     /** @var ConnectionPool $connectionPool */
     $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -283,6 +287,8 @@ class DB extends AbstractFinisher {
   /**
    * returns a list of uploaded files from given field.
    *
+   * @param array<string, mixed> $files
+   *
    * @return string list of filenames
    */
   protected function getFileList(array $files, string $fieldname): string {
@@ -326,7 +332,7 @@ class DB extends AbstractFinisher {
   /**
    * Parses mapping settings and builds an array holding the query fields information.
    *
-   * @return array The query fields
+   * @return array<string, string> The query fields
    */
   protected function parseFields(): array {
     $queryFields = [];
@@ -519,7 +525,7 @@ class DB extends AbstractFinisher {
   /**
    * Method to query the database making an insert or update statement using the given fields.
    *
-   * @param array &$queryFields Array holding the query fields
+   * @param array<string, string> &$queryFields Array holding the query fields
    *
    * @return bool Success flag
    */

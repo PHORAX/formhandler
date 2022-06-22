@@ -23,7 +23,7 @@ class Csv extends AbstractGenerator {
   /**
    * Renders the CSV.
    */
-  public function process(): array {
+  public function process(): array|string {
     $params = $this->gp;
     $exportParams = $this->utilityFuncs->getSingle($this->settings, 'exportParams');
     if (!is_array($exportParams) && false !== strpos($exportParams, ',')) {
@@ -85,7 +85,7 @@ class Csv extends AbstractGenerator {
       $filename = $outputPath.$this->settings['filePrefix'].$this->utilityFuncs->generateHash().'.csv';
       $csv->save($filename, $data, false, $fields);
       if (1 === (int) ($this->settings['returnFileName'])) {
-        return [$filename];
+        return $filename;
       }
       if (!is_array($this->gp['generator-csv-generated-files'])) {
         $this->gp['generator-csv-generated-files'] = [];
@@ -103,9 +103,13 @@ class Csv extends AbstractGenerator {
     exit();
   }
 
-  /* (non-PHPdoc)
+  /**
    * @see Classes/Generator/Tx_Formhandler_AbstractGenerator#getComponentLinkParams($linkGP)
-  */
+   *
+   * @param array<string, mixed> $linkGP
+   *
+   * @return array<string, mixed>
+   */
   protected function getComponentLinkParams(array $linkGP): array {
     $prefix = $this->globals->getFormValuesPrefix();
     $tempParams = [

@@ -25,10 +25,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ParseValues extends AbstractInterceptor {
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
-  public function process(): array {
+  public function process(): array|string {
     // parse as float
     $parseFloatFields = $this->utilityFuncs->getSingle($this->settings, 'parseFloatFields');
     $fields = GeneralUtility::trimExplode(',', $parseFloatFields, true);
@@ -58,6 +56,8 @@ class ParseValues extends AbstractInterceptor {
 
   /**
    * parses the given field values from strings to floats.
+   *
+   * @param string[] $fields
    */
   protected function parseFloats(array $fields): void {
     if (is_array($fields)) {

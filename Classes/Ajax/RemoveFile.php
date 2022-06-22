@@ -32,6 +32,7 @@ use Typoheads\Formhandler\View\Form;
 class RemoveFile extends AbstractAjax {
   private string $fieldName = '';
 
+  /** @var array<int, string> */
   private array $langFiles = [];
 
   private string $uploadedFileName = '';

@@ -26,7 +26,7 @@ class LoadGetPost extends AbstractPreProcessor {
   /**
    * Main method called by the controller.
    *
-   * @return array The probably modified GET/POST parameters
+   * @return array<string, mixed> The probably modified GET/POST parameters
    */
   public function process(): array {
     $loadedGP = $this->loadGP();
@@ -38,7 +38,7 @@ class LoadGetPost extends AbstractPreProcessor {
   /**
    * Loads the GET/POST parameterss into the internal storage $this->gp.
    *
-   * @return array The loaded parameters
+   * @return array<string, mixed> The loaded parameters
    */
   protected function loadGP(): array {
     $gp = array_merge(GeneralUtility::_GET(), GeneralUtility::_POST());

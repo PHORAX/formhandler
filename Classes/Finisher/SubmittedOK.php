@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Finisher;
 
+use Typoheads\Formhandler\View\AbstractView;
+
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
  *
@@ -37,10 +39,8 @@ namespace Typoheads\Formhandler\Finisher;
 class SubmittedOK extends AbstractFinisher {
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
-  public function process(): array {
+  public function process(): array|string {
     // read template file
     $this->template = $this->globals->getTemplateCode();
     if (isset($this->settings['templateFile'])) {
@@ -54,7 +54,7 @@ class SubmittedOK extends AbstractFinisher {
     }
     $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
 
-    /** @var \Typoheads\Formhandler\View\SubmittedOK $view */
+    /** @var AbstractView $view */
     $view = $this->componentManager->getComponent($viewClass);
 
     // show TEMPLATE_SUBMITTEDOK
@@ -69,6 +69,6 @@ class SubmittedOK extends AbstractFinisher {
     $view->setSettings((array) $this->globals->getSession()->get('settings'));
     $view->setComponentSettings($this->settings);
 
-    return [$view->render($this->gp, [])];
+    return $view->render($this->gp, []);
   }
 }

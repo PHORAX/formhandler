@@ -9,6 +9,7 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Typoheads\Formhandler\Domain\Model\Demand;
+use Typoheads\Formhandler\Domain\Model\LogData;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -25,14 +26,18 @@ use Typoheads\Formhandler\Domain\Model\Demand;
 
 /**
  * Repository for \Typoheads\Formhandler\Domain\Model\LogData.
+ *
+ * @extends Repository<LogData>
  */
 class LogDataRepository extends Repository {
   /**
    * Find by multiple uids using, seperated string.
    *
    * @param string $uids String containing uids
+   *
+   * @return QueryResultInterface<LogData>
    */
-  public function findByUids(string $uids): array|QueryResultInterface {
+  public function findByUids(string $uids): QueryResultInterface {
     $uidArray = explode(',', $uids);
     $query = $this->createQuery();
     $uidConstraints = [];
@@ -47,7 +52,10 @@ class LogDataRepository extends Repository {
     )->execute();
   }
 
-  public function findDemanded(?Demand $demand = null): array|QueryResultInterface {
+  /**
+   * @return QueryResultInterface<LogData>
+   */
+  public function findDemanded(?Demand $demand = null): QueryResultInterface {
     $query = $this->createQuery();
     $constraints = [$query->equals('deleted', 0)];
 

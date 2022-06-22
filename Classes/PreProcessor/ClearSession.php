@@ -31,7 +31,7 @@ class ClearSession extends AbstractPreProcessor {
   /**
    * The main method called by the controller.
    *
-   * @return array The probably modified GET/POST parameters
+   * @return array<string, mixed> The probably modified GET/POST parameters
    */
   public function process(): array {
     $sessionKeysToRemove = [

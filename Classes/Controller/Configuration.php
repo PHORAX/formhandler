@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Controller;
 
+use ArrayAccess;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
@@ -23,8 +24,10 @@ use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * The configuration of the Formhandler.
+ *
+ * @implements ArrayAccess<string, mixed>
  */
-class Configuration implements \ArrayAccess {
+class Configuration implements ArrayAccess {
   /**
    * The package key.
    *
@@ -34,6 +37,8 @@ class Configuration implements \ArrayAccess {
 
   /**
    * The TS setup.
+   *
+   * @var array<string, mixed>
    */
   protected array $setup = [];
 
@@ -89,7 +94,7 @@ class Configuration implements \ArrayAccess {
   /**
    * Returns the TS settings for formhandler.
    *
-   * @return array The settings
+   * @return array<string, mixed> The settings
    */
   public function getSettings(): array {
     return isset($this->setup['settings.']) ? (is_array($this->setup['settings.']) ? $this->setup['settings.'] : []) : [];
@@ -98,7 +103,7 @@ class Configuration implements \ArrayAccess {
   /**
    * Returns the sources config for formhandler.
    *
-   * @return array The config
+   * @return array<string, mixed> The config
    */
   public function getSourcesConfiguration(): array {
     return isset($this->setup['sources.']) ? (is_array($this->setup['sources.']) ? $this->setup['sources.'] : []) : [];
@@ -106,8 +111,10 @@ class Configuration implements \ArrayAccess {
 
   /**
    * Merges the values of $setup with plugin.[xxx].settings.
+   *
+   * @param array<string, mixed> $setup
    */
-  public function merge(?array $setup) {
+  public function merge(?array $setup): void {
     if (isset($setup) && is_array($setup)) {
       $settings = $this->setup['settings.'];
       $settings = $this->utilityFuncs->mergeConfiguration($settings, $setup);

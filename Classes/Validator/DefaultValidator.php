@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Validator;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Validator\ErrorCheck\AbstractErrorCheck;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -42,15 +43,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.lastname.errorCheck.2.value = 2
  */
 class DefaultValidator extends AbstractValidator {
-  protected array $disableErrorCheckFields = [];
-
-  protected array $restrictErrorChecks = [];
-
   /**
    * Method to set GET/POST for this class and load the configuration.
    *
-   * @param array $gp       The GET/POST values
-   * @param array $tsConfig The TypoScript configuration
+   * @param array<string, mixed> $gp       The GET/POST values
+   * @param array<string, mixed> $tsConfig The TypoScript configuration
    */
   public function init(array $gp, array $tsConfig): void {
     $this->settings = $tsConfig;
@@ -73,8 +70,6 @@ class DefaultValidator extends AbstractValidator {
 
   /**
    * Validates the submitted values using given settings.
-   *
-   * @param array &$errors Reference to the errors array to store the errors occurred
    */
   public function validate(array &$errors): bool {
     // no config? validation returns true
@@ -104,6 +99,18 @@ class DefaultValidator extends AbstractValidator {
     }
 
     return empty($errors);
+  }
+
+  /**
+   * Validates the submitted values using given settings.
+   */
+  public function validateAjax(string $field, array $gp, array &$errors): bool {
+    // Nothing to do here
+    return true;
+  }
+
+  public function validateAjaxForm(array $gp, array &$errors): bool {
+    return true;
   }
 
   public function validateConfig(): bool {
@@ -155,9 +162,11 @@ class DefaultValidator extends AbstractValidator {
    * }
    * </code>
    *
-   * @param string $rootField
+   * @param array<string, mixed> $errors
+   * @param array<string, mixed> $gp        The GET/POST values
+   * @param array<string, mixed> $fieldConf
    *
-   * @return array The error array
+   * @return array<string, mixed> The error array
    */
   protected function validateRecursive(array $errors, array $gp, array $fieldConf, ?string $rootField = null): array {
     // foreach configured form field
@@ -219,10 +228,12 @@ class DefaultValidator extends AbstractValidator {
         }
         $classNameFix = ucfirst($check['check']);
         if (false === strpos($classNameFix, 'Tx_') && false === strpos($classNameFix, '\\')) {
+          /** @var ?AbstractErrorCheck $errorCheckObject */
           $errorCheckObject = $this->componentManager->getComponent($this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix));
           $fullClassName = $this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix);
         } else {
           // Look for the whole error check name, maybe it is a custom check like Tx_SomeExt_ErrorCheck_Something
+          /** @var ?AbstractErrorCheck $errorCheckObject */
           $errorCheckObject = $this->componentManager->getComponent($check['check']);
           $fullClassName = $check['check'];
         }

@@ -49,6 +49,8 @@ class LoadDefaultValues extends AbstractPreProcessor {
   /**
    * adapted from class tx_thmailformplus_pi1
    * Loads the default values to the GP Array.
+   *
+   * @param array<string, mixed> $settings
    */
   public function loadDefaultValuesToGP(array $settings): void {
     if (is_array($settings)) {
@@ -56,7 +58,7 @@ class LoadDefaultValues extends AbstractPreProcessor {
     }
   }
 
-  public function process(): array {
+  public function process(): array|string {
     foreach ($this->settings as $step => $stepSettings) {
       $step = (int) preg_replace('/\.$/', '', $step);
 
@@ -72,6 +74,9 @@ class LoadDefaultValues extends AbstractPreProcessor {
 
   /**
    * Recursive method to set the GP values.
+   *
+   * @param array<string, mixed> $fields
+   * @param array<string, mixed> &$currentLevelGP
    */
   protected function setDefaultValues(array $fields, array &$currentLevelGP): void {
     $firstLevelFields = array_keys($fields);
@@ -94,9 +99,9 @@ class LoadDefaultValues extends AbstractPreProcessor {
   /**
    * loads the Default Setting in the Session. Used only for step 2+.
    *
-   * @param array $settings
+   * @param array<string, mixed> $settings
    */
-  private function loadDefaultValuesToSession(mixed $settings, int $step): void {
+  private function loadDefaultValuesToSession(array $settings, int $step): void {
     if (is_array($settings) && $step) {
       $values = (array) $this->globals->getSession()->get('values');
       // TODO Error with default values at step 2

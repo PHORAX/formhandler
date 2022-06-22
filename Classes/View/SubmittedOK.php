@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\View;
 
+use Typoheads\Formhandler\Generator\AbstractGenerator;
+
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
  *
@@ -42,6 +44,7 @@ class SubmittedOK extends Form {
         $sanitizedAction = str_replace('.', '', $action);
         $class = $this->utilityFuncs->getPreparedClassName($options);
         if ($class) {
+          /** @var AbstractGenerator $generator */
           $generator = $this->componentManager->getComponent($class);
           $generator->init($this->gp, $options['config.']);
           $markers['###'.strtoupper($sanitizedAction).'_LINK###'] = $generator->getLink($params);

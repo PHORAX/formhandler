@@ -34,7 +34,7 @@ class ContainsAll extends AbstractErrorCheck {
       }
       foreach ($checkValue as $idx => $word) {
         if (!stristr($formValue, $word)) {
-                    // remove userfunc settings and only store comma seperated words
+          // remove userfunc settings and only store comma seperated words
           $this->settings['params']['words'] = implode(',', $checkValue);
           unset($this->settings['params']['words.']);
           $checkFailed = $this->getCheckFailed();
@@ -45,6 +45,10 @@ class ContainsAll extends AbstractErrorCheck {
     return $checkFailed;
   }
 
+  /**
+   * @param array<string, mixed> $gp       The get/post parameters
+   * @param array<string, mixed> $settings An array with settings
+   */
   public function init(array $gp, array $settings): void {
     parent::init($gp, $settings);
     $this->mandatoryParameters = ['words'];

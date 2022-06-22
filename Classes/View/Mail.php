@@ -23,7 +23,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * A default view for Formhandler E-Mails.
  */
 class Mail extends Form {
-  protected $currentMailSettings;
+  /** @var array<string, mixed> */
+  protected array $currentMailSettings;
 
   /**
    * Wraps the input string in a <div> tag with the class attribute set to the prefixId.
@@ -40,8 +41,8 @@ class Mail extends Form {
   /**
    * Main method called by the controller.
    *
-   * @param array $gp     The current GET/POST parameters
-   * @param array $errors In this class the second param is used to pass information about the email mode (HTML|PLAIN)
+   * @param array<string, mixed> $gp     The current GET/POST parameters
+   * @param array<string, mixed> $errors In this class the second param is used to pass information about the email mode (HTML|PLAIN)
    *
    * @return string content
    */
@@ -105,7 +106,9 @@ class Mail extends Form {
   /**
    * Sanitizes GET/POST parameters by processing the 'checkBinaryCrLf' setting in TypoScript.
    *
-   * @return array The markers
+   * @param array<string, mixed> $markers
+   *
+   * @return array<string, mixed> The markers
    */
   protected function sanitizeMarkers(array $markers): array {
     $componentSettings = $this->getComponentSettings();

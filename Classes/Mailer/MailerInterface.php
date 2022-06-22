@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Mailer;
 
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
  *
@@ -52,15 +55,19 @@ interface MailerInterface {
    *
    * @param string $image The image path
    */
-  public function embed(string $image): \Symfony\Component\Mime\Email;
+  public function embed(string $image): Email;
 
   /**
    * Returns the BCC recipients of the email.
+   *
+   * @return string[]
    */
   public function getBcc(): array;
 
   /**
    * Returns the CC recipients of the email.
+   *
+   * @return string[]
    */
   public function getCc(): array;
 
@@ -76,16 +83,20 @@ interface MailerInterface {
 
   /**
    * Returns the reply to of the email.
+   *
+   * @return Address[]
    */
   public function getReplyTo(): array;
 
   /**
    * Returns the return path of the email.
    */
-  public function getReturnPath(): ?\Symfony\Component\Mime\Address;
+  public function getReturnPath(): ?Address;
 
   /**
    * Returns the sender of the email.
+   *
+   * @return Address[]
    */
   public function getSender(): array;
 
@@ -96,6 +107,8 @@ interface MailerInterface {
 
   /**
    * Sends the email to the given reccipients.
+   *
+   * @param string[] $recipients
    *
    * @return bool Sent successfully?
    */

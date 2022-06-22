@@ -40,7 +40,7 @@ class ContainsOnly extends AbstractErrorCheck {
         }
       }
       if ($error) {
-                // remove userfunc settings and only store comma seperated words
+        // remove userfunc settings and only store comma seperated words
         $this->settings['params']['words'] = implode(',', $checkValue);
         unset($this->settings['params']['words.']);
         $checkFailed = $this->getCheckFailed();

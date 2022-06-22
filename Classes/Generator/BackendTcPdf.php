@@ -59,14 +59,14 @@ class BackendTcPdf extends AbstractComponent {
     $this->settings['font'] = $font;
   }
 
-  public function process(): array {
+  public function process(): array|string {
     $records = $this->settings['records'];
     $exportFields = $this->settings['exportFields'];
 
     // init pdf object
 
     /** @var TemplateTCPDF $pdf */
-    $pdf = $this->componentManager->getComponent('Typoheads\Formhandler\Utility\TemplateTCPDF');
+    $pdf = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'Utility\TemplateTCPDF'));
 
     $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 

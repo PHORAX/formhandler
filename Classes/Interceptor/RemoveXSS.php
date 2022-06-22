@@ -23,8 +23,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * An interceptor doing XSS checking on GET/POST parameters.
  */
 class RemoveXSS extends AbstractInterceptor {
+  /** @var string[] */
   private array $doNotSanitizeFields = [];
 
+  /** @var string[] */
   private array $removeChars = [];
 
   /* (non-PHPdoc)
@@ -39,10 +41,8 @@ class RemoveXSS extends AbstractInterceptor {
 
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
-  public function process(): array {
+  public function process(): array|string {
     // search for a global setting for character removal
     $globalSetting = ($this->settings['fieldConf.'] ?? [])['global.'] ?? [];
     if (isset($globalSetting['removeChars'])) {
@@ -74,15 +74,11 @@ class RemoveXSS extends AbstractInterceptor {
   /**
    * This method does XSS checks and escapes malicious data.
    *
-   * @param array $values The GET/POST parameters
+   * @param array<string, mixed> $values The GET/POST parameters
    *
-   * @return array The sanitized GET/POST parameters
+   * @return array<string, mixed> The sanitized GET/POST parameters
    */
   public function sanitizeValues(array $values): array {
-    if (!is_array($values)) {
-      return [];
-    }
-
     $sanitizedArray = [];
     foreach ($values as $key => $value) {
       if (!in_array($key, $this->doNotSanitizeFields) && is_array($value)) {

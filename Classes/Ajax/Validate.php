@@ -10,6 +10,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use Typoheads\Formhandler\Utility\Globals;
+use Typoheads\Formhandler\Validator\AbstractValidator;
 use Typoheads\Formhandler\View\AjaxValidation;
 
 /**
@@ -31,6 +32,7 @@ use Typoheads\Formhandler\View\AjaxValidation;
  * @abstract
  */
 class Validate extends AbstractAjax {
+  /** @var array<string, string> */
   protected array $templates = [
     'spanSuccess' => '<span class="success">%s</span>',
     'spanError' => '<span class="error">%s</span>',
@@ -54,6 +56,8 @@ class Validate extends AbstractAjax {
       $this->settings = (array) Globals::getSession()->get('settings');
       Globals::setFormValuesPrefix(\Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings, 'formValuesPrefix'));
       $gp = \Typoheads\Formhandler\Utility\GeneralUtility::getMergedGP();
+
+      /** @var AbstractValidator $validator */
       $validator = $this->componentManager->getComponent('\Typoheads\Formhandler\Validator\Ajax');
       $errors = [];
       $valid = $validator->validateAjax($field, $gp, $errors);

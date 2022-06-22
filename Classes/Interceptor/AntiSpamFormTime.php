@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Interceptor;
 
+use Typoheads\Formhandler\View\AbstractView;
+
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
  *
@@ -37,10 +39,8 @@ namespace Typoheads\Formhandler\Interceptor;
 class AntiSpamFormTime extends AbstractInterceptor {
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
-  public function process(): array {
+  public function process(): array|string {
     $isSpam = $this->doCheck();
     if ($isSpam) {
       $this->log(true);
@@ -48,7 +48,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
         $this->globals->getSession()->reset();
         $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
 
-        return ['Lousy spammer!'];
+        return 'Lousy spammer!';
       }
 
       // set view
@@ -57,6 +57,8 @@ class AntiSpamFormTime extends AbstractInterceptor {
         $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
       }
       $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
+
+      /** @var AbstractView $view */
       $view = $this->componentManager->getComponent($viewClass);
       $view->setLangFiles($this->globals->getLangFiles());
       $view->setPredefined($this->predefined);
@@ -69,7 +71,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
       if (!$view->hasTemplate()) {
         $this->utilityFuncs->throwException('spam_detected');
 
-        return ['Lousy spammer!'];
+        return 'Lousy spammer!';
       }
       $content = $view->render($this->gp, []);
       $this->globals->getSession()->reset();

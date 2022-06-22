@@ -29,7 +29,7 @@ abstract class AbstractAjaxHandler extends AbstractClass {
    *
    * The view passes the marker array by reference.
    *
-   * @param array &$markers Reference to the marker array
+   * @param array<string, mixed> &$markers Reference to the marker array
    */
   abstract public function fillAjaxMarkers(array &$markers): void;
 
@@ -45,14 +45,14 @@ abstract class AbstractAjaxHandler extends AbstractClass {
   /**
    * Initialize the AjaxHandler.
    *
-   * @param array $settings The settings of the AjaxHandler
+   * @param array<string, mixed> $settings The settings of the AjaxHandler
    */
-  public function init(array $settings) {
+  public function init(array $settings): void {
     $this->settings = $settings;
   }
 
   /**
    * Initialize AJAX stuff.
    */
-  abstract public function initAjax();
+  abstract public function initAjax(): void;
 }

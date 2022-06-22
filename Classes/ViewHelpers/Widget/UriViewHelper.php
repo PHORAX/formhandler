@@ -22,6 +22,8 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
    /**
     * Get the URI for a non-AJAX Request.
     *
+    * @param array<string, mixed> $arguments
+    *
     * @return string the Widget URI
     */
    protected static function getWidgetUri(RenderingContextInterface $renderingContext, array $arguments): string {

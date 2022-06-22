@@ -63,7 +63,7 @@ class BackendCsv extends AbstractComponent {
    *
    * @see Tx_Formhandler_Controller_Backend::generateCSV()
    */
-  public function process(): array {
+  public function process(): array|string {
     $records = $this->settings['records'];
     $exportParams = $this->settings['exportFields'];
 
@@ -150,7 +150,10 @@ class BackendCsv extends AbstractComponent {
   /**
    * Sorts the CSV data.
    *
-   * @return array The sorted array
+   * @param array<string, mixed> $array
+   * @param array<string, mixed> $orderArray
+   *
+   * @return array<string, mixed> The sorted array
    */
   private function sortArrayByArray(array $array, array $orderArray): array {
     $ordered = [];

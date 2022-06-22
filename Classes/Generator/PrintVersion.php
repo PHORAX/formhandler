@@ -24,13 +24,17 @@ class PrintVersion extends AbstractGenerator {
   /**
    * Unused.
    */
-  public function process(): array {
+  public function process(): array|string {
     return [];
   }
 
-  /* (non-PHPdoc)
+  /**
    * @see Classes/Generator/AbstractGenerator#getComponentLinkParams($linkGP)
-  */
+   *
+   * @param array<string, mixed> $linkGP
+   *
+   * @return array<string, mixed>
+   */
   protected function getComponentLinkParams(array $linkGP): array {
     $prefix = $this->globals->getFormValuesPrefix();
     $tempParams = [

@@ -28,11 +28,9 @@ namespace Typoheads\Formhandler\Finisher;
 class StoreGP extends AbstractFinisher {
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
-  public function process(): array {
-        // store in Session for further use by other plugins
+  public function process(): array|string {
+    // store in Session for further use by other plugins
     $this->storeUserGPinSession();
 
     // update values in session

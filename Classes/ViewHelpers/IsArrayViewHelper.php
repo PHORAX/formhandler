@@ -22,6 +22,8 @@ use TYPO3Fluid\Fluid\ViewHelpers\IfViewHelper;
 class IsArrayViewHelper extends IfViewHelper {
   /**
    * Renders <f:then> child if $condition is true, otherwise renders <f:else> child.
+   *
+   * @param array<string, mixed> $arguments
    */
   public static function verdict(array $arguments, RenderingContextInterface $renderingContext): bool {
     return isset($arguments['condition']) && is_array($arguments['condition']);

@@ -13,6 +13,7 @@ use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Domain\Model\Demand;
 use Typoheads\Formhandler\Domain\Model\LogData;
 use Typoheads\Formhandler\Domain\Repository\LogDataRepository;
+use Typoheads\Formhandler\Generator\AbstractGenerator;
 use Typoheads\Formhandler\Generator\BackendCsv;
 
 /**
@@ -35,6 +36,8 @@ class ModuleController extends ActionController {
 
   /**
    * The request arguments.
+   *
+   * @var array<string, mixed>
    */
   protected array $gp;
 
@@ -55,9 +58,9 @@ class ModuleController extends ActionController {
   /**
    * Exports given rows as file.
    *
-   * @param ?string $logDataUids uids to export
-   * @param array   $fields      fields to export
-   * @param string  $filetype    export file type (PDF || CSV)
+   * @param ?string              $logDataUids uids to export
+   * @param array<string, mixed> $fields      fields to export
+   * @param string               $filetype    export file type (PDF || CSV)
    */
   public function exportAction(?string $logDataUids = null, array $fields = [], string $filetype = ''): ResponseInterface {
     if (null !== $logDataUids && !empty($fields)) {
@@ -77,6 +80,7 @@ class ModuleController extends ActionController {
           '\Typoheads\Formhandler\Generator\BackendTcPdf'
         );
 
+        /** @var AbstractGenerator $generator */
         $generator = $this->componentManager->getComponent($className);
         $this->settings['pdf']['config']['records'] = $convertedLogDataRows;
         $this->settings['pdf']['config']['exportFields'] = $fields;
@@ -88,6 +92,7 @@ class ModuleController extends ActionController {
           BackendCsv::class
         );
 
+        /** @var AbstractGenerator $generator */
         $generator = $this->componentManager->getComponent($className);
         $this->settings['csv']['config']['records'] = $convertedLogDataRows;
         $this->settings['csv']['config']['exportFields'] = $fields;
@@ -157,7 +162,7 @@ class ModuleController extends ActionController {
         // $propertyMappingConfiguration->allowProperties('firstname');
   }
 
-  public function injectLogDataRepository(LogDataRepository $logDataRepository) {
+  public function injectLogDataRepository(LogDataRepository $logDataRepository): void {
     $this->logDataRepository = $logDataRepository;
   }
 
@@ -167,7 +172,7 @@ class ModuleController extends ActionController {
    * @param ?string $logDataUids uids to export
    * @param string  $filetype    export file type (PDF || CSV)
    */
-  public function selectFieldsAction(?string $logDataUids = null, string $filetype = '') {
+  public function selectFieldsAction(?string $logDataUids = null, string $filetype = ''): void {
     if (null !== $logDataUids) {
       if (isset($this->settings[$filetype]['config']['fields'])) {
         $fields = GeneralUtility::trimExplode(',', $this->settings[$filetype]['config']['fields']);

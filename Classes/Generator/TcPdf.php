@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Generator;
 
 use Typoheads\Formhandler\Utility\TemplateTCPDF;
+use Typoheads\Formhandler\View\AbstractView;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -23,16 +24,18 @@ use Typoheads\Formhandler\Utility\TemplateTCPDF;
  * PDF generator class for Formhandler using TCPDF.
  */
 class TcPdf extends AbstractGenerator {
-  public function process(): array {
+  public function process(): array|string {
     /** @var TemplateTCPDF $pdf */
-    $pdf = $this->componentManager->getComponent('\Typoheads\Formhandler\Utility\TemplateTCPDF');
+    $pdf = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'Utility\TemplateTCPDF'));
 
     $pdf->setHeaderText($this->utilityFuncs->getSingle($this->settings, 'headerText'));
     $pdf->setFooterText($this->utilityFuncs->getSingle($this->settings, 'footerText'));
 
     $pdf->AddPage();
     $pdf->SetFont('Helvetica', '', 12);
-    $view = $this->componentManager->getComponent('\Typoheads\Formhandler\View\PDF');
+
+    /** @var AbstractView $view */
+    $view = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'View\PDF'));
     $this->filename = '';
     if (1 === (int) ($this->settings['storeInTempFile'])) {
       $this->outputPath = $this->utilityFuncs->getDocumentRoot();
@@ -77,7 +80,7 @@ class TcPdf extends AbstractGenerator {
 
       $downloadpath = $this->filename;
       if ($returns) {
-        return [$downloadpath];
+        return $downloadpath;
       }
       $downloadpath = str_replace($this->utilityFuncs->getDocumentRoot(), '', $downloadpath);
       header('Location: '.$downloadpath);
@@ -93,9 +96,13 @@ class TcPdf extends AbstractGenerator {
     exit;
   }
 
-  /* (non-PHPdoc)
+  /**
    * @see Classes/Generator/Tx_Formhandler_AbstractGenerator#getComponentLinkParams($linkGP)
-  */
+   *
+   * @param array<string, mixed> $linkGP
+   *
+   * @return array<string, mixed>
+   */
   protected function getComponentLinkParams(array $linkGP): array {
     $prefix = $this->globals->getFormValuesPrefix();
     $tempParams = [

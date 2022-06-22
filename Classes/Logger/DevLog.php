@@ -28,7 +28,7 @@ class DevLog extends AbstractLogger {
   /**
    * Logs the given values.
    */
-  public function process(): array {
+  public function process(): array|string {
     $message = 'Form on page '.$GLOBALS['TSFE']->id.' was submitted!';
     $severity = LogLevel::INFO;
     if (1 === (int) ($this->settings['markAsSpam'])) {

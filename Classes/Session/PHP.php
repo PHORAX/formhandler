@@ -44,6 +44,12 @@ class PHP extends AbstractSession {
     return $data[$this->globals->getRandomID()][$key] ?? null;
   }
 
+  /**
+   * Initialize the class variables.
+   *
+   * @param array<string, mixed> $gp       GET and POST variable array
+   * @param array<string, mixed> $settings Typoscript configuration for the component (component.1.config.*)
+   */
   public function init(array $gp, array $settings): void {
     parent::init($gp, $settings);
 
@@ -59,9 +65,9 @@ class PHP extends AbstractSession {
     }
   }
 
-  /* (non-PHPdoc)
+  /** (non-PHPdoc).
    * @see Classes/Session/Tx_Formhandler_AbstractSession#reset()
-  */
+   */
   public function reset(): void {
     $this->start();
     if (isset($_SESSION['formhandler'], $_SESSION['formhandler'][$this->globals->getRandomID()])) {
@@ -69,9 +75,9 @@ class PHP extends AbstractSession {
     }
   }
 
-  /* (non-PHPdoc)
+  /** (non-PHPdoc).
    * @see Classes/Session/Tx_Formhandler_AbstractSession#set()
-  */
+   */
   public function set(string $key, mixed $value): void {
     $this->start();
     $data = $_SESSION['formhandler'] ?? [];
@@ -82,9 +88,11 @@ class PHP extends AbstractSession {
     $_SESSION['formhandler'] = $data;
   }
 
-  /* (non-PHPdoc)
+  /**  (non-PHPdoc).
    * @see Classes/Session/Tx_Formhandler_AbstractSession#setMultiple()
-  */
+   *
+   * @param array<string, mixed> $values
+   */
   public function setMultiple(array $values): void {
     if (is_array($values) && !empty($values)) {
       $this->start();

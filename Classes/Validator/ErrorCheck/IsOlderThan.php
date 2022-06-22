@@ -43,9 +43,9 @@ class IsOlderThan extends AbstractErrorCheck {
     $this->mandatoryParameters = ['dateFormat', 'years'];
   }
 
-  protected function getDateDifference($timestamp) {
+  protected function getDateDifference(int $timestamp): int {
     $now = time();
-    $years = date('Y', $now) - date('Y', $timestamp);
+    $years = intval(date('Y', $now)) - intval(date('Y', $timestamp));
 
     // get months of dates
     $monthsTimestamp = date('n', $timestamp);

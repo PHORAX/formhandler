@@ -21,14 +21,13 @@ namespace Typoheads\Formhandler\Interceptor;
  * Combines values entered in form field and stores it in a new entry in $this->gp.
  */
 class TranslateFields extends AbstractInterceptor {
+  /** @var string[] */
   private array $langFiles = [];
 
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
-  public function process(): array {
+  public function process(): array|string {
     $this->langFiles = $this->globals->getLangFiles();
     if (is_array($this->settings['translateFields.'])) {
       foreach ($this->settings['translateFields.'] as $newField => $options) {
@@ -46,7 +45,7 @@ class TranslateFields extends AbstractInterceptor {
   /**
    * Searches for a translation of the configured field.
    *
-   * @param array $options The TS setting for the translation
+   * @param array<string, mixed> $options The TS setting for the translation
    *
    * @return string The translated message
    */

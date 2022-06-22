@@ -103,7 +103,12 @@ class Dispatcher extends AbstractPlugin {
       $controller = $this->componentManager->getComponent($controllerClass);
 
       if (isset($content)) {
-        $controller->setContent($this->componentManager->getComponent($this->utilityFuncs->prepareClassName('Typoheads\Formhandler\Controller\Content'), $content));
+        /** @var Content $contentClass */
+        $contentClass = $this->componentManager->getComponent(
+          $this->utilityFuncs->prepareClassName($this->utilityFuncs->prepareClassName('Controller\Content')),
+          $content
+        );
+        $controller->setContent($contentClass);
       }
       if (strlen($templateFile) > 0) {
         $controller->setTemplateFile($templateFile);

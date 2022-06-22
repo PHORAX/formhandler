@@ -30,16 +30,22 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Form extends AbstractView {
   /**
    * An array of fields to do not encode for output.
+   *
+   * @var string[]
    */
   protected array $disableEncodingFields = [];
 
   /**
    * An array of errors.
+   *
+   * @var array<string, mixed>
    */
   protected array $errors = [];
 
   /**
    * The template code.
+   *
+   * @var string[]
    */
   protected array $masterTemplates = [];
 
@@ -56,7 +62,7 @@ class Form extends AbstractView {
    *  ###[fieldname]_uploadedFiles###
    *  ###total_uploadedFiles###
    *
-   * @param array &$markers Reference to the markers array
+   * @param array<string, mixed> &$markers Reference to the markers array
    */
   public function fillFileMarkers(array &$markers): void {
     $settings = $this->parseSettings();
@@ -278,8 +284,8 @@ class Form extends AbstractView {
   /**
    * Main method called by the controller.
    *
-   * @param array $gp     The current GET/POST parameters
-   * @param array $errors The errors occurred in validation
+   * @param array<string, mixed> $gp     The current GET/POST parameters
+   * @param array<string, mixed> $errors The errors occurred in validation
    *
    * @return string content
    */
@@ -495,7 +501,7 @@ class Form extends AbstractView {
   /**
    * Fills the markers for the supported captcha extensions.
    *
-   * @param array &$markers Reference to the markers array
+   * @param array<string, mixed> &$markers Reference to the markers array
    */
   protected function fillCaptchaMarkers(array &$markers): void {
     if (stristr($this->template, '###CAPTCHA###') && ExtensionManagementUtility::isLoaded('captcha')) {
@@ -749,6 +755,8 @@ class Form extends AbstractView {
    *        ###error_[fieldname]###
    *        ###ERROR###
    * in $this->template.
+   *
+   * @param array<string, mixed> $errors
    */
   protected function fillErrorMarkers(array &$errors): void {
     $markers = [];
@@ -834,7 +842,7 @@ class Form extends AbstractView {
   /**
    * Fills the markers ###FEUSER_[property]### with the data from $GLOBALS["TSFE"]->fe_user->user.
    *
-   * @param array &$markers Reference to the markers array
+   * @param array<string, mixed> &$markers Reference to the markers array
    */
   protected function fillFEUserMarkers(array &$markers): void {
     if (is_array($GLOBALS['TSFE']->fe_user->user)) {
@@ -852,6 +860,8 @@ class Form extends AbstractView {
    *        ###is_error_[fieldname]###
    *        ###is_error###
    * in $this->template.
+   *
+   * @param array<string, mixed> $errors
    */
   protected function fillIsErrorMarkers(array $errors): void {
     $markers = [];
@@ -881,6 +891,8 @@ class Form extends AbstractView {
    * Substitutes markers
    *        ###is_success_[fieldname]###
    * in $this->template.
+   *
+   * @param array<string, mixed> $errors
    */
   protected function fillIsSuccessMarkers(array $errors): void {
     $markers = [];
@@ -992,6 +1004,11 @@ class Form extends AbstractView {
     $this->template = preg_replace('/###value_.*?###/i', '', $this->template);
   }
 
+  /**
+   * @param array<string, mixed> $values
+   *
+   * @return array<string, mixed>
+   */
   protected function getSelectedMarkers(array $values, int $level = 0, string $prefix = 'selected_'): array {
     $markers = [];
     $activeString = 'selected="selected"';
@@ -1021,6 +1038,10 @@ class Form extends AbstractView {
     return $markers;
   }
 
+  /**
+   * @param array<string, mixed> $imgConf
+   * @param array<string, mixed> $fileInfo
+   */
   protected function getThumbnail(array &$imgConf, array &$fileInfo): string {
     $filename = $fileInfo['name'];
     $imgConf['image'] = 'IMAGE';
@@ -1042,6 +1063,11 @@ class Form extends AbstractView {
     return $thumb;
   }
 
+  /**
+   * @param array<string, mixed> $values
+   *
+   * @return array<string, mixed>
+   */
   protected function getValueMarkers(array $values, int $level = 0, string $prefix = 'value_', bool $doEncode = true): array {
     $markers = [];
 
@@ -1109,7 +1135,7 @@ class Form extends AbstractView {
   /**
    * Returns the global TypoScript settings of Formhandler.
    *
-   * @return array The settings
+   * @return array<string, mixed> The settings
    */
   protected function parseSettings(): array {
     return (array) $this->globals->getSession()->get('settings');

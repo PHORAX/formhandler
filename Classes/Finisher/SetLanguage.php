@@ -24,10 +24,8 @@ namespace Typoheads\Formhandler\Finisher;
 class SetLanguage extends AbstractFinisher {
   /**
    * The main method called by the controller.
-   *
-   * @return array The probably modified GET/POST parameters
    */
-  public function process(): array {
+  public function process(): array|string {
     if (null === $this->globals->getSession()->get('originalLanguage')) {
       $this->globals->getSession()->set('originalLanguage', $GLOBALS['TSFE']->lang);
     }

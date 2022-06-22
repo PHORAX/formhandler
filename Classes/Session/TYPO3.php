@@ -42,6 +42,12 @@ class TYPO3 extends AbstractSession {
     return $data[$this->globals->getRandomID()][$key];
   }
 
+  /**
+   * Initialize the class variables.
+   *
+   * @param array<string, mixed> $gp       GET and POST variable array
+   * @param array<string, mixed> $settings Typoscript configuration for the component (component.1.config.*)
+   */
   public function init(array $gp, array $settings): void {
     parent::init($gp, $settings);
 
@@ -84,9 +90,11 @@ class TYPO3 extends AbstractSession {
     $GLOBALS['TSFE']->fe_user->storeSessionData();
   }
 
-  /* (non-PHPdoc)
+  /** (non-PHPdoc).
    * @see Classes/Session/Tx_Formhandler_AbstractSession#setMultiple()
-  */
+   *
+   * @param array<string, mixed> $values
+   */
   public function setMultiple(array $values): void {
     if (is_array($values) && !empty($values)) {
       $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
