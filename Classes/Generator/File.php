@@ -90,6 +90,11 @@ class File extends AbstractGenerator {
     exit();
   }
 
+  /**
+   * @param array<string, mixed> $linkGP
+   *
+   * @return array<string, mixed>
+   */
   protected function getComponentLinkParams(array $linkGP): array {
     $prefix = $this->globals->getFormValuesPrefix();
     $tempParams = ['action' => 'file'];

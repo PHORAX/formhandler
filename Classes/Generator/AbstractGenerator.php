@@ -27,6 +27,7 @@ abstract class AbstractGenerator extends AbstractComponent {
 
   protected string $filenameOnly = '';
 
+  /** @var array<string, mixed> */
   protected array $formhandlerSettings = [];
 
   protected string $outputPath = '';
@@ -34,7 +35,7 @@ abstract class AbstractGenerator extends AbstractComponent {
   /**
    * Returns the link with the right action set to be used in Finisher_SubmittedOK.
    *
-   * @param array $linkGP The GET parameters to set
+   * @param array<string, mixed> $linkGP The GET parameters to set
    *
    * @return string The link
    */
@@ -53,16 +54,16 @@ abstract class AbstractGenerator extends AbstractComponent {
   /**
    * Returns specific link parameters for a generator.
    *
-   * @param array $linkGP the link parameters set before
+   * @param array<string, mixed> $linkGP the link parameters set before
    *
-   * @return array The parameters
+   * @return array<string, mixed> The parameters
    */
   abstract protected function getComponentLinkParams(array $linkGP): array;
 
   /**
    * Returns the default link parameters of a generator containing the timestamp and hash of the log record.
    *
-   * @return array The default parameters
+   * @return array<string, mixed> The default parameters
    */
   protected function getDefaultLinkParams(): array {
     $prefix = $this->globals->getFormValuesPrefix();

@@ -150,7 +150,10 @@ class BackendCsv extends AbstractComponent {
   /**
    * Sorts the CSV data.
    *
-   * @return array The sorted array
+   * @param array<string, mixed> $array
+   * @param array<string, mixed> $orderArray
+   *
+   * @return array<string, mixed> The sorted array
    */
   private function sortArrayByArray(array $array, array $orderArray): array {
     $ordered = [];

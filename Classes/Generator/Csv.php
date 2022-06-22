@@ -103,9 +103,13 @@ class Csv extends AbstractGenerator {
     exit();
   }
 
-  /* (non-PHPdoc)
+  /**
    * @see Classes/Generator/Tx_Formhandler_AbstractGenerator#getComponentLinkParams($linkGP)
-  */
+   *
+   * @param array<string, mixed> $linkGP
+   *
+   * @return array<string, mixed>
+   */
   protected function getComponentLinkParams(array $linkGP): array {
     $prefix = $this->globals->getFormValuesPrefix();
     $tempParams = [
