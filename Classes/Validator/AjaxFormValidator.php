@@ -158,7 +158,7 @@ class AjaxFormValidator extends AbstractValidator {
 
   private function getErrorMessage(string $fieldName): string {
     $message = '';
-    foreach ($this->langFiles as $subIdx => $langFile) {
+    foreach ($this->globals->getLangFiles() as $subIdx => $langFile) {
       $temp = trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':error_'.$fieldName));
       if (strlen($temp) > 0) {
         $message = $temp;
