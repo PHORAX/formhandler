@@ -24,6 +24,8 @@ use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * The configuration of the Formhandler.
+ *
+ * @implements ArrayAccess<string, mixed>
  */
 class Configuration implements ArrayAccess {
   /**
