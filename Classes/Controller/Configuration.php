@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Controller;
 
+use ArrayAccess;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
@@ -24,7 +25,7 @@ use Typoheads\Formhandler\Utility\Globals;
 /**
  * The configuration of the Formhandler.
  */
-class Configuration implements \ArrayAccess {
+class Configuration implements ArrayAccess {
   /**
    * The package key.
    *
