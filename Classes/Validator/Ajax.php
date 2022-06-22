@@ -102,16 +102,16 @@ class Ajax extends AbstractValidator {
 
           $classNameFix = ucfirst($check['check']);
           if (false === strpos($classNameFix, 'Tx_')) {
-            /** @var AbstractErrorCheck $errorCheckObject */
+            /** @var ?AbstractErrorCheck $errorCheckObject */
             $errorCheckObject = $this->componentManager->getComponent('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix);
             $fullClassName = '\\Typoheads\\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix;
           } else {
             // Look for the whole error check name, maybe it is a custom check like Tx_SomeExt_ErrorCheck_Something
-            /** @var AbstractErrorCheck $errorCheckObject */
+            /** @var ?AbstractErrorCheck $errorCheckObject */
             $errorCheckObject = $this->componentManager->getComponent($check['check']);
             $fullClassName = $check['check'];
           }
-          if (!$errorCheckObject) {
+          if (isset($errorCheckObject)) {
             $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
           }
           if (empty($restrictErrorChecks) || in_array($check['check'], $restrictErrorChecks)) {

@@ -237,12 +237,12 @@ class DefaultValidator extends AbstractValidator {
         }
         $classNameFix = ucfirst($check['check']);
         if (false === strpos($classNameFix, 'Tx_') && false === strpos($classNameFix, '\\')) {
-          /** @var AbstractErrorCheck $errorCheckObject */
+          /** @var ?AbstractErrorCheck $errorCheckObject */
           $errorCheckObject = $this->componentManager->getComponent($this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix));
           $fullClassName = $this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix);
         } else {
           // Look for the whole error check name, maybe it is a custom check like Tx_SomeExt_ErrorCheck_Something
-          /** @var AbstractErrorCheck $errorCheckObject */
+          /** @var ?AbstractErrorCheck $errorCheckObject */
           $errorCheckObject = $this->componentManager->getComponent($check['check']);
           $fullClassName = $check['check'];
         }
