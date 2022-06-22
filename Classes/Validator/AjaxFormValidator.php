@@ -142,7 +142,7 @@ class AjaxFormValidator extends AbstractValidator {
               if (!isset($errors[$fieldName]) || !is_array($errors[$fieldName])) {
                 $errors[$fieldName] = [];
               }
-              $errors[$fieldName][] = $checkFailed;
+              $errors[$fieldName][] = ['failed' => $checkFailed, 'message' => $this->getErrorMessage($fieldName.'_'.$check['check'])];
             }
           } else {
             $this->utilityFuncs->throwException('Configuration is not valid for class "'.$fullClassName.'"!');
@@ -154,5 +154,17 @@ class AjaxFormValidator extends AbstractValidator {
     }
 
     return $errors;
+  }
+
+  private function getErrorMessage($fieldName): string {
+    $message = '';
+    foreach ($this->langFiles as $subIdx => $langFile) {
+      $temp = trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':error_'.$fieldName));
+      if (strlen($temp) > 0) {
+        $message = $temp;
+      }
+    }
+
+    return $message;
   }
 }
