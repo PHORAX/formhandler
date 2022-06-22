@@ -26,7 +26,7 @@ use Typoheads\Formhandler\View\AbstractView;
 class TcPdf extends AbstractGenerator {
   public function process(): array|string {
     /** @var TemplateTCPDF $pdf */
-    $pdf = $this->componentManager->getComponent('\Typoheads\Formhandler\Utility\TemplateTCPDF');
+    $pdf = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'Utility\TemplateTCPDF'));
 
     $pdf->setHeaderText($this->utilityFuncs->getSingle($this->settings, 'headerText'));
     $pdf->setFooterText($this->utilityFuncs->getSingle($this->settings, 'footerText'));
@@ -35,7 +35,7 @@ class TcPdf extends AbstractGenerator {
     $pdf->SetFont('Helvetica', '', 12);
 
     /** @var AbstractView $view */
-    $view = $this->componentManager->getComponent('\Typoheads\Formhandler\View\PDF');
+    $view = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'View\PDF'));
     $this->filename = '';
     if (1 === (int) ($this->settings['storeInTempFile'])) {
       $this->outputPath = $this->utilityFuncs->getDocumentRoot();

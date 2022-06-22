@@ -14,6 +14,7 @@ use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Ajax\AbstractAjax;
 use Typoheads\Formhandler\Component\Manager;
+use Typoheads\Formhandler\Session\AbstractSession;
 use Typoheads\Formhandler\Utility\Globals;
 
 class AjaxMiddleware implements MiddlewareInterface {
@@ -190,7 +191,10 @@ class AjaxMiddleware implements MiddlewareInterface {
     if (null == $this->globals->getSession()) {
       $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'] ?? [];
       $sessionClass = $this->utilityFuncs->getPreparedClassName(isset($ts['session.']) ? $ts['session.'] : null, 'Session\PHP');
-      $this->globals->setSession($this->componentManager->getComponent($sessionClass));
+
+      /** @var ?AbstractSession $sessionClassTemp */
+      $sessionClassTemp = $this->componentManager->getComponent($sessionClass);
+      $this->globals->setSession($sessionClassTemp);
     }
 
     $this->settings = (array) $this->globals->getSession()->get('settings');

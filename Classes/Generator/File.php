@@ -28,7 +28,7 @@ class File extends AbstractGenerator {
    */
   public function process(): array|string {
     /** @var AbstractView $view */
-    $view = $this->componentManager->getComponent('Typoheads\Formhandler\View\File');
+    $view = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'View\File'));
     $this->filename = '';
     if (1 === (int) ($this->settings['storeInTempFile'])) {
       $this->outputPath = $this->utilityFuncs->getDocumentRoot();

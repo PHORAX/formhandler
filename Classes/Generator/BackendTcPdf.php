@@ -66,7 +66,7 @@ class BackendTcPdf extends AbstractComponent {
     // init pdf object
 
     /** @var TemplateTCPDF $pdf */
-    $pdf = $this->componentManager->getComponent('Typoheads\Formhandler\Utility\TemplateTCPDF');
+    $pdf = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'Utility\TemplateTCPDF'));
 
     $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 

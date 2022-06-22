@@ -721,6 +721,7 @@ class Form extends AbstractController {
       if ($finisherConf['actions.'][$action.'.'] && !empty($params) && 1 !== (int) ($this->utilityFuncs->getSingle($finisherConf['actions.'][$action.'.']['config.'], 'returns'))) {
         $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action.'.']);
         if ($class) {
+          /** @var AbstractFinisher $object */
           $object = $this->componentManager->getComponent($class);
           $object->init($params, $finisherConf['actions.'][$action.'.']['config.']);
           $object->process();

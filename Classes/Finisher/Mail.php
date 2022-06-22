@@ -6,6 +6,7 @@ namespace Typoheads\Formhandler\Finisher;
 
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Generator\AbstractGenerator;
 use Typoheads\Formhandler\Mailer\TYPO3Mailer;
 use Typoheads\Formhandler\View\AbstractView;
 
@@ -288,6 +289,7 @@ class Mail extends AbstractFinisher {
               foreach ($currentSettings['attachGeneratedFiles.'] as $options) {
                 $generatorClass = $this->utilityFuncs->getPreparedClassName($options);
                 if ($generatorClass) {
+                  /** @var AbstractGenerator $generator */
                   $generator = $this->componentManager->getComponent($generatorClass);
                   $generator->init($this->gp, $options['config.']);
                   $generator->getLink([]);
