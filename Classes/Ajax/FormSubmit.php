@@ -1,0 +1,119 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Typoheads\Formhandler\Ajax;
+
+use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Finisher\AbstractFinisher;
+use Typoheads\Formhandler\Validator\AjaxFormValidator;
+
+/**
+ * A class validated the form and process this. This class is called via AJAX.
+ */
+class FormSubmit extends AbstractAjax {
+  /**
+   * Array of configured translation files.
+   *
+   * @var string[]
+   */
+  protected array $langFiles = [];
+
+  private string $formValuePrefix;
+
+  /**
+   * Main method of the class.
+   */
+  public function main(): ResponseInterface {
+    $errors = [];
+
+    // init flexform
+    $this->pi_initPIflexForm();
+
+    $this->formValuePrefix = $this->utilityFuncs->getSingle($this->settings, 'formValuesPrefix');
+    $form = GeneralUtility::_GP($this->formValuePrefix);
+
+    /** @var AjaxFormValidator $validator */
+    $validator = $this->componentManager->getComponent(AjaxFormValidator::class);
+    $validator->validateAjaxForm($form, $errors);
+    if (!empty($errors)) {
+      return new HtmlResponse(json_encode(['success' => false, 'errors' => $errors]), 200);
+    }
+
+    $output = $this->runFinishers();
+
+    return new HtmlResponse(json_encode(['success' => true, 'data' => $output]), 200);
+  }
+
+  /**
+   * @param string $field Field name to convert
+   */
+  public function pi_initPIflexForm($field = 'pi_flexform') {
+    // Converting flexform data into array:
+    if (!is_array($this->cObj->data[$field]) && $this->cObj->data[$field]) {
+      $this->cObj->data[$field] = GeneralUtility::xml2array($this->cObj->data[$field]);
+      if (!is_array($this->cObj->data[$field])) {
+        $this->cObj->data[$field] = [];
+      }
+    }
+  }
+
+  /**
+   * Adds default configuration for every Formhandler component to the given configuration array.
+   *
+   * @param array<string, mixed> $conf The configuration of the component set in TS
+   *
+   * @return array<string, mixed> The initial configuration plus the default configuration
+   */
+  protected function addDefaultComponentConfig(array $conf): array {
+    if (!isset($conf['langFiles'])) {
+      $conf['langFiles'] = $this->langFiles;
+    }
+    $conf['formValuesPrefix'] = $this->settings['formValuesPrefix'] ?? '';
+    $conf['templateSuffix'] = $this->settings['templateSuffix'] ?? '';
+
+    return $conf;
+  }
+
+  /**
+   * Process finishers.
+   *
+   * @return mixed Output of a Finisher
+   */
+  protected function runFinishers(): mixed {
+    if (isset($this->settings['finishers.']) && is_array($this->settings['finishers.']) && 1 !== (int) ($this->utilityFuncs->getSingle($this->settings['finishers.'], 'disable'))) {
+      ksort($this->settings['finishers.']);
+
+      foreach ($this->settings['finishers.'] as $idx => $tsConfig) {
+        if ('disabled' !== $idx) {
+          $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
+          if (is_array($tsConfig) && strlen($className) > 0) {
+            if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
+              /** @var AbstractFinisher $finisher */
+              $finisher = $this->componentManager->getComponent($className);
+              $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.'] ?? []);
+              $finisher->init($this->gp, $tsConfig['config.']);
+              $finisher->validateConfig();
+
+              // if the finisher returns HTML (e.g. Typoheads\Formhandler\Finisher\SubmittedOK)
+              if (1 === (int) ($this->utilityFuncs->getSingle($tsConfig['config.'], 'returns'))) {
+                $this->globals->getSession()->set('finished', true);
+
+                return $finisher->process();
+              }
+              $this->gp = $finisher->process();
+              $this->globals->setGP($this->gp);
+            }
+          } else {
+            $this->utilityFuncs->throwException('classesarray_error');
+          }
+        }
+      }
+      $this->globals->getSession()->set('finished', true);
+    }
+
+    return null;
+  }
+}
