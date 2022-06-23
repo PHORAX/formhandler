@@ -13,6 +13,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Ajax\AbstractAjax;
+use Typoheads\Formhandler\Ajax\FormSubmit;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Session\AbstractSession;
 use Typoheads\Formhandler\Utility\Globals;
@@ -53,7 +54,8 @@ class AjaxMiddleware implements MiddlewareInterface {
 
     $this->post('/formhandler/', \Closure::fromCallable([$this, 'validate']));
     $this->post('/formhandler/removefile/', \Closure::fromCallable([$this, 'removeFile']));
-    $this->post('/formhandler/ajaxsubmit/', \Closure::fromCallable([$this, 'submit']));
+    $this->post('/formhandler/ajaxsubmit/', \Closure::fromCallable([$this, 'ajaxSubmit']));
+    $this->post('/formhandler/submit/', \Closure::fromCallable([$this, 'submit']));
 
     return $this->handleRequests();
   }
@@ -143,6 +145,21 @@ class AjaxMiddleware implements MiddlewareInterface {
 
   protected function post(string $path, callable $callable): void {
     $this->checkRequest($path, $callable, 'POST');
+  }
+
+  /**
+   * @param array<string, mixed> $queryParams
+   * @param array<string, mixed> $pathParams
+   * @param array<string, mixed> $requestBody
+   */
+  private function ajaxSubmit(array $queryParams, array $pathParams, array $requestBody): ResponseInterface {
+    $this->init();
+
+    /** @var FormSubmit $form */
+    $form = $this->componentManager->getComponent(FormSubmit::class);
+    $form->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
+
+    return $form->main();
   }
 
   /**
