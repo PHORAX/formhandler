@@ -59,7 +59,7 @@ class AjaxFormValidator extends AbstractValidator {
    *
    * @return array<string, mixed>
    */
-  protected function validateRecursive(array $errors, array $gp, array $fieldConfig, ?string $rootField = null, string $fieldPath = ''): array {
+  protected function validateRecursive(array $errors, array $gp, array $fieldConfig, ?string $rootField = null, string $fieldPath = '', string $fieldSelector = ''): array {
     foreach ($fieldConfig as $key => $fieldSettings) {
       $fieldName = trim($key, '.');
       $fieldPathTemp = !empty($fieldPath) ? $fieldPath.'|'.$fieldName : $fieldName;
@@ -73,7 +73,8 @@ class AjaxFormValidator extends AbstractValidator {
       $tempSettings = $fieldSettings;
       unset($tempSettings['errorCheck.']);
       if (count($tempSettings)) {
-        $errorsTemp = $this->validateRecursive([], (array) ($gp[$fieldName] ?? []), $tempSettings, $fieldName, $fieldPathTemp);
+        $fieldSelectorTemp = !empty($fieldSelector) ? $fieldSelector.']['.$fieldName : $fieldName;
+        $errorsTemp = $this->validateRecursive([], (array) ($gp[$fieldName] ?? []), $tempSettings, $fieldName, $fieldPathTemp, $fieldSelectorTemp);
         if (!empty($errorsTemp)) {
           $errors[$fieldName] = $errorsTemp;
         }
@@ -145,7 +146,11 @@ class AjaxFormValidator extends AbstractValidator {
               if (!isset($errors[$fieldName]) || !is_array($errors[$fieldName])) {
                 $errors[$fieldName] = [];
               }
-              $errors[$fieldName][] = ['failed' => $checkFailed, 'message' => $this->getErrorMessage($fieldName.'_'.$check['check'])];
+              $errors[$fieldName][] = [
+                'fieldSelector' => $this->formValuesPrefix.'['.$fieldSelector.']['.$fieldName.']',
+                'failed' => $checkFailed,
+                'message' => $this->getErrorMessage($fieldName.'_'.$check['check']),
+              ];
             }
           } else {
             $this->utilityFuncs->throwException('Configuration is not valid for class "'.$fullClassName.'"!');
