@@ -73,6 +73,18 @@ class AjaxFormValidator extends AbstractValidator {
       $tempSettings = $fieldSettings;
       unset($tempSettings['errorCheck.']);
       if (count($tempSettings)) {
+        if ('fieldArray' == $fieldName) {
+          foreach ($gp as $arrayKey => $arrayValue) {
+            $fieldSelectorTemp = !empty($fieldSelector) ? $fieldSelector.']['.$arrayKey : $arrayKey;
+
+            $errorsTemp = $this->validateRecursive([], (array) $arrayValue, $tempSettings, strval($arrayKey), $fieldPathTemp, $fieldSelectorTemp);
+            if (!empty($errorsTemp)) {
+              $errors[$arrayKey] = $errorsTemp;
+            }
+          }
+
+          continue;
+        }
         $fieldSelectorTemp = !empty($fieldSelector) ? $fieldSelector.']['.$fieldName : $fieldName;
         $errorsTemp = $this->validateRecursive([], (array) ($gp[$fieldName] ?? []), $tempSettings, $fieldName, $fieldPathTemp, $fieldSelectorTemp);
         if (!empty($errorsTemp)) {
