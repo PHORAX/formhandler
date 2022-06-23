@@ -7,8 +7,11 @@ namespace Typoheads\Formhandler\Validator;
 use Typoheads\Formhandler\Validator\ErrorCheck\AbstractErrorCheck;
 
 class AjaxFormValidator extends AbstractValidator {
+  private string $formValuesPrefix = '';
+
   public function loadConfig(): void {
     $tsConfig = $this->utilityFuncs->parseConditionsBlock((array) $this->globals->getSession()->get('settings'), $this->gp);
+    $this->formValuesPrefix = $tsConfig['formValuesPrefix'] ?? '';
     $this->settings = [];
     $this->validators = $tsConfig['validators.'];
     if ($tsConfig['ajax.']) {
