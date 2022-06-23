@@ -158,7 +158,7 @@ class AjaxFormValidator extends AbstractValidator {
                 $errors[$fieldName] = [];
               }
               $errors[$fieldName][] = [
-                'fieldSelector' => $this->formValuesPrefix.'['.$fieldSelector.']['.$fieldName.']',
+                'fieldSelector' => $this->formValuesPrefix.(empty($fieldSelector) ? '' : '['.$fieldSelector.']').'['.$fieldName.']',
                 'failed' => $checkFailed,
                 'message' => $this->getErrorMessage($fieldName.'_'.$check['check']),
               ];
