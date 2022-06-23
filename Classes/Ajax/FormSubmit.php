@@ -7,6 +7,7 @@ namespace Typoheads\Formhandler\Ajax;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\Finisher\AbstractFinisher;
 use Typoheads\Formhandler\Validator\AjaxFormValidator;
 
 /**
@@ -77,9 +78,9 @@ class FormSubmit extends AbstractAjax {
   }
 
   /**
-   * Runs the class by calling process() method.
+   * Process finishers.
    *
-   * @param array<string, mixed> $classesArray : the configuration array
+   * @return mixed Output of a Finisher
    */
   protected function runFinishers(): mixed {
     if (isset($this->settings['finishers.']) && is_array($this->settings['finishers.']) && 1 !== (int) ($this->utilityFuncs->getSingle($this->settings['finishers.'], 'disable'))) {
@@ -112,5 +113,7 @@ class FormSubmit extends AbstractAjax {
       }
       $this->globals->getSession()->set('finished', true);
     }
+
+    return null;
   }
 }
