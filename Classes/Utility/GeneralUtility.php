@@ -631,21 +631,19 @@ class GeneralUtility implements SingletonInterface {
 
   /**
    * @param array<string, mixed>|string $arr
-   *
-   * @return array<string, mixed>|string
    */
-  public static function getSingle(array|string $arr, string|int $key): array|string {
+  public static function getSingle(array|string $arr, string|int $key): string {
     if (!is_array($arr)) {
       return $arr;
     }
     if (isset($arr[$key.'.']) && !is_array($arr[$key.'.'])) {
-      return $arr[$key];
+      return strval($arr[$key]);
     }
     if (!isset($arr[$key.'.']['sanitize'])) {
       $arr[$key.'.']['sanitize'] = 1;
     }
     if (isset($arr[$key]) && !self::isValidCObject($arr[$key])) {
-      return $arr[$key];
+      return strval($arr[$key]);
     }
     if (!isset($arr[$key]) || !isset($arr[$key.'.'])) {
       return '';
