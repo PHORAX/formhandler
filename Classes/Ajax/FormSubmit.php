@@ -89,7 +89,7 @@ class FormSubmit extends AbstractAjax {
       foreach ($this->settings['finishers.'] as $idx => $tsConfig) {
         if ('disabled' !== $idx) {
           $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
-          if (is_array($tsConfig) && strlen($className) > 0) {
+          if (is_array($tsConfig) && !empty($className)) {
             if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
               /** @var AbstractFinisher $finisher */
               $finisher = $this->componentManager->getComponent($className);

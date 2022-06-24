@@ -43,7 +43,7 @@ class SubmittedOK extends Form {
       foreach ($this->componentSettings['actions.'] as $action => $options) {
         $sanitizedAction = str_replace('.', '', $action);
         $class = $this->utilityFuncs->getPreparedClassName($options);
-        if ($class) {
+        if (!empty($class)) {
           /** @var AbstractGenerator $generator */
           $generator = $this->componentManager->getComponent($class);
           $generator->init($this->gp, $options['config.']);

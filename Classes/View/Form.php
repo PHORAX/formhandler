@@ -75,7 +75,7 @@ class Form extends AbstractView {
         // Searches the index of Tx_Formhandler_Validator_Default
         foreach ($settings['validators.'] as $index => $validator) {
           $currentValidatorClass = $this->utilityFuncs->getPreparedClassName($validator);
-          if ('Tx_Formhandler_Validator_Default' === $currentValidatorClass) {
+          if ('Typoheads\\Formhandler\\Validator\\DefaultValidator' === $currentValidatorClass) {
             break;
           }
         }

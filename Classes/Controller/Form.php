@@ -147,6 +147,8 @@ class Form extends AbstractController {
       $fieldName = $option[0];
       $flexformSection = $option[1];
       $component = $option[2];
+
+      /** @var string $componentName */
       $componentName = $option[3];
       $value = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], $fieldName, $flexformSection);
 
@@ -154,6 +156,7 @@ class Form extends AbstractController {
       $isConfigOk = false;
       if (isset($this->settings[$component.'.']) && is_array($this->settings[$component.'.'])) {
         foreach ($this->settings[$component.'.'] as $finisher) {
+          /** @var string $className */
           $className = $this->utilityFuncs->getPreparedClassName($finisher);
           if ($className == $componentName || @is_subclass_of($className, $componentName)) {
             $isConfigOk = true;
@@ -973,7 +976,7 @@ class Form extends AbstractController {
       foreach ($this->settings['finishers.'] as $idx => $tsConfig) {
         if ('disabled' !== $idx) {
           $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
-          if (is_array($tsConfig) && strlen($className) > 0) {
+          if (is_array($tsConfig) && !empty($className)) {
             if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
               /** @var AbstractFinisher $finisher */
               $finisher = $this->componentManager->getComponent($className);
@@ -1154,7 +1157,7 @@ class Form extends AbstractController {
       foreach ($this->settings['validators.'] as $idx => $tsConfig) {
         if ('disable' !== $idx) {
           $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
-          if (is_array($tsConfig) && strlen($className) > 0) {
+          if (is_array($tsConfig) && !empty($className)) {
             if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
               /** @var AbstractValidator $validator */
               $validator = $this->componentManager->getComponent($className);
@@ -1282,7 +1285,7 @@ class Form extends AbstractController {
       foreach ($classesArray as $idx => $tsConfig) {
         if ('disable' !== $idx) {
           $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
-          if (is_array($tsConfig) && strlen($className) > 0) {
+          if (is_array($tsConfig) && !empty($className)) {
             if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
               $this->utilityFuncs->debugMessage('calling_class', [$className]);
 
