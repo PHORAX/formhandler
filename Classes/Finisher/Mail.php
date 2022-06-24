@@ -167,7 +167,7 @@ class Mail extends AbstractFinisher {
     }
 
     /** @var TYPO3Mailer $emailObj */
-    $emailObj = $this->componentManager->getComponent($emailClass);
+    $emailObj = GeneralUtility::makeInstance($emailClass);
 
     $this->emailObj = $emailObj;
     $this->emailObj->init($this->gp, ($this->settings['mailer.'] ?? [])['config.'] ?? []);
@@ -292,7 +292,7 @@ class Mail extends AbstractFinisher {
                 $generatorClass = $this->utilityFuncs->getPreparedClassName($options);
                 if ($generatorClass) {
                   /** @var AbstractGenerator $generator */
-                  $generator = $this->componentManager->getComponent($generatorClass);
+                  $generator = GeneralUtility::makeInstance($generatorClass);
                   $generator->init($this->gp, $options['config.']);
                   $generator->getLink([]);
                   $file = $generator->process();
@@ -464,13 +464,15 @@ class Mail extends AbstractFinisher {
    * @return string The template code
    */
   protected function parseTemplate(string $mode, string $suffix): string {
-    $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
-    if (!$viewClass) {
-      $viewClass = '\\Typoheads\\Formhandler\\View\\Mail';
+    // set view
+    $viewClass = '\Typoheads\Formhandler\View\Mail';
+    if (isset($this->settings['view'])) {
+      $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
     }
+    $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
 
     /** @var AbstractView $view */
-    $view = $this->componentManager->getComponent($viewClass);
+    $view = GeneralUtility::makeInstance($viewClass);
 
     $view->setLangFiles($this->globals->getLangFiles());
     $view->setPredefined($this->predefined);

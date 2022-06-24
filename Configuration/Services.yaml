@@ -3,8 +3,20 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
-    public: false
+    public: true
 
   Typoheads\Formhandler\:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
+
+  Typoheads\Formhandler\Controller\Content:
+    arguments:
+      $content: ''
+
+  Typoheads\Formhandler\TcaFormElement\PredefinedJs:
+    arguments:
+      $data: []
+
+  Typoheads\Formhandler\TcaFormElement\SubmittedValues:
+    arguments:
+      $data: []

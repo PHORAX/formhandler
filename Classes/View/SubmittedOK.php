@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\View;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Generator\AbstractGenerator;
 
 /**
@@ -45,7 +46,7 @@ class SubmittedOK extends Form {
         $class = $this->utilityFuncs->getPreparedClassName($options);
         if (!empty($class)) {
           /** @var AbstractGenerator $generator */
-          $generator = $this->componentManager->getComponent($class);
+          $generator = GeneralUtility::makeInstance($class);
           $generator->init($this->gp, $options['config.']);
           $markers['###'.strtoupper($sanitizedAction).'_LINK###'] = $generator->getLink($params);
         }

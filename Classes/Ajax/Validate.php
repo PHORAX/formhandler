@@ -9,8 +9,9 @@ use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use Typoheads\Formhandler\Session\AbstractSession;
 use Typoheads\Formhandler\Utility\Globals;
-use Typoheads\Formhandler\Validator\AbstractValidator;
+use Typoheads\Formhandler\Validator\Ajax;
 use Typoheads\Formhandler\View\AjaxValidation;
 
 /**
@@ -51,13 +52,18 @@ class Validate extends AbstractAjax {
       if (null == Globals::getSession()) {
         $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_formhandler_pi1.']['settings.'];
         $sessionClass = $this->utilityFuncs->getPreparedClassName(isset($ts['session.']) ? $ts['session.'] : null, 'Session\PHP');
-        Globals::setSession($this->componentManager->getComponent($sessionClass));
+
+        /** @var AbstractSession $session */
+        $session = GeneralUtility::makeInstance($sessionClass);
+        Globals::setSession($session);
       }
       $this->settings = (array) Globals::getSession()->get('settings');
+
+      Globals::setFormValuesPrefix($this->utilityFuncs->getSingle($this->settings, 'formValuesPrefix'));
       $gp = $this->utilityFuncs->getMergedGP();
 
-      /** @var AbstractValidator $validator */
-      $validator = $this->componentManager->getComponent('\Typoheads\Formhandler\Validator\Ajax');
+      /** @var Ajax $validator */
+      $validator = GeneralUtility::makeInstance(Ajax::class);
       $errors = [];
       $valid = $validator->validateAjax($field, $gp, $errors);
 
@@ -95,10 +101,8 @@ class Validate extends AbstractAjax {
    * @return AjaxValidation The view class
    */
   protected function initView(string $content): AjaxValidation {
-    $viewClass = '\Typoheads\Formhandler\View\AjaxValidation';
-
     /** @var AjaxValidation $view */
-    $view = $this->componentManager->getComponent($viewClass);
+    $view = GeneralUtility::makeInstance(AjaxValidation::class);
     $view->setLangFiles($this->utilityFuncs->readLanguageFiles([], $this->settings));
     $view->setSettings($this->settings);
     $templateName = 'AJAX';

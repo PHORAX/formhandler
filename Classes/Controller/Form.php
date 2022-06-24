@@ -465,7 +465,7 @@ class Form extends AbstractController {
     $sessionClass = $this->utilityFuncs->getPreparedClassName(isset($this->settings['session.']) ? $this->settings['session.'] : null, 'Session\PHP');
 
     /** @var AbstractSession $session */
-    $session = $this->componentManager->getComponent($sessionClass);
+    $session = GeneralUtility::makeInstance($sessionClass);
     $session->init($this->gp, isset($this->settings['session.']['config.']) ? $this->settings['session.']['config.'] : []);
     $session->start();
     $this->globals->setSession($session);
@@ -545,7 +545,7 @@ class Form extends AbstractController {
     $this->utilityFuncs->debugMessage('current_session_params', [], 1, (array) ($this->globals->getSession()->get('values') ?: []));
 
     /** @var AbstractView $view */
-    $view = $this->componentManager->getComponent($viewClass);
+    $view = GeneralUtility::makeInstance($viewClass);
 
     $this->view = $view;
     $this->view->setLangFiles($this->langFiles);
@@ -559,7 +559,7 @@ class Form extends AbstractController {
       $this->utilityFuncs->debugMessage('using_ajax', [$class]);
 
       /** @var AbstractAjaxHandler $ajaxHandler */
-      $ajaxHandler = $this->componentManager->getComponent($class);
+      $ajaxHandler = GeneralUtility::makeInstance($class);
       $this->globals->setAjaxHandler($ajaxHandler);
 
       $ajaxHandler->init($this->settings['ajax.']['config.']);
@@ -585,7 +585,7 @@ class Form extends AbstractController {
         $debuggerClass = $this->utilityFuncs->getPreparedClassName($options);
 
         /** @var AbstractDebugger $debugger */
-        $debugger = $this->componentManager->getComponent($debuggerClass);
+        $debugger = GeneralUtility::makeInstance($debuggerClass);
         $debugger->init($this->gp, $options['config.']);
         $debugger->validateConfig();
         $this->globals->addDebugger($debugger);
@@ -725,7 +725,7 @@ class Form extends AbstractController {
         $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action.'.']);
         if ($class) {
           /** @var AbstractFinisher $object */
-          $object = $this->componentManager->getComponent($class);
+          $object = GeneralUtility::makeInstance($class);
           $object->init($params, $finisherConf['actions.'][$action.'.']['config.']);
           $object->process();
         }
@@ -734,7 +734,7 @@ class Form extends AbstractController {
         $class = $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK');
 
         /** @var AbstractFinisher $object */
-        $object = $this->componentManager->getComponent($class);
+        $object = GeneralUtility::makeInstance($class);
         unset($finisherConf['actions.']);
         $object->init($params, $finisherConf);
         $content = $object->process();
@@ -744,7 +744,7 @@ class Form extends AbstractController {
           // Makes it possible to make your own Generator class show output
 
           /** @var AbstractFinisher $object */
-          $object = $this->componentManager->getComponent($class);
+          $object = GeneralUtility::makeInstance($class);
           $object->init($params, $finisherConf['actions.'][$action.'.']['config.']);
           $content = $object->process();
         } else {
@@ -752,7 +752,7 @@ class Form extends AbstractController {
           $class = $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK');
 
           /** @var AbstractFinisher $object */
-          $object = $this->componentManager->getComponent($class);
+          $object = GeneralUtility::makeInstance($class);
           unset($finisherConf['actions.']);
           $object->init($params, $finisherConf);
           $content = $object->process();
@@ -979,7 +979,7 @@ class Form extends AbstractController {
           if (is_array($tsConfig) && !empty($className)) {
             if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
               /** @var AbstractFinisher $finisher */
-              $finisher = $this->componentManager->getComponent($className);
+              $finisher = GeneralUtility::makeInstance($className);
               $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.'] ?? []);
               $finisher->init($this->gp, $tsConfig['config.']);
               $finisher->validateConfig();
@@ -1160,7 +1160,7 @@ class Form extends AbstractController {
           if (is_array($tsConfig) && !empty($className)) {
             if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
               /** @var AbstractValidator $validator */
-              $validator = $this->componentManager->getComponent($className);
+              $validator = GeneralUtility::makeInstance($className);
               if ($this->currentStep === $this->lastStep) {
                 $restrictErrorChecks = $this->utilityFuncs->getSingle($tsConfig['config.'] ?? [], 'restrictErrorChecks');
                 $userSetting = empty($restrictErrorChecks) ? [] : GeneralUtility::trimExplode(',', $restrictErrorChecks);
@@ -1290,7 +1290,7 @@ class Form extends AbstractController {
               $this->utilityFuncs->debugMessage('calling_class', [$className]);
 
               /** @var AbstractValidator $obj */
-              $obj = $this->componentManager->getComponent($className);
+              $obj = GeneralUtility::makeInstance($className);
               $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.'] ?? []);
               $obj->init($this->gp, $tsConfig['config.']);
               $obj->validateConfig();

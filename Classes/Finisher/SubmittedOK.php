@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Finisher;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\View\AbstractView;
 
 /**
@@ -55,7 +56,7 @@ class SubmittedOK extends AbstractFinisher {
     $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
 
     /** @var AbstractView $view */
-    $view = $this->componentManager->getComponent($viewClass);
+    $view = GeneralUtility::makeInstance($viewClass);
 
     // show TEMPLATE_SUBMITTEDOK
     $view->setTemplate($this->template, ('SUBMITTEDOK'.$this->globals->getTemplateSuffix()));

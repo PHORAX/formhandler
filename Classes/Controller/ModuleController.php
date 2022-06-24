@@ -81,7 +81,7 @@ class ModuleController extends ActionController {
         );
 
         /** @var AbstractGenerator $generator */
-        $generator = $this->componentManager->getComponent($className);
+        $generator = GeneralUtility::makeInstance($className);
         $this->settings['pdf']['config']['records'] = $convertedLogDataRows;
         $this->settings['pdf']['config']['exportFields'] = $fields;
         $generator->init([], $this->settings['pdf']['config']);
@@ -93,7 +93,7 @@ class ModuleController extends ActionController {
         );
 
         /** @var AbstractGenerator $generator */
-        $generator = $this->componentManager->getComponent($className);
+        $generator = GeneralUtility::makeInstance($className);
         $this->settings['csv']['config']['records'] = $convertedLogDataRows;
         $this->settings['csv']['config']['exportFields'] = $fields;
         $generator->init([], $this->settings['csv']['config']);

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Generator;
 
-use Typoheads\Formhandler\View\AbstractView;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\View\File as ViewFile;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -27,8 +28,8 @@ class File extends AbstractGenerator {
    * Renders the XML file.
    */
   public function process(): array|string {
-    /** @var AbstractView $view */
-    $view = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'View\File'));
+    /** @var ViewFile $view */
+    $view = GeneralUtility::makeInstance(ViewFile::class);
     $this->filename = '';
     if (1 === (int) ($this->settings['storeInTempFile'])) {
       $this->outputPath = $this->utilityFuncs->getDocumentRoot();

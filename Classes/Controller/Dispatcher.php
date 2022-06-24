@@ -99,13 +99,13 @@ class Dispatcher extends AbstractPlugin {
         $controllerClass = $setup['controller'];
       }
 
-      /** @var \Typoheads\Formhandler\Controller\Form $controller */
-      $controller = $this->componentManager->getComponent($controllerClass);
+      /** @var AbstractController $controller */
+      $controller = GeneralUtility::makeInstance($this->utilityFuncs->prepareClassName($controllerClass));
 
       if (isset($content)) {
         /** @var Content $contentClass */
-        $contentClass = $this->componentManager->getComponent(
-          $this->utilityFuncs->prepareClassName($this->utilityFuncs->prepareClassName('Controller\Content')),
+        $contentClass = GeneralUtility::makeInstance(
+          $this->utilityFuncs->prepareClassName('Controller\Content'),
           $content
         );
         $controller->setContent($contentClass);
