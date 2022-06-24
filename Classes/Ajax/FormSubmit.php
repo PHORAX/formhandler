@@ -50,7 +50,7 @@ class FormSubmit extends AbstractAjax {
   /**
    * @param string $field Field name to convert
    */
-  public function pi_initPIflexForm($field = 'pi_flexform') {
+  public function pi_initPIflexForm(string $field = 'pi_flexform'): void {
     // Converting flexform data into array:
     if (!is_array($this->cObj->data[$field]) && $this->cObj->data[$field]) {
       $this->cObj->data[$field] = GeneralUtility::xml2array($this->cObj->data[$field]);
