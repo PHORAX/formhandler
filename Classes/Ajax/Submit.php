@@ -6,6 +6,7 @@ namespace Typoheads\Formhandler\Ajax;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
 use Typoheads\Formhandler\Utility\Globals;
 
@@ -37,7 +38,7 @@ class Submit extends AbstractAjax {
       $class = $this->utilityFuncs->getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\JQuery');
 
       /** @var AbstractAjaxHandler $ajaxHandler */
-      $ajaxHandler = $this->componentManager->getComponent($class);
+      $ajaxHandler = GeneralUtility::makeInstance($class);
       $this->globals->setAjaxHandler($ajaxHandler);
 
       $ajaxHandler->init($this->settings['ajax.']['config.']);

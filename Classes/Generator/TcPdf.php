@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Generator;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Utility\TemplateTCPDF;
 use Typoheads\Formhandler\View\AbstractView;
+use Typoheads\Formhandler\View\PDF;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -26,7 +28,7 @@ use Typoheads\Formhandler\View\AbstractView;
 class TcPdf extends AbstractGenerator {
   public function process(): array|string {
     /** @var TemplateTCPDF $pdf */
-    $pdf = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'Utility\TemplateTCPDF'));
+    $pdf = GeneralUtility::makeInstance(TemplateTCPDF::class);
 
     $pdf->setHeaderText($this->utilityFuncs->getSingle($this->settings, 'headerText'));
     $pdf->setFooterText($this->utilityFuncs->getSingle($this->settings, 'footerText'));
@@ -35,7 +37,7 @@ class TcPdf extends AbstractGenerator {
     $pdf->SetFont('Helvetica', '', 12);
 
     /** @var AbstractView $view */
-    $view = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'View\PDF'));
+    $view = GeneralUtility::makeInstance(PDF::class);
     $this->filename = '';
     if (1 === (int) ($this->settings['storeInTempFile'])) {
       $this->outputPath = $this->utilityFuncs->getDocumentRoot();

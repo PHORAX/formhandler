@@ -36,7 +36,7 @@ class FormSubmit extends AbstractAjax {
     $form = GeneralUtility::_GP($this->formValuePrefix);
 
     /** @var AjaxFormValidator $validator */
-    $validator = $this->componentManager->getComponent(AjaxFormValidator::class);
+    $validator = GeneralUtility::makeInstance(AjaxFormValidator::class);
     $validator->validateAjaxForm($form, $errors);
     if (!empty($errors)) {
       return new HtmlResponse(json_encode(['success' => false, 'errors' => $errors]), 200);
@@ -50,7 +50,7 @@ class FormSubmit extends AbstractAjax {
   /**
    * @param string $field Field name to convert
    */
-  public function pi_initPIflexForm($field = 'pi_flexform') {
+  public function pi_initPIflexForm(string $field = 'pi_flexform'): void {
     // Converting flexform data into array:
     if (!is_array($this->cObj->data[$field]) && $this->cObj->data[$field]) {
       $this->cObj->data[$field] = GeneralUtility::xml2array($this->cObj->data[$field]);
@@ -89,10 +89,10 @@ class FormSubmit extends AbstractAjax {
       foreach ($this->settings['finishers.'] as $idx => $tsConfig) {
         if ('disabled' !== $idx) {
           $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
-          if (is_array($tsConfig) && strlen($className) > 0) {
+          if (is_array($tsConfig) && !empty($className)) {
             if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
               /** @var AbstractFinisher $finisher */
-              $finisher = $this->componentManager->getComponent($className);
+              $finisher = GeneralUtility::makeInstance($className);
               $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.'] ?? []);
               $finisher->init($this->gp, $tsConfig['config.']);
               $finisher->validateConfig();

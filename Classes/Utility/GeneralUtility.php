@@ -617,6 +617,8 @@ class GeneralUtility implements SingletonInterface {
 
   /**
    * @param array<string, mixed> $settingsArray
+   *
+   * @return class-string
    */
   public static function getPreparedClassName(?array $settingsArray, string $defaultClassName = ''): string {
     $className = $defaultClassName;
@@ -1041,6 +1043,8 @@ class GeneralUtility implements SingletonInterface {
 
   /**
    * Adds needed prefix to class name if not set in TS.
+   *
+   * @return class-string
    */
   public static function prepareClassName(string $className): string {
     $className = ltrim($className, '\\');

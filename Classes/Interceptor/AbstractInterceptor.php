@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Interceptor;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Component\AbstractComponent;
 use Typoheads\Formhandler\Logger\AbstractLogger;
 
@@ -34,11 +35,11 @@ abstract class AbstractInterceptor extends AbstractComponent {
     if (isset($classesArray) && is_array($classesArray)) {
       foreach ($classesArray as $idx => $tsConfig) {
         $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
-        if (is_array($tsConfig) && strlen($className) > 0 && 1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
+        if (is_array($tsConfig) && !empty($className) && 1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
           $this->utilityFuncs->debugMessage('calling_class', [$className]);
 
           /** @var AbstractLogger $obj */
-          $obj = $this->componentManager->getComponent($className);
+          $obj = GeneralUtility::makeInstance($className);
           if ($markAsSpam) {
             $tsConfig['config.']['markAsSpam'] = 1;
           }

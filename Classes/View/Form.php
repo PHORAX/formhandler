@@ -75,7 +75,7 @@ class Form extends AbstractView {
         // Searches the index of Tx_Formhandler_Validator_Default
         foreach ($settings['validators.'] as $index => $validator) {
           $currentValidatorClass = $this->utilityFuncs->getPreparedClassName($validator);
-          if ('Tx_Formhandler_Validator_Default' === $currentValidatorClass) {
+          if ('Typoheads\\Formhandler\\Validator\\DefaultValidator' === $currentValidatorClass) {
             break;
           }
         }
@@ -427,9 +427,9 @@ class Form extends AbstractView {
     $bgcolor = '#EAEAEA';
     $bgcolor = isset($this->settings['stepbar_color']) ? $this->settings['stepbar_color'] : $bgcolor;
 
-    $nrcolor = \Typoheads\Formhandler\Utility\GeneralUtility::modifyHTMLcolor($bgcolor, 30, 30, 30);
+    $nrcolor = $this->utilityFuncs->modifyHTMLcolor($bgcolor, 30, 30, 30);
     $errorbgcolor = '#dd7777';
-    $errornrcolor = \Typoheads\Formhandler\Utility\GeneralUtility::modifyHTMLcolor($errorbgcolor, 30, 30, 30);
+    $errornrcolor = $this->utilityFuncs->modifyHTMLcolor($errorbgcolor, 30, 30, 30);
 
     $classprefix = $this->globals->getFormValuesPrefix().'_stepbar';
 

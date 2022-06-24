@@ -49,7 +49,7 @@ class RemoveFile extends AbstractAjax {
       $class = $this->utilityFuncs->getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\\JQuery');
 
       /** @var AbstractAjaxHandler $ajaxHandler */
-      $ajaxHandler = $this->componentManager->getComponent($class);
+      $ajaxHandler = GeneralUtility::makeInstance($class);
       $this->globals->setAjaxHandler($ajaxHandler);
 
       $ajaxHandler->init($this->settings['ajax.']['config.']);
@@ -101,7 +101,7 @@ class RemoveFile extends AbstractAjax {
         $markers = [];
 
         /** @var Form $view */
-        $view = $this->componentManager->getComponent('View\\Form');
+        $view = GeneralUtility::makeInstance(Form::class);
         $view->setSettings($this->settings);
         $view->fillFileMarkers($markers);
         $langMarkers = $this->utilityFuncs->getFilledLangMarkers($markers['###'.$this->fieldName.'_uploadedFiles###'], $this->langFiles);

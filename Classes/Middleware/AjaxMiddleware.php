@@ -156,7 +156,7 @@ class AjaxMiddleware implements MiddlewareInterface {
     $this->init();
 
     /** @var FormSubmit $form */
-    $form = $this->componentManager->getComponent(FormSubmit::class);
+    $form = GeneralUtility::makeInstance(FormSubmit::class);
     $form->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
 
     return $form->main();
@@ -210,12 +210,12 @@ class AjaxMiddleware implements MiddlewareInterface {
       $sessionClass = $this->utilityFuncs->getPreparedClassName(isset($ts['session.']) ? $ts['session.'] : null, 'Session\PHP');
 
       /** @var ?AbstractSession $sessionClassTemp */
-      $sessionClassTemp = $this->componentManager->getComponent($sessionClass);
+      $sessionClassTemp = GeneralUtility::makeInstance($sessionClass);
       $this->globals->setSession($sessionClassTemp);
     }
 
     $this->settings = (array) $this->globals->getSession()->get('settings');
-    $this->globals->setLangFiles(\Typoheads\Formhandler\Utility\GeneralUtility::readLanguageFiles([], $this->settings));
+    $this->globals->setLangFiles($this->utilityFuncs->readLanguageFiles([], $this->settings));
   }
 
   /**
@@ -232,10 +232,10 @@ class AjaxMiddleware implements MiddlewareInterface {
       $className = $this->settings['ajax.']['removeFile.'];
     }
 
-    $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($className, 'Ajax\RemoveFile');
+    $class = $this->utilityFuncs->getPreparedClassName($className, 'Ajax\RemoveFile');
 
     /** @var AbstractAjax $removeFile */
-    $removeFile = $this->componentManager->getComponent($class);
+    $removeFile = GeneralUtility::makeInstance($class);
     $removeFile->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
 
     return $removeFile->main();
@@ -255,10 +255,10 @@ class AjaxMiddleware implements MiddlewareInterface {
       $className = $this->settings['ajax.']['submit.'];
     }
 
-    $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($className, 'Ajax\Submit');
+    $class = $this->utilityFuncs->getPreparedClassName($className, 'Ajax\Submit');
 
     /** @var AbstractAjax $submit */
-    $submit = $this->componentManager->getComponent($class);
+    $submit = GeneralUtility::makeInstance($class);
     $submit->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
 
     return $submit->main();
@@ -278,10 +278,10 @@ class AjaxMiddleware implements MiddlewareInterface {
       $className = $this->settings['ajax.']['validate.'];
     }
 
-    $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($className, 'Ajax\Validate');
+    $class = $this->utilityFuncs->getPreparedClassName($className, 'Ajax\Validate');
 
     /** @var AbstractAjax $validate */
-    $validate = $this->componentManager->getComponent($class);
+    $validate = GeneralUtility::makeInstance($class);
     $validate->init($this->componentManager, $this->globals, $this->settings, $this->utilityFuncs);
 
     return $validate->main();

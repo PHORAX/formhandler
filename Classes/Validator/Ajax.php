@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Validator;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Validator\ErrorCheck\AbstractErrorCheck;
 
 /**
@@ -96,14 +97,16 @@ class Ajax extends AbstractValidator {
 
           $classNameFix = ucfirst($check['check']);
           if (false === strpos($classNameFix, 'Tx_')) {
+            $fullClassName = $this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix);
+
             /** @var ?AbstractErrorCheck $errorCheckObject */
-            $errorCheckObject = $this->componentManager->getComponent('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix);
-            $fullClassName = '\\Typoheads\\\Formhandler\\Validator\\ErrorCheck\\'.$classNameFix;
+            $errorCheckObject = GeneralUtility::makeInstance($fullClassName);
           } else {
             // Look for the whole error check name, maybe it is a custom check like Tx_SomeExt_ErrorCheck_Something
+            $fullClassName = $this->utilityFuncs->prepareClassName($check['check']);
+
             /** @var ?AbstractErrorCheck $errorCheckObject */
-            $errorCheckObject = $this->componentManager->getComponent($check['check']);
-            $fullClassName = $check['check'];
+            $errorCheckObject = GeneralUtility::makeInstance($fullClassName);
           }
           if (isset($errorCheckObject)) {
             $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);

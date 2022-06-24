@@ -69,6 +69,13 @@ abstract class AbstractController extends AbstractClass {
   }
 
   /**
+   * Main method of the form handler.
+   *
+   * @return string rendered view
+   */
+  abstract public function process(): string;
+
+  /**
    * Sets the content attribute of the controller.
    */
   public function setContent(Content $content): void {

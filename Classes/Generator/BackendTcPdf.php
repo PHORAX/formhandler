@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Generator;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Component\AbstractComponent;
 use Typoheads\Formhandler\Utility\TemplateTCPDF;
 
@@ -66,7 +67,7 @@ class BackendTcPdf extends AbstractComponent {
     // init pdf object
 
     /** @var TemplateTCPDF $pdf */
-    $pdf = $this->componentManager->getComponent($this->utilityFuncs->getPreparedClassName([], 'Utility\TemplateTCPDF'));
+    $pdf = GeneralUtility::makeInstance(TemplateTCPDF::class);
 
     $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 

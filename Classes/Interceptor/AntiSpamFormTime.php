@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Interceptor;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\View\AbstractView;
 
 /**
@@ -59,7 +60,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
       $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
 
       /** @var AbstractView $view */
-      $view = $this->componentManager->getComponent($viewClass);
+      $view = GeneralUtility::makeInstance($viewClass);
       $view->setLangFiles($this->globals->getLangFiles());
       $view->setPredefined($this->predefined);
 
