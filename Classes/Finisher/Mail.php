@@ -522,7 +522,7 @@ class Mail extends AbstractFinisher {
    *
    * @param string $type (admin|user)
    */
-  protected function sendMail(string $type): void {
+  protected function sendMail(string $type): bool {
     $doSend = true;
     if (1 === (int) ($this->utilityFuncs->getSingle($this->emailSettings, 'disable'))) {
       $this->utilityFuncs->debugMessage('mail_disabled', [$type]);
@@ -707,5 +707,7 @@ class Mail extends AbstractFinisher {
         unlink($file);
       }
     }
+
+    return $sent;
   }
 }
