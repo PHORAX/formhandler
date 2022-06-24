@@ -6,7 +6,6 @@ namespace Typoheads\Formhandler\Component;
 
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use Typoheads\Formhandler\Utility\Globals;
 
 /**
@@ -43,25 +42,5 @@ class Manager implements SingletonInterface {
   public function __construct() {
     $this->globals = GeneralUtility::makeInstance(Globals::class);
     $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
-  }
-
-  /**
-   * Returns a component object from the cache. If there is no object stored already, a new one is created and stored in the cache.
-   *
-   * @author Robert Lemke <robert@typo3.org>
-   * @author adapted for TYPO3v4 by Jochen Rau <jochen.rau@typoplanet.de>
-   */
-  public function getComponent(string $componentName): mixed {
-    $componentName = $this->utilityFuncs->prepareClassName($componentName);
-    // Avoid component manager creating multiple instances of itself
-    if (get_class($this) === $componentName) {
-      return $this;
-    }
-    $arguments = array_slice(func_get_args(), 1, null, true);
-
-    /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-    $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-
-    return $objectManager->get($componentName, $arguments);
   }
 }
