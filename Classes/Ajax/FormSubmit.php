@@ -33,11 +33,11 @@ class FormSubmit extends AbstractAjax {
     $this->pi_initPIflexForm();
 
     $this->formValuePrefix = $this->utilityFuncs->getSingle($this->settings, 'formValuesPrefix');
-    $form = GeneralUtility::_GP($this->formValuePrefix);
+    $this->gp = GeneralUtility::_GP($this->formValuePrefix);
 
     /** @var AjaxFormValidator $validator */
     $validator = GeneralUtility::makeInstance(AjaxFormValidator::class);
-    $validator->validateAjaxForm($form, $errors);
+    $validator->validateAjaxForm($this->gp, $errors);
     if (!empty($errors)) {
       return new HtmlResponse(json_encode(['success' => false, 'errors' => $errors]), 200);
     }
