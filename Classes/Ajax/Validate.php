@@ -50,12 +50,11 @@ class Validate extends AbstractAjax {
       Globals::setRandomID($randomID);
       if (null == Globals::getSession()) {
         $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_formhandler_pi1.']['settings.'];
-        $sessionClass = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName(isset($ts['session.']) ? $ts['session.'] : null, 'Session\PHP');
+        $sessionClass = $this->utilityFuncs->getPreparedClassName(isset($ts['session.']) ? $ts['session.'] : null, 'Session\PHP');
         Globals::setSession($this->componentManager->getComponent($sessionClass));
       }
       $this->settings = (array) Globals::getSession()->get('settings');
-      Globals::setFormValuesPrefix(\Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings, 'formValuesPrefix'));
-      $gp = \Typoheads\Formhandler\Utility\GeneralUtility::getMergedGP();
+      $gp = $this->utilityFuncs->getMergedGP();
 
       /** @var AbstractValidator $validator */
       $validator = $this->componentManager->getComponent('\Typoheads\Formhandler\Validator\Ajax');
@@ -63,7 +62,7 @@ class Validate extends AbstractAjax {
       $valid = $validator->validateAjax($field, $gp, $errors);
 
       if ($valid) {
-        $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'ok');
+        $content = $this->utilityFuncs->getSingle($this->settings['ajax.']['config.'], 'ok');
         if (0 === strlen($content)) {
           $content = '<img src="'.PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')).'Resources/Public/Images/ok.png'.'" />';
         } else {
@@ -73,7 +72,7 @@ class Validate extends AbstractAjax {
         }
         $content = sprintf($this->templates['spanSuccess'], $content);
       } else {
-        $content = \Typoheads\Formhandler\Utility\GeneralUtility::getSingle($this->settings['ajax.']['config.'], 'notOk');
+        $content = $this->utilityFuncs->getSingle($this->settings['ajax.']['config.'], 'notOk');
         if (0 === strlen($content)) {
           $content = '<img src="'.PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')).'Resources/Public/Images/notok.png'.'" />';
         } else {
@@ -100,7 +99,7 @@ class Validate extends AbstractAjax {
 
     /** @var AjaxValidation $view */
     $view = $this->componentManager->getComponent($viewClass);
-    $view->setLangFiles(\Typoheads\Formhandler\Utility\GeneralUtility::readLanguageFiles([], $this->settings));
+    $view->setLangFiles($this->utilityFuncs->readLanguageFiles([], $this->settings));
     $view->setSettings($this->settings);
     $templateName = 'AJAX';
     $template = str_replace('###fieldname###', htmlspecialchars($_GET['field']), $content);

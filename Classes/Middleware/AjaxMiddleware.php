@@ -215,7 +215,7 @@ class AjaxMiddleware implements MiddlewareInterface {
     }
 
     $this->settings = (array) $this->globals->getSession()->get('settings');
-    $this->globals->setLangFiles(\Typoheads\Formhandler\Utility\GeneralUtility::readLanguageFiles([], $this->settings));
+    $this->globals->setLangFiles($this->utilityFuncs->readLanguageFiles([], $this->settings));
   }
 
   /**
@@ -232,7 +232,7 @@ class AjaxMiddleware implements MiddlewareInterface {
       $className = $this->settings['ajax.']['removeFile.'];
     }
 
-    $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($className, 'Ajax\RemoveFile');
+    $class = $this->utilityFuncs->getPreparedClassName($className, 'Ajax\RemoveFile');
 
     /** @var AbstractAjax $removeFile */
     $removeFile = $this->componentManager->getComponent($class);
@@ -255,7 +255,7 @@ class AjaxMiddleware implements MiddlewareInterface {
       $className = $this->settings['ajax.']['submit.'];
     }
 
-    $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($className, 'Ajax\Submit');
+    $class = $this->utilityFuncs->getPreparedClassName($className, 'Ajax\Submit');
 
     /** @var AbstractAjax $submit */
     $submit = $this->componentManager->getComponent($class);
@@ -278,7 +278,7 @@ class AjaxMiddleware implements MiddlewareInterface {
       $className = $this->settings['ajax.']['validate.'];
     }
 
-    $class = \Typoheads\Formhandler\Utility\GeneralUtility::getPreparedClassName($className, 'Ajax\Validate');
+    $class = $this->utilityFuncs->getPreparedClassName($className, 'Ajax\Validate');
 
     /** @var AbstractAjax $validate */
     $validate = $this->componentManager->getComponent($class);
