@@ -31,7 +31,7 @@ class DevLog extends AbstractDebugger {
     foreach ($this->debugLog as $section => $logData) {
       foreach ($logData as $messageData) {
         $message = $section.': '.$messageData['message'];
-        $data = false;
+        $data = [];
         if (isset($messageData['data']) && is_array($messageData['data'])) {
           $data = $messageData['data'];
         }

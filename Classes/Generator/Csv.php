@@ -44,7 +44,7 @@ class Csv extends AbstractGenerator {
     // parseCSV expects data to be a two dimensional array
     $data = [$params];
 
-    $fields = false;
+    $fields = [];
     if (1 === (int) ($this->utilityFuncs->getSingle($this->settings, 'addFieldNames'))) {
       $fields = array_keys($params);
       $csv->heading = true;
