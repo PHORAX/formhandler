@@ -103,11 +103,11 @@ class LoadDefaultValues extends AbstractPreProcessor {
    */
   private function loadDefaultValuesToSession(array $settings, int $step): void {
     if (is_array($settings) && $step) {
-      $values = (array) $this->globals->getSession()->get('values');
+      $values = (array) ($this->globals->getSession()?->get('values') ?? []);
       // TODO Error with default values at step 2
 
       $this->setDefaultValues($settings, $values[$step]);
-      $this->globals->getSession()->set('values', $values);
+      $this->globals->getSession()?->set('values', $values);
     }
   }
 }

@@ -241,8 +241,10 @@ class DefaultValidator extends AbstractValidator {
           /** @var ?AbstractErrorCheck $errorCheckObject */
           $errorCheckObject = GeneralUtility::makeInstance($fullClassName);
         }
-        if (!isset($errorCheckObject)) {
+        if (null === $errorCheckObject) {
           $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
+
+          continue;
         }
         if (empty($this->restrictErrorChecks) || in_array($check['check'], $this->restrictErrorChecks)) {
           $this->utilityFuncs->debugMessage('calling_class', [$fullClassName]);

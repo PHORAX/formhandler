@@ -76,12 +76,12 @@ class Dispatcher extends AbstractPlugin {
        * - Required fields
        * - Redirect page
        */
-      $templateFile = isset($this->cObj->data['pi_flexform']['data']['sDEF']['lDEF']['template_file']) ? $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'template_file', 'sDEF') : '';
-      $langFile = isset($this->cObj->data['pi_flexform']['data']['sDEF']['lDEF']['lang_file']) ? $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'lang_file', 'sDEF') : '';
-      $predef = isset($this->cObj->data['pi_flexform']['data']['sDEF']['lDEF']['predefined']) ? $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'predefined', 'sDEF') : '';
+      $templateFile = isset($this->cObj?->data['pi_flexform']['data']['sDEF']['lDEF']['template_file']) ? $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'template_file', 'sDEF') ?? '' : '';
+      $langFile = isset($this->cObj?->data['pi_flexform']['data']['sDEF']['lDEF']['lang_file']) ? $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'lang_file', 'sDEF') ?? '' : '';
+      $predef = isset($this->cObj?->data['pi_flexform']['data']['sDEF']['lDEF']['predefined']) ? $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'predefined', 'sDEF') ?? '' : '';
 
       $this->globals->setCObj($this->cObj);
-      $this->globals->getCObj()->setCurrentVal($predef);
+      $this->globals->getCObj()?->setCurrentVal($predef);
       if (isset($setup['usePredef'])) {
         $predef = $this->utilityFuncs->getSingle($setup, 'usePredef');
       }

@@ -49,7 +49,7 @@ class JQuery extends AbstractAjaxHandler {
    * @param array<string, mixed> &$markers Reference to the marker array
    */
   public function fillAjaxMarkers(array &$markers): void {
-    $settings = (array) $this->globals->getSession()->get('settings');
+    $settings = (array) ($this->globals->getSession()?->get('settings') ?? []);
     $ajaxSubmit = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmit');
     if (1 === (int) $ajaxSubmit) {
       $ajaxSubmitLoader = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmitLoader');
@@ -138,7 +138,7 @@ class JQuery extends AbstractAjaxHandler {
     }
     $submitButtonSelector = str_replace('"', '\"', $submitButtonSelector);
 
-    $globalSettings = (array) $this->globals->getSession()->get('settings');
+    $globalSettings = (array) ($this->globals->getSession()?->get('settings') ?? []);
     $validateFields = [];
     if (isset($globalSettings['validators.']) && is_array($globalSettings['validators.']) && 1 !== (int) ($this->utilityFuncs->getSingle($globalSettings['validators.'], 'disable'))) {
       foreach ($globalSettings['validators.'] as $key => $validatorSettings) {

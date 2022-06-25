@@ -55,15 +55,15 @@ class StdWrap extends AbstractInterceptor {
         if ('.' === substr($key, -1)) {
           $key = substr($key, 0, -1);
 
-          $oldCurrentVal = $this->globals->getCObj()->getCurrentVal();
+          $oldCurrentVal = $this->globals->getCObj()?->getCurrentVal();
           $fieldValue = $this->gp[$key];
-          $this->globals->getCObj()->setCurrentVal($fieldValue);
+          $this->globals->getCObj()?->setCurrentVal($fieldValue);
 
           if (!isset($fieldConf[$key]) && is_array($fieldConf[$key.'.'])) {
             if (!isset($value['sanitize'])) {
               $value['sanitize'] = 1;
             }
-            $this->gp[$key] = $this->globals->getCObj()->stdWrap($fieldValue, $value);
+            $this->gp[$key] = $this->globals->getCObj()?->stdWrap($fieldValue, $value);
           } else {
             if (!isset($fieldConf[$key.'.']['value'])) {
               $fieldConf[$key.'.']['value'] = $fieldValue;
@@ -71,7 +71,7 @@ class StdWrap extends AbstractInterceptor {
             $this->gp[$key] = $this->utilityFuncs->getSingle($fieldConf, $key);
           }
 
-          $this->globals->getCObj()->setCurrentVal($oldCurrentVal);
+          $this->globals->getCObj()?->setCurrentVal($oldCurrentVal);
         }
       }
     }

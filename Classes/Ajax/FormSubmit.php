@@ -99,7 +99,7 @@ class FormSubmit extends AbstractAjax {
 
               // if the finisher returns HTML (e.g. Typoheads\Formhandler\Finisher\SubmittedOK)
               if (1 === (int) ($this->utilityFuncs->getSingle($tsConfig['config.'], 'returns'))) {
-                $this->globals->getSession()->set('finished', true);
+                $this->globals->getSession()?->set('finished', true);
 
                 return $finisher->process();
               }
@@ -114,7 +114,7 @@ class FormSubmit extends AbstractAjax {
           }
         }
       }
-      $this->globals->getSession()->set('finished', true);
+      $this->globals->getSession()?->set('finished', true);
     }
 
     return null;

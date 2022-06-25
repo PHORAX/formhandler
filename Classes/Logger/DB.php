@@ -98,7 +98,7 @@ class DB extends AbstractLogger {
       'key_hash' => $hash,
       'unique_hash' => $uniqueHash,
     ];
-    $this->globals->getSession()->setMultiple($sessionValues);
+    $this->globals->getSession()?->setMultiple($sessionValues);
     $this->gp['inserted_uid'] = $insertedUID;
     $this->gp[$table.'_inserted_uid'] = $this->gp['inserted_uid'];
 

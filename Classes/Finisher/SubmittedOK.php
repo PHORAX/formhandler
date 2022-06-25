@@ -67,7 +67,7 @@ class SubmittedOK extends AbstractFinisher {
       }
     }
 
-    $view->setSettings((array) $this->globals->getSession()->get('settings'));
+    $view->setSettings((array) ($this->globals->getSession()?->get('settings') ?? []));
     $view->setComponentSettings($this->settings);
 
     return $view->render($this->gp, []);

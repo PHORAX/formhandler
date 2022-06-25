@@ -11,7 +11,7 @@ class AjaxFormValidator extends AbstractValidator {
   private string $formValuesPrefix = '';
 
   public function loadConfig(): void {
-    $tsConfig = $this->utilityFuncs->parseConditionsBlock((array) $this->globals->getSession()->get('settings'), $this->gp);
+    $tsConfig = $this->utilityFuncs->parseConditionsBlock((array) ($this->globals->getSession()?->get('settings') ?? []), $this->gp);
     $this->formValuesPrefix = $tsConfig['formValuesPrefix'] ?? '';
     $this->settings = [];
     $this->validators = $tsConfig['validators.'];
@@ -148,8 +148,10 @@ class AjaxFormValidator extends AbstractValidator {
           /** @var ?AbstractErrorCheck $errorCheckObject */
           $errorCheckObject = GeneralUtility::makeInstance($fullClassName);
         }
-        if (!isset($errorCheckObject)) {
+        if (null === $errorCheckObject) {
           $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
+
+          continue;
         }
 
         if (empty($this->restrictErrorChecks) || in_array($check['check'], $this->restrictErrorChecks)) {

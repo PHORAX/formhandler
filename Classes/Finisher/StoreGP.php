@@ -64,6 +64,6 @@ class StoreGP extends AbstractFinisher {
     foreach ($this->gp as $key => $value) {
       $newValues[1][$key] = $value;
     }
-    $this->globals->getSession()->set('values', $newValues);
+    $this->globals->getSession()?->set('values', $newValues);
   }
 }

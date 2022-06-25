@@ -102,7 +102,7 @@ class LoadDB extends AbstractPreProcessor {
         $conf['max'] = $parts[0];
       }
     }
-    $sql = $this->globals->getCObj()->getQuery($table, $conf);
+    $sql = $this->globals->getCObj()?->getQuery($table, $conf) ?? '';
 
     // possible quotes: empty, ", ` or '
     $quotes = '|\"|\`|\'';
@@ -153,7 +153,7 @@ class LoadDB extends AbstractPreProcessor {
     if (is_array($settings)) {
       $arrKeys = array_keys($settings);
       foreach ($arrKeys as $idx => $fieldname) {
-        $fieldname = preg_replace('/\.$/', '', $fieldname);
+        $fieldname = preg_replace('/\.$/', '', $fieldname) ?? '';
         if (!isset($this->gp[$fieldname])) {
           $this->gp[$fieldname] = $this->parseValue($fieldname, $settings);
         }
@@ -169,13 +169,13 @@ class LoadDB extends AbstractPreProcessor {
   protected function loadDBToSession(array $settings, int $step): void {
     session_start();
     if (is_array($settings) && $step) {
-      $values = (array) $this->globals->getSession()->get('values');
+      $values = (array) ($this->globals->getSession()?->get('values') ?? []);
       $arrKeys = array_keys($settings);
       foreach ($arrKeys as $idx => $fieldname) {
-        $fieldname = preg_replace('/\.$/', '', $fieldname);
+        $fieldname = preg_replace('/\.$/', '', $fieldname) ?? '';
         $values[$step][$fieldname] = $this->parseValue($fieldname, $settings);
       }
-      $this->globals->getSession()->set('values', $values);
+      $this->globals->getSession()?->set('values', $values);
     }
   }
 
@@ -240,7 +240,7 @@ class LoadDB extends AbstractPreProcessor {
             'size' => filesize($file),
           ];
         }
-        $this->globals->getSession()->set('files', $this->files);
+        $this->globals->getSession()?->set('files', $this->files);
       }
     }
 

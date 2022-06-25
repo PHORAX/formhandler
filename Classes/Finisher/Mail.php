@@ -402,7 +402,7 @@ class Mail extends AbstractFinisher {
       $files = GeneralUtility::trimExplode(',', $settings[$key]);
     }
     $parsed = [];
-    $sessionFiles = (array) $this->globals->getSession()->get('files');
+    $sessionFiles = (array) ($this->globals->getSession()?->get('files') ?? []);
     foreach ($files as $idx => $file) {
       if (isset($sessionFiles[$file])) {
         foreach ($sessionFiles[$file] as $subIdx => $uploadedFile) {

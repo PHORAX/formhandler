@@ -57,7 +57,7 @@ class Validate extends AbstractAjax {
         $session = GeneralUtility::makeInstance($sessionClass);
         Globals::setSession($session);
       }
-      $this->settings = (array) Globals::getSession()->get('settings');
+      $this->settings = (array) (Globals::getSession()?->get('settings') ?? []);
 
       Globals::setFormValuesPrefix($this->utilityFuncs->getSingle($this->settings, 'formValuesPrefix'));
       $gp = $this->utilityFuncs->getMergedGP();

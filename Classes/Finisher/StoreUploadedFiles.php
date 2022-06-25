@@ -134,7 +134,7 @@ class StoreUploadedFiles extends AbstractFinisher {
    * </code>
    */
   protected function moveUploadedFiles(): void {
-    $sessionFiles = $this->globals->getSession()->get('files');
+    $sessionFiles = $this->globals->getSession()?->get('files') ?? '';
     if (is_array($sessionFiles) && !empty($sessionFiles)) {
       $disablePathCheck = (int) ($this->utilityFuncs->getSingle($this->settings, 'disablePathCheck'));
       foreach ($sessionFiles as $field => $files) {
@@ -180,7 +180,7 @@ class StoreUploadedFiles extends AbstractFinisher {
           }
         }
       }
-      $this->globals->getSession()->set('files', $sessionFiles);
+      $this->globals->getSession()?->set('files', $sessionFiles);
     }
   }
 

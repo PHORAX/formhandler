@@ -46,7 +46,7 @@ class Submit extends AbstractAjax {
     }
 
     $settings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_formhandler_pi1.'];
-    $settings['usePredef'] = Globals::getSession()->get('predef');
+    $settings['usePredef'] = Globals::getSession()?->get('predef');
 
     $content = $GLOBALS['TSFE']->cObj->cObjGetSingle('USER', $settings);
 
