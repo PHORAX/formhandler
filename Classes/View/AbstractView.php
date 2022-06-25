@@ -187,7 +187,7 @@ abstract class AbstractView extends AbstractPlugin {
    * @author Jochen Rau
    */
   protected function getUpperCase(string $camelCase): string {
-    return strtoupper(preg_replace('/\p{Lu}+(?!\p{Ll})|\p{Lu}/u', '_$0', $camelCase));
+    return strtoupper(preg_replace('/\p{Lu}+(?!\p{Ll})|\p{Lu}/u', '_$0', $camelCase) ?? '');
   }
 
   /**

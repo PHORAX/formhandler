@@ -67,7 +67,7 @@ class Form extends AbstractView {
   public function fillFileMarkers(array &$markers): void {
     $settings = $this->parseSettings();
 
-    $flexformValue = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? [], 'required_fields', 'sMISC');
+    $flexformValue = $this->utilityFuncs->pi_getFFvalue($this->cObj?->data['pi_flexform'] ?? [], 'required_fields', 'sMISC');
     if ($flexformValue) {
       $index = 1;
       $fields = GeneralUtility::trimExplode(',', $flexformValue);
@@ -88,7 +88,7 @@ class Form extends AbstractView {
       }
     }
 
-    $sessionFiles = (array) $this->globals->getSession()->get('files');
+    $sessionFiles = (array) ($this->globals->getSession()?->get('files') ?? []);
 
     $requiredSign = $this->utilityFuncs->getSingle($settings, 'requiredSign');
     if (0 === strlen($requiredSign)) {
@@ -207,7 +207,7 @@ class Form extends AbstractView {
           if (null != $this->globals->getAjaxHandler() && $settings['files.']['enableAjaxFileRemoval']) {
             $link = $this->globals->getAjaxHandler()->getFileRemovalLink($text, $field, $uploadedFileName);
           } elseif ($settings['files.']['enableFileRemoval']) {
-            $submitName = 'step-'.(string) $this->globals->getSession()->get('currentStep').'-reload';
+            $submitName = 'step-'.(string) ($this->globals->getSession()?->get('currentStep') ?? '1').'-reload';
             if ($this->globals->getFormValuesPrefix()) {
               $submitName = $this->globals->getFormValuesPrefix().'['.$submitName.']';
             }
@@ -338,7 +338,7 @@ class Form extends AbstractView {
     $this->substituteConditionalSubparts('has_translation');
     if (!isset($this->gp['submitted']) || !$this->gp['submitted']) {
       $this->storeStartEndBlock();
-    } elseif (1 !== (int) ($this->globals->getSession()->get('currentStep'))) {
+    } elseif (1 !== (int) ($this->globals->getSession()?->get('currentStep') ?? 1)) {
       $this->fillStartEndBlock();
     }
 
@@ -387,7 +387,7 @@ class Form extends AbstractView {
     $content = $this->utilityFuncs->removeUnfilledMarkers($this->template);
 
     if (isset($this->settings['stdWrap.']) && is_array($this->settings['stdWrap.'])) {
-      $content = $this->cObj->stdWrap($content, $this->settings['stdWrap.']);
+      $content = $this->cObj?->stdWrap($content, $this->settings['stdWrap.']) ?? '';
     }
     if (1 !== (int) ($this->settings['disableWrapInBaseClass'] ?? 0)) {
       if (!isset($this->frontendController->config['config']['disablePrefixComment'])) {
@@ -540,7 +540,7 @@ class Form extends AbstractView {
     }
 
     $path = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $parameters);
-    $path = preg_replace('/ADMCMD_[^=]+=[^&]+(&)?/', '', $path);
+    $path = preg_replace('/ADMCMD_[^=]+=[^&]+(&)?/', '', $path) ?? '';
     $path = htmlspecialchars($path);
     $markers = [];
     $markers['###REL_URL###'] = $path;
@@ -621,7 +621,10 @@ class Form extends AbstractView {
 				<input type="hidden" name="'.session_name().'" value="'.session_id().'" />
 			';
     }
-    $currentStepFromSession = (int) $this->globals->getSession()->get('currentStep');
+    $currentStepFromSession = (int) ($this->globals->getSession()?->get('currentStep') ?? 1);
+    $lastStepFromSession = (int) ($this->globals->getSession()?->get('lastStep') ?? 1);
+    $totalStepsFromSession = (int) ($this->globals->getSession()?->get('totalSteps') ?? 1);
+
     $previousStep = $currentStepFromSession - 1;
     $nextStep = $currentStepFromSession + 1;
     $hiddenActionFieldName = 'step-';
@@ -656,10 +659,10 @@ class Form extends AbstractView {
     $markers['###curStep###'] = $currentStepFromSession;
 
     // maximum step/number of steps
-    $markers['###maxStep###'] = $this->globals->getSession()->get('totalSteps');
+    $markers['###maxStep###'] = $totalStepsFromSession;
 
     // the last step shown
-    $markers['###lastStep###'] = $this->globals->getSession()->get('lastStep');
+    $markers['###lastStep###'] = $lastStepFromSession;
 
     $name = 'step-';
     $prefix = $this->globals->getFormValuesPrefix();
@@ -680,8 +683,8 @@ class Form extends AbstractView {
     if (isset($this->settings['allowStepJumps'])) {
       $allowStepJumps = (bool) $this->utilityFuncs->getSingle($this->settings, 'allowStepJumps');
     }
-    if ($allowStepJumps && (int) $this->globals->getSession()->get('lastStep') < $currentStepFromSession) {
-      $previousStep = (int) $this->globals->getSession()->get('lastStep');
+    if ($allowStepJumps && $lastStepFromSession < $currentStepFromSession) {
+      $previousStep = $lastStepFromSession;
     }
     if ($previousStep < 1) {
       $previousStep = 1;
@@ -730,7 +733,7 @@ class Form extends AbstractView {
     $nextName = str_replace('#step#', (string) $nextStep, $nextName);
     $markers['###step_bar###'] = $this->createStepBar(
       $currentStepFromSession,
-      (int) $this->globals->getSession()->get('totalSteps'),
+      $totalStepsFromSession,
       $prevName,
       $nextName
     );
@@ -744,7 +747,7 @@ class Form extends AbstractView {
         '/(<form[^>]*>)/i',
         '$1<fieldset style="display: none;">'.$markers['###HIDDEN_FIELDS###'].'</fieldset>',
         $this->template
-      );
+      ) ?? '';
     }
 
     $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
@@ -778,7 +781,7 @@ class Form extends AbstractView {
         }
 
         $temp = GeneralUtility::trimExplode(';', $type);
-        $type = array_shift($temp);
+        $type = array_shift($temp) ?? '';
         foreach ($temp as $subIdx => $item) {
           $item = GeneralUtility::trimExplode('::', $item);
           $values[$item[0]] = $item[1];
@@ -954,7 +957,7 @@ class Form extends AbstractView {
     $markers = array_merge($markers, $this->getSelectedMarkers($this->gp, 0, 'checked_'));
     $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
 
-    $this->template = preg_replace('/###(selected|checked)_.*?###/i', '', $this->template);
+    $this->template = preg_replace('/###(selected|checked)_.*?###/i', '', $this->template) ?? '';
   }
 
   /**
@@ -962,8 +965,8 @@ class Form extends AbstractView {
    */
   protected function fillStartEndBlock(): void {
     $markers = [
-      '###FORM_STARTBLOCK###' => $this->globals->getSession()->get('startblock'),
-      '###FORM_ENDBLOCK###' => $this->globals->getSession()->get('endblock'),
+      '###FORM_STARTBLOCK###' => $this->globals->getSession()?->get('startblock') ?? '',
+      '###FORM_ENDBLOCK###' => $this->globals->getSession()?->get('endblock') ?? '',
     ];
     $this->template = $this->markerBasedTemplateService->substituteMarkerArray($this->template, $markers);
   }
@@ -1001,7 +1004,7 @@ class Form extends AbstractView {
 
     // remove remaining VALUE_-markers
     // needed for nested markers like ###LLL:tx_myextension_table.field1.i.###value_field1###### to avoid wrong marker removal if field1 isn't set
-    $this->template = preg_replace('/###value_.*?###/i', '', $this->template);
+    $this->template = preg_replace('/###value_.*?###/i', '', $this->template) ?? '';
   }
 
   /**
@@ -1058,9 +1061,8 @@ class Form extends AbstractView {
       $imgConf['image.']['file.']['width'] = '100m';
       $imgConf['image.']['file.']['height'] = '100m';
     }
-    $thumb = $this->cObj->cObjGetSingle('IMAGE', $imgConf['image.']);
 
-    return $thumb;
+    return $this->cObj?->cObjGetSingle('IMAGE', $imgConf['image.']) ?? '';
   }
 
   /**
@@ -1138,7 +1140,7 @@ class Form extends AbstractView {
    * @return array<string, mixed> The settings
    */
   protected function parseSettings(): array {
-    return (array) $this->globals->getSession()->get('settings');
+    return (array) ($this->globals->getSession()?->get('settings') ?? []);
   }
 
   /**
@@ -1201,7 +1203,7 @@ class Form extends AbstractView {
               if (strpos($fieldName, ';')) {
                 $parts = explode(';', $fieldName);
                 $fieldName = array_shift($parts);
-                $params = explode(',', array_shift($parts));
+                $params = explode(',', array_shift($parts) ?? '');
               }
               if ($fieldName) {
                 $markers = [
@@ -1229,15 +1231,15 @@ class Form extends AbstractView {
    * This is needed to replace the markers ###FORM_STARTBLOCK### and ###FORM_ENDBLOCK### in the next steps.
    */
   protected function storeStartEndBlock(): void {
-    $startblock = $this->globals->getSession()->get('startblock');
-    $endblock = $this->globals->getSession()->get('endblock');
+    $startblock = $this->globals->getSession()?->get('startblock');
+    $endblock = $this->globals->getSession()?->get('endblock');
     if (empty($startblock)) {
       $startblock = $this->markerBasedTemplateService->getSubpart($this->template, '###FORM_STARTBLOCK###');
     }
     if (empty($endblock)) {
       $endblock = $this->markerBasedTemplateService->getSubpart($this->template, '###FORM_ENDBLOCK###');
     }
-    $this->globals->getSession()->setMultiple(['startblock' => $startblock, 'endblock' => $endblock]);
+    $this->globals->getSession()?->setMultiple(['startblock' => $startblock, 'endblock' => $endblock]);
   }
 
   /**
@@ -1308,7 +1310,7 @@ class Form extends AbstractView {
         $fullMarkerName = preg_quote($fullMarkerName, '/');
         $fullEndMarker = preg_quote($fullEndMarker, '/');
         $pattern = '/'.$fullMarkerName.'(.*?)'.$fullEndMarker.'/ism';
-        $this->template = preg_replace($pattern, $replacement, $this->template);
+        $this->template = preg_replace($pattern, $replacement, $this->template) ?? '';
       }
     }
   }

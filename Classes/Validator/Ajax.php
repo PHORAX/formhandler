@@ -21,7 +21,7 @@ use Typoheads\Formhandler\Validator\ErrorCheck\AbstractErrorCheck;
  */
 class Ajax extends AbstractValidator {
   public function loadConfig(): void {
-    $tsConfig = $this->utilityFuncs->parseConditionsBlock((array) $this->globals->getSession()->get('settings'), $this->gp);
+    $tsConfig = $this->utilityFuncs->parseConditionsBlock((array) ($this->globals->getSession()?->get('settings') ?? []), $this->gp);
     $this->settings = [];
     $this->validators = $tsConfig['validators.'];
     if ($tsConfig['ajax.']) {
@@ -110,8 +110,10 @@ class Ajax extends AbstractValidator {
             /** @var ?AbstractErrorCheck $errorCheckObject */
             $errorCheckObject = GeneralUtility::makeInstance($fullClassName);
           }
-          if (isset($errorCheckObject)) {
+          if (null === $errorCheckObject) {
             $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
+
+            continue;
           }
           if (empty($restrictErrorChecks) || in_array($check['check'], $restrictErrorChecks)) {
             $errorCheckObject->init($gp, $check);

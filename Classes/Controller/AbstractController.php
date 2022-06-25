@@ -85,7 +85,7 @@ abstract class AbstractController extends AbstractClass {
   /**
    * Sets the internal attribute "langFile".
    *
-   * @param array<int, null|string> $langFiles
+   * @param string[] $langFiles
    */
   public function setLangFiles(array $langFiles): void {
     $this->langFiles = $langFiles;

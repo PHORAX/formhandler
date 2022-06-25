@@ -262,7 +262,7 @@ class GeneralUtility implements SingletonInterface {
       $fileName = str_replace($search, $replace, $fileName);
     }
 
-    return $fileName;
+    return $fileName ?? '';
   }
 
   /**
@@ -290,7 +290,7 @@ class GeneralUtility implements SingletonInterface {
       }
     }
 
-    $url = Globals::getCObj()->getTypoLink_URL($redirect, $addParams);
+    $url = Globals::getCObj()?->getTypoLink_URL($redirect, $addParams) ?? '';
 
     // correct the URL by replacing &amp;
     if ($correctRedirectUrl) {
@@ -394,7 +394,7 @@ class GeneralUtility implements SingletonInterface {
     $defaultUploadFolder = '/uploads/formhandler/tmp/';
 
     // if temp upload folder set in TypoScript, take that setting
-    $settings = (array) Globals::getSession()->get('settings');
+    $settings = (array) (Globals::getSession()?->get('settings') ?? []);
 
     if (is_array($settings['files.']['uploadFolder.'])) {
       foreach ($settings['files.']['uploadFolder.'] as $fieldName => $folderSettings) {
@@ -652,7 +652,7 @@ class GeneralUtility implements SingletonInterface {
       return '';
     }
 
-    return Globals::getCObj()->cObjGetSingle($arr[$key], $arr[$key.'.']);
+    return Globals::getCObj()?->cObjGetSingle($arr[$key], $arr[$key.'.']) ?? '';
   }
 
   /**
@@ -701,7 +701,7 @@ class GeneralUtility implements SingletonInterface {
     $uploadFolder = '/uploads/formhandler/tmp/';
 
     // if temp upload folder set in TypoScript, take that setting
-    $settings = (array) Globals::getSession()->get('settings');
+    $settings = (array) (Globals::getSession()?->get('settings') ?? []);
     if (strlen($fieldName) > 0 && $settings['files.']['uploadFolder.'][$fieldName]) {
       $uploadFolder = self::getSingle($settings['files.']['uploadFolder.'], $fieldName);
     } elseif ($settings['files.']['uploadFolder.']['default']) {
@@ -947,7 +947,7 @@ class GeneralUtility implements SingletonInterface {
   public static function parseOperand(string $operand, array $values): string {
     if (!empty($operand) && '{' == $operand[0]) {
       $data = trim($operand, '{}');
-      $returnValue = Globals::getcObj()->getData($data, $values);
+      $returnValue = Globals::getcObj()?->getData($data, $values) ?? '';
     } else {
       $returnValue = $operand;
     }
@@ -1204,7 +1204,7 @@ class GeneralUtility implements SingletonInterface {
    * @return string The template code without markers
    */
   public static function removeUnfilledMarkers(string $content): string {
-    return preg_replace('/###.*?###/', '', $content);
+    return preg_replace('/###.*?###/', '', $content) ?? '';
   }
 
   /**
@@ -1342,11 +1342,11 @@ class GeneralUtility implements SingletonInterface {
    */
   public static function wrap(string $str, array $settingsArray, string $key): string {
     $wrappedString = $str;
-    Globals::getCObj()->setCurrentVal($wrappedString);
+    Globals::getCObj()?->setCurrentVal($wrappedString);
     if (isset($settingsArray[$key.'.']) && is_array($settingsArray[$key.'.'])) {
-      $wrappedString = Globals::getCObj()->stdWrap($str, $settingsArray[$key.'.']);
+      $wrappedString = Globals::getCObj()?->stdWrap($str, $settingsArray[$key.'.']) ?? '';
     } elseif (isset($settingsArray[$key]) && strlen($settingsArray[$key]) > 0) {
-      $wrappedString = Globals::getCObj()->wrap($str, $settingsArray[$key]);
+      $wrappedString = Globals::getCObj()?->wrap($str, $settingsArray[$key]) ?? '';
     }
 
     return $wrappedString;

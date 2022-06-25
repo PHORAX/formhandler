@@ -50,7 +50,7 @@ class Redirect extends AbstractFinisher {
     if (empty($redirectPage)) {
       return $this->gp;
     }
-    $this->globals->getSession()->reset();
+    $this->globals->getSession()?->reset();
 
     $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
 

@@ -306,7 +306,7 @@ class Form extends AbstractController {
     if (isset($this->settings['allowStepJumps'])) {
       $allowStepJumps = boolval($this->utilityFuncs->getSingle($this->settings, 'allowStepJumps'));
     }
-    $stepInSession = max(intval($this->globals->getSession()->get('currentStep')), 1);
+    $stepInSession = max(intval($this->globals->getSession()?->get('currentStep')), 1);
 
     switch ($action) {
       case 'prev':
@@ -345,7 +345,7 @@ class Form extends AbstractController {
     }
     if (!$disableStepCheck) {
       for ($i = 1; $i < $this->currentStep - 1; ++$i) {
-        $finishedSteps = $this->globals->getSession()->get('finishedSteps');
+        $finishedSteps = $this->globals->getSession()?->get('finishedSteps');
         if (is_array($finishedSteps) && !in_array($i, $finishedSteps)) {
           $isValidStep = false;
         }
@@ -364,7 +364,7 @@ class Form extends AbstractController {
   protected function getStepInformation(): void {
     $this->findCurrentStep();
 
-    $this->lastStep = (int) $this->globals->getSession()->get('currentStep');
+    $this->lastStep = (int) ($this->globals->getSession()?->get('currentStep') ?? 1);
     if (0 == $this->lastStep) {
       $this->lastStep = 1;
     }
@@ -475,8 +475,8 @@ class Form extends AbstractController {
       $temp = GeneralUtility::_GP($this->globals->getFormValuesPrefix());
       $action = isset($temp['action']) ? $temp['action'] : null;
     }
-    if ((bool) $this->globals->getSession()->get('finished') && !$action) {
-      $this->globals->getSession()->reset();
+    if ((bool) $this->globals->getSession()?->get('finished') && !$action) {
+      $this->globals->getSession()?->reset();
       unset($_GET[$this->globals->getFormValuesPrefix()], $_GET['id']);
 
       $this->utilityFuncs->doRedirect($GLOBALS['TSFE']->id, false, $_GET);
@@ -489,7 +489,7 @@ class Form extends AbstractController {
 
     $this->getStepInformation();
 
-    $currentStepFromSession = (int) $this->globals->getSession()->get('currentStep');
+    $currentStepFromSession = (int) ($this->globals->getSession()?->get('currentStep') ?? 1);
     $prevStep = $currentStepFromSession;
     if ((int) $prevStep !== (int) $currentStepFromSession) {
       $this->currentStep = 1;
@@ -509,11 +509,11 @@ class Form extends AbstractController {
     // set debug mode again cause it may have changed in specific step settings
     $isDebugMode = $this->utilityFuncs->getSingle($this->settings, 'debug');
     $this->debugMode = (1 === (int) $isDebugMode);
-    $this->globals->getSession()->set('debug', $this->debugMode);
+    $this->globals->getSession()?->set('debug', $this->debugMode);
 
     $this->utilityFuncs->debugMessage('using_prefix', [$this->formValuesPrefix]);
 
-    $this->globals->getSession()->set('predef', $this->globals->getPredef());
+    $this->globals->getSession()?->set('predef', $this->globals->getPredef());
 
     // init view
     $viewClass = $this->utilityFuncs->getPreparedClassName($this->settings['view.'] ?? null, 'View\Form');
@@ -528,11 +528,11 @@ class Form extends AbstractController {
     $this->submitted = $this->isFormSubmitted();
 
     $this->globals->setSubmitted($this->submitted);
-    if (null === $this->globals->getSession()->get('creationTstamp')) {
+    if (null === $this->globals->getSession()?->get('creationTstamp')) {
       if ($this->submitted) {
         $this->reset($this->gp);
         $this->findCurrentStep();
-        $this->globals->getSession()->set('currentStep', $this->currentStep);
+        $this->globals->getSession()?->set('currentStep', $this->currentStep);
       } else {
         $this->reset();
       }
@@ -542,7 +542,7 @@ class Form extends AbstractController {
     $this->addJS();
     $this->addJSFooter();
 
-    $this->utilityFuncs->debugMessage('current_session_params', [], 1, (array) ($this->globals->getSession()->get('values') ?: []));
+    $this->utilityFuncs->debugMessage('current_session_params', [], 1, (array) ($this->globals->getSession()?->get('values') ?: []));
 
     /** @var AbstractView $view */
     $view = GeneralUtility::makeInstance($viewClass);
@@ -637,14 +637,14 @@ class Form extends AbstractController {
     if (isset($this->settings[$step.'.']) && is_array($this->settings[$step.'.'])) {
       $this->settings = $this->utilityFuncs->mergeConfiguration($this->settings, $this->settings[$step.'.']);
     }
-    $this->globals->getSession()->set('settings', $this->settings);
+    $this->globals->getSession()?->set('settings', $this->settings);
   }
 
   /**
    * Merges the current GET/POST parameters with the stored ones in SESSION.
    */
   protected function mergeGPWithSession(): void {
-    $values = (array) $this->globals->getSession()->get('values');
+    $values = (array) ($this->globals->getSession()?->get('values') ?? []);
 
     $maxStep = $this->currentStep;
     foreach ($values as $step => &$params) {
@@ -669,7 +669,7 @@ class Form extends AbstractController {
     }
 
     // parse conditions for each of the previous steps
-    $endStep = (int) $this->globals->getSession()->get('currentStep');
+    $endStep = (int) ($this->globals->getSession()?->get('currentStep') ?? 1);
     $step = 1;
 
     while ($step <= $endStep) {
@@ -770,7 +770,7 @@ class Form extends AbstractController {
     if (isset($this->gp['removeFile']) && (bool) $this->gp['removeFile']) {
       $filename = $this->gp['removeFile'];
       $fieldname = $this->gp['removeFileField'];
-      $sessionFiles = $this->globals->getSession()->get('files');
+      $sessionFiles = $this->globals->getSession()?->get('files');
       if (is_array($sessionFiles)) {
         foreach ($sessionFiles as $field => $files) {
           if (!strcmp($field, $fieldname)) {
@@ -804,7 +804,7 @@ class Form extends AbstractController {
       }
       unset($this->gp['removeFile'], $this->gp['removeFileField']);
 
-      $this->globals->getSession()->set('files', $sessionFiles);
+      $this->globals->getSession()?->set('files', $sessionFiles);
     }
   }
 
@@ -813,7 +813,7 @@ class Form extends AbstractController {
    * stores the information in user session.
    */
   protected function processFiles(): void {
-    $sessionFiles = $this->globals->getSession()->get('files');
+    $sessionFiles = $this->globals->getSession()?->get('files');
     $tempFiles = $sessionFiles;
 
     if (!empty($_FILES)) {
@@ -921,7 +921,7 @@ class Form extends AbstractController {
         }
       }
     }
-    $this->globals->getSession()->set('files', $tempFiles);
+    $this->globals->getSession()?->set('files', $tempFiles);
     $this->utilityFuncs->debugMessage('Files:', [], 1, (array) $tempFiles);
   }
 
@@ -988,7 +988,7 @@ class Form extends AbstractController {
 
               // if the finisher returns HTML (e.g. Typoheads\Formhandler\Finisher\SubmittedOK)
               if (1 === (int) ($this->utilityFuncs->getSingle($tsConfig['config.'], 'returns'))) {
-                $this->globals->getSession()->set('finished', true);
+                $this->globals->getSession()?->set('finished', true);
 
                 return $finisher->process();
               }
@@ -1004,7 +1004,7 @@ class Form extends AbstractController {
           }
         }
       }
-      $this->globals->getSession()->set('finished', true);
+      $this->globals->getSession()?->set('finished', true);
     }
 
     return null;
@@ -1060,14 +1060,14 @@ class Form extends AbstractController {
     $this->globals->setGP($this->gp);
 
     // stay on current step
-    if ($this->lastStep < (int) $this->globals->getSession()->get('currentStep')) {
-      $this->globals->getSession()->set('currentStep', $this->lastStep);
+    if ($this->lastStep < (int) ($this->globals->getSession()?->get('currentStep') ?? 1)) {
+      $this->globals->getSession()?->set('currentStep', $this->lastStep);
       $this->currentStep = $this->lastStep;
     }
 
     // load settings from last step again because an error occurred
     $this->loadSettingsForStep($this->currentStep);
-    $this->globals->getSession()->set('settings', $this->settings);
+    $this->globals->getSession()?->set('settings', $this->settings);
 
     // read template file
     $this->templateFile = $this->utilityFuncs->readTemplateFile($this->templateFile, $this->settings);
@@ -1220,7 +1220,7 @@ class Form extends AbstractController {
       $this->mergeGPWithSession();
 
       // mark step as finished
-      $finishedSteps = $this->globals->getSession()->get('finishedSteps');
+      $finishedSteps = $this->globals->getSession()?->get('finishedSteps');
       if (!is_array($finishedSteps)) {
         $finishedSteps = [];
       }
@@ -1228,7 +1228,7 @@ class Form extends AbstractController {
       if ($this->currentStep > $this->lastStep && !in_array($this->currentStep - 1, $finishedSteps)) {
         $finishedSteps[] = $this->currentStep - 1;
       }
-      $this->globals->getSession()->set('finishedSteps', $finishedSteps);
+      $this->globals->getSession()?->set('finishedSteps', $finishedSteps);
 
       // if no more steps
       if ($this->finished) {
@@ -1269,7 +1269,7 @@ class Form extends AbstractController {
       'finished' => null,
       'finishedSteps' => [],
     ];
-    $this->globals->getSession()->setMultiple($values);
+    $this->globals->getSession()?->setMultiple($values);
     $this->gp = $gp;
     $this->currentStep = 1;
     $this->globals->setGP($this->gp);
@@ -1338,7 +1338,7 @@ class Form extends AbstractController {
       // search for ###TEMPLATE_FORM[step][suffix]###
       $this->utilityFuncs->debugMessage('using_subpart', ['###TEMPLATE_FORM'.$step.$this->settings['templateSuffix'].'###']);
       $this->view->setTemplate($this->templateFile, ('FORM'.$step.$this->settings['templateSuffix']));
-    } elseif ((int) $step === (int) ($this->globals->getSession()->get('lastStep')) + 1) {
+    } elseif ((int) $step === (int) ($this->globals->getSession()?->get('lastStep') ?? 1) + 1) {
       $this->finished = true;
     }
   }
@@ -1348,7 +1348,7 @@ class Form extends AbstractController {
    */
   protected function storeFileNamesInGP(): void {
     // put file names into $this->gp
-    $sessionFiles = $this->globals->getSession()->get('files');
+    $sessionFiles = $this->globals->getSession()?->get('files');
     if (!is_array($sessionFiles)) {
       $sessionFiles = [];
     }
@@ -1378,7 +1378,7 @@ class Form extends AbstractController {
     if ($this->currentStep > $this->lastStep) {
       $this->loadSettingsForStep($this->currentStep);
     }
-    $data = (array) ($this->globals->getSession()->get('values') ?? []);
+    $data = (array) ($this->globals->getSession()?->get('values') ?? []);
 
     $checkBoxFields = $this->utilityFuncs->getSingle($this->settings, 'checkBoxFields');
     $checkBoxFields = empty($checkBoxFields) ? [] : GeneralUtility::trimExplode(',', $checkBoxFields);
@@ -1400,7 +1400,7 @@ class Form extends AbstractController {
         unset($data[$this->lastStep][$field]);
       }
     }
-    $this->globals->getSession()->set('values', $data);
+    $this->globals->getSession()?->set('values', $data);
   }
 
   /**
@@ -1416,7 +1416,7 @@ class Form extends AbstractController {
       'lastStep' => $this->lastStep,
       'templateSuffix' => $this->settings['templateSuffix'] ?? '',
     ];
-    $this->globals->getSession()->setMultiple($values);
+    $this->globals->getSession()?->setMultiple($values);
     $this->globals->setFormValuesPrefix($this->formValuesPrefix);
     $this->globals->setTemplateSuffix($this->settings['templateSuffix'] ?? '');
   }

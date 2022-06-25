@@ -68,8 +68,8 @@ abstract class AbstractGenerator extends AbstractComponent {
   protected function getDefaultLinkParams(): array {
     $prefix = $this->globals->getFormValuesPrefix();
     $tempParams = [
-      'tstamp' => $this->globals->getSession()->get('inserted_tstamp'),
-      'hash' => $this->globals->getSession()->get('unique_hash'),
+      'tstamp' => $this->globals->getSession()?->get('inserted_tstamp'),
+      'hash' => $this->globals->getSession()?->get('unique_hash'),
     ];
     $params = [];
     if ($prefix) {

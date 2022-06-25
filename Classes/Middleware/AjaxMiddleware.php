@@ -214,7 +214,7 @@ class AjaxMiddleware implements MiddlewareInterface {
       $this->globals->setSession($sessionClassTemp);
     }
 
-    $this->settings = (array) $this->globals->getSession()->get('settings');
+    $this->settings = (array) ($this->globals->getSession()?->get('settings') ?? []);
     $this->globals->setLangFiles($this->utilityFuncs->readLanguageFiles([], $this->settings));
   }
 

@@ -141,7 +141,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface {
    * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getSubject()
   */
   public function getSubject(): string {
-    return $this->emailObj->getSubject();
+    return $this->emailObj->getSubject() ?? '';
   }
 
   /* (non-PHPdoc)

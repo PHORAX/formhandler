@@ -46,7 +46,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
     if ($isSpam) {
       $this->log(true);
       if ($this->settings['redirectPage']) {
-        $this->globals->getSession()->reset();
+        $this->globals->getSession()?->reset();
         $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
 
         return 'Lousy spammer!';
@@ -75,7 +75,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
         return 'Lousy spammer!';
       }
       $content = $view->render($this->gp, []);
-      $this->globals->getSession()->reset();
+      $this->globals->getSession()?->reset();
 
       return $content;
     }

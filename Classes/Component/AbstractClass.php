@@ -94,6 +94,8 @@ abstract class AbstractClass {
     $this->configuration = $configuration;
     $this->globals = $globals;
     $this->utilityFuncs = $utilityFuncs;
-    $this->cObj = $this->globals->getCObj();
+    if (null !== $this->globals->getCObj()) {
+      $this->cObj = $this->globals->getCObj();
+    }
   }
 }

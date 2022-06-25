@@ -60,7 +60,7 @@ class RemoveFile extends AbstractAjax {
     $field = null;
 
     if ($this->fieldName) {
-      $sessionFiles = (array) $this->globals->getSession()->get('files');
+      $sessionFiles = (array) ($this->globals->getSession()?->get('files') ?? []);
       if (is_array($sessionFiles)) {
         foreach ($sessionFiles as $field => $files) {
           if (!strcmp($field, $this->fieldName)) {
@@ -94,7 +94,7 @@ class RemoveFile extends AbstractAjax {
         }
       }
 
-      $this->globals->getSession()->set('files', $sessionFiles);
+      $this->globals->getSession()?->set('files', $sessionFiles);
 
       // Add the content to or Result Box: #formResult
       if (null !== $field && is_array($sessionFiles) && !empty($sessionFiles[$field])) {
