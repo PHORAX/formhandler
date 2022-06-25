@@ -91,7 +91,7 @@ class DefaultValidator extends AbstractValidator {
 
       foreach ($errors as $field => $messages) {
         if (isset($limits[$field]) && $limits[$field] > 0) {
-          $errors[$field] = array_slice($messages, -$limits[$field]);
+          $errors[$field] = array_slice($messages, intval(-$limits[$field]));
         } elseif ($limit > 0) {
           $errors[$field] = array_slice($messages, -$limit);
         }

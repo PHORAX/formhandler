@@ -295,7 +295,7 @@ class Mail extends AbstractFinisher {
                   $generator = GeneralUtility::makeInstance($generatorClass);
                   $generator->init($this->gp, $options['config.']);
                   $generator->getLink([]);
-                  $file = $generator->process();
+                  $file = strval($generator->process());
                   $emailSettings['attachGeneratedFiles'] .= $file.',';
                 }
               }

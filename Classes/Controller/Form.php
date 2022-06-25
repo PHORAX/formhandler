@@ -737,7 +737,7 @@ class Form extends AbstractController {
         $object = GeneralUtility::makeInstance($class);
         unset($finisherConf['actions.']);
         $object->init($params, $finisherConf);
-        $content = $object->process();
+        $content = strval($object->process());
       } elseif (1 === (int) ($this->utilityFuncs->getSingle($finisherConf['actions.'][$action.'.']['config.'], 'returns'))) {
         $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action.'.']);
         if ($class) {
@@ -746,7 +746,7 @@ class Form extends AbstractController {
           /** @var AbstractFinisher $object */
           $object = GeneralUtility::makeInstance($class);
           $object->init($params, $finisherConf['actions.'][$action.'.']['config.']);
-          $content = $object->process();
+          $content = strval($object->process());
         } else {
           // Makes it possible that Finisher_SubmittedOK show its output again
           $class = $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK');
@@ -755,7 +755,7 @@ class Form extends AbstractController {
           $object = GeneralUtility::makeInstance($class);
           unset($finisherConf['actions.']);
           $object->init($params, $finisherConf);
-          $content = $object->process();
+          $content = strval($object->process());
         }
       }
     }
