@@ -34,25 +34,25 @@ class BackendCsv extends AbstractComponent {
   public function init(array $gp, array $settings): void {
     parent::init($gp, $settings);
     $fileName = $this->utilityFuncs->getSingle($this->settings, 'fileName');
-    if (!$fileName) {
+    if (empty($fileName)) {
       $fileName = 'formhandler.csv';
     }
     $this->settings['fileName'] = $fileName;
 
     $delimiter = $this->utilityFuncs->getSingle($this->settings, 'delimiter');
-    if (!$delimiter) {
+    if (empty($delimiter)) {
       $delimiter = ',';
     }
     $this->settings['delimiter'] = $delimiter;
 
     $enclosure = $this->utilityFuncs->getSingle($this->settings, 'enclosure');
-    if (!$enclosure) {
+    if (empty($enclosure)) {
       $enclosure = '"';
     }
     $this->settings['enclosure'] = $enclosure;
 
     $encoding = $this->utilityFuncs->getSingle($this->settings, 'encoding');
-    if (!$encoding) {
+    if (empty($encoding)) {
       $encoding = 'utf-8';
     }
     $this->settings['encoding'] = $encoding;
@@ -158,6 +158,7 @@ class BackendCsv extends AbstractComponent {
   private function sortArrayByArray(array $array, array $orderArray): array {
     $ordered = [];
     foreach ($orderArray as $idx => $key) {
+      $key = strval($key);
       if (array_key_exists($key, $array)) {
         $ordered[$key] = $array[$key];
         unset($array[$key]);
