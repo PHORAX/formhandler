@@ -28,15 +28,14 @@ class ContainsOnly extends AbstractErrorCheck {
     $formValue = trim($this->gp[$this->formFieldName] ?? '');
 
     if (strlen($formValue) > 0) {
-      $checkValue = $this->utilityFuncs->getSingle($this->settings['params'], 'words');
-      if (!is_array($checkValue)) {
-        $checkValue = GeneralUtility::trimExplode(',', $checkValue);
-      }
+      $checkValue = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings['params'], 'words'));
       $error = false;
       $array = preg_split('//', $formValue, -1, PREG_SPLIT_NO_EMPTY);
-      foreach ($array as $idx => $char) {
-        if (!in_array($char, $checkValue)) {
-          $error = true;
+      if (!is_bool($array)) {
+        foreach ($array as $char) {
+          if (!in_array($char, $checkValue)) {
+            $error = true;
+          }
         }
       }
       if ($error) {

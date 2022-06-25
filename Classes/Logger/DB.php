@@ -116,7 +116,7 @@ class DB extends AbstractLogger {
    * @param array<string, mixed> $array
    * @param string[]             $items
    *
-   * @return array<int|string, mixed>
+   * @return array<string, mixed>
    */
   protected function createDeep(array $array, array $items): array {
     if (count($items) > 0) {

@@ -716,7 +716,7 @@ class Form extends AbstractController {
         $conn = $connectionPool->getConnectionForTable('tx_formhandler_log');
         $stmt = $conn->select(['params'], 'tx_formhandler_log', ['tstamp' => $tstamp, 'unique_hash' => $hash]);
         if (1 === $stmt->rowCount()) {
-          $row = $stmt->fetchAssociative();
+          $row = $stmt->fetchAssociative() ?: ['params'];
           $params = unserialize($row['params']);
         }
       }
@@ -737,7 +737,7 @@ class Form extends AbstractController {
         $object = GeneralUtility::makeInstance($class);
         unset($finisherConf['actions.']);
         $object->init($params, $finisherConf);
-        $content = $object->process();
+        $content = strval($object->process());
       } elseif (1 === (int) ($this->utilityFuncs->getSingle($finisherConf['actions.'][$action.'.']['config.'], 'returns'))) {
         $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action.'.']);
         if ($class) {
@@ -746,7 +746,7 @@ class Form extends AbstractController {
           /** @var AbstractFinisher $object */
           $object = GeneralUtility::makeInstance($class);
           $object->init($params, $finisherConf['actions.'][$action.'.']['config.']);
-          $content = $object->process();
+          $content = strval($object->process());
         } else {
           // Makes it possible that Finisher_SubmittedOK show its output again
           $class = $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\SubmittedOK');
@@ -755,7 +755,7 @@ class Form extends AbstractController {
           $object = GeneralUtility::makeInstance($class);
           unset($finisherConf['actions.']);
           $object->init($params, $finisherConf);
-          $content = $object->process();
+          $content = strval($object->process());
         }
       }
     }
@@ -827,6 +827,8 @@ class Form extends AbstractController {
         // if a file was uploaded
         if (isset($files['name']) && is_array($files['name'])) {
           // for all file names
+
+          /** @var string $field */
           foreach ($files['name'] as $field => $uploadedFiles) {
             // If only a single file is uploaded
             if (!is_array($uploadedFiles)) {
@@ -857,9 +859,9 @@ class Form extends AbstractController {
                 }
                 if (!$exists || 'replace' === $uploadedFilesWithSameNameAction || 'append' === $uploadedFilesWithSameNameAction) {
                   $name = $this->utilityFuncs->doFileNameReplace($name);
-                  $filename = substr($name, 0, strpos($name, '.'));
+                  $filename = substr($name, 0, strrpos($name, '.') ?: null);
                   if (strlen($filename) > 0) {
-                    $ext = substr($name, strpos($name, '.'));
+                    $ext = substr($name, strrpos($name, '.') ?: (strlen($name) - 1));
                     $suffix = 1;
 
                     // build file name
@@ -990,8 +992,12 @@ class Form extends AbstractController {
 
                 return $finisher->process();
               }
-              $this->gp = $finisher->process();
-              $this->globals->setGP($this->gp);
+
+              $return = $finisher->process();
+              if (is_array($return)) {
+                $this->gp = $return;
+                $this->globals->setGP($this->gp);
+              }
             }
           } else {
             $this->utilityFuncs->throwException('classesarray_error');

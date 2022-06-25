@@ -69,6 +69,7 @@ abstract class AbstractValidator extends AbstractComponent {
    */
   protected function getDisableErrorCheckFields($disableErrorCheckFields = []): array {
     if (isset($this->settings['disableErrorCheckFields.'])) {
+      /** @var string $disableCheckField */
       foreach ($this->settings['disableErrorCheckFields.'] as $disableCheckField => $checks) {
         if (!strstr($disableCheckField, '.')) {
           $checkString = $this->utilityFuncs->getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);

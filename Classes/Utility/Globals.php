@@ -32,7 +32,7 @@ class Globals implements SingletonInterface {
 
   protected static ?ContentObjectRenderer $cObj = null;
 
-  /** @var array<string, mixed> */
+  /** @var array<int|string, mixed> */
   protected static array $debuggers = [];
 
   protected static string $formID = '';
@@ -79,7 +79,7 @@ class Globals implements SingletonInterface {
   }
 
   /**
-   * @return array<string, mixed>
+   * @return array<int|string, mixed>
    */
   public static function getDebuggers(): array {
     return self::$debuggers;
@@ -162,7 +162,7 @@ class Globals implements SingletonInterface {
   }
 
   /**
-   * @param array<string, mixed> $debuggers
+   * @param array<int|string, mixed> $debuggers
    */
   public static function setDebuggers(array $debuggers): void {
     self::$debuggers = $debuggers;

@@ -338,6 +338,7 @@ class DB extends AbstractFinisher {
     $queryFields = [];
 
     // parse mapping
+    /** @var string $fieldname */
     foreach ($this->settings['fields.'] as $fieldname => $options) {
       $fieldname = str_replace('.', '', $fieldname);
       $fieldValue = '';
@@ -427,7 +428,7 @@ class DB extends AbstractFinisher {
                 }
               }
               if (isset($options['special.']['index'])) {
-                $index = $this->utilityFuncs->getSingle($options['special.'], 'index');
+                $index = intval($this->utilityFuncs->getSingle($options['special.'], 'index'));
                 if (isset($filesArray[$index])) {
                   $fieldValue = $filesArray[$index];
                 }

@@ -91,7 +91,7 @@ class DefaultValidator extends AbstractValidator {
 
       foreach ($errors as $field => $messages) {
         if (isset($limits[$field]) && $limits[$field] > 0) {
-          $errors[$field] = array_slice($messages, -$limits[$field]);
+          $errors[$field] = array_slice($messages, intval(-$limits[$field]));
         } elseif ($limit > 0) {
           $errors[$field] = array_slice($messages, -$limit);
         }
@@ -220,8 +220,10 @@ class DefaultValidator extends AbstractValidator {
         if (!empty($this->disableErrorCheckFields)
             && in_array($errorFieldName, array_keys($this->disableErrorCheckFields))
             && (
-              in_array($check['check'], $this->disableErrorCheckFields[$errorFieldName])
-                || empty($this->disableErrorCheckFields[$errorFieldName])
+              (
+                is_array($this->disableErrorCheckFields[$errorFieldName]) && in_array($check['check'], $this->disableErrorCheckFields[$errorFieldName])
+              )
+              || empty($this->disableErrorCheckFields[$errorFieldName])
             )
         ) {
           continue;

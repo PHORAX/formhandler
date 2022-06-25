@@ -103,9 +103,9 @@ class Mail extends AbstractFinisher {
   /**
    * Explodes the given list seperated by $sep. Substitutes values with according value in GET/POST, if set.
    *
-   * @param array<string, mixed>|string $list
+   * @param array<int|string, mixed>|string $list
    *
-   * @return array<string, mixed>
+   * @return array<int|string, mixed>
    */
   protected function explodeList(array|string $list, string $sep = ','): array {
     if (!is_array($list)) {
@@ -295,7 +295,7 @@ class Mail extends AbstractFinisher {
                   $generator = GeneralUtility::makeInstance($generatorClass);
                   $generator->init($this->gp, $options['config.']);
                   $generator->getLink([]);
-                  $file = $generator->process();
+                  $file = strval($generator->process());
                   $emailSettings['attachGeneratedFiles'] .= $file.',';
                 }
               }
@@ -428,7 +428,7 @@ class Mail extends AbstractFinisher {
    * @param string               $type     admin|user
    * @param string               $key      The key to parse in the settings array
    *
-   * @return array<string, mixed>
+   * @return array<int|string, mixed>
    */
   protected function parseList(array $settings, string $type, string $key): array {
     if (isset($settings[$type][$key])) {

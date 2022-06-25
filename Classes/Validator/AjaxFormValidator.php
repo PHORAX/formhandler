@@ -125,12 +125,14 @@ class AjaxFormValidator extends AbstractValidator {
       foreach ($errorChecks as $check) {
         // Skip error check if the check is disabled for this field or if all checks are disabled for this field
         if (!empty($this->disableErrorCheckFields)
-                    && (in_array($errorFieldName, array_keys($this->disableErrorCheckFields)) || (in_array($fieldPathTemp, array_keys($this->disableErrorCheckFields))))
-                    && (
-                      in_array($check['check'], $this->disableErrorCheckFields[$errorFieldName] ?? [])
-                        || empty($this->disableErrorCheckFields[$errorFieldName])
-                    )
-                ) {
+          && (in_array($errorFieldName, array_keys($this->disableErrorCheckFields)) || (in_array($fieldPathTemp, array_keys($this->disableErrorCheckFields))))
+          && (
+            (
+              is_array($this->disableErrorCheckFields[$errorFieldName]) && in_array($check['check'], $this->disableErrorCheckFields[$errorFieldName])
+            )
+            || empty($this->disableErrorCheckFields[$errorFieldName])
+          )
+        ) {
           continue;
         }
         $classNameFix = ucfirst($check['check']);

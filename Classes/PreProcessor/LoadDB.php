@@ -55,7 +55,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class LoadDB extends AbstractPreProcessor {
   /**
-   * @var array<int, array<string, mixed>> as associative array. Row data from DB.
+   * @var array<string, mixed> as associative array. Row data from DB.
    */
   protected array $data;
 
@@ -119,7 +119,7 @@ class LoadDB extends AbstractPreProcessor {
    *
    * @param array<string, mixed> $settings
    *
-   * @return array<int, array<string, mixed>> of row data
+   * @return array<string, mixed> of row data
    */
   protected function loadDB(array $settings): array {
     $table = $this->utilityFuncs->getSingle($settings, 'table');
@@ -135,7 +135,7 @@ class LoadDB extends AbstractPreProcessor {
     $rows = $stmt->fetchAllAssociative();
     $rowCount = count($rows);
     if (1 === $rowCount) {
-      return $rows;
+      return $rows[0];
     }
     if ($rowCount > 0) {
       $this->utilityFuncs->debugMessage('sql_too_many_rows', [$rowCount], 3);

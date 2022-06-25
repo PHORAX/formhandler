@@ -72,17 +72,19 @@ class File extends AbstractGenerator {
     }
     if (!empty($this->filename)) {
       $fp = fopen($this->filename, 'w');
-      fwrite($fp, $content);
-      fclose($fp);
-      $downloadpath = $this->filename;
-      if ($returns) {
-        return $downloadpath;
-      }
-      $downloadpath = str_replace($this->utilityFuncs->getDocumentRoot(), '', $downloadpath);
-      header('Content-type: '.$contentType);
-      header('Location: '.$downloadpath);
+      if (!is_bool($fp)) {
+        fwrite($fp, $content);
+        fclose($fp);
+        $downloadpath = $this->filename;
+        if ($returns) {
+          return $downloadpath;
+        }
+        $downloadpath = str_replace($this->utilityFuncs->getDocumentRoot(), '', $downloadpath);
+        header('Content-type: '.$contentType);
+        header('Location: '.$downloadpath);
 
-      exit;
+        exit;
+      }
     }
     header('Content-type: '.$contentType);
     header('Content-Disposition: attachment; filename="'.$this->filenameOnly.'"');

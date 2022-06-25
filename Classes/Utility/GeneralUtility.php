@@ -153,7 +153,7 @@ class GeneralUtility implements SingletonInterface {
         $pos3 = strpos($pattern, 'y');
 
         $dateParts = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $date);
-        $timestamp = mktime(0, 0, 0, intval($dateParts[$pos2]), intval($dateParts[$pos1]), intval($dateParts[$pos3]));
+        $timestamp = mktime(0, 0, 0, intval($dateParts[$pos2]), intval($dateParts[$pos1]), intval($dateParts[$pos3])) ?: 0;
       } else {
         $dateObj = \DateTime::createFromFormat($format, $date);
         if ($dateObj) {
@@ -243,16 +243,16 @@ class GeneralUtility implements SingletonInterface {
     if ($settings['files.']['search']) {
       $search = self::getSingle($settings['files.'], 'search');
       if ($settings['files.']['search.']['separator']) {
-        $separator = strval(self::getSingle($settings['files.']['search.'], 'separator'));
+        $separatorTemp = self::getSingle($settings['files.']['search.'], 'separator');
       }
-      $search = explode($separator, $search);
+      $search = explode(!empty($separatorTemp) ? $separatorTemp : $separator, $search);
     }
     if ($settings['files.']['replace']) {
       $replace = self::getSingle($settings['files.'], 'replace');
       if ($settings['files.']['replace.']['separator']) {
-        $separator = strval(self::getSingle($settings['files.']['replace.'], 'separator'));
+        $separatorTemp = self::getSingle($settings['files.']['replace.'], 'separator');
       }
-      $replace = explode($separator, $replace);
+      $replace = explode(!empty($separatorTemp) ? $separatorTemp : $separator, $replace);
     }
 
     $usePregReplace = self::getSingle($settings['files.'], 'usePregReplace');
@@ -416,11 +416,14 @@ class GeneralUtility implements SingletonInterface {
    * @param array<string, mixed> $gp Array with GET/POST parameters
    */
   public static function getConditionResult(string $condition, array $gp): bool {
+    $conditionResult = false;
     $valueConditions = preg_split('/\s*(!=|\^=|\$=|~=|>=|<=|=|<|>)\s*/', $condition, -1, PREG_SPLIT_DELIM_CAPTURE);
+    if (is_bool(($valueConditions))) {
+      return $conditionResult;
+    }
 
     $conditionOperator = trim($valueConditions[1]);
     $fieldName = trim($valueConditions[0]);
-    $conditionResult = false;
 
     switch ($conditionOperator) {
       case '!=':
@@ -620,7 +623,7 @@ class GeneralUtility implements SingletonInterface {
    *
    * @return class-string
    */
-  public static function getPreparedClassName(?array $settingsArray, string $defaultClassName = ''): string {
+  public static function getPreparedClassName(?array $settingsArray, string $defaultClassName = '') {
     $className = $defaultClassName;
     if (isset($settingsArray) && is_array($settingsArray) && $settingsArray['class']) {
       $className = self::getSingle($settingsArray, 'class');
@@ -631,21 +634,19 @@ class GeneralUtility implements SingletonInterface {
 
   /**
    * @param array<string, mixed>|string $arr
-   *
-   * @return array<string, mixed>|string
    */
-  public static function getSingle(array|string $arr, string|int $key): array|string {
+  public static function getSingle(array|string $arr, string|int $key): string {
     if (!is_array($arr)) {
       return $arr;
     }
     if (isset($arr[$key.'.']) && !is_array($arr[$key.'.'])) {
-      return $arr[$key];
+      return strval($arr[$key]);
     }
     if (!isset($arr[$key.'.']['sanitize'])) {
       $arr[$key.'.']['sanitize'] = 1;
     }
     if (isset($arr[$key]) && !self::isValidCObject($arr[$key])) {
-      return $arr[$key];
+      return strval($arr[$key]);
     }
     if (!isset($arr[$key]) || !isset($arr[$key.'.'])) {
       return '';
@@ -787,13 +788,21 @@ class GeneralUtility implements SingletonInterface {
   public static function initializeTSFE(ServerRequestInterface $request): void {
     $site = $request->getAttribute('site');
     if (!($site instanceof SiteInterface)) {
-      $sites = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(SiteFinder::class)->getAllSites();
+      /** @var SiteFinder $siteFinder */
+      $siteFinder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(SiteFinder::class);
+      $sites = $siteFinder->getAllSites();
       $site = reset($sites);
     }
+    if (is_bool($site)) {
+      return;
+    }
+
     $language = $request->getAttribute('language') ?? $site->getDefaultLanguage();
     $queryParams = $request->getQueryParams();
-    $pageId = ($queryParams['id'] ?? $request->getParsedBody()['id'] ?? 0);
-    $pageType = ($queryParams['type'] ?? $request->getParsedBody()['type'] ?? 0);
+    $parsedBody = (array) ($request->getParsedBody() ?? []);
+
+    $pageId = ($queryParams['id'] ?? $parsedBody['id'] ?? 0);
+    $pageType = ($queryParams['type'] ?? $parsedBody['type'] ?? 0);
     $pageArguments = new PageArguments(intval($pageId), strval($pageType), [], $queryParams);
 
     // create object instances:
@@ -858,9 +867,9 @@ class GeneralUtility implements SingletonInterface {
    */
   public static function modifyHTMLColor(string $color, int $R, int $G, int $B): string {
     // This takes a hex-color (# included!) and adds $R, $G and $B to the HTML-color (format: #xxxxxx) and returns the new color
-    $nR = MathUtility::forceIntegerInRange(hexdec(substr($color, 1, 2)) + $R, 0, 255);
-    $nG = MathUtility::forceIntegerInRange(hexdec(substr($color, 3, 2)) + $G, 0, 255);
-    $nB = MathUtility::forceIntegerInRange(hexdec(substr($color, 5, 2)) + $B, 0, 255);
+    $nR = MathUtility::forceIntegerInRange(intval(hexdec(substr($color, 1, 2)) + $R), 0, 255);
+    $nG = MathUtility::forceIntegerInRange(intval(hexdec(substr($color, 3, 2)) + $G), 0, 255);
+    $nB = MathUtility::forceIntegerInRange(intval(hexdec(substr($color, 5, 2)) + $B), 0, 255);
 
     return '#'.substr(('0'.dechex($nR)), -2).substr(('0'.dechex($nG)), -2).substr(('0'.dechex($nB)), -2);
   }
@@ -1046,7 +1055,7 @@ class GeneralUtility implements SingletonInterface {
    *
    * @return class-string
    */
-  public static function prepareClassName(string $className): string {
+  public static function prepareClassName(string $className) {
     $className = ltrim($className, '\\');
     $className = str_replace('Tx_Formhandler_', 'Typoheads\\Formhandler\\', $className);
     if (false !== strstr($className, '_') && (false !== strstr($className, 'Typoheads\\Formhandler\\') || 1 === substr_count($className, '_'))) {
@@ -1059,6 +1068,7 @@ class GeneralUtility implements SingletonInterface {
       $className = 'Typoheads\\Formhandler\\Validator\\DefaultValidator';
     }
 
+    // @phpstan-ignore-next-line
     return ltrim($className, '\\');
   }
 

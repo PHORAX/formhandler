@@ -106,14 +106,14 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface {
    * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getHTML()
   */
   public function getHTML(): string {
-    return $this->emailObj->getHtmlBody() ?? '';
+    return strval($this->emailObj->getHtmlBody() ?? '');
   }
 
   /* (non-PHPdoc)
    * @see Classes/Mailer/Tx_FormhandlerMailerInterface#getPlain()
   */
   public function getPlain(): string {
-    return $this->emailObj->getTextBody() ?? '';
+    return strval($this->emailObj->getTextBody() ?? '');
   }
 
   /* (non-PHPdoc)

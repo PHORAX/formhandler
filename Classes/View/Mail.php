@@ -106,9 +106,9 @@ class Mail extends Form {
   /**
    * Sanitizes GET/POST parameters by processing the 'checkBinaryCrLf' setting in TypoScript.
    *
-   * @param array<string, mixed> $markers
+   * @param array<string, string> $markers
    *
-   * @return array<string, mixed> The markers
+   * @return array<string, string> The markers
    */
   protected function sanitizeMarkers(array $markers): array {
     $componentSettings = $this->getComponentSettings();

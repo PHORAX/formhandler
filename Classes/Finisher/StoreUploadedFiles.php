@@ -144,8 +144,8 @@ class StoreUploadedFiles extends AbstractFinisher {
           foreach ($files as $key => $file) {
             if ($file['uploaded_path'] !== $uploadPath || 1 === $disablePathCheck) {
               $newFilename = $this->getNewFilename($file['uploaded_name'], $field);
-              $filename = substr($newFilename, 0, strrpos($newFilename, '.'));
-              $ext = substr($newFilename, strrpos($newFilename, '.'));
+              $filename = substr($newFilename, 0, strrpos($newFilename, '.') ?: null);
+              $ext = substr($newFilename, strrpos($newFilename, '.') ?: (strlen($newFilename) - 1));
 
               $suffix = 1;
 

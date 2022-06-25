@@ -83,15 +83,17 @@ class Ajax extends AbstractValidator {
         foreach ($errorChecks as $idx => $check) {
           // Skip error check if the check is disabled for this field or if all checks are disabled for this field
           if (!empty($disableErrorCheckFields)
-                        && in_array('all', array_keys($disableErrorCheckFields))
-                        || (
-                          in_array($field, array_keys($disableErrorCheckFields))
-                            && (
-                              in_array($check['check'], $disableErrorCheckFields[$field])
-                                || empty($disableErrorCheckFields[$field])
-                            )
-                        )
-                    ) {
+            && in_array('all', array_keys($disableErrorCheckFields))
+            || (
+              in_array($field, array_keys($disableErrorCheckFields))
+                && (
+                  (
+                    is_array($this->disableErrorCheckFields[$field]) && in_array($check['check'], $this->disableErrorCheckFields[$field])
+                  )
+                  || empty($disableErrorCheckFields[$field])
+                )
+            )
+          ) {
             continue;
           }
 
