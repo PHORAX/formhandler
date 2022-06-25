@@ -46,7 +46,7 @@ class Dispatcher extends AbstractPlugin {
   /**
    * Main method of the dispatcher. This method is called as a user function.
    *
-   * @param array<int|string, mixed> $setup The TypoScript config
+   * @param array<string, mixed> $setup The TypoScript config
    *
    * @return string rendered view
    */

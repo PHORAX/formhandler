@@ -1066,7 +1066,7 @@ class Form extends AbstractView {
   /**
    * @param array<string, mixed> $values
    *
-   * @return array<string, mixed>
+   * @return array<string, string>
    */
   protected function getValueMarkers(array $values, int $level = 0, string $prefix = 'value_', bool $doEncode = true): array {
     $markers = [];

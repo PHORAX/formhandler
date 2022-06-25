@@ -620,7 +620,7 @@ class GeneralUtility implements SingletonInterface {
    *
    * @return class-string
    */
-  public static function getPreparedClassName(?array $settingsArray, string $defaultClassName = ''): string {
+  public static function getPreparedClassName(?array $settingsArray, string $defaultClassName = '') {
     $className = $defaultClassName;
     if (isset($settingsArray) && is_array($settingsArray) && $settingsArray['class']) {
       $className = self::getSingle($settingsArray, 'class');
@@ -1044,7 +1044,7 @@ class GeneralUtility implements SingletonInterface {
    *
    * @return class-string
    */
-  public static function prepareClassName(string $className): string {
+  public static function prepareClassName(string $className) {
     $className = ltrim($className, '\\');
     $className = str_replace('Tx_Formhandler_', 'Typoheads\\Formhandler\\', $className);
     if (false !== strstr($className, '_') && (false !== strstr($className, 'Typoheads\\Formhandler\\') || 1 === substr_count($className, '_'))) {
@@ -1057,6 +1057,7 @@ class GeneralUtility implements SingletonInterface {
       $className = 'Typoheads\\Formhandler\\Validator\\DefaultValidator';
     }
 
+    // @phpstan-ignore-next-line
     return ltrim($className, '\\');
   }
 

@@ -827,6 +827,8 @@ class Form extends AbstractController {
         // if a file was uploaded
         if (isset($files['name']) && is_array($files['name'])) {
           // for all file names
+
+          /** @var string $field */
           foreach ($files['name'] as $field => $uploadedFiles) {
             // If only a single file is uploaded
             if (!is_array($uploadedFiles)) {

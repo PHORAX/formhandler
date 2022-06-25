@@ -338,6 +338,7 @@ class DB extends AbstractFinisher {
     $queryFields = [];
 
     // parse mapping
+    /** @var string $fieldname */
     foreach ($this->settings['fields.'] as $fieldname => $options) {
       $fieldname = str_replace('.', '', $fieldname);
       $fieldValue = '';
