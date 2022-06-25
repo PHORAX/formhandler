@@ -83,7 +83,7 @@ class RemoveXSS extends AbstractInterceptor {
     foreach ($values as $key => $value) {
       if (!in_array($key, $this->doNotSanitizeFields) && is_array($value)) {
         $sanitizedArray[$key] = $this->sanitizeValues($value);
-      } elseif (!in_array($key, $this->doNotSanitizeFields) && strlen(trim($value)) > 0) {
+      } elseif (!in_array($key, $this->doNotSanitizeFields) && is_string($value) && strlen(trim($value)) > 0) {
         $removeChars = $this->removeChars;
 
         // search for a specific setting for this field

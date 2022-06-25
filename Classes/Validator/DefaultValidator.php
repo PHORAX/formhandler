@@ -220,8 +220,10 @@ class DefaultValidator extends AbstractValidator {
         if (!empty($this->disableErrorCheckFields)
             && in_array($errorFieldName, array_keys($this->disableErrorCheckFields))
             && (
-              in_array($check['check'], $this->disableErrorCheckFields[$errorFieldName])
-                || empty($this->disableErrorCheckFields[$errorFieldName])
+              (
+                is_array($this->disableErrorCheckFields[$errorFieldName]) && in_array($check['check'], $this->disableErrorCheckFields[$errorFieldName])
+              )
+              || empty($this->disableErrorCheckFields[$errorFieldName])
             )
         ) {
           continue;

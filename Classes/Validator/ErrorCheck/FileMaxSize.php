@@ -26,7 +26,7 @@ class FileMaxSize extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
     $maxSize = (int) ($this->utilityFuncs->getSingle($this->settings['params'], 'maxSize'));
-    $phpIniUploadMaxFileSize = $this->utilityFuncs->convertBytes(ini_get('upload_max_filesize'));
+    $phpIniUploadMaxFileSize = $this->utilityFuncs->convertBytes((string) ini_get('upload_max_filesize'));
     if ($maxSize > $phpIniUploadMaxFileSize) {
       $this->utilityFuncs->throwException('error_check_filemaxsize', GeneralUtility::formatSize($maxSize, ' Bytes| KB| MB| GB'), $this->formFieldName, GeneralUtility::formatSize($phpIniUploadMaxFileSize, ' Bytes| KB| MB| GB'));
     }

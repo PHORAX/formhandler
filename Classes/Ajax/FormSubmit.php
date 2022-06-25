@@ -39,12 +39,12 @@ class FormSubmit extends AbstractAjax {
     $validator = GeneralUtility::makeInstance(AjaxFormValidator::class);
     $validator->validateAjaxForm($this->gp, $errors);
     if (!empty($errors)) {
-      return new HtmlResponse(json_encode(['success' => false, 'errors' => $errors]), 200);
+      return new HtmlResponse(json_encode(['success' => false, 'errors' => $errors]) ?: '', 200);
     }
 
     $output = $this->runFinishers();
 
-    return new HtmlResponse(json_encode(['success' => true, 'data' => $output]), 200);
+    return new HtmlResponse(json_encode(['success' => true, 'data' => $output]) ?: '', 200);
   }
 
   /**
@@ -103,8 +103,11 @@ class FormSubmit extends AbstractAjax {
 
                 return $finisher->process();
               }
-              $this->gp = $finisher->process();
-              $this->globals->setGP($this->gp);
+              $return = $finisher->process();
+              if (is_array($return)) {
+                $this->gp = $return;
+                $this->globals->setGP($this->gp);
+              }
             }
           } else {
             $this->utilityFuncs->throwException('classesarray_error');

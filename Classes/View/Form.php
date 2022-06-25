@@ -1173,14 +1173,17 @@ class Form extends AbstractView {
   protected function replaceMarkersFromMaster(): void {
     $fieldMarkers = [];
     foreach ($this->masterTemplates as $idx => $masterTemplate) {
-      $masterTemplateCode = GeneralUtility::getURL($this->utilityFuncs->resolvePath($masterTemplate));
+      $masterTemplateCode = (string) GeneralUtility::getURL($this->utilityFuncs->resolvePath($masterTemplate));
       $matches = [];
       preg_match_all('/###(field|master)_([^#]*)###/', $masterTemplateCode, $matches);
       if (!empty($matches[0])) {
         $subparts = array_unique($matches[0]);
+
+        /** @var array<string, string> */
         $subpartsCodes = [];
         if (is_array($subparts)) {
-          foreach ($subparts as $index => $subpart) {
+          /** @var string $subpart */
+          foreach ($subparts as $subpart) {
             $subpartKey = str_replace('#', '', $subpart);
             $code = $this->markerBasedTemplateService->getSubpart($masterTemplateCode, $subpart);
             if (!empty($code)) {
@@ -1254,7 +1257,7 @@ class Form extends AbstractView {
         $conditionString = $matches[3][$i];
         $fullMarkerName = $matches[0][$i];
         $fullEndMarker = $matches[0][$i + 1];
-        $conditions = preg_split('/\s*(\|\||&&)\s*/i', $conditionString, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $conditions = (preg_split('/\s*(\|\||&&)\s*/i', $conditionString, -1, PREG_SPLIT_DELIM_CAPTURE) ?: []);
         $operator = null;
         $finalConditionResult = false;
         $count = 0;

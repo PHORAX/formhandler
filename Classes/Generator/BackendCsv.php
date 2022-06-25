@@ -136,7 +136,7 @@ class BackendCsv extends AbstractComponent {
    * @return string Charset
    */
   private function getInputCharset(): string {
-    if (is_object($GLOBALS['LANG']) && $GLOBALS['LANG']->charSet) {
+    if (is_object($GLOBALS['LANG']) && property_exists($GLOBALS['LANG'], 'charSet')) {
       $charset = $GLOBALS['LANG']->charSet;
     } elseif ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset']) {
       $charset = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'];

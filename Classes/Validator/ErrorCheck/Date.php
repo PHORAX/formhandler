@@ -31,8 +31,7 @@ class Date extends AbstractErrorCheck {
         // @phpstan-ignore-next-line
         \DateTime::createFromFormat($pattern, $this->gp[$this->formFieldName]);
         $status = \DateTime::getLastErrors();
-        if ((isset($status['warning_count']) && (int) ($status['warning_count']) > 0)
-                    || (isset($status['error_count']) && (int) ($status['error_count']) > 0)) {
+        if (!is_bool($status) && ($status['warning_count'] > 0 || $status['error_count'] > 0)) {
           $checkFailed = $this->getCheckFailed();
           $this->utilityFuncs->debugMessage('Result:', [], 2, $status);
         }

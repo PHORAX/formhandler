@@ -112,7 +112,7 @@ class ValidateAuthCode extends AbstractPreProcessor {
         }
 
         $row = $stmt->fetchAssociative();
-        $this->utilityFuncs->debugMessage('Selected row: ', [], 1, $row);
+        $this->utilityFuncs->debugMessage('Selected row: ', [], 1, $row ?: []);
 
         $localAuthCode = GeneralUtility::hmac(serialize($row), 'formhandler');
 

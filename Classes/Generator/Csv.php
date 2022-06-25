@@ -25,10 +25,7 @@ class Csv extends AbstractGenerator {
    */
   public function process(): array|string {
     $params = $this->gp;
-    $exportParams = $this->utilityFuncs->getSingle($this->settings, 'exportParams');
-    if (!is_array($exportParams) && false !== strpos($exportParams, ',')) {
-      $exportParams = GeneralUtility::trimExplode(',', $exportParams);
-    }
+    $exportParams = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'exportParams'));
 
     // build data
     foreach ($params as $key => &$value) {

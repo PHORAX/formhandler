@@ -716,7 +716,7 @@ class Form extends AbstractController {
         $conn = $connectionPool->getConnectionForTable('tx_formhandler_log');
         $stmt = $conn->select(['params'], 'tx_formhandler_log', ['tstamp' => $tstamp, 'unique_hash' => $hash]);
         if (1 === $stmt->rowCount()) {
-          $row = $stmt->fetchAssociative();
+          $row = $stmt->fetchAssociative() ?: ['params'];
           $params = unserialize($row['params']);
         }
       }
@@ -859,9 +859,9 @@ class Form extends AbstractController {
                 }
                 if (!$exists || 'replace' === $uploadedFilesWithSameNameAction || 'append' === $uploadedFilesWithSameNameAction) {
                   $name = $this->utilityFuncs->doFileNameReplace($name);
-                  $filename = substr($name, 0, strpos($name, '.'));
+                  $filename = substr($name, 0, strrpos($name, '.') ?: null);
                   if (strlen($filename) > 0) {
-                    $ext = substr($name, strpos($name, '.'));
+                    $ext = substr($name, strrpos($name, '.') ?: (strlen($name) - 1));
                     $suffix = 1;
 
                     // build file name
@@ -992,8 +992,12 @@ class Form extends AbstractController {
 
                 return $finisher->process();
               }
-              $this->gp = $finisher->process();
-              $this->globals->setGP($this->gp);
+
+              $return = $finisher->process();
+              if (is_array($return)) {
+                $this->gp = $return;
+                $this->globals->setGP($this->gp);
+              }
             }
           } else {
             $this->utilityFuncs->throwException('classesarray_error');

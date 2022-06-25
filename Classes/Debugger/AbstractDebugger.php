@@ -37,9 +37,9 @@ abstract class AbstractDebugger extends AbstractComponent {
     $trace = debug_backtrace();
     $section = '';
     if (isset($trace[2])) {
-      $section = $trace[2]['class'];
+      $section = $trace[2]['class'] ?? '';
       if ('\Typoheads\Formhandler\Utility\GeneralUtility' === $section) {
-        $section = $trace[3]['class'];
+        $section = $trace[3]['class'] ?? '';
       }
     }
     if (!$message && !isset($this->debugLog[$section])) {

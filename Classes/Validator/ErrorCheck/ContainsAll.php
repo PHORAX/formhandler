@@ -28,10 +28,7 @@ class ContainsAll extends AbstractErrorCheck {
     $formValue = trim($this->gp[$this->formFieldName] ?? '');
 
     if (strlen($formValue) > 0) {
-      $checkValue = $this->utilityFuncs->getSingle($this->settings['params'], 'words');
-      if (!is_array($checkValue)) {
-        $checkValue = GeneralUtility::trimExplode(',', $checkValue);
-      }
+      $checkValue = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings['params'], 'words'));
       foreach ($checkValue as $idx => $word) {
         if (!stristr($formValue, $word)) {
           // remove userfunc settings and only store comma seperated words

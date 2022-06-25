@@ -153,7 +153,7 @@ class GeneralUtility implements SingletonInterface {
         $pos3 = strpos($pattern, 'y');
 
         $dateParts = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($sep, $date);
-        $timestamp = mktime(0, 0, 0, intval($dateParts[$pos2]), intval($dateParts[$pos1]), intval($dateParts[$pos3]));
+        $timestamp = mktime(0, 0, 0, intval($dateParts[$pos2]), intval($dateParts[$pos1]), intval($dateParts[$pos3])) ?: 0;
       } else {
         $dateObj = \DateTime::createFromFormat($format, $date);
         if ($dateObj) {
@@ -416,11 +416,14 @@ class GeneralUtility implements SingletonInterface {
    * @param array<string, mixed> $gp Array with GET/POST parameters
    */
   public static function getConditionResult(string $condition, array $gp): bool {
+    $conditionResult = false;
     $valueConditions = preg_split('/\s*(!=|\^=|\$=|~=|>=|<=|=|<|>)\s*/', $condition, -1, PREG_SPLIT_DELIM_CAPTURE);
+    if (is_bool(($valueConditions))) {
+      return $conditionResult;
+    }
 
     $conditionOperator = trim($valueConditions[1]);
     $fieldName = trim($valueConditions[0]);
-    $conditionResult = false;
 
     switch ($conditionOperator) {
       case '!=':
@@ -785,13 +788,21 @@ class GeneralUtility implements SingletonInterface {
   public static function initializeTSFE(ServerRequestInterface $request): void {
     $site = $request->getAttribute('site');
     if (!($site instanceof SiteInterface)) {
-      $sites = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(SiteFinder::class)->getAllSites();
+      /** @var SiteFinder $siteFinder */
+      $siteFinder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(SiteFinder::class);
+      $sites = $siteFinder->getAllSites();
       $site = reset($sites);
     }
+    if (is_bool($site)) {
+      return;
+    }
+
     $language = $request->getAttribute('language') ?? $site->getDefaultLanguage();
     $queryParams = $request->getQueryParams();
-    $pageId = ($queryParams['id'] ?? $request->getParsedBody()['id'] ?? 0);
-    $pageType = ($queryParams['type'] ?? $request->getParsedBody()['type'] ?? 0);
+    $parsedBody = (array) ($request->getParsedBody() ?? []);
+
+    $pageId = ($queryParams['id'] ?? $parsedBody['id'] ?? 0);
+    $pageType = ($queryParams['type'] ?? $parsedBody['type'] ?? 0);
     $pageArguments = new PageArguments(intval($pageId), strval($pageType), [], $queryParams);
 
     // create object instances:

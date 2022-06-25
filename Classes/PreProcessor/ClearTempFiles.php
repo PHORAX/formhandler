@@ -68,6 +68,10 @@ class ClearTempFiles extends AbstractPreProcessor {
 
       $this->utilityFuncs->debugMessage('cleaning_temp_files', [$path]);
 
+      if (!is_array($tmpFiles)) {
+        return;
+      }
+
       // calculate threshold timestamp
       $threshold = $this->utilityFuncs->getTimestamp($olderThanValue, $olderThanUnit);
 
