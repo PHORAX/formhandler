@@ -63,7 +63,7 @@ class PDF extends Form {
    */
   protected function sanitizeMarkers(array $markers): array {
     $componentSettings = $this->getComponentSettings();
-    $checkBinaryCrLf = $componentSettings['checkBinaryCrLf'];
+    $checkBinaryCrLf = strval($componentSettings['checkBinaryCrLf'] ?? '');
     if (strlen($checkBinaryCrLf) > 0) {
       $paramsToCheck = GeneralUtility::trimExplode(',', $checkBinaryCrLf);
       foreach ($markers as $markerName => &$value) {
