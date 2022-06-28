@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\View;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
  *
@@ -52,30 +50,5 @@ class PDF extends Form {
     // remove remaining VALUE_-markers
     // needed for nested markers like ###LLL:tx_myextension_table.field1.i.###value_field1###### to avoid wrong marker removal if field1 isn't set
     $this->template = preg_replace('/###value_.*?###/i', '', $this->template) ?? '';
-  }
-
-  /**
-   * Sanitizes GET/POST parameters by processing the 'checkBinaryCrLf' setting in TypoScript.
-   *
-   * @param array<string, string> $markers
-   *
-   * @return array<string, string> The markers
-   */
-  protected function sanitizeMarkers(array $markers): array {
-    $componentSettings = $this->getComponentSettings();
-    $checkBinaryCrLf = strval($componentSettings['checkBinaryCrLf'] ?? '');
-    if (strlen($checkBinaryCrLf) > 0) {
-      $paramsToCheck = GeneralUtility::trimExplode(',', $checkBinaryCrLf);
-      foreach ($markers as $markerName => &$value) {
-        $fieldName = str_replace(['value_', 'VALUE_', '###'], '', $markerName);
-        if (in_array($fieldName, $paramsToCheck)) {
-          $value = str_replace(chr(13), '', $value);
-          $value = str_replace('\\', '', $value);
-          $value = nl2br($value);
-        }
-      }
-    }
-
-    return $markers;
   }
 }

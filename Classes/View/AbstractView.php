@@ -197,4 +197,28 @@ abstract class AbstractView extends AbstractPlugin {
    */
   protected function initializeView(): void {
   }
+
+  /**
+   * Sanitizes GET/POST parameters by processing the 'checkBinaryCrLf' setting in TypoScript.
+   *
+   * @param array<string, string> $markers
+   *
+   * @return array<string, string> The markers
+   */
+  protected function sanitizeMarkers(array $markers): array {
+    $checkBinaryCrLf = strval($this->componentSettings['checkBinaryCrLf'] ?? '');
+    if (strlen($checkBinaryCrLf) > 0) {
+      $paramsToCheck = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $checkBinaryCrLf);
+      foreach ($markers as $markerName => &$value) {
+        $fieldName = str_replace(['value_', 'VALUE_', '###'], '', $markerName);
+        if (in_array($fieldName, $paramsToCheck)) {
+          $value = str_replace(chr(13), '', $value);
+          $value = str_replace('\\', '', $value);
+          $value = nl2br($value);
+        }
+      }
+    }
+
+    return $markers;
+  }
 }
