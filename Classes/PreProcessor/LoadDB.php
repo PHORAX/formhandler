@@ -73,13 +73,13 @@ class LoadDB extends AbstractPreProcessor {
     $this->data = $this->loadDB($this->settings['select.']);
 
     foreach ($this->settings as $step => $stepSettings) {
-      $step = (int) preg_replace('/\.$/', '', $step);
+      $step = preg_replace('/\.$/', '', $step);
 
       if ('select' !== $step) {
         if (1 === (int) $step && !is_string($stepSettings)) {
           $this->loadDBToGP($stepSettings);
         } elseif (is_numeric($step) && !is_string($stepSettings)) {
-          $this->loadDBToSession($stepSettings, $step);
+          $this->loadDBToSession($stepSettings, intval($step));
         }
       }
     }
