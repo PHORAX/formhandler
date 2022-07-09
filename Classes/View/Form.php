@@ -82,10 +82,29 @@ class Form extends AbstractView {
       }
       $index = strval($index);
 
+      $fieldConf = [];
+      if (
+        is_array($settings['validators.']) && isset($settings['validators.'][$index])
+        && is_array($settings['validators.'][$index]) && isset($settings['validators.'][$index]['config.'])
+        && is_array($settings['validators.'][$index]['config.']) && isset($settings['validators.'][$index]['config.']['fieldConf.'])
+        && is_array($settings['validators.'][$index]['config.']['fieldConf.'])
+      ) {
+        $fieldConf = $settings['validators.'][$index]['config.']['fieldConf.'];
+      }
+
       // Adds the value.
       foreach ($fields as $idx => $field) {
-        $settings['validators.'][$index]['config.']['fieldConf.'][$field.'.']['errorCheck.'] = []; // @phpstan-ignore-line
-        $settings['validators.'][$index]['config.']['fieldConf.'][$field.'.']['errorCheck.']['1'] = 'required';
+        $fieldConf[$field.'.']['errorCheck.'] = [];
+        $fieldConf[$field.'.']['errorCheck.']['1'] = 'required';
+      }
+
+      if (
+        is_array($settings['validators.']) && isset($settings['validators.'][$index])
+        && is_array($settings['validators.'][$index]) && isset($settings['validators.'][$index]['config.'])
+        && is_array($settings['validators.'][$index]['config.']) && isset($settings['validators.'][$index]['config.']['fieldConf.'])
+        && is_array($settings['validators.'][$index]['config.']['fieldConf.'])
+      ) {
+        $settings['validators.'][$index]['config.']['fieldConf.'] = $fieldConf;
       }
     }
 
