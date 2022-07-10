@@ -51,7 +51,7 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface {
    * @return string Further processed $content
    */
   public function stdWrapPostProcess($content, array $configuration, ContentObjectRenderer &$parentObject): string {
-    if (isset($configuration['sanitize']) && 1 === (int) ($configuration['sanitize'])) {
+    if (isset($configuration['sanitize']) && 1 == intval($configuration['sanitize'])) {
       $_GET = $this->originalGET;
       $_POST = $this->originalPOST;
     }
@@ -69,7 +69,7 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface {
    * @return string Further processed $content
    */
   public function stdWrapPreProcess($content, array $configuration, ContentObjectRenderer &$parentObject): string {
-    if (isset($configuration['sanitize']) && 1 === (int) ($configuration['sanitize'])) {
+    if (isset($configuration['sanitize']) && 1 == intval($configuration['sanitize'])) {
       $globals = GeneralUtility::makeInstance(Globals::class);
       $this->originalGET = $_GET;
       $this->originalPOST = $_POST;
