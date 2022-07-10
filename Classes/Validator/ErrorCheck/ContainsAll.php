@@ -25,15 +25,19 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ContainsAll extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $formValue = trim($this->gp[$this->formFieldName] ?? '');
+    $formValue = trim(strval($this->gp[$this->formFieldName] ?? ''));
 
     if (strlen($formValue) > 0) {
-      $checkValue = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings['params'], 'words'));
+      $checkValue = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'words'));
       foreach ($checkValue as $idx => $word) {
         if (!stristr($formValue, $word)) {
           // remove userfunc settings and only store comma seperated words
-          $this->settings['params']['words'] = implode(',', $checkValue);
-          unset($this->settings['params']['words.']);
+          if (isset($this->settings['params']) && is_array($this->settings['params'])) {
+            $this->settings['params']['words'] = implode(',', $checkValue);
+          }
+          if (isset($this->settings['params']) && is_array($this->settings['params']) && isset($this->settings['params']['words.'])) {
+            unset($this->settings['params']['words.']);
+          }
           $checkFailed = $this->getCheckFailed();
         }
       }

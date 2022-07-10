@@ -25,11 +25,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class DateRange extends Date {
   public function check(): string {
     $checkFailed = '';
+    $date = strval($this->gp[$this->formFieldName] ?? '');
 
-    if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-      $min = $this->utilityFuncs->getSingle($this->settings['params'], 'min');
-      $max = $this->utilityFuncs->getSingle($this->settings['params'], 'max');
-      $pattern = $this->utilityFuncs->getSingle($this->settings['params'], 'pattern');
+    if (strlen(trim($date)) > 0) {
+      $params = (array) ($this->settings['params'] ?? []);
+      $min = $this->utilityFuncs->getSingle($params, 'min');
+      $max = $this->utilityFuncs->getSingle($params, 'max');
+      $pattern = $this->utilityFuncs->getSingle($params, 'pattern');
       preg_match('/^[d|m|y]*(.)[d|m|y]*/i', $pattern, $res);
       $sep = $res[1];
 
@@ -40,7 +42,6 @@ class DateRange extends Date {
       $pos1 = strpos($pattern, 'd');
       $pos2 = strpos($pattern, 'm');
       $pos3 = strpos($pattern, 'y');
-      $date = $this->gp[$this->formFieldName];
       $checkdate = explode($sep, $date);
       $check_day = $checkdate[$pos1];
       $check_month = $checkdate[$pos2];

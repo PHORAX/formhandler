@@ -23,12 +23,14 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 class BetweenItems extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $min = (int) ($this->utilityFuncs->getSingle($this->settings['params'], 'minValue'));
-    $max = (int) ($this->utilityFuncs->getSingle($this->settings['params'], 'maxValue'));
-    $removeEmptyValues = $this->utilityFuncs->getSingle($this->settings['params'], 'removeEmptyValues');
+    $params = (array) ($this->settings['params'] ?? []);
+    $min = intval($this->utilityFuncs->getSingle($params, 'minValue'));
+    $max = intval($this->utilityFuncs->getSingle($params, 'maxValue'));
+    $removeEmptyValues = intval($this->utilityFuncs->getSingle($params, 'removeEmptyValues'));
+
     if (isset($this->gp[$this->formFieldName]) && is_array($this->gp[$this->formFieldName])) {
-      $valuesArray = $this->gp[$this->formFieldName];
-      if (1 === (int) $removeEmptyValues) {
+      $valuesArray = (array) $this->gp[$this->formFieldName];
+      if (1 === $removeEmptyValues) {
         foreach ($valuesArray as $key => $fieldName) {
           if (empty($fieldName)) {
             unset($valuesArray[$key]);

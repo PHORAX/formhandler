@@ -25,10 +25,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ContainsOnly extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $formValue = trim($this->gp[$this->formFieldName] ?? '');
+    $formValue = trim(strval($this->gp[$this->formFieldName] ?? ''));
 
     if (strlen($formValue) > 0) {
-      $checkValue = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings['params'], 'words'));
+      $checkValue = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'words'));
       $error = false;
       $array = preg_split('//', $formValue, -1, PREG_SPLIT_NO_EMPTY);
       if (!is_bool($array)) {
@@ -40,8 +40,12 @@ class ContainsOnly extends AbstractErrorCheck {
       }
       if ($error) {
         // remove userfunc settings and only store comma seperated words
-        $this->settings['params']['words'] = implode(',', $checkValue);
-        unset($this->settings['params']['words.']);
+        if (isset($this->settings['params']) && is_array($this->settings['params'])) {
+          $this->settings['params']['words'] = implode(',', $checkValue);
+        }
+        if (isset($this->settings['params']) && is_array($this->settings['params']) && isset($this->settings['params']['words.'])) {
+          unset($this->settings['params']['words.']);
+        }
         $checkFailed = $this->getCheckFailed();
       }
     }

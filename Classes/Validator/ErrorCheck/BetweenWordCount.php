@@ -23,12 +23,12 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 class BetweenWordCount extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $min = (int) ($this->utilityFuncs->getSingle($this->settings['params'], 'minValue'));
-    $max = (int) ($this->utilityFuncs->getSingle($this->settings['params'], 'maxValue'));
-    if (isset($this->gp[$this->formFieldName])
-            && (str_word_count($this->gp[$this->formFieldName]) < (int) $min
-                || str_word_count($this->gp[$this->formFieldName]) > (int) $max)
-        ) {
+    $params = (array) ($this->settings['params'] ?? []);
+    $min = intval($this->utilityFuncs->getSingle($params, 'minValue'));
+    $max = intval($this->utilityFuncs->getSingle($params, 'maxValue'));
+    $formFieldValue = strval($this->gp[$this->formFieldName] ?? '');
+
+    if (str_word_count($formFieldValue) < $min || str_word_count($formFieldValue) > $max) {
       $checkFailed = $this->getCheckFailed();
     }
 

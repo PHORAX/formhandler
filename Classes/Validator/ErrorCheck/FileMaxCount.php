@@ -26,11 +26,11 @@ class FileMaxCount extends AbstractErrorCheck {
 
     $files = (array) ($this->globals->getSession()?->get('files') ?? []);
     $settings = (array) ($this->globals->getSession()?->get('settings') ?? []);
-    $currentStep = (int) ($this->globals->getSession()?->get('currentStep') ?? 1);
-    $lastStep = (int) ($this->globals->getSession()?->get('lastStep') ?? 1);
-    $maxCount = (int) ($this->utilityFuncs->getSingle($this->settings['params'], 'maxCount'));
+    $currentStep = intval($this->globals->getSession()?->get('currentStep') ?? 1);
+    $lastStep = intval($this->globals->getSession()?->get('lastStep') ?? 1);
+    $maxCount = intval($this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'maxCount'));
 
-    $uploadedFilesWithSameNameAction = $this->utilityFuncs->getSingle($settings['files.'], 'uploadedFilesWithSameName');
+    $uploadedFilesWithSameNameAction = $this->utilityFuncs->getSingle((array) ($settings['files.'] ?? []), 'uploadedFilesWithSameName');
     if (!$uploadedFilesWithSameNameAction) {
       $uploadedFilesWithSameNameAction = 'ignore';
     }
@@ -73,7 +73,7 @@ class FileMaxCount extends AbstractErrorCheck {
         if (!is_array($info['name'][$this->formFieldName])) {
           $info['name'][$this->formFieldName] = [$info['name'][$this->formFieldName]];
         }
-        if (strlen($info['name'][$this->formFieldName][0]) > 0 && count($info['name'][$this->formFieldName]) + count($files[$this->formFieldName]) > $maxCount) {
+        if (strlen($info['name'][$this->formFieldName][0]) > 0 && count((array) ($info['name'][$this->formFieldName])) + count((array) ($files[$this->formFieldName] ?? [])) > $maxCount) {
           $checkFailed = $this->getCheckFailed();
         }
       }

@@ -29,12 +29,12 @@ class EmailExists extends AbstractErrorCheck {
       $this->utilityFuncs->throwException('error_getmxrr');
     }
 
-    if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-      $email = $this->gp[$this->formFieldName];
+    $email = strval($this->gp[$this->formFieldName] ?? '');
+    if (strlen(trim($email)) > 0) {
       $hostname = substr($email, strpos($email, '@') + 1);
       $valid = getmxrr($hostname, $mxhosts);
       if ($valid) {
-                // Sometimes getmxrr returns true, but empty mx hosts.
+        // Sometimes getmxrr returns true, but empty mx hosts.
         $valid = !empty($mxhosts);
       }
       if (!$valid) {

@@ -23,14 +23,17 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 class BetweenValue extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $min = (float) (str_replace(',', '.', $this->utilityFuncs->getSingle($this->settings['params'], 'minValue')));
-    $max = (float) (str_replace(',', '.', $this->utilityFuncs->getSingle($this->settings['params'], 'maxValue')));
-    if (isset($this->gp[$this->formFieldName]) && strlen($this->gp[$this->formFieldName]) > 0) {
-      $valueToCheck = str_replace(',', '.', $this->gp[$this->formFieldName]);
+    $params = (array) ($this->settings['params'] ?? []);
+    $min = floatval(str_replace(',', '.', $this->utilityFuncs->getSingle($params, 'minValue')));
+    $max = floatval(str_replace(',', '.', $this->utilityFuncs->getSingle($params, 'maxValue')));
+
+    $formFieldValue = trim(strval($this->gp[$this->formFieldName] ?? ''));
+    if (strlen($formFieldValue) > 0) {
+      $valueToCheck = str_replace(',', '.', $formFieldValue);
       if (!is_numeric($valueToCheck)) {
         $checkFailed = $this->getCheckFailed();
       } else {
-        $valueToCheck = (float) $valueToCheck;
+        $valueToCheck = floatval($valueToCheck);
         if ($valueToCheck < $min || $valueToCheck > $max) {
           $checkFailed = $this->getCheckFailed();
         }

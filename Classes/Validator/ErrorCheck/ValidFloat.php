@@ -23,9 +23,9 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 class ValidFloat extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-
-    if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-      $valid = preg_match('/^([-]*[0-9\.,\' ]+?)((\.|,){1}([0-9-]{1,2}))*$/', $this->gp[$this->formFieldName]);
+    $formFieldValue = strval($this->gp[$this->formFieldName] ?? '');
+    if (strlen(trim($formFieldValue)) > 0) {
+      $valid = preg_match('/^([-]*[0-9\.,\' ]+?)((\.|,){1}([0-9-]{1,2}))*$/', $formFieldValue);
       if (!$valid) {
         $checkFailed = $this->getCheckFailed();
       }

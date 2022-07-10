@@ -30,10 +30,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class IsInDBTable extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-      $checkTable = $this->utilityFuncs->getSingle($this->settings['params'], 'table');
-      $checkField = $this->utilityFuncs->getSingle($this->settings['params'], 'field');
-      $additionalWhere = $this->utilityFuncs->getSingle($this->settings['params'], 'additionalWhere');
+    $formFieldValue = strval($this->gp[$this->formFieldName] ?? '');
+
+    if (strlen(trim($formFieldValue)) > 0) {
+      $params = (array) ($this->settings['params'] ?? []);
+      $checkTable = $this->utilityFuncs->getSingle($params, 'table');
+      $checkField = $this->utilityFuncs->getSingle($params, 'field');
+      $additionalWhere = $this->utilityFuncs->getSingle($params, 'additionalWhere');
+      $showHidden = intval($this->utilityFuncs->getSingle($params, 'showHidden'));
       if (!empty($checkTable) && !empty($checkField)) {
         /** @var ConnectionPool $connectionPool */
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -52,8 +56,7 @@ class IsInDBTable extends AbstractErrorCheck {
         if (!empty($additionalWhere)) {
           $queryBuilder->andWhere(QueryHelper::stripLogicalOperatorPrefix($additionalWhere));
         }
-        $showHidden = 1 === (int) ($this->settings['params']['showHidden']);
-        if ($showHidden) {
+        if (1 === $showHidden) {
           $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
         }
 

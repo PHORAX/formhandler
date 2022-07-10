@@ -24,10 +24,11 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 class NotDefaultValue extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-      $defaultValue = $this->utilityFuncs->getSingle($this->settings['params'], 'defaultValue');
+    $formFieldValue = strval($this->gp[$this->formFieldName] ?? '');
+    if (strlen(trim($formFieldValue)) > 0) {
+      $defaultValue = $this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'defaultValue');
       if (strlen($defaultValue) > 0) {
-        if (0 === strcmp($defaultValue, $this->gp[$this->formFieldName])) {
+        if (0 === strcmp($defaultValue, $formFieldValue)) {
           $checkFailed = $this->getCheckFailed();
         }
       }

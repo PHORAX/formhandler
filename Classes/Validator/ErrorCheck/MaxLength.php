@@ -23,12 +23,12 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 class MaxLength extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $max = intval($this->utilityFuncs->getSingle($this->settings['params'], 'value'));
-    if (isset($this->gp[$this->formFieldName])
-            && mb_strlen(trim($this->gp[$this->formFieldName]), 'utf-8') > 0
-            && (int) $max > 0
-            && mb_strlen(trim($this->gp[$this->formFieldName]), 'utf-8') > $max
-        ) {
+    $max = intval($this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'value'));
+    $formFieldValue = strval($this->gp[$this->formFieldName] ?? '');
+    if (mb_strlen(trim($formFieldValue), 'utf-8') > 0
+      && $max > 0
+      && mb_strlen(trim($formFieldValue), 'utf-8') > $max
+    ) {
       $checkFailed = $this->getCheckFailed();
     }
 
