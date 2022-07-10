@@ -160,7 +160,7 @@ class AutoDB extends DB {
     $tableColumns = $schemaManager->listTableColumns($this->table);
     foreach ($tableColumns as $column) {
       $field = strtolower($column->getName());
-      if ($field != $this->key && !isset($this->settings['fields.'][$field])) {
+      if ($field != $this->key && (isset($this->settings['fields.']) && is_array($this->settings['fields.']) && !isset($this->settings['fields.'][$field]))) {
         $this->settings['fields.'][$field.'.'] = ['mapping' => $field];
       }
     }

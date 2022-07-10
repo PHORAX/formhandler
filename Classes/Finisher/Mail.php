@@ -170,7 +170,7 @@ class Mail extends AbstractFinisher {
     $emailObj = GeneralUtility::makeInstance($emailClass);
 
     $this->emailObj = $emailObj;
-    $this->emailObj->init($this->gp, ($this->settings['mailer.'] ?? [])['config.'] ?? []);
+    $this->emailObj->init($this->gp, (array) (((array) ($this->settings['mailer.'] ?? []))['config.'] ?? []));
 
     $this->emailSettings = $this->parseEmailSettings($this->settings, $type);
 
@@ -226,7 +226,7 @@ class Mail extends AbstractFinisher {
       'templateFile',
     ];
 
-    return $this->parseEmailSettingsByType($tsConfig[$type.'.'] ?? [], $type, $options);
+    return $this->parseEmailSettingsByType((array) ($tsConfig[$type.'.'] ?? []), $type, $options);
   }
 
   /**
@@ -243,7 +243,8 @@ class Mail extends AbstractFinisher {
     $section = 'sEMAIL'.$typeUpper;
     $emailSettings = [];
     foreach ($optionsToParse as $idx => $option) {
-      $value = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], $option, $section);
+      $option = strval($option);
+      $value = $this->utilityFuncs->pi_getFFvalue((array) ($this->cObj->data['pi_flexform'] ?? []), $option, $section);
       if (strlen($value) > 0) {
         $emailSettings[$option] = $value;
         if (isset($this->gp[$value])) {
@@ -299,8 +300,8 @@ class Mail extends AbstractFinisher {
                   $emailSettings['attachGeneratedFiles'] .= $file.',';
                 }
               }
-              if (',' === substr($emailSettings['attachGeneratedFiles'], strlen($emailSettings['attachGeneratedFiles']) - 1)) {
-                $emailSettings['attachGeneratedFiles'] = substr($emailSettings['attachGeneratedFiles'], 0, strlen($emailSettings['attachGeneratedFiles']) - 1);
+              if (isset($emailSettings['attachGeneratedFiles']) && !empty($emailSettings['attachGeneratedFiles']) && ',' === substr(strval($emailSettings['attachGeneratedFiles']), strlen(strval($emailSettings['attachGeneratedFiles'])) - 1)) {
+                $emailSettings['attachGeneratedFiles'] = substr(strval($emailSettings['attachGeneratedFiles']), 0, strlen(strval($emailSettings['attachGeneratedFiles'])) - 1);
               }
               unset($currentSettings['attachGeneratedFiles.']);
               $currentSettings['attachGeneratedFiles'] = $emailSettings['attachGeneratedFiles'];
@@ -394,17 +395,12 @@ class Mail extends AbstractFinisher {
    * @return array<int, string>
    */
   protected function parseFilesList(array $settings, string $type, string $key): array {
-    $files = [];
-    if (isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
-      $files = $this->utilityFuncs->getSingle($settings, $key);
-      $files = GeneralUtility::trimExplode(',', $files);
-    } elseif (isset($settings[$key])) {
-      $files = GeneralUtility::trimExplode(',', $settings[$key]);
-    }
+    $files = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($settings, $key));
+
     $parsed = [];
     $sessionFiles = (array) ($this->globals->getSession()?->get('files') ?? []);
     foreach ($files as $idx => $file) {
-      if (isset($sessionFiles[$file])) {
+      if (isset($sessionFiles[$file]) && is_array($sessionFiles[$file])) {
         foreach ($sessionFiles[$file] as $subIdx => $uploadedFile) {
           array_push($parsed, $uploadedFile['uploaded_path'].$uploadedFile['uploaded_name']);
         }
@@ -431,12 +427,12 @@ class Mail extends AbstractFinisher {
    * @return array<int|string, mixed>
    */
   protected function parseList(array $settings, string $type, string $key): array {
-    if (isset($settings[$type][$key])) {
+    if (isset($settings[$type]) && is_array($settings[$type]) && isset($settings[$type][$key])) {
       $parsed = $this->explodeList($settings[$type][$key]);
     } elseif (isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
       $parsed = $this->explodeList($this->utilityFuncs->getSingle($settings, $key));
     } else {
-      $parsed = $this->explodeList($settings[$key] ?? []);
+      $parsed = $this->explodeList(strval($settings[$key]));
     }
 
     return $parsed;
@@ -447,7 +443,7 @@ class Mail extends AbstractFinisher {
    */
   protected function parseSettingValue(string $value): string {
     if (isset($this->gp[$value])) {
-      $parsed = $this->gp[$value];
+      $parsed = strval($this->gp[$value]);
     } else {
       $parsed = $value;
     }
@@ -481,7 +477,7 @@ class Mail extends AbstractFinisher {
     if (isset($this->settings['templateFile'])) {
       $templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings);
     }
-    if (isset($this->settings[$mode]['templateFile'])) {
+    if (isset($this->settings[$mode]) && is_array($this->settings[$mode]) && isset($this->settings[$mode]['templateFile'])) {
       $templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings[$mode]);
     }
 
@@ -505,13 +501,13 @@ class Mail extends AbstractFinisher {
    * @param string               $key      The key to parse in the settings array
    */
   protected function parseValue(array $settings, string $type, string $key): string {
-    if (isset($settings[$type][$key])) {
+    if (isset($settings[$type]) && is_array($settings[$type]) && isset($settings[$type][$key])) {
       $parsed = $this->parseSettingValue($settings[$type][$key]);
     } elseif (isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
       $settings[$key.'.']['gp'] = $this->gp;
       $parsed = $this->utilityFuncs->getSingle($settings, $key);
     } else {
-      $parsed = $this->parseSettingValue($settings[$key] ?? '');
+      $parsed = $this->parseSettingValue(strval($settings[$key] ?? ''));
     }
 
     return $parsed;
@@ -539,40 +535,46 @@ class Mail extends AbstractFinisher {
     }
 
     // set e-mail options
-    $this->emailObj->setSubject($this->emailSettings['subject']);
+    $this->emailObj->setSubject(strval($this->emailSettings['subject'] ?? ''));
 
-    $sender = $this->emailSettings['sender_email'];
     if (isset($this->emailSettings['sender_email']) && is_array($this->emailSettings['sender_email'])) {
       $sender = implode(',', $this->emailSettings['sender_email']);
+    } else {
+      $sender = strval($this->emailSettings['sender_email'] ?? '');
     }
 
-    $senderName = $this->emailSettings['sender_name'];
     if (isset($this->emailSettings['sender_name']) && is_array($this->emailSettings['sender_name'])) {
       $senderName = implode(',', $this->emailSettings['sender_name']);
+    } else {
+      $senderName = strval($this->emailSettings['sender_name'] ?? '');
     }
 
     $this->emailObj->setSender($sender, $senderName);
 
-    $replyto = $this->emailSettings['replyto_email'];
     if (isset($this->emailSettings['replyto_email']) && is_array($this->emailSettings['replyto_email'])) {
       $replyto = implode(',', $this->emailSettings['replyto_email']);
+    } else {
+      $replyto = strval($this->emailSettings['replyto_email'] ?? '');
     }
 
-    $replytoName = $this->emailSettings['replyto_name'];
     if (isset($this->emailSettings['replyto_name']) && is_array($this->emailSettings['replyto_name'])) {
       $replytoName = implode(',', $this->emailSettings['replyto_name']);
+    } else {
+      $replytoName = strval($this->emailSettings['replyto_name'] ?? '');
     }
+
     $this->emailObj->setReplyTo($replyto, $replytoName);
 
     $cc = $this->emailSettings['cc_email'];
     if (!is_array($cc)) {
-      $cc = GeneralUtility::trimExplode(',', $cc);
+      $cc = GeneralUtility::trimExplode(',', strval($cc));
     }
 
     $ccName = $this->emailSettings['cc_name'];
     if (!is_array($ccName)) {
-      $ccName = GeneralUtility::trimExplode(',', $ccName);
+      $ccName = GeneralUtility::trimExplode(',', strval($ccName));
     }
+
     foreach ($cc as $key => $email) {
       $name = '';
       if (isset($ccName[$key])) {
@@ -585,12 +587,12 @@ class Mail extends AbstractFinisher {
 
     $bcc = $this->emailSettings['bcc_email'];
     if (!is_array($bcc)) {
-      $bcc = GeneralUtility::trimExplode(',', $bcc);
+      $bcc = GeneralUtility::trimExplode(',', strval($bcc));
     }
 
     $bccName = $this->emailSettings['bcc_name'];
     if (!is_array($bccName)) {
-      $bccName = GeneralUtility::trimExplode(',', $bccName);
+      $bccName = GeneralUtility::trimExplode(',', strval($bccName));
     }
     foreach ($bcc as $key => $email) {
       $name = '';
@@ -602,10 +604,12 @@ class Mail extends AbstractFinisher {
       }
     }
 
-    $returnPath = $this->emailSettings['return_path'];
     if (isset($this->emailSettings['return_path']) && is_array($this->emailSettings['return_path'])) {
       $returnPath = implode(',', $this->emailSettings['return_path']);
+    } else {
+      $returnPath = strval($this->emailSettings['return_path'] ?? '');
     }
+
     if (0 === strlen(trim($returnPath))) {
       $returnPath = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
     }
@@ -615,10 +619,10 @@ class Mail extends AbstractFinisher {
     }
 
     if (isset($this->emailSettings['header'])) {
-      $this->emailObj->addHeader($this->emailSettings['header']);
+      $this->emailObj->addHeader(strval($this->emailSettings['header']));
     }
 
-    if (isset($template['plain']) && strlen(trim($template['plain'])) > 0) {
+    if (isset($template['plain']) && strlen(trim(strval($template['plain']))) > 0) {
       $this->emailObj->setPlain($template['plain']);
     } else {
       $this->emailObj->setPlain('');
@@ -627,7 +631,8 @@ class Mail extends AbstractFinisher {
     if (isset($template['html']) && strlen(trim($template['html'])) > 0) {
       if (isset($this->emailSettings['htmlEmailAsAttachment']) && (bool) $this->emailSettings['htmlEmailAsAttachment']) {
         $prefix = 'formhandler_';
-        if (isset($this->emailSettings['filePrefix.']['html'])) {
+
+        if (isset($this->emailSettings['filePrefix.']) && is_array($this->emailSettings['filePrefix.']) && isset($this->emailSettings['filePrefix.']['html'])) {
           $prefix = $this->emailSettings['filePrefix.']['html'];
         } elseif (isset($this->emailSettings['filePrefix'])) {
           $prefix = $this->emailSettings['filePrefix'];
@@ -648,7 +653,7 @@ class Mail extends AbstractFinisher {
 
     if (isset($this->emailSettings['attachment'])) {
       if (!is_array($this->emailSettings['attachment'])) {
-        $this->emailSettings['attachment'] = GeneralUtility::trimExplode(',', $this->emailSettings['attachment']);
+        $this->emailSettings['attachment'] = GeneralUtility::trimExplode(',', strval($this->emailSettings['attachment']));
       }
       foreach ($this->emailSettings['attachment'] as $idx => $attachment) {
         if (strlen($attachment) > 0 && @file_exists($attachment)) {
@@ -659,7 +664,7 @@ class Mail extends AbstractFinisher {
       }
     }
     if (isset($this->emailSettings['attachGeneratedFiles'])) {
-      $files = GeneralUtility::trimExplode(',', $this->emailSettings['attachGeneratedFiles']);
+      $files = GeneralUtility::trimExplode(',', strval($this->emailSettings['attachGeneratedFiles']));
       $this->utilityFuncs->debugMessage('adding_generated_files', [], 1, $files);
       foreach ($files as $file) {
         $this->emailObj->addAttachment($file);
@@ -672,7 +677,7 @@ class Mail extends AbstractFinisher {
       $max = 2;
     }
     if (!is_array($this->emailSettings['to_email'])) {
-      $this->emailSettings['to_email'] = GeneralUtility::trimExplode(',', $this->emailSettings['to_email']);
+      $this->emailSettings['to_email'] = GeneralUtility::trimExplode(',', strval($this->emailSettings['to_email']));
     }
     reset($this->emailSettings['to_email']);
 
@@ -702,7 +707,7 @@ class Mail extends AbstractFinisher {
 
     // delete generated files
     if (isset($this->emailSettings['deleteGeneratedFiles']) && (bool) $this->emailSettings['deleteGeneratedFiles'] && isset($this->emailSettings['attachGeneratedFiles']) && (bool) $this->emailSettings['attachGeneratedFiles']) {
-      $files = GeneralUtility::trimExplode(',', $this->emailSettings['attachGeneratedFiles']);
+      $files = GeneralUtility::trimExplode(',', strval($this->emailSettings['attachGeneratedFiles']));
       foreach ($files as $file) {
         unlink($file);
       }
