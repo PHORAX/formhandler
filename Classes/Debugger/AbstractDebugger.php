@@ -29,11 +29,11 @@ abstract class AbstractDebugger extends AbstractComponent {
   /**
    * Adds a message to the internal message storage.
    *
-   * @param string               $message  The message to log
-   * @param int                  $severity The severity of the message (1,2,3)
-   * @param array<string, mixed> $data     Additional data to log
+   * @param string                          $message  The message to log
+   * @param int                             $severity The severity of the message (1,2,3)
+   * @param array<int|string, mixed>|string $data     Additional data to log
    */
-  public function addToDebugLog(string $message = '', int $severity = 1, array $data = []): void {
+  public function addToDebugLog(string $message = '', int $severity = 1, array|string $data = []): void {
     $trace = debug_backtrace();
     $section = '';
     if (isset($trace[2])) {
