@@ -41,7 +41,7 @@ class LoadGetPost extends AbstractPreProcessor {
    * @return array<string, mixed> The loaded parameters
    */
   protected function loadGP(): array {
-    $gp = array_merge(GeneralUtility::_GET(), GeneralUtility::_POST());
+    $gp = array_merge((array) GeneralUtility::_GET(), (array) GeneralUtility::_POST());
     $formValuesPrefix = $this->globals->getFormValuesPrefix();
     if ($formValuesPrefix) {
       $gp = $gp[$formValuesPrefix];

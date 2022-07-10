@@ -70,15 +70,15 @@ class LoadDB extends AbstractPreProcessor {
    * @return array<string, mixed> GP
    */
   public function process(): array {
-    $this->data = $this->loadDB($this->settings['select.']);
+    $this->data = $this->loadDB((array) ($this->settings['select.'] ?? []));
 
     foreach ($this->settings as $step => $stepSettings) {
       $step = preg_replace('/\.$/', '', $step);
 
       if ('select' !== $step) {
-        if (1 === (int) $step && !is_string($stepSettings)) {
+        if (1 == intval($step) && is_array($stepSettings)) {
           $this->loadDBToGP($stepSettings);
-        } elseif (is_numeric($step) && !is_string($stepSettings)) {
+        } elseif (is_numeric($step) && is_array($stepSettings)) {
           $this->loadDBToSession($stepSettings, intval($step));
         }
       }
@@ -102,13 +102,13 @@ class LoadDB extends AbstractPreProcessor {
         $conf['max'] = $parts[0];
       }
     }
-    $sql = $this->globals->getCObj()?->getQuery($table, $conf) ?? '';
+    $sql = strval($this->globals->getCObj()?->getQuery($table, $conf) ?? '');
 
     // possible quotes: empty, ", ` or '
     $quotes = '|\"|\`|\'';
     // if pidInList is not set in TypoScript remove it from the where clause.
-    if (!isset($conf['pidInList']) || 0 === strlen($conf['pidInList'])) {
-      $sql = preg_replace('/([^ ]+\.('.$quotes.')pid('.$quotes.') IN \([^ ]+\) AND )/i', '', $sql);
+    if (!isset($conf['pidInList']) || 0 === strlen(strval($conf['pidInList']))) {
+      $sql = strval(preg_replace('/([^ ]+\.('.$quotes.')pid('.$quotes.') IN \([^ ]+\) AND )/i', '', $sql));
     }
 
     return $sql;
@@ -173,7 +173,10 @@ class LoadDB extends AbstractPreProcessor {
       $arrKeys = array_keys($settings);
       foreach ($arrKeys as $idx => $fieldname) {
         $fieldname = preg_replace('/\.$/', '', $fieldname) ?? '';
-        $values[$step][$fieldname] = $this->parseValue($fieldname, $settings);
+
+        $value = (array) ($values[$step] ?? []);
+        $value[$fieldname] = $this->parseValue($fieldname, $settings);
+        $values[$step] = $value;
       }
       $this->globals->getSession()?->set('values', $values);
     }
@@ -181,44 +184,47 @@ class LoadDB extends AbstractPreProcessor {
 
   /**
    * @param array<string, mixed> $settings
+   *
+   * @return string|string[]
    */
-  protected function parseValue(string $fieldname, array $settings): string {
+  protected function parseValue(string $fieldname, array $settings): array|string {
     $value = null;
+    $field = (array) ($settings[$fieldname.'.'] ?? []);
     // pre process the field value.
-    if (is_array($settings[$fieldname.'.']['preProcessing.'])) {
-      $settings[$fieldname.'.']['preProcessing.']['value'] = $value;
-      $value = $this->utilityFuncs->getSingle($settings[$fieldname.'.'], 'preProcessing');
+    if (isset($field['preProcessing.']) && is_array($field['preProcessing.'])) {
+      $field['preProcessing.']['value'] = $value;
+      $value = $this->utilityFuncs->getSingle((array) $field, 'preProcessing');
     }
 
     if (null === $value) {
-      $mapping = $this->utilityFuncs->getSingle($settings[$fieldname.'.'], 'mapping');
+      $mapping = $this->utilityFuncs->getSingle($field, 'mapping');
       if (isset($this->data[$mapping])) {
-        $value = $this->data[$mapping];
+        $value = strval($this->data[$mapping]);
       } else {
         $value = $this->utilityFuncs->getSingle($settings, $fieldname);
       }
-      if ($settings[$fieldname.'.']['separator']) {
-        $separator = $settings[$fieldname.'.']['separator'];
-        $value = GeneralUtility::trimExplode($separator, $value);
+      if (isset($field['separator'])) {
+        $value = GeneralUtility::trimExplode(strval($field['separator']), $value);
       }
     }
 
     // post process the field value.
-    if (is_array($settings[$fieldname.'.']['postProcessing.'])) {
-      $settings[$fieldname.'.']['postProcessing.']['value'] = $value;
-      $value = $this->utilityFuncs->getSingle($settings[$fieldname.'.'], 'postProcessing');
+    if (isset($field['postProcessing.']) && is_array($field['postProcessing.'])) {
+      $field['postProcessing.']['value'] = $value;
+      $value = $this->utilityFuncs->getSingle((array) $field, 'postProcessing');
     }
 
-    if (isset($settings[$fieldname.'.']['type']) && 'upload' === $this->utilityFuncs->getSingle($settings[$fieldname.'.'], 'type')) {
+    if (isset($field['type']) && 'upload' === $this->utilityFuncs->getSingle((array) $field, 'type')) {
       if (!$this->files) {
         $this->files = [];
       }
       $this->files[$fieldname] = [];
       if (!empty($value)) {
         $uploadPath = $this->utilityFuncs->getTempUploadFolder($fieldname);
-        $filesArray = $value;
-        if (!is_array($filesArray)) {
+        if (!is_array($value)) {
           $filesArray = GeneralUtility::trimExplode(',', $value);
+        } else {
+          $filesArray = $value;
         }
 
         foreach ($filesArray as $k => $uploadFile) {
@@ -231,7 +237,7 @@ class LoadDB extends AbstractPreProcessor {
           }
 
           $uploadedUrl = str_replace('//', '/', $uploadedUrl);
-          $this->files[$fieldname][] = [
+          $file = [
             'name' => $uploadFile,
             'uploaded_name' => $uploadFile,
             'uploaded_path' => Environment::getPublicPath().'/'.$uploadPath,
@@ -239,6 +245,12 @@ class LoadDB extends AbstractPreProcessor {
             'uploaded_url' => $uploadedUrl,
             'size' => filesize($file),
           ];
+          if (isset($this->files[$fieldname]) && is_array($this->files[$fieldname])) {
+            $this->files[$fieldname][] = $file;
+          } else {
+            $this->files[$fieldname] = [];
+            $this->files[$fieldname][] = $file;
+          }
         }
         $this->globals->getSession()?->set('files', $this->files);
       }
