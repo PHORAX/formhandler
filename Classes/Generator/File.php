@@ -31,10 +31,10 @@ class File extends AbstractGenerator {
     /** @var ViewFile $view */
     $view = GeneralUtility::makeInstance(ViewFile::class);
     $this->filename = '';
-    if (1 === (int) ($this->settings['storeInTempFile'])) {
+    if (1 == intval($this->settings['storeInTempFile'])) {
       $this->outputPath = $this->utilityFuncs->getDocumentRoot();
       if ($this->settings['customTempOutputPath']) {
-        $this->outputPath .= $this->utilityFuncs->sanitizePath($this->settings['customTempOutputPath']);
+        $this->outputPath .= $this->utilityFuncs->sanitizePath(strval($this->settings['customTempOutputPath'] ?? ''));
       } else {
         $this->outputPath .= '/typo3temp/';
       }

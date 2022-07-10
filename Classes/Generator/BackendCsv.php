@@ -64,45 +64,49 @@ class BackendCsv extends AbstractComponent {
    * @see Tx_Formhandler_Controller_Backend::generateCSV()
    */
   public function process(): array|string {
-    $records = $this->settings['records'];
-    $exportParams = $this->settings['exportFields'];
+    $records = (array) ($this->settings['records'] ?? []);
+    $exportFields = (array) ($this->settings['exportFields'] ?? []);
 
     $data = [];
 
     // build data array
     foreach ($records as $idx => $record) {
-      if (!isset($record['params']) || !is_array($record['params'])) {
-        $record['params'] = [];
-      }
-      foreach ($record['params'] as $subIdx => &$param) {
-        if (is_array($param)) {
-          $param = implode(';', $param);
+      if (is_array($record)) {
+        if (!isset($record['params']) || !is_array($record['params'])) {
+          $record['params'] = [];
         }
-      }
-      if (0 == count($exportParams) || in_array('pid', $exportParams)) {
-        $record['params']['pid'] = $record['pid'];
-      }
-      if (0 == count($exportParams) || in_array('submission_date', $exportParams)) {
-        $record['params']['submission_date'] = date('d.m.Y H:i:s', $record['crdate']);
-      }
-      if (0 == count($exportParams) || in_array('ip', $exportParams)) {
-        $record['params']['ip'] = $record['ip'];
-      }
-      $data[] = $record['params'];
-    }
-    if (count($exportParams) > 0) {
-      foreach ($data as $idx => &$params) {
-        // fill missing fields with empty value
-        foreach ($exportParams as $key => $exportParam) {
-          if (!array_key_exists($exportParam, $params)) {
-            $params[$exportParam] = '';
+        foreach ($record['params'] as $subIdx => &$param) {
+          if (is_array($param)) {
+            $param = implode(';', $param);
           }
         }
+        if (0 == count($exportFields) || in_array('pid', $exportFields)) {
+          $record['params']['pid'] = $record['pid'];
+        }
+        if (0 == count($exportFields) || in_array('submission_date', $exportFields)) {
+          $record['params']['submission_date'] = date('d.m.Y H:i:s', $record['crdate']);
+        }
+        if (0 == count($exportFields) || in_array('ip', $exportFields)) {
+          $record['params']['ip'] = $record['ip'];
+        }
+        $data[] = $record['params'];
+      }
+    }
+    if (count($exportFields) > 0) {
+      foreach ($data as $idx => &$params) {
+        if (is_array($params)) {
+          // fill missing fields with empty value
+          foreach ($exportFields as $key => $exportField) {
+            if (!array_key_exists(strval($exportField), $params)) {
+              $params[$exportField] = '';
+            }
+          }
 
-        // remove unwanted fields
-        foreach ($params as $key => $value) {
-          if (!in_array($key, $exportParams)) {
-            unset($params[$key]);
+          // remove unwanted fields
+          foreach ($params as $key => $value) {
+            if (!in_array($key, $exportFields)) {
+              unset($params[$key]);
+            }
           }
         }
       }
@@ -111,21 +115,23 @@ class BackendCsv extends AbstractComponent {
     // sort data
     $dataSorted = [];
     foreach ($data as $idx => $array) {
-      $dataSorted[] = $this->sortArrayByArray($array, $exportParams);
+      $dataSorted[] = $this->sortArrayByArray($array, $exportFields);
     }
     $data = $dataSorted;
 
     // create new parseCSV object.
     $csv = new Csv();
-    $csv->delimiter = $csv->output_delimiter = $this->settings['delimiter'];
-    $csv->enclosure = $this->settings['enclosure'];
+    $csv->delimiter = $csv->output_delimiter = strval($this->settings['delimiter'] ?? ',');
+    $csv->enclosure = strval($this->settings['enclosure'] ?? '"');
     $csv->input_encoding = strtolower($this->getInputCharset());
-    $csv->output_encoding = strtolower($this->settings['encoding']);
+    $csv->output_encoding = strtolower(strval($this->settings['encoding'] ?? 'utf-8'));
     $csv->convert_encoding = false;
     if ($csv->input_encoding !== $csv->output_encoding) {
       $csv->convert_encoding = true;
     }
-    $csv->output($this->settings['fileName'], $data, $exportParams);
+
+    $fileName = isset($this->settings['fileName']) ? strval($this->settings['fileName']) : null;
+    $csv->output($fileName, $data, $exportFields);
 
     exit();
   }

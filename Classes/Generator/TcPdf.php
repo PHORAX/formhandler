@@ -39,7 +39,7 @@ class TcPdf extends AbstractGenerator {
     /** @var AbstractView $view */
     $view = GeneralUtility::makeInstance(PDF::class);
     $this->filename = '';
-    if (1 === (int) ($this->settings['storeInTempFile'])) {
+    if (1 == intval($this->settings['storeInTempFile'])) {
       $this->outputPath = $this->utilityFuncs->getDocumentRoot();
       if ($this->settings['customTempOutputPath']) {
         $this->outputPath .= $this->settings['customTempOutputPath'];
