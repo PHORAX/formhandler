@@ -202,7 +202,7 @@ class AjaxMiddleware implements MiddlewareInterface {
     $this->globals = $globals;
 
     $this->globals->setCObj($GLOBALS['TSFE']->cObj);
-    $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
+    $randomID = htmlspecialchars(strval(GeneralUtility::_GP('randomID')));
     $this->globals->setRandomID($randomID);
     $this->globals->setAjaxMode(true);
     if (null == $this->globals->getSession()) {
