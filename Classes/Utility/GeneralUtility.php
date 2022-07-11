@@ -626,9 +626,9 @@ class GeneralUtility implements SingletonInterface {
    *
    * @return class-string
    */
-  public static function getPreparedClassName(?array $settingsArray, string $defaultClassName = '') {
+  public static function getPreparedClassName(array $settingsArray, string $defaultClassName = '') {
     $className = $defaultClassName;
-    if (isset($settingsArray) && is_array($settingsArray) && $settingsArray['class']) {
+    if (isset($settingsArray['class'])) {
       $className = self::getSingle($settingsArray, 'class');
     }
 
