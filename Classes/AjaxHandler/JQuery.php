@@ -50,9 +50,14 @@ class JQuery extends AbstractAjaxHandler {
    */
   public function fillAjaxMarkers(array &$markers): void {
     $settings = (array) ($this->globals->getSession()?->get('settings') ?? []);
-    $ajaxSubmit = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmit');
+    $ajaxConfig = [];
+    if (isset($settings['ajax.']) && is_array($settings['ajax.']) && isset($settings['ajax.']['config.']) && is_array($settings['ajax.']['config.'])) {
+      $ajaxConfig = $settings['ajax.']['config.'];
+    }
+
+    $ajaxSubmit = $this->utilityFuncs->getSingle($ajaxConfig, 'ajaxSubmit');
     if (1 === (int) $ajaxSubmit) {
-      $ajaxSubmitLoader = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmitLoader');
+      $ajaxSubmitLoader = $this->utilityFuncs->getSingle($ajaxConfig, 'ajaxSubmitLoader');
       if (0 === strlen($ajaxSubmitLoader)) {
         $loadingImg = PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')).'Resources/Public/Images/ajax-loader.gif';
         $loadingImg = '<img src="'.$loadingImg.'" alt="loading" />';
@@ -62,14 +67,14 @@ class JQuery extends AbstractAjaxHandler {
       $markers['###loading_ajax-submit###'] = $ajaxSubmitLoader;
     }
 
-    $autoDisableSubmitButton = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'autoDisableSubmitButton');
+    $autoDisableSubmitButton = $this->utilityFuncs->getSingle($ajaxConfig, 'autoDisableSubmitButton');
     if (1 === (int) $autoDisableSubmitButton) {
       $markers['###validation-status###'] = $this->validationStatusClasses['base'].' '.$this->validationStatusClasses['invalid'];
     }
 
-    $initial = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'initial');
+    $initial = $this->utilityFuncs->getSingle($ajaxConfig, 'initial');
 
-    $loadingImg = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'loading');
+    $loadingImg = $this->utilityFuncs->getSingle($ajaxConfig, 'loading');
     if (0 === strlen($loadingImg)) {
       $loadingImg = PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')).'Resources/Public/Images/ajax-loader.gif';
       $loadingImg = str_replace('../', '', $loadingImg);
