@@ -45,14 +45,14 @@ class RemoveFile extends AbstractAjax {
     $this->uploadedFileName = htmlspecialchars($_GET['uploadedFileName']);
     $this->langFiles = $this->utilityFuncs->readLanguageFiles([], $this->settings);
     // init ajax
-    if ($this->settings['ajax.']) {
+    if (isset($this->settings['ajax.']) && is_array($this->settings['ajax.'])) {
       $class = $this->utilityFuncs->getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\\JQuery');
 
       /** @var AbstractAjaxHandler $ajaxHandler */
       $ajaxHandler = GeneralUtility::makeInstance($class);
       $this->globals->setAjaxHandler($ajaxHandler);
 
-      $ajaxHandler->init($this->settings['ajax.']['config.']);
+      $ajaxHandler->init((array) ($this->settings['ajax.']['config.'] ?? []));
       $ajaxHandler->initAjax();
     }
 

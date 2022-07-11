@@ -44,9 +44,9 @@ class Validate extends AbstractAjax {
    */
   public function main(): ResponseInterface {
     $content = '';
-    $field = htmlspecialchars(GeneralUtility::_GP('field'));
+    $field = htmlspecialchars(strval(GeneralUtility::_GP('field') ?? ''));
     if ($field) {
-      $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
+      $randomID = htmlspecialchars(strval(GeneralUtility::_GP('randomID') ?? ''));
       Globals::setCObj($GLOBALS['TSFE']->cObj);
       Globals::setRandomID($randomID);
       if (null == Globals::getSession()) {
@@ -67,8 +67,13 @@ class Validate extends AbstractAjax {
       $errors = [];
       $valid = $validator->validateAjax($field, $gp, $errors);
 
+      $ajaxConfig = [];
+      if (isset($this->settings['ajax.']) && is_array($this->settings['ajax.']) && isset($this->settings['ajax.']['config.']) && is_array($this->settings['ajax.']['config.'])) {
+        $ajaxConfig = $this->settings['ajax.']['config.'];
+      }
+
       if ($valid) {
-        $content = $this->utilityFuncs->getSingle($this->settings['ajax.']['config.'], 'ok');
+        $content = $this->utilityFuncs->getSingle($ajaxConfig, 'ok');
         if (0 === strlen($content)) {
           $content = '<img src="'.PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')).'Resources/Public/Images/ok.png'.'" />';
         } else {
@@ -78,7 +83,7 @@ class Validate extends AbstractAjax {
         }
         $content = sprintf($this->templates['spanSuccess'], $content);
       } else {
-        $content = $this->utilityFuncs->getSingle($this->settings['ajax.']['config.'], 'notOk');
+        $content = $this->utilityFuncs->getSingle($ajaxConfig, 'notOk');
         if (0 === strlen($content)) {
           $content = '<img src="'.PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('formhandler')).'Resources/Public/Images/notok.png'.'" />';
         } else {
