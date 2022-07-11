@@ -34,8 +34,8 @@ class PrintToScreen extends AbstractDebugger {
         $sectionContent = '';
         foreach ($logData as $messageData) {
           $message = str_replace("\n", '<br />', $messageData['message']);
-          $message = $this->globals->getCObj()?->wrap($message, $this->utilityFuncs->getSingle($this->settings['severityWrap.'], $messageData['severity'])) ?? '';
-          $sectionContent .= $this->globals->getCObj()?->wrap($message, $this->settings['messageWrap']);
+          $message = $this->globals->getCObj()?->wrap($message, $this->utilityFuncs->getSingle((array) ($this->settings['severityWrap.'] ?? []), $messageData['severity'])) ?? '';
+          $sectionContent .= $this->globals->getCObj()?->wrap($message, strval($this->settings['messageWrap'] ?? ''));
           if ($messageData['data']) {
             $sectionContent .= DebugUtility::viewArray($messageData['data']);
             $sectionContent .= '<br />';
@@ -51,24 +51,30 @@ class PrintToScreen extends AbstractDebugger {
    * Sets default config for the debugger.
    */
   public function validateConfig(): bool {
-    if (!$this->settings['sectionWrap']) {
+    if (!isset($this->settings['sectionWrap'])) {
       $this->settings['sectionWrap'] = '<div style="border:1px solid #ccc; padding:7px; background:#dedede;">|</div>';
     }
-    if (!$this->settings['sectionHeaderWrap']) {
+    if (!isset($this->settings['sectionHeaderWrap'])) {
       $this->settings['sectionHeaderWrap'] = '<h2 style="background:#333; color:#cdcdcd;height:23px;padding:10px 7px 7px 7px;margin:0;">|</h2>';
     }
-    if (!$this->settings['messageWrap']) {
+    if (!isset($this->settings['messageWrap'])) {
       $this->settings['messageWrap'] = '<div style="font-weight:bold;">|</div>';
     }
-    if (!$this->settings['severityWrap.']['1']) {
-      $this->settings['severityWrap.']['1'] = '<span style="color:#000;">|</span>';
+
+    $severityWrap = [];
+    if (isset($this->settings['severityWrap.']) && is_array($this->settings['severityWrap.'])) {
+      $severityWrap = $this->settings['severityWrap.'];
     }
-    if (!$this->settings['severityWrap.']['2']) {
-      $this->settings['severityWrap.']['2'] = '<span style="color:#FF8C00;">|</span>';
+    if (!isset($severityWrap['1'])) {
+      $severityWrap['1'] = '<span style="color:#000;">|</span>';
     }
-    if (!$this->settings['severityWrap.']['3']) {
-      $this->settings['severityWrap.']['3'] = '<span style="color:#FF2800;">|</span>';
+    if (!isset($severityWrap['2'])) {
+      $severityWrap['2'] = '<span style="color:#FF8C00;">|</span>';
     }
+    if (!isset($severityWrap['3'])) {
+      $severityWrap['3'] = '<span style="color:#FF2800;">|</span>';
+    }
+    $this->settings['severityWrap.'] = $severityWrap;
 
     return true;
   }

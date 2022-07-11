@@ -209,7 +209,7 @@ class GeneralUtility implements SingletonInterface {
     }
     $data = self::recursiveHtmlSpecialChars($data);
     foreach (Globals::getDebuggers() as $idx => $debugger) {
-      $debugger->addToDebugLog(htmlspecialchars($message), $severity, $data);
+      $debugger->addToDebugLog(htmlspecialchars($message), $severity, [$data]);
     }
   }
 
