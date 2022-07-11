@@ -503,10 +503,9 @@ class Form extends AbstractController {
 
     $this->getStepInformation();
 
-    if (0 == intval($this->globals->getSession()?->get('currentStep') ?? 0)) {
+    if (0 == $this->currentStep) {
       $this->currentStep = 1;
       $this->lastStep = 1;
-      $this->utilityFuncs->throwException('You messed with the steps!');
     }
 
     $this->mergeGPWithSession();
