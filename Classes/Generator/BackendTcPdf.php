@@ -179,7 +179,7 @@ class BackendTcPdf extends AbstractComponent {
       $pdf->Output($fileName, 'D');
     }
 
-    exit();
+    exit;
   }
 
   /**

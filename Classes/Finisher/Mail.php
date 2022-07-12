@@ -481,9 +481,9 @@ class Mail extends AbstractFinisher {
       $templateCode = $this->utilityFuncs->readTemplateFile('', $this->settings[$mode]);
     }
 
-    $view->setTemplate($templateCode, ('EMAIL_'.strtoupper($mode).'_'.strtoupper($suffix).$this->globals->getTemplateSuffix()));
+    $view->setTemplate($templateCode, 'EMAIL_'.strtoupper($mode).'_'.strtoupper($suffix).$this->globals->getTemplateSuffix());
     if (!$view->hasTemplate()) {
-      $view->setTemplate($templateCode, ('EMAIL_'.strtoupper($mode).'_'.strtoupper($suffix)));
+      $view->setTemplate($templateCode, 'EMAIL_'.strtoupper($mode).'_'.strtoupper($suffix));
       if (!$view->hasTemplate()) {
         $this->utilityFuncs->debugMessage('no_mail_template', [$mode, $suffix], 2);
       }
@@ -520,7 +520,7 @@ class Mail extends AbstractFinisher {
    */
   protected function sendMail(string $type): bool {
     $doSend = true;
-    if (1 === (int) ($this->utilityFuncs->getSingle($this->emailSettings, 'disable'))) {
+    if (1 === (int) $this->utilityFuncs->getSingle($this->emailSettings, 'disable')) {
       $this->utilityFuncs->debugMessage('mail_disabled', [$type]);
       $doSend = false;
     }
@@ -637,7 +637,7 @@ class Mail extends AbstractFinisher {
         } elseif (isset($this->emailSettings['filePrefix'])) {
           $prefix = $this->emailSettings['filePrefix'];
         }
-        $tmphtml = tempnam('typo3temp/', ('/'.$prefix)).'.html';
+        $tmphtml = tempnam('typo3temp/', '/'.$prefix).'.html';
         $tmphtml = str_replace('.tmp', '', $tmphtml);
         $tmphandle = fopen($tmphtml, 'wb');
         if ($tmphandle) {

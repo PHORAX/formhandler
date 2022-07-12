@@ -83,14 +83,14 @@ class FormSubmit extends AbstractAjax {
    * @return mixed Output of a Finisher
    */
   protected function runFinishers(): mixed {
-    if (isset($this->settings['finishers.']) && is_array($this->settings['finishers.']) && 1 !== (int) ($this->utilityFuncs->getSingle($this->settings['finishers.'], 'disable'))) {
+    if (isset($this->settings['finishers.']) && is_array($this->settings['finishers.']) && 1 !== (int) $this->utilityFuncs->getSingle($this->settings['finishers.'], 'disable')) {
       ksort($this->settings['finishers.']);
 
       foreach ($this->settings['finishers.'] as $idx => $tsConfig) {
         if ('disabled' !== $idx) {
           $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
           if (is_array($tsConfig) && !empty($className)) {
-            if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
+            if (1 !== (int) $this->utilityFuncs->getSingle($tsConfig, 'disable')) {
               /** @var AbstractFinisher $finisher */
               $finisher = GeneralUtility::makeInstance($className);
               $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.'] ?? []);
@@ -98,7 +98,7 @@ class FormSubmit extends AbstractAjax {
               $finisher->validateConfig();
 
               // if the finisher returns HTML (e.g. Typoheads\Formhandler\Finisher\SubmittedOK)
-              if (1 === (int) ($this->utilityFuncs->getSingle($tsConfig['config.'], 'returns'))) {
+              if (1 === (int) $this->utilityFuncs->getSingle($tsConfig['config.'], 'returns')) {
                 $this->globals->getSession()?->set('finished', true);
 
                 return $finisher->process();

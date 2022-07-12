@@ -495,7 +495,7 @@ class Form extends AbstractController {
 
       $this->utilityFuncs->doRedirect($GLOBALS['TSFE']->id, false, $_GET);
 
-      exit();
+      exit;
     }
     $this->parseConditions();
 
@@ -512,7 +512,7 @@ class Form extends AbstractController {
 
     $this->parseConditions();
 
-    if (0 === (int) ($this->utilityFuncs->getSingle($this->settings, 'disableConfigValidation'))) {
+    if (0 === (int) $this->utilityFuncs->getSingle($this->settings, 'disableConfigValidation')) {
       $this->validateConfig();
     }
     $this->globals->setSettings($this->settings);
@@ -617,7 +617,7 @@ class Form extends AbstractController {
           $submitted = true;
         }
       }
-    } elseif (1 === (int) ($this->utilityFuncs->getSingle($this->settings, 'skipView'))) {
+    } elseif (1 === (int) $this->utilityFuncs->getSingle($this->settings, 'skipView')) {
       $submitted = true;
     }
 
@@ -751,7 +751,7 @@ class Form extends AbstractController {
         unset($finisherConf['actions.']);
         $object->init($params, $finisherConf);
         $content = strval($object->process());
-      } elseif (1 === (int) ($this->utilityFuncs->getSingle($finisherConf['actions.'][$action.'.']['config.'], 'returns'))) {
+      } elseif (1 === (int) $this->utilityFuncs->getSingle($finisherConf['actions.'][$action.'.']['config.'], 'returns')) {
         $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action.'.']);
         if ($class) {
           // Makes it possible to make your own Generator class show output
@@ -987,14 +987,14 @@ class Form extends AbstractController {
     }
 
     // run finishers
-    if (isset($this->settings['finishers.']) && is_array($this->settings['finishers.']) && 1 !== (int) ($this->utilityFuncs->getSingle($this->settings['finishers.'], 'disable'))) {
+    if (isset($this->settings['finishers.']) && is_array($this->settings['finishers.']) && 1 !== (int) $this->utilityFuncs->getSingle($this->settings['finishers.'], 'disable')) {
       ksort($this->settings['finishers.']);
 
       foreach ($this->settings['finishers.'] as $idx => $tsConfig) {
         if ('disabled' !== $idx) {
           $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
           if (is_array($tsConfig) && !empty($className)) {
-            if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
+            if (1 !== (int) $this->utilityFuncs->getSingle($tsConfig, 'disable')) {
               /** @var AbstractFinisher $finisher */
               $finisher = GeneralUtility::makeInstance($className);
               $tsConfig['config.'] = $this->addDefaultComponentConfig($tsConfig['config.'] ?? []);
@@ -1179,7 +1179,7 @@ class Form extends AbstractController {
         if ('disable' !== $idx) {
           $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
           if (is_array($tsConfig) && !empty($className)) {
-            if (1 !== (int) ($this->utilityFuncs->getSingle($tsConfig, 'disable'))) {
+            if (1 !== (int) $this->utilityFuncs->getSingle($tsConfig, 'disable')) {
               /** @var AbstractValidator $validator */
               $validator = GeneralUtility::makeInstance($className);
               if ($this->currentStep === $this->lastStep) {
@@ -1354,14 +1354,14 @@ class Form extends AbstractController {
 
     if (1 == intval($this->utilityFuncs->getSingle($this->settings, 'skipView'))) {
       $this->finished = true;
-    } elseif (!isset($this->settings['templateSuffix']) && strstr($this->templateFile, ('###TEMPLATE_FORM'.$step.'###'))) {
+    } elseif (!isset($this->settings['templateSuffix']) && strstr($this->templateFile, '###TEMPLATE_FORM'.$step.'###')) {
       // search for ###TEMPLATE_FORM[step]###
       $this->utilityFuncs->debugMessage('using_subpart', ['###TEMPLATE_FORM'.$step.'###']);
-      $this->view->setTemplate($this->templateFile, ('FORM'.$step));
-    } elseif (isset($this->settings['templateSuffix']) && strstr($this->templateFile, ('###TEMPLATE_FORM'.$step.$this->settings['templateSuffix'].'###'))) {
+      $this->view->setTemplate($this->templateFile, 'FORM'.$step);
+    } elseif (isset($this->settings['templateSuffix']) && strstr($this->templateFile, '###TEMPLATE_FORM'.$step.$this->settings['templateSuffix'].'###')) {
       // search for ###TEMPLATE_FORM[step][suffix]###
       $this->utilityFuncs->debugMessage('using_subpart', ['###TEMPLATE_FORM'.$step.$this->settings['templateSuffix'].'###']);
-      $this->view->setTemplate($this->templateFile, ('FORM'.$step.$this->settings['templateSuffix']));
+      $this->view->setTemplate($this->templateFile, 'FORM'.$step.$this->settings['templateSuffix']);
     } elseif ($step == intval($this->globals->getSession()?->get('lastStep') ?? 1) + 1) {
       $this->finished = true;
     }

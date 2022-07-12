@@ -62,7 +62,7 @@ class RemoveXSS extends AbstractInterceptor {
         $list = strval($globalSetting['removeChars']);
       }
       $this->removeChars = GeneralUtility::trimExplode($sep, $list);
-    } elseif (1 === (int) ($this->utilityFuncs->getSingle((array) ($globalSetting['removeChars.'] ?? []), 'disable'))) {
+    } elseif (1 === (int) $this->utilityFuncs->getSingle((array) ($globalSetting['removeChars.'] ?? []), 'disable')) {
       // user disabled removal globally
       $this->removeChars = [];
     }
@@ -105,7 +105,7 @@ class RemoveXSS extends AbstractInterceptor {
             $list = strval($fieldSetting['removeChars']);
           }
           $removeChars = GeneralUtility::trimExplode($sep, $list);
-        } elseif (1 === (int) ($this->utilityFuncs->getSingle((array) ($fieldSetting['removeChars.'] ?? []), 'disable'))) {
+        } elseif (1 === (int) $this->utilityFuncs->getSingle((array) ($fieldSetting['removeChars.'] ?? []), 'disable')) {
           // user disabled removal for this field
           $removeChars = [];
         }
@@ -143,7 +143,7 @@ class RemoveXSS extends AbstractInterceptor {
     for ($i = 0; $i < $len; ++$i) {
       $c = ord($str[$i]);
       if ($c > 128) {
-        if (($c >= 254)) {
+        if ($c >= 254) {
           return false;
         }
         if ($c >= 252) {

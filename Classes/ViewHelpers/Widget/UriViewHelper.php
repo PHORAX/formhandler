@@ -6,28 +6,28 @@ namespace Typoheads\Formhandler\ViewHelpers\Widget;
 
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
- /**
-  * This script is part of the TYPO3 project - inspiring people to share!
-  *
-  * TYPO3 is free software; you can redistribute it and/or modify it under
-  * the terms of the GNU General Public License version 2 as published by
-  * the Free Software Foundation.
-  *
-  * This script is distributed in the hope that it will be useful, but
-  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
-  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-  * Public License for more details.
-  */
- class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\UriViewHelper {
-   /**
-    * Get the URI for a non-AJAX Request.
-    *
-    * @param array<string, mixed> $arguments
-    *
-    * @return string the Widget URI
-    */
-   protected static function getWidgetUri(RenderingContextInterface $renderingContext, array $arguments): string {
-     // TODO: Fix me
+/**
+ * This script is part of the TYPO3 project - inspiring people to share!
+ *
+ * TYPO3 is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ */
+class UriViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\UriViewHelper {
+  /**
+   * Get the URI for a non-AJAX Request.
+   *
+   * @param array<string, mixed> $arguments
+   *
+   * @return string the Widget URI
+   */
+  protected static function getWidgetUri(RenderingContextInterface $renderingContext, array $arguments): string {
+    // TODO: Fix me
 
      //  $controllerContext = $renderingContext->getControllerContext();
      //  $uriBuilder = $controllerContext->getUriBuilder();
@@ -60,6 +60,6 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
      //    ->setFormat($arguments['format'])
      //    ->build()
      //  ;
-     return '';
-   }
- }
+    return '';
+  }
+}

@@ -30,7 +30,7 @@ class FileMinCount extends AbstractErrorCheck {
     $minCount = intval($this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'minCount'));
     if (is_array($files[$this->formFieldName])
             && $currentStep > $lastStep
-        ) {
+    ) {
       foreach ($_FILES as $idx => $info) {
         if (!is_array($info['name'][$this->formFieldName])) {
           $info['name'][$this->formFieldName] = [$info['name'][$this->formFieldName]];

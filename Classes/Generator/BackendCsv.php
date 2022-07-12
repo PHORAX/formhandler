@@ -133,7 +133,7 @@ class BackendCsv extends AbstractComponent {
     $fileName = isset($this->settings['fileName']) ? strval($this->settings['fileName']) : null;
     $csv->output($fileName, $data, $exportFields);
 
-    exit();
+    exit;
   }
 
   /**

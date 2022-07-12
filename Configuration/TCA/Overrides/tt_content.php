@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3') or exit();
+defined('TYPO3') or exit;
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
   [
