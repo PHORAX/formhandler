@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Utility;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\Random;
@@ -1196,7 +1197,12 @@ class GeneralUtility implements SingletonInterface {
           if (is_array($value)) {
             $value = self::recursiveHtmlSpecialChars($value);
           } else {
-            $value = htmlspecialchars(serialize($value));
+            if ($value instanceof Address) {
+              $value = $value->toString();
+            } else {
+              $value = serialize($value);
+            }
+            $value = htmlspecialchars($value);
           }
         }
       }
