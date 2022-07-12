@@ -100,7 +100,7 @@ class StoreUploadedFiles extends AbstractFinisher {
     $uploadPath = $this->utilityFuncs->getDocumentRoot().$newFolder;
     $uploadPath = $this->utilityFuncs->sanitizePath($uploadPath);
     if (!file_exists($uploadPath)) {
-      $doCreateNonExistingFolder = (int) ($this->utilityFuncs->getSingle($this->settings, 'createNonExistingFolder'));
+      $doCreateNonExistingFolder = (int) $this->utilityFuncs->getSingle($this->settings, 'createNonExistingFolder');
       if (!isset($this->settings['createNonExistingFolder'])) {
         $doCreateNonExistingFolder = 1;
       }
@@ -136,7 +136,7 @@ class StoreUploadedFiles extends AbstractFinisher {
   protected function moveUploadedFiles(): void {
     $sessionFiles = $this->globals->getSession()?->get('files') ?? '';
     if (is_array($sessionFiles) && !empty($sessionFiles)) {
-      $disablePathCheck = (int) ($this->utilityFuncs->getSingle($this->settings, 'disablePathCheck'));
+      $disablePathCheck = (int) $this->utilityFuncs->getSingle($this->settings, 'disablePathCheck');
       foreach ($sessionFiles as $field => $files) {
         $this->gp[$field] = [];
         $uploadPath = $this->getNewFolderPath($field);
@@ -158,13 +158,13 @@ class StoreUploadedFiles extends AbstractFinisher {
               $this->utilityFuncs->debugMessage(
                 'copy_file',
                 [
-                  ($file['uploaded_path'].$file['uploaded_name']),
-                  ($uploadPath.$newFilename),
+                  $file['uploaded_path'].$file['uploaded_name'],
+                  $uploadPath.$newFilename,
                 ]
               );
-              copy(($file['uploaded_path'].$file['uploaded_name']), ($uploadPath.$newFilename));
+              copy($file['uploaded_path'].$file['uploaded_name'], $uploadPath.$newFilename);
               GeneralUtility::fixPermissions($uploadPath.$newFilename);
-              unlink(($file['uploaded_path'].$file['uploaded_name']));
+              unlink($file['uploaded_path'].$file['uploaded_name']);
               $newFolder = str_replace($this->utilityFuncs->getDocumentRoot(), '', $uploadPath);
               $sessionFiles[$field][$key]['uploaded_path'] = $uploadPath;
               $sessionFiles[$field][$key]['uploaded_name'] = $newFilename;

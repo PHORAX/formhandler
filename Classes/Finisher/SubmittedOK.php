@@ -59,7 +59,7 @@ class SubmittedOK extends AbstractFinisher {
     $view = GeneralUtility::makeInstance($viewClass);
 
     // show TEMPLATE_SUBMITTEDOK
-    $view->setTemplate($this->template, ('SUBMITTEDOK'.$this->globals->getTemplateSuffix()));
+    $view->setTemplate($this->template, 'SUBMITTEDOK'.$this->globals->getTemplateSuffix());
     if (!$view->hasTemplate()) {
       $view->setTemplate($this->template, 'SUBMITTEDOK');
       if (!$view->hasTemplate()) {

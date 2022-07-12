@@ -54,7 +54,7 @@ class DB extends AbstractLogger {
           $value = $this->utilityFuncs->getSingle($fieldConf, 'ifIsEmpty');
           $logParams[$field] = $value;
         }
-        if (1 === (int) ($this->utilityFuncs->getSingle($fieldConf, 'nullIfEmpty')) && (empty($logParams[$field]) || !isset($logParams[$field]))) {
+        if (1 === (int) $this->utilityFuncs->getSingle($fieldConf, 'nullIfEmpty') && (empty($logParams[$field]) || !isset($logParams[$field]))) {
           unset($logParams[$field]);
         }
       }
@@ -102,7 +102,7 @@ class DB extends AbstractLogger {
     $this->gp['inserted_uid'] = $insertedUID;
     $this->gp[$table.'_inserted_uid'] = $this->gp['inserted_uid'];
 
-    if (1 !== (int) ($this->utilityFuncs->getSingle($this->settings, 'nodebug'))) {
+    if (1 !== (int) $this->utilityFuncs->getSingle($this->settings, 'nodebug')) {
       $this->utilityFuncs->debugMessage('logging', [$table, implode(',', $fields)]);
       if ($conn->errorInfo()) {
         $this->utilityFuncs->debugMessage('error', [$conn->errorInfo()], 3);

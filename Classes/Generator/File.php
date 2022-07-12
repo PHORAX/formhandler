@@ -90,7 +90,7 @@ class File extends AbstractGenerator {
     header('Content-Disposition: attachment; filename="'.$this->filenameOnly.'"');
     echo $content;
 
-    exit();
+    exit;
   }
 
   /**

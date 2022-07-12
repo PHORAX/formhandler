@@ -97,7 +97,7 @@ class Csv extends AbstractGenerator {
     }
     $csv->output($fileName, $data, $fields);
 
-    exit();
+    exit;
   }
 
   /**

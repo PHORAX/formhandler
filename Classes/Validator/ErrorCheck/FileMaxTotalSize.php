@@ -26,7 +26,7 @@ class FileMaxTotalSize extends AbstractErrorCheck {
     $olderFiles = (array) ($this->globals->getSession()?->get('files') ?? []);
     if (isset($olderFiles[$this->formFieldName]) && is_array($olderFiles[$this->formFieldName])) {
       foreach ($olderFiles[$this->formFieldName] as $olderFile) {
-        $size += (int) ($olderFile['size']);
+        $size += (int) $olderFile['size'];
       }
     }
 

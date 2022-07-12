@@ -76,7 +76,7 @@ abstract class AbstractErrorCheck extends AbstractComponent {
       foreach ($this->settings['params'] as $key => $value) {
         $checkFailed .= $key.'::'.$this->utilityFuncs->getSingle($this->settings['params'], $key).';';
       }
-      $checkFailed = substr($checkFailed, 0, (strlen($checkFailed) - 1));
+      $checkFailed = substr($checkFailed, 0, strlen($checkFailed) - 1);
     }
 
     return $checkFailed;

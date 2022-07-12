@@ -108,7 +108,7 @@ class DB extends AbstractFinisher {
 
     // check whether to update or to insert a record
     $this->doUpdate = false;
-    if (1 === (int) ($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert'))) {
+    if (1 === (int) $this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert')) {
       // check if uid of record to update is in GP
       $uid = $this->getUpdateUid();
 
@@ -116,7 +116,7 @@ class DB extends AbstractFinisher {
       $recordExists = $this->doesRecordExist($uid, $andWhere);
       if ($recordExists) {
         $this->doUpdate = true;
-      } elseif (1 !== (int) ($this->utilityFuncs->getSingle($this->settings, 'insertIfNoUpdatePossible'))) {
+      } elseif (1 !== (int) $this->utilityFuncs->getSingle($this->settings, 'insertIfNoUpdatePossible')) {
         $this->utilityFuncs->debugMessage('no_update_possible', [], 2);
       }
     }
@@ -188,7 +188,7 @@ class DB extends AbstractFinisher {
     $queryBuilder
       ->getRestrictions()
       ->removeAll()
-        ;
+    ;
 
     $queryBuilder
       ->select($this->key)
@@ -246,7 +246,7 @@ class DB extends AbstractFinisher {
     $queryBuilder
       ->getRestrictions()
       ->removeAll()
-        ;
+    ;
 
     $queryBuilder->update($this->table);
 

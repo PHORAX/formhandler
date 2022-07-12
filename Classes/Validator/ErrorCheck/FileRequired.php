@@ -33,7 +33,7 @@ class FileRequired extends AbstractErrorCheck {
         $found = true;
       }
     }
-    if (!$found && !is_array($sessionFiles[$this->formFieldName]) && 0 === count((array) ($sessionFiles[$this->formFieldName]))) {
+    if (!$found && !is_array($sessionFiles[$this->formFieldName]) && 0 === count((array) $sessionFiles[$this->formFieldName])) {
       $checkFailed = $this->getCheckFailed();
     }
 

@@ -25,7 +25,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class FileMaxSize extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $maxSize = (int) ($this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'maxSize'));
+    $maxSize = (int) $this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'maxSize');
     $phpIniUploadMaxFileSize = $this->utilityFuncs->convertBytes((string) ini_get('upload_max_filesize'));
     if ($maxSize > $phpIniUploadMaxFileSize) {
       $this->utilityFuncs->throwException('error_check_filemaxsize', GeneralUtility::formatSize($maxSize, ' Bytes| KB| MB| GB'), $this->formFieldName, GeneralUtility::formatSize($phpIniUploadMaxFileSize, ' Bytes| KB| MB| GB'));
