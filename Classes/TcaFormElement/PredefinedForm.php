@@ -7,6 +7,7 @@ namespace Typoheads\Formhandler\TcaFormElement;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -39,7 +40,7 @@ class PredefinedForm {
       || 0 === count($ts['plugin.']['tx_formhandler_pi1.']['settings.']['predef.'])
     ) {
       $items[] = [
-        0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:be_missing_config'),
+        0 => LocalizationUtility::translate('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:be_missing_config'),
         1 => '',
       ];
 
@@ -62,14 +63,14 @@ class PredefinedForm {
       if ('lll' === strtolower($data[0])) {
         array_shift($data);
         $langFileAndKey = implode(':', $data);
-        $beName = $GLOBALS['LANG']->sL('LLL:'.$langFileAndKey);
+        $beName = LocalizationUtility::translate('LLL:'.$langFileAndKey);
       }
       $predef[] = [$beName, $key];
     }
 
     if (0 == count($predef)) {
       $items[] = [
-        0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:be_missing_config'),
+        0 => LocalizationUtility::translate('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:be_missing_config'),
         1 => '',
       ];
 
@@ -78,7 +79,7 @@ class PredefinedForm {
 
     // Add label
     $items[] = [
-      0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:be_please_select'),
+      0 => LocalizationUtility::translate('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:be_please_select'),
       1 => '',
     ];
 

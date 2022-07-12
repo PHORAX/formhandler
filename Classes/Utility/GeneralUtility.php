@@ -17,6 +17,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Typoheads\Formhandler\Mailer\TYPO3Mailer;
@@ -347,7 +348,7 @@ class GeneralUtility implements SingletonInterface {
       }
       self::doRedirect($redirectPage, $correctRedirectUrl, $additionalParams, $headerStatusCode);
 
-      exit();
+      exit;
     }
     self::debugMessage('No redirectPage set.');
   }
@@ -421,7 +422,7 @@ class GeneralUtility implements SingletonInterface {
   public static function getConditionResult(string $condition, array $gp): bool {
     $conditionResult = false;
     $valueConditions = preg_split('/\s*(!=|\^=|\$=|~=|>=|<=|=|<|>)\s*/', $condition, -1, PREG_SPLIT_DELIM_CAPTURE);
-    if (is_bool(($valueConditions))) {
+    if (is_bool($valueConditions)) {
       return $conditionResult;
     }
 
@@ -469,7 +470,7 @@ class GeneralUtility implements SingletonInterface {
       case '>':
         $value = self::getGlobal($fieldName, $gp);
         if (is_numeric($value)) {
-          $conditionResult = (float) $value > (float) (self::parseOperand($valueConditions[2], $gp));
+          $conditionResult = (float) $value > (float) self::parseOperand($valueConditions[2], $gp);
         }
 
         break;
@@ -477,7 +478,7 @@ class GeneralUtility implements SingletonInterface {
       case '<':
         $value = self::getGlobal($fieldName, $gp);
         if (is_numeric($value)) {
-          $conditionResult = (float) $value < (float) (self::parseOperand($valueConditions[2], $gp));
+          $conditionResult = (float) $value < (float) self::parseOperand($valueConditions[2], $gp);
         }
 
         break;
@@ -485,7 +486,7 @@ class GeneralUtility implements SingletonInterface {
       case '>=':
         $value = self::getGlobal($fieldName, $gp);
         if (is_numeric($value)) {
-          $conditionResult = (float) $value >= (float) (self::parseOperand($valueConditions[2], $gp));
+          $conditionResult = (float) $value >= (float) self::parseOperand($valueConditions[2], $gp);
         }
 
         break;
@@ -493,7 +494,7 @@ class GeneralUtility implements SingletonInterface {
       case '<=':
         $value = self::getGlobal($fieldName, $gp);
         if (is_numeric($value)) {
-          $conditionResult = (float) $value <= (float) (self::parseOperand($valueConditions[2], $gp));
+          $conditionResult = (float) $value <= (float) self::parseOperand($valueConditions[2], $gp);
         }
 
         break;
@@ -516,7 +517,7 @@ class GeneralUtility implements SingletonInterface {
    * @param string $key The key in translation file
    */
   public static function getDebugMessage(string $key): string {
-    return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_debug.xlf:'.$key));
+    return trim(LocalizationUtility::translate('LLL:EXT:formhandler/Resources/Private/Language/locallang_debug.xlf:'.$key));
   }
 
   /**
@@ -532,7 +533,7 @@ class GeneralUtility implements SingletonInterface {
    * @param string $key The key in translation file
    */
   public static function getExceptionMessage(string $key): string {
-    return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_exceptions.xlf:'.$key));
+    return trim(LocalizationUtility::translate('LLL:EXT:formhandler/Resources/Private/Language/locallang_exceptions.xlf:'.$key));
   }
 
   /**
@@ -554,7 +555,7 @@ class GeneralUtility implements SingletonInterface {
         $marker = $llKey;
         $message = '';
         foreach ($langFiles as $langFile) {
-          $message = trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$llKey));
+          $message = trim(LocalizationUtility::translate('LLL:'.$langFile.':'.$llKey));
         }
         $langMarkers['###LLL:'.$marker.'###'] = $message;
       }
@@ -671,7 +672,7 @@ class GeneralUtility implements SingletonInterface {
     }
     $start += strlen($marker);
     $stop = strpos($content, $marker, $start);
-    $content = substr($content, $start, ($stop - $start));
+    $content = substr($content, $start, $stop - $start);
     $matches = [];
     if (1 === preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches)) {
       return $matches[2];
@@ -761,7 +762,7 @@ class GeneralUtility implements SingletonInterface {
         $convertedValue = $value;
 
         break;
-      }
+    }
 
     return $now - $convertedValue;
   }
@@ -772,8 +773,8 @@ class GeneralUtility implements SingletonInterface {
   public static function getTranslatedMessage(array $langFiles, string $key): string {
     $message = '';
     foreach ($langFiles as $langFile) {
-      if (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key))) > 0) {
-        $message = trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key));
+      if (strlen(trim(LocalizationUtility::translate('LLL:'.$langFile.':'.$key))) > 0) {
+        $message = trim(LocalizationUtility::translate('LLL:'.$langFile.':'.$key));
       }
     }
 
@@ -791,7 +792,7 @@ class GeneralUtility implements SingletonInterface {
 
   public static function initializeTSFE(ServerRequestInterface $request): void {
     $site = $request->getAttribute('site');
-    if (!($site instanceof SiteInterface)) {
+    if (!$site instanceof SiteInterface) {
       /** @var SiteFinder $siteFinder */
       $siteFinder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(SiteFinder::class);
       $sites = $siteFinder->getAllSites();
@@ -875,7 +876,7 @@ class GeneralUtility implements SingletonInterface {
     $nG = MathUtility::forceIntegerInRange(intval(hexdec(substr($color, 3, 2)) + $G), 0, 255);
     $nB = MathUtility::forceIntegerInRange(intval(hexdec(substr($color, 5, 2)) + $B), 0, 255);
 
-    return '#'.substr(('0'.dechex($nR)), -2).substr(('0'.dechex($nG)), -2).substr(('0'.dechex($nB)), -2);
+    return '#'.substr('0'.dechex($nR), -2).substr('0'.dechex($nG), -2).substr('0'.dechex($nB), -2);
   }
 
   /**
@@ -1301,7 +1302,7 @@ class GeneralUtility implements SingletonInterface {
     if ('/' !== substr($path, 0, 1) && ':/' !== substr($path, 1, 2)) {
       $path = '/'.$path;
     }
-    if ('/' !== substr($path, (strlen($path) - 1)) && !strstr($path, '.')) {
+    if ('/' !== substr($path, strlen($path) - 1) && !strstr($path, '.')) {
       $path = $path.'/';
     }
     while (strstr($path, '//')) {

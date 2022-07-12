@@ -10,6 +10,7 @@ use tx_jmrecaptcha;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -118,9 +119,9 @@ class Form extends AbstractView {
 
     // parse validation settings
     if (isset($settings['validators.']) && is_array($settings['validators.'])) {
-      if (0 === (int) ($this->utilityFuncs->getSingle($settings['validators.'], 'disable'))) {
+      if (0 === (int) $this->utilityFuncs->getSingle($settings['validators.'], 'disable')) {
         foreach ($settings['validators.'] as $key => $validatorSettings) {
-          if (0 === (int) ($this->utilityFuncs->getSingle($validatorSettings, 'disable'))) {
+          if (0 === (int) $this->utilityFuncs->getSingle($validatorSettings, 'disable')) {
             $disableErrorCheckFields = [];
             if (is_array($validatorSettings['config.']) && isset($validatorSettings['config.']['disableErrorCheckFields'])) {
               $disableErrorCheckFields = GeneralUtility::trimExplode(',', $validatorSettings['config.']['disableErrorCheckFields']);
@@ -177,7 +178,7 @@ class Form extends AbstractView {
                         $totalSize = 0;
                         if (is_array($sessionFiles[$replacedFieldname])) {
                           foreach ($sessionFiles[$replacedFieldname] as $file) {
-                            $totalSize += (int) ($file['size']);
+                            $totalSize += (int) $file['size'];
                           }
                         }
                         $markers['###'.$replacedFieldname.'_currentTotalSize###'] = GeneralUtility::formatSize($totalSize, ' Bytes| KB| MB| GB');
@@ -249,11 +250,7 @@ class Form extends AbstractView {
 
             $onClick .= 'return false;';
 
-            $link = '<a
-								href="javascript:void(0)" 
-								class="formhandler_removelink" 
-								onclick="'.str_replace(["\n", '	'], '', $onClick).'"
-								>'.$text.'</a>';
+            $link = '<a href="javascript:void(0)" class="formhandler_removelink" onclick="'.str_replace(["\n", '	'], '', $onClick).'" >'.$text.'</a>';
           }
           $stdWrappedFilename = $this->utilityFuncs->wrap($filename, (array) ($this->settings['singleFileMarkerTemplate.'] ?? []), 'filenameWrap');
 
@@ -636,9 +633,9 @@ class Form extends AbstractView {
     }
 
     if (isset($this->settings['session.']) && is_array($this->settings['session.'])
-            && 1 === (int) ($this->utilityFuncs->getSingle($this->settings['session.']['config.'], 'disableCookies'))
-            && 0 === (int) (ini_get('session.use_trans_sid'))
-        ) {
+            && 1 === (int) $this->utilityFuncs->getSingle($this->settings['session.']['config.'], 'disableCookies')
+            && 0 === (int) ini_get('session.use_trans_sid')
+    ) {
       /*
        * User currently does not have a session cookie and php is not configured to
        * automatically add session info to forms and links
@@ -742,7 +739,7 @@ class Form extends AbstractView {
 
     preg_match_all('/###submit_step_([^#])+?###/Ssm', $this->template, $allJumpToStepSubmits);
     foreach ($allJumpToStepSubmits[0] as $idx => $allJumpToStepSubmit) {
-      $step = (int) ($allJumpToStepSubmits[1][$idx]);
+      $step = (int) $allJumpToStepSubmits[1][$idx];
       $action = 'next';
       if ($step < $currentStepFromSession) {
         $action = 'prev';
@@ -956,11 +953,11 @@ class Form extends AbstractView {
       $aLLMarkerList = [];
       preg_match_all('/###LLL:[^#]+?###/Ssm', $this->template, $aLLMarkerList);
       foreach ($aLLMarkerList[0] as $idx => $LLMarker) {
-        $llKey = substr($LLMarker, 7, (strlen($LLMarker) - 10));
+        $llKey = substr($LLMarker, 7, strlen($LLMarker) - 10);
         $marker = $llKey;
         $message = '';
         foreach ($this->langFiles as $subIdx => $langFile) {
-          $temp = trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$llKey));
+          $temp = trim(LocalizationUtility::translate('LLL:'.$langFile.':'.$llKey));
           if (strlen($temp) > 0) {
             $message = $temp;
           }
@@ -1088,7 +1085,7 @@ class Form extends AbstractView {
     if (!isset($imgConfig['titleText'])) {
       $imgConfig['titleText'] = $filename;
     }
-    $relPath = substr(($fileInfo['uploaded_folder'].$fileInfo['uploaded_name']), 1);
+    $relPath = substr($fileInfo['uploaded_folder'].$fileInfo['uploaded_name'], 1);
 
     $imgConfig['file'] = $relPath;
     if (is_array($imgConfig['file.'] ?? null)) {

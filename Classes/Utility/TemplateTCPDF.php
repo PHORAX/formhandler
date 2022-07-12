@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Utility;
 
 use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -47,7 +48,7 @@ class TemplateTCPDF extends \TCPDF {
    * Generates the footer.
    */
   public function Footer(): void {
-        // Position at 1.5 cm from bottom
+    // Position at 1.5 cm from bottom
     $this->SetY(-15);
 
     $footerText = $this->getFooterText();
@@ -142,7 +143,7 @@ class TemplateTCPDF extends \TCPDF {
       $LANG->includeLLFile($this->sysLangFile);
       $text = trim($LANG->getLL($key));
     } else {
-      $text = trim($GLOBALS['TSFE']->sL('LLL:'.$this->sysLangFile.':'.$key));
+      $text = trim(LocalizationUtility::translate('LLL:'.$this->sysLangFile.':'.$key));
     }
 
     return $text;
