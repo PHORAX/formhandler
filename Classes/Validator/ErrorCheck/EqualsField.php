@@ -24,10 +24,11 @@ class EqualsField extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
 
-    if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-      $comparisonValue = $this->gp[$this->utilityFuncs->getSingle($this->settings['params'], 'field')];
+    $formFieldValue = strval($this->gp[$this->formFieldName] ?? '');
+    if (strlen(trim($formFieldValue)) > 0) {
+      $comparisonValue = strval($this->gp[$this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'field')] ?? '');
 
-      if (0 != strcmp($comparisonValue, $this->gp[$this->formFieldName])) {
+      if (0 != strcmp($comparisonValue, $formFieldValue)) {
         $checkFailed = $this->getCheckFailed();
       }
     }

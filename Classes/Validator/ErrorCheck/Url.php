@@ -31,8 +31,9 @@ class Url extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
 
-    if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-      $valid = GeneralUtility::isValidUrl($this->gp[$this->formFieldName]);
+    $formFieldValue = strval($this->gp[$this->formFieldName] ?? '');
+    if (strlen(trim($formFieldValue)) > 0) {
+      $valid = GeneralUtility::isValidUrl($formFieldValue);
       if (!$valid) {
         $checkFailed = $this->getCheckFailed();
       }

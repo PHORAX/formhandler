@@ -61,8 +61,8 @@ class BackendTcPdf extends AbstractComponent {
   }
 
   public function process(): array|string {
-    $records = $this->settings['records'];
-    $exportFields = $this->settings['exportFields'];
+    $records = (array) ($this->settings['records'] ?? []);
+    $exportFields = (array) ($this->settings['exportFields'] ?? []);
 
     // init pdf object
 
@@ -71,9 +71,10 @@ class BackendTcPdf extends AbstractComponent {
 
     $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 
-    $pdf->SetFont($this->settings['font'], '', $this->settings['fontSize']);
-    $pdf->SetHeaderFont([$this->settings['font'], '', $this->settings['fontSizeHeader']]);
-    $pdf->SetFooterFont([$this->settings['font'], '', $this->settings['fontSizeFooter']]);
+    $font = strval($this->settings['font'] ?? '');
+    $pdf->SetFont($font, '', floatval($this->settings['fontSize']));
+    $pdf->SetHeaderFont([$font, '', floatval($this->settings['fontSizeHeader'])]);
+    $pdf->SetFooterFont([$font, '', floatval($this->settings['fontSizeFooter'])]);
 
     $addedOneRecord = false;
 
@@ -83,81 +84,84 @@ class BackendTcPdf extends AbstractComponent {
     // if no valid record is found render an error message in pdf file
     foreach ($records as $data) {
       $valid = false;
-      if (isset($data['params']) && is_array($data['params'])) {
-        foreach ($data['params'] as $key => $value) {
-          if (0 == count($exportFields) || in_array($key, $exportFields)) {
-            $valid = true;
+      if (is_array($data)) {
+        if (isset($data['params']) && is_array($data['params'])) {
+          foreach ($data['params'] as $key => $value) {
+            if (0 == count($exportFields) || in_array($key, $exportFields)) {
+              $valid = true;
+            }
           }
         }
-      }
-      if ($valid) {
-        $addedOneRecord = true;
-        $pdf->AddPage();
-        $standardWidth = 100;
-        $nameWidth = 70;
-        $valueWidth = 70;
-        $feedWidth = 30;
+        if ($valid) {
+          $addedOneRecord = true;
+          $pdf->AddPage();
+          $standardWidth = 100;
+          $nameWidth = 70;
+          $valueWidth = 70;
+          $feedWidth = 30;
 
-        if (0 == count($exportFields) || in_array('pid', $exportFields)) {
-          $pdf->Cell($standardWidth, 15.0, 'Page-ID:', 0, 0);
-          $pdf->Cell($standardWidth, 15.0, $data['pid'], 0, 1);
-        }
-        if (0 == count($exportFields) || in_array('submission_date', $exportFields)) {
-          $pdf->Cell($standardWidth, 15.0, 'Submission date:', 0, 0);
-          $pdf->Cell($standardWidth, 15.0, date('d.m.Y H:i:s', $data['crdate']), 0, 1);
-        }
-        if (0 == count($exportFields) || in_array('ip', $exportFields)) {
-          $pdf->Cell($standardWidth, 15.0, 'IP address:', 0, 0);
-          $pdf->Cell($standardWidth, 15.0, $data['ip'], 0, 1);
-        }
+          if (0 == count($exportFields) || in_array('pid', $exportFields)) {
+            $pdf->Cell($standardWidth, 15.0, 'Page-ID:', 0, 0);
+            $pdf->Cell($standardWidth, 15.0, $data['pid'], 0, 1);
+          }
+          if (0 == count($exportFields) || in_array('submission_date', $exportFields)) {
+            $pdf->Cell($standardWidth, 15.0, 'Submission date:', 0, 0);
+            $pdf->Cell($standardWidth, 15.0, date('d.m.Y H:i:s', $data['crdate']), 0, 1);
+          }
+          if (0 == count($exportFields) || in_array('ip', $exportFields)) {
+            $pdf->Cell($standardWidth, 15.0, 'IP address:', 0, 0);
+            $pdf->Cell($standardWidth, 15.0, $data['ip'], 0, 1);
+          }
 
-        $pdf->Cell($standardWidth, 15.0, 'Submitted values:', 0, 1);
-        $pdf->SetLineWidth(.3);
-        $pdf->Cell($feedWidth);
-        $pdf->SetFillColor(255, 255, 255);
-        $pdf->Cell($nameWidth, 6.0, 'Name', 'B', 0, 'C', true);
-        $pdf->Cell($valueWidth, 6.0, 'Value', 'B', 0, 'C', true);
-        $pdf->Ln();
-        $pdf->SetFillColor(200, 200, 200);
-        $fill = false;
+          $pdf->Cell($standardWidth, 15.0, 'Submitted values:', 0, 1);
+          $pdf->SetLineWidth(.3);
+          $pdf->Cell($feedWidth);
+          $pdf->SetFillColor(255, 255, 255);
+          $pdf->Cell($nameWidth, 6.0, 'Name', 'B', 0, 'C', true);
+          $pdf->Cell($valueWidth, 6.0, 'Value', 'B', 0, 'C', true);
+          $pdf->Ln();
+          $pdf->SetFillColor(200, 200, 200);
+          $fill = false;
 
-        if (0 == count($exportFields)) {
-          $exportFields = array_keys($data['params']);
-        }
-        foreach ($exportFields as $idx => $key) {
-          if (isset($data['params'][$key])) {
-            $value = $data['params'][$key];
-            if (is_array($value)) {
-              $pdf->Cell($feedWidth);
-              $pdf->Cell($nameWidth, 6.0, $key, 0, 0, 'L', $fill);
-              $arrayValue = array_shift($value);
-              if (false === strpos($arrayValue, "\n") && false === strpos($arrayValue, "\r") && strlen($arrayValue) < $valueWidth - 40) {
-                $pdf->Cell($valueWidth, 6.0, $arrayValue, 0, 0, 'L', $fill);
-              } else {
-                $pdf->MultiCell($valueWidth, 6.0, $arrayValue, 0, 'L', $fill, 0);
-              }
-              $pdf->Ln();
-              foreach ($value as $v) {
+          if (0 == count($exportFields)) {
+            $exportFields = array_keys($data['params']);
+          }
+          foreach ($exportFields as $idx => $key) {
+            $key = strval($key);
+            if (isset($data['params'][$key])) {
+              $value = $data['params'][$key];
+              if (is_array($value)) {
                 $pdf->Cell($feedWidth);
-                $pdf->Cell($nameWidth, 6.0, '', 0, 0, 'L', $fill);
-                if (false === strpos($v, "\n") && false === strpos($v, "\r") && strlen($v) < $valueWidth - 40) {
-                  $pdf->Cell($valueWidth, 6.0, $v, 0, 0, 'L', $fill);
+                $pdf->Cell($nameWidth, 6.0, $key, 0, 0, 'L', $fill);
+                $arrayValue = array_shift($value);
+                if (false === strpos($arrayValue, "\n") && false === strpos($arrayValue, "\r") && strlen($arrayValue) < $valueWidth - 40) {
+                  $pdf->Cell($valueWidth, 6.0, $arrayValue, 0, 0, 'L', $fill);
                 } else {
-                  $pdf->MultiCell($valueWidth, 6.0, $v, 0, 'L', $fill, 0);
+                  $pdf->MultiCell($valueWidth, 6.0, $arrayValue, 0, 'L', $fill, 0);
                 }
                 $pdf->Ln();
-              }
-              $fill = !$fill;
-            } else {
-              $pdf->Cell($feedWidth);
-              $pdf->Cell($nameWidth, 6.0, $key, 0, 0, 'L', $fill);
-              if (false === strpos($value, "\n") && false === strpos($value, "\r") && strlen($value) < $valueWidth - 40) {
-                $pdf->Cell($valueWidth, 6.0, $value, 0, 0, 'L', $fill);
+                foreach ($value as $v) {
+                  $pdf->Cell($feedWidth);
+                  $pdf->Cell($nameWidth, 6.0, '', 0, 0, 'L', $fill);
+                  if (false === strpos($v, "\n") && false === strpos($v, "\r") && strlen($v) < $valueWidth - 40) {
+                    $pdf->Cell($valueWidth, 6.0, $v, 0, 0, 'L', $fill);
+                  } else {
+                    $pdf->MultiCell($valueWidth, 6.0, $v, 0, 'L', $fill, 0);
+                  }
+                  $pdf->Ln();
+                }
+                $fill = !$fill;
               } else {
-                $pdf->MultiCell($valueWidth, 6.0, $value, 0, 'L', $fill, 0);
+                $pdf->Cell($feedWidth);
+                $pdf->Cell($nameWidth, 6.0, $key, 0, 0, 'L', $fill);
+                if (false === strpos($value, "\n") && false === strpos($value, "\r") && strlen($value) < $valueWidth - 40) {
+                  $pdf->Cell($valueWidth, 6.0, $value, 0, 0, 'L', $fill);
+                } else {
+                  $pdf->MultiCell($valueWidth, 6.0, $value, 0, 'L', $fill, 0);
+                }
+                $pdf->Ln();
+                $fill = !$fill;
               }
-              $pdf->Ln();
-              $fill = !$fill;
             }
           }
         }
@@ -170,7 +174,10 @@ class BackendTcPdf extends AbstractComponent {
       $pdf->Cell(300, 100, 'No valid records found! Try to select more fields to export!', 0, 0, 'L');
     }
 
-    $pdf->Output($this->settings['fileName'], 'D');
+    $fileName = strval($this->settings['fileName'] ?? '');
+    if (is_writable(dirname($fileName))) {
+      $pdf->Output($fileName, 'D');
+    }
 
     exit();
   }

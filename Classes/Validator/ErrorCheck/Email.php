@@ -26,8 +26,9 @@ class Email extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
 
-    if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-      $valid = GeneralUtility::validEmail($this->gp[$this->formFieldName]);
+    $email = trim(strval($this->gp[$this->formFieldName] ?? ''));
+    if (strlen($email) > 0) {
+      $valid = GeneralUtility::validEmail($email);
       if (!$valid) {
         $checkFailed = $this->getCheckFailed();
       }

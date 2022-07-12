@@ -134,8 +134,9 @@ class DB extends AbstractFinisher {
     // query the database
     $isSuccess = $this->save($queryFields);
 
-    if (!isset($this->gp['saveDB']) || !is_array($this->gp['saveDB'])) {
-      $this->gp['saveDB'] = [];
+    $saveDB = [];
+    if (isset($this->gp['saveDB']) && is_array($this->gp['saveDB'])) {
+      $saveDB = $this->gp['saveDB'];
     }
 
     // Store info in GP only if the query was successful
@@ -149,7 +150,7 @@ class DB extends AbstractFinisher {
           'uid' => $this->gp['inserted_uid'],
           'uidField' => $this->key,
         ];
-        array_push($this->gp['saveDB'], $info);
+        array_push($saveDB, $info);
       } else {
         $uid = $this->getUpdateUid();
         $info = [
@@ -157,18 +158,20 @@ class DB extends AbstractFinisher {
           'uid' => $uid,
           'uidField' => $this->key,
         ];
-        array_push($this->gp['saveDB'], $info);
+        array_push($saveDB, $info);
       }
 
       // Insert the data written to DB into GP array
       $dataKeyName = $this->table;
       $dataKeyIndex = 1;
-      while (isset($this->gp['saveDB'][$dataKeyName])) {
+      while (isset($saveDB[$dataKeyName])) {
         ++$dataKeyIndex;
         $dataKeyName = $this->table.'_'.$dataKeyIndex;
       }
-      $this->gp['saveDB'][$dataKeyName] = $queryFields;
+      $saveDB[$dataKeyName] = $queryFields;
     }
+
+    $this->gp['saveDB'] = $saveDB;
 
     return $this->gp;
   }
@@ -293,8 +296,9 @@ class DB extends AbstractFinisher {
    */
   protected function getFileList(array $files, string $fieldname): string {
     $filenames = [];
-    foreach ($files[$fieldname] as $idx => $file) {
-      array_push($filenames, $file['uploaded_name']);
+    $file = (array) ($files[$fieldname] ?? []);
+    foreach ($file as $idx => $fileValues) {
+      array_push($filenames, strval(((array) $fileValues)['uploaded_name'] ?? ''));
     }
 
     return implode(',', $filenames);
@@ -315,18 +319,18 @@ class DB extends AbstractFinisher {
    * @return int UID
    */
   protected function getUpdateUid(): int {
-    $uid = $this->utilityFuncs->getSingle($this->settings, 'key_value');
-    $disableFallback = (1 === (int) ($this->utilityFuncs->getSingle($this->settings, 'disableUpdateUidFallback')));
+    $uid = intval($this->utilityFuncs->getSingle($this->settings, 'key_value'));
+    $disableFallback = (1 == intval($this->utilityFuncs->getSingle($this->settings, 'disableUpdateUidFallback')));
     if (!$disableFallback) {
       if (!$uid) {
-        $uid = $this->gp[$this->key];
+        $uid = intval($this->gp[$this->key] ?? 0);
       }
       if (!$uid) {
-        $uid = $this->gp['inserted_uid'];
+        $uid = intval($this->gp['inserted_uid']);
       }
     }
 
-    return (int) $uid;
+    return $uid;
   }
 
   /**
@@ -337,17 +341,18 @@ class DB extends AbstractFinisher {
   protected function parseFields(): array {
     $queryFields = [];
 
+    $fields = (array) ($this->settings['fields.'] ?? []);
     // parse mapping
     /** @var string $fieldname */
-    foreach ($this->settings['fields.'] as $fieldname => $options) {
+    foreach ($fields as $fieldname => $options) {
       $fieldname = str_replace('.', '', $fieldname);
       $fieldValue = '';
       if (is_array($options)) {
         if (!isset($options['special'])) {
-          $mapping = $options['mapping'];
+          $mapping = strval($options['mapping'] ?? '');
 
           // if no mapping default to the name of the form field
-          if (!$mapping) {
+          if (empty($mapping)) {
             $mapping = $fieldname;
           }
 
@@ -369,11 +374,11 @@ class DB extends AbstractFinisher {
           }
 
           // process empty value handling
-          if (isset($options['ifIsEmpty']) && 0 === strlen($fieldValue)) {
+          if (isset($options['ifIsEmpty']) && 0 === strlen(strval($fieldValue))) {
             $fieldValue = $this->utilityFuncs->getSingle($options, 'ifIsEmpty');
           }
 
-          if (1 === (int) ($this->utilityFuncs->getSingle($options, 'zeroIfEmpty')) && 0 === strlen($fieldValue)) {
+          if (1 == intval($this->utilityFuncs->getSingle($options, 'zeroIfEmpty')) && 0 === strlen(strval($fieldValue))) {
             $fieldValue = 0;
           }
 
@@ -396,8 +401,10 @@ class DB extends AbstractFinisher {
             case 'saltedpassword':
               $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
 
-              $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
-              $encryptedPassword = $hashInstance->getHashedPassword($this->gp[$field]);
+              /** @var PasswordHashFactory $passwordHashFactory */
+              $passwordHashFactory = GeneralUtility::makeInstance(PasswordHashFactory::class);
+              $hashInstance = $passwordHashFactory->getDefaultHashInstance('FE');
+              $encryptedPassword = $hashInstance->getHashedPassword(strval($this->gp[$field] ?? ''));
 
               $fieldValue = $encryptedPassword;
 
@@ -440,7 +447,7 @@ class DB extends AbstractFinisher {
 
             case 'date':
               $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
-              $date = $this->gp[$field];
+              $date = strval($this->gp[$field]);
               $dateFormat = 'Y-m-d';
               if ($options['special.']['dateFormat']) {
                 $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
@@ -456,7 +463,7 @@ class DB extends AbstractFinisher {
                 $this->utilityFuncs->throwException('error_datetime');
               }
               $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
-              $date = $this->gp[$field];
+              $date = strval($this->gp[$field]);
               $dateFormat = 'Y-m-d H:i:s';
               if ($options['special.']['dateFormat']) {
                 $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
@@ -506,7 +513,7 @@ class DB extends AbstractFinisher {
       }
 
       // post process the field value after formhandler did it's magic.
-      if (isset($options['postProcessing.']) && is_array($options['postProcessing.'])) {
+      if (is_array($options) && isset($options['postProcessing.']) && is_array($options['postProcessing.'])) {
         if (!isset($options['postProcessing.']['value'])) {
           $options['postProcessing.']['value'] = $fieldValue;
         }
@@ -515,7 +522,7 @@ class DB extends AbstractFinisher {
 
       $queryFields[$fieldname] = $fieldValue;
 
-      if (1 === (int) ($this->utilityFuncs->getSingle($options, 'nullIfEmpty')) && 0 == strlen($queryFields[$fieldname])) {
+      if (is_array($options) && 1 == intval($this->utilityFuncs->getSingle($options, 'nullIfEmpty')) && 0 == strlen(strval($queryFields[$fieldname] ?? ''))) {
         unset($queryFields[$fieldname]);
       }
     }

@@ -19,6 +19,7 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use Typoheads\Formhandler\Mailer\TYPO3Mailer;
 
 /**
  * This script is part of the TYPO3 project - inspiring people to share!
@@ -167,7 +168,7 @@ class GeneralUtility implements SingletonInterface {
     return $timestamp;
   }
 
-  public static function debugMailContent(mixed $emailObj): void {
+  public static function debugMailContent(TYPO3Mailer $emailObj): void {
     self::debugMessage('mail_subject', [$emailObj->getSubject()]);
 
     $sender = $emailObj->getSender();
@@ -182,9 +183,9 @@ class GeneralUtility implements SingletonInterface {
     }
     self::debugMessage('mail_replyto', [], 1, $replyTo);
 
-    self::debugMessage('mail_cc', [], 1, (array) $emailObj->getCc());
-    self::debugMessage('mail_bcc', [], 1, (array) $emailObj->getBcc());
-    self::debugMessage('mail_returnpath', [], 1, [$emailObj->returnPath ?? '']);
+    self::debugMessage('mail_cc', [], 1, $emailObj->getCc());
+    self::debugMessage('mail_bcc', [], 1, $emailObj->getBcc());
+    self::debugMessage('mail_returnpath', [], 1, [$emailObj->getReturnPath() ?? '']);
     self::debugMessage('mail_plain', [], 1, [$emailObj->getPlain()]);
     self::debugMessage('mail_html', [], 1, [$emailObj->getHTML()]);
   }
@@ -208,7 +209,7 @@ class GeneralUtility implements SingletonInterface {
     }
     $data = self::recursiveHtmlSpecialChars($data);
     foreach (Globals::getDebuggers() as $idx => $debugger) {
-      $debugger->addToDebugLog(htmlspecialchars($message), $severity, $data);
+      $debugger->addToDebugLog(htmlspecialchars($message), $severity, [$data]);
     }
   }
 
@@ -234,29 +235,30 @@ class GeneralUtility implements SingletonInterface {
     $replace = ['_'];
     $separator = ',';
 
-    $usePregReplace = self::getSingle($settings['files.'], 'usePregReplace');
-    if (1 === (int) $usePregReplace) {
+    $files = (array) ($settings['files.'] ?? []);
+    $usePregReplace = intval(self::getSingle($files, 'usePregReplace'));
+    if (1 == $usePregReplace) {
       $search = ['/ /', '/%20/'];
     }
 
     // The settings "search" and "replace" are comma separated lists
-    if ($settings['files.']['search']) {
-      $search = self::getSingle($settings['files.'], 'search');
-      if ($settings['files.']['search.']['separator']) {
-        $separatorTemp = self::getSingle($settings['files.']['search.'], 'separator');
+    if (isset($files['search'])) {
+      $search = self::getSingle((array) $files, 'search');
+      if (isset($files['search.']) && is_array($files['search.']) && isset($files['search.']['separator'])) {
+        $separatorTemp = self::getSingle($files['search.'], 'separator');
       }
       $search = explode(!empty($separatorTemp) ? $separatorTemp : $separator, $search);
     }
-    if ($settings['files.']['replace']) {
-      $replace = self::getSingle($settings['files.'], 'replace');
-      if ($settings['files.']['replace.']['separator']) {
-        $separatorTemp = self::getSingle($settings['files.']['replace.'], 'separator');
+    if (isset($files['replace'])) {
+      $replace = self::getSingle((array) $files, 'replace');
+      if (isset($files['replace.']) && is_array($files['replace.']) && isset($files['replace.']['separator'])) {
+        $separatorTemp = self::getSingle($files['replace.'], 'separator');
       }
       $replace = explode(!empty($separatorTemp) ? $separatorTemp : $separator, $replace);
     }
 
-    $usePregReplace = self::getSingle($settings['files.'], 'usePregReplace');
-    if (1 === (int) $usePregReplace) {
+    $usePregReplace = self::getSingle($files, 'usePregReplace');
+    if (1 == $usePregReplace) {
       $fileName = preg_replace($search, $replace, $fileName);
     } else {
       $fileName = str_replace($search, $replace, $fileName);
@@ -268,11 +270,11 @@ class GeneralUtility implements SingletonInterface {
   /**
    * Redirects to a specified page or URL.
    *
-   * @param mixed                $redirect           Page id or URL to redirect to
+   * @param string               $redirect           Page id or URL to redirect to
    * @param bool                 $correctRedirectUrl replace &amp; with & in URL
    * @param array<string, mixed> $additionalParams
    */
-  public static function doRedirect(mixed $redirect, bool $correctRedirectUrl, array $additionalParams = [], string $headerStatusCode = ''): void {
+  public static function doRedirect(string $redirect, bool $correctRedirectUrl, array $additionalParams = [], string $headerStatusCode = ''): void {
     // these parameters have to be added to the redirect url
     $addParams = [];
     if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L')) {
@@ -326,7 +328,7 @@ class GeneralUtility implements SingletonInterface {
 
     // Allow "redirectPage" to be the value of a form field
     if ($redirectPage && isset($gp[$redirectPage])) {
-      $redirectPage = $gp[$redirectPage];
+      $redirectPage = strval($gp[$redirectPage]);
     }
 
     if (strlen($redirectPage) > 0) {
@@ -396,12 +398,13 @@ class GeneralUtility implements SingletonInterface {
     // if temp upload folder set in TypoScript, take that setting
     $settings = (array) (Globals::getSession()?->get('settings') ?? []);
 
-    if (is_array($settings['files.']['uploadFolder.'])) {
-      foreach ($settings['files.']['uploadFolder.'] as $fieldName => $folderSettings) {
-        $uploadFolders[] = self::sanitizePath(self::getSingle($settings['files.']['uploadFolder.'], $fieldName));
+    $files = (array) ($settings['files.'] ?? []);
+    if (isset($files['uploadFolder.']) && is_array($files['uploadFolder.'])) {
+      foreach ($files['uploadFolder.'] as $fieldName => $folderSettings) {
+        $uploadFolders[] = self::sanitizePath(self::getSingle($files['uploadFolder.'], $fieldName));
       }
-    } elseif ($settings['files.']['uploadFolder']) {
-      $defaultUploadFolder = self::sanitizePath(self::getSingle($settings['files.'], 'uploadFolder'));
+    } elseif (isset($files['uploadFolder'])) {
+      $defaultUploadFolder = self::sanitizePath(self::getSingle((array) $files, 'uploadFolder'));
     }
 
     // If no special upload folder for a field was set, add the default upload folder
@@ -434,12 +437,12 @@ class GeneralUtility implements SingletonInterface {
 
       case '^=':
         $value = self::parseOperand($valueConditions[2], $gp);
-        $conditionResult = 0 === strpos(self::getGlobal($fieldName, $gp), $value);
+        $conditionResult = 0 === strpos(strval(self::getGlobal($fieldName, $gp)), $value);
 
         break;
 
       case '$=':
-        $gpValue = self::getGlobal($fieldName, $gp);
+        $gpValue = strval(self::getGlobal($fieldName, $gp));
         $gpValue = substr($gpValue, -strlen($valueConditions[2]));
         $checkValue = self::parseOperand($valueConditions[2], $gp);
         $conditionResult = (0 === strcmp($checkValue, $gpValue));
@@ -452,7 +455,7 @@ class GeneralUtility implements SingletonInterface {
         if (is_array($gpValue)) {
           $conditionResult = in_array($value, $gpValue);
         } else {
-          $conditionResult = false !== strpos(self::getGlobal($fieldName, $gp), $value);
+          $conditionResult = false !== strpos(strval(self::getGlobal($fieldName, $gp)), $value);
         }
 
         break;
@@ -500,7 +503,7 @@ class GeneralUtility implements SingletonInterface {
         if (is_array($value)) {
           $conditionResult = (count($value) > 0);
         } else {
-          $conditionResult = strlen(trim($value)) > 0;
+          $conditionResult = strlen(trim(strval($value))) > 0;
         }
     }
 
@@ -600,11 +603,11 @@ class GeneralUtility implements SingletonInterface {
    * @return array<string, mixed>
    */
   public static function getMergedGP(): array {
-    $gp = array_merge(\TYPO3\CMS\Core\Utility\GeneralUtility::_GET(), \TYPO3\CMS\Core\Utility\GeneralUtility::_POST());
+    $gp = array_merge((array) \TYPO3\CMS\Core\Utility\GeneralUtility::_GET(), (array) \TYPO3\CMS\Core\Utility\GeneralUtility::_POST());
     $prefix = Globals::getFormValuesPrefix();
     if ($prefix) {
       if (isset($gp[$prefix])) {
-        $gp = $gp[$prefix];
+        $gp = (array) $gp[$prefix];
       } else {
         $gp = [];
       }
@@ -623,9 +626,9 @@ class GeneralUtility implements SingletonInterface {
    *
    * @return class-string
    */
-  public static function getPreparedClassName(?array $settingsArray, string $defaultClassName = '') {
+  public static function getPreparedClassName(array $settingsArray, string $defaultClassName = '') {
     $className = $defaultClassName;
-    if (isset($settingsArray) && is_array($settingsArray) && $settingsArray['class']) {
+    if (isset($settingsArray['class'])) {
       $className = self::getSingle($settingsArray, 'class');
     }
 
@@ -642,17 +645,17 @@ class GeneralUtility implements SingletonInterface {
     if (isset($arr[$key.'.']) && !is_array($arr[$key.'.'])) {
       return strval($arr[$key]);
     }
-    if (!isset($arr[$key.'.']['sanitize'])) {
+    if (isset($arr[$key.'.']) && is_array($arr[$key.'.']) && !isset($arr[$key.'.']['sanitize'])) {
       $arr[$key.'.']['sanitize'] = 1;
     }
-    if (isset($arr[$key]) && !self::isValidCObject($arr[$key])) {
+    if (isset($arr[$key]) && !self::isValidCObject(strval($arr[$key]))) {
       return strval($arr[$key]);
     }
     if (!isset($arr[$key]) || !isset($arr[$key.'.'])) {
       return '';
     }
 
-    return Globals::getCObj()?->cObjGetSingle($arr[$key], $arr[$key.'.']) ?? '';
+    return Globals::getCObj()?->cObjGetSingle(strval($arr[$key]), (array) $arr[$key.'.']) ?? '';
   }
 
   /**
@@ -702,12 +705,13 @@ class GeneralUtility implements SingletonInterface {
 
     // if temp upload folder set in TypoScript, take that setting
     $settings = (array) (Globals::getSession()?->get('settings') ?? []);
-    if (strlen($fieldName) > 0 && $settings['files.']['uploadFolder.'][$fieldName]) {
-      $uploadFolder = self::getSingle($settings['files.']['uploadFolder.'], $fieldName);
-    } elseif ($settings['files.']['uploadFolder.']['default']) {
-      $uploadFolder = self::getSingle($settings['files.']['uploadFolder.'], 'default');
-    } elseif ($settings['files.']['uploadFolder']) {
-      $uploadFolder = self::getSingle($settings['files.'], 'uploadFolder');
+    $files = (array) ($settings['files.'] ?? []);
+    if (strlen($fieldName) > 0 && isset($files['uploadFolder.']) && is_array($files['uploadFolder.']) && isset($files['uploadFolder.'][$fieldName])) {
+      $uploadFolder = self::getSingle($files['uploadFolder.'], $fieldName);
+    } elseif (isset($files['uploadFolder.']) && is_array($files['uploadFolder.']) && isset($files['uploadFolder.']['default'])) {
+      $uploadFolder = self::getSingle($files['uploadFolder.'], 'default');
+    } elseif (isset($files['uploadFolder'])) {
+      $uploadFolder = self::getSingle((array) $files, 'uploadFolder');
     }
 
     $uploadFolder = self::sanitizePath($uploadFolder);
@@ -901,11 +905,12 @@ class GeneralUtility implements SingletonInterface {
    * @return array<string, mixed>
    */
   public static function parseConditionsBlock(array $settings, array $gp): array {
-    if (!isset($settings['if.'])) {
+    if (!isset($settings['if.']) || !is_array($settings['if.'])) {
       return $settings;
     }
     foreach ($settings['if.'] as $idx => $conditionSettings) {
-      $conditions = $conditionSettings['conditions.'];
+      $conditionSettings = is_array($conditionSettings) ? (array) $conditionSettings : [];
+      $conditions = $conditionSettings['conditions.'] ?? [];
       $orConditions = [];
       foreach ($conditions as $subIdx => $andConditions) {
         $results = [];
@@ -961,7 +966,7 @@ class GeneralUtility implements SingletonInterface {
    * @return mixed[]
    */
   public static function parseResourceFiles(array $settings, string $key): array {
-    $resourceFile = $settings[$key] ?? '';
+    $resourceFile = strval($settings[$key] ?? '');
     $resourceFiles = [];
     if (!self::isValidCObject($resourceFile) && isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
       foreach ($settings[$key.'.'] as $idx => $file) {
@@ -992,7 +997,11 @@ class GeneralUtility implements SingletonInterface {
    * @return string the content
    */
   public static function pi_getFFvalue(array $T3FlexForm_array, string $fieldName, string $sheet = 'sDEF', string $lang = 'lDEF', string $value = 'vDEF'): string {
-    if (is_array($T3FlexForm_array) && isset($T3FlexForm_array['data'][$sheet][$lang])) {
+    if (
+      is_array($T3FlexForm_array) && isset($T3FlexForm_array['data'])
+      && is_array($T3FlexForm_array['data']) && isset($T3FlexForm_array['data'][$sheet])
+      && is_array($T3FlexForm_array['data'][$sheet]) && isset($T3FlexForm_array['data'][$sheet][$lang])
+    ) {
       $sheetArray = $T3FlexForm_array['data'][$sheet][$lang];
     } else {
       $sheetArray = '';
@@ -1031,7 +1040,7 @@ class GeneralUtility implements SingletonInterface {
           }
         }
       } else {
-        $tempArr = $tempArr[$v] ?? [];
+        $tempArr = (array) ($tempArr[strval($v)] ?? []);
       }
     }
 
@@ -1085,7 +1094,7 @@ class GeneralUtility implements SingletonInterface {
     if (empty($langFiles)) {
       $langFiles = [];
       if (isset($settings['langFile']) && !isset($settings['langFile.'])) {
-        array_push($langFiles, self::resolveRelPathFromSiteRoot($settings['langFile']));
+        array_push($langFiles, self::resolveRelPathFromSiteRoot(strval($settings['langFile'])));
       } elseif (isset($settings['langFile'], $settings['langFile.'])) {
         array_push($langFiles, self::getSingle($settings, 'langFile'));
       } elseif (isset($settings['langFile.']) && is_array($settings['langFile.'])) {
@@ -1121,7 +1130,7 @@ class GeneralUtility implements SingletonInterface {
       if (!isset($settings['templateFile']) && !isset($settings['templateFile.'])) {
         return '';
       }
-      $templateFile = $settings['templateFile'] ?? '';
+      $templateFile = strval($settings['templateFile'] ?? '');
 
       if (isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
         foreach ($settings['templateFile.'] as $key => $template) {
@@ -1136,7 +1145,7 @@ class GeneralUtility implements SingletonInterface {
             if (!@file_exists($templateFile)) {
               self::throwException('template_file_not_found', $templateFile);
             }
-            $templateCode .= \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile)."\n\n";
+            $templateCode .= strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '')."\n\n";
           } else {
             // The setting "templateFile" was a cObject which returned HTML content. Just use that as template code.
             $templateCode .= $templateFile."\n\n";
@@ -1147,7 +1156,7 @@ class GeneralUtility implements SingletonInterface {
         if (!@file_exists($templateFile)) {
           self::throwException('template_file_not_found', $templateFile);
         }
-        $templateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile);
+        $templateCode = strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '');
       }
     } else {
       if (self::isTemplateFilePath($templateFile)) {
@@ -1155,7 +1164,7 @@ class GeneralUtility implements SingletonInterface {
         if (!@file_exists($templateFile)) {
           self::throwException('template_file_not_found', $templateFile);
         }
-        $templateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile);
+        $templateCode = strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '');
       } else {
         // given variable $templateFile already contains the template code
         $templateCode = $templateFile;
@@ -1345,8 +1354,8 @@ class GeneralUtility implements SingletonInterface {
     Globals::getCObj()?->setCurrentVal($wrappedString);
     if (isset($settingsArray[$key.'.']) && is_array($settingsArray[$key.'.'])) {
       $wrappedString = Globals::getCObj()?->stdWrap($str, $settingsArray[$key.'.']) ?? '';
-    } elseif (isset($settingsArray[$key]) && strlen($settingsArray[$key]) > 0) {
-      $wrappedString = Globals::getCObj()?->wrap($str, $settingsArray[$key]) ?? '';
+    } elseif (isset($settingsArray[$key]) && strlen(strval($settingsArray[$key])) > 0) {
+      $wrappedString = Globals::getCObj()?->wrap($str, strval($settingsArray[$key])) ?? '';
     }
 
     return $wrappedString;

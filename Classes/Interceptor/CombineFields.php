@@ -50,15 +50,15 @@ class CombineFields extends AbstractInterceptor {
     if (isset($options['separator'])) {
       $separator = $this->utilityFuncs->getSingle($options, 'separator');
     }
-    $fieldsArr = $options['fields.'];
+    $fieldsArr = (array) ($options['fields.'] ?? []);
     $combinedString = '';
     $stringsToCombine = [];
-    $hideEmptyValues = (int) ($this->utilityFuncs->getSingle($options, 'hideEmptyValues'));
+    $hideEmptyValues = intval($this->utilityFuncs->getSingle($options, 'hideEmptyValues'));
     foreach ($fieldsArr as $idx => $field) {
-      $value = $this->utilityFuncs->getGlobal($field, $this->gp);
+      $value = $this->utilityFuncs->getGlobal(strval($field ?? ''), $this->gp);
       if (0 === $hideEmptyValues
-                || (1 === $hideEmptyValues && strlen($value) > 0)
-            ) {
+        || (1 === $hideEmptyValues && strlen(strval($value)) > 0)
+      ) {
         $stringsToCombine[] = $value;
       }
     }

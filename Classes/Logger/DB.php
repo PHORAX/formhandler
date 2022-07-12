@@ -80,7 +80,7 @@ class DB extends AbstractLogger {
     $fields['key_hash'] = $hash;
     $fields['unique_hash'] = $uniqueHash;
 
-    if (1 === (int) ($this->settings['markAsSpam'] ?? 0)) {
+    if (1 == intval($this->settings['markAsSpam'] ?? 0)) {
       $fields['is_spam'] = 1;
     }
 
@@ -159,11 +159,15 @@ class DB extends AbstractLogger {
   protected function sortFields(array $params, array $order, array $sortedParams = []): array {
     foreach ($order as $fieldName => $subItems) {
       if (isset($params[$fieldName])) {
-        if (0 === count($subItems)) {
+        if (!is_array($subItems) || (is_array($subItems) && 0 === count($subItems))) {
           $sortedParams[$fieldName] = $params[$fieldName];
         } elseif (!is_array($sortedParams[$fieldName])) {
           $sortedParams[$fieldName] = [];
-          $sortedParams[$fieldName] = $this->sortFields($params[$fieldName], $order[$fieldName], $sortedParams[$fieldName]);
+          $sortedParams[$fieldName] = $this->sortFields(
+            (array) ($params[$fieldName] ?? []),
+            (array) ($order[$fieldName] ?? []),
+            $sortedParams[$fieldName]
+          );
         }
       }
     }

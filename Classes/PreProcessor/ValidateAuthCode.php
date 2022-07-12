@@ -32,21 +32,21 @@ class ValidateAuthCode extends AbstractPreProcessor {
    * @return array<string, mixed> The probably modified GET/POST parameters
    */
   public function process(): array {
-    $authCode = trim($this->gp['authCode']);
+    $authCode = trim(strval($this->gp['authCode'] ?? ''));
     if (!empty($authCode)) {
       try {
-        $table = trim($this->gp['table']);
+        $table = trim(strval($this->gp['table'] ?? ''));
         if ($this->settings['table']) {
           $table = $this->utilityFuncs->getSingle($this->settings, 'table');
         }
-        $uidField = trim($this->gp['uidField']);
+        $uidField = trim(strval($this->gp['uidField'] ?? ''));
         if ($this->settings['uidField']) {
           $uidField = $this->utilityFuncs->getSingle($this->settings, 'uidField');
         }
         if (empty($uidField)) {
           $uidField = 'uid';
         }
-        $uid = trim($this->gp['uid']);
+        $uid = trim(strval($this->gp['uid'] ?? ''));
 
         if (!(strlen($table) > 0 && strlen($uid) > 0)) {
           $this->utilityFuncs->throwException('validateauthcode_insufficient_params');

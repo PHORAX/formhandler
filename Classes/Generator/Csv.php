@@ -35,7 +35,7 @@ class Csv extends AbstractGenerator {
       if (!empty($exportParams) && !in_array($key, $exportParams)) {
         unset($params[$key]);
       }
-      $value = str_replace('"', '""', $value);
+      $value = str_replace('"', '""', strval($value));
     }
 
     // create new parseCSV object.
@@ -45,7 +45,7 @@ class Csv extends AbstractGenerator {
     $data = [$params];
 
     $fields = [];
-    if (1 === (int) ($this->utilityFuncs->getSingle($this->settings, 'addFieldNames'))) {
+    if (1 == intval($this->utilityFuncs->getSingle($this->settings, 'addFieldNames'))) {
       $fields = array_keys($params);
       $csv->heading = true;
     }
@@ -71,7 +71,7 @@ class Csv extends AbstractGenerator {
     if ($csv->input_encoding !== $csv->output_encoding) {
       $csv->convert_encoding = true;
     }
-    if (1 === (int) ($this->settings['returnFileName']) || 1 === (int) ($this->settings['returnGP'])) {
+    if (1 == intval($this->settings['returnFileName']) || 1 == intval($this->settings['returnGP'])) {
       $outputPath = $this->utilityFuncs->getDocumentRoot();
       if ($this->settings['customTempOutputPath']) {
         $outputPath .= $this->settings['customTempOutputPath'];
@@ -81,7 +81,7 @@ class Csv extends AbstractGenerator {
       $outputPath = $this->utilityFuncs->sanitizePath($outputPath);
       $filename = $outputPath.$this->settings['filePrefix'].$this->utilityFuncs->generateHash().'.csv';
       $csv->save($filename, $data, false, $fields);
-      if (1 === (int) ($this->settings['returnFileName'])) {
+      if (1 == intval($this->settings['returnFileName'])) {
         return $filename;
       }
       if (!is_array($this->gp['generator-csv-generated-files'])) {

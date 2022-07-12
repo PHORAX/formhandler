@@ -23,13 +23,14 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 class MinValue extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $min = (float) (str_replace(',', '.', $this->utilityFuncs->getSingle($this->settings['params'], 'value')));
-    if (isset($this->gp[$this->formFieldName]) && strlen($this->gp[$this->formFieldName]) > 0) {
-      $valueToCheck = str_replace(',', '.', $this->gp[$this->formFieldName]);
+    $min = floatval(str_replace(',', '.', $this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'value')));
+    $formFieldValue = strval($this->gp[$this->formFieldName] ?? '');
+    if (strlen($formFieldValue) > 0) {
+      $valueToCheck = str_replace(',', '.', $formFieldValue);
       if (!is_numeric($valueToCheck)) {
         $checkFailed = $this->getCheckFailed();
       } else {
-        $valueToCheck = (float) $valueToCheck;
+        $valueToCheck = floatval($valueToCheck);
         if ($valueToCheck < $min) {
           $checkFailed = $this->getCheckFailed();
         }

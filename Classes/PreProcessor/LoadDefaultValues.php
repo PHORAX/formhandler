@@ -58,6 +58,7 @@ class LoadDefaultValues extends AbstractPreProcessor {
 
   public function process(): array|string {
     foreach ($this->settings as $step => $stepSettings) {
+      $stepSettings = is_array($stepSettings) ? $stepSettings : [];
       $step = preg_replace('/\.$/', '', $step);
       if (is_numeric($step)) {
         $step = intval($step);
@@ -83,12 +84,14 @@ class LoadDefaultValues extends AbstractPreProcessor {
     if (is_array($firstLevelFields)) {
       foreach ($firstLevelFields as $idx => $fieldName) {
         $fieldName = preg_replace('/\.$/', '', $fieldName);
-        if (!isset($fields[$fieldName.'.']['defaultValue']) && is_array($fields[$fieldName.'.'])) {
-          $this->setDefaultValues($fields[$fieldName.'.'], $currentLevelGP[$fieldName]);
+        $field = (array) ($fields[$fieldName.'.'] ?? []);
+
+        if (!isset($field['defaultValue'])) {
+          $this->setDefaultValues($field, $currentLevelGP[$fieldName]);
         } elseif (!isset($currentLevelGP[$fieldName])) {
-          $currentLevelGP[$fieldName] = $this->utilityFuncs->getSingle($fields[$fieldName.'.'], 'defaultValue');
-          if (!empty($fields[$fieldName.'.']['defaultValue.']['separator'])) {
-            $separator = $this->utilityFuncs->getSingle($fields[$fieldName.'.']['defaultValue.'], 'separator');
+          $currentLevelGP[$fieldName] = $this->utilityFuncs->getSingle((array) $field, 'defaultValue');
+          if (isset($field['defaultValue.']) && is_array($field['defaultValue.']) && isset($field['defaultValue.']['separator']) && !empty($field['defaultValue.']['separator'])) {
+            $separator = $this->utilityFuncs->getSingle($field['defaultValue.'], 'separator');
             $currentLevelGP[$fieldName] = GeneralUtility::trimExplode($separator, $currentLevelGP[$fieldName]);
           }
         }

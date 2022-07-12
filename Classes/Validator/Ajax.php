@@ -23,7 +23,7 @@ class Ajax extends AbstractValidator {
   public function loadConfig(): void {
     $tsConfig = $this->utilityFuncs->parseConditionsBlock((array) ($this->globals->getSession()?->get('settings') ?? []), $this->gp);
     $this->settings = [];
-    $this->validators = $tsConfig['validators.'];
+    $this->validators = (array) ($tsConfig['validators.'] ?? []);
     if ($tsConfig['ajax.']) {
       $this->settings['ajax.'] = $tsConfig['ajax.'];
     }
@@ -41,7 +41,7 @@ class Ajax extends AbstractValidator {
     $this->loadConfig();
     if ($this->validators) {
       foreach ($this->validators as $idx => $settings) {
-        if (is_array($settings['config.'])) {
+        if (is_array($settings) && is_array($settings['config.'] ?? null)) {
           $this->settings = $settings['config.'];
         }
       }
@@ -121,10 +121,9 @@ class Ajax extends AbstractValidator {
             if ($errorCheckObject->validateConfig()) {
               $checkFailed = $errorCheckObject->check();
               if (strlen($checkFailed) > 0) {
-                if (!is_array($errors[$field] ?? null)) {
-                  $errors[$field] = [];
-                }
-                $errors[$field][] = $checkFailed;
+                $errorsField = (array) ($errors[$field] ?? []);
+                $errorsField[] = $checkFailed;
+                $errors[$field] = $errorsField;
               }
             } else {
               $this->utilityFuncs->throwException('Configuration is not valid for class "'.$fullClassName.'"!');

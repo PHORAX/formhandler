@@ -96,7 +96,7 @@ class Dispatcher extends AbstractPlugin {
        */
       $controllerClass = '\Typoheads\Formhandler\Controller\Form';
       if (isset($setup['controller'])) {
-        $controllerClass = $setup['controller'];
+        $controllerClass = strval($setup['controller']);
       }
 
       /** @var AbstractController $controller */
@@ -126,7 +126,10 @@ class Dispatcher extends AbstractPlugin {
       if (isset($settings['debug']) && (bool) $settings['debug']) {
         DebuggerUtility::var_dump($e);
       }
-      GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->error(
+
+      /** @var LogManager $logManager */
+      $logManager = GeneralUtility::makeInstance(LogManager::class);
+      $logManager->getLogger(__CLASS__)->error(
         $e->getFile().'('.$e->getLine().')'.' '.$e->getMessage(),
         ['formhandler']
       );

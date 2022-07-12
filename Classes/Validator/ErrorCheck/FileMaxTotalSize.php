@@ -19,7 +19,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 class FileMaxTotalSize extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $maxSize = intval($this->utilityFuncs->getSingle($this->settings['params'], 'maxTotalSize'));
+    $maxSize = intval($this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'maxTotalSize'));
     $size = 0;
 
     // first we check earlier uploaded files

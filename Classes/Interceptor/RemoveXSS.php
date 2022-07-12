@@ -44,25 +44,25 @@ class RemoveXSS extends AbstractInterceptor {
    */
   public function process(): array|string {
     // search for a global setting for character removal
-    $globalSetting = ($this->settings['fieldConf.'] ?? [])['global.'] ?? [];
+    $globalSetting = (array) (((array) ($this->settings['fieldConf.'] ?? []))['global.'] ?? []);
     if (isset($globalSetting['removeChars'])) {
       $sep = ',';
 
       // user set custom rules via cObject
       $cObjSettings = $globalSetting['removeChars.'];
       if (is_array($cObjSettings)) {
-        $list = $this->utilityFuncs->getSingle($globalSetting, 'removeChars');
+        $list = $this->utilityFuncs->getSingle((array) $globalSetting, 'removeChars');
 
         // user set custom separator
         if ($globalSetting['separator']) {
-          $sep = $this->utilityFuncs->getSingle($globalSetting, 'separator');
+          $sep = $this->utilityFuncs->getSingle((array) $globalSetting, 'separator');
         }
       } else {
         // user entered a comma seperated list
-        $list = $globalSetting['removeChars'];
+        $list = strval($globalSetting['removeChars']);
       }
       $this->removeChars = GeneralUtility::trimExplode($sep, $list);
-    } elseif (1 === (int) ($this->utilityFuncs->getSingle($globalSetting['removeChars.'] ?? [], 'disable'))) {
+    } elseif (1 === (int) ($this->utilityFuncs->getSingle((array) ($globalSetting['removeChars.'] ?? []), 'disable'))) {
       // user disabled removal globally
       $this->removeChars = [];
     }
@@ -87,25 +87,25 @@ class RemoveXSS extends AbstractInterceptor {
         $removeChars = $this->removeChars;
 
         // search for a specific setting for this field
-        $fieldSetting = ($this->settings['fieldConf.'] ?? [])[$key.'.'] ?? [];
+        $fieldSetting = (array) (((array) ($this->settings['fieldConf.'] ?? []))[$key.'.'] ?? []);
         if (isset($fieldSetting['removeChars'])) {
           $sep = ',';
 
           // user set custom rules via cObject
           $cObjSettings = $fieldSetting['removeChars.'];
           if (is_array($cObjSettings)) {
-            $list = $this->utilityFuncs->getSingle($fieldSetting, 'removeChars');
+            $list = $this->utilityFuncs->getSingle((array) $fieldSetting, 'removeChars');
 
             // user set custom separator
             if ($fieldSetting['separator']) {
-              $sep = $this->utilityFuncs->getSingle($fieldSetting, 'separator');
+              $sep = $this->utilityFuncs->getSingle((array) $fieldSetting, 'separator');
             }
           } else {
             // user entered a comma seperated list
-            $list = $fieldSetting['removeChars'];
+            $list = strval($fieldSetting['removeChars']);
           }
           $removeChars = GeneralUtility::trimExplode($sep, $list);
-        } elseif (1 === (int) ($this->utilityFuncs->getSingle($fieldSetting['removeChars.'] ?? [], 'disable'))) {
+        } elseif (1 === (int) ($this->utilityFuncs->getSingle((array) ($fieldSetting['removeChars.'] ?? []), 'disable'))) {
           // user disabled removal for this field
           $removeChars = [];
         }

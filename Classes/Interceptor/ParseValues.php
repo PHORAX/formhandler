@@ -63,7 +63,7 @@ class ParseValues extends AbstractInterceptor {
     if (is_array($fields)) {
       foreach ($fields as $idx => $field) {
         if (isset($this->gp[$field])) {
-          $this->gp[$field] = $this->getFloat($this->gp[$field]);
+          $this->gp[$field] = $this->getFloat(strval($this->gp[$field]));
         }
       }
     }

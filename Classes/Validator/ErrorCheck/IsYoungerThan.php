@@ -24,10 +24,11 @@ class IsYoungerThan extends IsOlderThan {
   public function check(): string {
     $checkFailed = '';
 
-    if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-      $date = $this->gp[$this->formFieldName];
-      $dateFormat = $this->utilityFuncs->getSingle($this->settings['params'], 'dateFormat');
-      $mandatoryYears = (int) ($this->utilityFuncs->getSingle($this->settings['params'], 'years'));
+    $date = strval($this->gp[$this->formFieldName] ?? '');
+    if (strlen(trim($date)) > 0) {
+      $params = (array) ($this->settings['params'] ?? []);
+      $dateFormat = $this->utilityFuncs->getSingle($params, 'dateFormat');
+      $mandatoryYears = intval($this->utilityFuncs->getSingle($params, 'years'));
       $timestamp = $this->utilityFuncs->dateToTimestamp($date, $dateFormat);
       $years = $this->getDateDifference($timestamp);
       if ($years >= $mandatoryYears) {

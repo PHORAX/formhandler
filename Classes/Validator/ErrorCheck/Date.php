@@ -23,13 +23,14 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 class Date extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
+    $date = strval($this->gp[$this->formFieldName] ?? '');
 
-    if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-      $pattern = $this->utilityFuncs->getSingle($this->settings['params'], 'pattern');
+    if (strlen(trim($date)) > 0) {
+      $pattern = $this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'pattern');
 
       try {
         // @phpstan-ignore-next-line
-        \DateTime::createFromFormat($pattern, $this->gp[$this->formFieldName]);
+        \DateTime::createFromFormat($pattern, $date);
         $status = \DateTime::getLastErrors();
         if (!is_bool($status) && ($status['warning_count'] > 0 || $status['error_count'] > 0)) {
           $checkFailed = $this->getCheckFailed();

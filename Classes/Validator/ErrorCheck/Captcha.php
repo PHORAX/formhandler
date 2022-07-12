@@ -29,7 +29,7 @@ class Captcha extends AbstractErrorCheck {
     // get captcha string
     session_start();
 
-    $captchaSolved = Utility::checkCaptcha($this->gp[$this->formFieldName]);
+    $captchaSolved = Utility::checkCaptcha(strval($this->gp[$this->formFieldName] ?? ''));
     if (!$captchaSolved) {
       $checkFailed = $this->getCheckFailed();
     }

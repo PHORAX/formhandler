@@ -202,7 +202,7 @@ class AjaxMiddleware implements MiddlewareInterface {
     $this->globals = $globals;
 
     $this->globals->setCObj($GLOBALS['TSFE']->cObj);
-    $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
+    $randomID = htmlspecialchars(strval(GeneralUtility::_GP('randomID')));
     $this->globals->setRandomID($randomID);
     $this->globals->setAjaxMode(true);
     if (null == $this->globals->getSession()) {
@@ -227,7 +227,7 @@ class AjaxMiddleware implements MiddlewareInterface {
     $this->init();
 
     // init ajax
-    $className = null;
+    $className = [];
     if (isset($this->settings['ajax.']) && is_array($this->settings['ajax.']) && isset($this->settings['ajax.']['removeFile.']) && is_array($this->settings['ajax.']['removeFile.'])) {
       $className = $this->settings['ajax.']['removeFile.'];
     }
@@ -250,7 +250,7 @@ class AjaxMiddleware implements MiddlewareInterface {
     $this->init();
 
     // init ajax
-    $className = null;
+    $className = [];
     if (isset($this->settings['ajax.']) && is_array($this->settings['ajax.']) && isset($this->settings['ajax.']['submit.']) && is_array($this->settings['ajax.']['submit.'])) {
       $className = $this->settings['ajax.']['submit.'];
     }
@@ -273,7 +273,7 @@ class AjaxMiddleware implements MiddlewareInterface {
     $this->init();
 
     // init ajax
-    $className = null;
+    $className = [];
     if (isset($this->settings['ajax.']) && is_array($this->settings['ajax.']) && isset($this->settings['ajax.']['validate.']) && is_array($this->settings['ajax.']['validate.'])) {
       $className = $this->settings['ajax.']['validate.'];
     }

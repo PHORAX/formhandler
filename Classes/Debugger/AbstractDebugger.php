@@ -23,31 +23,29 @@ use Typoheads\Formhandler\Component\AbstractComponent;
  * An abstract debugger.
  */
 abstract class AbstractDebugger extends AbstractComponent {
-  /** @var array<string, mixed> */
+  /** @var array<string, array<int, array{message: string, severity: int, data: array<int|string, mixed>}>> */
   protected array $debugLog = [];
 
   /**
    * Adds a message to the internal message storage.
    *
-   * @param string               $message  The message to log
-   * @param int                  $severity The severity of the message (1,2,3)
-   * @param array<string, mixed> $data     Additional data to log
+   * @param string                   $message  The message to log
+   * @param int                      $severity The severity of the message (1,2,3)
+   * @param array<int|string, mixed> $data     Additional data to log
    */
   public function addToDebugLog(string $message = '', int $severity = 1, array $data = []): void {
     $trace = debug_backtrace();
     $section = '';
     if (isset($trace[2])) {
-      $section = $trace[2]['class'] ?? '';
+      $section = strval($trace[2]['class'] ?? '');
       if ('\Typoheads\Formhandler\Utility\GeneralUtility' === $section) {
-        $section = $trace[3]['class'] ?? '';
+        $section = strval($trace[3]['class'] ?? '');
       }
     }
-    if (!$message && !isset($this->debugLog[$section])) {
+    if (!isset($this->debugLog[$section])) {
       $this->debugLog[$section] = [];
     }
-    if ($message) {
-      $this->debugLog[$section][] = ['message' => $message, 'severity' => $severity, 'data' => $data];
-    }
+    $this->debugLog[$section][] = ['message' => $message, 'severity' => $severity, 'data' => $data];
   }
 
   /**

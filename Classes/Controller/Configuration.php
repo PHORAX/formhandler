@@ -116,25 +116,31 @@ class Configuration implements ArrayAccess {
    */
   public function merge(?array $setup): void {
     if (isset($setup) && is_array($setup)) {
-      $settings = $this->setup['settings.'];
-      $settings = $this->utilityFuncs->mergeConfiguration($settings, $setup);
+      $settings = $this->utilityFuncs->mergeConfiguration((array) ($this->setup['settings.'] ?? []), $setup);
       $this->setup['settings.'] = $settings;
     }
   }
 
   public function offsetExists(mixed $offset): bool {
-    return isset($this->setup['settings.'][$offset]);
+    return isset(((array) ($this->setup['settings.'] ?? []))[$offset]);
   }
 
   public function offsetGet(mixed $offset): mixed {
-    return $this->setup['settings.'][$offset];
+    return ((array) ($this->setup['settings.'] ?? []))[$offset] ?? null;
   }
 
   public function offsetSet(mixed $offset, mixed $value): void {
+    if (!isset($this->setup['settings.']) || !is_array($this->setup['settings.'])) {
+      $this->setup['settings.'] = [];
+    }
     $this->setup['settings.'][$offset] = $value;
   }
 
   public function offsetUnset(mixed $offset): void {
+    if (!isset($this->setup['settings.']) || !is_array($this->setup['settings.'])) {
+      $this->setup['settings.'] = [];
+    }
+
     $this->setup['settings.'][$offset] = null;
   }
 }

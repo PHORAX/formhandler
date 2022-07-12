@@ -109,13 +109,15 @@ class ModuleController extends ActionController {
    */
   public function indexAction(Demand $demand = null): ResponseInterface {
     if (null === $demand) {
-      $demand = $this->objectManager->get('Typoheads\Formhandler\Domain\Model\Demand');
-      if (!isset($this->gp['demand']['pid'])) {
+      /** @var Demand $demand */
+      $demand = GeneralUtility::makeInstance(Demand::class);
+
+      if (!isset($this->gp['demand']) || (isset($this->gp['demand']) && is_array($this->gp['demand']) && !isset($this->gp['demand']['pid']))) {
         $demand->setPid($this->id);
       }
     }
 
-    // @TODO findDemanded funktioniert nicht, da die Datepicker zunächst gefixt werden müssen
+    // TODO: findDemanded funktioniert nicht, da die Datepicker zunächst gefixt werden müssen
     $logDataRows = $this->logDataRepository->findDemanded($demand);
     $this->view->assign('demand', $demand);
     $this->view->assign('logDataRows', $logDataRows);
@@ -134,12 +136,12 @@ class ModuleController extends ActionController {
    * init all actions.
    */
   public function initializeAction(): void {
-    $this->id = (int) ($_GET['id'] ?? 0);
+    $this->id = intval($_GET['id'] ?? 0);
 
     $this->gp = $this->request->getArguments();
     $this->componentManager = GeneralUtility::makeInstance(Manager::class);
     $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
-    $this->pageRenderer = $this->objectManager->get('TYPO3\CMS\Core\Page\PageRenderer');
+    $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 
     if (!isset($this->settings['dateFormat'])) {
       $this->settings['dateFormat'] = $GLOBALS['TYPO3_CONF_VARS']['SYS']['USdateFormat'] ? 'm-d-Y' : 'd-m-Y';
@@ -159,7 +161,7 @@ class ModuleController extends ActionController {
       );
     }
     // or just allow certain properties
-        // $propertyMappingConfiguration->allowProperties('firstname');
+    // $propertyMappingConfiguration->allowProperties('firstname');
   }
 
   public function injectLogDataRepository(LogDataRepository $logDataRepository): void {
@@ -231,7 +233,8 @@ class ModuleController extends ActionController {
 
   public function viewAction(LogData $logDataRow = null): ResponseInterface {
     if (null !== $logDataRow) {
-      $logDataRow->setParams(unserialize($logDataRow->getParams()));
+      // TODO: Check this later
+      // $logDataRow->setParams(unserialize($logDataRow->getParams()));
       $this->view->assign('data', $logDataRow);
       $this->view->assign('settings', $this->settings);
     }

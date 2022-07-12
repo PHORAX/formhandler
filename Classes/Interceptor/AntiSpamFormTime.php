@@ -87,21 +87,21 @@ class AntiSpamFormTime extends AbstractInterceptor {
    * Performs checks if the submitted form should be treated as Spam.
    */
   protected function doCheck(): bool {
-    $value = (int) $this->utilityFuncs->getSingle($this->settings['minTime.'], 'value');
-    $unit = $this->utilityFuncs->getSingle($this->settings['minTime.'], 'unit');
+    $minTime = (array) ($this->settings['minTime.'] ?? []);
+    $value = intval($this->utilityFuncs->getSingle($minTime, 'value'));
+    $unit = $this->utilityFuncs->getSingle($minTime, 'unit');
     $minTime = $this->utilityFuncs->convertToSeconds($value, $unit);
 
-    $value = (int) $this->utilityFuncs->getSingle($this->settings['maxTime.'], 'value');
-    $unit = $this->utilityFuncs->getSingle($this->settings['maxTime.'], 'unit');
+    $maxTime = (array) ($this->settings['maxTime.'] ?? []);
+    $value = (int) $this->utilityFuncs->getSingle($maxTime, 'value');
+    $unit = $this->utilityFuncs->getSingle($maxTime, 'unit');
     $maxTime = $this->utilityFuncs->convertToSeconds($value, $unit);
     $spam = false;
-    if (!isset($this->gp['formtime'])
-            || !is_numeric($this->gp['formtime'])
-        ) {
+    if (!isset($this->gp['formtime']) || !is_numeric($this->gp['formtime'])) {
       $spam = true;
-    } elseif ($minTime && time() - (int) ($this->gp['formtime']) < $minTime) {
+    } elseif ($minTime && time() - intval($this->gp['formtime']) < $minTime) {
       $spam = true;
-    } elseif ($maxTime && time() - (int) ($this->gp['formtime']) > $maxTime) {
+    } elseif ($maxTime && time() - intval($this->gp['formtime']) > $maxTime) {
       $spam = true;
     }
 

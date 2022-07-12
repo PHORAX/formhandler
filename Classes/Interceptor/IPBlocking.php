@@ -62,17 +62,21 @@ class IPBlocking extends AbstractInterceptor {
    * The main method called by the controller.
    */
   public function process(): array|string {
-    $ipTimebaseValue = intval($this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'value'));
-    $ipTimebaseUnit = $this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'unit');
-    $ipMaxValue = intval($this->utilityFuncs->getSingle($this->settings['ip.'], 'threshold'));
+    $ip = (array) ($this->settings['ip.'] ?? []);
+    $timebase = (array) ($ip['timebase.'] ?? []);
+    $ipTimebaseValue = intval($this->utilityFuncs->getSingle($timebase, 'value'));
+    $ipTimebaseUnit = $this->utilityFuncs->getSingle($timebase, 'unit');
+    $ipMaxValue = intval($this->utilityFuncs->getSingle($ip, 'threshold'));
 
     if ($ipTimebaseValue && $ipTimebaseUnit && $ipMaxValue) {
       $this->check($ipTimebaseValue, $ipTimebaseUnit, $ipMaxValue, true);
     }
 
-    $globalTimebaseValue = intval($this->utilityFuncs->getSingle($this->settings['global.']['timebase.'], 'value'));
-    $globalTimebaseUnit = $this->utilityFuncs->getSingle($this->settings['global.']['timebase.'], 'unit');
-    $globalMaxValue = intval($this->utilityFuncs->getSingle($this->settings['global.'], 'threshold'));
+    $global = (array) ($this->settings['global.'] ?? []);
+    $timebase = (array) ($global['timebase.'] ?? []);
+    $globalTimebaseValue = intval($this->utilityFuncs->getSingle($timebase, 'value'));
+    $globalTimebaseUnit = $this->utilityFuncs->getSingle($timebase, 'unit');
+    $globalMaxValue = intval($this->utilityFuncs->getSingle($global, 'threshold'));
 
     if ($globalTimebaseValue && $globalTimebaseUnit && $globalMaxValue) {
       $this->check($globalTimebaseValue, $globalTimebaseUnit, $globalMaxValue, false);
@@ -118,10 +122,12 @@ class IPBlocking extends AbstractInterceptor {
         $message .= 'by your IP address ';
       }
       $message .= 'in the last '.$value.' '.$unit.'!';
-      if ($this->settings['report.']['email']) {
+
+      $report = (array) ($this->settings['report.'] ?? []);
+      if (isset($report['email'])) {
         $rows = $stmt->fetchAllAssociative();
-        $intervalValue = intval($this->utilityFuncs->getSingle($this->settings['report.']['interval.'], 'value'));
-        $intervalUnit = $this->utilityFuncs->getSingle($this->settings['report.']['interval.'], 'unit');
+        $intervalValue = intval($this->utilityFuncs->getSingle((array) ($report['interval.'] ?? []), 'value'));
+        $intervalUnit = $this->utilityFuncs->getSingle((array) ($report['interval.'] ?? []), 'unit');
         $send = false;
         if ($intervalUnit && $intervalValue) {
           $intervalTstamp = $this->utilityFuncs->getTimestamp($intervalValue, $intervalUnit);
@@ -172,10 +178,11 @@ class IPBlocking extends AbstractInterceptor {
    * @param array<int, array<string, mixed>> $rows The select rows of log table
    */
   private function sendReport(string $type, array $rows): void {
-    $email = $this->utilityFuncs->getSingle($this->settings['report.'], 'email');
+    $report = (array) ($this->settings['report.'] ?? []);
+    $email = $this->utilityFuncs->getSingle($report, 'email');
     $email = GeneralUtility::trimExplode(',', $email);
-    $sender = $this->utilityFuncs->getSingle($this->settings['report.'], 'sender');
-    $subject = $this->utilityFuncs->getSingle($this->settings['report.'], 'subject');
+    $sender = $this->utilityFuncs->getSingle($report, 'sender');
+    $subject = $this->utilityFuncs->getSingle($report, 'subject');
 
     if ('ip' == $type) {
       $message = 'IP address "'.GeneralUtility::getIndpEnv('REMOTE_ADDR').'" has submitted a form too many times!';
@@ -187,10 +194,10 @@ class IPBlocking extends AbstractInterceptor {
     if (is_array($rows)) {
       $message .= "\n\n".'These are the submitted values:'."\n\n";
       foreach ($rows as $idx => $row) {
-        $message .= date('Y/m/d H:i:s', $row['crdate']).":\n";
+        $message .= date('Y/m/d H:i:s', intval($row['crdate'] ?? 0)).":\n";
         $message .= 'IP: '.$row['ip']."\n";
         $message .= 'Params:'."\n";
-        $params = unserialize($row['params']);
+        $params = (array) unserialize(strval($row['params'] ?? ''));
         foreach ($params as $key => $value) {
           if (is_array($value)) {
             $value = implode(',', $value);
@@ -202,7 +209,7 @@ class IPBlocking extends AbstractInterceptor {
     }
 
     // init mailer object
-    $emailClass = $this->utilityFuncs->getPreparedClassName($this->settings['mailer.'], 'Mailer\HtmlMail');
+    $emailClass = $this->utilityFuncs->getPreparedClassName((array) ($this->settings['mailer.'] ?? []), 'Mailer\HtmlMail');
 
     /** @var TYPO3Mailer $emailObj */
     $emailObj = GeneralUtility::makeInstance($emailClass);

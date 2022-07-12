@@ -53,7 +53,7 @@ class TranslateFields extends AbstractInterceptor {
     $key = $this->utilityFuncs->getSingle($options, 'langKey');
     $field = $this->utilityFuncs->getSingle($options, 'field');
     if ($field) {
-      $key = str_replace('|', $this->gp[$field], $key);
+      $key = str_replace('|', strval($this->gp[$field]), $key);
     }
 
     return $this->utilityFuncs->getTranslatedMessage($this->langFiles, $key);

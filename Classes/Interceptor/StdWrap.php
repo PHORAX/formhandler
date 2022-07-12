@@ -63,7 +63,7 @@ class StdWrap extends AbstractInterceptor {
             if (!isset($value['sanitize'])) {
               $value['sanitize'] = 1;
             }
-            $this->gp[$key] = $this->globals->getCObj()?->stdWrap($fieldValue, $value);
+            $this->gp[$key] = $this->globals->getCObj()?->stdWrap(strval($fieldValue), $value);
           } else {
             if (!isset($fieldConf[$key.'.']['value'])) {
               $fieldConf[$key.'.']['value'] = $fieldValue;

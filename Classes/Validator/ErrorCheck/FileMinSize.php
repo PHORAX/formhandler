@@ -23,7 +23,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
 class FileMinSize extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
-    $minSize = $this->utilityFuncs->getSingle($this->settings['params'], 'minSize');
+    $minSize = $this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'minSize');
     foreach ($_FILES as $sthg => &$files) {
       if (!is_array($files['name'][$this->formFieldName])) {
         $files['name'][$this->formFieldName] = [$files['name'][$this->formFieldName]];

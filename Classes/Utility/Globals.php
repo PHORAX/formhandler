@@ -7,6 +7,7 @@ namespace Typoheads\Formhandler\Utility;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use Typoheads\Formhandler\AjaxHandler\AbstractAjaxHandler;
+use Typoheads\Formhandler\Debugger\AbstractDebugger;
 use Typoheads\Formhandler\Session\AbstractSession;
 
 /**
@@ -32,7 +33,7 @@ class Globals implements SingletonInterface {
 
   protected static ?ContentObjectRenderer $cObj = null;
 
-  /** @var array<int|string, mixed> */
+  /** @var array<int, AbstractDebugger> */
   protected static array $debuggers = [];
 
   protected static string $formID = '';
@@ -63,10 +64,7 @@ class Globals implements SingletonInterface {
 
   protected static string $templateSuffix = '';
 
-  public static function addDebugger(mixed $debugger): void {
-    if (!is_array(self::$debuggers)) {
-      self::$debuggers = [];
-    }
+  public static function addDebugger(AbstractDebugger $debugger): void {
     self::$debuggers[] = $debugger;
   }
 
@@ -79,7 +77,7 @@ class Globals implements SingletonInterface {
   }
 
   /**
-   * @return array<int|string, mixed>
+   * @return array<int, AbstractDebugger>
    */
   public static function getDebuggers(): array {
     return self::$debuggers;
@@ -162,7 +160,7 @@ class Globals implements SingletonInterface {
   }
 
   /**
-   * @param array<int|string, mixed> $debuggers
+   * @param array<int, AbstractDebugger> $debuggers
    */
   public static function setDebuggers(array $debuggers): void {
     self::$debuggers = $debuggers;

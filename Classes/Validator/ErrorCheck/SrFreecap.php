@@ -32,7 +32,7 @@ class SrFreecap extends AbstractErrorCheck {
 
       /** @var PiBaseApi $freeCap */
       $freeCap = GeneralUtility::makeInstance(PiBaseApi::class);
-      if (!$freeCap->checkWord($this->gp[$this->formFieldName])) {
+      if (!$freeCap->checkWord(strval($this->gp[$this->formFieldName] ?? ''))) {
         $checkFailed = $this->getCheckFailed();
       }
     }

@@ -24,9 +24,10 @@ class PregMatch extends AbstractErrorCheck {
   public function check(): string {
     $checkFailed = '';
 
-    if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-      $regex = $this->utilityFuncs->getSingle($this->settings['params'], 'value');
-      if ($regex && !preg_match($regex, $this->gp[$this->formFieldName])) {
+    $formFieldValue = strval($this->gp[$this->formFieldName] ?? '');
+    if (strlen(trim($formFieldValue)) > 0) {
+      $regex = $this->utilityFuncs->getSingle((array) ($this->settings['params'] ?? []), 'value');
+      if ($regex && !preg_match($regex, $formFieldValue)) {
         $checkFailed = $this->getCheckFailed();
       }
     }

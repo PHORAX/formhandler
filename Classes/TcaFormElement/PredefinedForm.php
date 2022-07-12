@@ -27,17 +27,18 @@ class PredefinedForm {
    * @param array<string, mixed> &$params
    */
   public function addItems(array &$params): void {
-    $ts = $this->loadTS($params['flexParentDatabaseRow']['pid']);
+    $ts = $this->loadTS(intval(((array) ($params['flexParentDatabaseRow'] ?? []))['pid'] ?? 0));
+    $items = (array) ($params['items'] ?? []);
 
     // Check if forms are available
     if (
-            !isset($ts['plugin.']) || !is_array($ts['plugin.'])
-            || !isset($ts['plugin.']['tx_formhandler_pi1.']) || !is_array($ts['plugin.']['tx_formhandler_pi1.'])
-            || !isset($ts['plugin.']['tx_formhandler_pi1.']['settings.']) || !is_array($ts['plugin.']['tx_formhandler_pi1.']['settings.'])
-            || !isset($ts['plugin.']['tx_formhandler_pi1.']['settings.']['predef.']) || !is_array($ts['plugin.']['tx_formhandler_pi1.']['settings.']['predef.'])
-            || 0 === count($ts['plugin.']['tx_formhandler_pi1.']['settings.']['predef.'])
-        ) {
-      $params['items'][] = [
+      !isset($ts['plugin.']) || !is_array($ts['plugin.'])
+      || !isset($ts['plugin.']['tx_formhandler_pi1.']) || !is_array($ts['plugin.']['tx_formhandler_pi1.'])
+      || !isset($ts['plugin.']['tx_formhandler_pi1.']['settings.']) || !is_array($ts['plugin.']['tx_formhandler_pi1.']['settings.'])
+      || !isset($ts['plugin.']['tx_formhandler_pi1.']['settings.']['predef.']) || !is_array($ts['plugin.']['tx_formhandler_pi1.']['settings.']['predef.'])
+      || 0 === count($ts['plugin.']['tx_formhandler_pi1.']['settings.']['predef.'])
+    ) {
+      $items[] = [
         0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:be_missing_config'),
         1 => '',
       ];
@@ -67,7 +68,7 @@ class PredefinedForm {
     }
 
     if (0 == count($predef)) {
-      $params['items'][] = [
+      $items[] = [
         0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:be_missing_config'),
         1 => '',
       ];
@@ -76,13 +77,13 @@ class PredefinedForm {
     }
 
     // Add label
-    $params['items'][] = [
+    $items[] = [
       0 => $GLOBALS['LANG']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:be_please_select'),
       1 => '',
     ];
 
     // add to list
-    $params['items'] = array_merge($params['items'], $predef);
+    $params['items'] = array_merge($items, $predef);
   }
 
   /**

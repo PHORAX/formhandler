@@ -68,7 +68,7 @@ abstract class AbstractValidator extends AbstractComponent {
    * @return array<string, string|string[]>
    */
   protected function getDisableErrorCheckFields($disableErrorCheckFields = []): array {
-    if (isset($this->settings['disableErrorCheckFields.'])) {
+    if (isset($this->settings['disableErrorCheckFields.']) && is_array($this->settings['disableErrorCheckFields.'])) {
       /** @var string $disableCheckField */
       foreach ($this->settings['disableErrorCheckFields.'] as $disableCheckField => $checks) {
         if (!strstr($disableCheckField, '.')) {
@@ -84,7 +84,7 @@ abstract class AbstractValidator extends AbstractComponent {
         }
       }
     } elseif (isset($this->settings['disableErrorCheckFields'])) {
-      $fields = GeneralUtility::trimExplode(',', $this->settings['disableErrorCheckFields']);
+      $fields = GeneralUtility::trimExplode(',', strval($this->settings['disableErrorCheckFields']));
       foreach ($fields as $disableCheckField) {
         $disableErrorCheckFields[$disableCheckField] = [];
       }
@@ -99,7 +99,7 @@ abstract class AbstractValidator extends AbstractComponent {
   protected function getRestrictedErrorChecks(): array {
     $restrictErrorChecks = [];
     if (isset($this->settings['restrictErrorChecks'])) {
-      $restrictErrorChecks = GeneralUtility::trimExplode(',', $this->settings['restrictErrorChecks']);
+      $restrictErrorChecks = GeneralUtility::trimExplode(',', strval($this->settings['restrictErrorChecks']));
     }
 
     return $restrictErrorChecks;

@@ -54,7 +54,7 @@ abstract class AbstractErrorCheck extends AbstractComponent {
         $this->utilityFuncs->throwException('error_checks_parameters_missing', $this->settings['check'], implode(',', $this->mandatoryParameters));
       }
       foreach ($this->mandatoryParameters as $param) {
-        if (!isset($this->settings['params'][$param])) {
+        if (!isset($this->settings['params']) || !is_array($this->settings['params']) || !isset($this->settings['params'][$param])) {
           $this->utilityFuncs->throwException('error_checks_unsufficient_parameters', $param, $this->settings['check']);
         }
       }
