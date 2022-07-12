@@ -16,7 +16,11 @@ return (new PhpCsFixer\Config())
     ],
     'no_whitespace_before_comma_in_array' => true,
     'whitespace_after_comma_in_array' => true,
+    'blank_line_between_import_groups' => false,
     'ordered_class_elements' => [
+      'sort_algorithm' => 'alpha',
+    ],
+    'ordered_imports' => [
       'sort_algorithm' => 'alpha',
     ],
     'class_attributes_separation' => [
