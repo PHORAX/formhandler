@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Validator;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Typoheads\Formhandler\Validator\ErrorCheck\AbstractErrorCheck;
 
 class AjaxFormValidator extends AbstractValidator {
@@ -126,7 +127,7 @@ class AjaxFormValidator extends AbstractValidator {
         foreach ($errorChecks as $check) {
           // Skip error check if the check is disabled for this field or if all checks are disabled for this field
           if (!empty($this->disableErrorCheckFields)
-            && (in_array($errorFieldName, array_keys($this->disableErrorCheckFields)) || (in_array($fieldPathTemp, array_keys($this->disableErrorCheckFields))))
+            && (in_array($errorFieldName, array_keys($this->disableErrorCheckFields)) || in_array($fieldPathTemp, array_keys($this->disableErrorCheckFields)))
             && (
               (
                 in_array($errorFieldName, array_keys($this->disableErrorCheckFields)) && is_array($this->disableErrorCheckFields[$errorFieldName]) && in_array($check['check'], $this->disableErrorCheckFields[$errorFieldName])
@@ -187,7 +188,7 @@ class AjaxFormValidator extends AbstractValidator {
   private function getErrorMessage(string $fieldName): string {
     $message = '';
     foreach ($this->globals->getLangFiles() as $subIdx => $langFile) {
-      $temp = trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':error_'.$fieldName));
+      $temp = trim(LocalizationUtility::translate('LLL:'.$langFile.':error_'.$fieldName) ?? '');
       if (strlen($temp) > 0) {
         $message = $temp;
       }
