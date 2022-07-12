@@ -517,7 +517,7 @@ class GeneralUtility implements SingletonInterface {
    * @param string $key The key in translation file
    */
   public static function getDebugMessage(string $key): string {
-    return trim(LocalizationUtility::translate('LLL:EXT:formhandler/Resources/Private/Language/locallang_debug.xlf:'.$key));
+    return trim(LocalizationUtility::translate('LLL:EXT:formhandler/Resources/Private/Language/locallang_debug.xlf:'.$key) ?? '');
   }
 
   /**
@@ -533,7 +533,7 @@ class GeneralUtility implements SingletonInterface {
    * @param string $key The key in translation file
    */
   public static function getExceptionMessage(string $key): string {
-    return trim(LocalizationUtility::translate('LLL:EXT:formhandler/Resources/Private/Language/locallang_exceptions.xlf:'.$key));
+    return trim(LocalizationUtility::translate('LLL:EXT:formhandler/Resources/Private/Language/locallang_exceptions.xlf:'.$key) ?? '');
   }
 
   /**
@@ -555,7 +555,7 @@ class GeneralUtility implements SingletonInterface {
         $marker = $llKey;
         $message = '';
         foreach ($langFiles as $langFile) {
-          $message = trim(LocalizationUtility::translate('LLL:'.$langFile.':'.$llKey));
+          $message = trim(LocalizationUtility::translate('LLL:'.$langFile.':'.$llKey) ?? '');
         }
         $langMarkers['###LLL:'.$marker.'###'] = $message;
       }
@@ -773,8 +773,9 @@ class GeneralUtility implements SingletonInterface {
   public static function getTranslatedMessage(array $langFiles, string $key): string {
     $message = '';
     foreach ($langFiles as $langFile) {
-      if (strlen(trim(LocalizationUtility::translate('LLL:'.$langFile.':'.$key))) > 0) {
-        $message = trim(LocalizationUtility::translate('LLL:'.$langFile.':'.$key));
+      $messageTemp = trim(LocalizationUtility::translate('LLL:'.$langFile.':'.$key) ?? '');
+      if (strlen($messageTemp) > 0) {
+        $message = $messageTemp;
       }
     }
 

@@ -957,7 +957,7 @@ class Form extends AbstractView {
         $marker = $llKey;
         $message = '';
         foreach ($this->langFiles as $subIdx => $langFile) {
-          $temp = trim(LocalizationUtility::translate('LLL:'.$langFile.':'.$llKey));
+          $temp = trim(LocalizationUtility::translate('LLL:'.$langFile.':'.$llKey) ?? '');
           if (strlen($temp) > 0) {
             $message = $temp;
           }

@@ -143,7 +143,7 @@ class TemplateTCPDF extends \TCPDF {
       $LANG->includeLLFile($this->sysLangFile);
       $text = trim($LANG->getLL($key));
     } else {
-      $text = trim(LocalizationUtility::translate('LLL:'.$this->sysLangFile.':'.$key));
+      $text = trim(LocalizationUtility::translate('LLL:'.$this->sysLangFile.':'.$key) ?? '');
     }
 
     return $text;
