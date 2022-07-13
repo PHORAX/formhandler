@@ -27,6 +27,7 @@
                   <elementBrowserType>file</elementBrowserType>
                   <elementBrowserAllowed>tmpl,html,htm</elementBrowserAllowed>
                 </appearance>
+                <eval>trim</eval>
               </config>
             </TCEforms>
           </template_file>
@@ -43,8 +44,9 @@
                 <size>1</size>
                 <appearance>
                   <elementBrowserType>file</elementBrowserType>
-                  <elementBrowserAllowed>php,xml</elementBrowserAllowed>
+                  <elementBrowserAllowed>xlf</elementBrowserAllowed>
                 </appearance>
+                <eval>trim</eval>
               </config>
             </TCEforms>
           </lang_file>
