@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Typoheads\Formhandler\Mailer;
 
+use TYPO3\CMS\Core\Mail\MailMessage;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Controller\Configuration;
 use Typoheads\Formhandler\Utility\GeneralUtility;
@@ -25,7 +26,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface {
   /**
    * The TYPO3 mail message object.
    */
-  protected \TYPO3\CMS\Core\Mail\MailMessage $emailObj;
+  protected MailMessage $emailObj;
 
   /**
    * Initializes the email object and calls the parent constructor.
@@ -37,7 +38,7 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface {
     GeneralUtility $utilityFuncs
   ) {
     parent::__construct($componentManager, $configuration, $globals, $utilityFuncs);
-    $this->emailObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
+    $this->emailObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MailMessage::class);
   }
 
   /* (non-PHPdoc)
@@ -51,21 +52,25 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface {
    * @see Classes/Mailer/Tx_FormhandlerMailerInterface#addBcc()
   */
   public function addBcc(string $email, string $name): void {
-    $this->emailObj->addBcc($email, $name);
+    if (!empty($email)) {
+      $this->emailObj->addBcc($email, $name);
+    }
   }
 
   /* (non-PHPdoc)
    * @see Classes/Mailer/Tx_FormhandlerMailerInterface#addCc()
   */
   public function addCc(string $email, string $name): void {
-    $this->emailObj->addCc($email, $name);
+    if (!empty($email)) {
+      $this->emailObj->addCc($email, $name);
+    }
   }
 
   /* (non-PHPdoc)
    * @see Classes/Mailer/Tx_FormhandlerMailerInterface#addHeader()
   */
   public function addHeader(string $value): void {
-    // @TODO: Find a good way to make headers configurable
+    // TODO: Find a good way to make headers configurable
   }
 
   public function embed(string $image): \Symfony\Component\Mime\Email {
@@ -188,7 +193,9 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface {
    * @see Classes/Mailer/Tx_FormhandlerMailerInterface#setReturnPath()
   */
   public function setReturnPath(string $value): void {
-    $this->emailObj->setReturnPath($value);
+    if (!empty($value)) {
+      $this->emailObj->setReturnPath($value);
+    }
   }
 
   /**
