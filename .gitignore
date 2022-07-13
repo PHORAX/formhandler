@@ -3,8 +3,8 @@
 *.iml
 *.ipr
 *.iws
-vendor
-public
+/vendor
+/public
 /composer.lock
 
 # System Files
