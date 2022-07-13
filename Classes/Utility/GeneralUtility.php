@@ -1148,7 +1148,7 @@ class GeneralUtility implements SingletonInterface {
             if (!@file_exists($templateFile)) {
               self::throwException('template_file_not_found', $templateFile);
             }
-            $templateCode .= strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '')."\n\n";
+            $templateCode .= (\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '')."\n\n";
           } else {
             // The setting "templateFile" was a cObject which returned HTML content. Just use that as template code.
             $templateCode .= $templateFile."\n\n";
@@ -1159,7 +1159,7 @@ class GeneralUtility implements SingletonInterface {
         if (!@file_exists($templateFile)) {
           self::throwException('template_file_not_found', $templateFile);
         }
-        $templateCode = strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '');
+        $templateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '';
       }
     } else {
       if (self::isTemplateFilePath($templateFile)) {
@@ -1167,7 +1167,7 @@ class GeneralUtility implements SingletonInterface {
         if (!@file_exists($templateFile)) {
           self::throwException('template_file_not_found', $templateFile);
         }
-        $templateCode = strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '');
+        $templateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '';
       } else {
         // given variable $templateFile already contains the template code
         $templateCode = $templateFile;
