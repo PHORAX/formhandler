@@ -1214,7 +1214,7 @@ class Form extends AbstractView {
   protected function replaceMarkersFromMaster(): void {
     $fieldMarkers = [];
     foreach ($this->masterTemplates as $idx => $masterTemplate) {
-      $masterTemplateCode = strval(GeneralUtility::getURL($this->utilityFuncs->resolvePath($masterTemplate)));
+      $masterTemplateCode = GeneralUtility::getURL($this->utilityFuncs->resolvePath($masterTemplate)) ?: '';
       $matches = [];
       preg_match_all('/###(field|master)_([^#]*)###/', $masterTemplateCode, $matches);
       if (!empty($matches[0])) {
