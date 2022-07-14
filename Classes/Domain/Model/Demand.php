@@ -30,12 +30,12 @@ class Demand {
   /**
    * Manual date start.
    */
-  protected null|\DateTime $manualDateStart;
+  protected null|\DateTime $manualDateStart = null;
 
   /**
    * Manual date stop.
    */
-  protected null|\DateTime $manualDateStop;
+  protected null|\DateTime $manualDateStop = null;
 
   protected int $page = 1;
 
