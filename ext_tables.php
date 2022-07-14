@@ -13,7 +13,7 @@ if (!defined('TYPO3')) {
   ],
   [
     'access' => 'user,group',
-    'icon' => 'EXT:formhandler/Resources/Public/Icons/moduleicon.gif',
+    'icon' => 'EXT:formhandler/Resources/Public/Icons/ModuleIcon.png',
     'labels' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_mod.xlf',
   ]
 );
@@ -23,5 +23,5 @@ $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\
 $iconRegistry->registerIcon(
   'formhandlerElement',
   \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-  ['source' => 'EXT:formhandler/Resources/Public/Icons/Extension.gif']
+  ['source' => 'EXT:formhandler/Resources/Public/Icons/Extension.png']
 );
