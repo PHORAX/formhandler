@@ -7,8 +7,10 @@ namespace Typoheads\Formhandler\Utility;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\TypoScriptAspect;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\Random;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -794,39 +796,49 @@ class GeneralUtility implements SingletonInterface {
   }
 
   public static function initializeTSFE(ServerRequestInterface $request): void {
-    $site = $request->getAttribute('site');
-    if (!$site instanceof SiteInterface) {
-      /** @var SiteFinder $siteFinder */
-      $siteFinder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(SiteFinder::class);
-      $sites = $siteFinder->getAllSites();
-      $site = reset($sites);
+    if (!isset($GLOBALS['TSFE']) || !$GLOBALS['TSFE'] instanceof TypoScriptFrontendController) {
+      $site = $request->getAttribute('site');
+
+      if (!$site instanceof SiteInterface) {
+        /** @var SiteFinder $siteFinder */
+        $siteFinder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(SiteFinder::class);
+        $sites = $siteFinder->getAllSites();
+        $site = reset($sites);
+      }
+      if (is_bool($site)) {
+        return;
+      }
+
+      /** @var Context $context */
+      $context = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class);
+      $context->setAspect('typoscript', new TypoScriptAspect(true));
+
+      $language = $request->getAttribute('language') ?? $site->getDefaultLanguage();
+      $queryParams = $request->getQueryParams();
+      $parsedBody = (array) ($request->getParsedBody() ?? []);
+
+      $pageType = strval($queryParams['type'] ?? $parsedBody['type'] ?? 0);
+      $pageArguments = $request->getAttribute('routing') ?? new PageArguments($site->getRootPageId(), $pageType, [], $queryParams);
+
+      /** @var TypoScriptFrontendController $tsFe */
+      $tsFe = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        TypoScriptFrontendController::class,
+        $context,
+        $site,
+        $language,
+        $pageArguments,
+        $request->getAttribute('frontend.user') ?? \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(FrontendUserAuthentication::class)
+      );
+
+      $tsFe->sys_page = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRepository::class, $context);
+      $tsFe->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TemplateService::class);
+      $tsFe->id = $site->getRootPageId();
+      $tsFe->determineId($request);
+      $tsFe->getFromCache($request);
+      $tsFe->getConfigArray();
+      $tsFe->newCObj($request);
+      $GLOBALS['TSFE'] = $tsFe;
     }
-    if (is_bool($site)) {
-      return;
-    }
-
-    $language = $request->getAttribute('language') ?? $site->getDefaultLanguage();
-    $queryParams = $request->getQueryParams();
-    $parsedBody = (array) ($request->getParsedBody() ?? []);
-
-    $pageId = ($queryParams['id'] ?? $parsedBody['id'] ?? 0);
-    $pageType = ($queryParams['type'] ?? $parsedBody['type'] ?? 0);
-    $pageArguments = new PageArguments(intval($pageId), strval($pageType), [], $queryParams);
-
-    // create object instances:
-    $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-      TypoScriptFrontendController::class,
-      \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class),
-      $site,
-      $language,
-      $pageArguments,
-      $request->getAttribute('frontend.user') ?? \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(FrontendUserAuthentication::class)
-    );
-    $GLOBALS['TSFE']->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TemplateService::class);
-    $GLOBALS['TSFE']->determineId($request);
-
-    $GLOBALS['TSFE']->getConfigArray();
-    $GLOBALS['TSFE']->newCObj($request);
   }
 
   /**
