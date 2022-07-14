@@ -16,10 +16,15 @@ parameters:
   reportUnmatchedIgnoredErrors: true
   paths:
     - %currentWorkingDirectory%/Classes/
+    - %currentWorkingDirectory%/Configuration/
+    - %currentWorkingDirectory%/pi1/
+    - %currentWorkingDirectory%/ext_emconf.php
+    - %currentWorkingDirectory%/ext_localconf.php
+    - %currentWorkingDirectory%/ext_tables.php
 
   scanFiles:
-      - public/typo3conf/ext/jm_recaptcha/class.tx_jmrecaptcha.php
-      - public/typo3conf/ext/formhandler/vendor/parsecsv/php-parsecsv/parsecsv.lib.php
+    - public/typo3conf/ext/jm_recaptcha/class.tx_jmrecaptcha.php
+    - public/typo3conf/ext/formhandler/vendor/parsecsv/php-parsecsv/parsecsv.lib.php
 
   excludePaths:
-      - rector.php
+    - rector.php
