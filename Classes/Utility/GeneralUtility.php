@@ -9,6 +9,7 @@ use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\Random;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\Entity\SiteInterface;
@@ -1232,24 +1233,33 @@ class GeneralUtility implements SingletonInterface {
    * @return string The resolved path
    */
   public static function resolvePath(string $path): string {
-    $path = explode('/', $path);
-    if (0 === strpos($path[0], 'EXT')) {
-      $parts = explode(':', $path[0]);
-      $path[0] = ExtensionManagementUtility::extPath($parts[1]);
-    }
-    if (0 === strpos($path[0], 'typo3conf')) {
-      unset($path[0], $path[1]);
+    if (MathUtility::canBeInterpretedAsInteger($path)) {
+      /** @var ResourceFactory $resourceFactory */
+      $resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ResourceFactory::class);
 
-      $path[2] = ExtensionManagementUtility::extPath($path[2]);
-    }
-    if (0 === strpos($path[1], 'typo3conf')) {
-      unset($path[0], $path[1], $path[2]);
+      $file = $resourceFactory->getFileObject(intval($path));
+      $path = $file->getForLocalProcessing(false);
+    } else {
+      $path = explode('/', $path);
+      if (0 === strpos($path[0], 'EXT')) {
+        $parts = explode(':', $path[0]);
+        $path[0] = ExtensionManagementUtility::extPath($parts[1]);
+      }
+      if (0 === strpos($path[0], 'typo3conf')) {
+        unset($path[0], $path[1]);
 
-      $path[3] = ExtensionManagementUtility::extPath($path[3]);
-    }
-    $path = implode('/', $path);
+        $path[2] = ExtensionManagementUtility::extPath($path[2]);
+      }
+      if (0 === strpos($path[1], 'typo3conf')) {
+        unset($path[0], $path[1], $path[2]);
 
-    return str_replace('//', '/', $path);
+        $path[3] = ExtensionManagementUtility::extPath($path[3]);
+      }
+      $path = implode('/', $path);
+      $path = str_replace('//', '/', $path);
+    }
+
+    return $path;
   }
 
   /**
