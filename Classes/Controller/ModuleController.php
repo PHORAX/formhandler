@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Typoheads\Formhandler\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -62,7 +63,7 @@ class ModuleController extends ActionController {
    * @param array<string, mixed> $fields      fields to export
    * @param string               $filetype    export file type (PDF || CSV)
    */
-  public function exportAction(?string $logDataUids = null, array $fields = [], string $filetype = ''): ResponseInterface {
+  public function exportAction(?string $logDataUids = null, array $fields = [], string $filetype = ''): void {
     if (null !== $logDataUids && !empty($fields)) {
       $logDataRows = $this->logDataRepository->findByUids($logDataUids);
       $convertedLogDataRows = [];
@@ -101,13 +102,14 @@ class ModuleController extends ActionController {
       }
     }
 
-    return $this->htmlResponse();
+    $this->addFlashMessage('The export field list must not be empty!', '', FlashMessage::ERROR);
+    $this->redirect('index');
   }
 
   /**
    * Displays log data.
    */
-  public function indexAction(Demand $demand = null): ResponseInterface {
+  public function indexAction(Demand $demand = null, int $page = null): ResponseInterface {
     if (null === $demand) {
       /** @var Demand $demand */
       $demand = GeneralUtility::makeInstance(Demand::class);
@@ -116,12 +118,18 @@ class ModuleController extends ActionController {
         $demand->setPid($this->id);
       }
     }
+    if (null !== $page) {
+      $demand->setPage($page);
+    }
+    $this->setStartAndEndTimeFromTimeSelector($demand);
 
     // TODO: findDemanded funktioniert nicht, da die Datepicker zunächst gefixt werden müssen
     $logDataRows = $this->logDataRepository->findDemanded($demand);
     $this->view->assign('demand', $demand);
     $this->view->assign('logDataRows', $logDataRows);
     $this->view->assign('settings', $this->settings);
+    $this->view->assign('pagination', $this->preparePagination($demand));
+
     if (!isset($this->gp['show'])) {
       $this->gp['show'] = 10;
     }
@@ -142,6 +150,8 @@ class ModuleController extends ActionController {
     $this->componentManager = GeneralUtility::makeInstance(Manager::class);
     $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
     $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+
+    $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Backend/DateTimePicker');
 
     if (!isset($this->settings['dateFormat'])) {
       $this->settings['dateFormat'] = $GLOBALS['TYPO3_CONF_VARS']['SYS']['USdateFormat'] ? 'm-d-Y' : 'd-m-Y';
@@ -240,5 +250,44 @@ class ModuleController extends ActionController {
     }
 
     return $this->htmlResponse();
+  }
+
+  /**
+   * Prepares information for the pagination of the module.
+   *
+   * @return array{count: int, current: int, numberOfPages: int, hasLessPages: bool, hasMorePages: bool, startRecord: int, endRecord: int, nextPage?: int, previousPage?: int}
+   */
+  protected function preparePagination(Demand $demand): array {
+    $count = $this->logDataRepository->countRedirectsByByDemand($demand);
+    $numberOfPages = (int) ceil($count / $demand->getLimit());
+    $endRecord = $demand->getOffset() + $demand->getLimit();
+    if ($endRecord > $count) {
+      $endRecord = $count;
+    }
+
+    $pagination = [
+      'count' => $count,
+      'current' => $demand->getPage(),
+      'numberOfPages' => $numberOfPages,
+      'hasLessPages' => $demand->getPage() > 1,
+      'hasMorePages' => $demand->getPage() < $numberOfPages,
+      'startRecord' => $demand->getOffset() + 1,
+      'endRecord' => $endRecord,
+    ];
+    if ($pagination['current'] < $pagination['numberOfPages']) {
+      $pagination['nextPage'] = $pagination['current'] + 1;
+    }
+    if ($pagination['current'] > 1) {
+      $pagination['previousPage'] = $pagination['current'] - 1;
+    }
+
+    return $pagination;
+  }
+
+  protected function setStartAndEndTimeFromTimeSelector(Demand $demand): void {
+    $startTime = $demand->getManualDateStart() ? $demand->getManualDateStart()->getTimestamp() : 0;
+    $endTime = $demand->getManualDateStop() ? $demand->getManualDateStop()->getTimestamp() : 0;
+    $demand->setStartTimestamp($startTime);
+    $demand->setEndTimestamp($endTime);
   }
 }

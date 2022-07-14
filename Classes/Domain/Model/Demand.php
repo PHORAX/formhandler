@@ -1,30 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Typoheads\Formhandler\Domain\Model;
 
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-
-/**
- * This script is part of the TYPO3 project - inspiring people to share!
+/*
+ * This file is part of the TYPO3 CMS project.
  *
- * TYPO3 is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as published by
- * the Free Software Foundation.
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
  *
- * This script is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
  */
-
 /**
  * Demand object for log data.
  */
-class Demand extends AbstractEntity {
-  protected int $crdate = 0;
-
+class Demand {
   /**
    * Calculated end timestamp.
    */
@@ -32,22 +25,27 @@ class Demand extends AbstractEntity {
 
   protected string $ip = '';
 
-  protected bool $isSpam = false;
+  protected int $limit = 10;
 
-  protected string $params = '';
+  /**
+   * Manual date start.
+   */
+  protected null|\DateTime $manualDateStart;
+
+  /**
+   * Manual date stop.
+   */
+  protected null|\DateTime $manualDateStop;
+
+  protected int $page = 1;
+
+  protected int $pid = 0;
 
   /**
    * Calculated start timestamp.
    */
   protected int $startTimestamp = 0;
 
-  public function getCrdate(): int {
-    return $this->crdate;
-  }
-
-  /**
-   * Get calculated end timestamp from query constraints.
-   */
   public function getEndTimestamp(): int {
     return $this->endTimestamp;
   }
@@ -56,48 +54,106 @@ class Demand extends AbstractEntity {
     return $this->ip;
   }
 
-  public function getIsSpam(): bool {
-    return $this->isSpam;
-  }
-
-  public function getParams(): string {
-    return $this->params;
+  public function getLimit(): int {
+    return $this->limit;
   }
 
   /**
-   * Get calculated start timestamp from query constraints.
+   * Get manual date start.
    */
+  public function getManualDateStart(): null|\DateTime {
+    return $this->manualDateStart;
+  }
+
+  /**
+   * Get manual date stop.
+   */
+  public function getManualDateStop(): null|\DateTime {
+    return $this->manualDateStop;
+  }
+
+  /**
+   * Offset for the current set of records.
+   */
+  public function getOffset(): int {
+    return ($this->page - 1) * $this->limit;
+  }
+
+  public function getPage(): int {
+    return $this->page;
+  }
+
+  /**
+   * @return array<non-empty-string, null|int|string>
+   */
+  public function getParameters(): array {
+    $parameters = [];
+    if (!empty($this->getIp())) {
+      $parameters['ip'] = $this->getIp();
+    }
+    if (!empty($this->getManualDateStop())) {
+      $parameters['manualDateStop'] = $this->getManualDateStop()->format('c');
+    }
+    if (!empty($this->getManualDateStart())) {
+      $parameters['manualDateStart'] = $this->getManualDateStart()->format('c');
+    }
+    if (!empty($this->getPid())) {
+      $parameters['pid'] = $this->getPid();
+    }
+    if (!empty($this->getLimit())) {
+      $parameters['limit'] = $this->getLimit();
+    }
+
+    return $parameters;
+  }
+
+  public function getPid(): int {
+    return $this->pid;
+  }
+
   public function getStartTimestamp(): int {
     return $this->startTimestamp;
   }
 
-  public function setCrdate(int $crdate): void {
-    $this->crdate = $crdate;
+  public function setEndTimestamp(int $endTimestamp): void {
+    $this->endTimestamp = $endTimestamp;
   }
 
-  /**
-   * Set calculated end timestamp from query constraints.
-   */
-  public function setEndTimestamp(int $timestamp): void {
-    $this->endTimestamp = $timestamp;
-  }
-
-  public function setIp(string $ip): void {
+  public function setIp(string $ip = ''): void {
     $this->ip = $ip;
   }
 
-  public function setIsSpam(bool $isSpam): void {
-    $this->isSpam = $isSpam;
-  }
-
-  public function setParams(string $params): void {
-    $this->params = $params;
+  public function setLimit(int $limit): void {
+    $this->limit = $limit;
   }
 
   /**
-   * Set calculated start timestamp from query constraints.
+   * Set manual date start.
+   *
+   * @param \DateTime $manualDateStart
    */
-  public function setStartTimestamp(int $timestamp): void {
-    $this->startTimestamp = $timestamp;
+  public function setManualDateStart(\DateTime $manualDateStart = null): void {
+    $this->manualDateStart = $manualDateStart;
+  }
+
+  /**
+   * Set manual date stop.
+   *
+   * @param \DateTime $manualDateStop
+   */
+  public function setManualDateStop(\DateTime $manualDateStop = null): void {
+    $this->manualDateStop = $manualDateStop;
+  }
+
+  public function setPage(int $page): void {
+    $this->page = $page;
+  }
+
+  public function setPid(int $pid): void {
+    $this->pid = $pid;
+  }
+
+  public function setStartTimestamp(int $startTimestamp): void {
+    $this->startTimestamp = $startTimestamp;
   }
 }
