@@ -10,7 +10,7 @@ return [
         'fieldName' => 'crdate',
       ],
       'isSpam' => [
-        'fieldName' => 'isSpam',
+        'fieldName' => 'is_spam',
       ],
       'params' => [
         'fieldName' => 'params',
