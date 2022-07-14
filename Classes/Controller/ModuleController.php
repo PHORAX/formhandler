@@ -243,9 +243,16 @@ class ModuleController extends ActionController {
 
   public function viewAction(LogData $logDataRow = null): ResponseInterface {
     if (null !== $logDataRow) {
-      // TODO: Check this later
-      // $logDataRow->setParams(unserialize($logDataRow->getParams()));
-      $this->view->assign('data', $logDataRow);
+      $data = [
+        'crdate' => $logDataRow->getCrdate(),
+        'ip' => $logDataRow->getIp(),
+        'isSpam' => $logDataRow->getIsSpam(),
+        'params' => unserialize($logDataRow->getParams()),
+        'pid' => $logDataRow->getPid(),
+        'uid' => $logDataRow->getUid(),
+      ];
+
+      $this->view->assign('data', $data);
       $this->view->assign('settings', $this->settings);
     }
 
