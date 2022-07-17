@@ -185,12 +185,12 @@ class IPBlocking extends AbstractInterceptor {
     $subject = $this->utilityFuncs->getSingle($report, 'subject');
 
     if ('ip' == $type) {
-      $message = 'IP address "'.GeneralUtility::getIndpEnv('REMOTE_ADDR').'" has submitted a form too many times!';
+      $message = 'IP address "'.strval(GeneralUtility::getIndpEnv('REMOTE_ADDR')).'" has submitted a form too many times!';
     } else {
       $message = 'A form got submitted too many times!';
     }
 
-    $message .= "\n\n".'This is the URL to the form: '.GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL');
+    $message .= "\n\n".'This is the URL to the form: '.strval(GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
     if (is_array($rows)) {
       $message .= "\n\n".'These are the submitted values:'."\n\n";
       foreach ($rows as $idx => $row) {

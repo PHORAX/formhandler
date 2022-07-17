@@ -43,7 +43,9 @@ class IsInDBTable extends AbstractErrorCheck {
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $queryBuilder = $connectionPool->getQueryBuilderForTable($checkTable);
 
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
+        /** @var FrontendRestrictionContainer $frontendRestrictionContainer */
+        $frontendRestrictionContainer = GeneralUtility::makeInstance(FrontendRestrictionContainer::class);
+        $queryBuilder->setRestrictions($frontendRestrictionContainer);
         $queryBuilder
           ->select($checkField)
           ->from($checkTable)

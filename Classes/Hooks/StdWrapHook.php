@@ -70,6 +70,7 @@ class StdWrapHook implements ContentObjectStdWrapHookInterface {
    */
   public function stdWrapPreProcess($content, array $configuration, ContentObjectRenderer &$parentObject): string {
     if (isset($configuration['sanitize']) && 1 == intval($configuration['sanitize'])) {
+      /** @var Globals $globals */
       $globals = GeneralUtility::makeInstance(Globals::class);
       $this->originalGET = $_GET;
       $this->originalPOST = $_POST;

@@ -60,9 +60,10 @@ class DifferentDB extends DB {
 
     $connectionName = uniqid('formhandler_');
     $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections'][$connectionName] = $connectionParams;
-    $this->connection = GeneralUtility::makeInstance(ConnectionPool::class)
-      ->getConnectionByName($connectionName)
-    ;
+
+    /** @var ConnectionPool $connectionPool */
+    $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+    $this->connection = $connectionPool->getConnectionByName($connectionName);
 
     parent::init($gp, $settings);
   }

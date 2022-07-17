@@ -7,8 +7,11 @@ namespace Typoheads\Formhandler\Utility;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\TypoScriptAspect;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\Random;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\Entity\SiteInterface;
@@ -87,7 +90,7 @@ class GeneralUtility implements SingletonInterface {
    */
   public static function convertToRelativePath(string $absPath): string {
     // C:/xampp/htdocs/typo3/index.php
-    $scriptPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME');
+    $scriptPath = strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME'));
 
     // C:/xampp/htdocs/typo3/
     $rootPath = str_replace('index.php', '', $scriptPath);
@@ -365,9 +368,12 @@ class GeneralUtility implements SingletonInterface {
   }
 
   public static function generateRandomID(): string {
+    /** @var Random $random */
+    $random = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Random::class);
+
     return md5(
       Globals::getFormValuesPrefix().
-            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Random::class)->generateRandomBytes(10)
+      $random->generateRandomBytes(10)
     );
   }
 
@@ -375,14 +381,16 @@ class GeneralUtility implements SingletonInterface {
    * @param array<string, mixed> $specialParams
    */
   public static function getAjaxUrl(string $path, array $specialParams): string {
+    /** @var Context $context */
+    $context = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class);
     $params = [
       'id' => $GLOBALS['TSFE']->id,
-      'L' => \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id'),
+      'L' => $context->getPropertyFromAspect('language', 'id'),
       'randomID' => Globals::getRandomID(),
     ];
     $params = array_merge($params, $specialParams);
 
-    return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH').$path.'?'.\TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);
+    return strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH')).$path.'?'.\TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);
   }
 
   /**
@@ -787,45 +795,53 @@ class GeneralUtility implements SingletonInterface {
    * Returns the absolute path to the TYPO3 root.
    */
   public static function getTYPO3Root(): string {
-    $path = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME');
-
-    return str_replace('/index.php', '', $path);
+    return str_replace('/index.php', '', strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME')));
   }
 
   public static function initializeTSFE(ServerRequestInterface $request): void {
-    $site = $request->getAttribute('site');
-    if (!$site instanceof SiteInterface) {
-      /** @var SiteFinder $siteFinder */
-      $siteFinder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(SiteFinder::class);
-      $sites = $siteFinder->getAllSites();
-      $site = reset($sites);
+    if (!isset($GLOBALS['TSFE']) || !$GLOBALS['TSFE'] instanceof TypoScriptFrontendController) {
+      $site = $request->getAttribute('site');
+
+      if (!$site instanceof SiteInterface) {
+        /** @var SiteFinder $siteFinder */
+        $siteFinder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(SiteFinder::class);
+        $sites = $siteFinder->getAllSites();
+        $site = reset($sites);
+      }
+      if (is_bool($site)) {
+        return;
+      }
+
+      /** @var Context $context */
+      $context = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class);
+      $context->setAspect('typoscript', new TypoScriptAspect(true));
+
+      $language = $request->getAttribute('language') ?? $site->getDefaultLanguage();
+      $queryParams = $request->getQueryParams();
+      $parsedBody = (array) ($request->getParsedBody() ?? []);
+
+      $pageType = strval($queryParams['type'] ?? $parsedBody['type'] ?? 0);
+      $pageArguments = $request->getAttribute('routing') ?? new PageArguments($site->getRootPageId(), $pageType, [], $queryParams);
+
+      /** @var TypoScriptFrontendController $tsFe */
+      $tsFe = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        TypoScriptFrontendController::class,
+        $context,
+        $site,
+        $language,
+        $pageArguments,
+        $request->getAttribute('frontend.user') ?? \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(FrontendUserAuthentication::class)
+      );
+
+      $tsFe->sys_page = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRepository::class, $context);
+      $tsFe->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TemplateService::class);
+      $tsFe->id = $site->getRootPageId();
+      $tsFe->determineId($request);
+      $tsFe->getFromCache($request);
+      $tsFe->getConfigArray();
+      $tsFe->newCObj($request);
+      $GLOBALS['TSFE'] = $tsFe;
     }
-    if (is_bool($site)) {
-      return;
-    }
-
-    $language = $request->getAttribute('language') ?? $site->getDefaultLanguage();
-    $queryParams = $request->getQueryParams();
-    $parsedBody = (array) ($request->getParsedBody() ?? []);
-
-    $pageId = ($queryParams['id'] ?? $parsedBody['id'] ?? 0);
-    $pageType = ($queryParams['type'] ?? $parsedBody['type'] ?? 0);
-    $pageArguments = new PageArguments(intval($pageId), strval($pageType), [], $queryParams);
-
-    // create object instances:
-    $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-      TypoScriptFrontendController::class,
-      \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class),
-      $site,
-      $language,
-      $pageArguments,
-      $request->getAttribute('frontend.user') ?? \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(FrontendUserAuthentication::class)
-    );
-    $GLOBALS['TSFE']->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TemplateService::class);
-    $GLOBALS['TSFE']->determineId($request);
-
-    $GLOBALS['TSFE']->getConfigArray();
-    $GLOBALS['TSFE']->newCObj($request);
   }
 
   /**
@@ -1148,7 +1164,7 @@ class GeneralUtility implements SingletonInterface {
             if (!@file_exists($templateFile)) {
               self::throwException('template_file_not_found', $templateFile);
             }
-            $templateCode .= strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '')."\n\n";
+            $templateCode .= (\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '')."\n\n";
           } else {
             // The setting "templateFile" was a cObject which returned HTML content. Just use that as template code.
             $templateCode .= $templateFile."\n\n";
@@ -1159,7 +1175,7 @@ class GeneralUtility implements SingletonInterface {
         if (!@file_exists($templateFile)) {
           self::throwException('template_file_not_found', $templateFile);
         }
-        $templateCode = strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '');
+        $templateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '';
       }
     } else {
       if (self::isTemplateFilePath($templateFile)) {
@@ -1167,7 +1183,7 @@ class GeneralUtility implements SingletonInterface {
         if (!@file_exists($templateFile)) {
           self::throwException('template_file_not_found', $templateFile);
         }
-        $templateCode = strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '');
+        $templateCode = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($templateFile) ?: '';
       } else {
         // given variable $templateFile already contains the template code
         $templateCode = $templateFile;
@@ -1232,24 +1248,33 @@ class GeneralUtility implements SingletonInterface {
    * @return string The resolved path
    */
   public static function resolvePath(string $path): string {
-    $path = explode('/', $path);
-    if (0 === strpos($path[0], 'EXT')) {
-      $parts = explode(':', $path[0]);
-      $path[0] = ExtensionManagementUtility::extPath($parts[1]);
-    }
-    if (0 === strpos($path[0], 'typo3conf')) {
-      unset($path[0], $path[1]);
+    if (MathUtility::canBeInterpretedAsInteger($path)) {
+      /** @var ResourceFactory $resourceFactory */
+      $resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ResourceFactory::class);
 
-      $path[2] = ExtensionManagementUtility::extPath($path[2]);
-    }
-    if (0 === strpos($path[1], 'typo3conf')) {
-      unset($path[0], $path[1], $path[2]);
+      $file = $resourceFactory->getFileObject(intval($path));
+      $path = $file->getForLocalProcessing(false);
+    } else {
+      $path = explode('/', $path);
+      if (0 === strpos($path[0], 'EXT')) {
+        $parts = explode(':', $path[0]);
+        $path[0] = ExtensionManagementUtility::extPath($parts[1]);
+      }
+      if (0 === strpos($path[0], 'typo3conf')) {
+        unset($path[0], $path[1]);
 
-      $path[3] = ExtensionManagementUtility::extPath($path[3]);
-    }
-    $path = implode('/', $path);
+        $path[2] = ExtensionManagementUtility::extPath($path[2]);
+      }
+      if (0 === strpos($path[1], 'typo3conf')) {
+        unset($path[0], $path[1], $path[2]);
 
-    return str_replace('//', '/', $path);
+        $path[3] = ExtensionManagementUtility::extPath($path[3]);
+      }
+      $path = implode('/', $path);
+      $path = str_replace('//', '/', $path);
+    }
+
+    return $path;
   }
 
   /**
@@ -1283,8 +1308,7 @@ class GeneralUtility implements SingletonInterface {
     }
     $path = explode('/', $path);
     if (0 === strpos($path[0], 'EXT')) {
-      $parts = explode(':', $path[0]);
-      $path[0] = PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath($parts[1]));
+      return \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(implode('/', $path));
     }
     $path = implode('/', $path);
     $path = str_replace('//', '/', $path);

@@ -8,7 +8,7 @@ return [
     'crdate' => 'crdate',
     'tstamp' => 'tstamp',
     'delete' => 'deleted',
-    'iconfile' => 'EXT:formhandler/Resources/Public/Icons/Extension.gif',
+    'iconfile' => 'EXT:formhandler/Resources/Public/Icons/Extension.png',
     'adminOnly' => 1,
   ],
   'columns' => [

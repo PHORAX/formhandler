@@ -58,7 +58,7 @@
             formhandlerDiv.trigger('validateComplete', [field, result]);
             loading.hide();
             result.show();
-            isFieldValid = false;
+            var isFieldValid = false;
             if (result.find('SPAN.error').length > 0) {
               result.data('isValid', false);
             } else {
@@ -146,7 +146,7 @@
       e.preventDefault();
     });
 
-    for (index = 0; index < settings.validateFields.length; ++index) {
+    for (var index = 0; index < settings.validateFields.length; ++index) {
       var fieldName = settings.validateFields[index];
       if (settings.formValuesPrefix) {
         fieldName = settings.formValuesPrefix + '[' + fieldName + ']';

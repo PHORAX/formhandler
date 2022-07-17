@@ -1,0 +1,69 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers" data-namespace-typo3-fluid="true">
+  <f:if condition="{pagination.numberOfPages} > 1">
+    <nav class="pagination-wrap">
+      <ul class="pagination">
+        <f:if condition="{pagination.hasLessPages}">
+          <f:then>
+            <li class="page-item">
+              <a href="{f:uri.action(action: 'index', arguments: '{demand: demand.parameters, page: 1}')}" title="{f:translate(extensionName: 'fluid', key:'widget.pagination.first')}" class="page-link">
+                <core:icon identifier="actions-view-paging-first" />
+              </a>
+            </li>
+            <li class="page-item">
+              <a href="{f:uri.action(action: 'index', arguments: '{demand: demand.parameters, page: pagination.previousPage}')}" title="{f:translate(extensionName: 'fluid', key:'widget.pagination.previous')}" class="page-link">
+                <core:icon identifier="actions-view-paging-previous" />
+              </a>
+            </li>
+          </f:then>
+          <f:else>
+            <li class="page-item disabled">
+              <span class="page-link">
+                <core:icon identifier="empty-empty" />
+              </span>
+            </li>
+            <li class="page-item disabled">
+              <span class="page-link">
+                <core:icon identifier="empty-empty" />
+              </span>
+            </li>
+          </f:else>
+        </f:if>
+        <li class="page-item">
+          <span class="page-link"> <f:translate extensionName="fluid" key="widget.pagination.records" /> {pagination.startRecord} - {pagination.endRecord} ({pagination.count}) </span>
+        </li>
+        <li class="page-item">
+          <span class="page-link">
+            <f:translate extensionName="fluid" key="widget.pagination.page" />
+            {pagination.current} / {pagination.numberOfPages}
+          </span>
+        </li>
+        <f:if condition="{pagination.hasMorePages}">
+          <f:then>
+            <li class="page-item">
+              <a href="{f:uri.action(action: 'index', arguments: '{demand: demand.parameters, page: pagination.nextPage}')}" title="{f:translate(extensionName: 'fluid', key:'widget.pagination.next')}" class="page-link">
+                <core:icon identifier="actions-view-paging-next" />
+              </a>
+            </li>
+            <li class="page-item">
+              <a href="{f:uri.action(action: 'index', arguments: '{demand: demand.parameters, page: pagination.numberOfPages}')}" title="{f:translate(extensionName: 'fluid', key:'widget.pagination.last')}" class="page-link">
+                <core:icon identifier="actions-view-paging-last" />
+              </a>
+            </li>
+          </f:then>
+          <f:else>
+            <li class="page-item disabled">
+              <span class="page-link">
+                <core:icon identifier="empty-empty" />
+              </span>
+            </li>
+            <li class="page-item disabled">
+              <span class="page-link">
+                <core:icon identifier="empty-empty" />
+              </span>
+            </li>
+          </f:else>
+        </f:if>
+      </ul>
+    </nav>
+  </f:if>
+</html>

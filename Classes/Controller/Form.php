@@ -903,7 +903,7 @@ class Form extends AbstractController {
                     $tmp['uploaded_path'] = $uploadPath;
                     $tmp['uploaded_folder'] = $uploadFolder;
 
-                    $uploadedUrl = rtrim(GeneralUtility::getIndpEnv('TYPO3_SITE_URL'), '/');
+                    $uploadedUrl = rtrim(strval(GeneralUtility::getIndpEnv('TYPO3_SITE_URL')), '/');
                     $uploadedUrl .= '/'.trim($uploadFolder, '/').'/';
                     $uploadedUrl .= trim($uploadedFileName, '/');
 

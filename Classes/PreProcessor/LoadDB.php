@@ -230,10 +230,10 @@ class LoadDB extends AbstractPreProcessor {
         foreach ($filesArray as $k => $uploadFile) {
           if (false !== strpos($uploadFile, '/')) {
             $file = Environment::getPublicPath().'/'.$uploadFile;
-            $uploadedUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL').$uploadFile;
+            $uploadedUrl = strval(GeneralUtility::getIndpEnv('TYPO3_SITE_URL')).$uploadFile;
           } else {
             $file = Environment::getPublicPath().'/'.$uploadPath.$uploadFile;
-            $uploadedUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL').$uploadPath.$uploadFile;
+            $uploadedUrl = strval(GeneralUtility::getIndpEnv('TYPO3_SITE_URL')).$uploadPath.$uploadFile;
           }
 
           $uploadedUrl = str_replace('//', '/', $uploadedUrl);

@@ -3,9 +3,8 @@
 *.iml
 *.ipr
 *.iws
-vendor
-public
-/composer.lock
+/vendor
+/public
 
 # System Files
 .DS_Store

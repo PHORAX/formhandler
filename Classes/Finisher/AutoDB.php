@@ -150,8 +150,11 @@ class AutoDB extends DB {
    * @see Classes/Finisher/Tx_Formhandler_Finisher_DB#parseFields()
    */
   protected function parseFields(): array {
+    /** @var Context $context */
+    $context = GeneralUtility::makeInstance(Context::class);
+
     $doAutoCreate = (int) $this->utilityFuncs->getSingle($this->settings, 'newFieldsSqlAttribs');
-    if (1 === $doAutoCreate && GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('backend.user', 'isLoggedIn')) {
+    if (1 === $doAutoCreate && $context->getPropertyFromAspect('backend.user', 'isLoggedIn')) {
       $this->createTable();
     }
 

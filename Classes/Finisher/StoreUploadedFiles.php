@@ -169,7 +169,7 @@ class StoreUploadedFiles extends AbstractFinisher {
               $sessionFiles[$field][$key]['uploaded_path'] = $uploadPath;
               $sessionFiles[$field][$key]['uploaded_name'] = $newFilename;
               $sessionFiles[$field][$key]['uploaded_folder'] = $newFolder;
-              $sessionFiles[$field][$key]['uploaded_url'] = GeneralUtility::getIndpEnv('TYPO3_SITE_URL').$newFolder.$newFilename;
+              $sessionFiles[$field][$key]['uploaded_url'] = strval(GeneralUtility::getIndpEnv('TYPO3_SITE_URL')).$newFolder.$newFilename;
               if (!isset($this->gp[$field]) || !is_array($this->gp[$field])) {
                 $this->gp[$field] = [];
               }

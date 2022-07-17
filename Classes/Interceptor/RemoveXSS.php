@@ -117,7 +117,7 @@ class RemoveXSS extends AbstractInterceptor {
         if (!$isUTF8) {
           $value = utf8_encode($value);
         }
-        $value = htmlspecialchars($value);
+        $value = htmlspecialchars($value, ENT_NOQUOTES | ENT_SUBSTITUTE | ENT_HTML401);
 
         if (!$isUTF8) {
           $value = utf8_decode($value);

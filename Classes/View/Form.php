@@ -7,6 +7,7 @@ namespace Typoheads\Formhandler\View;
 use SJBR\SrFreecap\PiBaseApi;
 use ThinkopenAt\Captcha\Utility;
 use tx_jmrecaptcha;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -314,8 +315,11 @@ class Form extends AbstractView {
     $this->gp = $gp;
 
     // set template
-    $this->template = strval($this->subparts['template'] ?? '');
-    if (0 === strlen($this->template)) {
+    $this->template = trim(strval($this->subparts['template'] ?? ''));
+    if (empty($this->template)) {
+      $this->template = $this->globals->getTemplateCode();
+    }
+    if (empty($this->template)) {
       $this->utilityFuncs->throwException('no_template_file');
     }
 
@@ -504,15 +508,15 @@ class Form extends AbstractView {
 
     // add default css to page
     if (isset($this->settings['useDefaultStepBarStyles']) && (bool) $this->settings['useDefaultStepBarStyles']) {
-      // TODO: Need replacement
-      /*
       $css = implode("\n", $css);
-      $css = TSpagegen::inline2TempFile($css, 'css');
-      if (version_compare(GeneralUtility::makeInstance(Typo3Version::class)->getVersion(), '4.3.0') >= 0) {
-          $css = '<link rel="stylesheet" type="text/css" href="' . htmlspecialchars($css) . '" />';
+      $css = self::inline2TempFile($css, 'css');
+
+      /** @var Typo3Version $typo3Version */
+      $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
+      if (version_compare($typo3Version->getVersion(), '4.3.0') >= 0) {
+        $css = '<link rel="stylesheet" type="text/css" href="'.htmlspecialchars($css).'" />';
       }
-      $GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_' . $classprefix] .= $css;
-      */
+      $GLOBALS['TSFE']->additionalHeaderData[$this->extKey.'_'.$classprefix] .= $css;
     }
 
     return $content;
@@ -559,7 +563,12 @@ class Form extends AbstractView {
       unset($parameters['randomID']);
     }
 
-    $path = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $parameters);
+    try {
+      $path = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $parameters);
+    } catch (\OutOfRangeException $e) {
+      $path = $this->pi_getPageLink($GLOBALS['TSFE']->id);
+    }
+
     $path = preg_replace('/ADMCMD_[^=]+=[^&]+(&)?/', '', $path) ?? '';
     $path = htmlspecialchars($path);
 
@@ -848,9 +857,9 @@ class Form extends AbstractView {
       $markers['###ERROR_'.strtoupper($field).'###'] = $errorMessage;
       $errorMessage = $clearErrorMessage;
       if ($this->settings['addErrorAnchors']) {
-        $baseUrl = GeneralUtility::getIndpEnv('REQUEST_URI');
+        $baseUrl = strval(GeneralUtility::getIndpEnv('REQUEST_URI'));
         if ($this->globals->isAjaxMode()) {
-          $baseUrl = GeneralUtility::getIndpEnv('HTTP_REFERER');
+          $baseUrl = strval(GeneralUtility::getIndpEnv('HTTP_REFERER'));
         }
         $errorMessage = '<a href="'.$baseUrl.'#'.$field.'-'.$this->globals->getRandomID().'">'.$errorMessage.'</a>';
       }
@@ -1213,7 +1222,7 @@ class Form extends AbstractView {
   protected function replaceMarkersFromMaster(): void {
     $fieldMarkers = [];
     foreach ($this->masterTemplates as $idx => $masterTemplate) {
-      $masterTemplateCode = strval(GeneralUtility::getURL($this->utilityFuncs->resolvePath($masterTemplate)));
+      $masterTemplateCode = GeneralUtility::getURL($this->utilityFuncs->resolvePath($masterTemplate)) ?: '';
       $matches = [];
       preg_match_all('/###(field|master)_([^#]*)###/', $masterTemplateCode, $matches);
       if (!empty($matches[0])) {
@@ -1351,5 +1360,31 @@ class Form extends AbstractView {
         $this->template = preg_replace($pattern, $replacement, $this->template) ?? '';
       }
     }
+  }
+
+  private static function inline2TempFile(string $str, string $ext): string {
+    // Create filename / tags:
+    $script = '';
+
+    switch ($ext) {
+      case 'js':
+        $script = 'typo3temp/javascript_'.substr(md5($str), 0, 10).'.js';
+
+        break;
+
+      case 'css':
+        $script = 'typo3temp/stylesheet_'.substr(md5($str), 0, 10).'.css';
+
+        break;
+    }
+
+    // Write file:
+    if ($script) {
+      if (!@is_file(Environment::getPublicPath().'/'.$script)) {
+        GeneralUtility::writeFile(Environment::getPublicPath().'/'.$script, $str);
+      }
+    }
+
+    return $script;
   }
 }
