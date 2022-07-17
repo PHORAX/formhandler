@@ -854,9 +854,9 @@ class Form extends AbstractView {
       $markers['###ERROR_'.strtoupper($field).'###'] = $errorMessage;
       $errorMessage = $clearErrorMessage;
       if ($this->settings['addErrorAnchors']) {
-        $baseUrl = GeneralUtility::getIndpEnv('REQUEST_URI');
+        $baseUrl = strval(GeneralUtility::getIndpEnv('REQUEST_URI'));
         if ($this->globals->isAjaxMode()) {
-          $baseUrl = GeneralUtility::getIndpEnv('HTTP_REFERER');
+          $baseUrl = strval(GeneralUtility::getIndpEnv('HTTP_REFERER'));
         }
         $errorMessage = '<a href="'.$baseUrl.'#'.$field.'-'.$this->globals->getRandomID().'">'.$errorMessage.'</a>';
       }

@@ -90,7 +90,7 @@ class GeneralUtility implements SingletonInterface {
    */
   public static function convertToRelativePath(string $absPath): string {
     // C:/xampp/htdocs/typo3/index.php
-    $scriptPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME');
+    $scriptPath = strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME'));
 
     // C:/xampp/htdocs/typo3/
     $rootPath = str_replace('index.php', '', $scriptPath);
@@ -385,7 +385,7 @@ class GeneralUtility implements SingletonInterface {
     ];
     $params = array_merge($params, $specialParams);
 
-    return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH').$path.'?'.\TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);
+    return strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_PATH')).$path.'?'.\TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $params);
   }
 
   /**
@@ -790,9 +790,7 @@ class GeneralUtility implements SingletonInterface {
    * Returns the absolute path to the TYPO3 root.
    */
   public static function getTYPO3Root(): string {
-    $path = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME');
-
-    return str_replace('/index.php', '', $path);
+    return str_replace('/index.php', '', strval(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('SCRIPT_FILENAME')));
   }
 
   public static function initializeTSFE(ServerRequestInterface $request): void {
