@@ -182,7 +182,10 @@ class AjaxMiddleware implements MiddlewareInterface {
     /** @var ConnectionPool $connectionPool */
     $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
     $queryBuilder = $connectionPool->getQueryBuilderForTable('tt_content');
-    $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
+
+    /** @var FrontendRestrictionContainer $frontendRestrictionContainer */
+    $frontendRestrictionContainer = GeneralUtility::makeInstance(FrontendRestrictionContainer::class);
+    $queryBuilder->setRestrictions($frontendRestrictionContainer);
     $row = $queryBuilder
       ->select('*')
       ->from('tt_content')

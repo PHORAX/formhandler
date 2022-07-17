@@ -149,7 +149,10 @@ class ModuleController extends ActionController {
     $this->gp = $this->request->getArguments();
     $this->componentManager = GeneralUtility::makeInstance(Manager::class);
     $this->utilityFuncs = GeneralUtility::makeInstance(\Typoheads\Formhandler\Utility\GeneralUtility::class);
-    $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+
+    /** @var PageRenderer $pageRenderer */
+    $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+    $this->pageRenderer = $pageRenderer;
 
     $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Backend/DateTimePicker');
 

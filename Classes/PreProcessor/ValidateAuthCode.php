@@ -93,7 +93,10 @@ class ValidateAuthCode extends AbstractPreProcessor {
         }
         if (1 !== (int) $this->utilityFuncs->getSingle($this->settings, 'showDeleted')) {
           // Enable fields
-          $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
+
+          /** @var FrontendRestrictionContainer $frontendRestrictionContainer */
+          $frontendRestrictionContainer = GeneralUtility::makeInstance(FrontendRestrictionContainer::class);
+          $queryBuilder->setRestrictions($frontendRestrictionContainer);
           $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
         } else {
           $queryBuilder->getRestrictions()->removeAll();

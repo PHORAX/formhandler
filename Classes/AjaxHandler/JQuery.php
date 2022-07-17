@@ -194,25 +194,28 @@ class JQuery extends AbstractAjaxHandler {
    * @param array<int, string> $validateFields
    */
   protected function getJavascriptFormInit(string $formSelector, string $submitButtonSelector, bool $isAjaxSubmit, bool $autoDisableSubmitButton, array $validateFields): string {
+    /** @var Context $context */
+    $context = GeneralUtility::makeInstance(Context::class);
+
     return '(function( $ ) {
-                    $(function() {
-                        $("'.$formSelector.'").formhandler({
-                            pageID: "'.$GLOBALS['TSFE']->id.'",
-                            contentID: "'.$this->cObj->data['uid'].'",
-                            randomID: "'.$this->globals->getRandomID().'",
-                            formValuesPrefix: "'.$this->globals->getFormValuesPrefix().'",
-                            lang: "'.GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id').'",
-                            submitButtonSelector: "'.$submitButtonSelector.'",
-                            ajaxSubmit: '.($isAjaxSubmit ? 'true' : 'false').',
-                            autoDisableSubmitButton: '.($autoDisableSubmitButton ? 'true' : 'false').',
-                            validateFields: [\''.implode("','", $validateFields).'\'],
-                            validationStatusClasses: {
-                                base: "'.$this->validationStatusClasses['base'].'",
-                                valid: "'.$this->validationStatusClasses['valid'].'",
-                                invalid: "'.$this->validationStatusClasses['invalid'].'"
-                            }
-                        });
-                    });
-                }( jQuery ));';
+      $(function() {
+        $("'.$formSelector.'").formhandler({
+          pageID: "'.$GLOBALS['TSFE']->id.'",
+          contentID: "'.$this->cObj->data['uid'].'",
+          randomID: "'.$this->globals->getRandomID().'",
+          formValuesPrefix: "'.$this->globals->getFormValuesPrefix().'",
+          lang: "'.$context->getPropertyFromAspect('language', 'id').'",
+          submitButtonSelector: "'.$submitButtonSelector.'",
+          ajaxSubmit: '.($isAjaxSubmit ? 'true' : 'false').',
+          autoDisableSubmitButton: '.($autoDisableSubmitButton ? 'true' : 'false').',
+          validateFields: [\''.implode("','", $validateFields).'\'],
+          validationStatusClasses: {
+            base: "'.$this->validationStatusClasses['base'].'",
+            valid: "'.$this->validationStatusClasses['valid'].'",
+            invalid: "'.$this->validationStatusClasses['invalid'].'"
+          }
+        });
+      });
+    }( jQuery ));';
   }
 }

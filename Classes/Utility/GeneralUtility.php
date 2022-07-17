@@ -368,9 +368,12 @@ class GeneralUtility implements SingletonInterface {
   }
 
   public static function generateRandomID(): string {
+    /** @var Random $random */
+    $random = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Random::class);
+
     return md5(
       Globals::getFormValuesPrefix().
-            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Random::class)->generateRandomBytes(10)
+      $random->generateRandomBytes(10)
     );
   }
 
@@ -378,9 +381,11 @@ class GeneralUtility implements SingletonInterface {
    * @param array<string, mixed> $specialParams
    */
   public static function getAjaxUrl(string $path, array $specialParams): string {
+    /** @var Context $context */
+    $context = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class);
     $params = [
       'id' => $GLOBALS['TSFE']->id,
-      'L' => \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id'),
+      'L' => $context->getPropertyFromAspect('language', 'id'),
       'randomID' => Globals::getRandomID(),
     ];
     $params = array_merge($params, $specialParams);
