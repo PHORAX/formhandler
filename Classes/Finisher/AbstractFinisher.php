@@ -23,4 +23,20 @@ use Typoheads\Formhandler\Component\AbstractComponent;
  * Abstract class for Finisher Classes used by Formhandler.
  */
 abstract class AbstractFinisher extends AbstractComponent {
+  /**
+   * defined Error Class.
+   */
+  protected ResponseError $error;
+
+  /**
+   * Initialize the class variables.
+   *
+   * @param array<string, mixed> $gp       GET and POST variable array
+   * @param array<string, mixed> $settings Typoscript configuration for the component (component.1.config.*)
+   */
+  public function init(array $gp, array $settings): void {
+    $this->gp = $gp;
+    $this->settings = $settings;
+    $this->error = new ResponseError();
+  }
 }

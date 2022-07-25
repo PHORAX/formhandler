@@ -43,6 +43,9 @@ class FormSubmit extends AbstractAjax {
     }
 
     $output = $this->runFinishers();
+    if (is_array($output) && !empty($output['error'])) {
+      return new HtmlResponse(json_encode(['success' => false, 'errors' => $output]) ?: '', 200);
+    }
 
     return new HtmlResponse(json_encode(['success' => true, 'data' => $output]) ?: '', 200);
   }
@@ -97,6 +100,15 @@ class FormSubmit extends AbstractAjax {
               $finisher->init($this->gp, $tsConfig['config.']);
               $finisher->validateConfig();
 
+              // Check Error in finisher prozess for view output
+              if (1 === (int) $this->utilityFuncs->getSingle($tsConfig['config.'], 'checkError')) {
+                $finisherResponse = $finisher->process();
+                if (!empty($finisherResponse['error'])) {
+                  $this->globals->getSession()?->set('finished', false);
+
+                  return $finisherResponse;
+                }
+              }
               // if the finisher returns HTML (e.g. Typoheads\Formhandler\Finisher\SubmittedOK)
               if (1 === (int) $this->utilityFuncs->getSingle($tsConfig['config.'], 'returns')) {
                 $this->globals->getSession()?->set('finished', true);
