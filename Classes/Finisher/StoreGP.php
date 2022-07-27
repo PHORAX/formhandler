@@ -20,7 +20,7 @@ namespace Typoheads\Formhandler\Finisher;
 /**
  * This finisher stores GP to session for further use in other plugins and update session
  * to not loose changes in gp made by other finishers (e.g. insert_id from Finisher_DB)
- * Automaically called if plugin.Tx_Formhandler.settings.predef.example.storeGP = 1 is set
+ * Automaically called if plugin.tx_formhandler_pi1.settings.predef.example.storeGP = 1 is set
  * No further configuration.
  *
  * @author Johannes Feustel

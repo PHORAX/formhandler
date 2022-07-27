@@ -123,14 +123,14 @@ class StoreUploadedFiles extends AbstractFinisher {
    *
    * 1. Set the temporary upload folder
    * <code>
-   * plugin.Tx_Formhandler.settings.files.tmpUploadFolder = uploads/formhandler/tmp
+   * plugin.tx_formhandler_pi1.settings.files.tmpUploadFolder = uploads/formhandler/tmp
    * </code>
    *
    * 2. Set the folder to move the files to after submission
    * <code>
-   * plugin.Tx_Formhandler.settings.finishers.1.class = Tx_Formhandler_Finisher_StoreUploadedFiles
-   * plugin.Tx_Formhandler.settings.finishers.1.config.finishedUploadFolder = uploads/formhandler/finishedFiles/
-   * plugin.Tx_Formhandler.settings.finishers.1.config.renameScheme = [filename]_[md5]_[time]
+   * plugin.tx_formhandler_pi1.settings.finishers.1.class = Tx_Formhandler_Finisher_StoreUploadedFiles
+   * plugin.tx_formhandler_pi1.settings.finishers.1.config.finishedUploadFolder = uploads/formhandler/finishedFiles/
+   * plugin.tx_formhandler_pi1.settings.finishers.1.config.renameScheme = [filename]_[md5]_[time]
    * </code>
    */
   protected function moveUploadedFiles(): void {

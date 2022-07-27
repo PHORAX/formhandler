@@ -26,21 +26,21 @@ use Typoheads\Formhandler\Validator\ErrorCheck\AbstractErrorCheck;
  * Example configuration:
  *
  * <code>
- * plugin.Tx_Formhandler.settings.validators.1.class = Tx_Formhandler_Validator_Default
+ * plugin.tx_formhandler_pi1.settings.validators.1.class = Tx_Formhandler_Validator_Default
  *
  * # single error check
- * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.firstname.errorCheck.1 = required
+ * plugin.tx_formhandler_pi1.settings.validators.1.config.fieldConf.firstname.errorCheck.1 = required
  *
  * #multiple error checks for one field
- * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.email.errorCheck.1 = required
- * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.email.errorCheck.2 = email
+ * plugin.tx_formhandler_pi1.settings.validators.1.config.fieldConf.email.errorCheck.1 = required
+ * plugin.tx_formhandler_pi1.settings.validators.1.config.fieldConf.email.errorCheck.2 = email
  *
  * #error checks with parameters
  * #since the parameter for the error check "minLength" is "value", you can use a marker ###value### in your error message.
  * #E.g. The lastname has to be at least ###value### characters long.
- * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.lastname.errorCheck.1 = required
- * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.lastname.errorCheck.2 = minLength
- * plugin.Tx_Formhandler.settings.validators.1.config.fieldConf.lastname.errorCheck.2.value = 2
+ * plugin.tx_formhandler_pi1.settings.validators.1.config.fieldConf.lastname.errorCheck.1 = required
+ * plugin.tx_formhandler_pi1.settings.validators.1.config.fieldConf.lastname.errorCheck.2 = minLength
+ * plugin.tx_formhandler_pi1.settings.validators.1.config.fieldConf.lastname.errorCheck.2.value = 2
  */
 class DefaultValidator extends AbstractValidator {
   /**

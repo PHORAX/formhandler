@@ -40,8 +40,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * may copy the TS to the default validator settings to avoid redundancy
  * Example:
  *
- * plugin.Tx_Formhandler.settings.predef.multistep_example.2.validators.1.config.fieldConf.[field].errorcheck.1.notDefaultValue
- * plugin.Tx_Formhandler.settings.predef.multistep_example.2.validators.1.config.fieldConf.[field].errorcheck.1.notDefaultValue.defaultValue < plugin.Tx_Formhandler.settings.predef.multistep_example.preProcessors.1.config.1.[field].defaultValue
+ * plugin.tx_formhandler_pi1.settings.predef.multistep_example.2.validators.1.config.fieldConf.[field].errorcheck.1.notDefaultValue
+ * plugin.tx_formhandler_pi1.settings.predef.multistep_example.2.validators.1.config.fieldConf.[field].errorcheck.1.notDefaultValue.defaultValue < plugin.tx_formhandler_pi1.settings.predef.multistep_example.preProcessors.1.config.1.[field].defaultValue
  *
  * @author    Johannes Feustel
  */

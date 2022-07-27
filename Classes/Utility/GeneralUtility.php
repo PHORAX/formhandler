@@ -224,8 +224,8 @@ class GeneralUtility implements SingletonInterface {
    * Example:
    *
    * <code>
-   * plugin.Tx_Formhandler.settings.files.search = ä,ö,ü
-   * plugin.Tx_Formhandler.settings.files.replace = ae,oe,ue
+   * plugin.tx_formhandler_pi1.settings.files.search = ä,ö,ü
+   * plugin.tx_formhandler_pi1.settings.files.replace = ae,oe,ue
    * </code>
    *
    * @param string $fileName The file name
@@ -704,7 +704,7 @@ class GeneralUtility implements SingletonInterface {
    *
    * Here is an example:
    * <code>
-   * plugin.Tx_Formhandler.settings.files.tmpUploadFolder = uploads/formhandler/tmp
+   * plugin.tx_formhandler_pi1.settings.files.tmpUploadFolder = uploads/formhandler/tmp
    * </code>
    *
    * The default upload folder is: '/uploads/formhandler/tmp/'

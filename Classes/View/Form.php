@@ -432,9 +432,9 @@ class Form extends AbstractView {
    *
    * <code>
    * #set background color
-   * plugin.Tx_Formhandler.settings.stepbar_color = #EAEAEA
+   * plugin.tx_formhandler_pi1.settings.stepbar_color = #EAEAEA
    * #use default CSS, written to temp file
-   * plugin.Tx_Formhandler.settings.useDefaultStepBarStyles = 1
+   * plugin.tx_formhandler_pi1.settings.useDefaultStepBarStyles = 1
    * </code>
    *
    * @author Johannes Feustel

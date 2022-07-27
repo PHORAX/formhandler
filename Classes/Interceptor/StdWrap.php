@@ -29,8 +29,8 @@ namespace Typoheads\Formhandler\Interceptor;
  * If [fieldname] does not exist, it will be created.
  *
  * <pre>
- * plugin.Tx_Formhandler.settings.initInterceptors.1.class = Tx_Formhandler_Interceptor_StdWrap
- * plugin.Tx_Formhandler.settings.initInterceptors.1.config.fieldConf {
+ * plugin.tx_formhandler_pi1.settings.initInterceptors.1.class = Tx_Formhandler_Interceptor_StdWrap
+ * plugin.tx_formhandler_pi1.settings.initInterceptors.1.config.fieldConf {
  *   name.wrap = before|after
  *   name.hash = md5
  *   email = TEXT
