@@ -210,7 +210,7 @@ class AjaxMiddleware implements MiddlewareInterface {
     $this->globals->setAjaxMode(true);
     if (null == $this->globals->getSession()) {
       $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_formhandler_pi1.']['settings.'] ?? [];
-      $sessionClass = $this->utilityFuncs->getPreparedClassName(isset($ts['session.']) ? $ts['session.'] : null, 'Session\PHP');
+      $sessionClass = $this->utilityFuncs->getPreparedClassName(isset($ts['session.']) ? $ts['session.'] : [], 'Session\PHP');
 
       /** @var ?AbstractSession $sessionClassTemp */
       $sessionClassTemp = GeneralUtility::makeInstance($sessionClass);

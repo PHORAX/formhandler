@@ -51,7 +51,7 @@ class Validate extends AbstractAjax {
       Globals::setRandomID($randomID);
       if (null == Globals::getSession()) {
         $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_formhandler_pi1.']['settings.'];
-        $sessionClass = $this->utilityFuncs->getPreparedClassName(isset($ts['session.']) ? $ts['session.'] : null, 'Session\PHP');
+        $sessionClass = $this->utilityFuncs->getPreparedClassName(isset($ts['session.']) ? $ts['session.'] : [], 'Session\PHP');
 
         /** @var AbstractSession $session */
         $session = GeneralUtility::makeInstance($sessionClass);
