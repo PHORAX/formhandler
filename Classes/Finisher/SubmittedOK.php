@@ -41,7 +41,7 @@ class SubmittedOK extends AbstractFinisher {
   /**
    * The main method called by the controller.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     // read template file
     $this->template = $this->globals->getTemplateCode();
     if (isset($this->settings['templateFile'])) {

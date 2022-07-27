@@ -35,7 +35,7 @@ abstract class AbstractErrorCheck extends AbstractComponent {
    */
   abstract public function check(): string;
 
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     return [];
   }
 

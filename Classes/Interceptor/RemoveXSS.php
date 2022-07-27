@@ -42,7 +42,7 @@ class RemoveXSS extends AbstractInterceptor {
   /**
    * The main method called by the controller.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     // search for a global setting for character removal
     $globalSetting = (array) (((array) ($this->settings['fieldConf.'] ?? []))['global.'] ?? []);
     if (isset($globalSetting['removeChars'])) {

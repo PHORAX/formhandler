@@ -63,7 +63,7 @@ class BackendCsv extends AbstractComponent {
    *
    * @see Tx_Formhandler_Controller_Backend::generateCSV()
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     $records = (array) ($this->settings['records'] ?? []);
     $exportFields = (array) ($this->settings['exportFields'] ?? []);
 

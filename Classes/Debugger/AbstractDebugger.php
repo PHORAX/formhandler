@@ -59,7 +59,7 @@ abstract class AbstractDebugger extends AbstractComponent {
    *
    * @return array<string, mixed> The probably modified GET/POST parameters
    */
-  public function process(): array {
+  public function process(mixed &$error = null): array {
     // Not available for this type of component
     return [];
   }

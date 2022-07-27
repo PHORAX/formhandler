@@ -61,7 +61,7 @@ class IPBlocking extends AbstractInterceptor {
   /**
    * The main method called by the controller.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     $ip = (array) ($this->settings['ip.'] ?? []);
     $timebase = (array) ($ip['timebase.'] ?? []);
     $ipTimebaseValue = intval($this->utilityFuncs->getSingle($timebase, 'value'));

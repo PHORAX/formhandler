@@ -36,7 +36,7 @@ class ClearTempFiles extends AbstractPreProcessor {
    *
    * @return array<string, mixed> The probably modified GET/POST parameters
    */
-  public function process(): array {
+  public function process(mixed &$error = null): array {
     $olderThanValue = intval($this->utilityFuncs->getSingle((array) ($this->settings['clearTempFilesOlderThan.'] ?? []), 'value'));
     $olderThanUnit = $this->utilityFuncs->getSingle((array) ($this->settings['clearTempFilesOlderThan.'] ?? []), 'unit');
     $this->clearTempFiles($olderThanValue, $olderThanUnit);

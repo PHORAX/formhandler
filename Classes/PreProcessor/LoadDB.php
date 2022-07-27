@@ -69,7 +69,7 @@ class LoadDB extends AbstractPreProcessor {
    *
    * @return array<string, mixed> GP
    */
-  public function process(): array {
+  public function process(mixed &$error = null): array {
     $this->data = $this->loadDB((array) ($this->settings['select.'] ?? []));
 
     foreach ($this->settings as $step => $stepSettings) {

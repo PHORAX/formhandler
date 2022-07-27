@@ -41,7 +41,7 @@ class AntiSpamFormTime extends AbstractInterceptor {
   /**
    * The main method called by the controller.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     $isSpam = $this->doCheck();
     if ($isSpam) {
       $this->log(true);

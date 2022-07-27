@@ -27,7 +27,7 @@ class DB extends AbstractLogger {
   /**
    * Logs the given values.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     // set params
     $table = 'tx_formhandler_log';
 

@@ -26,7 +26,7 @@ use Typoheads\Formhandler\View\PDF;
  * PDF generator class for Formhandler using TCPDF.
  */
 class TcPdf extends AbstractGenerator {
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     /** @var TemplateTCPDF $pdf */
     $pdf = GeneralUtility::makeInstance(TemplateTCPDF::class);
 

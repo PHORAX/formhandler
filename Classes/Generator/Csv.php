@@ -23,7 +23,7 @@ class Csv extends AbstractGenerator {
   /**
    * Renders the CSV.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     $params = $this->gp;
     $exportParams = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'exportParams'));
 

@@ -125,7 +125,7 @@ class DB extends AbstractFinisher {
   /**
    * The main method called by the controller.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     $this->utilityFuncs->debugMessage('data_stored');
 
     // set fields to insert/update

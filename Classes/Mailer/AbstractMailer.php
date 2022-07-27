@@ -28,7 +28,7 @@ abstract class AbstractMailer extends AbstractComponent {
    *
    * @return array<string, mixed>
    */
-  public function process(): array {
+  public function process(mixed &$error = null): array {
     return [];
   }
 }

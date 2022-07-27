@@ -38,7 +38,7 @@ abstract class AbstractComponent extends AbstractClass {
    *
    * @return array<string, mixed>|string The probably modified GET/POST parameters
    */
-  abstract public function process(): array|string;
+  abstract public function process(mixed &$error = null): array|string;
 
   public function validateConfig(): bool {
     return true;

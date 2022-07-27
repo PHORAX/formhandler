@@ -28,7 +28,7 @@ class GenerateAuthCode extends AbstractFinisher {
   /**
    * The main method called by the controller.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     $firstInsertInfo = [];
     if ($this->utilityFuncs->getSingle($this->settings, 'uid')) {
       $uidField = $this->utilityFuncs->getSingle($this->settings, 'uidField') ?: 'uid';

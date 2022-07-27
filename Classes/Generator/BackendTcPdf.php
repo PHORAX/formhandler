@@ -60,7 +60,7 @@ class BackendTcPdf extends AbstractComponent {
     $this->settings['font'] = $font;
   }
 
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     $records = (array) ($this->settings['records'] ?? []);
     $exportFields = (array) ($this->settings['exportFields'] ?? []);
 

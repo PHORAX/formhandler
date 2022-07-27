@@ -28,7 +28,7 @@ class LoadGetPost extends AbstractPreProcessor {
    *
    * @return array<string, mixed> The probably modified GET/POST parameters
    */
-  public function process(): array {
+  public function process(mixed &$error = null): array {
     $loadedGP = $this->loadGP();
     $this->gp = array_merge($loadedGP, $this->gp);
 

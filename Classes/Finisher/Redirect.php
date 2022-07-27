@@ -44,7 +44,7 @@ class Redirect extends AbstractFinisher {
   /**
    * The main method called by the controller.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     // read redirect page
     $redirectPage = $this->utilityFuncs->getSingle($this->settings, 'redirectPage');
     if (empty($redirectPage)) {

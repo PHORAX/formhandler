@@ -31,7 +31,7 @@ class ValidateAuthCode extends AbstractPreProcessor {
    *
    * @return array<string, mixed> The probably modified GET/POST parameters
    */
-  public function process(): array {
+  public function process(mixed &$error = null): array {
     $authCode = trim(strval($this->gp['authCode'] ?? ''));
     if (!empty($authCode)) {
       try {

@@ -27,7 +27,7 @@ class TranslateFields extends AbstractInterceptor {
   /**
    * The main method called by the controller.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     $this->langFiles = $this->globals->getLangFiles();
     if (is_array($this->settings['translateFields.'])) {
       foreach ($this->settings['translateFields.'] as $newField => $options) {

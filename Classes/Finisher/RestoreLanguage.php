@@ -25,7 +25,7 @@ class RestoreLanguage extends AbstractFinisher {
   /**
    * The main method called by the controller.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     $lang = $this->globals->getSession()?->get('originalLanguage');
     if (null !== $lang) {
       $GLOBALS['TSFE']->config['config']['language'] = $lang;

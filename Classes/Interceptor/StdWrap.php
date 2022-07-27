@@ -47,7 +47,7 @@ class StdWrap extends AbstractInterceptor {
   /**
    * Process fields.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     if (is_array($this->settings['fieldConf.'])) {
       $fieldConf = $this->settings['fieldConf.'];
 

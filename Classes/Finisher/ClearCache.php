@@ -39,7 +39,7 @@ class ClearCache extends AbstractFinisher {
   /**
    * The main method called by the controller.
    */
-  public function process(): array|string {
+  public function process(mixed &$error = null): array|string {
     $pidList = $this->utilityFuncs->getSingle($this->settings, 'pidList');
     if (empty($pidList)) {
       $pidList = $GLOBALS['TSFE']->id;
