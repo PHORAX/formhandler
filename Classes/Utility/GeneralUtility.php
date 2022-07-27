@@ -820,11 +820,12 @@ class GeneralUtility implements SingletonInterface {
       $queryParams = $request->getQueryParams();
       $parsedBody = (array) ($request->getParsedBody() ?? []);
 
+      $pageId = intval($queryParams['id'] ?? $parsedBody['id'] ?? $site->getRootPageId());
       $pageType = strval($queryParams['type'] ?? $parsedBody['type'] ?? 0);
-      $pageArguments = $request->getAttribute('routing') ?? new PageArguments($site->getRootPageId(), $pageType, [], $queryParams);
+      $pageArguments = new PageArguments($pageId, $pageType, [], $queryParams);
 
-      /** @var TypoScriptFrontendController $tsFe */
-      $tsFe = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+      // create object instances:
+      $GLOBALS['TSFE'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
         TypoScriptFrontendController::class,
         $context,
         $site,
@@ -833,14 +834,13 @@ class GeneralUtility implements SingletonInterface {
         $request->getAttribute('frontend.user') ?? \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(FrontendUserAuthentication::class)
       );
 
-      $tsFe->sys_page = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRepository::class, $context);
-      $tsFe->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TemplateService::class);
-      $tsFe->id = $site->getRootPageId();
-      $tsFe->determineId($request);
-      $tsFe->getFromCache($request);
-      $tsFe->getConfigArray();
-      $tsFe->newCObj($request);
-      $GLOBALS['TSFE'] = $tsFe;
+      $GLOBALS['TSFE']->sys_page = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRepository::class, $context);
+      $GLOBALS['TSFE']->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TemplateService::class);
+      $GLOBALS['TSFE']->id = $pageId;
+      $GLOBALS['TSFE']->determineId($request);
+      $GLOBALS['TSFE']->getFromCache($request);
+      $GLOBALS['TSFE']->getConfigArray();
+      $GLOBALS['TSFE']->newCObj($request);
     }
   }
 
