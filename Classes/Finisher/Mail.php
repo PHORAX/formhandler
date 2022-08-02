@@ -109,7 +109,7 @@ class Mail extends AbstractFinisher {
    */
   protected function explodeList(array|string $list, string $sep = ','): array {
     if (!is_array($list)) {
-      $items = GeneralUtility::trimExplode($sep, $list);
+      $items = GeneralUtility::trimExplode($sep, $list, true);
       $splitArray = [];
       foreach ($items as $idx => $item) {
         if (isset($this->gp[$item])) {
@@ -395,7 +395,7 @@ class Mail extends AbstractFinisher {
    * @return array<int, string>
    */
   protected function parseFilesList(array $settings, string $type, string $key): array {
-    $files = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($settings, $key));
+    $files = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($settings, $key), true);
 
     $parsed = [];
     $sessionFiles = (array) ($this->globals->getSession()?->get('files') ?? []);
@@ -567,12 +567,12 @@ class Mail extends AbstractFinisher {
 
     $cc = $this->emailSettings['cc_email'];
     if (!is_array($cc)) {
-      $cc = GeneralUtility::trimExplode(',', strval($cc));
+      $cc = GeneralUtility::trimExplode(',', strval($cc), true);
     }
 
     $ccName = $this->emailSettings['cc_name'];
     if (!is_array($ccName)) {
-      $ccName = GeneralUtility::trimExplode(',', strval($ccName));
+      $ccName = GeneralUtility::trimExplode(',', strval($ccName), true);
     }
 
     foreach ($cc as $key => $email) {
@@ -587,12 +587,12 @@ class Mail extends AbstractFinisher {
 
     $bcc = $this->emailSettings['bcc_email'];
     if (!is_array($bcc)) {
-      $bcc = GeneralUtility::trimExplode(',', strval($bcc));
+      $bcc = GeneralUtility::trimExplode(',', strval($bcc), true);
     }
 
     $bccName = $this->emailSettings['bcc_name'];
     if (!is_array($bccName)) {
-      $bccName = GeneralUtility::trimExplode(',', strval($bccName));
+      $bccName = GeneralUtility::trimExplode(',', strval($bccName), true);
     }
     foreach ($bcc as $key => $email) {
       $name = '';
@@ -653,7 +653,7 @@ class Mail extends AbstractFinisher {
 
     if (isset($this->emailSettings['attachment'])) {
       if (!is_array($this->emailSettings['attachment'])) {
-        $this->emailSettings['attachment'] = GeneralUtility::trimExplode(',', strval($this->emailSettings['attachment']));
+        $this->emailSettings['attachment'] = GeneralUtility::trimExplode(',', strval($this->emailSettings['attachment']), true);
       }
       foreach ($this->emailSettings['attachment'] as $idx => $attachment) {
         if (strlen($attachment) > 0 && @file_exists($attachment)) {
@@ -664,7 +664,7 @@ class Mail extends AbstractFinisher {
       }
     }
     if (isset($this->emailSettings['attachGeneratedFiles'])) {
-      $files = GeneralUtility::trimExplode(',', strval($this->emailSettings['attachGeneratedFiles']));
+      $files = GeneralUtility::trimExplode(',', strval($this->emailSettings['attachGeneratedFiles']), true);
       $this->utilityFuncs->debugMessage('adding_generated_files', [], 1, $files);
       foreach ($files as $file) {
         $this->emailObj->addAttachment($file);
@@ -677,7 +677,7 @@ class Mail extends AbstractFinisher {
       $max = 2;
     }
     if (!is_array($this->emailSettings['to_email'])) {
-      $this->emailSettings['to_email'] = GeneralUtility::trimExplode(',', strval($this->emailSettings['to_email']));
+      $this->emailSettings['to_email'] = GeneralUtility::trimExplode(',', strval($this->emailSettings['to_email']), true);
     }
     reset($this->emailSettings['to_email']);
 
