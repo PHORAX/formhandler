@@ -432,7 +432,7 @@ class Mail extends AbstractFinisher {
     } elseif (isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
       $parsed = $this->explodeList($this->utilityFuncs->getSingle($settings, $key));
     } else {
-      $parsed = $this->explodeList(strval($settings[$key] ?? '));
+      $parsed = $this->explodeList(strval($settings[$key] ?? ''));
     }
 
     return $parsed;
